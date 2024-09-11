@@ -3937,7 +3937,6 @@ figure {
 img {
   vertical-align: middle;
   border-style: none;
-  max-width: 100%;
 }
 
 svg {
@@ -26773,13 +26772,13 @@ html.fullscreen-button .app-content {
   position: relative;
   top: -2px;
 }
-
 .main-logo {
   display: flex;
+  margin-top: -128px;
+  margin-left: -45px;
   align-items: center;
   position: relative;
-  height: 2.5rem;
-  margin: 0 auto;
+  height: 18.5rem;
   justify-content: center;
   text-align: center;
 }
@@ -30390,7 +30389,11 @@ a.option-dots {
   }
   .app.sidebar-mini.sidenav-toggled .main-sidebar-header .header-logo .mobile-logo {
     display: block;
-  }
+    width: 50px;
+    height: 57px;
+    margin-top: -12px;
+    margin-left: -5px;
+}
   .app.sidebar-mini.sidenav-toggled.sidenav-toggled-open .mobile-logo {
     display: none !important;
   }
