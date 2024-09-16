@@ -120,6 +120,7 @@ use App\Http\Livewire\Widgets;
 use App\Http\Livewire\Width;
 use App\Http\Livewire\WishList;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Superadmin\SuperAdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -131,6 +132,16 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+## super admin login
+Route::controller(SuperAdminController::class)->group(function() {
+        
+    Route::get('superadmin/', 'superadminlogin')->name('superadminlogin');
+    Route::post('superadmin/authenticate', 'authenticate')->name('authenticate');
+    Route::get('superadmin/dashboard', 'dashboard')->name('dashboard');
+    Route::post('superadmin/logout', 'logout')->name('superadmin.logout');
+});
+
+
 
 Route::get('/', function () {
     return view('livewire.index');
