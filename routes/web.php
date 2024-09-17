@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Route;
 
 
 ## Temple user Controller
-
+use App\Http\Controllers\TempleUser\TempleUserController;
+use App\Http\Controllers\TempleUser\TempleRegistrationController;
 
 ## Superadmin COntroller
 use App\Http\Controllers\Superadmin\SuperAdminController;
@@ -21,6 +22,23 @@ Route::get('/', function () {
 
 
 ## Temple User Routes
+
+Route::controller(TempleRegistrationController::class)->group(function() {
+    Route::get('templeuser/temple-register', 'templeregister')->name('templeregister');
+    Route::post('/temple-register','registerTemple');
+});
+
+Route::controller(TempleUserController::class)->group(function () {
+    // Public routes (accessible without authentication)
+    Route::get('userlogin', 'userlogin')->name('userlogin');
+    Route::post('/send-otp', 'sendOtp');
+    Route::post('/verify-otp', 'verifyOtp');
+
+    // Protected routes (accessible only after authentication)
+    Route::middleware('auth:temples')->group(function () {
+        Route::get('user/user-dashboard', 'userdashboard')->name('userdashboard');
+    });
+});
 
 
 
