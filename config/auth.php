@@ -14,9 +14,9 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
-        'passwords' => 'users',
-    ],
+    'guard' => 'temples',  // Set this as the default guard
+    'passwords' => 'temple_users',
+],
 
     /*
     |--------------------------------------------------------------------------
@@ -44,6 +44,11 @@ return [
             'driver' => 'session',
             'provider' => 'superadmins',
         ],
+
+        'temples' => [
+        'driver' => 'session',  // Using session driver for web-based authentication
+        'provider' => 'temple_users', // Name of the user provider
+    ],
        
     ],
 
@@ -74,6 +79,11 @@ return [
             'model' => App\Models\SuperAdmin::class,
         ],
 
+        'temple_users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\TempleUser::class, // Your TempleUser model
+        ],
+
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -101,6 +111,12 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
+        ],
+
+        'temple_users' => [
+            'provider' => 'temple_users',
+            'table' => 'password_resets',
+            'expire' => 60,
         ],
     ],
 
