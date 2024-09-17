@@ -12,7 +12,7 @@
 		<!-- Title -->
 		<title> Temple Management </title>
 
-        @include('layouts.components.styles')
+        @include('superadmin.layouts.components.styles')
 
 	</head>
 
@@ -29,9 +29,9 @@
 
 			<div>
 
-                @include('layouts.components.app-header')
+                @include('superadmin.layouts.components.app-header')
 
-                @include('layouts.components.app-sidebar')
+                @include('superadmin.layouts.components.app-sidebar')
 
 			</div>
 
@@ -48,18 +48,18 @@
 			</div>
 			<!-- main-content closed -->
 
-            @include('layouts.components.sidebar-right')
+            @include('superadmin.layouts.components.sidebar-right')
 
-            @include('layouts.components.modal')
+            @include('superadmin.layouts.components.modal')
 
             @yield('modal')
 
-            @include('layouts.components.footer')
+            @include('superadmin.layouts.components.footer')
 
 		</div>
 		<!-- End Page -->
 
-        @include('layouts.components.scripts')
+        @include('superadmin.layouts.components.scripts')
 
     </body>
 </html>
