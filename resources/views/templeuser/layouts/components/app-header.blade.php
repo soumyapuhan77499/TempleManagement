@@ -74,7 +74,14 @@
 												<a class="dropdown-item" href="{{url('mail-read')}}"><i class="far fa-envelope "></i>Inbox</a>
 												<a class="dropdown-item" href="{{url('mail')}}"><i class="far fa-comment-dots"></i>Messages</a>
 												<a class="dropdown-item" href="{{url('mail-settings')}}"><i class="far fa-sun"></i>  Settings</a>
-												<a class="dropdown-item" href="{{url('signup')}}"><i class="far fa-arrow-alt-circle-left"></i> Sign Out</a>
+												<form id="logout-form" action="{{ route('temple.logout') }}" method="POST" style="display: none;">
+													@csrf
+												</form>
+												
+												<a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+													Logout
+												</a>
+												
 											</div>
 										</li>
 									</ul>

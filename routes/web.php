@@ -28,6 +28,9 @@ Route::get('/', function () {
 Route::controller(TempleRegistrationController::class)->group(function() {
     Route::get('templeuser/temple-register', 'templeregister')->name('temple-register');
     Route::post('templeuser/temple-register','registerTemple');
+    // routes/web.php
+    Route::post('/temple-logout','logout')->name('temple.logout');
+
 });
 
 Route::controller(TempleUserController::class)->group(function () {

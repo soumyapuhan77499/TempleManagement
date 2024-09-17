@@ -5,7 +5,7 @@ namespace App\Http\Controllers\TempleUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TempleUser;
-
+use Illuminate\Support\Facades\Auth;
 class TempleRegistrationController extends Controller
 {
     public function templeregister(){
@@ -43,6 +43,20 @@ class TempleRegistrationController extends Controller
     
             return redirect()->back()->with('error', 'An error occurred while registering the temple. Please try again later.');
         }
+    }
+    public function logout(Request $request)
+    {
+        // Log the user out using the 'temples' guard
+        Auth::guard('temples')->logout();
+        
+        // Invalidate the session
+        $request->session()->invalidate();
+        
+        // Regenerate the session token to prevent CSRF attacks
+        $request->session()->regenerateToken();
+
+        // Redirect to the login page or any other page you prefer
+        return redirect()->route('templelogin')->with('success', 'You have successfully logged out.');
     }
     
 }
