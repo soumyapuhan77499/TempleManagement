@@ -26774,13 +26774,15 @@ html.fullscreen-button .app-content {
 }
 .main-logo {
   display: flex;
-  margin-top: -128px;
-  margin-left: -45px;
+  margin-top: -14px;
+  margin-left: -25px;
   align-items: center;
   position: relative;
-  height: 18.5rem;
+  /* height: 18.5rem; */
   justify-content: center;
   text-align: center;
+  width: 240px;
+  height: 66px;
 }
 
 .main-body.main-sidebar-hide .logo-icon {

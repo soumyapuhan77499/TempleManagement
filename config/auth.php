@@ -46,9 +46,9 @@ return [
         ],
 
         'temples' => [
-        'driver' => 'session',  // Using session driver for web-based authentication
-        'provider' => 'temple_users', // Name of the user provider
-    ],
+            'driver' => 'session',  // Using session driver for web-based authentication
+            'provider' => 'temple_users', // Name of the user provider
+        ],
        
     ],
 

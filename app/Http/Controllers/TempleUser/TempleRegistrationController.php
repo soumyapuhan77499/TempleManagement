@@ -35,7 +35,7 @@ class TempleRegistrationController extends Controller
             ]);
     
             // Success message on successful creation
-            return redirect()->route('userdashboard')->with('success', 'Temple registered successfully.');
+            return redirect()->route('templedashboard')->with('success', 'Temple registered successfully.');
     
         } catch (\Exception $e) {
             // Error handling: Log the error and show a user-friendly message

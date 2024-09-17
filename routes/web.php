@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 ## Temple user Controller
 use App\Http\Controllers\TempleUser\TempleUserController;
 use App\Http\Controllers\TempleUser\TempleRegistrationController;
+use App\Http\Controllers\TempleUser\SocialMediaController;
+
 
 ## Superadmin COntroller
 use App\Http\Controllers\Superadmin\SuperAdminController;
@@ -24,22 +26,26 @@ Route::get('/', function () {
 ## Temple User Routes
 
 Route::controller(TempleRegistrationController::class)->group(function() {
-    Route::get('templeuser/temple-register', 'templeregister')->name('templeregister');
-    Route::post('/temple-register','registerTemple');
+    Route::get('templeuser/temple-register', 'templeregister')->name('temple-register');
+    Route::post('templeuser/temple-register','registerTemple');
 });
 
 Route::controller(TempleUserController::class)->group(function () {
     // Public routes (accessible without authentication)
-    Route::get('userlogin', 'userlogin')->name('userlogin');
-    Route::post('/send-otp', 'sendOtp');
-    Route::post('/verify-otp', 'verifyOtp');
+    Route::get('templeuser/templelogin', 'templelogin')->name('templelogin');
+    Route::post('templeuser/send-otp', 'sendOtp');
+    Route::post('templeuser/verify-otp', 'verifyOtp');
 
-    // Protected routes (accessible only after authentication)
-    Route::middleware('auth:temples')->group(function () {
-        Route::get('user/user-dashboard', 'userdashboard')->name('userdashboard');
-    });
 });
-
+Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
+    Route::controller(TempleUserController::class)->group(function() {
+        Route::get('/temple-dashboard', 'templedashboard')->name('templedashboard');
+    });
+    Route::controller(SocialMediaController::class)->group(function() {
+        Route::get('/social-media', 'socialmedia')->name('templeuser.socialmedia');
+    });
+  
+});
 
 
 ## super admin Routes

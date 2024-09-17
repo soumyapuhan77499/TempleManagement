@@ -53,7 +53,7 @@
 
                                                             @if (session('otp_sent'))
                                                                 <!-- OTP Verification Form -->
-                                                                <form action="/verify-otp" method="POST">
+                                                                <form action="/templeuser/verify-otp" method="POST">
                                                                     @csrf
                                                                     <input type="hidden" class="form-control" name="order_id" value="{{ session('otp_order_id') }}">
                                                                     <input type="text" class="form-control" name="otp" placeholder="Enter OTP" required>
@@ -62,7 +62,7 @@
                                                                 </form>
                                                             @else
                                                                 <!-- OTP Generation Form -->
-                                                                <form action="/send-otp" method="POST">
+                                                                <form action="/templeuser/send-otp" method="POST">
                                                                     @csrf
                                                                     <div id="step1">
                                                                         <div class="form-group">
@@ -80,7 +80,7 @@
 
                                                             <!-- Sign Up Link -->
                                                             <p class="mt-3">
-                                                                Don't have an account? <a href="/register" class="text-primary">Sign Up</a>
+                                                                Don't have an account? <a href="/templeuser/temple-register" class="text-primary">Sign Up</a>
                                                             </p>
 
                                                         </div>

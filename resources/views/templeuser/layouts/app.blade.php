@@ -12,7 +12,7 @@
 		<!-- Title -->
 		<title> Temple Management </title>
 
-        @include('layouts.components.styles')
+        @include('templeuser.layouts.components.styles')
 
 	</head>
 
@@ -29,9 +29,9 @@
 
 			<div>
 
-                @include('layouts.components.app-header')
+                @include('templeuser.layouts.components.app-header')
 
-                @include('layouts.components.app-sidebar')
+                @include('templeuser.layouts.components.app-sidebar')
 
 			</div>
 
@@ -48,18 +48,18 @@
 			</div>
 			<!-- main-content closed -->
 
-            @include('layouts.components.sidebar-right')
+            @include('templeuser.layouts.components.sidebar-right')
 
-            @include('layouts.components.modal')
+            @include('templeuser.layouts.components.modal')
 
             @yield('modal')
 
-            @include('layouts.components.footer')
+            @include('templeuser.layouts.components.footer')
 
 		</div>
 		<!-- End Page -->
 
-        @include('layouts.components.scripts')
+        @include('templeuser.layouts.components.scripts')
 
     </body>
 </html>

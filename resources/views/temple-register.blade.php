@@ -49,7 +49,7 @@
                                                             {{ session('error') }}
                                                         </div>
                                                     @endif
-                                                        <form action="/temple-register" method="POST">
+                                                        <form action="/templeuser/temple-register" method="POST">
                                                             @csrf
                                                             <div class="row">
                                                                 <div class="col-md-12">
@@ -108,6 +108,11 @@
                                                             </div>
                                                             <button type="submit" class="btn btn-primary"
                                                                 style="margin-top: 20px">Submit</button>
+
+                                                                <p class="mt-3">
+                                                                   If already have account please?  <a href="/templelogin" class="text-primary">Login</a>
+                                                                </p>
+        
                                                         </form>
                                                     </div>
                                                 </div>

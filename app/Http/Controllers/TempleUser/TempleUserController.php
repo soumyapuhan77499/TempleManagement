@@ -22,7 +22,13 @@ class TempleUserController extends Controller
         $phoneNumber = $request->input('phone');
         $countryCode = '+91'; // Assuming the country code is +91 as in your Blade template
         $fullPhoneNumber = $countryCode . $phoneNumber;
+            // Check if the mobile number exists in the database
+            $temple = TempleUser::where('mobile_no', $phoneNumber)->first();
     
+            if (!$temple) {
+                return redirect()->back()->with('message', 'This mobile number is not registered. Please register this number.');
+            }
+        
         $client = new Client();
         $url = rtrim($this->apiUrl, '/') . '/auth/otp/v1/send';
     
@@ -80,12 +86,13 @@ class TempleUserController extends Controller
     
             if (isset($body['isOTPVerified']) && $body['isOTPVerified']) {
                 // Check if mobile number exists in the temple__user_login table
+                $phoneNumber = str_replace('+91', '', $phoneNumber);
                 $temple = TempleUser::where('mobile_no', $phoneNumber)->first();
     
                 if ($temple) {
                     // Mobile number exists, log the user in and redirect to dashboard
                     Auth::guard('temples')->login($temple);
-                    return redirect()->route('userdashboard')->with('success', 'User authenticated successfully.');
+                    return redirect()->route('templedashboard')->with('success', 'User authenticated successfully.');
                 } else {
                     // Mobile number does not exist, redirect to registration page
                     return redirect()->route('temple-register')->with('message', 'Please complete your registration.');
@@ -100,12 +107,12 @@ class TempleUserController extends Controller
     }
     
 
-    public function userlogin(){
-        return view("userlogin");
+    public function templelogin(){
+        return view("templelogin");
     }
 
-    public function userdashboard(){
-        return view("templeuser/user-dashboard");
+    public function templedashboard(){
+        return view("templeuser/temple-dashboard");
     }
 
 
