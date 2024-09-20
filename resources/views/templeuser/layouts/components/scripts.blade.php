@@ -44,3 +44,8 @@
 
 		<!-- exported JS -->
 		<script src="{{asset('assets/js/exported.js')}}"></script>
+		<script>
+			setTimeout(function(){
+				document.getElementById('Message').style.display = 'none';
+			}, 3000);
+		</script>

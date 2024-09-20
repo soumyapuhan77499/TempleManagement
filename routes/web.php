@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TempleUser\TempleUserController;
 use App\Http\Controllers\TempleUser\TempleRegistrationController;
 use App\Http\Controllers\TempleUser\SocialMediaController;
+use App\Http\Controllers\TempleUser\TrustMemberController;
+
 use App\Http\Controllers\TempleUser\TempleBankController;
 use App\Http\Controllers\TempleUser\TempleDailyRitualController;
 use App\Http\Controllers\TempleUser\TempleYearlyRitualController;
@@ -49,10 +51,16 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
 
     Route::controller(TempleUserController::class)->group(function() {
         Route::get('/temple-dashboard', 'templedashboard')->name('templedashboard');
+        Route::put('/temple-about-details', 'updateTempleDetails')->name('temple_about_details.update');
     });
-
     Route::controller(SocialMediaController::class)->group(function() {
         Route::get('/social-media', 'socialmedia')->name('templeuser.socialmedia');
+        Route::put('/temple-social-media/{temple_id}','updateTempleSocialMedia')->name('temple_social_media.update');
+    });
+    Route::controller(TrustMemberController::class)->group(function() {
+      
+        Route::get('/add-trust-member', 'addtrustmember')->name('templeuser.addtrustmember');
+        Route::post('/add-trust-member', 'storedata')->name('templeuser.storeTrustMember'); //
     });
 
     Route::controller(TempleBankController::class)->group(function() {

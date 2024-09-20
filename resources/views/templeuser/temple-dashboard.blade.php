@@ -76,70 +76,89 @@
 									<h4 class="card-title">Temple About</h4>
 								</div>
 								<div class="card-body pt-0 example1-table">
-									<form action="" method="POST" enctype="multipart/form-data">
+									<form action="{{ route('temple_about_details.update', $temple->temple_id ?? '') }}" method="POST" enctype="multipart/form-data">
 										@csrf
-										@method('PUT') <!-- Assuming it's an update -->
-					
+										@method('PUT') <!-- Assuming it's an update or create -->
+									
+										<!-- Temple About Field -->
 										<div class="form-group">
 											<label for="temple_about">Temple About</label>
-											<textarea name="temple_about" class="form-control" id="temple_about" cols="30" rows="5">{{ $temple->temple_about ?? '' }}</textarea>
+											<textarea name="temple_about" class="form-control" id="temple_about" cols="30" rows="5">{{ old('temple_about', $temple->temple_about ?? '') }}</textarea>
 										</div>
-					
+									
+										<!-- Temple History Field -->
 										<div class="form-group">
 											<label for="temple_history">Temple History</label>
-											<textarea name="temple_history" class="form-control" id="temple_history" cols="30" rows="5">{{ $temple->temple_history ?? '' }}</textarea>
+											<textarea name="temple_history" class="form-control" id="temple_history" cols="30" rows="5">{{ old('temple_history', $temple->temple_history ?? '') }}</textarea>
 										</div>
-					
+									
+										<!-- Endowment Checkbox and Fields -->
 										<div class="form-check">
-											<input type="checkbox" class="form-check-input" id="endowment_checkbox" name="endowment" value="1">
+											<input type="checkbox" class="form-check-input" id="endowment_checkbox" name="endowment" value="1" {{ $temple && $temple->endowment ? 'checked' : '' }}>
 											<label class="form-check-label" for="endowment_checkbox">Endowment</label>
 										</div>
-					
+									
 										<div id="endowment_fields" class="mt-2" style="display:none;">
 											<div class="row">
 												<div class="col-md-6">
 													<div class="form-group">
 														<label for="endowment_register_no">Endowment Register No.</label>
-														<input type="text" class="form-control" id="endowment_register_no" name="endowment_register_no">
+														<input type="text" class="form-control" id="endowment_register_no" name="endowment_register_no" value="{{ old('endowment_register_no', $temple->endowment_register_no ?? '') }}">
 													</div>
-							
 												</div>
 												<div class="col-md-6">
-													
 													<div class="form-group">
 														<label for="endowment_document">Upload Endowment Document</label>
 														<input type="file" class="form-control" id="endowment_document" name="endowment_document">
+														@if($temple->endowment_document)
+															
+															<div class="mt-2">
+																<label>Current Endowment Document:</label>
+																<div>
+																	<img src="{{ asset('storage/' . $temple->endowment_document) }}" alt="Endowment Document" style="    height: 160px;    width: 160px;   border-radius: 5px;">
+																</div>
+															</div>
+														@endif
 													</div>
 												</div>
 											</div>
 										</div>
-					
+									
+										<!-- Trust Checkbox and Fields -->
 										<div class="form-check">
-											<input type="checkbox" class="form-check-input" id="trust_checkbox" name="trust" value="1">
+											<input type="checkbox" class="form-check-input" id="trust_checkbox" name="trust" value="1" {{ $temple && $temple->trust ? 'checked' : '' }}>
 											<label class="form-check-label" for="trust_checkbox">Trust</label>
 										</div>
-					
+									
 										<div id="trust_fields" class="mt-2" style="display:none;">
 											<div class="row">
 												<div class="col-md-6">
 													<div class="form-group">
 														<label for="trust_register_no">Trust Register No.</label>
-														<input type="text" class="form-control" id="trust_register_no" name="trust_register_no">
+														<input type="text" class="form-control" id="trust_register_no" name="trust_register_no" value="{{ old('trust_register_no', $temple->trust_register_no ?? '') }}">
 													</div>
-							
 												</div>
 												<div class="col-md-6">
-													
 													<div class="form-group">
 														<label for="trust_document">Upload Trust Document</label>
 														<input type="file" class="form-control" id="trust_document" name="trust_document">
+														@if($temple->trust_document)
+														<div class="mt-2">
+																<label>Current Trust Document:</label>
+																<div>
+																	<img src="{{ asset('storage/' . $temple->trust_document) }}" alt="Trust Document" style="    height: 160px;    width: 160px;   border-radius: 5px;">
+																</div>
+															</div>
+														@endif
 													</div>
 												</div>
 											</div>
 										</div>
-					
+									
 										<button type="submit" class="btn btn-primary">Submit</button>
 									</form>
+									
+									
 								
 								</div>
 							</div>
@@ -211,13 +230,33 @@
 			// });
 
 			// Display additional fields based on checkbox selection
-			document.getElementById('endowment_checkbox').addEventListener('change', function() {
-				document.getElementById('endowment_fields').style.display = this.checked ? 'block' : 'none';
-			});
+			document.addEventListener("DOMContentLoaded", function() {
+    const endowmentCheckbox = document.getElementById('endowment_checkbox');
+    const trustCheckbox = document.getElementById('trust_checkbox');
+    
+    const endowmentFields = document.getElementById('endowment_fields');
+    const trustFields = document.getElementById('trust_fields');
+    
+    // Toggle endowment fields
+    endowmentCheckbox.addEventListener('change', function() {
+        endowmentFields.style.display = this.checked ? 'block' : 'none';
+    });
 
-			document.getElementById('trust_checkbox').addEventListener('change', function() {
-				document.getElementById('trust_fields').style.display = this.checked ? 'block' : 'none';
-			});
+    // Toggle trust fields
+    trustCheckbox.addEventListener('change', function() {
+        trustFields.style.display = this.checked ? 'block' : 'none';
+    });
+
+    // Set initial visibility based on whether checkboxes are checked
+    if (endowmentCheckbox.checked) {
+        endowmentFields.style.display = 'block';
+    }
+    
+    if (trustCheckbox.checked) {
+        trustFields.style.display = 'block';
+    }
+});
+
 		</script>
 
     @endsection

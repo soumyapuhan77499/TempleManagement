@@ -6,6 +6,8 @@ use GuzzleHttp\Client;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TempleUser;
+use App\Models\TempleAboutDetail;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use GuzzleHttp\Exception\RequestException;
@@ -111,10 +113,65 @@ class TempleUserController extends Controller
         return view("templelogin");
     }
 
-    public function templedashboard(){
-        return view("templeuser/temple-dashboard");
+    public function templedashboard()
+    {
+        // Get the authenticated temple user's temple ID
+        $temple_id = Auth::guard('temples')->user()->temple_id;
+        
+        // Fetch the details from the TempleAboutDetail model, or return null if not found
+        $temple = TempleAboutDetail::where('temple_id', $temple_id)->first();
+
+        // Pass the data to the view
+        return view('templeuser.temple-dashboard', compact('temple'));
     }
+    public function updateTempleDetails(Request $request)
+    {
+      
+        // Validate the request
+        $validated = $request->validate([
+            'temple_about' => 'required|string',
+            'temple_history' => 'required|string',
+            'endowment' => 'nullable|string',
+            'endowment_register_no' => 'nullable|string',
+            'endowment_document' => 'nullable|file|mimes:pdf,jpeg,png',
+            'trust' => 'nullable|string',
+            'trust_register_no' => 'nullable|string',
+            'trust_document' => 'nullable|file|mimes:pdf,jpeg,png',
+        ]);
+    
+        // Get the authenticated temple user's temple ID
+        $temple_id = Auth::guard('temples')->user()->temple_id;
+    
+        // Find the temple record or create a new one
+        $temple = TempleAboutDetail::where('temple_id', $temple_id)->first();
+    
+        // Check if endowment_document was uploaded, and store the file if it was
+        $endowmentDocPath = $request->hasFile('endowment_document')
+            ? $request->file('endowment_document')->store('documents/endowment', 'public')
+            : $temple->endowment_document;
+    
+        // Check if trust_document was uploaded, and store the file if it was
+        $trustDocPath = $request->hasFile('trust_document')
+            ? $request->file('trust_document')->store('documents/trust', 'public')
+            : $temple->trust_document;
+    
+        // Update or create the temple record
+        $temple->update([
+            'temple_about' => $request->temple_about,
+            'temple_history' => $request->temple_history,
+            'endowment' => $request->endowment ? true : false,
+            'endowment_register_no' => $request->endowment ? $request->endowment_register_no : null,
+            'endowment_document' => $endowmentDocPath,
+            'trust' => $request->trust ? true : false,
+            'trust_register_no' => $request->trust ? $request->trust_register_no : null,
+            'trust_document' => $trustDocPath,
+            'status' => 'active' // Or whatever status you want to set
+        ]);
+    
+        return redirect()->route('templedashboard')->with('success', 'Temple information updated successfully.');
+    }
+    
 
-
+    
 
 }
