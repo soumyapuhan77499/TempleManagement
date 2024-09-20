@@ -110,7 +110,7 @@
                                                                 style="margin-top: 20px">Submit</button>
 
                                                                 <p class="mt-3">
-                                                                   If already have account please?  <a href="/templelogin" class="text-primary">Login</a>
+                                                                   If already have account please?  <a href="/templeuser/templelogin" class="text-primary">Login</a>
                                                                 </p>
         
                                                         </form>

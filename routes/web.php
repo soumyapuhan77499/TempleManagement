@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TempleUser\TempleUserController;
 use App\Http\Controllers\TempleUser\TempleRegistrationController;
 use App\Http\Controllers\TempleUser\SocialMediaController;
+use App\Http\Controllers\TempleUser\TempleBankController;
+use App\Http\Controllers\TempleUser\TempleDailyRitualController;
+use App\Http\Controllers\TempleUser\TempleYearlyRitualController;
+
+
 
 
 ## Superadmin COntroller
@@ -38,18 +43,42 @@ Route::controller(TempleUserController::class)->group(function () {
     Route::get('templeuser/templelogin', 'templelogin')->name('templelogin');
     Route::post('templeuser/send-otp', 'sendOtp');
     Route::post('templeuser/verify-otp', 'verifyOtp');
-
 });
+
 Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
+
     Route::controller(TempleUserController::class)->group(function() {
         Route::get('/temple-dashboard', 'templedashboard')->name('templedashboard');
     });
+
     Route::controller(SocialMediaController::class)->group(function() {
         Route::get('/social-media', 'socialmedia')->name('templeuser.socialmedia');
     });
-  
-});
 
+    Route::controller(TempleBankController::class)->group(function() {
+        Route::get('/temple-bank', 'bankdetails')->name('templeuser.bankdetails');
+        Route::post('/savebankdetails', 'savebankdetails');
+    });
+
+    Route::controller(TempleDailyRitualController::class)->group(function() {
+        Route::get('/daily-ritual', 'dailyritual')->name('templeuser.add-dailyritual');
+        Route::post('/savetempleritual',  'saveTempleRitual')->name('templeuser.savetempleritual');
+        Route::get('/manage-daily-ritual', 'manageDailyRitual')->name('templeuser.manage-dailyritual');
+        Route::get('/daily-rituals/{id}/edit','edit')->name('edit.daily-ritual');
+        Route::delete('/daily-rituals/{id}',  'deletRitual')->name('delete.daily-ritual');
+        Route::put('/updatetempleritual/{id}',  'updateRitual')->name('ritual.update');
+    });
+
+    Route::controller(TempleYearlyRitualController::class)->group(function() {
+        Route::get('/yearly-ritual', 'yearlyritual')->name('templeuser.add-yearlyritual');
+        Route::get('/manage-yearly-ritual', 'manageYearlyRitual')->name('templeuser.manage-yearlyritual');
+        Route::post('/savespecialritual', 'saveSpecialRitual')->name('templeuser.savespecialritual');
+        Route::get('/yearly-rituals/{id}/edit','editYearlyRitual')->name('edit.yearly-ritual');
+        Route::delete('/yearly-rituals/{id}',  'deletYearlyRitual')->name('delete.yearly-ritual');
+        Route::put('/updateyearlyritual/{id}',  'updateYearlyRitual')->name('update.yearly-ritual');
+    });
+
+});
 
 ## super admin Routes
 Route::controller(SuperAdminController::class)->group(function() {
@@ -58,12 +87,14 @@ Route::controller(SuperAdminController::class)->group(function() {
     Route::post('superadmin/authenticate', 'authenticate')->name('authenticate');
     Route::get('superadmin/dashboard', 'dashboard')->name('dashboard');
     Route::post('superadmin/logout', 'logout')->name('superadmin.logout');
+
 });
 
 Route::prefix('superadmin')->middleware(['superadmin'])->group(function () {
     Route::controller(TempleRequestController::class)->group(function() {
         
         Route::get('/temple-requests', 'templerequests')->name('templerequests');
+
     });
   
 });
