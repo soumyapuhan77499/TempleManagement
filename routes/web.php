@@ -73,8 +73,8 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
         Route::post('/savetempleritual',  'saveTempleRitual')->name('templeuser.savetempleritual');
         Route::get('/manage-daily-ritual', 'manageDailyRitual')->name('templeuser.manage-dailyritual');
         Route::get('/daily-rituals/{id}/edit','edit')->name('edit.daily-ritual');
-        Route::delete('/daily-rituals/{id}',  'deletRitual')->name('delete.daily-ritual');
-        Route::put('/updatetempleritual/{id}',  'updateRitual')->name('ritual.update');
+        Route::post('/updateRituals', 'updateRituals')->name('templeuser.updateRituals');
+        Route::post('/deleteRitual', 'deleteRitual')->name('templeuser.deleteRitual');
     });
 
     Route::controller(TempleYearlyRitualController::class)->group(function() {

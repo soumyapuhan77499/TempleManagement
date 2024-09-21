@@ -14,7 +14,19 @@ class TempleDailyRitualController extends Controller
     public function dailyritual()
     {
         $weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        
         return view('templeuser.add-daily-ritual', compact('weekDays'));
+    }
+    
+    public function manageDailyRitual()
+    {
+        $rituals = TempleRitual::where('status', 'active')->get();
+    
+        $groupedRituals = $rituals->groupBy('ritual_day_name');
+    
+        $weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    
+        return view('templeuser.manage-daily-ritual', compact('groupedRituals', 'weekDays'));
     }
     
     public function saveTempleRitual(Request $request)
@@ -101,77 +113,60 @@ private function convert24ToCarbonInstance($time, $period)
     return Carbon::createFromFormat('H:i A', Carbon::createFromFormat('H:i', $time)->format('h:i') . ' ' . $period);
 }
 
-public function manageDailyRitual()
+public function updateRituals(Request $request)
 {
-    // Fetch all data from the temple_rituals table where status is active (assuming 1 represents active)
-    $rituals = TempleRitual::where('status', 'active')->get();
+    \Log::info($request->all()); // Log all request data
 
-    // Pass data to the view
-    return view('templeuser.manage-daily-ritual', compact('rituals'));
-}
-
-public function edit($id)
-{
-    $ritual = TempleRitual::findOrFail($id);
-    return view('templeuser.edit-daily-ritual', compact('ritual'));
-}
-
-public function updateRitual(Request $request, $id)
-{
+    // Validate the request data
     $request->validate([
-        'day_name' => 'required|string',
-        'ritual_name' => 'required|string',
-        'ritual_date' => 'required|date',
-        'ritual_start_time' => 'required|date_format:H:i',
-        'ritual_start_period' => 'required|in:AM,PM',
-        'ritual_end_time' => 'required|date_format:H:i',
-        'ritual_end_period' => 'required|in:AM,PM',
-        'ritual_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'ritual_video' => 'nullable|mimes:mp4,mov,ogg,qt|max:20000',
-        'description' => 'nullable|string',
+        'ritual_id' => 'required|array',
+        'ritual_id.*' => 'required|exists:temple_rituals,id',
+        'ritual_name.*' => 'required|string|max:255',
+        'ritual_start_time.*' => 'required',
+        'ritual_start_period.*' => 'required|in:AM,PM',
+        'ritual_end_time.*' => 'required',
+        'ritual_end_period.*' => 'required|in:AM,PM',
+        'description.*' => 'nullable|string',
+        'ritual_image.*' => 'nullable|image|mimes:jpg,jpeg,png|max:3074',
+        'ritual_video.*' => 'nullable|mimes:mp4,avi,mov|max:100000',
     ]);
 
-    $ritual = TempleRitual::findOrFail($id);
-    
-    $ritual->ritual_day_name = $request->input('day_name');
-    $ritual->ritual_name = $request->input('ritual_name');
-    $ritual->ritual_date = $request->input('ritual_date');
-    $ritual->ritual_start_time = $request->input('ritual_start_time');
-    $ritual->ritual_end_time = $request->input('ritual_end_time');
-    $ritual->ritual_end_period =  $request->input('ritual_end_period'); 
-    $ritual->ritual_start_period = $request->input('ritual_start_period'); 
-    $ritual->description = $request->input('description');
-    if ($request->hasFile('ritual_image')) {
-        // Delete the old image if it exists
-        if ($ritual->ritual_image) {
-            Storage::delete(public_path($ritual->ritual_image));
+    foreach ($request->ritual_id as $index => $ritualId) {
+        $ritual = TempleRitual::find($ritualId);
+
+        if ($ritual) {
+            $ritual->ritual_name = $request->ritual_name[$index];
+            $ritual->ritual_start_time = $request->ritual_start_time[$index] . ' ' . $request->ritual_start_period[$index];
+            $ritual->ritual_end_time = $request->ritual_end_time[$index] . ' ' . $request->ritual_end_period[$index];
+            $ritual->description = $request->description[$index];
+
+            // Handling image update
+            if ($request->hasFile('ritual_image.' . $index)) {
+                $image = $request->file('ritual_image.' . $index);
+                $imageName = time() . '_' . $image->getClientOriginalName();
+                $imagePath = 'assets/temple/ritual_images';
+                $image->move(public_path($imagePath), $imageName);
+                $ritual->ritual_image = $imagePath . '/' . $imageName;  // Save the relative path to the database
+            }
+
+            // Handling video update
+            if ($request->hasFile('ritual_video.' . $index)) {
+                $video = $request->file('ritual_video.' . $index);
+                $videoName = time() . '_' . $video->getClientOriginalName();
+                $videoPath = 'assets/temple/ritual_videos';
+                $video->move(public_path($videoPath), $videoName);
+                $ritual->ritual_video = $videoPath . '/' . $videoName;  // Save the relative path to the database
+            }
+
+            // Save the ritual updates
+            $ritual->save();
         }
-        // Save the new image
-        $image = $request->file('ritual_image');
-        $imageName = time() . '_' . $image->getClientOriginalName();
-        $imagePath = 'assets/temple/ritual_images';
-        $image->move(public_path($imagePath), $imageName);
-        $ritual->ritual_image = $imagePath . '/' . $imageName;
     }
 
-    // Handle the ritual video
-    if ($request->hasFile('ritual_video')) {
-        // Delete the old video if it exists
-        if ($ritual->ritual_video) {
-            Storage::delete(public_path($ritual->ritual_video));
-        }
-        // Save the new video
-        $video = $request->file('ritual_video');
-        $videoName = time() . '_' . $video->getClientOriginalName();
-        $videoPath = 'assets/temple/ritual_videos';
-        $video->move(public_path($videoPath), $videoName);
-        $ritual->ritual_video = $videoPath . '/' . $videoName;
-    }
-    $ritual->save();
-
-    return redirect()->route('templeuser.manage-dailyritual')
-                     ->with('success', 'Ritual updated successfully.');
+    return redirect()->back()->with('success', 'Rituals updated successfully!');
 }
+
+
 
 public function deletRitual($id)
 {

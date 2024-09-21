@@ -1,118 +1,251 @@
 @extends('templeuser.layouts.app')
 
 @section('styles')
-<link href="{{ asset('assets/plugins/datatable/css/dataTables.bootstrap5.css') }}" rel="stylesheet" />
-<link href="{{ asset('assets/plugins/datatable/css/buttons.bootstrap5.min.css') }}" rel="stylesheet">
-<link href="{{ asset('assets/plugins/datatable/responsive.bootstrap5.css') }}" rel="stylesheet" />
-<link href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet" />
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+
 @endsection
 
 @section('content')
-    <div class="breadcrumb-header justify-content-between">
-        <div class="left-content">
-            <span class="main-content-title mg-b-0 mg-b-lg-1">MANAGE DAILY RITUAL</span>
-        </div>
-        <div class="justify-content-center mt-2">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item tx-15"><a href="javascript:void(0);">Temple</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Ritual</li>
-            </ol>
-        </div>
-    </div>
 
-    <!-- Success Message -->
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
+<div class="row mt-4">
+    <div class="col-lg-12 col-md-12">
+        <div class="card overflow-hidden">
+            <div class="card-header pb-0">
+                <h2 class="card-title">ADD DAILY RITUAL</h2>
+            </div>
 
-    <div class="row row-sm">
-        <div class="col-lg-12">
-            <div class="card custom-card overflow-hidden">
-                <div class="card-body">
-                    <div class="table-responsive export-table">
-                        <table id="file-datatable" class="table table-bordered text-nowrap key-buttons border-bottom">
-                            <thead>
-                                <tr>
-                                    <th class="border-bottom-0">SL NO.</th>
-                                    <th class="border-bottom-0">DAY</th>
-                                    <th class="border-bottom-0">DATE</th>
-                                    <th class="border-bottom-0">RITUAL NAME</th>
-                                    <th class="border-bottom-0">START TIME</th>
-                                    <th class="border-bottom-0">END TIME</th>
-                                    <th class="border-bottom-0">DURATION</th>
-                                    <th class="border-bottom-0">IMAGE</th>
-                                    <th class="border-bottom-0">VIDEO</th>
-                                    <th class="border-bottom-0">DESCRIPTION</th>
-                                    <th class="border-bottom-0">ACTION</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($rituals as $index => $ritual)
-                                    <tr>
-                                        <td>{{ $index + 1 }}</td>
-                                        <td>{{ $ritual->ritual_day_name }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($ritual->ritual_date)->format('d-m-Y') }}</td>
-                                        <td>{{ $ritual->ritual_name }}</td>
-                                        <td>{{ $ritual->ritual_start_time }}</td>
-                                        <td>{{ $ritual->ritual_end_time }}</td>
-                                        <td>{{ $ritual->ritual_duration }}</td>
-                                        <td>
-                                            @if ($ritual->ritual_image)
-                                                <a href="{{ asset($ritual->ritual_image) }}" target="_blank" class="btn btn-primary btn-sm">View Image</a>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if ($ritual->ritual_video)
-                                                <a href="{{ asset($ritual->ritual_video) }}" target="_blank" class="btn btn-primary btn-sm">View Video</a>
-                                            @endif
-                                        </td>
-                                        <td>{{ $ritual->description }}</td>
-                                        <td>
-                                            <form action="{{ route('delete.daily-ritual', $ritual->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this item?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-md btn-danger"><i class="fa fa-trash"></i></button>
-                                                <a href="{{ route('edit.daily-ritual', $ritual->id) }}" class="btn btn-md btn-primary"><i class="fa fa-edit"></i></a>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+            <!-- Display errors and success messages -->
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+
+            @if (session()->has('success'))
+                <div class="alert alert-success" id="Message">
+                    {{ session()->get('success') }}
+                </div>
+            @endif
+
+            @if ($errors->has('danger'))
+                <div class="alert alert-danger" id="Message">
+                    {{ $errors->first('danger') }}
+                </div>
+            @endif
+
+            <div class="card-body">
+                <div class="panel-group1" id="accordion11" role="tablist">
+                    @foreach ($weekDays as $index => $day)
+                        <div class="card overflow-hidden">
+                            <a class="accordion-toggle panel-heading1 collapsed" 
+                               data-bs-toggle="collapse" 
+                               data-bs-parent="#accordion11" 
+                               href="#collapseDay{{ $index }}" 
+                               aria-expanded="false" style="font-weight: bold;color: black">
+                               {{ $day }}
+                            </a>
+                            <div id="collapseDay{{ $index }}" 
+                                 class="panel-collapse collapse" 
+                                 role="tabpanel" 
+                                 aria-expanded="false">
+                                <div class="panel-body">
+                                    <div class="row row-sm">
+                                        <div class="col-lg-12 col-md-12">
+                                            <div class="custom-card main-content-body-profile">
+                                                <div class="main-content-body tab-pane border-top-0" id="bank">
+                                                    <!-- Check if there are rituals for this day -->
+                                                    @if (isset($groupedRituals[$day]) && $groupedRituals[$day]->count() > 0)
+                                                        <!-- Loop through each ritual for the current day -->
+                                                        @foreach ($groupedRituals[$day] as $ritualIndex => $ritual)
+                                                        <form action="{{ route('templeuser.updateRituals') }}" method="POST" enctype="multipart/form-data">
+                                                            @csrf
+                                                            <div class="form-group-wrapper">
+                                                                <div class="row">
+                                                                    <input type="hidden" name="day_name[]" value="{{ $day }}" class="day_name">
+                                                                    <input type="hidden" name="ritual_id[]" value="{{ $ritual->id }}">
+                                                    
+                                                                    <!-- Ritual Name -->
+                                                                    <div class="col-md-2">
+                                                                        <div class="form-group">
+                                                                            <label for="ritual_name">Ritual Name</label>
+                                                                            <input type="text" class="form-control" name="ritual_name[]" value="{{ $ritual->ritual_name }}">
+                                                                        </div>
+                                                                    </div>
+                                                    
+                                                                    <!-- Ritual Start Time -->
+                                                                    <div class="col-md-2">
+                                                                        <div class="form-group">
+                                                                            <label for="ritual_start_time">Ritual Start Time</label>
+                                                                            <div class="input-group">
+                                                                                <input style="width: 60px" type="time" class="form-control" name="ritual_start_time[]" value="{{ date('H:i', strtotime($ritual->ritual_start_time)) }}">
+                                                                                <select class="form-control" name="ritual_start_period[]">
+                                                                                    <option value="AM" {{ $ritual->ritual_start_period == 'AM' ? 'selected' : '' }}>AM</option>
+                                                                                    <option value="PM" {{ $ritual->ritual_start_period == 'PM' ? 'selected' : '' }}>PM</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                    
+                                                                    <!-- Ritual End Time -->
+                                                                    <div class="col-md-2">
+                                                                        <div class="form-group">
+                                                                            <label for="ritual_end_time">Ritual End Time</label>
+                                                                            <div class="input-group">
+                                                                                <input type="time" style="width: 60px" class="form-control" name="ritual_end_time[]" value="{{ date('H:i', strtotime($ritual->ritual_end_time)) }}">
+                                                                                <select class="form-control" name="ritual_end_period[]">
+                                                                                    <option value="AM" {{ $ritual->ritual_end_period == 'AM' ? 'selected' : '' }}>AM</option>
+                                                                                    <option value="PM" {{ $ritual->ritual_end_period == 'PM' ? 'selected' : '' }}>PM</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                    
+                                                                    <!-- Ritual Image -->
+                                                                    <div class="col-md-3">
+                                                                        <div class="form-group">
+                                                                            <label for="ritual_image">Ritual Image</label>
+                                                                            <input type="file" class="form-control" name="ritual_image[]">
+                                                                            @if(!empty($ritual->ritual_image))
+                                                                                <!-- Button to trigger the modal -->
+                                                                                <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#imageModal{{ $index }}{{ $ritualIndex }}">
+                                                                                    View Image
+                                                                                </button>
+                                                                            @endif
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <!-- Ritual Video -->
+                                                                    <div class="col-md-3">
+                                                                        <div class="form-group">
+                                                                            <label for="ritual_video">Ritual Video</label>
+                                                                            <input type="file" class="form-control" name="ritual_video[]">
+                                                                            @if(!empty($ritual->ritual_video))
+                                                                                <!-- Button to trigger the modal -->
+                                                                                <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#videoModal{{ $index }}{{ $ritualIndex }}">
+                                                                                    View Video
+                                                                                </button>
+                                                                            @endif
+                                                                        </div>
+                                                                    </div>
+
+                                                    
+                                                                    <!-- Description -->
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group">
+                                                                            <label for="description">Description</label>
+                                                                            <textarea class="form-control" name="description[]" rows="1">{{ $ritual->description }}</textarea>
+                                                                        </div>
+                                                                    </div>
+                                                    
+                                                                    <!-- Buttons -->
+                                                                    <div class="text-center col-md-12">
+                                                                        <!-- Update Button -->
+                                                                        <button type="submit" class="btn btn-success">Update</button>
+                                                    
+                                                                        <!-- Delete Form -->
+                                                                        <form action="{{ route('templeuser.deleteRitual') }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this ritual?');">
+                                                                            @csrf
+                                                                            <input type="hidden" name="ritual_id" value="{{ $ritual->id }}">
+                                                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                                                        </form>
+                                                                    </div>
+                                                                    <hr>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+
+                                                          <!-- Modal for Image -->
+                                                          <div class="modal fade" id="imageModal{{ $index }}{{ $ritualIndex }}" tabindex="-1" aria-labelledby="imageModalLabel{{ $index }}{{ $ritualIndex }}" aria-hidden="true">
+                                                            <div class="modal-dialog modal-lg">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="imageModalLabel{{ $index }}{{ $ritualIndex }}">Ritual Image</h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body text-center">
+                                                                        <img src="{{ asset($ritual->ritual_image) }}" alt="Ritual Image" class="img-fluid">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Modal for Video -->
+                                                        <div class="modal fade" id="videoModal{{ $index }}{{ $ritualIndex }}" tabindex="-1" aria-labelledby="videoModalLabel{{ $index }}{{ $ritualIndex }}" aria-hidden="true">
+                                                            <div class="modal-dialog modal-lg">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="videoModalLabel{{ $index }}{{ $ritualIndex }}">Ritual Video</h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body text-center">
+                                                                        <video controls class="img-fluid">
+                                                                            <source src="{{ asset($ritual->ritual_video) }}" type="video/mp4">
+                                                                            Your browser does not support the video tag.
+                                                                        </video>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                    
+                                                    @else
+                                                        <!-- No rituals for this day -->
+                                                        <p>No rituals added for {{ $day }}.</p>
+                                                    @endif
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
     </div>
+</div>
+
 @endsection
 
 @section('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(function() {
-                var successAlert = document.getElementById('successAlert');
-                if (successAlert) {
-                    var bootstrapAlert = new bootstrap.Alert(successAlert);
-                    bootstrapAlert.close();
-                }
-            }, 4000); // 4000 milliseconds = 4 seconds
-        });
+        setTimeout(function() {
+            document.getElementById('Message').style.display = 'none';
+        }, 3000);
+
+        
     </script>
-    <script src="{{ asset('assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/js/dataTables.bootstrap5.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/js/buttons.bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/js/jszip.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/pdfmake/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/pdfmake/vfs_fonts.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/js/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/js/buttons.colVis.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/responsive.bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('assets/js/table-data.js') }}"></script>
-    <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
+<!-- Bootstrap JS (including Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmDelete(event, form) {
+        event.preventDefault();
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    }
+</script>
+
+<script>
+    document.querySelectorAll('[data-bs-toggle="modal"]').forEach(button => {
+    button.addEventListener('click', () => {
+        console.log('Modal button clicked for: ', button.getAttribute('data-bs-target'));
+    });
+});
+
+</script>
+
 @endsection
