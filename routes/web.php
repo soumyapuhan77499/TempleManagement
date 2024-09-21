@@ -10,6 +10,9 @@ use App\Http\Controllers\TempleUser\TempleUserController;
 use App\Http\Controllers\TempleUser\TempleRegistrationController;
 use App\Http\Controllers\TempleUser\SocialMediaController;
 use App\Http\Controllers\TempleUser\TrustMemberController;
+use App\Http\Controllers\TempleUser\TempleFestivalController;
+use App\Http\Controllers\TempleUser\TempleNewsController;
+use App\Http\Controllers\TempleUser\TempleDarshanController;
 
 use App\Http\Controllers\TempleUser\TempleBankController;
 use App\Http\Controllers\TempleUser\TempleDailyRitualController;
@@ -58,9 +61,30 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
         Route::put('/temple-social-media/{temple_id}','updateTempleSocialMedia')->name('temple_social_media.update');
     });
     Route::controller(TrustMemberController::class)->group(function() {
-      
         Route::get('/add-trust-member', 'addtrustmember')->name('templeuser.addtrustmember');
-        Route::post('/add-trust-member', 'storedata')->name('templeuser.storeTrustMember'); //
+        Route::post('/add-trust-member', 'storedata')->name('templeuser.storeTrustMember');
+        Route::get('/manage-trust-member', 'managetrustmember')->name('templeuser.managetrustmember');
+        Route::get('/trust-member/edit/{id}', 'edit')->name('templeuser.editTrustMember'); // Edit route
+        Route::put('/trust-member/update/{id}', 'update')->name('templeuser.updateTrustMember'); // Update route
+        Route::delete('/trust-member/delete/{id}', 'destroy')->name('templeuser.deleteTrustMember'); // Delete route
+        
+    });
+    Route::controller(TempleFestivalController::class)->group(function() {
+        Route::get('/add-temple-festival', 'addFestival')->name('templefestival.addFestival');
+        Route::post('/add-temple-festival', 'storedata')->name('templefestival.storeFestival');
+        Route::get('/manage-festivals', 'managefestivals')->name('templefestival.managefestivals');
+        Route::get('/festival/{id}/edit', 'edit')->name('templefestival.edit');
+        Route::put('/festival/{id}', 'update')->name('templefestival.update');
+        Route::delete('/festival/{id}', 'destroy')->name('templefestival.destroy');
+    });
+    Route::controller(TempleNewsController::class)->group(function() {
+        Route::get('/add-temple-news', 'addNews')->name('templenews.addNews');
+        Route::post('/store-temple-news', 'storeNews')->name('templenews.storeNews');
+        Route::get('/manage-temple-news', 'manageNews')->name('templenews.manageNews');
+        Route::get('/edit-temple-news/{id}', 'editNews')->name('templenews.editNews');
+        Route::post('/update-temple-news/{id}', 'updateNews')->name('templenews.updateNews');
+        Route::delete('/delete-temple-news/{id}', 'destroyNews')->name('templenews.destroyNews');
+       
     });
 
     Route::controller(TempleBankController::class)->group(function() {

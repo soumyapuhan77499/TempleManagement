@@ -17,16 +17,25 @@
 					<!-- breadcrumb -->
 					<div class="breadcrumb-header justify-content-between">
 						<div class="left-content">
-						<span class="main-content-title mg-b-0 mg-b-lg-1">Add Trust Memeber</span>
+						<span class="main-content-title mg-b-0 mg-b-lg-1">Edit News</span>
 						</div>
 						<div class="justify-content-center mt-2">
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item tx-15"><a href="javascript:void(0);">Dashboard</a></li>
-								<li class="breadcrumb-item active" aria-current="page">Add Trust Memeber</li>
+								<li class="breadcrumb-item active" aria-current="page">Edit News</li>
 							</ol>
 						</div>
 					</div>
 					<!-- /breadcrumb -->
+							@if ($errors->any())
+							<div class="alert alert-danger">
+								<ul>
+									@foreach ($errors->all() as $error)
+										<li>{{ $error }}</li>
+									@endforeach
+								</ul>
+							</div>
+							@endif
 							@if(session()->has('success'))
 							<div class="alert alert-success" id="Message">
 								{{ session()->get('success') }}
@@ -46,52 +55,30 @@
 											<h4 class="card-title">Temple About</h4>
 										</div> --}}
 										<div class="card-body pt-0 pt-4">
-											<form method="POST" enctype="multipart/form-data" action="{{ route('templeuser.storeTrustMember') }}">
+											<form method="POST" action="{{ route('templenews.updateNews', $news->id) }}">
 												@csrf
-												@method('POST') <!-- Assuming you're creating a new entry -->
-												
 												<div class="row">
 													<div class="col-md-6">
 														<div class="form-group">
-															<label for="member_photo">Member Photo <span style="color:red">*</span></label>
-															<input type="file" class="form-control" id="member_photo" name="member_photo" required>
+															<label for="notice_name">Notice Name <span style="color:red">*</span></label>
+															<input type="text" class="form-control" id="notice_name" name="notice_name" value="{{ $news->notice_name }}" required>
 														</div>
 													</div>
 													<div class="col-md-6">
 														<div class="form-group">
-															<label for="member_name">Member Name <span style="color:red">*</span></label>
-															<input type="text" class="form-control" id="member_name" name="member_name" value="{{ old('member_name') }}" placeholder="Enter member name" required>
+															<label for="notice_date">Notice Date <span style="color:red">*</span></label>
+															<input type="date" class="form-control" id="notice_date" name="notice_date" value="{{ $news->notice_date }}" required>
 														</div>
 													</div>
 												</div>
-												<div class="row">
-													<div class="col-md-6">
-														<div class="form-group">
-															<label for="member_designation">Designation <span style="color:red">*</span></label>
-															<input type="text" class="form-control" id="member_designation" name="member_designation" value="{{ old('member_designation') }}" placeholder="Enter designation" required>
-														</div>
-													</div>
-													<div class="col-md-6">
-														<div class="form-group">
-															<label for="contact_number">Contact Number <span style="color:red">*</span></label>
-															<input type="text" class="form-control" id="contact_number" name="member_contact_no" value="{{ old('member_contact_no') }}" placeholder="Enter 10-digit contact number" pattern="\d{10}" required title="Must be 10 digits">
-														</div>
-													</div>
+											
+												<div class="form-group">
+													<label for="notice_descp">Notice Description <span style="color:red">*</span></label>
+													<textarea name="notice_descp" class="form-control" id="notice_descp" required>{{ $news->notice_descp }}</textarea>
 												</div>
-												<div class="row">
-													<div class="col-md-12">
-														<label for="about_member">About <span style="color:red">*</span></label>
-														<textarea name="about_member" class="form-control" id="about_member" cols="30" rows="3" placeholder="Tell us about the member" required>{{ old('about_member') }}</textarea>
-													</div>
-												</div>
-												
-												<button type="submit" class="btn btn-primary mt-3">Submit</button>
+											
+												<button type="submit" class="btn btn-primary">Update</button>
 											</form>
-											
-											
-											
-											
-											
 											
 											
 										

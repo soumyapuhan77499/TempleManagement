@@ -17,12 +17,12 @@
 					<!-- breadcrumb -->
 					<div class="breadcrumb-header justify-content-between">
 						<div class="left-content">
-						<span class="main-content-title mg-b-0 mg-b-lg-1">Add Trust Memeber</span>
+						<span class="main-content-title mg-b-0 mg-b-lg-1">Edit Festival</span>
 						</div>
 						<div class="justify-content-center mt-2">
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item tx-15"><a href="javascript:void(0);">Dashboard</a></li>
-								<li class="breadcrumb-item active" aria-current="page">Add Trust Memeber</li>
+								<li class="breadcrumb-item active" aria-current="page">Edit Festival</li>
 							</ol>
 						</div>
 					</div>
@@ -46,53 +46,34 @@
 											<h4 class="card-title">Temple About</h4>
 										</div> --}}
 										<div class="card-body pt-0 pt-4">
-											<form method="POST" enctype="multipart/form-data" action="{{ route('templeuser.storeTrustMember') }}">
+											<form method="POST" action="{{ route('templefestival.update', $festival->id) }}">
 												@csrf
-												@method('POST') <!-- Assuming you're creating a new entry -->
+												@method('PUT')
 												
 												<div class="row">
 													<div class="col-md-6">
 														<div class="form-group">
-															<label for="member_photo">Member Photo <span style="color:red">*</span></label>
-															<input type="file" class="form-control" id="member_photo" name="member_photo" required>
+															<label for="festival_name">Festival Name <span style="color:red">*</span></label>
+															<input type="text" class="form-control" id="festival_name" name="festival_name" value="{{ $festival->festival_name }}" required>
 														</div>
 													</div>
 													<div class="col-md-6">
 														<div class="form-group">
-															<label for="member_name">Member Name <span style="color:red">*</span></label>
-															<input type="text" class="form-control" id="member_name" name="member_name" value="{{ old('member_name') }}" placeholder="Enter member name" required>
+															<label for="festival_date">Festival Date <span style="color:red">*</span></label>
+															<input type="date" class="form-control" id="festival_date" name="festival_date" value="{{ $festival->festival_date }}" required>
 														</div>
-													</div>
-												</div>
-												<div class="row">
-													<div class="col-md-6">
-														<div class="form-group">
-															<label for="member_designation">Designation <span style="color:red">*</span></label>
-															<input type="text" class="form-control" id="member_designation" name="member_designation" value="{{ old('member_designation') }}" placeholder="Enter designation" required>
-														</div>
-													</div>
-													<div class="col-md-6">
-														<div class="form-group">
-															<label for="contact_number">Contact Number <span style="color:red">*</span></label>
-															<input type="text" class="form-control" id="contact_number" name="member_contact_no" value="{{ old('member_contact_no') }}" placeholder="Enter 10-digit contact number" pattern="\d{10}" required title="Must be 10 digits">
-														</div>
-													</div>
-												</div>
-												<div class="row">
-													<div class="col-md-12">
-														<label for="about_member">About <span style="color:red">*</span></label>
-														<textarea name="about_member" class="form-control" id="about_member" cols="30" rows="3" placeholder="Tell us about the member" required>{{ old('about_member') }}</textarea>
 													</div>
 												</div>
 												
-												<button type="submit" class="btn btn-primary mt-3">Submit</button>
+												
+											
+												<div class="form-group">
+													<label for="festival_descp">Festival Description <span style="color:red">*</span></label>
+													<textarea name="festival_descp" class="form-control" id="festival_descp" required>{{ $festival->festival_descp }}</textarea>
+												</div>
+												
+												<button type="submit" class="btn btn-primary">Update</button>
 											</form>
-											
-											
-											
-											
-											
-											
 											
 										
 										</div>

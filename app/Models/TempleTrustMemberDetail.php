@@ -17,6 +17,7 @@ class TempleTrustMemberDetail extends Model
         'member_photo',
         'about_member',
         'member_designation',
+        'member_contact_no',
         'status',
     ];
 }

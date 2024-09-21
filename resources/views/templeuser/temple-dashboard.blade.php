@@ -111,14 +111,32 @@
 														<label for="endowment_document">Upload Endowment Document</label>
 														<input type="file" class="form-control" id="endowment_document" name="endowment_document">
 														@if($temple->endowment_document)
-															
-															<div class="mt-2">
-																<label>Current Endowment Document:</label>
-																<div>
-																	<img src="{{ asset('storage/' . $temple->endowment_document) }}" alt="Endowment Document" style="    height: 160px;    width: 160px;   border-radius: 5px;">
+														<div class="mt-2">
+															<label>Current Endowment Document:</label>
+															<div>
+																<!-- View Image Button -->
+																<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#imageModal">
+																	View Image
+																</button>
+															</div>
+														</div>
+
+														<!-- Modal for Viewing the Image -->
+														<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+															<div class="modal-dialog modal-dialog-centered">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<h5 class="modal-title" id="imageModalLabel">Endowment Document</h5>
+																		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+																	</div>
+																	<div class="modal-body text-center">
+																		<img src="{{ asset('storage/' . $temple->endowment_document) }}" alt="Endowment Document" style="max-width: 100%; height: auto; border-radius: 5px;">
+																	</div>
 																</div>
 															</div>
+														</div>
 														@endif
+
 													</div>
 												</div>
 											</div>
@@ -144,12 +162,31 @@
 														<input type="file" class="form-control" id="trust_document" name="trust_document">
 														@if($temple->trust_document)
 														<div class="mt-2">
-																<label>Current Trust Document:</label>
-																<div>
-																	<img src="{{ asset('storage/' . $temple->trust_document) }}" alt="Trust Document" style="    height: 160px;    width: 160px;   border-radius: 5px;">
+															<label>Current Trust Document:</label>
+															<div>
+																<!-- View Image Button -->
+																<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#trustDocumentModal">
+																	View Image
+																</button>
+															</div>
+														</div>
+														
+														<!-- Modal for Viewing the Trust Document -->
+														<div class="modal fade" id="trustDocumentModal" tabindex="-1" aria-labelledby="trustDocumentModalLabel" aria-hidden="true">
+															<div class="modal-dialog modal-dialog-centered">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<h5 class="modal-title" id="trustDocumentModalLabel">Trust Document</h5>
+																		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+																	</div>
+																	<div class="modal-body text-center">
+																		<img src="{{ asset('storage/' . $temple->trust_document) }}" alt="Trust Document" style="max-width: 100%; height: auto; border-radius: 5px;">
+																	</div>
 																</div>
 															</div>
+														</div>
 														@endif
+														
 													</div>
 												</div>
 											</div>
