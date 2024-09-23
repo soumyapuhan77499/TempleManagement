@@ -120,7 +120,7 @@ public function updateRituals(Request $request)
     // Validate the request data
     $request->validate([
         'ritual_id' => 'required|array',
-        'ritual_id.*' => 'required|exists:temple_rituals,id',
+        'ritual_id.*' => 'required|exists:temple__daily_ritual,id', // Update table name here
         'ritual_name.*' => 'required|string|max:255',
         'ritual_start_time.*' => 'required',
         'ritual_start_period.*' => 'required|in:AM,PM',
@@ -132,13 +132,28 @@ public function updateRituals(Request $request)
     ]);
 
     foreach ($request->ritual_id as $index => $ritualId) {
+
+        $startTime = $this->convert24ToCarbonInstance($request->ritual_start_time[$index], $request->ritual_start_period[$index]);
+        $endTime = $this->convert24ToCarbonInstance($request->ritual_end_time[$index], $request->ritual_end_period[$index]);
+
+        // Calculate ritual duration
+        $durationInMinutes = $startTime->diffInMinutes($endTime);
+        $hours = intdiv($durationInMinutes, 60);
+        $minutes = $durationInMinutes % 60;
+        $ritualDuration = sprintf('%02d:%02d
+        
+        ', $hours, $minutes);
         $ritual = TempleRitual::find($ritualId);
 
         if ($ritual) {
+
             $ritual->ritual_name = $request->ritual_name[$index];
-            $ritual->ritual_start_time = $request->ritual_start_time[$index] . ' ' . $request->ritual_start_period[$index];
-            $ritual->ritual_end_time = $request->ritual_end_time[$index] . ' ' . $request->ritual_end_period[$index];
+            $ritual->ritual_start_time = $request->ritual_start_time[$index];
+            $ritual->ritual_end_time = $request->ritual_end_time[$index];
             $ritual->description = $request->description[$index];
+            $ritual->ritual_start_period = $request->ritual_start_period[$index]; 
+            $ritual->ritual_end_period = $request->ritual_end_period[$index]; 
+            $ritual->ritual_duration = $ritualDuration;
 
             // Handling image update
             if ($request->hasFile('ritual_image.' . $index)) {
@@ -146,7 +161,7 @@ public function updateRituals(Request $request)
                 $imageName = time() . '_' . $image->getClientOriginalName();
                 $imagePath = 'assets/temple/ritual_images';
                 $image->move(public_path($imagePath), $imageName);
-                $ritual->ritual_image = $imagePath . '/' . $imageName;  // Save the relative path to the database
+                $ritual->ritual_image = $imagePath . '/' . $imageName;
             }
 
             // Handling video update
@@ -155,7 +170,7 @@ public function updateRituals(Request $request)
                 $videoName = time() . '_' . $video->getClientOriginalName();
                 $videoPath = 'assets/temple/ritual_videos';
                 $video->move(public_path($videoPath), $videoName);
-                $ritual->ritual_video = $videoPath . '/' . $videoName;  // Save the relative path to the database
+                $ritual->ritual_video = $videoPath . '/' . $videoName;
             }
 
             // Save the ritual updates
@@ -168,23 +183,24 @@ public function updateRituals(Request $request)
 
 
 
-public function deletRitual($id)
+public function deleteRitual($id)
 {
     // Find the ritual by ID or fail if not found
     $ritual = TempleRitual::findOrFail($id);
 
-    // Set the status to indicate the ritual is deleted
-    $ritual->status = 'deleted'; // Assuming 0 indicates inactive or deleted
+    // Update the status to 'deleted'
+    $ritual->status = 'deleted'; // Update the status value to 'deleted' instead of removing the row
     $ritual->save();
 
     // Optionally delete files if needed
     if ($ritual->ritual_image) {
-        Storage::delete('public/' . $ritual->ritual_image);
+        Storage::delete($ritual->ritual_image);
     }
     if ($ritual->ritual_video) {
-        Storage::delete('public/' . $ritual->ritual_video);
+        Storage::delete($ritual->ritual_video);
     }
 
+    // Redirect back with a success message
     return redirect()->route('templeuser.manage-dailyritual')->with('success', 'Ritual status updated to deleted.');
 }
 

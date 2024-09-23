@@ -9,7 +9,7 @@ class TempleRitual extends Model
 {
     use HasFactory;
     protected $table = 'temple__daily_ritual';
-    
+
     protected $fillable = [
         'temple_id',
         'ritual_name',
