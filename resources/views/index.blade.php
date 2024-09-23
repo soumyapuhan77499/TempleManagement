@@ -35,7 +35,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-xs-6 text-left">
-					<div id="fh5co-logo"><a href="{{url('/')}}"><img src="{{asset('assets/img/brand/logo.png')}}" class="mobile-logo logo-1" alt="logo" style="    width: 200px;"></a></div>
+					<div id="fh5co-logo"><a href="{{url('/')}}"><img src="{{asset('front-assets/images/logo.png')}}" class="mobile-logo logo-1" alt="logo" style="    width: 200px;"></a></div>
 				</div>
 				<div class="col-xs-6 text-right">
 					<a href="{{route('templelogin')}}" target="_blank" class="btn btn-primary">Temple Login</a>
