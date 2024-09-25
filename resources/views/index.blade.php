@@ -1,143 +1,75 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Temple Management System</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Free HTML5 Template by FREEHTML5.CO" />
-	<meta name="keywords" content="free html5, free template, free bootstrap, html5, css3, mobile first, responsive" />
-	<meta name="author" content="FREEHTML5.CO" />
+@extends('layout')
+<style>
+    .page-title-area.bg-primary-light {
+    display: none;
+}
+</style>
+@section('pagename')
+    - {{ __('Home') }}
+@endsection
+
+@section('content')
+    <!-- Home Start-->
 
 
-	<link href='https://fonts.googleapis.com/css?family=Work+Sans:400,300,600,400italic,700' rel='stylesheet' type='text/css'>
-	
-	<!-- Animate.css -->
-	<link rel="stylesheet" href="{{ asset('front-assets/css/animate.css')}}">
-	<!-- Icomoon Icon Fonts-->
-	<link rel="stylesheet" href="{{asset('front-assets/css/icomoon.css')}}">
-	<!-- Bootstrap  -->
-	<link rel="stylesheet" href="{{asset('front-assets/css/bootstrap.css')}}">
-	<!-- Theme style  -->
-	<link rel="stylesheet" href="{{asset('front-assets/css/style.css')}}">
 
-	<!-- Modernizr JS -->
-	<script src="{{asset('front-assets/js/modernizr-2.6.2.min.js')}}"></script>
-	
+  <div id="overlay" class="overlay"></div>
+  <section id="home" class="home-banner pb-80">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-10">
+                <div class="content mb-40 mx-auto text-center">
+                    {{-- <span class="subtitle color-primary" data-aos="fade-up">Welcome to Our Temple Management System</span> --}}
+                    <h1 class="title main-heading" data-aos="fade-up" data-aos-delay="100" style="margin-top: 41px;">
+                        Manage Your Temple Activities with Ease
+                    </h1>
+                    <p data-aos="fade-up" data-aos-delay="150" class="main-sub-heading">
+                        Our comprehensive temple management system provides a seamless way to manage events, pooja bookings, donations, and volunteer activities, ensuring a harmonious experience for all devotees.
+                    </p>
+                    <div class="btn-groups justify-content-center" data-aos="fade-up" data-aos-delay="200" style="    margin-top: 96px;">
+                        <a href="#" class="btn btn-lg btn-primary" title="Get Started" target="_self">Get Started</a>
+                        <a href="#" class="btn btn-lg btn-outline" title="Learn More" target="_self">Learn More</a>
+                    </div>
+                </div>
+                {{-- <div class="banner-img mb-40 text-center" data-aos="fade-left">
+                    <img class="lazyload"
+                        data-src="front-assets/frontend/images/banner.png"
+                        alt="Banner Image">
+                </div> --}}
+            </div>
+        </div>
+    </div>
+    <!-- Banner Images -->
+    {{-- <div class="banner-images d-none d-lg-block">
+        <img class="lazyload blur-up img-1" data-src="front-assets/frontend/images/banner-img-1.jpg" alt="Banner Image">
+        <img class="lazyload blur-up img-2" data-src="front-assets/frontend/images/banner-img-2.jpg" alt="Banner Image">
+        <img class="lazyload blur-up img-3" data-src="front-assets/frontend/images/banner-img-3.jpg" alt="Banner Image">
+        <img class="lazyload blur-up img-4" data-src="front-assets/frontend/images/banner-img-4.jpg" alt="Banner Image">
+    </div> --}}
+    <!-- Bg-shape -->
+    <div class="bg-shape bg-primary-light">
+        <img class="lazyload" data-src="front-assets/frontend/images/banner-bg.png" alt="Shape">
+    </div>
+    <!-- Shape -->
+    <div class="shape">
+        <img class="lazyload shape-1" data-src="{{asset('front-assets/frontend/shapes/1.png')}}" alt="Shape" style="    width: ;" >
+        <img class="lazyload shape-3" data-src="{{asset('front-assets/frontend/shapes/2.png')}}" alt="Shape" style="    width: 60px;">
+        <img class="lazyload shape-2" data-src="{{asset('front-assets/frontend/shapes/4.png')}}" alt="Shape" style="    width: 60px;">
+        <img class="lazyload shape-4" data-src="{{asset('front-assets/frontend/shapes/2.png')}}" alt="Shape" style="    width: 60px;">
+        <img class="lazyload shape-5" data-src="{{asset('front-assets/frontend/shapes/5.png')}}" alt="Shape" style="    width: 60px;">
+        <img class="lazyload shape-6" data-src="{{asset('front-assets/frontend/shapes/6.png')}}" alt="Shape" style="    width: 60px;">
+        <img class="lazyload shape-7" data-src="{{asset('front-assets/frontend/shapes/7.png')}}" alt="Shape" style="    width: 60px;">
+        <img class="lazyload shape-8" data-src="{{asset('front-assets/frontend/shapes/8.png')}}" alt="Shape" style="    width: 60px;">
+        <img class="lazyload shape-9" data-src="{{asset('front-assets/frontend/shapes/9.png')}}" alt="Shape" style="    width: 60px;">
+        {{-- <img class="lazyload shape-2" data-src="front-assets/frontend/images/shape/shape-2.png" alt="Shape">
+        <img class="lazyload shape-3" data-src="front-assets/frontend/images/shape/shape-3.png" alt="Shape">
+        <img class="lazyload shape-4" data-src="front-assets/frontend/images/shape/shape-4.png" alt="Shape">
+        <img class="lazyload shape-5" data-src="front-assets/frontend/images/shape/shape-5.png" alt="Shape">
+        <img class="lazyload shape-6" data-src="front-assets/frontend/images/shape/shape-6.png" alt="Shape">
+        <img class="lazyload shape-7" data-src="front-assets/frontend/images/shape/shape-7.png" alt="Shape"> --}}
+    </div>
+</section>
 
-	</head>
-	<body>
-		
-	<div class="fh5co-loader"></div>
-	
-	<div id="page">
-	<nav class="fh5co-nav" role="navigation">
-		<div class="container">
-			<div class="row">
-				<div class="col-xs-6 text-left">
-					<div id="fh5co-logo"><a href="{{url('/')}}"><img src="{{asset('front-assets/images/logo.png')}}" class="mobile-logo logo-1" alt="logo" style="    width: 200px;"></a></div>
-				</div>
-				<div class="col-xs-6 text-right">
-					<a href="{{route('templelogin')}}" target="_blank" class="btn btn-primary">Temple Login</a>
-					<a href="{{route('temple-register')}}" target="_blank" class="btn btn-primary">Temple Register</a>
+    <!-- Home End -->
 
-				</div>
-			</div>
-		</div>
-		
-	</nav>
-
-	<header id="fh5co-header" class="fh5co-cover" role="banner" style="background-image:url(front-assets/images/img_bg_1.jpg);">
-		<div class="overlay"></div>
-		<div class="container">
-			<div class="row">
-				<div class="col-md-8 col-md-offset-2 text-center">
-					<div class="display-t">
-						<div class="display-tc animate-box" data-animate-effect="fadeIn">
-							<h1>We Are Coming Very Soon!</h1>
-							
-							<div class="simply-countdown simply-countdown-one"></div>
-							<div class="row">
-								<h2>Stay Connected: Join Us on Our Journey!</h2>
-								
-								<ul class="fh5co-social-icons">
-									<li><a href="#"><i class="icon-twitter-with-circle"></i></a></li>
-									<li><a href="#"><i class="icon-facebook-with-circle"></i></a></li>
-									<li><a href="#"><i class="icon-linkedin-with-circle"></i></a></li>
-									<li><a href="#"><i class="icon-dribbble-with-circle"></i></a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</header>
-
-	<footer id="fh5co-footer" role="contentinfo">
-		<div class="container">
-
-			<div class="row copyright">
-				<div class="col-md-12 text-center">
-					<p>
-						<small class="block">&copy; 2024. All Rights Reserved.</small> 
-						<small class="block">Designed by <a href="http://freehtml5.co/" target="_blank">33Crores</a></small>
-					</p>
-					<p>
-						<ul class="fh5co-social-icons">
-							<li><a href="#"><i class="icon-twitter"></i></a></li>
-							<li><a href="#"><i class="icon-facebook"></i></a></li>
-							<li><a href="#"><i class="icon-linkedin"></i></a></li>
-							<li><a href="#"><i class="icon-dribbble"></i></a></li>
-						</ul>
-					</p>
-				</div>
-			</div>
-
-		</div>
-	</footer>
-	</div>
-
-	<div class="gototop js-top">
-		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
-	</div>
-	
-	<!-- jQuery -->
-	<script src="{{ asset('front-assets/js/jquery.min.js')}}"></script>
-	<!-- jQuery Easing -->
-	<script src="{{ asset('front-assets/js/jquery.easing.1.3.js')}}"></script>
-	<!-- Bootstrap -->
-	<script src="{{ asset('front-assets/js/bootstrap.min.js')}}"></script>
-	<!-- Waypoints -->
-	<script src="{{ asset('front-assets/js/jquery.waypoints.min.js')}}"></script>
-
-	<!-- Stellar -->
-	<script src="{{ asset('front-assets/js/jquery.stellar.min.js')}}"></script>
-
-	<!-- Count Down -->
-	<script src="{{ asset('front-assets/js/simplyCountdown.js')}}"></script>
-	<!-- Main -->
-	<script src="{{ asset('front-assets/js/main.js')}}"></script>
-
-	<script>
-    var d = new Date(new Date().getTime() + 800 * 120 * 120 * 2000);
-
-    // default example
-    simplyCountdown('.simply-countdown-one', {
-        year: d.getFullYear(),
-        month: d.getMonth() + 1,
-        day: d.getDate()
-    });
-
-    //jQuery example
-    $('#simply-countdown-losange').simplyCountdown({
-        year: d.getFullYear(),
-        month: d.getMonth() + 1,
-        day: d.getDate(),
-        enableUtc: false
-    });
-</script>
-
-	</body>
-</html>
-
+@endsection
