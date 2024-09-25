@@ -40,10 +40,17 @@ class TrustMemberController extends Controller
 
         return redirect()->route('templeuser.addtrustmember')->with('success', 'Member added successfully.');
     }
-    public function managetrustmember(){
-        $trustmembers = TempleTrustMemberDetail::where('status', 'active')->get(); // Fetch only active trust members
-        return view('templeuser.manage-trust-members', compact('trustmembers')); 
+    public function manageTrustMember()
+    {
+        $templeId = Auth::guard('temples')->user()->temple_id;
+    
+        $trustmembers = TempleTrustMemberDetail::where('status', 'active')
+            ->where('temple_id', $templeId)
+            ->get(); // Fetch only active trust members for the specific temple
+    
+        return view('templeuser.manage-trust-members', compact('trustmembers'));
     }
+    
     
     public function edit($id) {
         $trustmember = TempleTrustMemberDetail::findOrFail($id); // Find the trust member by ID

@@ -35,12 +35,17 @@ class TempleFestivalController extends Controller
      }
  
      // Display all festivals
-     public function managefestivals()
+     public function manageFestivals()
      {
-         $festivals = TempleFestival::where('status','active')->get();
+         $templeId = Auth::guard('temples')->user()->temple_id;
+     
+         $festivals = TempleFestival::where('status', 'active')
+             ->where('temple_id', $templeId)
+             ->get();
+     
          return view('templeuser.manage-festivals', compact('festivals'));
      }
- 
+     
      // Display the edit form
      public function edit($id)
      {

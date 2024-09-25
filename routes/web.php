@@ -11,7 +11,10 @@ use App\Http\Controllers\TempleUser\SocialMediaController;
 use App\Http\Controllers\TempleUser\TrustMemberController;
 use App\Http\Controllers\TempleUser\TempleFestivalController;
 use App\Http\Controllers\TempleUser\TempleNewsController;
+use App\Http\Controllers\TempleUser\TempleMandapController;
+use App\Http\Controllers\TempleUser\TemplePoojaController;
 use App\Http\Controllers\TempleUser\TempleDarshanController;
+use App\Http\Controllers\TempleUser\TempleBannerController;
 
 
 use App\Http\Controllers\TempleUser\TempleBankController;
@@ -86,6 +89,29 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
         Route::post('/update-temple-news/{id}', 'updateNews')->name('templenews.updateNews');
         Route::delete('/delete-temple-news/{id}', 'destroyNews')->name('templenews.destroyNews');
        
+    });
+    Route::controller(TempleMandapController::class)->group(function() {
+        Route::get('/add-temple-mandap', 'addmandap')->name('templemandap.mandap');
+        Route::post('/store-temple-mandap', 'storeMandap')->name('templemandap.storeMandap');
+        Route::get('/manage-temple-mandap', 'manageMandap')->name('templemandap.managemandap');
+         Route::get('/mandap/edit/{id}', 'edit')->name('templemandap.edit');
+        Route::put('/mandap/update/{id}', 'update')->name('templemandap.update');
+        Route::delete('/mandap/destroy/{id}', 'destroy')->name('templemandap.destroy');
+    });
+
+    Route::controller(TemplePoojaController::class)->group(function() {
+        Route::get('/add-temple-pooja', 'addPooja')->name('templepooja.pooja');
+        Route::post('/store-temple-pooja', 'storePooja')->name('templepooja.storepooja');
+        Route::get('/edit-temple-pooja/{id}', 'editPooja')->name('templepooja.editpooja');
+        Route::post('/update-temple-pooja/{id}', 'updatePooja')->name('templepooja.updatepooja');
+        Route::delete('/delete-temple-pooja/{id}', 'destroyPooja')->name('templepooja.destroypooja');
+        Route::get('/manage-temple-pooja', 'managePooja')->name('templepooja.managepooja');
+      
+    });
+
+    Route::controller(TempleBannerController::class)->group(function() {
+        Route::get('/add-temple-banner', 'addbanner')->name('templebanner.banner');
+        
     });
 
     Route::controller(TempleBankController::class)->group(function() {

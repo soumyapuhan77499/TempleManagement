@@ -19,7 +19,7 @@ class TempleNewsController extends Controller
     
 
         TempleNews::create([
-            'temple_id' => auth()->user()->temple_id, // Assuming temple_id is linked to user
+            'temple_id' =>  Auth::guard('temples')->user()->temple_id, // Assuming temple_id is linked to user
             'notice_name' => $request->notice_name,
             'notice_date' => $request->notice_date,
             'notice_descp' => $request->notice_descp,
@@ -31,9 +31,15 @@ class TempleNewsController extends Controller
     // Manage active news items
     public function manageNews()
     {
-        $newsList = TempleNews::where('status', 'active')->get();
+        $templeId = Auth::guard('temples')->user()->temple_id;
+    
+        $newsList = TempleNews::where('status', 'active')
+            ->where('temple_id', $templeId)
+            ->get();
+    
         return view('templeuser.manage-news', compact('newsList')); // Create this blade view for managing news
     }
+    
     // Show edit news form
     public function editNews($id)
     {

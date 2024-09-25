@@ -17,12 +17,12 @@
 					<!-- breadcrumb -->
 					<div class="breadcrumb-header justify-content-between">
 						<div class="left-content">
-						  <span class="main-content-title mg-b-0 mg-b-lg-1">Manage Trust Members</span>
+						  <span class="main-content-title mg-b-0 mg-b-lg-1">Manage Mandaps</span>
 						</div>
 						<div class="justify-content-center mt-2">
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item tx-15"><a href="javascript:void(0);">Tables</a></li>
-								<li class="breadcrumb-item active" aria-current="page">Manage Trust Members</li>
+								<li class="breadcrumb-item active" aria-current="page">Manage Mandaps</li>
 							</ol>
 						</div>
 					</div>
@@ -45,48 +45,43 @@
 							<div class="col-lg-12">
 								<div class="card custom-card overflow-hidden">
 									<div class="card-body">
-										
+									
 										<div class="table-responsive  export-table">
                                             <table id="file-datatable" class="table table-bordered text-nowrap key-buttons border-bottom">
                                                 <thead>
                                                     <tr>
                                                         <th class="border-bottom-0">#</th> <!-- Index column -->
-                                                        <th class="border-bottom-0">Name</th>
-                                                        <th class="border-bottom-0">Designation</th>
-                                                        <th class="border-bottom-0">About</th>
+                                                        <th class="border-bottom-0">Mandap Name</th>
+                                                        <th class="border-bottom-0">Mandap Type</th>
+                                                        <th class="border-bottom-0">Description</th>
+                                                        <th class="border-bottom-0">Event Name</th>
+                                                        <th class="border-bottom-0">Price</th>
                                                         <th class="border-bottom-0">Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach ($trustmembers as $index => $trustmember)
-                                                    <tr>
-                                                        <td>{{ $index + 1 }}</td>
-                                                        <td class="tb-col">
-                                                            <div class="media-group">
-                                                                <div class="media media-md media-middle media-circle">
-                                                                    <img src="{{ asset('storage/' .$trustmember->member_photo) }}" alt="user" style="width: 50px; height: 50px;"> <!-- Adjust image size -->
-                                                                </div>
-                                                                <div class="media-text" style="color: blue">
-                                                                    <a style="color: blue" href="#" class="title">{{ $trustmember->member_name }}</a> <!-- Corrected to member_name -->
-                                                                    <span class="small text">{{ $trustmember->member_contact_no }}</span> <!-- Assuming contact_number exists -->
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>{{ $trustmember->member_designation }}</td> <!-- Assuming member_designation exists -->
-                                                        <td>{{ $trustmember->about_member }}</td> <!-- Assuming about_member exists -->
-                                                        <td>
-                                                            <!-- Actions (edit/delete buttons, etc.) can be added here -->
-                                                            <a href="{{ route('templeuser.editTrustMember', $trustmember->id) }}" class="btn btn-warning">Edit</a>
-                                                            <form action="{{ route('templeuser.deleteTrustMember', $trustmember->id) }}" method="POST" style="display:inline;">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
-                                                            </form>
-                                                        </td>
-                                                    </tr>
+                                                    @foreach($mandaps as $index => $mandap)
+                                                        <tr>
+                                                            <td>{{ $index + 1 }}</td> <!-- Display index -->
+                                                            <td>{{ $mandap->mandap_name }}</td> <!-- Mandap Name -->
+                                                            <td>{{ $mandap->booking_type }}</td> <!-- Mandap Type -->
+                                                            <td>{{ $mandap->mandap_description ?? 'N/A' }}</td> <!-- Description -->
+                                                            <td>{{ $mandap->event_name ?? 'N/A' }}</td> <!-- Event Name (or 'N/A' if not set) -->
+                                                            <td>{{ $mandap->price_per_day }}</td> <!-- Price -->
+                                                            <td>
+                                                                <!-- Action buttons (e.g., edit, delete) -->
+                                                                <a href="{{ route('templemandap.edit', $mandap->id) }}" class="btn btn-warning">Edit</a>
+                                                                <form action="{{ route('templemandap.destroy', $mandap->id) }}" method="POST" style="display:inline;">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this mandap?')">Delete</button>
+                                                                </form>
+                                                            </td>
+                                                        </tr>
                                                     @endforeach
                                                 </tbody>
                                             </table>
+                                            
 										</div>
 									</div>
 								</div>

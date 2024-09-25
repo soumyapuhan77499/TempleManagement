@@ -17,12 +17,12 @@
 					<!-- breadcrumb -->
 					<div class="breadcrumb-header justify-content-between">
 						<div class="left-content">
-						  <span class="main-content-title mg-b-0 mg-b-lg-1">Manage Trust Members</span>
+						  <span class="main-content-title mg-b-0 mg-b-lg-1">Manage Pooja</span>
 						</div>
 						<div class="justify-content-center mt-2">
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item tx-15"><a href="javascript:void(0);">Tables</a></li>
-								<li class="breadcrumb-item active" aria-current="page">Manage Trust Members</li>
+								<li class="breadcrumb-item active" aria-current="page">Manage Pooja</li>
 							</ol>
 						</div>
 					</div>
@@ -48,36 +48,59 @@
 										
 										<div class="table-responsive  export-table">
                                             <table id="file-datatable" class="table table-bordered text-nowrap key-buttons border-bottom">
+
                                                 <thead>
                                                     <tr>
                                                         <th class="border-bottom-0">#</th> <!-- Index column -->
-                                                        <th class="border-bottom-0">Name</th>
-                                                        <th class="border-bottom-0">Designation</th>
-                                                        <th class="border-bottom-0">About</th>
+                                                        <th class="border-bottom-0">Pooja Name</th>
+                                                        <th class="border-bottom-0">Price</th>
+                                                        <th class="border-bottom-0">Pooja Image</th>
+                                                        <th class="border-bottom-0">Pooja Description</th>
                                                         <th class="border-bottom-0">Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach ($trustmembers as $index => $trustmember)
+                                                    @foreach($poojaList as $index => $pooja)
                                                     <tr>
-                                                        <td>{{ $index + 1 }}</td>
-                                                        <td class="tb-col">
-                                                            <div class="media-group">
-                                                                <div class="media media-md media-middle media-circle">
-                                                                    <img src="{{ asset('storage/' .$trustmember->member_photo) }}" alt="user" style="width: 50px; height: 50px;"> <!-- Adjust image size -->
-                                                                </div>
-                                                                <div class="media-text" style="color: blue">
-                                                                    <a style="color: blue" href="#" class="title">{{ $trustmember->member_name }}</a> <!-- Corrected to member_name -->
-                                                                    <span class="small text">{{ $trustmember->member_contact_no }}</span> <!-- Assuming contact_number exists -->
+                                                        <td>{{ $index + 1 }}</td> <!-- Display index -->
+                                                        <td>{{ $pooja->pooja_name }}</td> <!-- Display pooja name -->
+                                                        <td>₹ {{sprintf('%.2f', $pooja->pooja_price )}}</td> <!-- Display pooja price -->
+                                                        <td>
+                                                            @if($pooja->pooja_image)
+                                                            <!-- View Image Button -->
+                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#poojaImageModal{{ $pooja->id }}">
+                                                                View Image
+                                                            </button>
+                                                            @else
+                                                            <span>No Image</span>
+                                                            @endif
+                                                        </td>
+                                                        
+                                                        <!-- Modal for Viewing the Pooja Image -->
+                                                        @if($pooja->pooja_image)
+                                                        <div class="modal fade" id="poojaImageModal{{ $pooja->id }}" tabindex="-1" aria-labelledby="poojaImageModalLabel{{ $pooja->id }}" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="poojaImageModalLabel{{ $pooja->id }}">Pooja Image</h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body text-center">
+                                                                        <!-- Displaying the Pooja Image -->
+                                                                        <img src="{{ asset('storage/' . $pooja->pooja_image) }}" alt="Pooja Image" style="max-width: 100%; height: auto; border-radius: 5px;">
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </td>
-                                                        <td>{{ $trustmember->member_designation }}</td> <!-- Assuming member_designation exists -->
-                                                        <td>{{ $trustmember->about_member }}</td> <!-- Assuming about_member exists -->
+                                                        </div>
+                                                        @endif
+                                                        
+                                                        <td>{{ $pooja->pooja_descp }}</td> <!-- Display pooja description -->
                                                         <td>
-                                                            <!-- Actions (edit/delete buttons, etc.) can be added here -->
-                                                            <a href="{{ route('templeuser.editTrustMember', $trustmember->id) }}" class="btn btn-warning">Edit</a>
-                                                            <form action="{{ route('templeuser.deleteTrustMember', $trustmember->id) }}" method="POST" style="display:inline;">
+                                                            <!-- Edit button -->
+                                                            <a href="{{ route('templepooja.editpooja', $pooja->id) }}" class="btn btn-warning">Edit</a>
+                                                            
+                                                            <!-- Delete form (soft delete, change status to deactive) -->
+                                                            <form action="{{ route('templepooja.destroypooja', $pooja->id) }}" method="POST" style="display:inline;">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
@@ -87,6 +110,7 @@
                                                     @endforeach
                                                 </tbody>
                                             </table>
+                                            
 										</div>
 									</div>
 								</div>
