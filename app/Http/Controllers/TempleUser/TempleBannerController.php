@@ -34,14 +34,14 @@ class TempleBannerController extends Controller
             'status' => 'active',
         ]);
     
-        return redirect()->route('templebanner.banner')->with('success', 'Banner added successfully!');
+        return redirect()->route('templebanner.managebanner')->with('success', 'Banner added successfully!');
     }
     
     // Edit banner
     public function editBanner($id)
     {
         $banner = TempleBanner::findOrFail($id);
-        return view('temple.edit-banner', compact('banner'));
+        return view('templeuser.edit-banner', compact('banner'));
     }
     
     // Update banner
@@ -66,7 +66,7 @@ class TempleBannerController extends Controller
             $banner->status = 'active'; // Default to active
             $banner->save();
         
-            return redirect()->route('templebanner.banner')->with('success', 'Banner updated successfully!');
+            return redirect()->route('templebanner.managebanner')->with('success', 'Banner updated successfully!');
         
     }
     public function manageBanner()
@@ -80,7 +80,18 @@ class TempleBannerController extends Controller
                                 ->get();
         
         // Pass the banners to the view
-        return view('temple.managebanner', compact('banners'));
+        return view('templeuser.manage-banner', compact('banners'));
     }
+    public function deleteBanner($id)
+    {
+        $banner = TempleBanner::findOrFail($id);
+        
+        // Change the status from 'active' to 'deactive'
+        $banner->status = 'deactive';
+        $banner->save();
+
+        return redirect()->route('templebanner.managebanner')->with('success', 'Banner deactivated successfully!');
+    }
+
 
 }

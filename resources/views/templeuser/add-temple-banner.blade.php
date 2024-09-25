@@ -17,12 +17,12 @@
 					<!-- breadcrumb -->
 					<div class="breadcrumb-header justify-content-between">
 						<div class="left-content">
-						<span class="main-content-title mg-b-0 mg-b-lg-1">Add Pooja</span>
+						<span class="main-content-title mg-b-0 mg-b-lg-1">Add Banner Image</span>
 						</div>
 						<div class="justify-content-center mt-2">
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item tx-15"><a href="javascript:void(0);">Dashboard</a></li>
-								<li class="breadcrumb-item active" aria-current="page">Add Pooja</li>
+								<li class="breadcrumb-item active" aria-current="page">Add Banner Image</li>
 							</ol>
 						</div>
 					</div>
@@ -53,8 +53,12 @@
 														<div class="form-group">
 															<label for="banner_image">Banner Image<span style="color:red">*</span></label>
 															<input type="file" class="form-control" id="banner_image" name="banner_image" required>
+															<small class="form-text text-red" style="color:red">
+																For web banner image, the size is 1900x600 and for app banner image, the size is 1000x400.
+															</small>
 														</div>
 													</div>
+													
 													<div class="col-md-6">
 														<div class="form-group">
 															<label for="banner_type">Type<span style="color:red">*</span></label>

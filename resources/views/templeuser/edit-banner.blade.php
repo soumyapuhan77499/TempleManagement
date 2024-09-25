@@ -17,12 +17,12 @@
 					<!-- breadcrumb -->
 					<div class="breadcrumb-header justify-content-between">
 						<div class="left-content">
-						<span class="main-content-title mg-b-0 mg-b-lg-1">Add Pooja</span>
+						<span class="main-content-title mg-b-0 mg-b-lg-1">Edit Banner Image</span>
 						</div>
 						<div class="justify-content-center mt-2">
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item tx-15"><a href="javascript:void(0);">Dashboard</a></li>
-								<li class="breadcrumb-item active" aria-current="page">Add Pooja</li>
+								<li class="breadcrumb-item active" aria-current="page">Edit Banner Image</li>
 							</ol>
 						</div>
 					</div>
