@@ -102,7 +102,7 @@
 									<ul class="slide-menu">
 										
 										<li><a class="slide-item" href="{{route('templebanner.banner')}}">Add Banner</a></li>
-										<li><a class="slide-item" href="{{route('templebanner.managebanner')}}">Manage Banners</a></li>
+										<li><a class="slide-item" href="">Manage Banners</a></li>
 										
 									</ul>
 								</li>
