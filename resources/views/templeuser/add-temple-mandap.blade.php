@@ -66,36 +66,44 @@
 															
 															<div id="mandap_fields">
 																<div class="mandap-field-group">
-																	<div class="form-group">
+																	<div class="row">
+
+																	<div class="form-group  col-md-6">
 																		<label for="mandap_name">Mandap Name <span style="color:red">*</span></label>
 																		<input type="text" class="form-control" name="mandap_name" placeholder="Mandap Name" required>
 																	</div>
-																	<div class="form-group">
-																		<label for="mandap_description">Mandap Description</label>
-																		<textarea class="form-control" name="mandap_description" placeholder="Mandap Description"></textarea>
-																	</div>
-																	<div class="form-group">
+																	<div class="form-group  col-md-6">
 																		<label for="booking_type">Booking Type <span style="color:red">*</span></label>
 																		<select name="booking_type" class="form-control booking-type" onchange="toggleEventNameField(this)">
 																			<option value="day-basis">Day Basis</option>
 																			<option value="event-basis">Event Basis</option>
 																		</select>
 																	</div>
-																		<!-- Event Name Field - Hidden initially -->
-																	<div class="form-group event-name-section" style="display:none;">
-																		<label for="event_name">Event Name</label>
-																		<input type="text" class="form-control" name="event_name" placeholder="Event Name">
+																</div>
+
+																	<div class="row">
+																		<div class="form-group event-name-section col-md-6" style="display:none;">
+																			<label for="event_name">Event Name</label>
+																			<input type="text" class="form-control" name="event_name" placeholder="Event Name">
+																		</div>
+																		<!-- Price Per Day Field -->
+																		<div class="form-group col-md-6">
+																			<label for="price_per_day">Price <span style="color:red">*</span></label>
+																			<input type="number" class="form-control" name="price_per_day" placeholder="Price Per Day" required>
+																		</div>
 																	</div>
-																	<!-- Price Per Day Field -->
 																	<div class="form-group">
-																		<label for="price_per_day">Price <span style="color:red">*</span></label>
-																		<input type="number" class="form-control" name="price_per_day" placeholder="Price Per Day" required>
+																		<label for="mandap_description">Mandap Description</label>
+																		<textarea class="form-control" name="mandap_description" placeholder="Mandap Description"></textarea>
 																	</div>
-																
+																	
 																</div>
 															</div>
 															<!-- Button to Add More Mandap Fields -->
+															<div class="form-group text-center">
+
 															<button type="submit" class="btn btn-primary mt-3">Submit</button>
+															</div>
 														</div>
 													</div>
 												</div>

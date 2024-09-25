@@ -145,7 +145,7 @@
                                                                 </div>
                                                             </div>
                                                         </form>
-                                                            <hr>
+                                                            <hr> 
                                                             <!-- Modal for Image -->
                                                             @if (!empty($darshan->darshan_image))
                                                                 <div class="modal fade" id="imageModal{{ $darshanIndex }}" tabindex="-1" aria-labelledby="imageModalLabel{{ $darshanIndex }}" aria-hidden="true">
