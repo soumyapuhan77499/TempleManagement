@@ -52,14 +52,18 @@
 												<div class="row">
 													<div class="col-md-6">
 														<div class="form-group">
-															<label for="pooja_name">Web banner image<span style="color:red">*</span></label>
+															<label for="pooja_name">Banner image<span style="color:red">*</span></label>
 															<input type="file" class="form-control" id="pooja_name" name="pooja_name" required>
 														</div>
 													</div>
 													<div class="col-md-6">
 														<div class="form-group">
-															<label for="pooja_price">App Banner Image <span style="color:red">*</span></label>
-															<input type="file" class="form-control" id="pooja_price" name="pooja_price" required>
+															<label for="pooja_price">Type<span style="color:red">*</span></label>
+															<select name="type" id="" class="form-control">
+																<option value="web">Web</option>
+																<option value="type">App</option>
+
+															</select>
 														</div>
 													</div>
 												</div>
