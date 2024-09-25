@@ -246,7 +246,7 @@ label {
     @yield('content')
 
     <!-- Footer Section -->
-    @includeIf('front.partials.footer')
+    @includeIf('partials.footer')
 
     <!-- Go to Top -->
     <div class="go-top"><i class="fal fa-angle-double-up"></i></div>

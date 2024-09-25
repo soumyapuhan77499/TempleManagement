@@ -1752,8 +1752,8 @@ body.mobile-menu-active {
 }
 
 .store-area .shape img.shape-1 {
-  top: 13%;
-  left: 40%;
+  top: 0%;
+  left: 84%;
   animation: moveLeftRight 10s linear infinite;
 }
 
@@ -1903,11 +1903,10 @@ body.mobile-menu-active {
 }
 
 .template-area .shape img.shape-8 {
-  bottom: 41%;
+  bottom: 76%;
   right: 10%;
   animation: moveAround 20s linear infinite;
 }
-
 .template-area .shape img.shape-9 {
   bottom: 2%;
   right: 36%;

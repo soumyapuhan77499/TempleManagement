@@ -14078,14 +14078,14 @@ a.tag-addon:hover {
 }
 
 :root {
-  --primary-bg-color: #38cab3;
+  --primary-bg-color: #ff6b6b;
   --primary-bg-hover: #5cd3b9;
-  --primary-bg-border: #38cab3;
+  --primary-bg-border: #ff6b6b;
   --primary02: rgba(28, 213, 174, 0.2);
   --primary05: rgba(28, 213, 174, 0.5);
   --primary-transparentcolor: rgba(28, 213, 174, 0.2);
   --transparentprimary-transparentcolor: rgba(255, 255, 255, 0.05);
-  --transparent-body: #38cab3;
+  --transparent-body: #ff6b6b;
   --transparent-theme: rgba(0, 0, 0, 0.1);
   --blue: $primary;
   --indigo: $primary;
