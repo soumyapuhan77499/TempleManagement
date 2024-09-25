@@ -46,31 +46,35 @@
 											<h4 class="card-title">Temple About</h4>
 										</div> --}}
 										<div class="card-body pt-0 pt-4">
-											<form method="POST" enctype="multipart/form-data" action="{{ route('templebanner.storeBanner') }}">
-												@csrf
-												<div class="row">
-													<div class="col-md-6">
-														<div class="form-group">
-															<label for="banner_image">Banner Image<span style="color:red">*</span></label>
-															<input type="file" class="form-control" id="banner_image" name="banner_image" required>
-														</div>
-													</div>
-													<div class="col-md-6">
-														<div class="form-group">
-															<label for="banner_type">Type<span style="color:red">*</span></label>
-															<select name="banner_type" id="banner_type" class="form-control">
-																<option value="web">Web</option>
-																<option value="app">App</option>
-															</select>
-														</div>
-													</div>
-												</div>
-												<div class="form-group">
-													<label for="banner_descp">Description</label>
-													<textarea name="banner_descp" class="form-control" id="banner_descp"></textarea>
-												</div>
-												<button type="submit" class="btn btn-primary">Submit</button>
-											</form>
+                                            <form method="POST" enctype="multipart/form-data" action="{{ route('templebanner.updateBanner', $banner->id) }}">
+                                                @csrf
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="banner_image">Banner Image<span style="color:red">*</span></label>
+                                                            <input type="file" class="form-control" id="banner_image" name="banner_image">
+                                                            @if($banner->banner_image)
+                                                                <img src="{{ asset('storage/' . $banner->banner_image) }}" alt="Banner Image" width="100">
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="banner_type">Type<span style="color:red">*</span></label>
+                                                            <select name="banner_type" id="banner_type" class="form-control">
+                                                                <option value="web" {{ $banner->banner_type == 'web' ? 'selected' : '' }}>Web</option>
+                                                                <option value="app" {{ $banner->banner_type == 'app' ? 'selected' : '' }}>App</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="banner_descp">Description</label>
+                                                    <textarea name="banner_descp" class="form-control" id="banner_descp">{{ $banner->banner_descp }}</textarea>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Update</button>
+                                            </form>
+                                            
 											
 											
                                             

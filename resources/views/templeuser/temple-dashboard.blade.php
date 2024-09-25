@@ -78,7 +78,7 @@
 								<div class="card-body pt-0 example1-table">
 									<form action="{{ route('temple_about_details.update', $temple->temple_id ?? '') }}" method="POST" enctype="multipart/form-data">
 										@csrf
-										@method('PUT') <!-- Assuming it's an update or create -->
+										@method('PUT')
 									
 										<!-- Temple About Field -->
 										<div class="form-group">
@@ -98,7 +98,7 @@
 											<label class="form-check-label" for="endowment_checkbox">Endowment</label>
 										</div>
 									
-										<div id="endowment_fields" class="mt-2" style="display:none;">
+										<div id="endowment_fields" class="mt-2" style="display: {{ $temple && $temple->endowment ? 'block' : 'none' }};">
 											<div class="row">
 												<div class="col-md-6">
 													<div class="form-group">
@@ -110,7 +110,7 @@
 													<div class="form-group">
 														<label for="endowment_document">Upload Endowment Document</label>
 														<input type="file" class="form-control" id="endowment_document" name="endowment_document">
-														@if($temple->endowment_document)
+														@if($temple && $temple->endowment_document)
 														<div class="mt-2">
 															<label>Current Endowment Document:</label>
 															<div>
@@ -120,7 +120,7 @@
 																</button>
 															</div>
 														</div>
-
+									
 														<!-- Modal for Viewing the Image -->
 														<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
 															<div class="modal-dialog modal-dialog-centered">
@@ -135,8 +135,9 @@
 																</div>
 															</div>
 														</div>
+														@else
+														<p>No Endowment Document available.</p>
 														@endif
-
 													</div>
 												</div>
 											</div>
@@ -148,7 +149,7 @@
 											<label class="form-check-label" for="trust_checkbox">Trust</label>
 										</div>
 									
-										<div id="trust_fields" class="mt-2" style="display:none;">
+										<div id="trust_fields" class="mt-2" style="display: {{ $temple && $temple->trust ? 'block' : 'none' }};">
 											<div class="row">
 												<div class="col-md-6">
 													<div class="form-group">
@@ -160,7 +161,7 @@
 													<div class="form-group">
 														<label for="trust_document">Upload Trust Document</label>
 														<input type="file" class="form-control" id="trust_document" name="trust_document">
-														@if($temple->trust_document)
+														@if($temple && $temple->trust_document)
 														<div class="mt-2">
 															<label>Current Trust Document:</label>
 															<div>
@@ -170,7 +171,7 @@
 																</button>
 															</div>
 														</div>
-														
+									
 														<!-- Modal for Viewing the Trust Document -->
 														<div class="modal fade" id="trustDocumentModal" tabindex="-1" aria-labelledby="trustDocumentModalLabel" aria-hidden="true">
 															<div class="modal-dialog modal-dialog-centered">
@@ -185,15 +186,22 @@
 																</div>
 															</div>
 														</div>
+														@else
+														<p>No Trust Document available.</p>
 														@endif
-														
 													</div>
 												</div>
 											</div>
 										</div>
 									
 										<button type="submit" class="btn btn-primary">Submit</button>
+									
+										<!-- Display message if no details are available -->
+										@if (!$temple)
+											<div class="alert alert-warning mt-3">No details available for this temple.</div>
+										@endif
 									</form>
+									
 									
 									
 								

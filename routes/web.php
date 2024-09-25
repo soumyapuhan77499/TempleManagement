@@ -110,8 +110,12 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
     });
 
     Route::controller(TempleBannerController::class)->group(function() {
-        Route::get('/add-temple-banner', 'addbanner')->name('templebanner.banner');
-        
+        Route::get('/add-temple-banner', 'addBanner')->name('templebanner.banner');
+        Route::post('/store-temple-banner', 'storeBanner')->name('templebanner.storeBanner');
+        Route::get('/edit-temple-banner/{id}', 'editBanner')->name('templebanner.editBanner');
+        Route::post('/update-temple-banner/{id}', 'updateBanner')->name('templebanner.updateBanner');
+        Route::delete('/delete-temple-banner/{id}', 'deleteBanner')->name('templebanner.deleteBanner');
+        Route::get('/manage-temple-banner', 'manageBanner')->name('templebanner.managebanner');
     });
 
     Route::controller(TempleBankController::class)->group(function() {
