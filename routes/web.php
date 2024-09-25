@@ -4,7 +4,6 @@
 use Illuminate\Support\Facades\Route;
 ## Home Controller
 
-
 ## Temple user Controller
 use App\Http\Controllers\TempleUser\TempleUserController;
 use App\Http\Controllers\TempleUser\TempleRegistrationController;
@@ -13,6 +12,7 @@ use App\Http\Controllers\TempleUser\TrustMemberController;
 use App\Http\Controllers\TempleUser\TempleFestivalController;
 use App\Http\Controllers\TempleUser\TempleNewsController;
 use App\Http\Controllers\TempleUser\TempleDarshanController;
+
 
 use App\Http\Controllers\TempleUser\TempleBankController;
 use App\Http\Controllers\TempleUser\TempleDailyRitualController;
@@ -78,6 +78,7 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
         Route::delete('/festival/{id}', 'destroy')->name('templefestival.destroy');
     });
     Route::controller(TempleNewsController::class)->group(function() {
+
         Route::get('/add-temple-news', 'addNews')->name('templenews.addNews');
         Route::post('/store-temple-news', 'storeNews')->name('templenews.storeNews');
         Route::get('/manage-temple-news', 'manageNews')->name('templenews.manageNews');
@@ -110,6 +111,14 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
         Route::put('/updateyearlyritual/{id}',  'updateYearlyRitual')->name('update.yearly-ritual');
     });
 
+    Route::controller(TempleDarshanController::class)->group(function() {
+        Route::get('/add-temple-darshan', 'templeDarshan')->name('add-templedarshan');
+        Route::get('/manage-temple-darshan', 'ManageTempleDarshan')->name('manage-templedarshan');
+        Route::post('/savetempledarshan','saveTempleDarshan')->name('templeuser.savetempledarshan');
+        Route::post('/update-darshan', 'updateTempleDarshan')->name('templeuser.updateDarshan');
+        Route::post('/delete-darshan/{id}',  'deleteTempleDarshan')->name('templeuser.deleteDarshan');
+    });
+
 });
 
 ## super admin Routes
@@ -128,7 +137,7 @@ Route::prefix('superadmin')->middleware(['superadmin'])->group(function () {
         Route::get('/temple-requests', 'templerequests')->name('templerequests');
 
     });
-  
+
 });
 
 

@@ -193,7 +193,5 @@
             wrapper.querySelector('.remove-ritual-btn').style.display = 'none';
         });
     });
-
-
 </script>
 @endsection

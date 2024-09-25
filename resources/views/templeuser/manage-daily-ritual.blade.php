@@ -31,17 +31,21 @@
                 @endif
 
                 <div class="card-body">
-                    <div class="panel-group1" id="accordion11" role="tablist">
-                        @foreach ($weekDays as $index => $day)
-                            <div class="card overflow-hidden">
-                                <a class="accordion-toggle panel-heading1 collapsed" data-bs-toggle="collapse"
-                                    data-bs-parent="#accordion11" href="#collapseDay{{ $index }}"
-                                    aria-expanded="false" style="font-weight: bold;color: black">
-                                    {{ $day }}
-                                </a>
-                                <div id="collapseDay{{ $index }}" class="panel-collapse collapse" role="tabpanel"
-                                    aria-expanded="false">
-                                    <div class="panel-body">
+                   <div class="panel-group1" id="accordion11" role="tablist">
+                    @foreach ($weekDays as $index => $day)
+                        <div class="card overflow-hidden">
+                            <a class="accordion-toggle panel-heading1 collapsed" 
+                               data-bs-toggle="collapse" 
+                               data-bs-parent="#accordion11" 
+                               href="#collapseDay{{ $index }}" 
+                               aria-expanded="false" style="font-sie: 25px;font-weight: bold;color: black">
+                               {{ $day }}
+                            </a>
+                            <div id="collapseDay{{ $index }}" 
+                                 class="panel-collapse collapse" 
+                                 role="tabpanel" 
+                                 aria-expanded="false">
+                                <div class="panel-body">
                                         <div class="row row-sm">
                                             <div class="col-lg-12 col-md-12">
                                                 <div class="custom-card main-content-body-profile">
@@ -101,7 +105,7 @@
                                                                                 <div class="form-group">
                                                                                     <label for="ritual_start_time">Ritual Start Time</label>
                                                                                     <div class="input-group">
-                                                                                        <input type="time" class="form-control" name="ritual_start_time[]" value="{{ date('H:i', strtotime($ritual->ritual_start_time)) }}">
+                                                                                        <input type="time" style="width: 60px" class="form-control" name="ritual_start_time[]" value="{{ date('H:i', strtotime($ritual->ritual_start_time)) }}">
                                                                                         <select class="form-control" name="ritual_start_period[]">
                                                                                             <option value="AM" {{ $ritual->ritual_start_period == 'AM' ? 'selected' : '' }}>AM</option>
                                                                                             <option value="PM" {{ $ritual->ritual_start_period == 'PM' ? 'selected' : '' }}>PM</option>
@@ -115,7 +119,7 @@
                                                                                 <div class="form-group">
                                                                                     <label for="ritual_end_time">Ritual End Time</label>
                                                                                     <div class="input-group">
-                                                                                        <input type="time" class="form-control" name="ritual_end_time[]" value="{{ date('H:i', strtotime($ritual->ritual_end_time)) }}">
+                                                                                        <input type="time" style="width: 60px" class="form-control" name="ritual_end_time[]" value="{{ date('H:i', strtotime($ritual->ritual_end_time)) }}">
                                                                                         <select class="form-control" name="ritual_end_period[]">
                                                                                             <option value="AM" {{ $ritual->ritual_end_period == 'AM' ? 'selected' : '' }}>AM</option>
                                                                                             <option value="PM" {{ $ritual->ritual_end_period == 'PM' ? 'selected' : '' }}>PM</option>
@@ -123,9 +127,17 @@
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
+                                                                            <div class="col-md-2">
+                                                                                <div class="form-group">
+                                                                                    <label for="ritual_end_time">Ritual Duration</label>
+                                                                                    <div class="input-group">
+                                                                                        <input type="text" style="width: 60px" class="form-control"  value="{{  $ritual->ritual_duration }}" disabled>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
                 
                                                                             <!-- Description -->
-                                                                            <div class="col-md-6">
+                                                                            <div class="col-md-4">
                                                                                 <div class="form-group">
                                                                                     <label for="description">Description</label>
                                                                                     <textarea class="form-control" name="description[]" rows="1">{{ $ritual->description }}</textarea>
@@ -150,7 +162,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </form>
-                
+                                                                <hr>
                                                                 <!-- Modal for Image -->
                                                                 @if (!empty($ritual->ritual_image))
                                                                     <div class="modal fade" id="imageModal{{ $ritualIndex }}" tabindex="-1" aria-labelledby="imageModalLabel{{ $ritualIndex }}" aria-hidden="true">
