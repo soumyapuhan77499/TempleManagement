@@ -47,7 +47,7 @@ class TempleLoginController extends Controller
             $body = json_decode($response->getBody(), true);
 
             // Log the response for debugging
-            Log::info("Response Body: " . print_r($body, true));
+            // Log::info("Response Body: " . print_r($body, true));
 
             if (isset($body['orderId'])) {
                 $orderId = $body['orderId'];
