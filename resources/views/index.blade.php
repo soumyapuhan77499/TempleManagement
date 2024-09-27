@@ -320,9 +320,7 @@
         <div class="shape">
             <img class="lazyload shape-4" data-src="{{asset('front-assets/frontend/shapes/2.png')}}" alt="Shape" style="    width: 60px;">
             <img class="lazyload shape-5" data-src="{{asset('front-assets/frontend/shapes/5.png')}}" alt="Shape" style="    width: 60px;">
-            <img class="lazyload shape-6" data-src="{{asset('front-assets/frontend/shapes/6.png')}}" alt="Shape" style="    width: 60px;">
-            <img class="lazyload shape-8" data-src="{{asset('front-assets/frontend/shapes/8.png')}}" alt="Shape" style="    width: 60px;">
-           
+          
         </div>
     </section>
     <!-- Testimonial End -->

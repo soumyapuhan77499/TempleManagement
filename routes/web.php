@@ -15,6 +15,7 @@ use App\Http\Controllers\TempleUser\TempleMandapController;
 use App\Http\Controllers\TempleUser\TemplePoojaController;
 use App\Http\Controllers\TempleUser\TempleDarshanController;
 use App\Http\Controllers\TempleUser\TempleBannerController;
+use App\Http\Controllers\TempleUser\TemplePrasadController;
 
 
 use App\Http\Controllers\TempleUser\TempleBankController;
@@ -116,6 +117,11 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
         Route::post('/update-temple-banner/{id}', 'updateBanner')->name('templebanner.updateBanner');
         Route::delete('/delete-temple-banner/{id}', 'deleteBanner')->name('templebanner.deleteBanner');
         Route::get('/manage-temple-banner', 'manageBanner')->name('templebanner.managebanner');
+    });
+
+    Route::controller(TemplePrasadController::class)->group(function() {
+        Route::get('/add-temple-prasad', 'addPrasad')->name('templeprasad.prasad');
+     
     });
 
     Route::controller(TempleBankController::class)->group(function() {
