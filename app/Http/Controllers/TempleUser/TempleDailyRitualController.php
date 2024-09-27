@@ -20,7 +20,9 @@ class TempleDailyRitualController extends Controller
     
     public function manageDailyRitual()
     {
-        $rituals = TempleRitual::where('status', 'active')->get();
+        $templeId = Auth::guard('temples')->user()->temple_id;
+
+        $rituals = TempleRitual::where('status', 'active')->where('temple_id', $templeId)->get();
     
         $groupedRituals = $rituals->groupBy('ritual_day_name');
     

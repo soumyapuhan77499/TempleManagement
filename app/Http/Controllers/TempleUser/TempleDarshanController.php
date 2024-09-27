@@ -21,7 +21,9 @@ class TempleDarshanController extends Controller
 
     public function ManageTempleDarshan(){
 
-        $darshans = TempleDarshan::where('status', 'active')->get();
+        $templeId = Auth::guard('temples')->user()->temple_id;
+
+        $darshans = TempleDarshan::where('status', 'active')->where('temple_id', $templeId)->get();
     
         $groupedDarshans = $darshans->groupBy('darshan_day');
     
