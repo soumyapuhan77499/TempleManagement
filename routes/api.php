@@ -19,10 +19,10 @@ Route::controller(TempleRegisterController::class)->group(function() {
 Route::controller(TempleLoginController::class)->group(function() {
     Route::post('/send-otp',  'sendOtp');
     Route::post('/verify-otp', 'verifyOtp');
-    Route::post('/logout', 'logout')->middleware('auth:temples');
+    Route::post('/logout', 'logout')->middleware('auth:sanctum');
 });
 
-Route::middleware('auth:temples')->group(function () {
+Route::middleware('auth:sanctum')->group(function () {
   Route::post('/update-temple-details', [TempleAboutController::class, 'updateTempleDetails']);
 });
 

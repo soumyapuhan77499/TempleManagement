@@ -67,7 +67,9 @@
 					<!-- row closed -->
 
 				
-
+					@foreach ($errors->all() as $error)
+					<li>{{ $error }}</li>
+				@endforeach
 					<!-- row  -->
 					<div class="row">
 						<div class="col-12 col-sm-12">
@@ -94,7 +96,7 @@
 									
 										<!-- Endowment Checkbox and Fields -->
 										<div class="form-check">
-											<input type="checkbox" class="form-check-input" id="endowment_checkbox" name="endowment" value="1" {{ $temple && $temple->endowment ? 'checked' : '' }}>
+											<input type="checkbox" class="form-check-input" id="endowment_checkbox" name="endowment" value="endowment" {{ $temple && $temple->endowment ? 'checked' : '' }}>
 											<label class="form-check-label" for="endowment_checkbox">Endowment</label>
 										</div>
 									
@@ -145,7 +147,7 @@
 									
 										<!-- Trust Checkbox and Fields -->
 										<div class="form-check">
-											<input type="checkbox" class="form-check-input" id="trust_checkbox" name="trust" value="1" {{ $temple && $temple->trust ? 'checked' : '' }}>
+											<input type="checkbox" class="form-check-input" id="trust_checkbox" name="trust" value="trust" {{ $temple && $temple->trust ? 'checked' : '' }}>
 											<label class="form-check-label" for="trust_checkbox">Trust</label>
 										</div>
 									

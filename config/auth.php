@@ -45,7 +45,11 @@ return [
             'provider' => 'superadmins',
         ],
         'temples' => [
-            'driver' => 'sanctum',  // Use sanctum or passport for token-based API authentication
+            'driver' => 'session',  // web authentication
+            'provider' => 'temples',
+        ],
+        'api' => [
+            'driver' => 'sanctum', // api authentication
             'provider' => 'temples',
         ],
        

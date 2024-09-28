@@ -13,19 +13,19 @@ class TempleAboutController extends Controller
     {
         try {
             // Validate the request data
-            $validated = $request->validate([
-                'temple_about' => 'required|string',
-                'temple_history' => 'required|string',
-                'endowment' => 'required|string|in:yes,no',
-                'endowment_register_no' => 'nullable|string',
-                'endowment_document' => 'nullable|file|mimes:pdf,jpeg,png|max:3048', // Added file size limit
-                'trust' => 'required|string|in:yes,no',
-                'trust_register_no' => 'nullable|string',
-                'trust_document' => 'nullable|file|mimes:pdf,jpeg,png|max:3048', // Added file size limit
-            ]);
+            // $validated = $request->validate([
+            //     'temple_about' => 'required|string',
+            //     'temple_history' => 'required|string',
+            //     'endowment' => 'required|string|in:yes,no',
+            //     'endowment_register_no' => 'nullable|string',
+            //     'endowment_document' => 'nullable|file|mimes:pdf,jpeg,png|max:3048', // Added file size limit
+            //     'trust' => 'required|string|in:yes,no',
+            //     'trust_register_no' => 'nullable|string',
+            //     'trust_document' => 'nullable|file|mimes:pdf,jpeg,png|max:3048', // Added file size limit
+            // ]);
     
             // Get authenticated temple user
-            $templeUser = Auth::guard('temples')->user();
+            $templeUser = Auth::guard('api')->user();
     
             if (!$templeUser) {
                 return response()->json(['message' => 'Unauthenticated user'], 401);
@@ -53,13 +53,13 @@ class TempleAboutController extends Controller
             // Update or set temple details
             $temple->temple_about = $request->temple_about; // Required field
             $temple->temple_history = $request->temple_history; // Required field
-            $temple->endowment = $request->endowment === 'yes'; // Convert to boolean
+            $temple->endowment = $request->endowment; // Convert to boolean
             $temple->endowment_register_no = $request->endowment_register_no ?? null; // Set if provided
             $temple->endowment_document = $endowmentDocPath; // File path
-            $temple->trust = $request->trust === 'yes'; // Convert to boolean
+            $temple->trust = $request->trust; // Convert to boolean
             $temple->trust_register_no = $request->trust_register_no ?? null; // Set if provided
             $temple->trust_document = $trustDocPath; // File path
-    
+            $temple->status = "active";
             // Save the record (it will either insert or update)
             $temple->save();
     

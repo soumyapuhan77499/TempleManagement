@@ -132,12 +132,13 @@ class TempleUserController extends Controller
             'temple_about' => 'required|string',
             'temple_history' => 'required|string',
             'endowment' => 'nullable|string',
-            'endowment_register_no' => 'nullable|string',
-            'endowment_document' => 'nullable|file|mimes:pdf,jpeg,png',
+            'endowment_register_no' => 'required_with:endowment|string', // Required if endowment is checked
+            'endowment_document' => 'required_with:endowment|file|mimes:pdf,jpeg,png', // Required if endowment is checked
             'trust' => 'nullable|string',
-            'trust_register_no' => 'nullable|string',
-            'trust_document' => 'nullable|file|mimes:pdf,jpeg,png',
+            'trust_register_no' => 'required_with:trust|string', // Required if trust is checked
+            'trust_document' => 'required_with:trust|file|mimes:pdf,jpeg,png', // Required if trust is checked
         ]);
+        
     
         // Get the authenticated temple user's temple ID
         $temple_id = Auth::guard('temples')->user()->temple_id;
@@ -156,17 +157,21 @@ class TempleUserController extends Controller
             : $temple->trust_document;
     
         // Update or create the temple record
-        $temple->update([
-            'temple_about' => $request->temple_about,
-            'temple_history' => $request->temple_history,
-            'endowment' => $request->endowment ? true : false,
-            'endowment_register_no' => $request->endowment ? $request->endowment_register_no : null,
-            'endowment_document' => $endowmentDocPath,
-            'trust' => $request->trust ? true : false,
-            'trust_register_no' => $request->trust ? $request->trust_register_no : null,
-            'trust_document' => $trustDocPath,
-            'status' => 'active' // Or whatever status you want to set
-        ]);
+        $temple = TempleAboutDetail::updateOrCreate(
+            ['temple_id' => $temple_id],
+            [
+                'temple_about' => $request->temple_about,
+                'temple_history' => $request->temple_history,
+                'endowment' => $request->endowment,
+                'endowment_register_no' => $request->endowment ? $request->endowment_register_no : null,
+                'endowment_document' => $endowmentDocPath,
+                'trust' => $request->trust,
+                'trust_register_no' => $request->trust ? $request->trust_register_no : null,
+                'trust_document' => $trustDocPath,
+                'status' => 'active' // Set the status or any other fields you want
+            ]
+        );
+        
     
         return redirect()->route('templedashboard')->with('success', 'Temple information updated successfully.');
     }
