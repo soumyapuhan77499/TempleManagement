@@ -29,4 +29,8 @@ class TempleSocialMedia extends Model
         'temple_images' => 'array',
         'temple_videos' => 'array',
     ];
+    
+
+    // Any other custom methods for the model can go here.
 }
+

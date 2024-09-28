@@ -20,47 +20,87 @@ class SocialMediaController extends Controller
         // return view('templeuser.addsocialmedia');
     }
      // Update the temple social media information
-     public function updateTempleSocialMedia(Request $request, $temple_id)
+     public function updateSocialMedia(Request $request)
      {
-         // Validate the request
-         $validated = $request->validate([
-             'temple_images.*' => 'nullable|file|mimes:jpeg,png,jpg|max:2048',
-             'temple_videos.*' => 'nullable|file|mimes:mp4,avi,mov|max:50000',
-             'temple_yt_url' => 'nullable|url',
-             'temple_ig_url' => 'nullable|url',
-             'temple_fb_url' => 'nullable|url',
-             'temple_x_url' => 'nullable|url',
-         ]);
- 
-         // Find the temple social media record or create a new one
-         $templeSocialMedia = TempleSocialMedia::updateOrCreate(
+         $temple_id = Auth::guard('temples')->user()->temple_id;
+     
+         // Fetch the existing social media data for the temple
+         $templeSocialMedia = TempleSocialMedia::where('temple_id', $temple_id)->first();
+     
+         // Initialize arrays for new images and videos
+         $newImages = [];
+         $newVideos = [];
+     
+         // Handle image uploads
+         if ($request->hasFile('temple_images')) {
+             foreach ($request->file('temple_images') as $image) {
+                 // Store the file in the 'public/uploads/images' directory and return the path
+                 $imagePath = $image->store('uploads/images', 'public');
+                 $newImages[] = $imagePath;  // Save the stored file path
+             }
+         }
+     
+         // Handle video uploads
+         if ($request->hasFile('temple_videos')) {
+             foreach ($request->file('temple_videos') as $video) {
+                 // Store the file in the 'public/uploads/videos' directory and return the path
+                 $videoPath = $video->store('uploads/videos', 'public');
+                 $newVideos[] = $videoPath;  // Save the stored file path
+             }
+         }
+     
+         // Get the existing images and videos if available
+         $existingImages = $templeSocialMedia->temple_images ?? [];
+         $existingVideos = $templeSocialMedia->temple_videos ?? [];
+     
+         // Merge new uploads with existing ones
+         $allImages = array_merge($existingImages, $newImages);
+         $allVideos = array_merge($existingVideos, $newVideos);
+     
+         // Update or create the temple's social media data
+         TempleSocialMedia::updateOrCreate(
              ['temple_id' => $temple_id],
              [
+                 'temple_images' => $allImages, // Save all images (existing + new)
+                 'temple_videos' => $allVideos, // Save all videos (existing + new)
                  'temple_yt_url' => $request->temple_yt_url,
                  'temple_ig_url' => $request->temple_ig_url,
                  'temple_fb_url' => $request->temple_fb_url,
                  'temple_x_url' => $request->temple_x_url,
+                 'status' => 1 // Or any other status logic
              ]
          );
- 
-         // Handle the uploaded images
-         if ($request->hasFile('temple_images')) {
-             foreach ($request->file('temple_images') as $file) {
-                 $path = $file->store('images/temple', 'public');
-                 // Save or update the paths in the database
-                 // Example: Assuming you have a pivot table or a related model for images
-             }
-         }
- 
-         // Handle the uploaded videos
-         if ($request->hasFile('temple_videos')) {
-             foreach ($request->file('temple_videos') as $file) {
-                 $path = $file->store('videos/temple', 'public');
-                 // Save or update the paths in the database
-                 // Example: Assuming you have a pivot table or a related model for videos
-             }
-         }
- 
-         return redirect()->route('temple_social_media.index')->with('success', 'Temple social media information updated successfully.');
+     
+         return redirect()->back()->with('success', 'Social media updated successfully');
      }
+     
+     public function removeMedia(Request $request) {
+        \Log::info($request->all()); // Log request data to see what's being passed
+
+        $filePath = $request->filePath;
+        $mediaType = $request->mediaType;
+    
+        // Check if request values are correct
+        if (!$filePath || !$mediaType) {
+            return response()->json(['success' => false, 'message' => 'Invalid data'], 400);
+        }
+        $templeSocialMedia = TempleSocialMedia::where('temple_id', Auth::guard('temples')->user()->temple_id)->first();
+    
+        if ($mediaType == 'image') {
+            $templeSocialMedia->temple_images = array_values(array_diff($templeSocialMedia->temple_images, [$filePath]));
+        } elseif ($mediaType == 'video') {
+            $templeSocialMedia->temple_videos = array_values(array_diff($templeSocialMedia->temple_videos, [$filePath]));
+        }
+    
+        $templeSocialMedia->save();
+    
+        // Optionally delete the actual file from the server if desired
+        if (file_exists(public_path($filePath))) {
+            unlink(public_path($filePath));
+        }
+    
+        return response()->json(['success' => true]);
+    }
+    
+     
 }

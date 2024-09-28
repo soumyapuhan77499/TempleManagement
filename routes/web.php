@@ -62,7 +62,9 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
     });
     Route::controller(SocialMediaController::class)->group(function() {
         Route::get('/social-media', 'socialmedia')->name('templeuser.socialmedia');
-        Route::put('/temple-social-media/{temple_id}','updateTempleSocialMedia')->name('temple_social_media.update');
+        Route::put('/temple/socialmedia',  'updateSocialMedia')->name('temple.updateSocialMedia');
+        Route::post('/remove-media',  'removeMedia')->name('remove.media');
+
     });
     Route::controller(TrustMemberController::class)->group(function() {
         Route::get('/add-trust-member', 'addtrustmember')->name('templeuser.addtrustmember');

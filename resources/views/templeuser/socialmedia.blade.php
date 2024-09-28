@@ -1,6 +1,7 @@
 @extends('templeuser.layouts.app')
 
     @section('styles')
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 
 		<!-- INTERNAL Select2 css -->
 		<link href="{{asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet" />
@@ -27,7 +28,17 @@
 						</div>
 					</div>
 					<!-- /breadcrumb -->
+							@if (session()->has('success'))
+								<div class="alert alert-success" id="Message">
+									{{ session()->get('success') }}
+								</div>
+							@endif
 
+							@if ($errors->has('danger'))
+								<div class="alert alert-danger" id="Message">
+									{{ $errors->first('danger') }}
+								</div>
+							@endif
 							<!-- row  -->
 							<div class="row">
 								<div class="col-12 col-sm-12">
@@ -36,24 +47,47 @@
 											<h4 class="card-title">Temple About</h4>
 										</div> --}}
 										<div class="card-body pt-0 pt-4">
-											<form action="{{ route('temple_social_media.update', $templeSocialMedia->temple_id ?? '') }}" method="POST" enctype="multipart/form-data">
+											<form action="{{ route('temple.updateSocialMedia') }}" method="POST" enctype="multipart/form-data">
 												@csrf
-												@method('PUT') <!-- Assuming it's an update -->
-												
+												@method('PUT')
+											
 												<!-- Temple Images Field -->
 												<div class="form-group">
 													<label for="temple_images">Temple Images</label>
 													<input type="file" class="form-control" id="temple_images" name="temple_images[]" multiple onchange="previewFiles('temple_images', 'imagePreview')">
-													<div id="imagePreview" class="mt-2"></div>
+													
+													<!-- Existing Image Previews -->
+													<div id="imagePreview" class="mt-2">
+														@if(isset($templeSocialMedia->temple_images))
+															@foreach($templeSocialMedia->temple_images as $key => $image)
+															<div class="image-wrapper" style="position: relative; display: inline-block; margin: 5px;">
+																<img src="{{ asset('storage/' . $image) }}" style="width: 150px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);" alt="Temple Image">
+																<button type="button" class="remove-btn" onclick="removeMedia('{{ $image }}', 'image', {{ $key }})" style="position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; border-radius: 50%; cursor: pointer;">&times;</button>
+															</div>
+															@endforeach
+														@endif
+													</div>
 												</div>
-												
+
 												<!-- Temple Videos Field -->
 												<div class="form-group">
 													<label for="temple_videos">Temple Videos</label>
 													<input type="file" class="form-control" id="temple_videos" name="temple_videos[]" multiple onchange="previewFiles('temple_videos', 'videoPreview')">
-													<div id="videoPreview" class="mt-2"></div>
+													
+													<!-- Existing Video Previews -->
+													<div id="videoPreview" class="mt-2">
+														@if(isset($templeSocialMedia->temple_videos))
+															@foreach($templeSocialMedia->temple_videos as $key => $video)
+															<div class="video-wrapper" style="position: relative; display: inline-block; margin: 5px;">
+																<video src="{{ asset('storage/' . $video) }}" controls style="width: 300px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"></video>
+																<button type="button" class="remove-btn" onclick="removeMedia('{{ $video }}', 'video', {{ $key }})" style="position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; border-radius: 50%; cursor: pointer;">&times;</button>
+															</div>
+															@endforeach
+														@endif
+													</div>
 												</div>
-												
+
+											
 												<!-- Social Media URLs -->
 												<div class="row">
 													<div class="col-md-6">
@@ -69,6 +103,7 @@
 														</div>
 													</div>
 												</div>
+											
 												<div class="row">
 													<div class="col-md-6">
 														<div class="form-group">
@@ -83,13 +118,9 @@
 														</div>
 													</div>
 												</div>
-												
+											
 												<button type="submit" class="btn btn-primary">Submit</button>
 											</form>
-											
-											
-											
-											
 											
 										
 										</div>
@@ -170,6 +201,38 @@
 					reader.readAsDataURL(file);
 				}
 			}
+		</script>
+		<script>
+			function removeMedia(filePath, mediaType, index) {
+					if (confirm('Are you sure you want to remove this ' + mediaType + '?')) {
+						// Send an AJAX request to the server to delete the media
+						// You can implement the backend route and controller to handle this request
+						$.ajax({
+							url: '{{ route("remove.media") }}', // Correctly referencing Laravel route
+							method: 'POST',
+							data: {
+								_token: '{{ csrf_token() }}',
+								filePath: filePath,
+								mediaType: mediaType,
+								index: index
+							},
+							success: function(response) {
+								if (response.success) {
+									alert(mediaType + ' removed successfully.');
+									location.reload(); // Optionally reload the page to update the UI
+								} else {
+									alert('Failed to remove ' + mediaType + '.');
+								}
+							},
+							error: function(xhr, status, error) {
+								console.log(xhr.responseText); // Log the full error to the console
+								alert('Error while removing ' + mediaType + '.');
+							}
+						});
+
+					}
+				}
+
 		</script>
 			
     @endsection

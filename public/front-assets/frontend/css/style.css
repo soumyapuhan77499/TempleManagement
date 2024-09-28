@@ -5133,29 +5133,6 @@ header.header-area.aos-init.aos-animate {
   animation: float 6s ease-in-out infinite;
 }
 
-.shape-1 {
-  top: 20%;
-  left: 10%;
-  animation-delay: 0s;
-}
-
-.shape-2 {
-  top: 50%;
-  right: 10%;
-  animation-delay: 1s;
-}
-
-.shape-3 {
-  bottom: 10%;
-  left: 30%;
-  animation-delay: 2s;
-}
-
-.shape-4 {
-  bottom: 30%;
-  right: 15%;
-  animation-delay: 3s;
-}
 
 /* Floating Animation */
 @keyframes float {
