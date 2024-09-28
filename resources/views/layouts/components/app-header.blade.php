@@ -1,5 +1,6 @@
 				<!-- main-header -->
 				<div class="main-header side-header sticky nav nav-item">
+					<div class="nav-pattern"></div>
 					<div class=" main-container container-fluid">
 						<div class="main-header-left ">
 							<div class="responsive-logo">

@@ -1,5 +1,6 @@
 <!--====== Start Header ======-->
 <header class="header-area" data-aos="fade-down">
+    <div class="nav-pattern"></div>
     <!-- Start mobile menu -->
     <div class="mobile-menu">
         <div class="container">
