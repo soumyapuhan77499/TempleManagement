@@ -44,13 +44,15 @@ return [
             'driver' => 'session',
             'provider' => 'superadmins',
         ],
-
         'temples' => [
-            'driver' => 'session',  // Using session driver for web-based authentication
-            'provider' => 'temple_users', // Name of the user provider
+            'driver' => 'sanctum',  // Use sanctum or passport for token-based API authentication
+            'provider' => 'temples',
         ],
        
     ],
+
+   
+
 
     /*
     |--------------------------------------------------------------------------
@@ -79,10 +81,12 @@ return [
             'model' => App\Models\SuperAdmin::class,
         ],
 
-        'temple_users' => [
+        'temples' => [
             'driver' => 'eloquent',
             'model' => App\Models\TempleUser::class, // Your TempleUser model
         ],
+
+         
 
         // 'users' => [
         //     'driver' => 'database',

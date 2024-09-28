@@ -5,10 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens; // Ensure this is added
 
 class TempleUser extends Authenticatable
 {
-    use HasFactory;
+    use HasApiTokens, Notifiable, HasFactory; // Combine use statements
+
     protected $table = 'temple__user_login';
 
     protected $fillable = [
@@ -20,5 +23,4 @@ class TempleUser extends Authenticatable
         'trust_contact_no',
         'temple_address',
     ];
-
 }

@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\TempleRegisterController;
 use App\Http\Controllers\Api\TempleLoginController;
+use App\Http\Controllers\Api\TempleAboutController;
+
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -17,4 +19,11 @@ Route::controller(TempleRegisterController::class)->group(function() {
 Route::controller(TempleLoginController::class)->group(function() {
     Route::post('/send-otp',  'sendOtp');
     Route::post('/verify-otp', 'verifyOtp');
+    Route::post('/logout', 'logout')->middleware('auth:temples');
 });
+
+Route::middleware('auth:temples')->group(function () {
+  Route::post('/update-temple-details', [TempleAboutController::class, 'updateTempleDetails']);
+});
+
+

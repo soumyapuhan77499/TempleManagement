@@ -124,9 +124,9 @@ class TempleUserController extends Controller
         // Pass the data to the view
         return view('templeuser.temple-dashboard', compact('temple'));
     }
+
     public function updateTempleDetails(Request $request)
     {
-      
         // Validate the request
         $validated = $request->validate([
             'temple_about' => 'required|string',

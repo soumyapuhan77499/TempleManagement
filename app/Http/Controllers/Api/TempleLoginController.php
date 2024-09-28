@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use App\Models\TempleUser;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator; // Add this line
 
 class TempleLoginController extends Controller
 {
@@ -64,66 +66,66 @@ class TempleLoginController extends Controller
         }
     }
     
-
-public function verifyOtp(Request $request)
-{
-    // Get orderId, otp, and phoneNumber from request
-    $orderId = $request->input('orderId');
-    $otp = $request->input('otp');
-    $phoneNumber = $request->input('phoneNumber');
-
-    // OTP verification logic
-    $client = new Client();
-    $url = rtrim($this->apiUrl, '/') . '/auth/otp/v1/verify';
-
-    try {
-        $response = $client->post($url, [
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'clientId' => $this->clientId,
-                'clientSecret' => $this->clientSecret,
-            ],
-            'json' => [
-                'orderId' => $orderId,
-                'otp' => $otp,
-                'phoneNumber' => $phoneNumber,
-            ],
-        ]);
-
-        $body = json_decode($response->getBody(), true);
-
-        if (isset($body['isOTPVerified']) && $body['isOTPVerified']) {
-            // Check if mobile number exists in the temple__user_login table
-            $phoneNumber = str_replace('+91', '', $phoneNumber);
-            $temple = TempleUser::where('mobile_no', $phoneNumber)->first();
-
-            if ($temple) {
-                // Mobile number exists, authenticate the user
-                Auth::guard('temples')->login($temple);
-
-                return response()->json([
-                    'message' => 'User authenticated successfully.',
-                    'status' => 'success',
-                    'redirect_url' => route('templedashboard')
-                ], 200);
+    public function verifyOtp(Request $request)
+    {
+        $orderId = $request->input('orderId');
+        $otp = $request->input('otp');
+        $phoneNumber = $request->input('phoneNumber');
+    
+        // OTP verification logic
+        $client = new Client();
+        $url = rtrim($this->apiUrl, '/') . '/auth/otp/v1/verify';
+    
+        try {
+            $response = $client->post($url, [
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'clientId' => $this->clientId,
+                    'clientSecret' => $this->clientSecret,
+                ],
+                'json' => [
+                    'orderId' => $orderId,
+                    'otp' => $otp,
+                    'phoneNumber' => $phoneNumber,
+                ],
+            ]);
+    
+            $body = json_decode($response->getBody(), true);
+    
+            if (isset($body['isOTPVerified']) && $body['isOTPVerified']) {
+                // Remove the country code from the phone number
+                $phoneNumber = str_replace('+91', '', $phoneNumber);
+                $temple = TempleUser::where('mobile_no', $phoneNumber)->first();
+    
+                if ($temple) {
+                    // Mobile number exists, generate token and return success response
+                    $token = $temple->createToken('Temple User Token')->plainTextToken;
+    
+                    return response()->json([
+                        'message' => 'User authenticated successfully.',
+                        'user' => $temple,
+                        'token' => $token,
+                        'token_type' => 'Bearer'
+                    ], 200);
+                } else {
+                    // Mobile number does not exist, respond with registration suggestion
+                    return response()->json([
+                        'message' => 'Please complete your registration.',
+                    ], 401);
+                }
             } else {
-                // Mobile number does not exist, ask to register
+                $message = $body['message'] ?? 'Invalid OTP';
                 return response()->json([
-                    'message' => 'Please complete your registration.',
-                    'status' => 'registration_required',
-                    'redirect_url' => route('temple-register')
-                ], 404);
+                    'message' => $message,
+                ], 400);
             }
-        } else {
-            $message = $body['message'] ?? 'Invalid OTP';
-            return response()->json(['message' => $message], 400);
+        } catch (RequestException $e) {
+            return response()->json([
+                'message' => 'Failed to verify OTP due to an error.',
+                'error' => $e->getMessage(),
+            ], 500);
         }
-    } catch (RequestException $e) {
-        return response()->json([
-            'message' => 'Failed to verify OTP due to an error.',
-            'error' => $e->getMessage()
-        ], 500);
     }
-}
+    
 
 }
