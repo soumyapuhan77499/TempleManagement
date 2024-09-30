@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\TempleRegisterController;
 use App\Http\Controllers\Api\TempleLoginController;
 use App\Http\Controllers\Api\TempleAboutController;
+use App\Http\Controllers\Api\TempleBankController;
 
 
 

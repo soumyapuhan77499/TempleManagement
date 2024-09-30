@@ -23,7 +23,7 @@ class TempleBankController extends Controller
             $templeId = $templeUser->temple_id;
 
             // Extract only the relevant fields from the request
-            $requestData = $request->only(['bank_name', 'account_number', 'ifsc_code', 'branch_name']);
+            $requestData = $request->only(['bank_name', 'account_no','acc_holder_name', 'ifsc_code', 'branch_name','upi_id']);
 
             // Add temple_id to the data
             $requestData['temple_id'] = $templeId;
