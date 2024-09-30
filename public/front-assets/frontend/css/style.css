@@ -1488,8 +1488,11 @@ body.mobile-menu-active {
   max-width: 540px;
   margin-inline: auto;
   margin-bottom: 30px;
+  font-weight: 400;
 }
-
+h1.title.main-heading.aos-init.aos-animate {
+  color: #2e2d34;
+}
 .home-banner .bg-shape {
   position: absolute;
   top: 0;
