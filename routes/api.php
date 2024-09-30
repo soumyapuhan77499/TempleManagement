@@ -26,4 +26,6 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::post('/update-temple-details', [TempleAboutController::class, 'updateTempleDetails']);
 });
 
-
+Route::controller(TempleBankController::class)->group(function() {
+  Route::post('/save-bank-details',  'saveBankDetails');
+});
