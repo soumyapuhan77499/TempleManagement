@@ -115,6 +115,11 @@ class TempleUserController extends Controller
 
     public function templedashboard()
     {
+       
+        return view('templeuser.temple-dashboard');
+    }
+    public function templeabout()
+    {
         // Get the authenticated temple user's temple ID
         $temple_id = Auth::guard('temples')->user()->temple_id;
         
@@ -122,7 +127,7 @@ class TempleUserController extends Controller
         $temple = TempleAboutDetail::where('temple_id', $temple_id)->first();
 
         // Pass the data to the view
-        return view('templeuser.temple-dashboard', compact('temple'));
+        return view('templeuser.temple-about', compact('temple'));
     }
 
     public function updateTempleDetails(Request $request)

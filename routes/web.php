@@ -58,6 +58,7 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
 
     Route::controller(TempleUserController::class)->group(function() {
         Route::get('/temple-dashboard', 'templedashboard')->name('templedashboard');
+        Route::get('/temple-about', 'templeabout')->name('templeuser.templeAbout');
         Route::put('/temple-about-details', 'updateTempleDetails')->name('temple_about_details.update');
     });
     Route::controller(SocialMediaController::class)->group(function() {
