@@ -6,6 +6,10 @@ use App\Http\Controllers\Api\TempleRegisterController;
 use App\Http\Controllers\Api\TempleLoginController;
 use App\Http\Controllers\Api\TempleAboutController;
 use App\Http\Controllers\Api\TempleBankController;
+use App\Http\Controllers\Api\TrustMemberController;
+use App\Http\Controllers\Api\TempleDailyRitualController;
+use App\Http\Controllers\Api\TempleDarshanController;
+use App\Http\Controllers\Api\TempleFestivalController;
 
 
 
@@ -30,3 +34,31 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::controller(TempleBankController::class)->group(function() {
   Route::post('/save-bank-details',  'saveBankDetails');
 });
+
+Route::controller(TrustMemberController::class)->group(function() {
+  Route::post('/save-trust-member',  'storedata');
+});
+
+Route::controller(TempleDailyRitualController::class)->group(function() {
+  Route::post('/save-daily-rituals',  'saveTempleRitual');
+  Route::get('/show-daily-rituals',  'apiManageDailyRitual');
+  Route::put('/update-daily-rituals', 'apiUpdateRituals');
+  Route::delete('/delet-daily-rituals/{id}', 'apiDeleteRitual');
+});
+
+Route::controller(TempleDarshanController::class)->group(function() {
+  Route::post('/save-darshans', 'apiSaveTempleDarshan');
+});
+
+Route::controller(TempleFestivalController::class)->group(function() {
+  Route::post('/save-festival', 'apiStoreFestival');
+  Route::get('/manage-festival', 'apiManageFestivals');
+  Route::put('/update-festival/{id}',  'apiUpdateFestival');
+});
+
+
+
+
+
+
+

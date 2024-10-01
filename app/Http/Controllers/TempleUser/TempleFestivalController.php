@@ -76,7 +76,7 @@ class TempleFestivalController extends Controller
      public function destroy($id)
      {
          $festival = TempleFestival::findOrFail($id); // Find the festival by ID
-         $festival->status = 'deactive'; // Change status to 'deactive'
+         $festival->status = 'deleted'; // Change status to 'deactive'
          $festival->save(); // Save the updated status
      
          return redirect()->route('templefestival.managefestivals')->with('success', 'Festival deactivated successfully!');

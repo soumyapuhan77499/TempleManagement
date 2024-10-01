@@ -13,6 +13,7 @@ class TrustMemberController extends Controller
     public function addtrustmember(){
         return view('templeuser.addtrustmember');
     }
+    
     public function storedata(Request $request)
     {
         $request->validate([
