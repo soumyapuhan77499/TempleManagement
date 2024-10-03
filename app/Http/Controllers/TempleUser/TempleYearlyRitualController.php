@@ -31,8 +31,6 @@ class TempleYearlyRitualController extends Controller
     // Redirect to the edit view with the fetched ritual data
     return view('templeuser.edit-yearly-ritual', compact('specialRitual'));
 }
-
-  
     public function saveSpecialRitual(Request $request)
     {
         $validated = $request->validate([
@@ -140,6 +138,5 @@ public function updateYearlyRitual(Request $request, $id)
     // Redirect with success message
     return redirect()->route('templeuser.manage-yearlyritual')->with('success', 'Yearly Special Ritual updated successfully!');
 }
-
 
 }

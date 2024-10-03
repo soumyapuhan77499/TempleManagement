@@ -10,6 +10,8 @@ use App\Http\Controllers\Api\TrustMemberController;
 use App\Http\Controllers\Api\TempleDailyRitualController;
 use App\Http\Controllers\Api\TempleDarshanController;
 use App\Http\Controllers\Api\TempleFestivalController;
+use App\Http\Controllers\Api\SpecialRitualController;
+
 
 
 
@@ -56,9 +58,9 @@ Route::controller(TempleFestivalController::class)->group(function() {
   Route::put('/update-festival/{id}',  'apiUpdateFestival');
 });
 
-
-
-
-
-
-
+Route::controller(SpecialRitualController::class)->group(function() {
+  Route::post('/save-special-ritual', 'apiSaveSpecialRitual');
+  Route::get('/manage-special-rituals', 'manageSpecialRitual');
+  Route::put('/update-special-rituals/{id}', 'updateSpecialRitual');
+  Route::delete('/delet-special-rituals/{id}','deleteSpecialRitual');
+});
