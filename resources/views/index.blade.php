@@ -11,8 +11,6 @@
 @section('content')
     <!-- Home Start-->
 
-
-
     <div id="overlay" class="overlay"></div>
     <section id="home" class="home-banner pb-50">
         <div class="container">
@@ -39,13 +37,6 @@
                 </div>
             </div>
         </div>
-        <!-- Banner Images -->
-        {{-- <div class="banner-images d-none d-lg-block">
-            <img class="lazyload blur-up img-1" data-src="front-assets/frontend/images/banner-img-1.jpg" alt="Banner Image">
-            <img class="lazyload blur-up img-2" data-src="front-assets/frontend/images/banner-img-2.jpg" alt="Banner Image">
-            <img class="lazyload blur-up img-3" data-src="front-assets/frontend/images/banner-img-3.jpg" alt="Banner Image">
-            <img class="lazyload blur-up img-4" data-src="front-assets/frontend/images/banner-img-4.jpg" alt="Banner Image">
-        </div> --}}
         <!-- Bg-shape -->
         <div class="bg-shape bg-primary-light">
             <img class="lazyload" data-src="front-assets/frontend/images/banner-bg.png" alt="Shape">
@@ -60,7 +51,6 @@
             <img class="lazyload shape-6" data-src="{{asset('front-assets/frontend/shapes/6.png')}}" alt="Shape" style="    width: 60px;">
             <img class="lazyload shape-7" data-src="{{asset('front-assets/frontend/shapes/7.png')}}" alt="Shape" style="    width: 60px;">
             {{-- <img class="lazyload shape-8" data-src="{{asset('front-assets/frontend/shapes/8.png')}}" alt="Shape" style="    width: 60px;"> --}}
-        
         </div>
     </section>
     <!-- Home End -->
