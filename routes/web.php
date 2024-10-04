@@ -16,6 +16,7 @@ use App\Http\Controllers\TempleUser\TemplePoojaController;
 use App\Http\Controllers\TempleUser\TempleDarshanController;
 use App\Http\Controllers\TempleUser\TempleBannerController;
 use App\Http\Controllers\TempleUser\TemplePrasadController;
+use App\Http\Controllers\TempleUser\TempleInventoryController;
 
 
 use App\Http\Controllers\TempleUser\TempleBankController;
@@ -125,6 +126,22 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
     Route::controller(TemplePrasadController::class)->group(function() {
         Route::get('/add-temple-prasad', 'addPrasad')->name('templeprasad.prasad');
      
+    });
+
+    Route::controller(TempleInventoryController::class)->group(function() {
+        Route::get('/manage-inventory-category', 'mnginventorycategory')->name('templeinventory.mnginventorycategory');
+      
+        Route::post('/addCategory', 'store')->name('templeinventory.addCategory');
+        Route::put('/updateCategory/{id}', 'update');
+        Route::put('/deleteCategory/{id}', 'destroy');
+
+        Route::get('/add-temple-inventory', 'addInventory')->name('templeinventory.inventory');
+        Route::post('/store-temple-inventory', 'storeInventory')->name('templeinventory.storeinventory');
+        Route::get('/edit-temple-inventory/{id}', 'editinventory')->name('templeinventory.editinventory');
+        Route::put('/templeinventory/{id}/update', 'updateinventory')->name('templeinventory.updateinventory');
+
+        Route::delete('/delete-temple-inventory/{id}', 'deleteinventory')->name('templeinventory.deleteinventory');
+        Route::get('/manage-temple-inventory', 'manageInventory')->name('templeinventory.manageinventory');
     });
 
     Route::controller(TempleBankController::class)->group(function() {
