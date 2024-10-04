@@ -6,159 +6,210 @@
 		<link href="{{asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet" />
 
 		<!-- INTERNAL Data table css -->
-		<link href="{{asset('assets/plugins/datatable/css/dataTables.bootstrap5.css')}}" rel="stylesheet" />
-		<link href="{{asset('assets/plugins/datatable/css/buttons.bootstrap5.min.css')}}"  rel="stylesheet">
-		<link href="{{asset('assets/plugins/datatable/responsive.bootstrap5.css')}}" rel="stylesheet" />
+		
+		<link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
+<style>
+	  #calendar {
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            top: 20px;
+        }
 
+        /* Event Count Styling */
+        .fc-daygrid-day .event-count {
+            background-color: #7e33ff;
+            color: white;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 14px;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            text-align: center;
+            font-weight: bold;
+            width: 80px;
+            box-sizing: border-box;
+            z-index: 10;
+        }
+
+        /* Event Title Font Size */
+  
+        .fc-event-title {
+        font-size: 14px; /* Adjust font size as needed */
+        color: #fff; /* Adjust text color as needed */
+        padding: 5px;
+    }
+
+        /* Day Number Font Size */
+        .fc-daygrid-day-number {
+            font-size: 14px;
+        }
+
+        /* Day Name Font Size */
+        .fc-daygrid-day-top {
+            font-size: 14px;
+        }
+</style>
     @endsection
 
     @section('content')
-
-					<!-- breadcrumb -->
-					<div class="breadcrumb-header justify-content-between">
-						<div class="left-content">
-						<span class="main-content-title mg-b-0 mg-b-lg-1">USER DASHBOARD</span>
-						</div>
-						<div class="justify-content-center mt-2">
-							<ol class="breadcrumb">
-								<li class="breadcrumb-item tx-15"><a href="javascript:void(0);">Dashboard</a></li>
-								<li class="breadcrumb-item active" aria-current="page">Sales</li>
-							</ol>
-						</div>
-					</div>
-					<!-- /breadcrumb -->
-
 					<!-- row -->
-					<div class="row">
-						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-							<div class="row">
-								<div class="col-xl-12 col-lg-12 col-md-12 col-xs-12">
-									<div class="card">
-										<div class="card-body">
-											<div class="row">
-												<div class="col-xl-9 col-lg-7 col-md-6 col-sm-12">
-													<div class="text-justified align-items-center">
-														<h3 class="text-dark font-weight-semibold mb-2 mt-0">
-															Hi, Welcome Back 
-															<span class="text-primary">
-																{{ Auth::guard('temples')->user()->temple_name }}!
-															</span>
-														</h3>
-														
-														<p class="text-dark tx-14 mb-3 lh-3"> You have used the 85% of free plan storage. Please upgrade your plan to get unlimited storage.</p>
-														<button class="btn btn-primary shadow">Upgrade Now</button>
-													</div>
+					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-4">
+						<div class="row">
+							<div class="col-xl-12 col-lg-12 col-md-12 col-xs-12">
+								<div class="card">
+									<div class="card-body">
+										<div class="row">
+											<div class="col-xl-9 col-lg-7 col-md-6 col-sm-12">
+												<div class="text-justified align-items-center">
+													<h3 class="text-dark font-weight-semibold mb-2 mt-0">
+														Hi, Welcome Back 
+														<span class="text-primary">
+															{{ Auth::guard('temples')->user()->temple_name }}!
+														</span>
+													</h3>
+													
+													<p class="text-dark tx-14 mb-3 lh-3"> You have used the 85% of free plan storage. Please upgrade your plan to get unlimited storage.</p>
+													<button class="btn btn-primary shadow">Upgrade Now</button>
 												</div>
-												<div class="col-xl-3 col-lg-5 col-md-6 col-sm-12 d-flex align-items-center justify-content-center">
-													<div class="chart-circle float-md-end mt-4 mt-md-0" data-value="0.85" data-thickness="8" data-color=""><canvas width="100" height="100"></canvas>
-														<div class="chart-circle-value circle-style"><div class="tx-18 font-weight-semibold">85%</div></div>
-													</div>
+											</div>
+											<div class="col-xl-3 col-lg-5 col-md-6 col-sm-12 d-flex align-items-center justify-content-center">
+												<div class="chart-circle float-md-end mt-4 mt-md-0" data-value="0.85" data-thickness="8" data-color=""><canvas width="100" height="100"></canvas>
+													<div class="chart-circle-value circle-style"><div class="tx-18 font-weight-semibold">85%</div></div>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-							
+							</div>
+						
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+							<div class="row">
+								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+									<div class="row">
+											<div class="text-center pt-4">
+												
+												<h4 style="font-family: fantasy;letter-spacing: 2px">POOJA CALENDAR</h4>
+											</div>
+											<div id="calendar"></div>
+										</div>
+								</div>
+								
 							</div>
 						</div>
-						
-						<!-- </div> -->
 					</div>
 					<!-- row closed -->
 
-				
+					  <!-- Modal -->
+					  <div class="modal fade" id="ritualModal" tabindex="-1" role="dialog" aria-labelledby="ritualModalLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="ritualModalLabel">Special Rituals</h5>
+									<!-- Updated close button for Bootstrap 5 -->
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<ul id="ritualList"></ul>
+								</div>
+								<div class="modal-footer">
+									<!-- Updated button for Bootstrap 5 -->
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					
 
     @endsection
 
-    @section('scripts')
+@section('scripts')
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
+<!-- Bootstrap JS -->
 
-		<!-- Internal Chart.Bundle js-->
-		<script src="{{asset('assets/plugins/chartjs/Chart.bundle.min.js')}}"></script>
+<!-- Correct Bootstrap 5 JS Bundle with Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
-		<!-- Moment js -->
-		<script src="{{asset('assets/plugins/raphael/raphael.min.js')}}"></script>
 
-		<!-- INTERNAL Apexchart js -->
-		<script src="{{asset('assets/js/apexcharts.js')}}"></script>
+<script>
+    // Ensure the asset base URL is correct. This is the full URL to your 'public' directory.
+    var assetBaseUrl = "{{ asset('') }}"; // Outputs something like 'http://yourdomain.com/' or 'http://localhost/'
 
-		<!--Internal Sparkline js -->
-		<script src="{{asset('assets/plugins/jquery-sparkline/jquery.sparkline.min.js')}}"></script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var rituals = @json($specialRituals);
 
-		<!--Internal  index js -->
-		<script src="{{asset('assets/js/index.js')}}"></script>
+        // Create events array by iterating over rituals and grouping by date
+        var events = rituals.reduce(function (acc, ritual) {
+            var date = ritual.spcl_ritual_date;
+            if (!acc[date]) {
+                acc[date] = [];
+            }
+            acc[date].push({
+                name: ritual.spcl_ritual_name,
+                tithi: ritual.spcl_ritual_tithi,
+                time: ritual.spcl_ritual_time + ' ' + ritual.spcl_ritual_period,
+                image: ritual.spcl_ritual_image // Assuming this holds the relative image path
+            });
+            return acc;
+        }, {});
 
-        <!-- Chart-circle js -->
-		<script src="{{asset('assets/js/chart-circle.js')}}"></script>
+        // Map to eventArray for FullCalendar
+        var eventArray = Object.keys(events).map(function (date) {
+            return {
+                title: events[date].length + ' Special Rituals',
+                start: date,
+                extendedProps: {
+                    rituals: events[date]
+                }
+            };
+        });
 
-		<!-- Internal Data tables -->
-		<script src="{{asset('assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
-		<script src="{{asset('assets/plugins/datatable/js/dataTables.bootstrap5.js')}}"></script>
-		<script src="{{asset('assets/plugins/datatable/dataTables.responsive.min.js')}}"></script>
-		<script src="{{asset('assets/plugins/datatable/responsive.bootstrap5.min.js')}}"></script>
+        // Initialize the FullCalendar
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            events: eventArray,
+            eventClick: function (info) {
+                var rituals = info.event.extendedProps.rituals;
+                var modal = new bootstrap.Modal(document.getElementById('ritualModal'));
+                var ritualList = document.getElementById('ritualList');
+                ritualList.innerHTML = '';
 
-		<!-- INTERNAL Select2 js -->
-		<script src="{{asset('assets/plugins/select2/js/select2.full.min.js')}}"></script>
-		<script src="{{asset('assets/js/select2.js')}}"></script>
-		<!-- TinyMCE Script -->
-		<script src="{{asset('tinymce/tinymce.min.js')}}" referrerpolicy="origin"></script>
+                // Populate modal with ritual details
+                rituals.forEach(function (ritual) {
+                    var listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                        <strong>Ritual Name:</strong> ${ritual.name}<br>
+                        <strong>Tithi:</strong> ${ritual.tithi}<br>
+                        <strong>Time:</strong> ${ritual.time}<br><br>
+                        <img src="${assetBaseUrl}${ritual.image}" style="width: 100px; height: 100px; object-fit: cover;" alt="${ritual.name}">
+                    `;
+                    ritualList.appendChild(listItem);
+                });
 
-		<script>
-			tinymce.init({
-				selector: '#temple_about,#temple_history,#content',
-				height: 300,
-			plugins: 'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap emoticons',
-			menubar: 'file edit view insert format tools table help',
-			toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
-		toolbar_sticky: false,
-		image_advtab: true,
-			external_filemanager_path:"filemanager/",
-		filemanager_title:"Filemanager" ,
-		external_plugins: { "filemanager" : "../filemanager/plugin.min.js"},
-		content_css: [
-			'//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
-			'//www.tiny.cloud/css/codepen.min.css'
-		],
-		extended_valid_elements: 'span[class=]',
-		importcss_append: false,
-
-		});
-
-		</script>
-		<script>
-			// tinymce.init({
-			// 	selector: 'textarea',
-			// 	plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-			// 	toolbar_mode: 'floating',
-			// });
-
-			// Display additional fields based on checkbox selection
-			document.addEventListener("DOMContentLoaded", function() {
-    const endowmentCheckbox = document.getElementById('endowment_checkbox');
-    const trustCheckbox = document.getElementById('trust_checkbox');
-    
-    const endowmentFields = document.getElementById('endowment_fields');
-    const trustFields = document.getElementById('trust_fields');
-    
-    // Toggle endowment fields
-    endowmentCheckbox.addEventListener('change', function() {
-        endowmentFields.style.display = this.checked ? 'block' : 'none';
+                modal.show();
+            },
+            eventDidMount: function (info) {
+                var el = info.el.querySelector('.fc-event-title');
+                if (el) {
+                    el.style.fontSize = '14px';
+                    el.style.color = '#fff';
+                }
+            }
+        });
+        calendar.render();
     });
+</script>
 
-    // Toggle trust fields
-    trustCheckbox.addEventListener('change', function() {
-        trustFields.style.display = this.checked ? 'block' : 'none';
-    });
 
-    // Set initial visibility based on whether checkboxes are checked
-    if (endowmentCheckbox.checked) {
-        endowmentFields.style.display = 'block';
-    }
-    
-    if (trustCheckbox.checked) {
-        trustFields.style.display = 'block';
-    }
-});
-
-		</script>
-
-    @endsection
+ @endsection

@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TempleUser;
+use App\Models\SpecialRitual;
 use App\Models\TempleAboutDetail;
 
 use Illuminate\Support\Facades\Auth;
@@ -115,8 +116,12 @@ class TempleUserController extends Controller
 
     public function templedashboard()
     {
-       
-        return view('templeuser.temple-dashboard');
+               
+        $specialRituals = SpecialRitual::where('status','active')->select('spcl_ritual_name', 'spcl_ritual_date', 'spcl_ritual_time', 'spcl_ritual_period', 'spcl_ritual_tithi','spcl_ritual_image')
+        ->get();
+        
+
+    return view('templeuser.temple-dashboard', compact('specialRituals'));
     }
     public function templeabout()
     {

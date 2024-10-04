@@ -29,11 +29,6 @@
                             <a href="#" class="btn btn-lg btn-outline" title="Learn More" target="_self">Learn More</a>
                         </div>
                     </div>
-                    {{-- <div class="banner-img mb-40 text-center" data-aos="fade-left">
-                        <img class="lazyload"
-                            data-src="front-assets/frontend/images/banner.png"
-                            alt="Banner Image">
-                    </div> --}}
                 </div>
             </div>
         </div>
@@ -131,13 +126,10 @@
                     <div class="icon-wrapper">
                         <i class="fas fa-envelope-open-text feature-icon"></i>
                     </div>
-                    
                     <h4 class="feature-title">Communication Tools</h4>
                     <p class="feature-text">Send SMS, email notifications, and updates to the temple community.</p>
                 </div>
             </div>
-            <!-- Feature Item End -->
-       
         </div>
     </div>
     <!-- Background Shapes -->
