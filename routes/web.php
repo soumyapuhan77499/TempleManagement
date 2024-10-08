@@ -18,6 +18,7 @@ use App\Http\Controllers\TempleUser\TemplePrasadController;
 use App\Http\Controllers\TempleUser\TempleInventoryController;
 use App\Http\Controllers\TempleUser\TempleVendorController;
 use App\Http\Controllers\TempleUser\InsideTempleController;
+use App\Http\Controllers\TempleUser\TempleDevoteesController;
 
 
 use App\Http\Controllers\TempleUser\TempleBankController;
@@ -137,6 +138,14 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
 
         Route::delete('/delete-temple-inventory/{id}', 'deleteinventory')->name('templeinventory.deleteinventory');
         Route::get('/manage-temple-inventory', 'manageInventory')->name('templeinventory.manageinventory');
+    });
+    Route::controller(TempleDevoteesController::class)->group(function() {
+        Route::get('/add-temple-devotees', 'adddevotees')->name('templedevotees.adddevotees');
+        Route::post('/store-temple-devotees', 'storedata')->name('templedevotees.storedevotees');
+        Route::get('/manage-temple-devotees', 'managedevotees')->name('templedevotees.managedevotees');
+        Route::get('/devotees/{id}/edit', 'edit')->name('templedevotees.edit');
+        Route::put('/devotees/{id}', 'update')->name('templedevotees.update');
+        Route::delete('/devotees/{id}', 'destroy')->name('templedevotees.destroy');
     });
 
     Route::controller(TempleBankController::class)->group(function() {
