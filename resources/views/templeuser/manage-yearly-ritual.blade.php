@@ -66,11 +66,13 @@
                                         </td>
                                         <td>{{ $special_ritual->description }}</td>
                                         <td>
-                                            <form action="{{ route('delete.yearly-ritual', $special_ritual->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                         
+
+                                            <form id="delete-form-{{ $special_ritual->id }}" action="{{ route('delete.yearly-ritual', $special_ritual->id) }}" method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-md btn-danger"><i class="fa fa-trash"></i></button>
-                                                <a href="{{ route('edit.yearly-ritual', $special_ritual->id) }}" class="btn btn-md btn-primary"><i class="fa fa-edit"></i></a>
+                                                <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $special_ritual->id }})"><i class="fa fa-trash"></i></button>
+                                                <a href="{{ route('edit.yearly-ritual', $special_ritual->id) }}" class="btn btn-md btn-success"><i class="fa fa-edit"></i></a>
                                             </form>
                                         </td>
                                     </tr>
@@ -110,4 +112,33 @@
     <script src="{{ asset('assets/plugins/datatable/responsive.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('assets/js/table-data.js') }}"></script>
     <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    // Function to confirm delete
+    function confirmDelete(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit the form after confirmation
+                document.getElementById('delete-form-' + id).submit();
+            }
+        });
+    }
+
+    // Hide the alert message after a few seconds
+    setTimeout(() => {
+        var messageElement = document.getElementById('Message');
+        if (messageElement) {
+            messageElement.style.display = 'none';
+        }
+    }, 3000);
+</script>
 @endsection

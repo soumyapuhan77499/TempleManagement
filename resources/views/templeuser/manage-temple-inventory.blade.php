@@ -70,10 +70,11 @@
                                                         <td>{{ $item->inventory_category }}</td>
                                                         <td>
                                                             <a href="{{ route('templeinventory.editinventory', $item->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                                                            <form action="{{ route('templeinventory.deleteinventory', $item->id) }}" method="POST" style="display:inline-block;">
+
+															<form id="delete-form-{{ $item->id }}" action="{{ route('templeinventory.deleteinventory', $item->id) }}" method="POST" style="display:inline;">
                                                                 @csrf
                                                                 @method('DELETE')
-                                                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                                                <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $item->id }})"><i class="fa fa-trash"></i></button>
                                                             </form>
                                                         </td>
                                                     </tr>
@@ -108,5 +109,35 @@
 
 		<!-- INTERNAL Select2 js -->
 		<script src="{{asset('assets/plugins/select2/js/select2.full.min.js')}}"></script>
+
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+		<script>
+			// Function to confirm delete
+			function confirmDelete(id) {
+				Swal.fire({
+					title: 'Are you sure?',
+					text: "You won't be able to revert this!",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Yes, delete it!'
+				}).then((result) => {
+					if (result.isConfirmed) {
+						// Submit the form after confirmation
+						document.getElementById('delete-form-' + id).submit();
+					}
+				});
+			}
+		
+			// Hide the alert message after a few seconds
+			setTimeout(() => {
+				var messageElement = document.getElementById('Message');
+				if (messageElement) {
+					messageElement.style.display = 'none';
+				}
+			}, 3000);
+		</script>
 
     @endsection

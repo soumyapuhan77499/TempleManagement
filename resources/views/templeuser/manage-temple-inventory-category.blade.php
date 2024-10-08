@@ -103,10 +103,11 @@
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                         <!-- Deactivate Button -->
-                                                        <form action="{{ url('templeuser/deleteCategory/' . $category->id) }}" method="POST" class="d-inline">
+                                                        
+                                                        <form id="delete-form-{{ $category->id }}" action="{{ url('templeuser/deleteCategory/' . $category->id)  }}" method="POST" style="display:inline;">
                                                             @csrf
                                                             @method('PUT')
-                                                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">  <i class="fa fa-trash" aria-hidden="true"></i></button>
+                                                            <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $category->id }})"><i class="fa fa-trash"></i></button>
                                                         </form>
                                                     </td>
                                                 </tr>
@@ -212,5 +213,33 @@
             });
         });
     </script>
-    
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+      <script>
+          // Function to confirm delete
+          function confirmDelete(id) {
+              Swal.fire({
+                  title: 'Are you sure?',
+                  text: "You won't be able to revert this!",
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Yes, delete it!'
+              }).then((result) => {
+                  if (result.isConfirmed) {
+                      // Submit the form after confirmation
+                      document.getElementById('delete-form-' + id).submit();
+                  }
+              });
+          }
+      
+          // Hide the alert message after a few seconds
+          setTimeout(() => {
+              var messageElement = document.getElementById('Message');
+              if (messageElement) {
+                  messageElement.style.display = 'none';
+              }
+          }, 3000);
+      </script>
 @endsection

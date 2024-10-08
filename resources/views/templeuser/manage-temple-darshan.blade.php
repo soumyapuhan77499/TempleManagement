@@ -53,11 +53,9 @@
                                                         <!-- Loop through each ritual for the current day -->
                                                         @foreach ($groupedDarshans[$day] as $darshanIndex => $darshan)
 
-                                                        <form action="{{ route('templeuser.deleteDarshan', $darshan->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this darshan?');" style="display:inline;">
+                                                        <form  id="delete-form-{{ $darshan->id }}"  action="{{ route('templeuser.deleteDarshan', $darshan->id) }}" method="POST"  style="display:inline;">
                                                             @csrf
-                                                            <button type="submit" class="btn btn-danger">
-                                                                <i class="fa fa-trash"></i>
-                                                            </button>
+                                                            <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $darshan->id }})"><i class="fa fa-trash"></i></button>
                                                         </form>
 
                                                         <form id="ritualUpdateForm{{ $darshan->id }}" action="{{ route('templeuser.updateDarshan') }}" method="POST" enctype="multipart/form-data" style="background-color: rgba(160, 213, 218, 0.2); padding: 15px">
@@ -197,5 +195,41 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+        <script>
+            document.querySelectorAll('[data-bs-toggle="modal"]').forEach(button => {
+                button.addEventListener('click', () => {
+                    console.log('Modal button clicked for: ', button.getAttribute('data-bs-target'));
+                });
+            });
+        </script>
+    <!-- SweetAlert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <script>
+        // Function to confirm delete
+        function confirmDelete(id) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit the form after confirmation
+                    document.getElementById('delete-form-' + id).submit();
+                }
+            });
+        }
+    
+        // Hide the alert message after a few seconds
+        setTimeout(() => {
+            var messageElement = document.getElementById('Message');
+            if (messageElement) {
+                messageElement.style.display = 'none';
+            }
+        }, 3000);
+    </script>
 @endsection

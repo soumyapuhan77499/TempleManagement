@@ -98,12 +98,11 @@
                                                         <td>
                                                             <!-- Edit button -->
                                                             <a href="{{ route('templepooja.editpooja', $pooja->id) }}" class="btn btn-warning">Edit</a>
-                                                            
-                                                            <!-- Delete form (soft delete, change status to deactive) -->
-                                                            <form action="{{ route('templepooja.destroypooja', $pooja->id) }}" method="POST" style="display:inline;">
+                                         
+                                                            <form id="delete-form-{{ $pooja->id }}" action="{{ route('templepooja.destroypooja', $pooja->id) }}" method="POST" style="display:inline;">
                                                                 @csrf
                                                                 @method('DELETE')
-                                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                                                                <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $pooja->id }})"><i class="fa fa-trash"></i></button>
                                                             </form>
                                                         </td>
                                                     </tr>
@@ -139,5 +138,33 @@
 
 		<!-- INTERNAL Select2 js -->
 		<script src="{{asset('assets/plugins/select2/js/select2.full.min.js')}}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+		<script>
+			// Function to confirm delete
+			function confirmDelete(id) {
+				Swal.fire({
+					title: 'Are you sure?',
+					text: "You won't be able to revert this!",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Yes, delete it!'
+				}).then((result) => {
+					if (result.isConfirmed) {
+						// Submit the form after confirmation
+						document.getElementById('delete-form-' + id).submit();
+					}
+				});
+			}
+		
+			// Hide the alert message after a few seconds
+			setTimeout(() => {
+				var messageElement = document.getElementById('Message');
+				if (messageElement) {
+					messageElement.style.display = 'none';
+				}
+			}, 3000);
+		</script>
     @endsection

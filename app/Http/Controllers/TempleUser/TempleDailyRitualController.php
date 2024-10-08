@@ -184,7 +184,6 @@ public function updateRituals(Request $request)
 }
 
 
-
 public function deleteRitual($id)
 {
     // Find the ritual by ID or fail if not found
@@ -205,7 +204,6 @@ public function deleteRitual($id)
     // Redirect back with a success message
     return redirect()->route('templeuser.manage-dailyritual')->with('success', 'Ritual status updated to deleted.');
 }
-
 
 
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Support\Facades\Route;
 ## Home Controller
 
@@ -17,26 +16,22 @@ use App\Http\Controllers\TempleUser\TempleDarshanController;
 use App\Http\Controllers\TempleUser\TempleBannerController;
 use App\Http\Controllers\TempleUser\TemplePrasadController;
 use App\Http\Controllers\TempleUser\TempleInventoryController;
+use App\Http\Controllers\TempleUser\TempleVendorController;
+use App\Http\Controllers\TempleUser\InsideTempleController;
 
 
 use App\Http\Controllers\TempleUser\TempleBankController;
 use App\Http\Controllers\TempleUser\TempleDailyRitualController;
 use App\Http\Controllers\TempleUser\TempleYearlyRitualController;
 
-
-
-
 ## Superadmin COntroller
 use App\Http\Controllers\Superadmin\SuperAdminController;
 use App\Http\Controllers\Superadmin\TempleRequestController;
-
-
 
 ## Home pages Routes
 Route::get('/', function () {
     return view('index');
 });
-
 
 ## Temple User Routes
 
@@ -175,25 +170,38 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
         Route::post('/delete-darshan/{id}',  'deleteTempleDarshan')->name('templeuser.deleteDarshan');
     });
 
+    Route::controller(TempleVendorController::class)->group(function() {
+        Route::get('/add-vendor-details', 'addVendorDetails')->name('templeuser.addvendor');
+        Route::post('/save-vendor-details', 'saveVendorDetails')->name('templeuser.saveVendorDetails');
+        Route::get('/manage-vendor-details', 'manageVendorDetails')->name('templeuser.managevendor');
+        Route::post('/delete-temple-vendor/{imad}', 'deleteVendorDetails')->name('templeuser.deletevendor');
+        Route::get('/edit-temple-vendor/{id}', 'editVendorDetails')->name('templeuser.editvendor');
+        Route::put('/update-temple-vendor/{id}', 'updateVendorDetails')->name('templeuser.updateVendorDetails');
+    });
+
+    Route::controller(InsideTempleController::class)->group(function() {
+        Route::get('/add-inside-temple', 'addInsideTemple')->name('templeuser.addinsidetemple');
+        Route::post('/save-inside-temple', 'saveInsideTemple')->name('templeuser.saveinsidetemple');
+        Route::get('/manage-inside-temple', 'manageInsideTemple')->name('templeuser.manageinsidetemple');
+        Route::post('/delete-inside-temple/{id}', 'deleteInsideTemple')->name('templeuser.deleteinsidetemple');
+        Route::get('/edit-inside-temple/{id}',  'editInsideTemple')->name('templeuser.editinsidetemple');
+        Route::post('/update-inside-temple/{id}', 'updateInsideTemple')->name('templeuser.updateinsidetemple');
+    });
+
 });
 
 ## super admin Routes
 Route::controller(SuperAdminController::class)->group(function() {
-        
     Route::get('superadmin/', 'superadminlogin')->name('superadminlogin');
     Route::post('superadmin/authenticate', 'authenticate')->name('authenticate');
     Route::get('superadmin/dashboard', 'dashboard')->name('dashboard');
     Route::post('superadmin/logout', 'logout')->name('superadmin.logout');
-
 });
 
 Route::prefix('superadmin')->middleware(['superadmin'])->group(function () {
     Route::controller(TempleRequestController::class)->group(function() {
-        
         Route::get('/temple-requests', 'templerequests')->name('templerequests');
-
     });
-
 });
 
 

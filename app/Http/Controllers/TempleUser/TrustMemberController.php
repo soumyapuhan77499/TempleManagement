@@ -57,6 +57,7 @@ class TrustMemberController extends Controller
         $trustmember = TempleTrustMemberDetail::findOrFail($id); // Find the trust member by ID
         return view('templeuser.edit-trust-member', compact('trustmember')); // Return the edit view with the trust member's data
     }
+    
     public function update(Request $request, $id) {
         $request->validate([
             'member_name' => 'required|string|max:255',
