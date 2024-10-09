@@ -5,13 +5,19 @@ namespace App\Http\Controllers\TempleUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TempleUser;
+use App\Models\TempleTitle;
 use Illuminate\Support\Facades\Auth;
 
 class TempleRegistrationController extends Controller
 {
-    public function templeregister(){
-        return view("temple-register");
+    public function templeregister() {
+        // Fetch all active temple titles from the database
+        $temple_titles = TempleTitle::where('status', 'active')->get();
+    
+        // Pass the temple titles to the view
+        return view("temple-register", compact('temple_titles'));
     }
+    
 
     public function registerTemple(Request $request)
     {
@@ -27,6 +33,7 @@ class TempleRegistrationController extends Controller
             // Create a new temple record
             $temple = TempleUser::create([
                 'temple_id' => 'TEMPLE' . rand(10000, 99999),
+                'temple_title' => $request->input('temple_title'),
                 'temple_name' => $request->input('temple_name'),
                 'user_name' => $request->input('user_name'),
                 'mobile_no' => $request->input('mobile_no'),

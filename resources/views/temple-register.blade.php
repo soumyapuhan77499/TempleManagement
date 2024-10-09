@@ -52,7 +52,20 @@
                                                         <form action="/templeuser/temple-register" method="POST">
                                                             @csrf
                                                             <div class="row">
-                                                                <div class="col-md-12">
+                                                                <div class="col-md-3">
+                                                                    <div class="form-group">
+                                                                        <label for="temple_title">Title <span style="color: red">*</span></label>
+                                                                        <select class="form-control" name="temple_title">
+                                                                            <option value="">Select</option>
+                                                                            <!-- Loop through temple titles dynamically -->
+                                                                            @foreach($temple_titles as $title)
+                                                                                <option value="{{ $title->title }}">{{ $title->title }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="col-md-9">
                                                                     <div class="form-group">
                                                                         <label for="temple_name">Temple Name<span
                                                                                 style="color: red">*</span></label>
