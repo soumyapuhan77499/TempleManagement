@@ -17,33 +17,29 @@
                             <!-- Demo content-->
                             <div class="main-card-signin d-md-flex">
                                 <div class="wd-100p">
-                                    <div class="d-flex mb-4">
+                                    <div class="d-flex justify-content-center align-items-center mb-4">
                                         <a href="#"><img src="{{ asset('assets/img/brand/logo2.png') }}" class="sign-favicon ht-80" alt="logo"></a>
                                     </div>
+                                    
                                     <div class="">
                                         <div class="main-signup-header">
-                                            <h2>Welcome User!</h2>
-                                            <h6 class="font-weight-semibold mb-4">Please sign in to continue.</h6>
                                             <div class="panel panel-primary">
-                                                <div class=" tab-menu-heading mb-2 border-bottom-0">
+                                                <div class="tab-menu-heading mb-2 border-bottom-0">
                                                     <div class="tabs-menu1">
                                                         <ul class="nav panel-tabs">
-                                                            <li class="me-2"><a href="#tab5" class="active"
-                                                                    data-bs-toggle="tab">Login</a></li>
+                                                            <li class="me-2"><a href="#tab5" class="active" data-bs-toggle="tab">Login</a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
                                                 <div class="panel-body tabs-menu-body border-0 p-3">
                                                     <div class="tab-content">
                                                         <div class="tab-pane active" id="tab5">
-                                                            
                                                             <!-- Display Success Message -->
                                                             @if (session('message'))
                                                                 <div class="alert alert-success">
                                                                     {{ session('message') }}
                                                                 </div>
                                                             @endif
-
                                                             <!-- Display Error Message -->
                                                             @if (session('error'))
                                                                 <div class="alert alert-danger">
@@ -69,8 +65,12 @@
                                                                             <div style="display: flex; align-items: center;">
                                                                                 <input type="text" class="form-control" value="+91" readonly
                                                                                     style="background-color: #f1f1f1; width: 60px; text-align: center;">
-                                                                                <input type="number" class="form-control" id="phone" name="phone"
-                                                                                    placeholder="Enter your phone number" style="margin-left: 5px; flex: 1;" required>
+                                                                                    <input type="text" class="form-control" id="phone" name="phone"
+                                                                                    placeholder="Enter your phone number" maxlength="10" 
+                                                                                    style="margin-left: 5px; flex: 1;" required
+                                                                                    pattern="\d*" title="Please enter only numbers" 
+                                                                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);">
+                                                                                
                                                                             </div>
                                                                         </div>
                                                                         <input type="submit" class="btn btn-primary" value="Generate OTP">

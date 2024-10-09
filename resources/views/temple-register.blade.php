@@ -52,7 +52,19 @@
                                                         <form action="/templeuser/temple-register" method="POST">
                                                             @csrf
                                                             <div class="row">
-                                                                <div class="col-md-12">
+                                                                <div class="col-md-3">
+                                                                    <div class="form-group">
+                                                                        <label for="temple_name">Title<span
+                                                                                style="color: red">*</span></label>
+                                                                       <select class="form-control" name="temple_title">
+                                                                        <option value="">Select</option>
+                                                                        <option value="Maa">Maa</option>
+                                                                        <option value="Jay">Jay</option>
+                                                                        <option value="Shree">Shree</option>
+                                                                       </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-9">
                                                                     <div class="form-group">
                                                                         <label for="temple_name">Temple Name<span
                                                                                 style="color: red">*</span></label>
