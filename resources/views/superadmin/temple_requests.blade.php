@@ -37,40 +37,69 @@
 										<div>
 											<h6 class="main-content-label mb-1">Approval Process</h6>
 										</div>
+										@if (session()->has('success'))
+										<div class="alert alert-success" id="Message">
+											{{ session()->get('success') }}
+										</div>
+										@endif
+
+										@if ($errors->has('danger'))
+										<div class="alert alert-danger" id="Message">
+											{{ $errors->first('danger') }}
+										</div>
+										@endif
 										<div class="table-responsive  export-table">
 											<table id="file-datatable" class="table table-bordered text-nowrap key-buttons border-bottom">
 												<thead>
 													<tr>
 														<th class="border-bottom-0">#</th>
 														<th class="border-bottom-0">Temple ID</th>
-														<th class="border-bottom-0">Temple Name</th>
+														<th class="border-bottom-0">Temple details</th>
 														<th class="border-bottom-0">Details</th>
-                                                        <th class="border-bottom-0">Status</th>
+														<th class="border-bottom-0">Status</th>
 														<th class="border-bottom-0">Action</th>
 													</tr>
 												</thead>
 												<tbody>
-                                                    <tr>
-														<td>1</td>
-														<td>TEMPLE8902</td>
-														<td>Jagannath Temple</td>
+													@foreach($templeusers as $index => $templeuser)
+													<tr>
+														<td>{{ $index + 1 }}</td>
+														<td>{{ $templeuser->temple_id }}</td>
+														<td>{{ $templeuser->temple_name }}</br>
+															Temple Trust Name :{{ $templeuser->temple_trust_name }}</br>
+															Trust Contact Number :{{ $templeuser->trust_contact_no }}</td>
 														<td>
-                                                            <p>Contact No.: 787786282</p>
-                                                            <p>Creator Name: Demi</p>
-                                                            <p>Address:</p>
-                                                        </td>
-                                                        <td><a class="btn btn-primary">Pending</a></td>
+															Contact No.: {{ $templeuser->mobile_no }}</br>
+															Creator Name: {{ $templeuser->user_name }}</br>
+															Address: {{ $templeuser->temple_address }}
+														</td>
+														<td><a class="btn btn-primary">{{ $templeuser->temple_status }}</a></td>
 														<td>
-                                                            <a class="btn btn-primary">Call</a>
-                                                            <a class="btn btn-warning">Hold</a>
-                                                            <a class="btn btn-success">Approve</a>
-                                                            <a class="btn btn-danger">Reject</a>
-
-                                                        </td>
-														
+															<a href="tel:{{ $templeuser->mobile_no }}" class="btn btn-primary">Call</a>
+															
+															<!-- Hold button - update status to "hold" -->
+															<form action="{{ route('updateTempleStatus', ['id' => $templeuser->id, 'status' => 'hold']) }}" method="POST" style="display:inline;">
+																@csrf
+																<button type="submit" class="btn btn-warning">Hold</button>
+															</form>
+											
+															<!-- Approve button - update status to "approved" -->
+															<form action="{{ route('updateTempleStatus', ['id' => $templeuser->id, 'status' => 'approved']) }}" method="POST" style="display:inline;">
+																@csrf
+																<button type="submit" class="btn btn-success">Approve</button>
+															</form>
+											
+															<!-- Reject button - update status to "rejected" -->
+															<form action="{{ route('updateTempleStatus', ['id' => $templeuser->id, 'status' => 'rejected']) }}" method="POST" style="display:inline;">
+																@csrf
+																<button type="submit" class="btn btn-danger">Reject</button>
+															</form>
+														</td>
 													</tr>
-                                                </tbody>
+													@endforeach
+												</tbody>
 											</table>
+											
 										</div>
 									</div>
 								</div>
