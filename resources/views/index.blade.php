@@ -3,6 +3,7 @@
     .page-title-area.bg-primary-light {
     display: none;
 }
+
 </style>
 @section('pagename')
     - {{ __('Home') }}

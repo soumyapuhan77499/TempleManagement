@@ -1,5 +1,11 @@
 <!--====== Start Footer ======-->
-<footer class="footer-area bg-primary-light">
+{{-- <footer class="footer-area bg-primary-light"> --}}
+<footer class="footer-area">
+        <!-- Video Background -->
+        <video autoplay muted loop id="footerVideo" class="footer-bg-video">
+            <source src="{{asset('/front-assets/images/bg-video2.mp4')}}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
     <div class="footer-top pt-120 pb-90">
         <div class="container">
             <div class="row gx-xl-5 justify-content-between">

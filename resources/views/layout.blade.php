@@ -79,6 +79,31 @@
             --color-primary-rgb: 255,107,107;
 
         }
+        .footer-area {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.footer-bg-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.footer-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Optional overlay */
+    z-index: 0;
+}
     </style>
         <style>
        

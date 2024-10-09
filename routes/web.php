@@ -69,6 +69,11 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
         Route::get('/add-trust-member', 'addtrustmember')->name('templeuser.addtrustmember');
         Route::post('/add-trust-member', 'storedata')->name('templeuser.storeTrustMember');
         Route::get('/manage-trust-member', 'managetrustmember')->name('templeuser.managetrustmember');
+        Route::get('/manage-hierarchy', 'mnghierarchy')->name('templeuser.mnghierarchy');
+        Route::get('/search/members', 'searchMembers');
+
+        Route::post('/submit-order', 'submitOrder')->name('submit.order');
+
         Route::get('/trust-member/edit/{id}', 'edit')->name('templeuser.editTrustMember'); // Edit route
         Route::put('/trust-member/update/{id}', 'update')->name('templeuser.updateTrustMember'); // Update route
         Route::delete('/trust-member/delete/{id}', 'destroy')->name('templeuser.deleteTrustMember'); // Delete route

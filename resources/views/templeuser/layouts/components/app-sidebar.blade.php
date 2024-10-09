@@ -30,7 +30,10 @@
 									<ul class="slide-menu">
 										
 										<li><a class="slide-item" href="{{route('templeuser.addtrustmember')}}">Add Trust Member</a></li>
+										<li><a class="slide-item" href="{{route('templeuser.mnghierarchy')}}">Hierarchy Manage</a></li>
 										<li><a class="slide-item" href="{{route('templeuser.managetrustmember')}}">Manage Trust Member</a></li>
+										<li><a class="slide-item" href="{{route('templeuser.managetrustmember')}}">Add Sub Commitee</a></li>
+
 										
 									</ul>
 								</li>

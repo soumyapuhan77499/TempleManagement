@@ -93,7 +93,18 @@ class TrustMemberController extends Controller
     
         return redirect()->route('templeuser.managetrustmember')->with('success', 'Trust member deleted successfully!');
     }
+    public function mnghierarchy(){
+        return view('templeuser.manage-trust-hierarchy');
+    }
+    public function searchMembers(Request $request)
+    {
+        $query = $request->input('member_name');
     
-        
+        // Retrieve matching members from the database
+        $members = TempleTrustMemberDetail::where('member_name', 'LIKE', '%' . $query . '%')->get();
+    
+        return response()->json($members);
+    }
+    
     
 }
