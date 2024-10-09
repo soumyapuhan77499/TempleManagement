@@ -28,6 +28,7 @@ use App\Http\Controllers\TempleUser\TempleYearlyRitualController;
 ## Superadmin COntroller
 use App\Http\Controllers\Superadmin\SuperAdminController;
 use App\Http\Controllers\Superadmin\TempleRequestController;
+use App\Http\Controllers\Superadmin\TempleTitleController;
 
 ## Home pages Routes
 Route::get('/', function () {
@@ -210,6 +211,16 @@ Route::controller(SuperAdminController::class)->group(function() {
 Route::prefix('superadmin')->middleware(['superadmin'])->group(function () {
     Route::controller(TempleRequestController::class)->group(function() {
         Route::get('/temple-requests', 'templerequests')->name('templerequests');
+        Route::post('/update-temple-status/{id}/{status}', 'updateStatus')->name('updateTempleStatus');
+
+    });
+    Route::controller(TempleTitleController::class)->group(function() {
+      
+        Route::get('/manage-temple-title', 'mngtitle')->name('templetitle.mngtitle');
+        Route::post('/addTitle', 'addTitle')->name('templetitle.addTitle');
+        Route::put('/updateTitle/{id}', 'updateTitle')->name('templetitle.updateTitle');
+        Route::put('/deleteTitle/{id}', 'deleteTitle')->name('templetitle.deleteTitle');
+                
     });
 });
 
