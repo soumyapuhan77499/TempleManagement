@@ -61,25 +61,34 @@
 								<div class="card">
 									<div class="card-body">
 										<div class="row">
-											<div class="col-xl-9 col-lg-7 col-md-6 col-sm-12">
-												<div class="text-justified align-items-center">
-													<h3 class="text-dark font-weight-semibold mb-2 mt-0">
-														Hi, Welcome Back 
-														<span class="text-primary">
-															{{ Auth::guard('temples')->user()->temple_name }}!
-														</span>
-													</h3>
-													
-													<p class="text-dark tx-14 mb-3 lh-3"> You have used the 85% of free plan storage. Please upgrade your plan to get unlimited storage.</p>
-													<button class="btn btn-primary shadow">Upgrade Now</button>
-												</div>
-											</div>
-											<div class="col-xl-3 col-lg-5 col-md-6 col-sm-12 d-flex align-items-center justify-content-center">
-												<div class="chart-circle float-md-end mt-4 mt-md-0" data-value="0.85" data-thickness="8" data-color=""><canvas width="100" height="100"></canvas>
-													<div class="chart-circle-value circle-style"><div class="tx-18 font-weight-semibold">85%</div></div>
-												</div>
-											</div>
-										</div>
+                                            <div class="col-xl-9 col-lg-7 col-md-6 col-sm-12">
+                                                <div class="text-justified align-items-center">
+                                                    <h3 class="text-dark font-weight-semibold mb-2 mt-0">
+                                                        <span class="text-dark">
+                                                            {{ Auth::guard('temples')->user()->temple_title }}
+                                                        </span>
+                                                        <span class="text-primary">
+                                                            {{ \Illuminate\Support\Str::title(Auth::guard('temples')->user()->temple_name) }}!
+                                                        </span>
+                                                    </h3>
+                                        
+                                                    <p class="text-dark tx-14 mb-3 lh-3">
+                                                        Your temple profile completion stands at {{ $completionPercentage }}%. Upgrade to access exclusive features.
+                                                    </p>
+                                                    
+                                                    <button class="btn btn-primary shadow">Upgrade Profile</button>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-lg-5 col-md-6 col-sm-12 d-flex align-items-center justify-content-center">
+                                                <div class="chart-circle float-md-end mt-4 mt-md-0" data-value="{{ $completionPercentage / 100 }}" data-thickness="8" data-color="">
+                                                    <canvas width="100" height="100"></canvas>
+                                                    <div class="chart-circle-value circle-style">
+                                                        <div class="tx-18 font-weight-semibold">{{ $completionPercentage }}%</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
 									</div>
 								</div>
 							</div>
