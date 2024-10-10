@@ -5,13 +5,48 @@ namespace App\Http\Controllers\TempleUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TempleTrustMemberDetail;
+use App\Models\TempleTrustDetail;
+
 use Illuminate\Support\Facades\Auth;
 
 class TrustMemberController extends Controller
 {
     //
     public function addtrustmember(){
-        return view('templeuser.addtrustmember');
+        $temple_id = Auth::guard('temples')->user()->temple_id;
+        $trustDetail = TempleTrustDetail::where('temple_id', $temple_id)->first();
+        return view('templeuser.addtrustmember',compact('trustDetail'));
+    }
+    public function templetruststore(Request $request)
+    {
+        $request->validate([
+            'trust_name' => 'required|string|max:255',
+            'trust_number' => 'required|string|max:255',
+            'trust_start_date' => 'required|date',
+        ]);
+        
+    
+        // Get the authenticated temple user's temple ID
+        $temple_id = Auth::guard('temples')->user()->temple_id;
+    
+        // Find the temple record or create a new one
+        $temple = TempleTrustDetail::where('temple_id', $temple_id)->first();
+    
+ 
+        // Update or create the temple record
+        $temple = TempleTrustDetail::updateOrCreate(
+            ['temple_id' => $temple_id],
+            [
+               'trust_name' => $request->trust_name,
+                'trust_number' => $request->trust_number,
+                'trust_start_date' => $request->trust_start_date,
+                'trust_end_date' => $request->trust_end_date,
+                'total_day' => $request->total_day,
+            ]
+        );
+        
+    
+        return redirect()->route('templeuser.addtrustmember')->with('success', 'Temple information updated successfully.');
     }
     
     public function storedata(Request $request)
@@ -94,7 +129,12 @@ class TrustMemberController extends Controller
         return redirect()->route('templeuser.managetrustmember')->with('success', 'Trust member deleted successfully!');
     }
     public function mnghierarchy(){
-        return view('templeuser.manage-trust-hierarchy');
+        $templeId = Auth::guard('temples')->user()->temple_id;
+    
+        $trustmembers = TempleTrustMemberDetail::where('status', 'active')
+            ->where('temple_id', $templeId)
+            ->get(); // Fetch only active trust members for the specific temple
+        return view('templeuser.manage-trust-hierarchy',compact('trustmembers'));
     }
     public function searchMembers(Request $request)
     {
@@ -106,5 +146,16 @@ class TrustMemberController extends Controller
         return response()->json($members);
     }
     
-    
+    public function ajaxSearchMember(Request $request)
+{
+    $searchTerm = $request->input('searchTerm');
+
+    // Query to fetch members whose name matches the search term and return their designation too
+    $members = TempleTrustMemberDetail::where('member_name', 'LIKE', '%' . $searchTerm . '%')
+                                       ->limit(10) // Optional: limit the number of results
+                                       ->get(['member_name', 'designation']); // Fetch only name and designation
+
+    return response()->json($members);
+}
+
 }

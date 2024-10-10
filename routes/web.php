@@ -19,6 +19,7 @@ use App\Http\Controllers\TempleUser\TempleInventoryController;
 use App\Http\Controllers\TempleUser\TempleVendorController;
 use App\Http\Controllers\TempleUser\InsideTempleController;
 use App\Http\Controllers\TempleUser\TempleDevoteesController;
+use App\Http\Controllers\TempleUser\TempleTrustController;
 
 
 use App\Http\Controllers\TempleUser\TempleBankController;
@@ -65,10 +66,13 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
     });
     Route::controller(TrustMemberController::class)->group(function() {
         Route::get('/add-trust-member', 'addtrustmember')->name('templeuser.addtrustmember');
+        
+        Route::put('/temple-trust/store', 'templetruststore')->name('temple-trust.store');
+        
         Route::post('/add-trust-member', 'storedata')->name('templeuser.storeTrustMember');
         Route::get('/manage-trust-member', 'managetrustmember')->name('templeuser.managetrustmember');
         Route::get('/manage-hierarchy', 'mnghierarchy')->name('templeuser.mnghierarchy');
-        Route::get('/search/members', 'searchMembers');
+        Route::get('/search-member',  'ajaxSearchMember')->name('trust.ajaxSearchMember');
 
         Route::post('/submit-order', 'submitOrder')->name('submit.order');
 
@@ -77,6 +81,9 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
         Route::delete('/trust-member/delete/{id}', 'destroy')->name('templeuser.deleteTrustMember'); // Delete route
         
     });
+
+    
+
     Route::controller(TempleFestivalController::class)->group(function() {
         Route::get('/add-temple-festival', 'addFestival')->name('templefestival.addFestival');
         Route::post('/add-temple-festival', 'storedata')->name('templefestival.storeFestival');
@@ -125,6 +132,10 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
 
     Route::controller(TemplePrasadController::class)->group(function() {
         Route::get('/add-temple-prasad', 'addPrasad')->name('templeprasad.prasad');
+     
+    });
+    Route::controller(TempleDonationController::class)->group(function() {
+        Route::get('/add-temple-donation', 'adddonation')->name('templedonation.donation');
      
     });
 

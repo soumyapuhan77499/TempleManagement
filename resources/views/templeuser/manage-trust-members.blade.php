@@ -47,7 +47,7 @@
 									<div class="card-body">
 										
 										<div class="table-responsive  export-table">
-                                            <table id="file-datatable" class="table table-bordered text-nowrap key-buttons border-bottom">
+                                            <table class="table table-bordered text-nowrap key-buttons border-bottom">
                                                 <thead>
                                                     <tr>
                                                         <th class="border-bottom-0">#</th> <!-- Index column -->
@@ -89,6 +89,8 @@
                                                     @endforeach
                                                 </tbody>
                                             </table>
+
+											<button class="btn btn-primary">Deactive</button>
 										</div>
 									</div>
 								</div>

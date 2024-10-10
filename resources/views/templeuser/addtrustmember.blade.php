@@ -43,40 +43,42 @@
 								<div class="col-12 col-sm-12">
 									<div class="card">
 										<div class="card-body pt-0 pt-4">
-											<form method="POST" enctype="multipart/form-data" action="{{ route('templeuser.storeTrustMember') }}">
+											<form action="{{ route('temple-trust.store', $trustDetail->temple_id ?? '') }}" method="POST" enctype="multipart/form-data">
 												@csrf
-												@method('POST') <!-- Assuming you're creating a new entry -->
+												@method('PUT')
+											
 												
 												<div class="row">
 													<div class="col-md-3">
 														<div class="form-group">
-															<label for="member_photo">Trust Name <span style="color:red">*</span></label>
-															<input type="text" class="form-control" id="member_name" name="member_name" value="{{ old('member_name') }}" placeholder="Enter member name" required>
+															<label for="trust_name">Trust Name <span style="color:red">*</span></label>
+															<input type="text" class="form-control" id="trust_name" name="trust_name" 
+																value="{{ old('trust_name', $trustDetail->trust_name ?? '') }}" placeholder="Enter trust name" required>
+														</div>
+													</div>
+													
+													<div class="col-md-3">
+														<div class="form-group">
+															<label for="trust_number">Trust Number <span style="color:red">*</span></label>
+															<input type="text" class="form-control" id="trust_number" name="trust_number" 
+																value="{{ old('trust_number', $trustDetail->trust_number ?? '') }}" placeholder="Enter trust number" required>
+														</div>
+													</div>
+													
+													<div class="col-md-3">
+														<div class="form-group">
+															<label for="trust_start_date">Trust Creating Date <span style="color:red">*</span></label>
+															<input type="date" class="form-control" id="trust_start_date" name="trust_start_date" 
+																value="{{ old('trust_start_date', $trustDetail->trust_start_date ?? '') }}" required>
+														</div>
+													</div>
 
-														</div>
-													</div>
 													<div class="col-md-3">
-														<div class="form-group">
-															<label for="member_name">Trust Number<span style="color:red">*</span></label>
-															<input type="text" class="form-control" id="member_name" name="member_name" value="{{ old('member_name') }}" placeholder="Enter member name" required>
-														</div>
-													</div>
-													<div class="col-md-3">
-														<div class="form-group">
-															<label for="member_name">Trust Creating Date<span style="color:red">*</span></label>
-															<input type="date" class="form-control" id="member_name" name="member_name" value="{{ old('member_name') }}" placeholder="Enter member name" required>
-														</div>
-													</div>
-													<div class="col-md-3 ">
 														<button type="submit" class="btn btn-primary mt-4">Submit</button>
 													</div>
 												</div>
-											
-												
-												
-												
-												
 											</form>
+
 										</div>
 									</div>
 									<div class="card">
