@@ -137,8 +137,13 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
     });
     Route::controller(TempleDonationController::class)->group(function() {
         Route::get('/add-temple-donation', 'adddonation')->name('templedonation.donation');
-     
+        Route::post('/store-temple-donation', 'storeDonation')->name('templedonation.storedonation');
+        Route::get('/manage-temple-donations', 'manageDonations')->name('templedonation.manage');
+        Route::get('/edit-temple-donation/{id}', 'editDonation')->name('templedonation.edit');
+        Route::post('/update-temple-donation/{id}', 'updateDonation')->name('templedonation.update');
+        Route::delete('/delete-temple-donation/{id}', 'deleteDonation')->name('templedonation.delete');
     });
+    
 
     Route::controller(TempleInventoryController::class)->group(function() {
         Route::get('/manage-inventory-category', 'mnginventorycategory')->name('templeinventory.mnginventorycategory');

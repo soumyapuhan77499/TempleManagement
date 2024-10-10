@@ -38,6 +38,16 @@
 									{{ $errors->first('danger') }}
 								</div>
 							@endif
+							  <!-- Display validation errors -->
+							@if ($errors->any())
+							<div class="alert alert-danger" id="Message">
+								<ul>
+									@foreach ($errors->all() as $error)
+										<li>{{ $error }}</li>
+									@endforeach
+								</ul>
+							</div>
+							@endif
 							<!-- row  -->
 							<div class="row">
 								<div class="col-12 col-sm-12">
@@ -46,48 +56,50 @@
 											<h4 class="card-title">Temple About</h4>
 										</div> --}}
 										<div class="card-body pt-0 pt-4">
-											<form method="POST" action="{{ route('templefestival.storeFestival') }}">
-                                                @csrf
+											<form method="POST" action="{{ route('templedonation.storedonation') }}" enctype="multipart/form-data">
+												@csrf
 												<div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="festival_name">Donation Type<span style="color:red">*</span></label>
-                                                            <input type="text" class="form-control" id="festival_name" name="festival_name" placeholder="Enter Festival Name" required>
-                                                        </div>
-                                                        
-                                                      
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="festival_date">Item Name <span style="color:red">*</span></label>
-                                                            <input type="date" class="form-control" id="festival_date" name="festival_date" required>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="festival_name">Item Photo <span style="color:red">*</span></label>
-                                                            <input type="text" class="form-control" id="festival_name" name="festival_name" placeholder="Enter Festival Name" required>
-                                                        </div>
-                                                        
-                                                      
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="festival_date">Qunatity <span style="color:red">*</span></label>
-                                                            <input type="date" class="form-control" id="festival_date" name="festival_date" required>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            
-                                                <div class="form-group">
-                                                    <label for="festival_descp"> Description <span style="color:red">*</span></label>
-                                                    <textarea name="festival_descp" class="form-control" id="festival_descp" placeholder="Enter Festival Description" required></textarea>
-                                                </div>
-                                                
-                                                <button type="submit" class="btn btn-primary">Submit</button>
-                                            </form>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="donation_type">Donation Type <span style="color:red">*</span></label>
+															<select name="donation_type" class="form-control" id="">
+																<option selected>Choose</option>
+																<option value="cash">Cash</option>
+																<option value="Check">Check</option>
+																<option value="upi">UPI</option>
+
+															</select>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="item_name">Item Name <span style="color:red">*</span></label>
+															<input type="text" class="form-control" id="item_name" name="item_name" placeholder="Enter Item Name" required>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="photo">Item Photo <span style="color:red">*</span></label>
+															<input type="file" class="form-control" id="photo" name="photo" required>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="quantity">Quantity <span style="color:red">*</span></label>
+															<input type="number" class="form-control" id="quantity" name="quantity" required>
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="item_desc">Description <span style="color:red">*</span></label>
+													<textarea name="item_desc" class="form-control" id="item_desc" placeholder="Enter Item Description" required></textarea>
+												</div>
+											
+												<button type="submit" class="btn btn-primary">Submit</button>
+											</form>
+											
                                             
 										</div>
 									</div>

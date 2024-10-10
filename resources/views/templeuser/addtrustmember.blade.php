@@ -53,7 +53,7 @@
 														<div class="form-group">
 															<label for="trust_name">Trust Name <span style="color:red">*</span></label>
 															<input type="text" class="form-control" id="trust_name" name="trust_name" 
-																value="{{ old('trust_name', $trustDetail->trust_name ?? '') }}" placeholder="Enter trust name" required>
+																value="{{ old('trust_name', $trustDetail->trust_name ?? '') }}" placeholder="Enter trust name"  readonly>
 														</div>
 													</div>
 													
@@ -61,7 +61,7 @@
 														<div class="form-group">
 															<label for="trust_number">Trust Number <span style="color:red">*</span></label>
 															<input type="text" class="form-control" id="trust_number" name="trust_number" 
-																value="{{ old('trust_number', $trustDetail->trust_number ?? '') }}" placeholder="Enter trust number" required>
+																value="{{ old('trust_number', $trustDetail->trust_number ?? '') }}" placeholder="Enter trust number" readonly>
 														</div>
 													</div>
 													
@@ -107,13 +107,19 @@
 													</div>
 												</div>
 												<div class="row">
-													<div class="col-md-6">
+													<div class="col-md-4">
 														<div class="form-group">
 															<label for="member_designation">Designation <span style="color:red">*</span></label>
 															<input type="text" class="form-control" id="member_designation" name="member_designation" value="{{ old('member_designation') }}" placeholder="Enter designation" required>
 														</div>
 													</div>
-													<div class="col-md-6">
+													<div class="col-md-4">
+														<div class="form-group">
+															<label for="member_designation">Temple Designation <span style="color:red">*</span></label>
+															<input type="text" class="form-control" id="member_designation" name="member_designation" value="{{ old('member_designation') }}" placeholder="Enter designation" required>
+														</div>
+													</div>
+													<div class="col-md-4">
 														<div class="form-group">
 															<label for="contact_number">DOB <span style="color:red">*</span></label>
 															<input type="date" class="form-control" id="contact_number" name="member_contact_no" value="{{ old('member_contact_no') }}" placeholder="Enter 10-digit contact number" pattern="\d{10}" required title="Must be 10 digits">
