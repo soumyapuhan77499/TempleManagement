@@ -20,6 +20,7 @@ use App\Http\Controllers\TempleUser\TempleVendorController;
 use App\Http\Controllers\TempleUser\InsideTempleController;
 use App\Http\Controllers\TempleUser\TempleDevoteesController;
 use App\Http\Controllers\TempleUser\TempleTrustController;
+use App\Http\Controllers\TempleUser\TempleDonationController;
 
 
 use App\Http\Controllers\TempleUser\TempleBankController;
