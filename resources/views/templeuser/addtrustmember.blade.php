@@ -38,18 +38,29 @@
 									{{ $errors->first('danger') }}
 								</div>
 							@endif
+							  <!-- Display validation errors -->
+							@if ($errors->any())
+							<div class="alert alert-danger" id="Message">
+								<ul>
+									@foreach ($errors->all() as $error)
+										<li>{{ $error }}</li>
+									@endforeach
+								</ul>
+							</div>
+							@endif
 							<!-- row  -->
 							<div class="row">
 								<div class="col-12 col-sm-12">
 									<div class="card">
 										<div class="card-body pt-0 pt-4">
-											<form action="{{ route('temple-trust.store', $trustDetail->temple_id ?? '') }}" method="POST" enctype="multipart/form-data">
+												
+											<form method="POST" enctype="multipart/form-data" action="{{ route('templeuser.storeTrustMember') }}">
 												@csrf
-												@method('PUT')
+												@method('POST') <!-- Assuming you're creating a new entry -->
 											
 												
 												<div class="row">
-													<div class="col-md-3">
+													<div class="col-md-4">
 														<div class="form-group">
 															<label for="trust_name">Trust Name <span style="color:red">*</span></label>
 															<input type="text" class="form-control" id="trust_name" name="trust_name" 
@@ -57,7 +68,7 @@
 														</div>
 													</div>
 													
-													<div class="col-md-3">
+													<div class="col-md-4">
 														<div class="form-group">
 															<label for="trust_number">Trust Number <span style="color:red">*</span></label>
 															<input type="text" class="form-control" id="trust_number" name="trust_number" 
@@ -65,7 +76,7 @@
 														</div>
 													</div>
 													
-													<div class="col-md-3">
+													<div class="col-md-4">
 														<div class="form-group">
 															<label for="trust_start_date">Trust Creating Date <span style="color:red">*</span></label>
 															<input type="date" class="form-control" id="trust_start_date" name="trust_start_date" 
@@ -73,11 +84,9 @@
 														</div>
 													</div>
 
-													<div class="col-md-3">
-														<button type="submit" class="btn btn-primary mt-4">Submit</button>
-													</div>
+													
 												</div>
-											</form>
+											
 
 										</div>
 									</div>
@@ -87,10 +96,7 @@
 										</div>
 										
 										<div class="card-body pt-0">
-											
-											<form method="POST" enctype="multipart/form-data" action="{{ route('templeuser.storeTrustMember') }}">
-												@csrf
-												@method('POST') <!-- Assuming you're creating a new entry -->
+										
 												
 												<div class="row">
 													<div class="col-md-6">
@@ -116,13 +122,13 @@
 													<div class="col-md-4">
 														<div class="form-group">
 															<label for="member_designation">Temple Designation <span style="color:red">*</span></label>
-															<input type="text" class="form-control" id="member_designation" name="member_designation" value="{{ old('member_designation') }}" placeholder="Enter designation" required>
+															<input type="text" class="form-control" id="temple_designation" name="temple_designation" value="{{ old('temple_designation') }}" placeholder="Enter designation" required>
 														</div>
 													</div>
 													<div class="col-md-4">
 														<div class="form-group">
 															<label for="contact_number">DOB <span style="color:red">*</span></label>
-															<input type="date" class="form-control" id="contact_number" name="member_contact_no" value="{{ old('member_contact_no') }}" placeholder="Enter 10-digit contact number" pattern="\d{10}" required title="Must be 10 digits">
+															<input type="date" class="form-control" id="contact_number" name="dob" value="{{ old('dob') }}" placeholder="Enter 10-digit contact number" pattern="\d{10}" required title="Must be 10 digits">
 														</div>
 													</div>
 												</div>
@@ -136,19 +142,19 @@
 													<div class="col-md-4">
 														<div class="form-group">
 															<label for="contact_number">Whatsapp Number <span style="color:red">*</span></label>
-															<input type="text" class="form-control" id="contact_number" name="member_contact_no" value="{{ old('member_contact_no') }}" placeholder="Enter 10-digit Whatsapp number" pattern="\d{10}" required title="Must be 10 digits">
+															<input type="text" class="form-control" id="contact_number" name="whatsapp_number" value="{{ old('whatsapp_number') }}" placeholder="Enter 10-digit Whatsapp number" pattern="\d{10}" required title="Must be 10 digits">
 														</div>
 													</div>
 													<div class="col-md-4">
 														<div class="form-group">
 															<label for="contact_number">Email Id<span style="color:red">*</span></label>
-															<input type="text" class="form-control" id="contact_number" name="member_contact_no" value="{{ old('member_contact_no') }}" placeholder="Enter Email number" pattern="\d{10}" required title="Must be 10 digits">
+															<input type="email" class="form-control" id="contact_number" name="email" value="{{ old('email') }}" placeholder="Enter Email" required >
 														</div>
 													</div>
 												</div>
 												<div class="row">
 													<div class="col-md-12">
-														<label for="about_member">About <span style="color:red">*</span></label>
+														<label for="about_member">About </label>
 														<textarea name="about_member" class="form-control" id="about_member" cols="30" rows="3" placeholder="Tell us about the member" required>{{ old('about_member') }}</textarea>
 													</div>
 												</div>

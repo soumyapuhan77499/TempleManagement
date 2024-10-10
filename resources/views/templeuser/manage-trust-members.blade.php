@@ -52,8 +52,10 @@
                                                     <tr>
                                                         <th class="border-bottom-0">#</th> <!-- Index column -->
                                                         <th class="border-bottom-0">Name</th>
-                                                        <th class="border-bottom-0">Designation</th>
-                                                        <th class="border-bottom-0">About</th>
+                                                        <th class="border-bottom-0">Temple Designation</th>
+                                                        <th class="border-bottom-0">Position</th>
+                                                        <th class="border-bottom-0">Status</th>
+
                                                         <th class="border-bottom-0">Action</th>
                                                     </tr>
                                                 </thead>
@@ -72,8 +74,9 @@
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                        <td>{{ $trustmember->member_designation }}</td> <!-- Assuming member_designation exists -->
-                                                        <td>{{ $trustmember->about_member }}</td> <!-- Assuming about_member exists -->
+                                                        <td>{{ $trustmember->temple_designation }}</td> <!-- Assuming member_designation exists -->
+                                                        <td>{{ $trustmember->hierarchy_position }}</td> 
+														<td>{{ $trustmember->status }}</td><!-- Assuming about_member exists -->
                                                         <td>
                                                             <!-- Actions (edit/delete buttons, etc.) can be added here -->
                                                             <a href="{{ route('templeuser.editTrustMember', $trustmember->id) }}" class="btn btn-warning">Edit</a>
@@ -90,7 +93,10 @@
                                                 </tbody>
                                             </table>
 
-											<button class="btn btn-primary">Deactive</button>
+											<form id="deactivate-form" action="{{ route('templeuser.deactivateTrustMembers') }}" method="POST">
+												@csrf
+												<button type="button" class="btn btn-primary" onclick="confirmDeactivation()">Deactivate</button>
+											</form>
 										</div>
 									</div>
 								</div>
@@ -140,6 +146,22 @@
 					}
 				});
 			}
+			function confirmDeactivation() {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This will deactivate all trust members!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, deactivate!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit the form after confirmation
+                document.getElementById('deactivate-form').submit();
+            }
+        });
+    }
 		
 			// Hide the alert message after a few seconds
 			setTimeout(() => {

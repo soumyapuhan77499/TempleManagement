@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TempleTrustMemberDetail;
 use App\Models\TempleTrustDetail;
+use Carbon\Carbon; // Import Carbon for date manipulation
 
 use Illuminate\Support\Facades\Auth;
 
@@ -40,8 +41,7 @@ class TrustMemberController extends Controller
                'trust_name' => $request->trust_name,
                 'trust_number' => $request->trust_number,
                 'trust_start_date' => $request->trust_start_date,
-                'trust_end_date' => $request->trust_end_date,
-                'total_day' => $request->total_day,
+              
             ]
         );
         
@@ -51,41 +51,90 @@ class TrustMemberController extends Controller
     
     public function storedata(Request $request)
     {
+        // Validate the incoming request
         $request->validate([
+            'trust_name' => 'required|string|max:255',
+            'trust_number' => 'required|string|max:255',
+            'trust_start_date' => 'required|date',
             'member_name' => 'required|string|max:255',
             'member_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'about_member' => 'nullable|string',
-            'member_designation' => 'nullable|string',
+            'member_designation' => 'nullable|string|max:255',
+            'temple_designation' => 'nullable|string|max:255',
+            'dob' => 'nullable|date',
             'member_contact_no' => 'nullable|string|max:15',
+           
+            'whatsapp_number' => 'nullable|string|max:15',
+            'email' => 'nullable|email|max:255',
+            'hierarchy_position' => 'nullable|integer',
+            'trustee_start_date' => 'nullable|date',
+            'trustee_end_date' => 'nullable|date',
+            'about_member' => 'nullable|string', // `about_member` is not mandatory
         ]);
 
+        // Update or create the temple record
+            $temple = TempleTrustDetail::updateOrCreate(
+                ['temple_id' => Auth::guard('temples')->user()->temple_id],
+                [
+                    'trust_name' => $request->trust_name,
+                    'trust_number' => $request->trust_number,
+                    'trust_start_date' => $request->trust_start_date,
+                ]
+            );
+    
+        // Handle file upload for member photo, if provided
         $memberPhotoPath = null;
         if ($request->hasFile('member_photo')) {
             $memberPhotoPath = $request->file('member_photo')->store('member_photos', 'public');
         }
-
+    
+        // Create a new trust member with the validated data
         TempleTrustMemberDetail::create([
-            'temple_id' =>  Auth::guard('temples')->user()->temple_id, // Adjust according to your logic
+            'temple_id' => Auth::guard('temples')->user()->temple_id, // Adjust based on your auth logic
+            'trust_number' => $request->trust_number, // Assuming trust_id is part of the request
             'member_name' => $request->member_name,
             'member_photo' => $memberPhotoPath,
-            'about_member' => $request->about_member,
+            'temple_designation' => $request->temple_designation,
             'member_designation' => $request->member_designation,
+            'dob' => $request->dob,
             'member_contact_no' => $request->member_contact_no,
-            'status' => 'active', // or other logic for status
+            'whatsapp_number' => $request->whatsapp_number,
+            'email' => $request->email,
+            'about_member' => $request->about_member, // Optional field
+           
+            'trust_start_date' => $request->trust_start_date,
+          
+            'status' => 'active', // Assuming new members have active status
         ]);
-
+    
+        // Redirect to the route with success message
         return redirect()->route('templeuser.addtrustmember')->with('success', 'Member added successfully.');
     }
+    public function saveHierarchyPosition(Request $request, $id)
+    {
+        $request->validate([
+            'hierarchy_position' => 'required|integer',
+        ]);
+
+        $trustMember = TempleTrustMemberDetail::findOrFail($id);
+        $trustMember->hierarchy_position = $request->hierarchy_position;
+        $trustMember->save();
+
+        // Return with success message for SweetAlert
+        return redirect()->back()->with('success', 'Hierarchy position updated successfully!');
+    }
+
     public function manageTrustMember()
     {
         $templeId = Auth::guard('temples')->user()->temple_id;
     
-        $trustmembers = TempleTrustMemberDetail::where('status', 'active')
-            ->where('temple_id', $templeId)
-            ->get(); // Fetch only active trust members for the specific temple
+        // Fetch active trust members for the specific temple, ordered by hierarchy_position
+        $trustmembers = TempleTrustMemberDetail::where('temple_id', $templeId)
+            ->orderBy('hierarchy_position', 'asc') // Order by hierarchy_position in ascending order
+            ->get();
     
         return view('templeuser.manage-trust-members', compact('trustmembers'));
     }
+    
     
     
     public function edit($id) {
@@ -123,7 +172,7 @@ class TrustMemberController extends Controller
     }
     public function destroy($id) {
         $trustmember = TempleTrustMemberDetail::findOrFail($id); // Find the trust member by ID
-        $trustmember->status = 'deactive'; // Change status to 'deactive'
+        $trustmember->status = 'deleted'; // Change status to 'deactive'
         $trustmember->save(); // Save the updated status
     
         return redirect()->route('templeuser.managetrustmember')->with('success', 'Trust member deleted successfully!');
@@ -134,28 +183,51 @@ class TrustMemberController extends Controller
         $trustmembers = TempleTrustMemberDetail::where('status', 'active')
             ->where('temple_id', $templeId)
             ->get(); // Fetch only active trust members for the specific temple
-        return view('templeuser.manage-trust-hierarchy',compact('trustmembers'));
+
+        $trustdetails = TempleTrustDetail::where('temple_id', $templeId)
+            ->first();
+            $trustStartDate = Carbon::parse($trustdetails->trust_start_date);
+            $today = Carbon::today();
+            $totalDays = $trustStartDate->diffInDays($today);
+        return view('templeuser.manage-trust-hierarchy',compact('trustmembers','trustdetails' ,'today', 'totalDays'));
     }
-    public function searchMembers(Request $request)
+
+    public function deactivateTrustMembers()
     {
-        $query = $request->input('member_name');
+        // Get the temple ID from the authenticated user
+        $templeId = Auth::guard('temples')->user()->temple_id;
     
-        // Retrieve matching members from the database
-        $members = TempleTrustMemberDetail::where('member_name', 'LIKE', '%' . $query . '%')->get();
+        // Fetch the temple trust detail
+        $templeTrust = TempleTrustDetail::where('temple_id', $templeId)->first();
     
-        return response()->json($members);
+        if ($templeTrust) {
+            // Get today's date
+            $today = Carbon::today();
+    
+            // Update the trust_end_date to today
+            $templeTrust->trust_end_date = $today;
+    
+            // Calculate total days between trust_start_date and trust_end_date
+            $trustStartDate = Carbon::parse($templeTrust->trust_start_date);
+            $totalDays = $trustStartDate->diffInDays($today);
+    
+            // Update total_day and trust_end_date in TempleTrustDetail table
+            $templeTrust->total_day = $totalDays;
+            $templeTrust->save();
+        }
+    
+        // Update all trust members' status to 'deactive' and set trust_end_date to today's date
+        TempleTrustMemberDetail::where('temple_id', $templeId)
+            ->where('status', 'active') // Only update active members
+            ->update([
+                'status' => 'deactive',
+                'trust_end_date' => $today
+            ]);
+    
+        // Redirect back with success message
+        return redirect()->back()->with('success', 'All trust members have been deactivated, and the trust end date has been updated.');
     }
     
-    public function ajaxSearchMember(Request $request)
-{
-    $searchTerm = $request->input('searchTerm');
-
-    // Query to fetch members whose name matches the search term and return their designation too
-    $members = TempleTrustMemberDetail::where('member_name', 'LIKE', '%' . $searchTerm . '%')
-                                       ->limit(10) // Optional: limit the number of results
-                                       ->get(['member_name', 'designation']); // Fetch only name and designation
-
-    return response()->json($members);
-}
+   
 
 }

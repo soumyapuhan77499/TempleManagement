@@ -11,14 +11,23 @@ class TempleTrustMemberDetail extends Model
 
     protected $table = 'temple__trust_member_details'; // Specify the table name
 
+   
     protected $fillable = [
         'temple_id',
+        'trust_number',
         'member_name',
         'member_photo',
-        'about_member',
+        'temple_designation',
         'member_designation',
+        'dob',
         'member_contact_no',
-        'status',
+        'whatsapp_number',
+        'email',
+        'about_member',
+        'hierarchy_position',
+        'trust_start_date',
+        'trust_end_date',
+        'status'
     ];
 }
 
