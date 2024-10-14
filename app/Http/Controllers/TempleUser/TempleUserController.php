@@ -227,8 +227,6 @@ class TempleUserController extends Controller
         return view('templeuser.temple-dashboard', compact('aboutDetails', 'dailyRituals', 'darshanTime', 'festival', 'media', 'pooja', 'specialRituals', 'completionPercentage'));
     }
     
-    
-    
     public function templeabout()
     {
         // Get the authenticated temple user's temple ID

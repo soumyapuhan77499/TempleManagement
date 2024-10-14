@@ -1,15 +1,14 @@
 @extends('templeuser.layouts.app')
 
-    @section('styles')
+@section('styles')
+    <!-- INTERNAL Select2 css -->
+    <link href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet" />
 
-		<!-- INTERNAL Select2 css -->
-		<link href="{{asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet" />
+    <!-- INTERNAL Data table css -->
 
-		<!-- INTERNAL Data table css -->
-		
-		<link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
-<style>
-	  #calendar {
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
+    <style>
+        #calendar {
             width: 100%;
             margin: 0 auto;
             position: relative;
@@ -34,12 +33,14 @@
         }
 
         /* Event Title Font Size */
-  
+
         .fc-event-title {
-        font-size: 14px; /* Adjust font size as needed */
-        color: #fff; /* Adjust text color as needed */
-        padding: 5px;
-    }
+            font-size: 14px;
+            /* Adjust font size as needed */
+            color: #fff;
+            /* Adjust text color as needed */
+            padding: 5px;
+        }
 
         /* Day Number Font Size */
         .fc-daygrid-day-number {
@@ -50,175 +51,185 @@
         .fc-daygrid-day-top {
             font-size: 14px;
         }
-</style>
-    @endsection
+    </style>
+@endsection
 
-    @section('content')
-					<!-- row -->
-					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-4">
-						<div class="row">
-							<div class="col-xl-12 col-lg-12 col-md-12 col-xs-12">
-								<div class="card">
-									<div class="card-body">
-										<div class="row">
-                                            <div class="col-xl-9 col-lg-7 col-md-6 col-sm-12">
-                                                <div class="text-justified align-items-center">
-                                                    <h3 class="text-dark font-weight-semibold mb-2 mt-0">
-                                                        <span class="text-dark">
-                                                            {{ Auth::guard('temples')->user()->temple_title }}
-                                                        </span>
-                                                        <span class="text-primary">
-                                                            {{ \Illuminate\Support\Str::title(Auth::guard('temples')->user()->temple_name) }}!
-                                                        </span>
-                                                    </h3>
-                                        
-                                                    <p class="text-dark tx-14 mb-3 lh-3">
-                                                        Your temple profile completion stands at {{ $completionPercentage }}%. Upgrade to access exclusive features.
-                                                    </p>
-                                                    
-                                                    <button class="btn btn-primary shadow">Upgrade Profile</button>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-3 col-lg-5 col-md-6 col-sm-12 d-flex align-items-center justify-content-center">
-                                                <div class="chart-circle float-md-end mt-4 mt-md-0" data-value="{{ $completionPercentage / 100 }}" data-thickness="8" data-color="">
-                                                    <canvas width="100" height="100"></canvas>
-                                                    <div class="chart-circle-value circle-style">
-                                                        <div class="tx-18 font-weight-semibold">{{ $completionPercentage }}%</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-									</div>
-								</div>
-							</div>
-						
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-							<div class="row">
-								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-									<div class="row">
-											<div class="text-center pt-4">
-												
-												<h4 style="font-family: fantasy;letter-spacing: 2px">POOJA CALENDAR</h4>
-											</div>
-											<div id="calendar"></div>
-										</div>
-								</div>
-								
-							</div>
-						</div>
-					</div>
-					<!-- row closed -->
+@section('content')
+    <!-- row -->
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-4">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-xs-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-xl-9 col-lg-7 col-md-6 col-sm-12">
+                                <div class="text-justified align-items-center">
+                                    <h3 class="text-dark font-weight-semibold mb-2 mt-0">
+                                        <span class="text-dark">
+                                            {{ Auth::guard('temples')->user()->temple_title }}
+                                        </span>
+                                        <span class="text-primary">
+                                            {{ \Illuminate\Support\Str::title(Auth::guard('temples')->user()->temple_name) }}!
+                                        </span>
+                                    </h3>
 
-					  <!-- Modal -->
-					  <div class="modal fade" id="ritualModal" tabindex="-1" role="dialog" aria-labelledby="ritualModalLabel" aria-hidden="true">
-						<div class="modal-dialog" role="document">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title" id="ritualModalLabel">Special Rituals</h5>
-									<!-- Updated close button for Bootstrap 5 -->
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-								</div>
-								<div class="modal-body">
-									<ul id="ritualList"></ul>
-								</div>
-								<div class="modal-footer">
-									<!-- Updated button for Bootstrap 5 -->
-									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					
+                                    <p class="text-dark tx-14 mb-3 lh-3">
+                                        Your temple profile completion stands at {{ $completionPercentage }}%. Upgrade to
+                                        access exclusive features.
+                                    </p>
 
-    @endsection
+                                    <button class="btn btn-primary shadow">Upgrade Profile</button>
+                                </div>
+                            </div>
+                            <div
+                                class="col-xl-3 col-lg-5 col-md-6 col-sm-12 d-flex align-items-center justify-content-center">
+                                <div class="chart-circle float-md-end mt-4 mt-md-0"
+                                    data-value="{{ $completionPercentage / 100 }}" data-thickness="8" data-color="">
+                                    <canvas width="100" height="100"></canvas>
+                                    <div class="chart-circle-value circle-style">
+                                        <div class="tx-18 font-weight-semibold">{{ $completionPercentage }}%</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <div class="row">
+                                <div class="text-center">
+                                    <h4 style="font-family: fantasy;letter-spacing: 2px">POOJA CALENDAR</h4><hr>
+                                </div>
+                                <div id="calendar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                        <h4 style="font-family: fantasy;letter-spacing: 2px">EVENTS</h4><hr>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row closed -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="ritualModal" tabindex="-1" role="dialog" aria-labelledby="ritualModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ritualModalLabel">Special Rituals</h5>
+                    <!-- Updated close button for Bootstrap 5 -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul id="ritualList"></ul>
+                </div>
+                <div class="modal-footer">
+                    <!-- Updated button for Bootstrap 5 -->
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
 
 @section('scripts')
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
-<!-- Bootstrap JS -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
+    <!-- Bootstrap JS -->
 
-<!-- Correct Bootstrap 5 JS Bundle with Popper.js -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Correct Bootstrap 5 JS Bundle with Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
 
-<script>
-    // Ensure the asset base URL is correct. This is the full URL to your 'public' directory.
-    var assetBaseUrl = "{{ asset('') }}"; // Outputs something like 'http://yourdomain.com/' or 'http://localhost/'
+    <script>
+        // Ensure the asset base URL is correct. This is the full URL to your 'public' directory.
+        var assetBaseUrl = "{{ asset('') }}"; // Outputs something like 'http://yourdomain.com/' or 'http://localhost/'
 
-    document.addEventListener('DOMContentLoaded', function () {
-        var calendarEl = document.getElementById('calendar');
-        var rituals = @json($specialRituals);
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var rituals = @json($specialRituals);
 
-        // Create events array by iterating over rituals and grouping by date
-        var events = rituals.reduce(function (acc, ritual) {
-            var date = ritual.spcl_ritual_date;
-            if (!acc[date]) {
-                acc[date] = [];
-            }
-            acc[date].push({
-                name: ritual.spcl_ritual_name,
-                tithi: ritual.spcl_ritual_tithi,
-                time: ritual.spcl_ritual_time + ' ' + ritual.spcl_ritual_period,
-                image: ritual.spcl_ritual_image // Assuming this holds the relative image path
-            });
-            return acc;
-        }, {});
-
-        // Map to eventArray for FullCalendar
-        var eventArray = Object.keys(events).map(function (date) {
-            return {
-                title: events[date].length + ' Special Rituals',
-                start: date,
-                extendedProps: {
-                    rituals: events[date]
+            // Create events array by iterating over rituals and grouping by date
+            var events = rituals.reduce(function(acc, ritual) {
+                var date = ritual.spcl_ritual_date;
+                if (!acc[date]) {
+                    acc[date] = [];
                 }
-            };
-        });
+                acc[date].push({
+                    name: ritual.spcl_ritual_name,
+                    tithi: ritual.spcl_ritual_tithi,
+                    time: ritual.spcl_ritual_time + ' ' + ritual.spcl_ritual_period,
+                    image: ritual.spcl_ritual_image // Assuming this holds the relative image path
+                });
+                return acc;
+            }, {});
 
-        // Initialize the FullCalendar
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay'
-            },
-            events: eventArray,
-            eventClick: function (info) {
-                var rituals = info.event.extendedProps.rituals;
-                var modal = new bootstrap.Modal(document.getElementById('ritualModal'));
-                var ritualList = document.getElementById('ritualList');
-                ritualList.innerHTML = '';
+            // Map to eventArray for FullCalendar
+            var eventArray = Object.keys(events).map(function(date) {
+                return {
+                    title: events[date].length + ' Special Rituals',
+                    start: date,
+                    extendedProps: {
+                        rituals: events[date]
+                    }
+                };
+            });
 
-                // Populate modal with ritual details
-                rituals.forEach(function (ritual) {
-                    var listItem = document.createElement('li');
-                    listItem.innerHTML = `
+            // Initialize the FullCalendar
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                events: eventArray,
+                eventClick: function(info) {
+                    var rituals = info.event.extendedProps.rituals;
+                    var modal = new bootstrap.Modal(document.getElementById('ritualModal'));
+                    var ritualList = document.getElementById('ritualList');
+                    ritualList.innerHTML = '';
+
+                    // Populate modal with ritual details
+                    rituals.forEach(function(ritual) {
+                        var listItem = document.createElement('li');
+                        listItem.innerHTML = `
                         <strong>Ritual Name:</strong> ${ritual.name}<br>
                         <strong>Tithi:</strong> ${ritual.tithi}<br>
                         <strong>Time:</strong> ${ritual.time}<br><br>
                         <img src="${assetBaseUrl}${ritual.image}" style="width: 100px; height: 100px; object-fit: cover;" alt="${ritual.name}">
                     `;
-                    ritualList.appendChild(listItem);
-                });
+                        ritualList.appendChild(listItem);
+                    });
 
-                modal.show();
-            },
-            eventDidMount: function (info) {
-                var el = info.el.querySelector('.fc-event-title');
-                if (el) {
-                    el.style.fontSize = '14px';
-                    el.style.color = '#fff';
+                    modal.show();
+                },
+                eventDidMount: function(info) {
+                    var el = info.el.querySelector('.fc-event-title');
+                    if (el) {
+                        el.style.fontSize = '14px';
+                        el.style.color = '#fff';
+                    }
                 }
-            }
+            });
+            calendar.render();
         });
-        calendar.render();
-    });
-</script>
-
-
- @endsection
+    </script>
+@endsection
