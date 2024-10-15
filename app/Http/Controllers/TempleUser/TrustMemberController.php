@@ -131,8 +131,15 @@ class TrustMemberController extends Controller
         $trustmembers = TempleTrustMemberDetail::where('temple_id', $templeId)
             ->orderBy('hierarchy_position', 'asc') // Order by hierarchy_position in ascending order
             ->get();
+
+            
+        $trustdetails = TempleTrustDetail::where('temple_id', $templeId)
+                    ->first();
+                    $trustStartDate = Carbon::parse($trustdetails->trust_start_date);
+                    $today = Carbon::today();
+                    $totalDays = $trustStartDate->diffInDays($today);
     
-        return view('templeuser.manage-trust-members', compact('trustmembers'));
+        return view('templeuser.manage-trust-members', compact('trustmembers','trustdetails','today', 'totalDays'));
     }
     
     

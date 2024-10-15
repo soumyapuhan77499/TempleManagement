@@ -18,12 +18,12 @@
 					<!-- breadcrumb -->
 					<div class="breadcrumb-header justify-content-between">
 						<div class="left-content">
-						<span class="main-content-title mg-b-0 mg-b-lg-1">SOCIAL MEDIA</span>
+						<span class="main-content-title mg-b-0 mg-b-lg-1">Temple Photos/Videos</span>
 						</div>
 						<div class="justify-content-center mt-2">
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item tx-15"><a href="javascript:void(0);">Dashboard</a></li>
-								<li class="breadcrumb-item active" aria-current="page">SocialMedia</li>
+								<li class="breadcrumb-item active" aria-current="page">Temple Photos/Videos</li>
 							</ol>
 						</div>
 					</div>
@@ -51,35 +51,39 @@
 												@csrf
 												@method('PUT')
 											
-											
-												<!-- Social Media URLs -->
-												<div class="row">
-													<div class="col-md-6">
-														<div class="form-group">
-															<label for="temple_yt_url">YouTube URL</label>
-															<input type="text" placeholder="Enter YouTube URL" class="form-control" id="temple_yt_url" name="temple_yt_url" value="{{ old('temple_yt_url', $templeSocialMedia->temple_yt_url ?? '') }}">
-														</div>
-													</div>
-													<div class="col-md-6">
-														<div class="form-group">
-															<label for="temple_ig_url">Instagram URL</label>
-															<input type="text" placeholder="Enter Instagram URL" class="form-control" id="temple_ig_url" name="temple_ig_url" value="{{ old('temple_ig_url', $templeSocialMedia->temple_ig_url ?? '') }}">
-														</div>
+												<!-- Temple Images Field -->
+												<div class="form-group">
+													<label for="temple_images">Temple Images</label>
+													<input type="file" class="form-control" id="temple_images" name="temple_images[]" multiple onchange="previewFiles('temple_images', 'imagePreview')">
+													
+													<!-- Existing Image Previews -->
+													<div id="imagePreview" class="mt-2">
+														@if(isset($templeSocialMedia->temple_images))
+															@foreach($templeSocialMedia->temple_images as $key => $image)
+															<div class="image-wrapper" style="position: relative; display: inline-block; margin: 5px;">
+																<img src="{{ asset('storage/' . $image) }}" style="width: 150px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);" alt="Temple Image">
+																<button type="button" class="remove-btn" onclick="removeMedia('{{ $image }}', 'image', {{ $key }})" style="position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; border-radius: 50%; cursor: pointer;">&times;</button>
+															</div>
+															@endforeach
+														@endif
 													</div>
 												</div>
-											
-												<div class="row">
-													<div class="col-md-6">
-														<div class="form-group">
-															<label for="temple_fb_url">Facebook URL</label>
-															<input type="text" placeholder="Enter Facebook URL" class="form-control" id="temple_fb_url" name="temple_fb_url" value="{{ old('temple_fb_url', $templeSocialMedia->temple_fb_url ?? '') }}">
-														</div>
-													</div>
-													<div class="col-md-6">
-														<div class="form-group">
-															<label for="temple_x_url">Twitter URL</label>
-															<input type="text" placeholder="Enter Twitter URL" class="form-control" id="temple_x_url" name="temple_x_url" value="{{ old('temple_x_url', $templeSocialMedia->temple_x_url ?? '') }}">
-														</div>
+
+												<!-- Temple Videos Field -->
+												<div class="form-group">
+													<label for="temple_videos">Temple Videos</label>
+													<input type="file" class="form-control" id="temple_videos" name="temple_videos[]" multiple onchange="previewFiles('temple_videos', 'videoPreview')">
+													
+													<!-- Existing Video Previews -->
+													<div id="videoPreview" class="mt-2">
+														@if(isset($templeSocialMedia->temple_videos))
+															@foreach($templeSocialMedia->temple_videos as $key => $video)
+															<div class="video-wrapper" style="position: relative; display: inline-block; margin: 5px;">
+																<video src="{{ asset('storage/' . $video) }}" controls style="width: 300px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"></video>
+																<button type="button" class="remove-btn" onclick="removeMedia('{{ $video }}', 'video', {{ $key }})" style="position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; border-radius: 50%; cursor: pointer;">&times;</button>
+															</div>
+															@endforeach
+														@endif
 													</div>
 												</div>
 											

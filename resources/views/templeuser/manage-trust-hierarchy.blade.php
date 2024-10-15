@@ -9,47 +9,58 @@
 
 		<!-- INTERNAL Select2 css -->
 		<link href="{{asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 		<style>
-			.main-content-title {
+			/* Unique styles for the trust member section */
+			.trust-section-title {
 				font-weight: bold;
+				font-size: 18px;
 				transition: color 0.3s ease;
 			}
 		
-			.main-content-title:hover {
-				color: #007bff; /* Change to your preferred hover color */
+			.trust-section-card {
+				border-radius: 10px;
+				padding: 20px;
+				margin: 10px;
+				text-align: center;
+				transition: transform 0.3s ease, box-shadow 0.3s ease;
+				box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 			}
 		
-			.card {
+			.trust-section-card:hover {
+				transform: scale(1.05);
+				box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
+			}
+		
+			.trust-start-date-card {
+				background-color: #d1ecf1; /* Light gray */
+			}
+		
+			.live-today-date-card {
+				background-color: #d1ecf1; /* Light blue */
+			}
+		
+			.total-days-card {
+				background-color: #d1ecf1; /* Light green */
+			}
+		
+			.trust-section-icon {
+				font-size: 30px;
+				margin-bottom: 10px;
+				color: #007bff;
+			}
+		
+			.trust-section-h4 {
+				font-size: 24px;
+				margin-top: 10px;
 				transition: transform 0.3s ease;
-				border-radius: 10px; /* Rounded corners */
-				box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 			}
 		
-			/* .card:hover {
-				transform: scale(1.05); /* Scale effect on hover */
-			} */
-		
-			.row {
-				margin-bottom: 20px; /* Space between rows */
+			.trust-section-h4:hover {
+				transform: scale(1.1);
 			}
-		
-			h4 {
-				transition: transform 0.3s ease;
-			}
-		
-			h4:hover {
-				transform: scale(1.1); /* Scale effect on hover */
-			}
-			@keyframes fadeIn {
-			from { opacity: 0; }
-			to { opacity: 1; }
-		}
-
-		.card {
-			animation: fadeIn 0.5s ease-in;
-		}
-
 		</style>
+		
 		
     @endsection
 
@@ -87,27 +98,29 @@
 								<div class="card custom-card overflow-hidden">
 									<div class="card-body">
 										<div class="row">
-											<div class="col-md-4 text-center">
-												<div class="card p-3">
-													<span class="main-content-title mg-b-0 mg-b-lg-1">Trust Starting Date</span>
-													<h4>{{ $trustdetails->trust_start_date }}</h4>
+											<div class="col-md-4">
+												<div class="trust-section-card trust-start-date-card">
+													<i class="fas fa-calendar-alt trust-section-icon"></i>
+													<span class="trust-section-title">Trust Starting Date</span>
+													<h4 class="trust-section-h4">{{ $trustdetails->trust_start_date }}</h4>
 												</div>
 											</div>
-											<div class="col-md-4 text-center">
-												<div class="card p-3">
-													<span class="main-content-title mg-b-0 mg-b-lg-1">Today Date</span>
-													<h4>{{ \Carbon\Carbon::today()->format('Y-m-d') }}</h4>
+											<div class="col-md-4">
+												<div class="trust-section-card live-today-date-card">
+													<i class="fas fa-clock trust-section-icon"></i>
+													<span class="trust-section-title">Today Date</span>
+													<h4 id="live-today-date" class="trust-section-h4">{{ \Carbon\Carbon::today()->format('Y-m-d') }}</h4>  <h3 style="text-shadow: 3px 3px 10px rgba(0,0,0,0.4);color: #B7070A;font-family: 'Trebuchet MS', sans-serif; font-size: 20px;"
+													id="liveTime"></h3> <!-- Live Date -->
 												</div>
 											</div>
-											<div class="col-md-4 text-center">
-												<div class="card p-3">
-													<span class="main-content-title mg-b-0 mg-b-lg-1">Total Days</span>
-													<h4>{{ $totalDays }}</h4>
+											<div class="col-md-4">
+												<div class="trust-section-card total-days-card">
+													<i class="fas fa-hourglass-half trust-section-icon"></i>
+													<span class="trust-section-title">Total Days</span>
+													<h4 class="trust-section-h4">{{ $totalDays }}</h4>
 												</div>
 											</div>
 										</div>
-										
-										
 									</div>
 								</div>
 								<div class="card custom-card overflow-hidden">
@@ -222,5 +235,17 @@
 			});
 			@endif
 		</script>
+ <script>
+	function updateTime() {
+		var now = new Date();
+		var hours = now.getHours().toString().padStart(2, '0');
+		var minutes = now.getMinutes().toString().padStart(2, '0');
+		var seconds = now.getSeconds().toString().padStart(2, '0');
+		var formattedTime = hours + ':' + minutes + ':' + seconds;
+		document.getElementById('liveTime').innerText = formattedTime;
+	}
 
+	setInterval(updateTime, 1000); // Update every second
+	updateTime(); // Initial call to set the time immediately
+</script>
     @endsection

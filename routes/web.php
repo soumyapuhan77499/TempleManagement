@@ -36,6 +36,9 @@ use App\Http\Controllers\Superadmin\TempleTitleController;
 Route::get('/', function () {
     return view('index');
 });
+Route::get('/contact', function () {
+    return view('contactus');
+});
 
 ## Temple User Routes
 
@@ -63,6 +66,7 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
         Route::get('/social-media', 'socialmedia')->name('templeuser.socialmedia');
         Route::put('/temple/socialmedia',  'updateSocialMedia')->name('temple.updateSocialMedia');
         Route::post('/remove-media',  'removeMedia')->name('remove.media');
+        Route::get('/temple-photos', 'templephotos')->name('templeuser.photos');
 
     });
     Route::controller(TrustMemberController::class)->group(function() {

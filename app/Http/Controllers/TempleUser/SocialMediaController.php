@@ -19,6 +19,15 @@ class SocialMediaController extends Controller
         return view('templeuser.socialmedia', compact('templeSocialMedia'));
         // return view('templeuser.addsocialmedia');
     }
+    public function templephotos(){
+        $temple_id = Auth::guard('temples')->user()->temple_id;
+
+        // Fetch the temple social media information
+        $templeSocialMedia = TempleSocialMedia::where('temple_id', $temple_id)->first();
+
+        return view('templeuser.temple-photos', compact('templeSocialMedia'));
+        // return view('templeuser.addsocialmedia');
+    }
      // Update the temple social media information
      public function updateSocialMedia(Request $request)
      {

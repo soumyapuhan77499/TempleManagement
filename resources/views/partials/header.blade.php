@@ -58,7 +58,7 @@
                      
                        
                         <li class="nav-item">
-                            <a class="nav-link" href="#" target="_self">Home</a>
+                            <a class="nav-link" href="{{url('/')}}" target="_self">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#" target="_self">Modules</a>
@@ -71,7 +71,7 @@
                         </li>
                       
                         <li class="nav-item">
-                            <a class="nav-link" href="#" target="_self">Contact Us</a>
+                            <a class="nav-link" href="{{url('contact')}}" target="_self">Contact Us</a>
                         </li>
                      
                       
