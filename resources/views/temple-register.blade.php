@@ -57,8 +57,7 @@
                                                                         <label for="temple_title">Title <span style="color: red">*</span></label>
                                                                         <select class="form-control" name="temple_title">
                                                                             <option value="">Select</option>
-                                                                            <!-- Loop through temple titles dynamically -->
-                                                                            @foreach($temple_titles as $title)
+\                                                                            @foreach($temple_titles as $title)
                                                                                 <option value="{{ $title->title }}">{{ $title->title }}</option>
                                                                             @endforeach
                                                                         </select>
@@ -74,7 +73,7 @@
                                                                             placeholder="Enter Temple Name" required>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-6">
+                                                                <div class="col-md-12">
                                                                     <div class="form-group">
                                                                         <label for="temple_trust_name">Temple Trust
                                                                             Name</label>
@@ -85,9 +84,17 @@
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
+                                                                        <label for="trust_number">Trust Number</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="trust_number" name="trust_number"
+                                                                            placeholder="Enter Trust Number.">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
                                                                         <label for="trust_contact_no">Trust Contact
                                                                             Number</label>
-                                                                        <input type="text" class="form-control"
+                                                                        <input type="number" class="form-control"
                                                                             id="trust_contact_no" name="trust_contact_no"
                                                                             placeholder="Enter Trust Contact No.">
                                                                     </div>

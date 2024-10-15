@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TempleUser;
 use App\Models\TempleTitle;
+use App\Models\TempleTrustDetail;
 use Illuminate\Support\Facades\Auth;
 
 class TempleRegistrationController extends Controller
@@ -30,16 +31,25 @@ class TempleRegistrationController extends Controller
         ]);
     
         try {
-            // Create a new temple record
+            // Generate a random temple_id once to use for both tables
+            $temple_id = 'TEMPLE' . rand(10000, 99999);
+    
+            // Create a new temple record in temple_user table
             $temple = TempleUser::create([
-                'temple_id' => 'TEMPLE' . rand(10000, 99999),
+                'temple_id' => $temple_id,
                 'temple_title' => $request->input('temple_title'),
                 'temple_name' => $request->input('temple_name'),
                 'user_name' => $request->input('user_name'),
                 'mobile_no' => $request->input('mobile_no'),
-                'temple_trust_name' => $request->input('temple_trust_name'),
-                'trust_contact_no' => $request->input('trust_contact_no'),
                 'temple_address' => $request->input('temple_address'),
+            ]);
+    
+            // Create a new trust record in temple_trust_detail table
+            $temple_trust = TempleTrustDetail::create([
+                'temple_id' => $temple_id, // Use the same temple_id as above
+                'trust_name' => $request->input('temple_trust_name'),
+                'trust_number' => $request->input('trust_number'),
+                'trust_contact_no' => $request->input('trust_contact_no'),
             ]);
     
             // Success message on successful creation
@@ -52,7 +62,7 @@ class TempleRegistrationController extends Controller
             return redirect()->back()->with('error', 'An error occurred while registering the temple. Please try again later.');
         }
     }
-
+    
     
     public function logout(Request $request)
     {

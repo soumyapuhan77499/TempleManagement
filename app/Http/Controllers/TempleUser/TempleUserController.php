@@ -13,6 +13,7 @@ use App\Models\TempleDarshan;
 use App\Models\TempleFestival;
 use App\Models\TempleSocialMedia;
 use App\Models\TemplePooja;
+use Carbon\Carbon;
 
 
 use Illuminate\Support\Facades\Auth;
@@ -124,7 +125,19 @@ class TempleUserController extends Controller
     {
         // Fetch temple ID from the authenticated user
         $templeId = Auth::guard('temples')->user()->temple_id;
-    
+
+        $rituals = TempleRitual::where('temple_id', $templeId)
+        ->orderByRaw("STR_TO_DATE(CONCAT(ritual_start_time, ' ', ritual_start_period), '%h:%i %p') ASC") // Use raw query for ordering
+        ->get();
+
+        $today = Carbon::today()->toDateString();
+
+        // Fetch festivals for today
+        $festivals = TempleFestival::where('festival_date', $today)
+            ->where('status', 'active') // Assuming you only want active festivals
+            ->get();
+
+
         // Fetching data using the corresponding models
         $aboutDetails = TempleAboutDetail::where('temple_id', $templeId)->first();
         $dailyRituals = TempleRitual::where('temple_id', $templeId)->get(); // Use get() for multiple rituals
@@ -136,6 +149,10 @@ class TempleUserController extends Controller
         // Special rituals data
         $specialRituals = SpecialRitual::where('status', 'active')
             ->select('spcl_ritual_name', 'spcl_ritual_date', 'spcl_ritual_time', 'spcl_ritual_period', 'spcl_ritual_tithi', 'spcl_ritual_image')
+            ->get();
+
+            $today_rituals = SpecialRitual::where('spcl_ritual_date', $today)
+            ->where('status', 'active')
             ->get();
     
         // Initialize totalFields based on actual counts
@@ -224,7 +241,7 @@ class TempleUserController extends Controller
         $completionPercentage = round($completionPercentage, 2);
     
         // Pass the completion percentage to the view
-        return view('templeuser.temple-dashboard', compact('aboutDetails', 'dailyRituals', 'darshanTime', 'festival', 'media', 'pooja', 'specialRituals', 'completionPercentage'));
+        return view('templeuser.temple-dashboard', compact('aboutDetails','today_rituals','festivals','rituals', 'dailyRituals', 'darshanTime', 'festival', 'media', 'pooja', 'specialRituals', 'completionPercentage'));
     }
     
     public function templeabout()

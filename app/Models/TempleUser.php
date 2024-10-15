@@ -16,6 +16,7 @@ class TempleUser extends Authenticatable
 
     protected $fillable = [
         'temple_id',
+        'temple_title',
         'temple_name',
         'user_name',
         'mobile_no',

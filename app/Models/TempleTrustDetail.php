@@ -14,6 +14,7 @@ class TempleTrustDetail extends Model
         'temple_id', 
         'trust_name', 
         'trust_number', 
+        'trust_contact_no', 
         'trust_start_date', 
         'trust_end_date', 
         'total_day'
