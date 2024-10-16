@@ -55,10 +55,7 @@
                                                             <!-- Loop through each ritual for the current day -->
                                                             @foreach ($groupedRituals[$day] as $ritualIndex => $ritual)
 
-                                                            <form id="delete-form-{{ $ritual->id }}" action="{{ route('templeuser.deleteRitual', $ritual->id) }}" method="POST" style="display:inline;">
-                                                                @csrf
-                                                                <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $ritual->id }})"><i class="fa fa-trash"></i></button>
-                                                            </form>
+                                                           
                                                             
                                                             <form id="ritualUpdateForm{{ $ritual->id }}" action="{{ route('templeuser.updateRituals') }}" method="POST" enctype="multipart/form-data" style="background-color: rgba(160, 213, 218, 0.2); padding: 15px">
                                                                 @csrf
@@ -154,7 +151,10 @@
                                                                         <!-- Update and Delete Buttons -->
                                                                         <div class="text-center col-md-2 mt-4">
                                                                             <button type="button" class="btn btn-success" onclick="document.getElementById('ritualUpdateForm{{ $ritual->id }}').submit();">Update</button>
-                                                            
+                                                                            <form id="delete-form-{{ $ritual->id }}" action="{{ route('templeuser.deleteRitual', $ritual->id) }}" method="POST" style="display:inline;">
+                                                                                @csrf
+                                                                                <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $ritual->id }})"><i class="fa fa-trash"></i></button>
+                                                                            </form>
                                                                       
                                                                             
                                                                         </div>

@@ -9,5 +9,5 @@ class BankDetails extends Model
 {
     use HasFactory;
     protected $table = 'temple__bank_details';
-    protected $fillable = ['temple_id','bank_name','account_no','ifsc_code','acc_holder_name','upi_id']; 
+    protected $fillable = ['temple_id','bank_name','branch_name','account_no','ifsc_code','acc_holder_name','upi_id']; 
 }

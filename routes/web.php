@@ -87,7 +87,14 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
         
     });
 
-    
+    Route::controller(TempleBankController::class)->group(function() {
+        Route::get('/add-temple-bank', 'addbank')->name('templeuser.bankdetails');
+        Route::get('/manage-temple-bank', 'managebank')->name('templeuser.managebank');
+        Route::post('/save-temple-bank', 'savebank');
+        Route::get('/edit-temple-bank/{id}',  'editbank')->name('templeuser.editbank');
+        Route::delete('/delet-temple-bank/{id}', 'deletebank')->name('templeuser.deletebank');
+        Route::put('/update-temple-bank/{id}', 'updatebank')->name('templeuser.updatebank');
+    });
 
     Route::controller(TempleFestivalController::class)->group(function() {
         Route::get('/add-temple-festival', 'addFestival')->name('templefestival.addFestival');
@@ -173,10 +180,7 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
         Route::delete('/devotees/{id}', 'destroy')->name('templedevotees.destroy');
     });
 
-    Route::controller(TempleBankController::class)->group(function() {
-        Route::get('/temple-bank', 'bankdetails')->name('templeuser.bankdetails');
-        Route::post('/savebankdetails', 'savebankdetails');
-    });
+
 
     Route::controller(TempleDailyRitualController::class)->group(function() {
         Route::get('/daily-ritual', 'dailyritual')->name('templeuser.add-dailyritual');
