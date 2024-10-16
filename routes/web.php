@@ -21,7 +21,7 @@ use App\Http\Controllers\TempleUser\InsideTempleController;
 use App\Http\Controllers\TempleUser\TempleDevoteesController;
 use App\Http\Controllers\TempleUser\TempleTrustController;
 use App\Http\Controllers\TempleUser\TempleDonationController;
-
+use App\Http\Controllers\TempleUser\TempleCommitteeController;
 
 use App\Http\Controllers\TempleUser\TempleBankController;
 use App\Http\Controllers\TempleUser\TempleDailyRitualController;
@@ -86,7 +86,11 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
         Route::delete('/trust-member/delete/{id}', 'destroy')->name('templeuser.deleteTrustMember'); // Delete route
         
     });
+    Route::controller(TempleCommitteeController::class)->group(function() {
+        Route::get('/add-temple-committee', 'addnewcommittee')->name('templeuser.addnewcommittee');
+        Route::get('/add-temple-sub-committee', 'addsubcommittee')->name('templeuser.addsubcommittee');
 
+    });
     Route::controller(TempleBankController::class)->group(function() {
         Route::get('/add-temple-bank', 'addbank')->name('templeuser.bankdetails');
         Route::get('/manage-temple-bank', 'managebank')->name('templeuser.managebank');
