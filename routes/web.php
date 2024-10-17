@@ -232,6 +232,19 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
         Route::post('/update-inside-temple/{id}', 'updateInsideTemple')->name('templeuser.updateinsidetemple');
     });
 
+    Route::controller(TempleExpenditureController::class)->group(function() {
+        Route::get('/add-temple-expenditure', 'addExpenditure')->name('templeuser.addexpenditure');
+        Route::get('/manage-temple-expenditure', 'manageExpenditure')->name('templeuser.manageexpenditure');
+        Route::post('/save-temple-expenditure', 'saveExpenditure')->name('templeuser.saveexpenditure');
+        Route::get('/find-vendor-name', 'getVendors')->name('templeuser.getVendors'); // Corrected route
+        Route::get('/printInvoice/{id}','printInvoice')->name('templeuser.printInvoice');
+        Route::get('/edit-temple-expenditure/{id}',  'editExpenditure')->name('templeuser.editexpenditure');
+        Route::post('/delete-temple-expenditure/{id}', 'deleteExpenditure')->name('templeuser.deleteexpenditure');
+        Route::put('/update-temple-expenditure/{id}', 'updateExpenditure')->name('templeuser.updateexpenditure');
+
+    });
+    
+
 });
 
 ## super admin Routes
