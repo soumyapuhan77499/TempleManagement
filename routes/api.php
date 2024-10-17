@@ -28,7 +28,7 @@ Route::controller(TempleRegisterController::class)->group(function() {
 
 Route::controller(TempleLoginController::class)->group(function() {
     Route::post('/send-otp',  'sendOtp');
-    Route::get('/verify-temple-otp', 'verifytempleOtp');
+    Route::post('/verify-otp', 'verifyOtp');
     Route::post('/logout', 'logout')->middleware('auth:sanctum');
 });
 
