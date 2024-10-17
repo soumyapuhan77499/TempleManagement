@@ -66,7 +66,7 @@ class TempleLoginController extends Controller
         }
     }
     
-    public function verifyOtp(Request $request)
+    public function verifytempleOtp(Request $request)
     {
         $orderId = $request->input('orderId');
         $otp = $request->input('otp');
