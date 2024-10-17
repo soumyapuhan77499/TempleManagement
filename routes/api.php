@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\SpecialRitualController;
 use App\Http\Controllers\Api\TempleNewsController;
 use App\Http\Controllers\Api\TempleSocialMediaController;
 
+use App\Http\Controllers\Api\TempleMandapController;
 
 
 
@@ -27,7 +28,7 @@ Route::controller(TempleRegisterController::class)->group(function() {
 
 Route::controller(TempleLoginController::class)->group(function() {
     Route::post('/send-otp',  'sendOtp');
-    Route::post('/verify-otp', 'verifyOtp');
+    Route::post('/verify-temple-otp', 'verifyOtp');
     Route::post('/logout', 'logout')->middleware('auth:sanctum');
 });
 
@@ -81,5 +82,10 @@ Route::controller(TempleNewsController::class)->group(function() {
   Route::get('/manage-news', 'manageNews');
   Route::put('/news/{id}', 'updateNews');
   Route::delete('/delete-news/{id}', 'destroyNews');
+});
+
+Route::controller(TempleMandapController::class)->group(function() {
+  Route::post('/add-mandap', 'storeMandap');
+  
 });
 
