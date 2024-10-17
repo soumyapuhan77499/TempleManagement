@@ -62,7 +62,7 @@ class TempleMandapController extends Controller
     public function destroy($id)
     {
         $mandap = TempleMandapDetail::findOrFail($id);
-        $mandap->status = 'deactive'; // Set status to inactive
+        $mandap->status = 'deleted'; // Set status to inactive
         $mandap->save(); // Save the changes
 
         return redirect()->route('templemandap.managemandap')->with('success', 'Mandap status updated to inactive successfully!');
