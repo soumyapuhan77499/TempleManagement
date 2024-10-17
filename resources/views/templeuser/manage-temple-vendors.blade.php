@@ -149,4 +149,13 @@
 
     <!-- INTERNAL Select2 js -->
     <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
+
+    <script>
+        setTimeout(function() {
+            document.getElementById('Message').style.display = 'none';
+        }, 3000);
+        setTimeout(function() {
+            document.getElementById('Messages').style.display = 'none';
+        }, 3000);
+    </script>
 @endsection
