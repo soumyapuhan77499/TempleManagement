@@ -47,7 +47,7 @@
 											<h4 class="card-title">Temple About</h4>
 										</div> --}}
 										<div class="card-body pt-0 pt-4">
-											<form action="{{ route('temple.updateSocialMedia') }}" method="POST" enctype="multipart/form-data">
+											<form action="{{ route('temple.updatePhotosvideos') }}" method="POST" enctype="multipart/form-data">
 												@csrf
 												@method('PUT')
 											

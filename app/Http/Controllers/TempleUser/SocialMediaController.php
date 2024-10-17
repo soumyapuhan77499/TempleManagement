@@ -4,6 +4,8 @@ namespace App\Http\Controllers\TempleUser;
 
 use App\Http\Controllers\Controller;
 use App\Models\TempleSocialMedia;
+use App\Models\TemplePhotosVideos;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,18 +25,39 @@ class SocialMediaController extends Controller
         $temple_id = Auth::guard('temples')->user()->temple_id;
 
         // Fetch the temple social media information
-        $templeSocialMedia = TempleSocialMedia::where('temple_id', $temple_id)->first();
+        $templeSocialMedia = TemplePhotosVideos::where('temple_id', $temple_id)->first();
 
         return view('templeuser.temple-photos', compact('templeSocialMedia'));
         // return view('templeuser.addsocialmedia');
     }
+
+    public function updateSocialMediaUrls(Request $request)
+    {
+        $temple_id = Auth::guard('temples')->user()->temple_id;
+
+        // Update or create the temple's social media data
+        TempleSocialMedia::updateOrCreate(
+            ['temple_id' => $temple_id],
+            [
+                'temple_yt_url' => $request->temple_yt_url,
+                'temple_ig_url' => $request->temple_ig_url,
+                'temple_fb_url' => $request->temple_fb_url,
+                'temple_x_url' => $request->temple_x_url,
+                'status' => 1 // Or any other status logic
+            ]
+        );
+
+        return redirect()->back()->with('success', 'Social media URLs updated successfully');
+    }
+
+
      // Update the temple social media information
-     public function updateSocialMedia(Request $request)
+     public function updatePhotosvideos(Request $request)
      {
          $temple_id = Auth::guard('temples')->user()->temple_id;
      
          // Fetch the existing social media data for the temple
-         $templeSocialMedia = TempleSocialMedia::where('temple_id', $temple_id)->first();
+         $templeSocialMedia = TemplePhotosVideos::where('temple_id', $temple_id)->first();
      
          // Initialize arrays for new images and videos
          $newImages = [];
@@ -64,24 +87,25 @@ class SocialMediaController extends Controller
      
          // Merge new uploads with existing ones
          $allImages = array_merge($existingImages, $newImages);
+         
          $allVideos = array_merge($existingVideos, $newVideos);
      
          // Update or create the temple's social media data
-         TempleSocialMedia::updateOrCreate(
+         TemplePhotosVideos::updateOrCreate(
              ['temple_id' => $temple_id],
              [
                  'temple_images' => $allImages, // Save all images (existing + new)
                  'temple_videos' => $allVideos, // Save all videos (existing + new)
-                 'temple_yt_url' => $request->temple_yt_url,
-                 'temple_ig_url' => $request->temple_ig_url,
-                 'temple_fb_url' => $request->temple_fb_url,
-                 'temple_x_url' => $request->temple_x_url,
-                 'status' => 1 // Or any other status logic
+                
+                //  'status' => 1 // Or any other status logic
              ]
          );
      
-         return redirect()->back()->with('success', 'Social media updated successfully');
+         return redirect()->back()->with('success', ' Tempel Photos Videos Added Successfully');
      }
+
+   
+
      
      public function removeMedia(Request $request) {
         \Log::info($request->all()); // Log request data to see what's being passed
@@ -93,7 +117,7 @@ class SocialMediaController extends Controller
         if (!$filePath || !$mediaType) {
             return response()->json(['success' => false, 'message' => 'Invalid data'], 400);
         }
-        $templeSocialMedia = TempleSocialMedia::where('temple_id', Auth::guard('temples')->user()->temple_id)->first();
+        $templeSocialMedia = TemplePhotosVideos::where('temple_id', Auth::guard('temples')->user()->temple_id)->first();
     
         if ($mediaType == 'image') {
             $templeSocialMedia->temple_images = array_values(array_diff($templeSocialMedia->temple_images, [$filePath]));

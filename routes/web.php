@@ -64,9 +64,11 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
     });
     Route::controller(SocialMediaController::class)->group(function() {
         Route::get('/social-media', 'socialmedia')->name('templeuser.socialmedia');
-        Route::put('/temple/socialmedia',  'updateSocialMedia')->name('temple.updateSocialMedia');
+        Route::put('/temple-photos-videos',  'updatePhotosvideos')->name('temple.updatePhotosvideos');
         Route::post('/remove-media',  'removeMedia')->name('remove.media');
         Route::get('/temple-photos', 'templephotos')->name('templeuser.photos');
+
+        Route::put('/temple-social-media/update', 'updateSocialMediaUrls')->name('temple.social-media.update');
 
     });
     Route::controller(TrustMemberController::class)->group(function() {
@@ -89,7 +91,7 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
     Route::controller(TempleCommitteeController::class)->group(function() {
         Route::get('/add-temple-committee', 'addnewcommittee')->name('templeuser.addnewcommittee');
         Route::get('/add-temple-sub-committee', 'addsubcommittee')->name('templeuser.addsubcommittee');
-
+        Route::post('/save-temple-committee', 'saveCommittee')->name('templeuser.savecommittee');
     });
     Route::controller(TempleBankController::class)->group(function() {
         Route::get('/add-temple-bank', 'addbank')->name('templeuser.bankdetails');

@@ -54,34 +54,31 @@
 									<div class="card">
 										<div class="card-body pt-0 pt-4">
 												
-											<form method="POST" enctype="multipart/form-data" action="{{ route('templeuser.storeTrustMember') }}">
+											<form method="POST" enctype="multipart/form-data" action="{{ route('templeuser.savecommittee') }}">
 												@csrf
-												@method('POST') <!-- Assuming you're creating a new entry -->
-											
 												<div class="row">
 													<div class="col-md-6">
 														<div class="form-group">
-															<label for="trust_name">Committee Creation Date <span style="color:red">*</span></label>
-															<input type="date" class="form-control" id="trust_name" name="trust_name" 
-																value=""  >
+															<label for="committee_creation_date">Committee Creation Date <span style="color:red">*</span></label>
+															<input type="date" class="form-control" id="committee_creation_date" name="committee_creation_date" required>
 														</div>
 													</div>
 													<div class="col-md-6">
 														<div class="form-group">
-															<label for="trust_name">Financial Period <span style="color:red">*</span></label>
-															<select name="financial_period" class="form-control" id="">
-																<option selected>Choose One</option>
+															<label for="financial_period">Financial Period <span style="color:red">*</span></label>
+															<select name="financial_period" class="form-control" required>
+																<option selected disabled>Choose One</option>
 																<option value="2024-2025">2024-2025</option>
 																<option value="2025-2026">2025-2026</option>
 																<option value="2026-2027">2026-2027</option>
 																<option value="2027-2028">2027-2028</option>
-
 															</select>
 														</div>
 													</div>
 												</div>
-												<button type="submit" class="btn btn-primary">Submit</button>
+												<button type="submit" class="btn btn-primary">Add Committee</button>
 											</form>
+											
 										</div>
 									</div>
 								

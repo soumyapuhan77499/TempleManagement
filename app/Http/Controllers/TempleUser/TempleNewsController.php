@@ -70,7 +70,7 @@ class TempleNewsController extends Controller
     public function destroyNews($id)
     {
         $news = TempleNews::findOrFail($id);
-        $news->update(['status' => 'deactive']);
+        $news->update(['status' => 'deleted']);
 
         return redirect()->route('templenews.manageNews')->with('success', 'News Deleted Successfully!');
     }

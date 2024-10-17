@@ -15,8 +15,7 @@ class TempleSocialMedia extends Model
     // The attributes that are mass assignable.
     protected $fillable = [
         'temple_id',
-        'temple_images',
-        'temple_videos',
+       
         'temple_yt_url',
         'temple_ig_url',
         'temple_fb_url',
@@ -24,13 +23,13 @@ class TempleSocialMedia extends Model
         'status',
     ];
 
-    // Cast the temple_images and temple_videos attributes to arrays
-    protected $casts = [
-        'temple_images' => 'array',
-        'temple_videos' => 'array',
-    ];
+    // // Cast the temple_images and temple_videos attributes to arrays
+    // protected $casts = [
+    //     'temple_images' => 'array',
+    //     'temple_videos' => 'array',
+    // ];
     
 
-    // Any other custom methods for the model can go here.
+    // // Any other custom methods for the model can go here.
 }
 

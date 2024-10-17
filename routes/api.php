@@ -11,6 +11,8 @@ use App\Http\Controllers\Api\TempleDailyRitualController;
 use App\Http\Controllers\Api\TempleDarshanController;
 use App\Http\Controllers\Api\TempleFestivalController;
 use App\Http\Controllers\Api\SpecialRitualController;
+use App\Http\Controllers\Api\TempleNewsController;
+use App\Http\Controllers\Api\TempleSocialMediaController;
 
 
 
@@ -32,9 +34,18 @@ Route::controller(TempleLoginController::class)->group(function() {
 Route::middleware('auth:sanctum')->group(function () {
   Route::post('/update-temple-details', [TempleAboutController::class, 'updateTempleDetails']);
 });
+Route::controller(TempleSocialMediaController::class)->group(function() {
+  Route::get('/social-media', 'socialmedia');
+  Route::post('/social-media/update', 'updateSocialMediaUrls');
+  Route::post('/update-photos-videos',  'updatePhotosvideos');
+  Route::get('/temple-photos-videos', 'getTemplePhotos');
 
+});
 Route::controller(TempleBankController::class)->group(function() {
-  Route::post('/save-bank-details',  'saveBankDetails');
+  Route::post('/save-bank-details', 'saveBankDetails');
+  Route::get('/get-bank-details', 'getBankDetails');
+  Route::put('/update-bank-details/{id}', 'updateBank');
+  Route::delete('/delete-bank/{id}', 'deleteBank');
 });
 
 Route::controller(TrustMemberController::class)->group(function() {
@@ -64,3 +75,11 @@ Route::controller(SpecialRitualController::class)->group(function() {
   Route::put('/update-special-rituals/{id}', 'updateSpecialRitual');
   Route::delete('/delet-special-rituals/{id}','deleteSpecialRitual');
 });
+
+Route::controller(TempleNewsController::class)->group(function() {
+  Route::post('/store-news', 'storeNews');
+  Route::get('/manage-news', 'manageNews');
+  Route::put('/news/{id}', 'updateNews');
+  Route::delete('/delete-news/{id}', 'destroyNews');
+});
+

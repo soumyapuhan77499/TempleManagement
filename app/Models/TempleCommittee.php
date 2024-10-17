@@ -9,4 +9,12 @@ class TempleCommittee extends Model
 {
     use HasFactory;
     protected $table = 'temple__committee_details';
+    protected $fillable = [
+        'temple_id',
+        'committee_id',
+        'committee_creation_date',
+        'financial_period',
+        
+        'status',
+    ];
 }
