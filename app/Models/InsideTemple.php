@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class InsideTemple extends Model
 {
     use HasFactory;
+    
     protected $table = 'temple__inside_temple';
 
     protected $fillable = [

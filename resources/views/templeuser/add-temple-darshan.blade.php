@@ -56,7 +56,7 @@
                                             <div class="custom-card main-content-body-profile">
                                                 <div class="main-content-body tab-pane border-top-0" id="bank">
 
-                                                   <form action="{{ route('templeuser.savetempledarshan') }}" method="post" enctype="multipart/form-data" id="darshan-form">
+                                                   <form action="{{ route('templeuser.savetempledarshan') }}" method="post" enctype="multipart/form-data" id="darshan-form"  style="background-color: rgba(160, 213, 218, 0.2); padding: 15px">
                                                      @csrf
                                                         <div id="form-container">
                                                             <div class="form-group-wrapper">
@@ -126,8 +126,8 @@
 
                                                         <!-- Add and Submit Buttons -->
                                                         <div class="text-center col-md-12">
-                                                            <button type="button" class="btn btn-success add-darshan-btn">Add Darshan</button>
-                                                            <button type="submit" class="btn btn-primary">Submit Darshans</button>
+                                                            <button type="submit" class="btn btn-primary">Save Darshan</button>
+                                                            <button type="button" class="btn btn-success add-darshan-btn" style="font-size: 16px">+</button>
                                                         </div>
                                                     </form>
 

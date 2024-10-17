@@ -91,7 +91,7 @@
 
                         <!-- More Vendor Fields -->
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="vendor_category">Vendor Category <span style="color:red">*</span></label>
                                     <input type="text" class="form-control" id="vendor_category" name="vendor_category"
@@ -101,7 +101,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="payment_type">Payment Type</label>
                                     <select class="form-control" id="payment_type" name="payment_type">
@@ -121,7 +121,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="vendor_gst">GST Number</label>
                                     <input type="text" class="form-control" id="vendor_gst" name="vendor_gst"
@@ -132,13 +132,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="upi_id">UPI Number/ID</label>
-                                    <input type="text" class="form-control" name="upi_id"
-                                        placeholder="Enter UPI Number/ID"  value="{{ old('upi_id', $vendordetails->upi_id ?? '') }}">
-                                </div>
-                            </div>
+                        
 
                         </div>
                         <div class="col-md-12">
@@ -194,6 +188,17 @@
                                                     @enderror
                                                 </div>
                                             </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="upi_id_{{ $index }}">UPI Number/ID</label>
+                                                    <input type="text" class="form-control" id="upi_id_{{ $index }}" name="upi_id[]"
+                                                        value="{{ old('upi_id.' . $index, $bank->upi_id ?? '') }}">
+                                                    @error('upi_id.' . $index)
+                                                        <small class="text-danger">{{ $message }}</small>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                           
                                         </div>
                                         <button type="button" class="btn btn-danger remove-bank-section">Remove Bank Section</button>
                                     </div>
@@ -240,6 +245,12 @@
                             <div class="form-group">
                                 <label for="ifsc_code_${index}">IFSC Code</label>
                                 <input type="text" class="form-control" id="ifsc_code_${index}" name="ifsc_code[]">
+                            </div>
+                        </div>
+                         <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="upi_id_${index}">Upi Id</label>
+                                <input type="text" class="form-control" id="upi_id_${index}" name="upi_id_[]">
                             </div>
                         </div>
                     </div>

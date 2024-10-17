@@ -46,7 +46,6 @@
                                     <th class="border-bottom-0">Categories</th>
                                     <th class="border-bottom-0">Payment Type</th>
                                     <th class="border-bottom-0">Gst</th>
-                                    <th class="border-bottom-0">Upi</th>
                                     <th class="border-bottom-0">Vendor Address</th>
                                     <th class="border-bottom-0">Bank Details</th>
                                     <th class="border-bottom-0">Action</th>
@@ -62,7 +61,6 @@
                                         <td>{{ $vendor->vendor_category }}</td>
                                         <td>{{ $vendor->payment_type }}</td>
                                         <td>{{ $vendor->vendor_gst }}</td>
-                                        <td>{{ $vendor->upi_id }}</td>
                                         <td>{{ $vendor->vendor_address }}</td>
                                         <td>
                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" 
@@ -105,6 +103,8 @@
                                     <th>Bank Name</th>
                                     <th>Account Number</th>
                                     <th>IFSC Code</th>
+                                    <th>Upi Id</th>
+
                                 </tr>
                             </thead>
                             <tbody id="bank-details-body">
@@ -113,6 +113,7 @@
                                 <td>{{ $bank->bank_name }}</td>
                                 <td>{{ $bank->account_no }}</td>
                                 <td>{{ $bank->ifsc_code }}</td>
+                                <td>{{ $bank->upi_id }}</td>
                             </tr>
                                 @endforeach
 

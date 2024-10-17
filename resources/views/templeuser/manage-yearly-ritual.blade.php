@@ -5,6 +5,7 @@
 <link href="{{ asset('assets/plugins/datatable/css/buttons.bootstrap5.min.css') }}" rel="stylesheet">
 <link href="{{ asset('assets/plugins/datatable/responsive.bootstrap5.css') }}" rel="stylesheet" />
 <link href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet" />
+
 @endsection
 
 @section('content')
@@ -56,18 +57,16 @@
                                         <td>{{ $special_ritual->spcl_ritual_period }}</td>
                                         <td>
                                             @if ($special_ritual->spcl_ritual_image)
-                                                <a href="{{ asset($special_ritual->spcl_ritual_image) }}" target="_blank" class="btn btn-primary btn-sm">View Image</a>
+                                                <button type="button" class="btn btn-primary btn-sm" onclick="showMediaModal('{{ asset($special_ritual->spcl_ritual_image) }}', 'image')">View Image</button>
                                             @endif
                                         </td>
                                         <td>
                                             @if ($special_ritual->spcl_ritual_video)
-                                                <a href="{{ asset($special_ritual->spcl_ritual_video) }}" target="_blank" class="btn btn-primary btn-sm">View Video</a>
+                                                <button type="button" class="btn btn-primary btn-sm" onclick="showMediaModal('{{ asset($special_ritual->spcl_ritual_video) }}', 'video')">View Video</button>
                                             @endif
                                         </td>
                                         <td>{{ $special_ritual->description }}</td>
                                         <td>
-                                         
-
                                             <form id="delete-form-{{ $special_ritual->id }}" action="{{ route('delete.yearly-ritual', $special_ritual->id) }}" method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
@@ -84,6 +83,28 @@
             </div>
         </div>
     </div>
+    
+    <!-- Media Modal -->
+    <div class="modal fade" id="mediaModal" tabindex="-1" aria-labelledby="mediaModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mediaModalLabel">Special Ritual Media</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <!-- Image element -->
+                    <img id="ritualImage" src="" alt="Ritual Image" class="img-fluid" style="display:none;">
+                    <!-- Video element -->
+                    <video id="ritualVideo" class="img-fluid" controls style="display:none;">
+                        <source id="ritualVideoSource" src="" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('scripts')
@@ -141,4 +162,28 @@
         }
     }, 3000);
 </script>
+
+<script>
+    function showMediaModal(mediaUrl, mediaType) {
+        // Hide both image and video initially
+        document.getElementById('ritualImage').style.display = 'none';
+        document.getElementById('ritualVideo').style.display = 'none';
+
+        if (mediaType === 'image') {
+            // If it's an image, set the source and display the image
+            document.getElementById('ritualImage').src = mediaUrl;
+            document.getElementById('ritualImage').style.display = 'block';
+        } else if (mediaType === 'video') {
+            // If it's a video, set the source and display the video
+            document.getElementById('ritualVideoSource').src = mediaUrl;
+            document.getElementById('ritualVideo').load(); // Reload the video source
+            document.getElementById('ritualVideo').style.display = 'block';
+        }
+
+        // Show the modal
+        var modal = new bootstrap.Modal(document.getElementById('mediaModal'));
+        modal.show();
+    }
+</script>
+
 @endsection

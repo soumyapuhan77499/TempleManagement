@@ -8,6 +8,8 @@ use App\Models\VendorDetails;
 use App\Models\VendorBank;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class TempleVendorController extends Controller
 {
@@ -17,51 +19,77 @@ class TempleVendorController extends Controller
 
     public function saveVendorDetails(Request $request)
     {
-         // Validate the form input
+        // Validate the form input
         $request->validate([
-            'venodr_name' => 'required|string|max:255',
+            'vendor_name' => 'required|string|max:255',
             'phone_no' => 'required|string|max:255',
-          
         ]);
     
-        // Get the temple_id for the authenticated temple user
-        $templeId = Auth::guard('temples')->user()->temple_id;
+        // Start a transaction
+        DB::beginTransaction();
     
-        // Create a new vendor record
-        $vendorDetails = new VendorDetails();
-        $vendorDetails->temple_id = $templeId;
-        $vendorDetails->vendor_id = 'VENDOR' . rand(10000, 99999);
-        $vendorDetails->vendor_name = $request->vendor_name;
-        $vendorDetails->phone_no = $request->phone_no;
-        $vendorDetails->email_id = $request->email_id;
-        $vendorDetails->vendor_category = $request->vendor_category;
-        $vendorDetails->payment_type = $request->payment_type;
-        $vendorDetails->vendor_gst = $request->vendor_gst;
-        $vendorDetails->vendor_address = $request->vendor_address;
-        $vendorDetails->upi_id = $request->upi_id;
-        // Save the vendor details
-        $vendorDetails->save();
+        try {
+            // Get the temple_id for the authenticated temple user
+            $templeId = Auth::guard('temples')->user()->temple_id;
     
-        // Save multiple bank details if provided
-        if (!empty($request->bank_name)) {
-            foreach ($request->bank_name as $index => $bankName) {
-                // Check if any of the bank fields for the current index are filled
-                if (!empty($bankName) || !empty($request->account_no[$index]) || !empty($request->ifsc_code[$index]) || !empty($request->upi_id[$index])) {
-                    $vendorBank = new VendorBank();
-                    $vendorBank->temple_id = $templeId;
-                    $vendorBank->vendor_id = $vendorDetails->vendor_id;
-                    $vendorBank->bank_name = $bankName;
-                    $vendorBank->account_no = $request->account_no[$index];
-                    $vendorBank->ifsc_code = $request->ifsc_code[$index];
-                    // Save the bank details
-                    $vendorBank->save();
+            // Create a new vendor record
+            $vendorDetails = new VendorDetails();
+            $vendorDetails->temple_id = $templeId;
+            $vendorDetails->vendor_id = 'VENDOR' . rand(10000, 99999);
+            $vendorDetails->vendor_name = $request->vendor_name;
+            $vendorDetails->phone_no = $request->phone_no;
+            $vendorDetails->email_id = $request->email_id;
+            $vendorDetails->vendor_category = $request->vendor_category;
+            $vendorDetails->payment_type = $request->payment_type;
+            $vendorDetails->vendor_gst = $request->vendor_gst;
+            $vendorDetails->vendor_address = $request->vendor_address;
+            
+            // Save the vendor details
+            $vendorDetails->save();
+    
+            // Save multiple bank details if provided
+            if (!empty($request->bank_name)) {
+                foreach ($request->bank_name as $index => $bankName) {
+                    // Check if any of the bank fields for the current index are filled
+                    if (!empty($bankName) || !empty($request->account_no[$index]) || !empty($request->ifsc_code[$index])) {
+                        $vendorBank = new VendorBank();
+                        $vendorBank->temple_id = $templeId;
+                        $vendorBank->vendor_id = $vendorDetails->vendor_id;
+                        $vendorBank->bank_name = $bankName;
+                        $vendorBank->account_no = $request->account_no[$index];
+                        $vendorBank->ifsc_code = $request->ifsc_code[$index];
+                        $vendorBank->upi_id = $request->upi_id[$index];
+
+                        // Save the bank details
+                        $vendorBank->save();
+                    }
                 }
             }
-        }
     
-        // Redirect or return success response
-        return redirect()->route('templeuser.addvendor')->with('success', 'Vendor details saved successfully along with bank details.');
+            // Commit the transaction if everything is successful
+            DB::commit();
+    
+            // Use flash session to set success message
+            session()->flash('success', 'Vendor details saved successfully along with bank details.');
+    
+            // Redirect to add vendor page
+            return redirect()->route('templeuser.addvendor');
+    
+        } catch (\Exception $e) {
+            // Rollback the transaction in case of an error
+            DB::rollBack();
+    
+            // Log the error for debugging purposes
+            \Log::error('Error saving vendor details: ' . $e->getMessage());
+    
+            // Use flash session to set error message
+            session()->flash('error', 'An error occurred while saving vendor details. Please try again.');
+    
+            // Redirect back with an error message
+            return redirect()->back();
+        }
     }
+    
 
     public function manageVendorDetails()
     {
@@ -130,7 +158,6 @@ class TempleVendorController extends Controller
             'vendor_category' => 'required|string|max:255',
             'payment_type' => 'nullable|string|max:255',
             'vendor_gst' => 'nullable|string|max:15',
-            'upi_id' => 'nullable|string|max:255',
             'vendor_address' => 'nullable|string|max:255',
             'bank_name.*' => 'nullable|string|max:255',
             'account_no.*' => 'nullable|numeric',
@@ -151,6 +178,7 @@ class TempleVendorController extends Controller
                 'bank_name' => $request->bank_name[$index],
                 'account_no' => $request->account_no[$index],
                 'ifsc_code' => $request->ifsc_code[$index],
+                'upi_id' => $request->upi_id[$index],
             ];
     
             if ($bankId) {
@@ -168,3 +196,21 @@ class TempleVendorController extends Controller
     
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

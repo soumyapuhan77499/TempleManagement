@@ -45,8 +45,7 @@
                                         <div class="col-lg-12 col-md-12">
                                             <div class="custom-card main-content-body-profile">
                                                 <div class="main-content-body tab-pane border-top-0" id="bank">
-                                                   
-                                                    <form action="{{ url('templeuser/savetempleritual') }}" method="post" enctype="multipart/form-data" id="ritual-form">
+                                                    <form action="{{ url('templeuser/savetempleritual') }}" method="post" enctype="multipart/form-data" id="ritual-form"  style="background-color: rgba(160, 213, 218, 0.2); padding: 15px;">
                                                         @csrf
                                                         <div id="form-container">
                                                             <div class="form-group-wrapper">
@@ -124,8 +123,8 @@
                                                 
                                                         <!-- Add and Submit Buttons -->
                                                         <div class="text-center col-md-12">
-                                                            <button type="button" class="btn btn-success add-ritual-btn">Add Ritual</button>
-                                                            <button type="submit" class="btn btn-primary">Submit Rituals</button>
+                                                            <button type="submit" class="btn btn-primary">Save Rituals</button>
+                                                            <button type="button" class="btn btn-success add-ritual-btn" style="font-size: 16px">+</button>
                                                         </div>
                                                     </form>
 
