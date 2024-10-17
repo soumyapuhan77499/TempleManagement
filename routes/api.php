@@ -86,6 +86,6 @@ Route::controller(TempleNewsController::class)->group(function() {
 
 Route::controller(TempleMandapController::class)->group(function() {
   Route::post('/add-mandap', 'storeMandap');
-  
+  Route::get('/mandaps',  'manageMandap');
 });
 
