@@ -9,6 +9,31 @@ use Illuminate\Support\Facades\Auth;
 class TempleMandapController extends Controller
 {
     //
+    public function manageMandap()
+    {
+        // Get the authenticated temple ID
+        $templeId = Auth::guard('api')->user()->temple_id;
+
+        try {
+            // Fetch only active mandaps for the specific temple
+            $mandaps = TempleMandapDetail::where('status', 'active')
+                ->where('temple_id', $templeId)
+                ->get();
+
+            // Return the list of mandaps as a JSON response
+            return response()->json([
+                'message' => 'Active mandaps retrieved successfully!',
+                'data' => $mandaps
+            ], 200); // 200 OK status
+        } catch (\Exception $e) {
+            // Return error response if something goes wrong
+            return response()->json([
+                'message' => 'Failed to retrieve mandaps.',
+                'error' => $e->getMessage(),
+            ], 500); // 500 Internal Server Error status
+        }
+    }
+
     public function storeMandap(Request $request)
     {
         // Validate the incoming request data
