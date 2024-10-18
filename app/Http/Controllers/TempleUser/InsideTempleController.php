@@ -24,46 +24,46 @@ class InsideTempleController extends Controller
     }
     
     public function saveInsideTemple(Request $request)
-{
-    // Validate the request data
-    $request->validate([
-        'inside_temple_name' => 'required|string|max:255',
-        'inside_temple_about' => 'nullable|string',
-        'inside_temple_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Add validation for the image
-    ]);
+    {
+        // Validate the request data
+        $request->validate([
+            'inside_temple_name' => 'required|string|max:255',
+            'inside_temple_about' => 'nullable|string',
+            'inside_temple_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Add validation for the image
+        ]);
 
-    // Initialize the image path
-    $insideTempleImage = null;
+        // Initialize the image path
+        $insideTempleImage = null;
 
-    // Check if an image was uploaded and handle it
-    if ($request->hasFile('inside_temple_image')) {
-        $image = $request->file('inside_temple_image');
-        $imageName = time() . '_' . $image->getClientOriginalName();
-        $imagePath = 'assets/temple/inside_temple_image';
+        // Check if an image was uploaded and handle it
+        if ($request->hasFile('inside_temple_image')) {
+            $image = $request->file('inside_temple_image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $imagePath = 'assets/temple/inside_temple_image';
 
-        // Ensure the directory exists
-        if (!file_exists(public_path($imagePath))) {
-            mkdir(public_path($imagePath), 0777, true); // Create the directory if it doesn't exist
+            // Ensure the directory exists
+            if (!file_exists(public_path($imagePath))) {
+                mkdir(public_path($imagePath), 0777, true); // Create the directory if it doesn't exist
+            }
+
+            // Move the uploaded image to the folder
+            $image->move(public_path($imagePath), $imageName);
+
+            // Set the image path to be saved in the database
+            $insideTempleImage = $imagePath . '/' . $imageName;
         }
 
-        // Move the uploaded image to the folder
-        $image->move(public_path($imagePath), $imageName);
+        // Save the form data into the database
+        InsideTemple::create([
+            'temple_id' => Auth::guard('temples')->user()->temple_id,
+            'inside_temple_name' => $request->inside_temple_name,
+            'inside_temple_image' => $insideTempleImage,
+            'description' => $request->inside_temple_about,
+        ]);
 
-        // Set the image path to be saved in the database
-        $insideTempleImage = $imagePath . '/' . $imageName;
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'Inside Temple added successfully.');
     }
-
-    // Save the form data into the database
-    InsideTemple::create([
-        'temple_id' => Auth::guard('temples')->user()->temple_id,
-        'inside_temple_name' => $request->inside_temple_name,
-        'inside_temple_image' => $insideTempleImage,
-        'description' => $request->inside_temple_about,
-    ]);
-
-    // Redirect back with a success message
-    return redirect()->back()->with('success', 'Inside Temple added successfully.');
-}
 
 public function editInsideTemple($id)
 {

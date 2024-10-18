@@ -90,10 +90,11 @@ class TemplePoojaController extends Controller
       public function destroyPooja($id)
       {
           $pooja = TemplePooja::findOrFail($id);
-          $pooja->update(['status' => 'deactive']);
+          $pooja->update(['status' => 'deleted']);
   
           return redirect()->route('templepooja.managepooja')->with('success', 'Pooja deactivated successfully!');
       }
+      
   
     
       
