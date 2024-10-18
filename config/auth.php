@@ -51,6 +51,7 @@ return [
         'api' => [
             'driver' => 'sanctum', // api authentication
             'provider' => 'temples',
+            'hash' => false,
         ],
        
     ],
