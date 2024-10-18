@@ -12,6 +12,18 @@ class TempleNewsController extends Controller
     //
     public function storeNews(Request $request)
     {
+        // Get the logged-in temple's ID
+        $temple_id = Auth::guard('api')->user()->temple_id;
+    
+        // Check if the user is authenticated
+        if (!$temple_id) {
+            return response()->json([
+                'message' => 'User not authenticated.',
+                'data' => null,
+                'status' => 401, // Unauthorized
+            ], 401);
+        }
+    
         // Validate the request data
         $validatedData = $request->validate([
             'notice_name' => 'required|string|max:255',
@@ -22,7 +34,7 @@ class TempleNewsController extends Controller
         try {
             // Create a new news entry
             $templeNews = TempleNews::create([
-                'temple_id' => Auth::guard('api')->user()->temple_id, // Assuming temple_id is linked to the user
+                'temple_id' => $temple_id, // Assuming temple_id is linked to the user
                 'notice_name' => $validatedData['notice_name'],
                 'notice_date' => $validatedData['notice_date'],
                 'notice_descp' => $validatedData['notice_descp'],
@@ -48,13 +60,22 @@ class TempleNewsController extends Controller
     
     public function manageNews(Request $request)
     {
-        try {
-            // Get the temple ID from the authenticated user
-            $templeId = Auth::guard('api')->user()->temple_id;
+        // Get the temple ID from the authenticated user
+        $temple_id = Auth::guard('api')->user()->temple_id;
     
+        // Check if the user is authenticated
+        if (!$temple_id) {
+            return response()->json([
+                'message' => 'User not authenticated.',
+                'data' => null,
+                'status' => 401, // Unauthorized
+            ], 401);
+        }
+    
+        try {
             // Retrieve the list of active news for the temple
             $newsList = TempleNews::where('status', 'active')
-                ->where('temple_id', $templeId)
+                ->where('temple_id', $temple_id)
                 ->get();
     
             // Return the news list as a JSON response
@@ -76,6 +97,18 @@ class TempleNewsController extends Controller
     
     public function updateNews(Request $request, $id)
     {
+        // Get the temple ID from the authenticated user
+        $temple_id = Auth::guard('api')->user()->temple_id;
+    
+        // Check if the user is authenticated
+        if (!$temple_id) {
+            return response()->json([
+                'message' => 'User not authenticated.',
+                'data' => null,
+                'status' => 401, // Unauthorized
+            ], 401);
+        }
+    
         // Validate the request data
         $validatedData = $request->validate([
             'notice_name' => 'required|string|max:255',
@@ -113,6 +146,18 @@ class TempleNewsController extends Controller
     
     public function destroyNews($id)
     {
+        // Get the temple ID from the authenticated user
+        $temple_id = Auth::guard('api')->user()->temple_id;
+    
+        // Check if the user is authenticated
+        if (!$temple_id) {
+            return response()->json([
+                'message' => 'User not authenticated.',
+                'data' => null,
+                'status' => 401, // Unauthorized
+            ], 401);
+        }
+    
         try {
             // Find the news by ID or fail
             $news = TempleNews::findOrFail($id);
@@ -135,6 +180,7 @@ class TempleNewsController extends Controller
             ], 500);
         }
     }
+    
     
 
 

@@ -40,7 +40,7 @@ class TempleExpenditureController extends Controller
         $voucherNumber = strtoupper(substr(bin2hex(random_bytes(5)), 0, 10));
 
         // Get the authenticated temple ID (assuming you're using the 'templeuser' guard)
-        $templeId = Auth::guard('temples')->user()->temple_id;
+        $templeId = Auth::guard('api')->user()->temple_id;
 
         // Create the expenditure record
         $expenditure = TempleExpenditure::create([

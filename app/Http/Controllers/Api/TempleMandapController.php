@@ -10,8 +10,17 @@ class TempleMandapController extends Controller
 {
     public function manageMandap()
     {
-        // Get the authenticated temple ID
+        // Get the logged-in temple's ID
         $templeId = Auth::guard('api')->user()->temple_id;
+    
+        // Check if the user is authenticated
+        if (!$templeId) {
+            return response()->json([
+                'message' => 'User not authenticated.',
+                'data' => null,
+                'status' => 401, // Unauthorized
+            ], 401);
+        }
     
         try {
             // Fetch only active mandaps for the specific temple
@@ -37,6 +46,18 @@ class TempleMandapController extends Controller
     
     public function storeMandap(Request $request)
     {
+        // Get the logged-in temple's ID
+        $templeId = Auth::guard('api')->user()->temple_id;
+    
+        // Check if the user is authenticated
+        if (!$templeId) {
+            return response()->json([
+                'message' => 'User not authenticated.',
+                'data' => null,
+                'status' => 401, // Unauthorized
+            ], 401);
+        }
+    
         // Validate the incoming request data
         $validatedData = $request->validate([
             'mandap_name' => 'required|string|max:255',
@@ -49,7 +70,7 @@ class TempleMandapController extends Controller
         try {
             // Create a new mandap detail record with additional fields
             $mandap = TempleMandapDetail::create([
-                'temple_id' => Auth::guard('api')->user()->temple_id, // Use the correct guard for API
+                'temple_id' => $templeId, // Use the correct guard for API
                 'mandap_name' => $validatedData['mandap_name'],
                 'mandap_description' => $validatedData['mandap_description'],
                 'booking_type' => $validatedData['booking_type'],
@@ -60,10 +81,10 @@ class TempleMandapController extends Controller
     
             // Return success response
             return response()->json([
-                'status' => 200,
+                'status' => 201,
                 'message' => 'Mandap details saved successfully!',
                 'data' => $mandap
-            ], 200); // 201 Created status
+            ], 201); // 201 Created status
         } catch (\Exception $e) {
             // Return error response if something goes wrong
             return response()->json([
@@ -76,6 +97,18 @@ class TempleMandapController extends Controller
     
     public function update(Request $request, $id)
     {
+        // Get the logged-in temple's ID
+        $templeId = Auth::guard('api')->user()->temple_id;
+    
+        // Check if the user is authenticated
+        if (!$templeId) {
+            return response()->json([
+                'message' => 'User not authenticated.',
+                'data' => null,
+                'status' => 401, // Unauthorized
+            ], 401);
+        }
+    
         // Validate the incoming request
         $validatedData = $request->validate([
             'mandap_name' => 'required|string|max:255',
@@ -110,6 +143,18 @@ class TempleMandapController extends Controller
     
     public function destroy($id)
     {
+        // Get the logged-in temple's ID
+        $templeId = Auth::guard('api')->user()->temple_id;
+    
+        // Check if the user is authenticated
+        if (!$templeId) {
+            return response()->json([
+                'message' => 'User not authenticated.',
+                'data' => null,
+                'status' => 401, // Unauthorized
+            ], 401);
+        }
+    
         try {
             // Find the mandap by ID or fail
             $mandap = TempleMandapDetail::findOrFail($id);
@@ -133,6 +178,7 @@ class TempleMandapController extends Controller
             ], 500); // 500 Internal Server Error status
         }
     }
+    
     
 
 
