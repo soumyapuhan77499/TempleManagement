@@ -103,7 +103,7 @@ Route::middleware(['auth:api'])->group(function () {
       Route::controller(InsideTempleController::class)->group(function() {
         Route::post('/add-inside-temple', 'saveInsideTemple');
         Route::get('/manage-inside-temple', 'manageInsideTemple');
+        Route::put('/update-inside-temple/{id}', 'updateInsideTemple');
+        Route::delete('/delete-inside-temple/{id}', 'deleteInsideTemple');
       });
 });
-
-

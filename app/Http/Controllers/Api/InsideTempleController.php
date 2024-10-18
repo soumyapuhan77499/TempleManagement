@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\InsideTemple;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
 class InsideTempleController extends Controller
 {
     //
@@ -75,42 +77,149 @@ class InsideTempleController extends Controller
         }
     }
     public function manageInsideTemple()
-{
-    $temple_id = Auth::guard('api')->user()->temple_id;
-    
-    // Get all records related to this temple that are active
-    $insideTemple = InsideTemple::where('temple_id', $temple_id)->where('status', 'active')->get();
-    
-    // Check if records exist
-    if ($insideTemple->isNotEmpty()) {
-        // Map the data to include image URL and other necessary fields
-        $templeData = $insideTemple->map(function($temple) {
-            return [
-                'id' => $temple->id,
-                'temple_id' => $temple->temple_id,
-                'inside_temple_name' => $temple->inside_temple_name,
-                'description' => $temple->description,
-                'inside_temple_image' => $temple->inside_temple_image,
-                'image_url' => $temple->inside_temple_image ? url($temple->inside_temple_image) : null,
-                'created_at' => $temple->created_at,
-                'updated_at' => $temple->updated_at,
-            ];
-        });
+    {
+        $temple_id = Auth::guard('api')->user()->temple_id;
+        
+        // Get all records related to this temple that are active
+        $insideTemple = InsideTemple::where('temple_id', $temple_id)->where('status', 'active')->get();
+        
+        // Check if records exist
+        if ($insideTemple->isNotEmpty()) {
+            // Map the data to include image URL and other necessary fields
+            $templeData = $insideTemple->map(function($temple) {
+                return [
+                    'id' => $temple->id,
+                    'temple_id' => $temple->temple_id,
+                    'inside_temple_name' => $temple->inside_temple_name,
+                    'description' => $temple->description,
+                    'inside_temple_image' => $temple->inside_temple_image,
+                    'image_url' => $temple->inside_temple_image ? url($temple->inside_temple_image) : null,
+                    'created_at' => $temple->created_at,
+                    'updated_at' => $temple->updated_at,
+                ];
+            });
 
-        // Return a success response
-        return response()->json([
-            'status' => 200,
-            'message' => 'Inside Temple data retrieved successfully.',
-            'data' => $templeData,
-        ]);
-    } else {
-        // Return a response if no data is found
-        return response()->json([
-            'status' => 404,
-            'message' => 'No inside temple data found for this temple.',
-        ]);
+            // Return a success response
+            return response()->json([
+                'status' => 200,
+                'message' => 'Inside Temple data retrieved successfully.',
+                'data' => $templeData,
+            ]);
+        } else {
+            // Return a response if no data is found
+            return response()->json([
+                'status' => 404,
+                'message' => 'No inside temple data found for this temple.',
+            ]);
+        }
     }
-}
+ 
+    public function updateInsideTemple(Request $request, $id)
+    {
+        // Log the incoming request data
+        Log::info('Incoming request data:', $request->all());
+    
+        // Validate the request data
+        $request->validate([
+            'inside_temple_name' => 'required|string|max:255',
+            'inside_temple_about' => 'nullable|string',
+            'inside_temple_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+    
+        try {
+            $temple = InsideTemple::findOrFail($id); // Fetch the record by id
+    
+            // Handle image upload if a new image is provided
+            if ($request->hasFile('inside_temple_image')) {
+                $image = $request->file('inside_temple_image');
+                $imageName = time() . '_' . $image->getClientOriginalName();
+                $imagePath = 'assets/temple/inside_temple_image';
+    
+                // Ensure the directory exists
+                if (!file_exists(public_path($imagePath))) {
+                    mkdir(public_path($imagePath), 0777, true);
+                }
+    
+                // Move the uploaded image to the folder
+                $image->move(public_path($imagePath), $imageName);
+    
+                // Set the new image path
+                $temple->inside_temple_image = $imagePath . '/' . $imageName;
+            }
+    
+            // Update other fields
+            $temple->inside_temple_name = $request->inside_temple_name;
+            $temple->description = $request->inside_temple_about;
+            $temple->save();
+    
+            // Log success message
+            Log::info('Inside Temple updated successfully:', ['temple_id' => $temple->id]);
+    
+            // Return success response
+            return response()->json([
+                'status' => 200,
+                'message' => 'Inside Temple updated successfully.',
+                'data' => [
+                    'id' => $temple->id,
+                    'temple_id' => $temple->temple_id,
+                    'inside_temple_name' => $temple->inside_temple_name,
+                    'inside_temple_image' => $temple->inside_temple_image,
+                    'image_url' => url($temple->inside_temple_image), // Provide full URL
+                    'description' => $temple->description,
+                    'updated_at' => $temple->updated_at,
+                    'created_at' => $temple->created_at,
+                ],
+            ]);
+        } catch (\Exception $e) {
+            // Log the error message
+            Log::error('Failed to update Inside Temple.', ['error' => $e->getMessage()]);
+    
+            // Return error response if something goes wrong
+            return response()->json([
+                'status' => 500,
+                'message' => 'Failed to update Inside Temple.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+    public function deleteInsideTemple($id)
+    {
+        try {
+            // Find the inside temple record by ID
+            $temple = InsideTemple::findOrFail($id); // Use findOrFail to throw an error if not found
+    
+            // Update the status to 'deleted'
+            $temple->status = 'deleted'; // Assuming the status column exists and stores statuses like 'active', 'deleted', etc.
+            
+            // Save the record
+            $temple->save();
+    
+            // Return success response
+            return response()->json([
+                'status' => 200,
+                'message' => 'Inside Temple has been marked as deleted.'
+            ]);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            // Return error response if the record is not found
+            return response()->json([
+                'status' => 404,
+                'message' => 'Inside Temple not found.',
+            ], 404);
+        } catch (\Exception $e) {
+            // Log the error for debugging
+            Log::error('Failed to delete Inside Temple.', ['error' => $e->getMessage()]);
+    
+            // Return error response for any other exceptions
+            return response()->json([
+                'status' => 500,
+                'message' => 'Failed to delete Inside Temple.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+    
+
+
 
     
 

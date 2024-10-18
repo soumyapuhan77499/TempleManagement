@@ -82,20 +82,21 @@ class TempleSocialMediaController extends Controller
             return response()->json([
                 'message' => 'No photos or videos found for this temple.',
                 'data' => [
+                    'temple_id' => $temple_id,
                     'temple_images' => [],
                     'temple_videos' => []
                 ],
                 'status' => 200, // Include the status code in the response
-            ], 200); // Return 404 Not Found
+            ], 200); // Return 200 OK
         }
     
-        // Generate URLs for images and videos
-        $imageUrls = array_map(function ($image) {
-            return Storage::url($image);
+        // Generate structured output for images and videos
+        $formattedImages = array_map(function ($image) {
+            return ['uri' => Storage::url($image)];
         }, $templePhotosVideos->temple_images ?? []);
     
-        $videoUrls = array_map(function ($video) {
-            return Storage::url($video);
+        $formattedVideos = array_map(function ($video) {
+            return ['uri' => Storage::url($video)];
         }, $templePhotosVideos->temple_videos ?? []);
     
         // Return the images and videos as a JSON response
@@ -103,8 +104,8 @@ class TempleSocialMediaController extends Controller
             'message' => 'Temple photos and videos retrieved successfully.',
             'data' => [
                 'temple_id' => $temple_id,
-                'temple_images' => $imageUrls, // Array of image URLs
-                'temple_videos' => $videoUrls  // Array of video URLs
+                'temple_images' => $formattedImages, // Array of image URLs formatted
+                'temple_videos' => $formattedVideos  // Array of video URLs formatted
             ],
             'status' => 200, // Include the status code in the response
         ], 200); // Return 200 OK
