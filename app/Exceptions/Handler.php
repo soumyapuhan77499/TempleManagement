@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Auth\AuthenticationException; // Add this import
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -38,4 +39,27 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    /**
+     * Override the default unauthenticated response.
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @param \Illuminate\Auth\AuthenticationException  $exception
+     * @return \Illuminate\Http\Response
+     */
+    protected function unauthenticated($request, AuthenticationException $exception)
+{
+    // Check if the guard used is 'api' or 'sanctum', and force JSON response
+    if ($request->is('api/*') || $request->expectsJson()) {
+        return response()->json([
+            'status' => 401,
+            'message' => 'Invalid or missing authentication token.',
+            'data' => null,
+        ], 401);
+    }
+
+    // For web requests, redirect to the login page
+    // return redirect()->guest(route('templelogin'));
+}
+
 }
