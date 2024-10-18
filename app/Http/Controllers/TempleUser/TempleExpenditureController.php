@@ -15,8 +15,10 @@ class TempleExpenditureController extends Controller
     }
 
     public function getVendors() {
+        $templeId = Auth::guard('temples')->user()->temple_id;
+
         // Fetch vendors from VendorDetails table
-        $vendors = VendorDetails::select('vendor_id', 'vendor_name')->where('status','active')->get();
+        $vendors = VendorDetails::select('vendor_id', 'vendor_name')->where('temple_id',$templeId)->where('status','active')->get();
     
         // Return a JSON response
         return response()->json($vendors);
@@ -68,17 +70,13 @@ class TempleExpenditureController extends Controller
     }
 
     public function manageExpenditure(){
+        $templeId = Auth::guard('temples')->user()->temple_id;
 
-        $templeExpenditure = TempleExpenditure::where('status','active')->get(); // Assuming relation with Vendor
+        $templeExpenditure = TempleExpenditure::where('status','active')->where('temple_id',$templeId)->get(); // Assuming relation with Vendor
         return view('templeuser.manage-temple-expenditure', compact('templeExpenditure'));
 
     }
-
-    public function editExpenditure($id)
-    {
-        $expenditure = TempleExpenditure::findOrFail($id);
-        return view('templeuser.edit-temple-expenditure', compact('expenditure'));
-    }
+    
 
     public function updateExpenditure(Request $request, $id)
     {

@@ -75,4 +75,92 @@ private function convert24ToCarbonInstance($time, $period)
     return Carbon::createFromFormat('H:i A', Carbon::createFromFormat('H:i', $time)->format('h:i') . ' ' . $period);
 }
 
+public function ManageTempleDarshan()
+{
+    $templeId = Auth::guard('api')->user()->temple_id;
+
+    // Fetch active darshans for the temple
+    $darshans = TempleDarshan::where('status', 'active')->where('temple_id', $templeId)->get();
+
+    // Group darshans by darshan_day
+    $groupedDarshans = $darshans->groupBy('darshan_day');
+
+    // Prepare the list of weekdays
+    $weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    // Return a JSON response
+    return response()->json([
+        'groupedDarshans' => $groupedDarshans,
+        'weekDays' => $weekDays
+    ]);
+}
+
+
+public function updateTempleDarshan(Request $request)
+{
+    // Validate the incoming data
+    $request->validate([
+        'darshan_id.*' => 'required|exists:temple_darshan,id', // Ensure the darshan ID exists
+        'darshan_name.*' => 'required|string|max:255',
+        'darshan_start_time.*' => 'required',
+        'darshan_start_period.*' => 'required',
+        'darshan_end_time.*' => 'required',
+        'darshan_end_period.*' => 'required',
+        'description.*' => 'nullable|string',
+        'darshan_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    try {
+        // Loop through each darshan entry
+        foreach ($request->darshan_id as $key => $id) {
+            // Convert start and end time to Carbon instances
+            $startTime = $this->convert24ToCarbonInstance($request->darshan_start_time[$key], $request->darshan_start_period[$key]);
+            $endTime = $this->convert24ToCarbonInstance($request->darshan_end_time[$key], $request->darshan_end_period[$key]);
+
+            // Check if start time is greater than end time (overnight case)
+            if ($startTime->greaterThan($endTime)) {
+                // Add one day to the end time
+                $endTime->addDay();
+            }
+
+            // Calculate darshan duration
+            $durationInMinutes = $startTime->diffInMinutes($endTime);
+            $hours = intdiv($durationInMinutes, 60);
+            $minutes = $durationInMinutes % 60;
+            $darshanDuration = sprintf('%02d:%02d', $hours, $minutes);  // Format as HH:MM
+
+            // Find the darshan entry by ID
+            $darshan = TempleDarshan::find($id);
+
+            if ($darshan) {
+                // Update the darshan details
+                $darshan->darshan_name = $request->darshan_name[$key];
+                $darshan->darshan_start_time = $request->darshan_start_time[$key];
+                $darshan->darshan_start_period = $request->darshan_start_period[$key];
+                $darshan->darshan_end_time = $request->darshan_end_time[$key];
+                $darshan->darshan_end_period = $request->darshan_end_period[$key];
+                $darshan->darshan_duration = $darshanDuration;  // Save the calculated darshan duration
+                $darshan->description = $request->description[$key] ?? null;
+
+                // Handle image upload if a new image is uploaded
+                if ($request->hasFile('darshan_image.' . $key)) {
+                    $image = $request->file('darshan_image.' . $key);
+                    $imageName = time() . '_' . $image->getClientOriginalName();
+                    $imagePath = 'assets/temple/darshan_images';
+                    $image->move(public_path($imagePath), $imageName);
+                    $darshan->darshan_image = $imagePath . '/' . $imageName;
+                }
+
+                // Save the darshan details
+                $darshan->save();
+            }
+        }
+
+        return response()->json(['success' => true, 'message' => 'Darshans updated successfully.'], 200);
+    } catch (\Exception $e) {
+        return response()->json(['success' => false, 'message' => 'An error occurred while updating darshans: ' . $e->getMessage()], 500);
+    }
+}
+
+
 }

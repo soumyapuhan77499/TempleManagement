@@ -87,5 +87,24 @@ public function apiUpdateFestival(Request $request, $id)
     }
 }
 
+public function apiDeleteFestival($id)
+{
+    try {
+        $festival = TempleFestival::findOrFail($id); // Find the festival by ID
+        $festival->status = 'deleted'; // Change status to 'deleted'
+        $festival->save(); // Save the updated status
+
+        return response()->json([
+            'message' => 'Festival deactivated successfully!',
+            'data' => $festival
+        ], 200);
+    } catch (\Exception $e) {
+        return response()->json([
+            'message' => 'Festival not found or could not be deactivated!',
+            'error' => $e->getMessage()
+        ], 400);
+    }
+}
+
     
 }
