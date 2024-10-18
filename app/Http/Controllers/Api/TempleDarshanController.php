@@ -162,5 +162,26 @@ public function updateTempleDarshan(Request $request)
     }
 }
 
+public function deleteTempleDarshan($id)
+{
+    try {
+        // Find the darshan by ID
+        $darshan = TempleDarshan::find($id);
+
+        if ($darshan) {
+            // Update the status to 'deleted'
+            $darshan->status = 'deleted';
+            $darshan->save();
+
+            return response()->json(['success' => true, 'message' => 'Darshan deleted successfully.'], 200);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Darshan not found.'], 404);
+        }
+    } catch (\Exception $e) {
+        return response()->json(['success' => false, 'message' => 'An error occurred while deleting the darshan: ' . $e->getMessage()], 500);
+    }
+}
+
+
 
 }

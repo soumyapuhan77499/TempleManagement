@@ -185,5 +185,25 @@ public function deleteSpecialRitual($id)
     }
 }
 
+public function editSpecialRitual($id)
+{
+    try {
+        // Fetch the special ritual by ID
+        $specialRitual = SpecialRitual::findOrFail($id);
+
+        // Return a success response with the ritual data
+        return response()->json([
+            'success' => true,
+            'data' => $specialRitual
+        ], 200);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Ritual not found or an error occurred: ' . $e->getMessage()
+        ], 500);
+    }
+}
+
+
 
 }

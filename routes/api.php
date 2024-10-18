@@ -69,6 +69,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/save-darshans', 'apiSaveTempleDarshan');
         Route::get('/manage-darshan', 'ManageTempleDarshan')->name('templedarshan.manage');
         Route::put('/update-darshan', 'updateTempleDarshan')->name('templedarshan.update');
+        Route::delete('/delete-darshan/{id}', 'deleteTempleDarshan');
       });
 
       Route::controller(TempleFestivalController::class)->group(function() {
@@ -82,6 +83,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/manage-special-rituals', 'manageSpecialRitual');
         Route::put('/update-special-rituals/{id}', 'updateSpecialRitual');
         Route::delete('/delet-special-rituals/{id}','deleteSpecialRitual');
+        Route::get('/edit-special-ritual/{id}', 'editSpecialRitual');
+
       });
 
       Route::controller(TempleNewsController::class)->group(function() {
@@ -89,6 +92,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/manage-news', 'manageNews');
         Route::put('/news/{id}', 'updateNews');
         Route::delete('/delete-news/{id}', 'destroyNews');
+        
       });
 
       Route::controller(TempleMandapController::class)->group(function() {
