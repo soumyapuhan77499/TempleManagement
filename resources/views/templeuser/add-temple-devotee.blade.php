@@ -81,16 +81,22 @@
 														</div>
 													
 														<div class="row">
-															<div class="col-md-6">
+															<div class="col-md-4">
 																<div class="form-group">
 																	<label for="gotra">Gotra <span style="color:red">*</span></label>
 																	<input type="text" class="form-control" id="gotra" name="gotra" placeholder="Enter Gotra" required>
 																</div>
 															</div>
-															<div class="col-md-6">
+															<div class="col-md-4">
 																<div class="form-group">
 																	<label for="rashi">Rashi (Zodiac Sign) <span style="color:red">*</span></label>
 																	<input type="text" class="form-control" id="rashi" name="rashi" placeholder="Enter Zodiac Sign" required>
+																</div>
+															</div>
+															<div class="col-md-4">
+																<div class="form-group">
+																	<label for="rashi">Nakshatra </label>
+																	<input type="text" class="form-control" id="nakshatra" name="nakshatra" placeholder="Enter Nakshatra">
 																</div>
 															</div>
 														</div>

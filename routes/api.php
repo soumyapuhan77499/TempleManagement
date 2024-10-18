@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\TempleSocialMediaController;
 use App\Http\Controllers\Api\InsideTempleController;
 use App\Http\Controllers\Api\TempleVendorsControllerller;
 use App\Http\Controllers\Api\TempleExpenditureController;
+use App\Http\Controllers\Api\TempleDevoteesController;
 
 use App\Http\Controllers\Api\TempleMandapController;
 use App\Http\Controllers\Api\TemplePoojaController;
@@ -76,6 +77,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/save-festival', 'apiStoreFestival');
         Route::get('/manage-festival', 'apiManageFestivals');
         Route::put('/update-festival/{id}',  'apiUpdateFestival');
+        Route::delete('/delete-festival/{id}',  'destroy');
       });
 
       Route::controller(SpecialRitualController::class)->group(function() {
@@ -110,9 +112,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
       Route::controller(InsideTempleController::class)->group(function() {
         Route::post('/add-inside-temple', 'saveInsideTemple');
-        Route::get('/manage-inside-temple', 'manageInsideTemple')->middleware('auth:api');
-        Route::put('/update-inside-temple/{id}', 'updateInsideTemple');
+        Route::get('/manage-inside-temple', 'manageInsideTemple');
+        Route::post('/update-inside-temple/{id}', 'updateInsideTemple');
         Route::delete('/delete-inside-temple/{id}', 'deleteInsideTemple');
+      });
+
+      Route::controller(TempleDevoteesController::class)->group(function() {
+        Route::post('/add-devotee', 'storedata');
+        Route::put('/update-devotees/{id}', 'update')->name('devotees.update');
+       
       });
 
 

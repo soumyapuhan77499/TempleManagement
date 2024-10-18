@@ -16,6 +16,7 @@ class TempleDevotee extends Model
         'photo',
         'gotra',
         'rashi',
+        'nakshatra',
         'anniversary_date',
         'address',
     ];

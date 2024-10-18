@@ -25,6 +25,7 @@ class TempleDevoteesController extends Controller
             'photo' => 'required|image|max:2048',
             'gotra' => 'required|string|max:255',
             'rashi' => 'required|string|max:255',
+            'nakshatra' => 'string|max:255',
             'anniversary_date' => 'nullable|date',
             'address' => 'required|string|max:500',
         ]);
@@ -42,6 +43,7 @@ class TempleDevoteesController extends Controller
             'photo' => $photoPath,
             'gotra' => $request->gotra,
             'rashi' => $request->rashi,
+            'nakshatra' => $request->nakshatra,
             'anniversary_date' => $request->anniversary_date,
             'address' => $request->address,
             
@@ -66,15 +68,19 @@ class TempleDevoteesController extends Controller
                'rashi' => 'required',
                'address' => 'required',
            ]);
-   
+       
            $devotee = TempleDevotee::findOrFail($id);
-   
+       
            // If a new photo is uploaded, handle the file upload
            if ($request->hasFile('photo')) {
+               // Delete old photo if necessary
+               if ($devotee->photo) {
+                   Storage::disk('public')->delete($devotee->photo);
+               }
                $photoPath = $request->file('photo')->store('photos', 'public');
                $devotee->photo = $photoPath;
            }
-   
+       
            // Update the devotee's data
            $devotee->update([
                'name' => $request->name,
@@ -85,10 +91,11 @@ class TempleDevoteesController extends Controller
                'anniversary_date' => $request->anniversary_date,
                'address' => $request->address,
            ]);
-   
+       
            return redirect()->route('templedevotees.managedevotees')
                             ->with('success', 'Devotee updated successfully.');
        }
+       
    
        // Deactivate (soft delete) a devotee
        public function destroy($id)

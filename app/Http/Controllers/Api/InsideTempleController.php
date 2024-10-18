@@ -140,10 +140,8 @@ class InsideTempleController extends Controller
     
     public function updateInsideTemple(Request $request, $id)
     {
-        // Get the logged-in temple's ID
-        $temple_id = Auth::guard('api')->user()->temple_id;
-    
         // Check if the user is authenticated
+        $temple_id = Auth::guard('api')->user()->temple_id;
         if (!$temple_id) {
             return response()->json([
                 'message' => 'User not authenticated.',
@@ -154,7 +152,7 @@ class InsideTempleController extends Controller
     
         // Log the incoming request data
         Log::info('Incoming request data:', $request->all());
-    
+        
         // Validate the request data
         $request->validate([
             'inside_temple_name' => 'required|string|max:255',
@@ -163,7 +161,8 @@ class InsideTempleController extends Controller
         ]);
     
         try {
-            $temple = InsideTemple::findOrFail($id); // Fetch the record by id
+            // Fetch the record by id
+            $temple = InsideTemple::findOrFail($id);
     
             // Handle image upload if a new image is provided
             if ($request->hasFile('inside_temple_image')) {
@@ -206,8 +205,17 @@ class InsideTempleController extends Controller
                     'created_at' => $temple->created_at,
                 ],
             ]);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            // Log the error message if the temple is not found
+            Log::error('Inside Temple not found.', ['error' => $e->getMessage()]);
+    
+            // Return error response if the temple does not exist
+            return response()->json([
+                'status' => 404,
+                'message' => 'Inside Temple not found.',
+            ], 404);
         } catch (\Exception $e) {
-            // Log the error message
+            // Log the error message for any other exceptions
             Log::error('Failed to update Inside Temple.', ['error' => $e->getMessage()]);
     
             // Return error response if something goes wrong
@@ -218,6 +226,7 @@ class InsideTempleController extends Controller
             ], 500);
         }
     }
+    
     
     public function deleteInsideTemple($id)
     {

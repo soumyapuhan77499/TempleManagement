@@ -56,13 +56,13 @@
 															<div class="col-md-6">
 																<div class="form-group">
 																	<label for="name">Name <span style="color:red">*</span></label>
-																	<input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="{{ old('name', $devotee->name ?? '') }}" required>
+																	<input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="{{ old('name', $devotee->name) }}" required>
 																</div>
 															</div>
 															<div class="col-md-6">
 																<div class="form-group">
 																	<label for="phone_number">Phone Number <span style="color:red">*</span></label>
-																	<input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="Enter Phone Number" value="{{ old('phone_number', $devotee->phone_number ?? '') }}" required>
+																	<input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="Enter Phone Number" value="{{ old('phone_number', $devotee->phone_number) }}" required>
 																</div>
 															</div>
 														</div>
@@ -71,48 +71,52 @@
 															<div class="col-md-6">
 																<div class="form-group">
 																	<label for="dob">DOB <span style="color:red">*</span></label>
-																	<input type="date" class="form-control" id="dob" name="dob" value="{{ old('dob', $devotee->dob ?? '') }}" required>
+																	<input type="date" class="form-control" id="dob" name="dob" value="{{ old('dob', $devotee->dob) }}" required>
 																</div>
 															</div>
 															<div class="col-md-6">
 																<div class="form-group">
 																	<label for="photo">Photo <span style="color:red">*</span></label>
 																	<input type="file" class="form-control" id="photo" name="photo">
-																	@if(isset($devotee->photo))
-																		<img src="{{ asset('storage/' . $devotee->photo) }}" alt="Devotee Photo" style="width:100px; height:auto;">
-																	@endif
+																	<small>Current Photo: <img src="{{ asset('storage/' . $devotee->photo) }}" alt="Devotee Photo" width="100"></small>
 																</div>
 															</div>
 														</div>
 														
 														<div class="row">
-															<div class="col-md-6">
+															<div class="col-md-4">
 																<div class="form-group">
 																	<label for="gotra">Gotra <span style="color:red">*</span></label>
-																	<input type="text" class="form-control" id="gotra" name="gotra" placeholder="Enter Gotra" value="{{ old('gotra', $devotee->gotra ?? '') }}" required>
+																	<input type="text" class="form-control" id="gotra" name="gotra" placeholder="Enter Gotra" value="{{ old('gotra', $devotee->gotra) }}" required>
 																</div>
 															</div>
-															<div class="col-md-6">
+															<div class="col-md-4">
 																<div class="form-group">
 																	<label for="rashi">Rashi (Zodiac Sign) <span style="color:red">*</span></label>
-																	<input type="text" class="form-control" id="rashi" name="rashi" placeholder="Enter Zodiac Sign" value="{{ old('rashi', $devotee->rashi ?? '') }}" required>
+																	<input type="text" class="form-control" id="rashi" name="rashi" placeholder="Enter Zodiac Sign" value="{{ old('rashi', $devotee->rashi) }}" required>
+																</div>
+															</div>
+															<div class="col-md-4">
+																<div class="form-group">
+																	<label for="nakshatra">Nakshatra </label>
+																	<input type="text" class="form-control" id="nakshatra" name="nakshatra" placeholder="Enter Nakshatra" value="{{ old('nakshatra', $devotee->nakshatra) }}">
 																</div>
 															</div>
 														</div>
 														
 														<div class="form-group">
 															<label for="anniversary_date">Anniversary Date</label>
-															<input type="date" class="form-control" id="anniversary_date" name="anniversary_date" value="{{ old('anniversary_date', $devotee->anniversary_date ?? '') }}">
+															<input type="date" class="form-control" id="anniversary_date" name="anniversary_date" value="{{ old('anniversary_date', $devotee->anniversary_date) }}">
 														</div>
 														
 														<div class="form-group">
 															<label for="address">Address <span style="color:red">*</span></label>
-															<textarea name="address" class="form-control" id="address" placeholder="Enter Address" required>{{ old('address', $devotee->address ?? '') }}</textarea>
+															<textarea name="address" class="form-control" id="address" placeholder="Enter Address" required>{{ old('address', $devotee->address) }}</textarea>
 														</div>
 														
-													
 														<button type="submit" class="btn btn-primary">Update Devotee</button>
 													</form>
+													
 													
 													
 												</div>
