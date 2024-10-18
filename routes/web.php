@@ -26,6 +26,7 @@ use App\Http\Controllers\TempleUser\TempleCommitteeController;
 use App\Http\Controllers\TempleUser\TempleBankController;
 use App\Http\Controllers\TempleUser\TempleDailyRitualController;
 use App\Http\Controllers\TempleUser\TempleYearlyRitualController;
+use App\Http\Controllers\TempleUser\TempleExpenditureController;
 
 ## Superadmin COntroller
 use App\Http\Controllers\Superadmin\SuperAdminController;
