@@ -56,8 +56,12 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="event_name">Inventory Category</label>
+                                            <label for="event_name">Inventory Category  <span style="color:red">*</span></label>
                                             <input type="text" class="form-control" id="inventory_categoy" name="inventory_categoy" placeholder="Enter Title">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="editInventoryCategory">Inventory Description</label>
+                                            <textarea name="inventory_descrp" id="inventory_descrp"  class="form-control" id="" cols="30" ></textarea>
                                         </div>
                                     </div>
                                    
@@ -89,6 +93,7 @@
                                                 <tr>
                                                     <th>SlNo</th>
                                                     <th>Inventory Category</th>
+                                                    <th>Inventory Description</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -97,9 +102,10 @@
                                                 <tr>
                                                     <td>{{ $key + 1 }}</td>
                                                     <td>{{ $category->inventory_categoy }}</td>
+                                                    <td>{{ $category->inventory_descrp }}</td>
                                                     <td>
                                                         <!-- Edit Button -->
-                                                        <a class="btn ripple btn-primary me-3 edit-item" href="javascript:void(0);" data-id="{{ $category->id }}" data-category="{{ $category->inventory_categoy }}">
+                                                        <a class="btn ripple btn-primary me-3 edit-item" href="javascript:void(0);" data-id="{{ $category->id }}" data-category="{{ $category->inventory_categoy }}" data-description="{{ $category->inventory_descrp }}">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                         <!-- Deactivate Button -->
@@ -136,8 +142,12 @@
                                 <input type="hidden" id="itemId" name="id">
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <label for="editInventoryCategory">Inventory Category</label>
+                                        <label for="editInventoryCategory">Inventory Category <span style="color:red">*</span></label>
                                         <input type="text" class="form-control" id="editInventoryCategory" name="inventory_categoy" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="editInventoryCategory">Inventory Description</label>
+                                        <textarea name="inventory_descrp" id="editinventoryDescription" class="form-control" id="" cols="30" ></textarea>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -183,11 +193,11 @@
             $('.edit-item').on('click', function() {
                 var itemId = $(this).data('id');
                 var inventoryCategory = $(this).data('category'); // Use 'data-category' as defined in the button
-    
+                var inventoryDescription = $(this).data('description');
                 // Set the values in the form fields
                 $('#itemId').val(itemId);
                 $('#editInventoryCategory').val(inventoryCategory); // Set the category name to the input
-    
+                $('#editinventoryDescription').val(inventoryDescription);
                 // Show the modal
                 $('#editModal').modal('show');
             });
@@ -199,11 +209,11 @@
             $('.edit-item').on('click', function() {
                 var itemId = $(this).data('id');
                 var inventoryCategory = $(this).data('category');
-    
+                var inventoryDescription = $(this).data('description');
                 // Set the values in the form fields
                 $('#itemId').val(itemId);
                 $('#editInventoryCategory').val(inventoryCategory);
-    
+                $('#editinventoryDescription').val(inventoryDescription);
                 // Set the form action to the update route, dynamically inserting the ID
                 var actionUrl = '/templeuser/updateCategory/' + itemId;
                 $('#editForm').attr('action', actionUrl);

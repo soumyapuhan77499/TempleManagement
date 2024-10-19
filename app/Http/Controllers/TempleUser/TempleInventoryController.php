@@ -6,13 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TempleInventoryCategory;
 use App\Models\TempleInventoryList;
-
+use Illuminate\Support\Facades\Auth;
 class TempleInventoryController extends Controller
 {
     //
     public function mnginventorycategory(){
-       
-        $categories = TempleInventoryCategory::where('status', '!=', 'deactive')->get();
+        $templeId = Auth::guard('temples')->user()->temple_id;
+        $categories = TempleInventoryCategory::where('status', 'active')
+        ->where('temple_id', $templeId)->get();
         return view('templeuser.manage-temple-inventory-category', compact('categories'));
     }
      // Store new category
@@ -25,6 +26,7 @@ class TempleInventoryController extends Controller
          TempleInventoryCategory::create([
              'temple_id' => auth()->user()->temple_id, // Assume temple_id from authenticated user
              'inventory_categoy' => $request->inventory_categoy,
+             'inventory_descrp' => $request->inventory_descrp,
          ]);
  
          return redirect()->back()->with('success', 'Category added successfully!');
@@ -41,6 +43,8 @@ class TempleInventoryController extends Controller
          // Find the inventory category by ID and update it
          $category = TempleInventoryCategory::findOrFail($id);
          $category->inventory_categoy = $request->input('inventory_categoy');
+         $category->inventory_descrp = $request->input('inventory_descrp');
+         
          $category->save();
      
          // Redirect back with a success message
@@ -91,7 +95,9 @@ class TempleInventoryController extends Controller
         return redirect()->back()->with('success', 'Inventory item added successfully.');
     }
     public function manageInventory(){
-        $inventoryItems = TempleInventoryList::where('status','active')->get();
+        $templeId = Auth::guard('temples')->user()->temple_id;
+        $inventoryItems = TempleInventoryList::where('status','active')
+        ->where('temple_id', $templeId)->get();
         return view('templeuser.manage-temple-inventory',compact('inventoryItems'));
     }
     public function editinventory($id)

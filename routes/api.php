@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\TempleVendorsControllerller;
 use App\Http\Controllers\Api\TempleExpenditureController;
 use App\Http\Controllers\Api\TempleDevoteesController;
 use App\Http\Controllers\Api\TempleBannerController;
+use App\Http\Controllers\Api\TempleInventoryController;
 
 use App\Http\Controllers\Api\TempleMandapController;
 use App\Http\Controllers\Api\TemplePoojaController;
@@ -117,6 +118,19 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/manage-banner',  'manageBanner');
         Route::post('/update-banner/{id}',  'updateBanner');
         Route::delete('/delete-banner/{id}', 'deleteBanner');
+      });
+
+      Route::controller(TempleInventoryController::class)->group(function() {
+        Route::post('/add-inventory-category','storeCategory')->name('templeuser.storeCategory');
+        Route::post('/update-inventory-category/{id}','updateCategory')->name('templeuser.updateCategory');
+        Route::get('/manage-inventory-category', 'mngInventoryCategory')->name('templeuser.manageInventoryCategory');
+        Route::delete('/delete-inventory-category/{id}',  'destdestroyInventoryCategoryroy')->name('templeuser.destroyInventoryCategory');
+
+        Route::post('/add-inventory',  'storeInventory')->name('templeuser.storeInventory');
+      Route::get('/manage-inventory', 'mngInventory')->name('templeuser.manageInventory');
+      Route::post('/update-inventory/{id}','updateInventory')->name('templeuser.updateInventory');
+      Route::delete('/delete-inventory/{id}',  'destdestroyInventory')->name('templeuser.destroyInventory');
+
       });
 
       Route::controller(InsideTempleController::class)->group(function() {
