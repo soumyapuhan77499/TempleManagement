@@ -5,11 +5,14 @@ namespace App\Http\Controllers\TempleUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TempleDevotee;
+use Illuminate\Support\Facades\Auth;
 class TempleDevoteesController extends Controller
 {
     //
     public function managedevotees(){
-        $devotees = TempleDevotee::where('status','active')->get();
+        $templeId = Auth::guard('temples')->user()->temple_id;
+   
+        $devotees = TempleDevotee::where('status','active') ->where('temple_id', $templeId)->get();
         return view('templeuser.manage-temple-devotees',compact('devotees'));
     }
     public function adddevotees(){
@@ -25,7 +28,7 @@ class TempleDevoteesController extends Controller
             'photo' => 'required|image|max:2048',
             'gotra' => 'required|string|max:255',
             'rashi' => 'required|string|max:255',
-            'nakshatra' => 'string|max:255',
+            'nakshatra' => 'nullable|string|max:255',
             'anniversary_date' => 'nullable|date',
             'address' => 'required|string|max:500',
         ]);
@@ -37,6 +40,7 @@ class TempleDevoteesController extends Controller
 
         // Save data in database
         TempleDevotee::create([
+            'temple_id' =>  Auth::guard('temples')->user()->temple_id, 
             'name' => $request->name,
             'phone_number' => $request->phone_number,
             'dob' => $request->dob,

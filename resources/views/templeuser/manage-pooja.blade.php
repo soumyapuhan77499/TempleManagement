@@ -53,6 +53,7 @@
                                                     <tr>
                                                         <th class="border-bottom-0">#</th> <!-- Index column -->
                                                         <th class="border-bottom-0">Pooja Name</th>
+														<th class="border-bottom-0">Temple Name</th> <!-- Add Temple Name column -->
                                                         <th class="border-bottom-0">Price</th>
                                                         <th class="border-bottom-0">Pooja Image</th>
                                                         <th class="border-bottom-0">Pooja Description</th>
@@ -64,6 +65,10 @@
                                                     <tr>
                                                         <td>{{ $index + 1 }}</td> <!-- Display index -->
                                                         <td>{{ $pooja->pooja_name }}</td> <!-- Display pooja name -->
+														<td>
+															<!-- Display the inside temple name -->
+															{{ $pooja->insideTemple ? $pooja->insideTemple->inside_temple_name : 'Not Inside Temple' }}
+														</td>
                                                         <td>₹ {{sprintf('%.2f', $pooja->pooja_price )}}</td> <!-- Display pooja price -->
                                                         <td>
                                                             @if($pooja->pooja_image)

@@ -47,33 +47,55 @@
 											<h4 class="card-title">Temple About</h4>
 										</div> --}}
 										<div class="card-body pt-0 pt-4">
-                                            <form method="POST" action="{{ route('templepooja.updatepooja', $pooja->id) }}" enctype="multipart/form-data">
-                                                @csrf
-                                                <div class="form-group">
-                                                    <label for="pooja_image">Pooja Image</label>
-                                                    <input type="file" class="form-control" id="pooja_image" name="pooja_image">
-                                                    <img src="{{ asset('storage/'.$pooja->pooja_image) }}" alt="Pooja Image" width="100">
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="pooja_name">Pooja Name <span style="color:red">*</span></label>
-                                                            <input type="text" class="form-control" id="pooja_name" name="pooja_name" value="{{ $pooja->pooja_name }}" required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="pooja_price">Pooja Price <span style="color:red">*</span></label>
-                                                            <input type="text" class="form-control" id="pooja_price" name="pooja_price" value="{{ $pooja->pooja_price }}" required>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="pooja_descp">Pooja Description</label>
-                                                    <textarea name="pooja_descp" class="form-control" id="pooja_descp">{{ $pooja->pooja_descp }}</textarea>
-                                                </div>
-                                                <button type="submit" class="btn btn-primary">Update</button>
-                                            </form>
+											<form method="POST" action="{{ route('templepooja.updatepooja', $pooja->id) }}" enctype="multipart/form-data">
+												@csrf
+												
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="pooja_image">Pooja Image</label>
+															<input type="file" class="form-control" id="pooja_image" name="pooja_image">
+															<img src="{{ asset('storage/'.$pooja->pooja_image) }}" alt="Pooja Image" width="100">
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="inside_temple_id">Select Temple <span style="color:red">*</span></label>
+															<select name="inside_temple_id" class="form-control" required>
+																<option value="" selected>Choose</option>
+																@foreach($temples as $temple)
+																	<option value="{{ $temple->id }}" {{ $temple->id == $pooja->inside_temple_id ? 'selected' : '' }}>
+																		{{ $temple->inside_temple_name }}
+																	</option>
+																@endforeach
+															</select>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="pooja_name">Pooja Name <span style="color:red">*</span></label>
+															<input type="text" class="form-control" id="pooja_name" name="pooja_name" value="{{ $pooja->pooja_name }}" required>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="pooja_price">Pooja Price <span style="color:red">*</span></label>
+															<input type="text" class="form-control" id="pooja_price" name="pooja_price" value="{{ $pooja->pooja_price }}" required>
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="pooja_descp">Pooja Description</label>
+													<textarea name="pooja_descp" class="form-control" id="pooja_descp">{{ $pooja->pooja_descp }}</textarea>
+												</div>
+											
+											
+											
+												<button type="submit" class="btn btn-primary">Update</button>
+											</form>
+											
                                             
                                             
                                             

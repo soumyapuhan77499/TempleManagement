@@ -87,11 +87,12 @@ class TempleBannerController extends Controller
         $banner = TempleBanner::findOrFail($id);
         
         // Change the status from 'active' to 'deactive'
-        $banner->status = 'deactive';
+        $banner->status = 'deleted';
         $banner->save();
 
         return redirect()->route('templebanner.managebanner')->with('success', 'Banner deactivated successfully!');
     }
+    
 
 
 }

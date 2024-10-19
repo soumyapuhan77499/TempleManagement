@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\InsideTempleController;
 use App\Http\Controllers\Api\TempleVendorsControllerller;
 use App\Http\Controllers\Api\TempleExpenditureController;
 use App\Http\Controllers\Api\TempleDevoteesController;
+use App\Http\Controllers\Api\TempleBannerController;
 
 use App\Http\Controllers\Api\TempleMandapController;
 use App\Http\Controllers\Api\TemplePoojaController;
@@ -105,9 +106,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
       });
 
       Route::controller(TemplePoojaController::class)->group(function() {
-        Route::post('/add-pooja',  'storePooja');
-        Route::get('/manage-pooja', 'managePooja');
-        Route::put('/pooja/{id}',  'updatePooja');
+        Route::post('/add-pooja',  'storePoojaAPI');
+        Route::get('/manage-pooja', 'managePoojaAPI');
+        Route::post('/update-pooja/{id}',  'updatePooja');
+        Route::delete('/delete-pooja/{id}', 'destroyPooja');
+      });
+
+      Route::controller(TempleBannerController::class)->group(function() {
+        Route::post('/add-banner','storeBanner');
+        Route::get('/manage-banner',  'manageBanner');
+        Route::post('/update-banner/{id}',  'updateBanner');
+        Route::delete('/delete-banner/{id}', 'deleteBanner');
       });
 
       Route::controller(InsideTempleController::class)->group(function() {
@@ -119,8 +128,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
       Route::controller(TempleDevoteesController::class)->group(function() {
         Route::post('/add-devotee', 'storedata');
-        Route::put('/update-devotees/{id}', 'update')->name('devotees.update');
-       
+        Route::post('/update-devotee/{id}', 'update')->name('devotees.update');
+        Route::get('/manage-devotees', 'ManageDevotees');
+        Route::delete('/delete-devotees/{id}',  'destroy')->name('templedevotees.destroy');
       });
 
 
