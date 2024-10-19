@@ -105,6 +105,43 @@ public function apiDeleteFestival($id)
         ], 400);
     }
 }
+public function destroy($id)
+{
+    // Check for authentication
+    $temple_id = Auth::guard('api')->user()->temple_id;
+
+    if (!$temple_id) {
+        return response()->json([
+            'message' => 'User not authenticated.',
+            'data' => null,
+            'status' => 401,
+        ], 401);
+    }
+
+    // Find the festival by ID
+    $festival = TempleFestival::find($id);
+
+    // Check if the festival exists
+    if (!$festival) {
+        return response()->json([
+            'message' => 'Festival not found.',
+            'data' => null,
+            'status' => 404,
+        ], 404);
+    }
+
+    // Change status to 'deleted'
+    $festival->status = 'deleted';
+    $festival->save(); // Save the updated status
+
+    // Return a success response
+    return response()->json([
+        'message' => 'Festival deactivated successfully!',
+        'data' => $festival,
+        'status' => 200,
+    ], 200);
+}
+
 
     
 }

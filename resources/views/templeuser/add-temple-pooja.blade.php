@@ -48,9 +48,25 @@
 										<div class="card-body pt-0 pt-4">
 											<form method="POST" action="{{ route('templepooja.storepooja') }}" enctype="multipart/form-data">
 												@csrf
-												<div class="form-group">
-													<label for="pooja_image">Pooja Image<span style="color:red">*</span></label>
-													<input type="file" class="form-control" id="pooja_image" name="pooja_image" required>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="pooja_image">Pooja Image<span style="color:red">*</span></label>
+															<input type="file" class="form-control" id="pooja_image" name="pooja_image" required>
+														</div>
+														
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="temple">Select Temple</label>
+															<select name="inside_temple_id" class="form-control">
+																<option value="" selected>Choose</option>
+																@foreach($temples as $temple)
+																	<option value="{{ $temple->id }}">{{ $temple->inside_temple_name }}</option>
+																@endforeach
+															</select>
+														</div>
+													</div>
 												</div>
 												<div class="row">
 													<div class="col-md-6">

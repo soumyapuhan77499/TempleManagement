@@ -9,6 +9,6 @@ class TempleInventoryCategory extends Model
 {
     protected $table = 'temple__inventory_category';
 
-    protected $fillable = ['temple_id', 'inventory_categoy', 'status'];
+    protected $fillable = ['temple_id', 'inventory_categoy','inventory_descrp', 'status'];
 }
 

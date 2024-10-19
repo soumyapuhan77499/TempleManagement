@@ -16,6 +16,9 @@ use App\Http\Controllers\Api\TempleSocialMediaController;
 use App\Http\Controllers\Api\InsideTempleController;
 use App\Http\Controllers\Api\TempleVendorsControllerller;
 use App\Http\Controllers\Api\TempleExpenditureController;
+use App\Http\Controllers\Api\TempleDevoteesController;
+use App\Http\Controllers\Api\TempleBannerController;
+use App\Http\Controllers\Api\TempleInventoryController;
 
 use App\Http\Controllers\Api\TempleMandapController;
 use App\Http\Controllers\Api\TemplePoojaController;
@@ -76,6 +79,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/save-festival', 'apiStoreFestival');
         Route::get('/manage-festival', 'apiManageFestivals');
         Route::put('/update-festival/{id}',  'apiUpdateFestival');
+        Route::delete('/delete-festival/{id}',  'destroy');
       });
 
       Route::controller(SpecialRitualController::class)->group(function() {
@@ -103,16 +107,44 @@ Route::middleware(['auth:sanctum'])->group(function () {
       });
 
       Route::controller(TemplePoojaController::class)->group(function() {
-        Route::post('/add-pooja',  'storePooja');
-        Route::get('/manage-pooja', 'managePooja');
-        Route::put('/pooja/{id}',  'updatePooja');
+        Route::post('/add-pooja',  'storePoojaAPI');
+        Route::get('/manage-pooja', 'managePoojaAPI');
+        Route::post('/update-pooja/{id}',  'updatePooja');
+        Route::delete('/delete-pooja/{id}', 'destroyPooja');
+      });
+
+      Route::controller(TempleBannerController::class)->group(function() {
+        Route::post('/add-banner','storeBanner');
+        Route::get('/manage-banner',  'manageBanner');
+        Route::post('/update-banner/{id}',  'updateBanner');
+        Route::delete('/delete-banner/{id}', 'deleteBanner');
+      });
+
+      Route::controller(TempleInventoryController::class)->group(function() {
+        Route::post('/add-inventory-category','storeCategory')->name('templeuser.storeCategory');
+        Route::post('/update-inventory-category/{id}','updateCategory')->name('templeuser.updateCategory');
+        Route::get('/manage-inventory-category', 'mngInventoryCategory')->name('templeuser.manageInventoryCategory');
+        Route::delete('/delete-inventory-category/{id}',  'destdestroyInventoryCategoryroy')->name('templeuser.destroyInventoryCategory');
+
+        Route::post('/add-inventory',  'storeInventory')->name('templeuser.storeInventory');
+      Route::get('/manage-inventory', 'mngInventory')->name('templeuser.manageInventory');
+      Route::post('/update-inventory/{id}','updateInventory')->name('templeuser.updateInventory');
+      Route::delete('/delete-inventory/{id}',  'destdestroyInventory')->name('templeuser.destroyInventory');
+
       });
 
       Route::controller(InsideTempleController::class)->group(function() {
         Route::post('/add-inside-temple', 'saveInsideTemple');
-        Route::get('/manage-inside-temple', 'manageInsideTemple')->middleware('auth:api');
-        Route::put('/update-inside-temple/{id}', 'updateInsideTemple');
+        Route::get('/manage-inside-temple', 'manageInsideTemple');
+        Route::post('/update-inside-temple/{id}', 'updateInsideTemple');
         Route::delete('/delete-inside-temple/{id}', 'deleteInsideTemple');
+      });
+
+      Route::controller(TempleDevoteesController::class)->group(function() {
+        Route::post('/add-devotee', 'storedata');
+        Route::post('/update-devotee/{id}', 'update')->name('devotees.update');
+        Route::get('/manage-devotees', 'ManageDevotees');
+        Route::delete('/delete-devotees/{id}',  'destroy')->name('templedevotees.destroy');
       });
 
 
