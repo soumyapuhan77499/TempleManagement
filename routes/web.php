@@ -22,6 +22,8 @@ use App\Http\Controllers\TempleUser\TempleDevoteesController;
 use App\Http\Controllers\TempleUser\TempleTrustController;
 use App\Http\Controllers\TempleUser\TempleDonationController;
 use App\Http\Controllers\TempleUser\TempleCommitteeController;
+use App\Http\Controllers\TempleUser\TempleHundiController;
+
 
 use App\Http\Controllers\TempleUser\TempleBankController;
 use App\Http\Controllers\TempleUser\TempleDailyRitualController;
@@ -244,7 +246,11 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
         Route::put('/update-temple-expenditure/{id}', 'updateExpenditure')->name('templeuser.updateexpenditure');
 
     });
-    
+    Route::controller(TempleHundiController::class)->group(function() {
+        Route::get('/add-temple-hundi-collection', 'addHundiCollection')->name('templeuser.addhundicollection');
+        Route::post('/save-temple-hundi-collection', 'saveHundiCollection')->name('templeuser.savehundicollection');
+    });
+
 
 });
 

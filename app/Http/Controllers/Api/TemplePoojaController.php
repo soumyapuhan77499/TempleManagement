@@ -38,8 +38,8 @@ class TemplePoojaController extends Controller
             return response()->json([
                 'message' => 'Validation errors.',
                 'errors' => $validator->errors(),
-                'status' => 422,
-            ], 422);
+                'status' => 400,
+            ], 400);
         }
     
         // Handle file upload and save the image to the 'pooja_images' directory in 'public' storage
@@ -60,7 +60,7 @@ class TemplePoojaController extends Controller
             'message' => 'Pooja added successfully!',
             'data' => $pooja,
             'status' => 200,
-        ], 201);
+        ], 200);
     }
     public function managePoojaAPI(Request $request)
     {
@@ -72,8 +72,8 @@ class TemplePoojaController extends Controller
             return response()->json([
                 'message' => 'User not authenticated.',
                 'data' => null,
-                'status' => 401,
-            ], 401);
+                'status' => 400,
+            ], 400);
         }
     
         // Fetch active pooja for the current temple

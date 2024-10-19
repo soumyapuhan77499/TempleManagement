@@ -81,10 +81,10 @@ class TempleMandapController extends Controller
     
             // Return success response
             return response()->json([
-                'status' => 201,
+                'status' => 200,
                 'message' => 'Mandap details saved successfully!',
                 'data' => $mandap
-            ], 201); // 201 Created status
+            ], 200); // 201 Created status
         } catch (\Exception $e) {
             // Return error response if something goes wrong
             return response()->json([
