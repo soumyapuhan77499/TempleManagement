@@ -1,10 +1,9 @@
 @extends('templeuser.layouts.app')
 
 @section('styles')
-<link href="{{asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
-<link rel="stylesheet" href="{{asset('assets/plugins/sumoselect/sumoselect.css')}}">
-<link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.css')}}">
-
+    <link href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/sumoselect/sumoselect.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.css') }}">
 @endsection
 
 @section('content')
@@ -17,20 +16,20 @@
             <div class="card">
                 <div class="card-body pt-0 pt-4">
                     @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-                @if (session()->has('success'))
-                <div class="alert alert-success" id="Message">
-                    {{ session()->get('success') }}
-                </div>
-            @endif
+                        <li>{{ $error }}</li>
+                    @endforeach
+                    @if (session()->has('success'))
+                        <div class="alert alert-success" id="Message">
+                            {{ session()->get('success') }}
+                        </div>
+                    @endif
 
-            @if ($errors->has('danger'))
-                <div class="alert alert-danger" id="Message">
-                    {{ $errors->first('danger') }}
-                </div>
-            @endif
-                    <form method="POST" action="{{ route('templeuser.savehundicollection') }}">
+                    @if ($errors->has('danger'))
+                        <div class="alert alert-danger" id="Message">
+                            {{ $errors->first('danger') }}
+                        </div>
+                    @endif
+                    <form id="hundiCollectionForm" method="POST" action="{{ route('templeuser.savehundicollection') }}">
                         @csrf
                         <div style="background-color: #FFBD5A; padding: 20px; text-align: center;">
                             <!-- Aligning and changing the font style of the H1 tag -->
@@ -42,11 +41,25 @@
                         <div class="row mt-4">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="hundi_name">Hundi Name <span style="color:red">*</span></label>
-                                    <input type="text" class="form-control" id="hundi_name" name="hundi_name"
-                                        placeholder="Enter Hundi Name" required>
+                                    <label for="hundi_name">
+                                        Hundi Name <span style="color:red">*</span>
+                                    </label>
+                                    <div class="d-flex align-items-center">
+                                        <!-- Hundi Name Select Field -->
+                                        <select class="form-control me-2" id="hundi_name" name="hundi_name" required>
+                                            <option value="">Select Hundi Name</option>
+                                            @foreach ($hundi_names as $hundi)
+                                                <option value="{{ $hundi->id }}">{{ $hundi->hundi_name }}</option>
+                                            @endforeach
+                                        </select>
+                                
+                                        <!-- Button to open modal -->
+                                        <a class="btn ripple btn-success ms-2" data-bs-target="#popover" data-bs-toggle="modal" href="#">+</a>
+                                    </div>
                                 </div>
+                                
                             </div>
+
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="hundi_open_date">Hundi Open Date <span style="color:red">*</span></label>
@@ -64,7 +77,7 @@
                                         <option value="Member 3">Member 3</option>
                                         <option value="Member 4">Member 4</option>
                                     </select>
-                            </div>
+                                </div>
                             </div>
 
                             <div class="col-md-3">
@@ -81,7 +94,7 @@
 
                         <div class="row mt-4">
                             <div class="col-md-12">
-                              
+
                                 <table class="table table-bordered">
 
                                     <tbody>
@@ -111,8 +124,8 @@
                                                     oninput="validateNumberInput(this)"></td>
                                             <td><input type="text" class="form-control" name="cash_10" placeholder="0"
                                                     oninput="validateNumberInput(this)"></td>
-                                            <td><input type="text" class="form-control" name="cash_20"
-                                                    placeholder="0" oninput="validateNumberInput(this)"></td>
+                                            <td><input type="text" class="form-control" name="cash_20" placeholder="0"
+                                                    oninput="validateNumberInput(this)"></td>
                                             <td><input type="text" class="form-control" name="cash_50"
                                                     placeholder="0" oninput="validateNumberInput(this)"></td>
                                             <td><input type="text" class="form-control" name="cash_100"
@@ -164,10 +177,43 @@
 
                         <!-- Adding space above the button -->
                         <div class="mt-4 col-md-12 text-center">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" id="submitButton" class="btn btn-primary">Submit</button>
                         </div>
                     </form>
 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="popover">
+        <div class="modal-dialog modal-fullscreen-lg-down" role="document">
+            <div class="modal-content  modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">Add New Hundi</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{ route('templeuser.savehundi') }}">
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="hundi_name">Hundi Name <span style="color:red">*</span></label>
+                                    <input type="text" class="form-control" id="hundi_name" name="hundi_name"
+                                        placeholder="Enter Hundi Name" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description"> Description</label>
+                            <textarea name="description" class="form-control" id="description" placeholder="Enter Description"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn ripple btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
                 </div>
             </div>
         </div>
@@ -176,12 +222,15 @@
 @endsection
 
 @section('scripts')
-		<!--Internal  Form-elements js-->
-        <script src="{{asset('assets/plugins/jquery-ui/ui/widgets/datepicker.js')}}"></script>
-		<script src="{{asset('assets/js/advanced-form-elements.js')}}"></script>
-		<script src="{{asset('assets/js/select2.js')}}"></script>
-		<script src="{{asset('assets/plugins/sumoselect/jquery.sumoselect.js')}}"></script>
-		<script src="{{asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js')}}"></script>
+    <!--Internal  Form-elements js-->
+    <script src="{{ asset('assets/plugins/jquery-ui/ui/widgets/datepicker.js') }}"></script>
+    <script src="{{ asset('assets/js/advanced-form-elements.js') }}"></script>
+    <script src="{{ asset('assets/js/select2.js') }}"></script>
+    <script src="{{ asset('assets/plugins/sumoselect/jquery.sumoselect.js') }}"></script>
+    <script src="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
+
+    {{-- sweet alert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         // Function to validate and allow only numeric input
@@ -248,13 +297,58 @@
         // Initial call to display the time immediately on page load
         updateDateTime();
     </script>
-    
-<script>
-    setTimeout(function() {
-        document.getElementById('Message').style.display = 'none';
-    }, 3000);
-    setTimeout(function() {
-        document.getElementById('Messages').style.display = 'none';
-    }, 3000);
-</script>
+    {{-- message hide --}}
+    <script>
+        setTimeout(function() {
+            document.getElementById('Message').style.display = 'none';
+        }, 3000);
+        setTimeout(function() {
+            document.getElementById('Messages').style.display = 'none';
+        }, 3000);
+    </script>
+
+    {{-- sweet alert --}}
+    <script>
+        document.getElementById('submitButton').addEventListener('click', function(e) {
+            // Prevent the default form submission
+            e.preventDefault();
+
+            // SweetAlert confirmation dialog
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Please review the details before submitting!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, submit it!',
+                cancelButtonText: 'Reverify'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Disable form inputs to prevent further editing
+                    document.querySelectorAll('#hundiCollectionForm input').forEach(input => {
+                        input.setAttribute('readonly', 'readonly');
+                    });
+
+                    // SweetAlert Success Message before submission
+                    Swal.fire(
+                        'Submitting...',
+                        'Your form is being submitted!',
+                        'success'
+                    ).then(() => {
+                        // Manually submit the form
+                        document.getElementById('hundiCollectionForm').submit();
+                    });
+
+                } else {
+                    // SweetAlert message for reverify action
+                    Swal.fire(
+                        'Recheck!',
+                        'You can review the form before submitting.',
+                        'info'
+                    );
+                }
+            });
+        });
+    </script>
 @endsection

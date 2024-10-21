@@ -65,37 +65,33 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
         Route::get('/temple-about', 'templeabout')->name('templeuser.templeAbout');
         Route::put('/temple-about-details', 'updateTempleDetails')->name('temple_about_details.update');
     });
+
     Route::controller(SocialMediaController::class)->group(function() {
         Route::get('/social-media', 'socialmedia')->name('templeuser.socialmedia');
         Route::put('/temple-photos-videos',  'updatePhotosvideos')->name('temple.updatePhotosvideos');
         Route::post('/remove-media',  'removeMedia')->name('remove.media');
         Route::get('/temple-photos', 'templephotos')->name('templeuser.photos');
-
         Route::put('/temple-social-media/update', 'updateSocialMediaUrls')->name('temple.social-media.update');
-
     });
+
     Route::controller(TrustMemberController::class)->group(function() {
         Route::get('/add-trust-member', 'addtrustmember')->name('templeuser.addtrustmember');
-        
-        
         Route::post('trustmembers/{id}/save-hierarchy', 'saveHierarchyPosition')->name('templeuser.saveHierarchyPosition');
-
         Route::post('/add-trust-member', 'storedata')->name('templeuser.storeTrustMember');
         Route::get('/manage-trust-member', 'managetrustmember')->name('templeuser.managetrustmember');
         Route::get('/manage-hierarchy', 'mnghierarchy')->name('templeuser.mnghierarchy');
         Route::post('/deactivate-trust-members',  'deactivateTrustMembers')->name('templeuser.deactivateTrustMembers');
-
-
         Route::get('/trust-member/edit/{id}', 'edit')->name('templeuser.editTrustMember'); // Edit route
         Route::put('/trust-member/update/{id}', 'update')->name('templeuser.updateTrustMember'); // Update route
         Route::delete('/trust-member/delete/{id}', 'destroy')->name('templeuser.deleteTrustMember'); // Delete route
-        
     });
+
     Route::controller(TempleCommitteeController::class)->group(function() {
         Route::get('/add-temple-committee', 'addnewcommittee')->name('templeuser.addnewcommittee');
         Route::get('/add-temple-sub-committee', 'addsubcommittee')->name('templeuser.addsubcommittee');
         Route::post('/save-temple-committee', 'saveCommittee')->name('templeuser.savecommittee');
     });
+
     Route::controller(TempleBankController::class)->group(function() {
         Route::get('/add-temple-bank', 'addbank')->name('templeuser.bankdetails');
         Route::get('/manage-temple-bank', 'managebank')->name('templeuser.managebank');
@@ -113,16 +109,16 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
         Route::put('/festival/{id}', 'update')->name('templefestival.update');
         Route::delete('/festival/{id}', 'destroy')->name('templefestival.destroy');
     });
-    Route::controller(TempleNewsController::class)->group(function() {
 
+    Route::controller(TempleNewsController::class)->group(function() {
         Route::get('/add-temple-news', 'addNews')->name('templenews.addNews');
         Route::post('/store-temple-news', 'storeNews')->name('templenews.storeNews');
         Route::get('/manage-temple-news', 'manageNews')->name('templenews.manageNews');
         Route::get('/edit-temple-news/{id}', 'editNews')->name('templenews.editNews');
         Route::post('/update-temple-news/{id}', 'updateNews')->name('templenews.updateNews');
         Route::delete('/delete-temple-news/{id}', 'destroyNews')->name('templenews.destroyNews');
-       
     });
+
     Route::controller(TempleMandapController::class)->group(function() {
         Route::get('/add-temple-mandap', 'addmandap')->name('templemandap.mandap');
         Route::post('/store-temple-mandap', 'storeMandap')->name('templemandap.storeMandap');
@@ -139,7 +135,6 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
         Route::post('/update-temple-pooja/{id}', 'updatePooja')->name('templepooja.updatepooja');
         Route::delete('/delete-temple-pooja/{id}', 'destroyPooja')->name('templepooja.destroypooja');
         Route::get('/manage-temple-pooja', 'managePooja')->name('templepooja.managepooja');
-      
     });
 
     Route::controller(TempleBannerController::class)->group(function() {
@@ -153,8 +148,8 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
 
     Route::controller(TemplePrasadController::class)->group(function() {
         Route::get('/add-temple-prasad', 'addPrasad')->name('templeprasad.prasad');
-     
     });
+
     Route::controller(TempleDonationController::class)->group(function() {
         Route::get('/add-temple-donation', 'adddonation')->name('templedonation.donation');
         Route::post('/store-temple-donation', 'storeDonation')->name('templedonation.storedonation');
@@ -164,22 +159,19 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
         Route::delete('/delete-temple-donation/{id}', 'deleteDonation')->name('templedonation.delete');
     });
     
-
     Route::controller(TempleInventoryController::class)->group(function() {
         Route::get('/manage-inventory-category', 'mnginventorycategory')->name('templeinventory.mnginventorycategory');
-      
         Route::post('/addCategory', 'store')->name('templeinventory.addCategory');
         Route::put('/updateCategory/{id}', 'update');
         Route::put('/deleteCategory/{id}', 'destroy');
-
         Route::get('/add-temple-inventory', 'addInventory')->name('templeinventory.inventory');
         Route::post('/store-temple-inventory', 'storeInventory')->name('templeinventory.storeinventory');
         Route::get('/edit-temple-inventory/{id}', 'editinventory')->name('templeinventory.editinventory');
         Route::put('/templeinventory/{id}/update', 'updateinventory')->name('templeinventory.updateinventory');
-
         Route::delete('/delete-temple-inventory/{id}', 'deleteinventory')->name('templeinventory.deleteinventory');
         Route::get('/manage-temple-inventory', 'manageInventory')->name('templeinventory.manageinventory');
     });
+
     Route::controller(TempleDevoteesController::class)->group(function() {
         Route::get('/add-temple-devotees', 'adddevotees')->name('templedevotees.adddevotees');
         Route::post('/store-temple-devotees', 'storedata')->name('templedevotees.storedevotees');
@@ -188,8 +180,6 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
         Route::put('/devotees/{id}', 'update')->name('templedevotees.update');
         Route::delete('/devotees/{id}', 'destroy')->name('templedevotees.destroy');
     });
-
-
 
     Route::controller(TempleDailyRitualController::class)->group(function() {
         Route::get('/daily-ritual', 'dailyritual')->name('templeuser.add-dailyritual');
@@ -244,37 +234,40 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
         Route::get('/edit-temple-expenditure/{id}',  'editExpenditure')->name('templeuser.editexpenditure');
         Route::post('/delete-temple-expenditure/{id}', 'deleteExpenditure')->name('templeuser.deleteexpenditure');
         Route::put('/update-temple-expenditure/{id}', 'updateExpenditure')->name('templeuser.updateexpenditure');
-
     });
+
     Route::controller(TempleHundiController::class)->group(function() {
+        Route::get('/add-hundi', 'addHundi')->name('templeuser.addhundi');
+        Route::get('/manage-hundi', 'manageHundi')->name('templeuser.managehundi');
+        Route::get('/edit-hundi/{id}', 'editHundi')->name('templeuser.edithundi');
+        Route::put('/update-hundi/{id}', 'updateHundi')->name('templeuser.updatehundi');
+        Route::post('/delete-hundi/{id}', 'deleteHundi')->name('templeuser.delethundi');
+        Route::post('/save-temple-hundi','saveHundi')->name('templeuser.savehundi');
         Route::get('/add-temple-hundi-collection', 'addHundiCollection')->name('templeuser.addhundicollection');
         Route::post('/save-temple-hundi-collection', 'saveHundiCollection')->name('templeuser.savehundicollection');
     });
 
-
 });
 
 ## super admin Routes
-Route::controller(SuperAdminController::class)->group(function() {
-    Route::get('superadmin/', 'superadminlogin')->name('superadminlogin');
-    Route::post('superadmin/authenticate', 'authenticate')->name('authenticate');
-    Route::get('superadmin/dashboard', 'dashboard')->name('dashboard');
-    Route::post('superadmin/logout', 'logout')->name('superadmin.logout');
-});
+    Route::controller(SuperAdminController::class)->group(function() {
+        Route::get('superadmin/', 'superadminlogin')->name('superadminlogin');
+        Route::post('superadmin/authenticate', 'authenticate')->name('authenticate');
+        Route::get('superadmin/dashboard', 'dashboard')->name('dashboard');
+        Route::post('superadmin/logout', 'logout')->name('superadmin.logout');
+    });
 
-Route::prefix('superadmin')->middleware(['superadmin'])->group(function () {
-    Route::controller(TempleRequestController::class)->group(function() {
+    Route::prefix('superadmin')->middleware(['superadmin'])->group(function () {
+        Route::controller(TempleRequestController::class)->group(function() {
         Route::get('/temple-requests', 'templerequests')->name('templerequests');
         Route::post('/update-temple-status/{id}/{status}', 'updateStatus')->name('updateTempleStatus');
-
     });
+
     Route::controller(TempleTitleController::class)->group(function() {
-      
         Route::get('/manage-temple-title', 'mngtitle')->name('templetitle.mngtitle');
         Route::post('/addTitle', 'addTitle')->name('templetitle.addTitle');
         Route::put('/updateTitle/{id}', 'updateTitle')->name('templetitle.updateTitle');
         Route::put('/deleteTitle/{id}', 'deleteTitle')->name('templetitle.deleteTitle');
-                
     });
 });
 

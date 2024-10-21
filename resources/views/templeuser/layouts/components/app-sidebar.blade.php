@@ -161,9 +161,8 @@
 										<li><a class="slide-item" href="#">Manage Income</a></li>
 										<li><a class="slide-item" href="{{ route('templeuser.addexpenditure') }}">Add Expenditure</a></li>
 										<li><a class="slide-item" href="{{route('templeuser.manageexpenditure')}}">Manage Expenditure</a></li>
+										<li><a class="slide-item" href="{{route('templeuser.managehundi')}}">Manage Hundi</a></li>
 										<li><a class="slide-item" href="{{ route('templeuser.addhundicollection') }}">Add Hundi Collection</a></li>
-
-										
 									</ul>
 								</li>
 								<li class="slide">
