@@ -110,13 +110,13 @@ class TempleMandapController extends Controller
         }
     
         // Validate the incoming request
-        $validatedData = $request->validate([
-            'mandap_name' => 'required|string|max:255',
-            'mandap_description' => 'required|string',
-            'booking_type' => 'required|in:day-basis,event-basis',
-            'event_name' => 'nullable|string|max:255',
-            'price_per_day' => 'required|numeric|min:0',
-        ]);
+        // $validatedData = $request->validate([
+        //     'mandap_name' => 'required|string|max:255',
+        //     'mandap_description' => 'required|string',
+        //     'booking_type' => 'required|in:day-basis,event-basis',
+        //     'event_name' => 'nullable|string|max:255',
+        //     'price_per_day' => 'required|numeric|min:0',
+        // ]);
     
         try {
             // Find the mandap by ID or fail
