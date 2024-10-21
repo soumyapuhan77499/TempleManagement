@@ -26,7 +26,7 @@ class TempleCommitteeMemberDetail extends Model
         'about_member',
         'hierarchy_position',
         'committee_creation_date',
-        'committee_end_date',
+       'financial_period',
         'status'
     ];
 }

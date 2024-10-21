@@ -90,6 +90,10 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
         Route::get('/add-temple-committee', 'addnewcommittee')->name('templeuser.addnewcommittee');
         Route::get('/add-committee-member', 'addcommitteemember')->name('templeuser.addcommitteemember');
         Route::post('/add-committee-member', 'storecommitteemember')->name('templeuser.storecommitteeMember');
+        Route::get('/manage-committee-hierarchy', 'mngcommitteehierarchy')->name('templeuser.mngcommitteehierarchy');
+        Route::post('committeemembers/{id}/save-committee-hierarchy', 'saveCommitteeHierarchyPosition')->name('templeuser.saveCommitteeHierarchyPosition');
+        Route::get('/manage-committee-member', 'managecommitteemember')->name('templeuser.managecommitteemember');
+        Route::post('/deactivate-committee-members',  'deactivateCommitteeMembers')->name('templeuser.deactivateCommitteeMembers');
 
         Route::get('/add-temple-sub-committee', 'addsubcommittee')->name('templeuser.addsubcommittee');
         Route::post('/save-temple-committee', 'saveCommittee')->name('templeuser.savecommittee');
