@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TempleMandapDetail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
 class TempleMandapController extends Controller
 {
     public function manageMandap()
@@ -96,50 +98,82 @@ class TempleMandapController extends Controller
     }
     
     public function update(Request $request, $id)
-    {
-        // Get the logged-in temple's ID
-        $templeId = Auth::guard('api')->user()->temple_id;
-    
-        // Check if the user is authenticated
-        if (!$templeId) {
-            return response()->json([
-                'message' => 'User not authenticated.',
-                'data' => null,
-                'status' => 401, // Unauthorized
-            ], 401);
-        }
-    
-        // Validate the incoming request
-        // $validatedData = $request->validate([
-        //     'mandap_name' => 'required|string|max:255',
-        //     'mandap_description' => 'required|string',
-        //     'booking_type' => 'required|in:day-basis,event-basis',
-        //     'event_name' => 'nullable|string|max:255',
-        //     'price_per_day' => 'required|numeric|min:0',
-        // ]);
-    
-        try {
-            // Find the mandap by ID or fail
-            $mandap = TempleMandapDetail::findOrFail($id);
-            
-            // Update the mandap with the validated data
-            $mandap->update($validatedData);
-    
-            // Return success response
-            return response()->json([
-                'status' => 200,
-                'message' => 'Mandap details updated successfully!',
-                'data' => $mandap,
-            ], 200); // 200 OK status
-        } catch (\Exception $e) {
-            // Handle the error if mandap not found or other issues
-            return response()->json([
-                'status' => 500,
-                'message' => 'Failed to update mandap details.',
-                'error' => $e->getMessage(),
-            ], 500); // 500 Internal Server Error status
-        }
+{
+    // Log the start of the update process
+    Log::info('Update process started for Mandap ID: ' . $id);
+
+    // Get the logged-in temple's ID
+    $templeId = Auth::guard('api')->user()->temple_id;
+
+    // Log the temple ID
+    Log::info('Authenticated temple ID: ' . $templeId);
+
+    // Check if the user is authenticated
+    if (!$templeId) {
+        Log::error('User not authenticated.');
+        return response()->json([
+            'message' => 'User not authenticated.',
+            'data' => null,
+            'status' => 401, // Unauthorized
+        ], 401);
     }
+
+    // Validate the incoming request
+    try {
+        $validatedData = $request->validate([
+            'mandap_name' => 'required|string|max:255',
+            'mandap_description' => 'required|string',
+            'booking_type' => 'required|in:day-basis,event-basis',
+            'event_name' => 'nullable|string|max:255',
+            'price_per_day' => 'required|numeric|min:0',
+        ]);
+        
+        // Log the validated data
+        Log::info('Validated data: ', $validatedData);
+
+    } catch (\Exception $e) {
+        // Log validation errors
+        Log::error('Validation failed: ' . $e->getMessage());
+
+        return response()->json([
+            'status' => 422,
+            'message' => 'Validation failed.',
+            'error' => $e->getMessage(),
+        ], 422); // 422 Unprocessable Entity status
+    }
+
+    try {
+        // Find the mandap by ID or fail
+        $mandap = TempleMandapDetail::findOrFail($id);
+        
+        // Log the found mandap details
+        Log::info('Mandap found: ', $mandap->toArray());
+
+        // Update the mandap with the validated data
+        $mandap->update($validatedData);
+
+        // Log the successful update
+        Log::info('Mandap updated successfully for ID: ' . $id);
+
+        // Return success response
+        return response()->json([
+            'status' => 200,
+            'message' => 'Mandap details updated successfully!',
+            'data' => $mandap,
+        ], 200); // 200 OK status
+    } catch (\Exception $e) {
+        // Log the exception
+        Log::error('Failed to update mandap details: ' . $e->getMessage());
+
+        // Handle the error if mandap not found or other issues
+        return response()->json([
+            'status' => 500,
+            'message' => 'Failed to update mandap details.',
+            'error' => $e->getMessage(),
+        ], 500); // 500 Internal Server Error status
+    }
+}
+
     
     public function destroy($id)
     {
