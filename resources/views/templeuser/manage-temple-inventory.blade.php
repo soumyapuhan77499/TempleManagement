@@ -67,7 +67,7 @@
                                                         <td><img src="{{ asset('storage/' . $item->photo) }}" alt="Item Image" width="50"></td> <!-- Display the image -->
                                                         <td>{{ $item->quantity }}</td>
                                                         <td>{{ ucfirst($item->type) }}</td> <!-- Display 'Donated' or 'Purchased' -->
-                                                        <td>{{ $item->inventory_category }}</td>
+														<td>{{ $item->inventorycategory ? $item->inventorycategory->inventory_category : 'N/A' }}</td>
                                                         <td>
                                                             <a href="{{ route('templeinventory.editinventory', $item->id) }}" class="btn btn-sm btn-primary">Edit</a>
 

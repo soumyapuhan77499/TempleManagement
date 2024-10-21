@@ -96,7 +96,7 @@ class TempleInventoryController extends Controller
     }
     public function manageInventory(){
         $templeId = Auth::guard('temples')->user()->temple_id;
-        $inventoryItems = TempleInventoryList::where('status','active')
+        $inventoryItems = TempleInventoryList::with('inventorycategory')->where('status','active')
         ->where('temple_id', $templeId)->get();
         return view('templeuser.manage-temple-inventory',compact('inventoryItems'));
     }

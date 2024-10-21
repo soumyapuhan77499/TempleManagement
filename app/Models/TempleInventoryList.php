@@ -21,4 +21,8 @@ class TempleInventoryList extends Model
         'type',
         'status',
     ];
+    public function inventorycategory()
+    {
+        return $this->belongsTo(TempleInventoryCategory::class, 'inventory_category',); // Change 'id' to the actual primary key if needed
+    }
 }

@@ -88,7 +88,7 @@
                                                             <select class="form-control" id="inventory_category" name="inventory_category" required>
                                                                 <option value="">Select Category</option>
                                                                 @foreach($categories as $category)
-                                                                    <option value="{{ $category->inventory_categoy }}">{{ $category->inventory_categoy }}</option>
+                                                                    <option value="{{ $category->id }}">{{ $category->inventory_categoy }}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>

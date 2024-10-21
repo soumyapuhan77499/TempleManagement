@@ -35,8 +35,8 @@ class TempleSocialMediaController extends Controller
             return response()->json([
                 'message' => 'Social media information not found.',
                 'data' => null,
-                'status' => 404, // Not Found
-            ], 404);
+                'status' => 200, // Not Found
+            ], 200);
         }
     
         // Return success response with social media data
