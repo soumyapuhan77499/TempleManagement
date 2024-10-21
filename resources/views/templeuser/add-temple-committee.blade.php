@@ -81,6 +81,35 @@
 											
 										</div>
 									</div>
+
+									<div class="card custom-card overflow-hidden">
+										<div class="card-body">
+											<div class="row">
+												<div class="col-md-4">
+													<div class="trust-section-card trust-start-date-card">
+														<i class="fas fa-calendar-alt trust-section-icon"></i>
+														<span class="trust-section-title">Commitee Starting Date</span>
+														<h4 class="trust-section-h4">{{ $trustdetails->trust_start_date }}</h4>
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="trust-section-card live-today-date-card">
+														<i class="fas fa-clock trust-section-icon"></i>
+														<span class="trust-section-title">Today Date</span>
+														<h4 id="live-today-date" class="trust-section-h4">{{ \Carbon\Carbon::today()->format('Y-m-d') }}</h4>  <h3 style="text-shadow: 3px 3px 10px rgba(0,0,0,0.4);color: #B7070A;font-family: 'Trebuchet MS', sans-serif; font-size: 20px;"
+														id="liveTime"></h3> <!-- Live Date -->
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="trust-section-card total-days-card">
+														<i class="fas fa-hourglass-half trust-section-icon"></i>
+														<span class="trust-section-title">Total Days</span>
+														<h4 class="trust-section-h4">{{ $totalDays }}</h4>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
 								
 								</div>
 							</div>
@@ -159,5 +188,26 @@
 				}
 			}
 		</script>
+		  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+		@if(session('error'))
+		<script>
+			Swal.fire({
+				icon: 'error',
+				title: 'Error',
+				text: '{{ session('error') }}',
+			});
+		</script>
+		@endif
+
+		@if(session('success'))
+		<script>
+			Swal.fire({
+				icon: 'success',
+				title: 'Success',
+				text: '{{ session('success') }}',
+			});
+		</script>
+		@endif
 			
     @endsection

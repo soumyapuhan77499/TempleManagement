@@ -179,14 +179,14 @@ public function storeInventory(Request $request)
     }
 
     // Validate request
-    $request->validate([
-        'item_name' => 'required',
-        'item_desc' => 'nullable', // item_desc is now optional
-        'quantity' => 'required|integer',
-        'photo' => 'required|image',
-        'inventory_category' => 'required',
-        'type' => 'required',
-    ]);
+    // $request->validate([
+    //     'item_name' => 'required',
+    //     'item_desc' => 'nullable', // item_desc is now optional
+    //     'quantity' => 'required|integer',
+    //     'photo' => 'required|image',
+    //     'inventory_category' => 'required',
+    //     'type' => 'required',
+    // ]);
 
     try {
         // Handle photo upload

@@ -14,7 +14,7 @@ class TempleCommittee extends Model
         'committee_id',
         'committee_creation_date',
         'financial_period',
-        
+        'committee_end_date',
         'status',
     ];
 }
