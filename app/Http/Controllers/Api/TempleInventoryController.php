@@ -8,6 +8,7 @@ use App\Models\TempleInventoryCategory;
 use App\Models\TempleInventoryList;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 class TempleInventoryController extends Controller
 {
     //
@@ -179,14 +180,7 @@ public function storeInventory(Request $request)
     }
 
     // Validate request
-    // $request->validate([
-    //     'item_name' => 'required',
-    //     'item_desc' => 'nullable', // item_desc is now optional
-    //     'quantity' => 'required|integer',
-    //     'photo' => 'required|image',
-    //     'inventory_category' => 'required',
-    //     'type' => 'required',
-    // ]);
+
 
     try {
         // Handle photo upload
@@ -207,8 +201,8 @@ public function storeInventory(Request $request)
         return response()->json([
             'message' => 'Inventory item added successfully.',
             'data' => $ineventory,
-            'status' => 201,
-        ], 201);
+            'status' => 200,
+        ], 200);
     } catch (\Exception $e) {
         // Handle any exceptions that occur
         return response()->json([
