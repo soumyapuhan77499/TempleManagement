@@ -127,11 +127,11 @@ class TempleSocialMediaController extends Controller
     
         // Generate structured output for images and videos
         $formattedImages = array_map(function ($image) {
-            return ['uri' => Storage::url($image)];
+            return ['uri' => asset('storage/'.$image)];
         }, $templePhotosVideos->temple_images ?? []);
     
         $formattedVideos = array_map(function ($video) {
-            return ['uri' => Storage::url($video)];
+            return ['uri' => asset('storage/'.$video)];
         }, $templePhotosVideos->temple_videos ?? []);
     
         // Return the images and videos as a JSON response

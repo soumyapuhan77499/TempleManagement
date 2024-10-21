@@ -234,9 +234,11 @@ public function mngInventory()
 
     try {
         // Retrieve active inventory items for the authenticated user's temple
-        $inventoryItems = TempleInventoryList::where('status', 'active')
-            ->where('temple_id', $templeId)
-            ->get();
+        // $inventoryItems = TempleInventoryList::where('status', 'active')
+        //     ->where('temple_id', $templeId)
+        //     ->get();
+        $inventoryItems = TempleInventoryList::with('inventorycategory')->where('status','active')
+            ->where('temple_id', $templeId)->get();
 
             $inventoryItems->map(function ($item) {
                 $item->photo_url =  asset('storage/' . $item->photo);;
@@ -246,10 +248,10 @@ public function mngInventory()
         // Check if there are any items
         if ($inventoryItems->isEmpty()) {
             return response()->json([
-                'message' => 'No active inventory items found.',
+                'message' => 'No inventory items found.',
                 'data' => [],
-                'status' => 404,
-            ], 404);
+                'status' => 200,
+            ], 200);
         }
 
         return response()->json([
