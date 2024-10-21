@@ -41,8 +41,8 @@ class TempleInventoryController extends Controller
         return response()->json([
             'message' => 'Category added successfully!',
             'data' => $category,
-            'status' => 201,
-        ], 201);
+            'status' => 200,
+        ], 200);
 
     } catch (\Exception $e) {
         // Handle any exceptions that occur
