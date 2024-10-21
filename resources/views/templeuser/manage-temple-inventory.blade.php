@@ -69,7 +69,7 @@
                                                         <td>{{ ucfirst($item->type) }}</td> <!-- Display 'Donated' or 'Purchased' -->
 														<td>{{ $item->inventorycategory ? $item->inventorycategory->inventory_category : 'N/A' }}</td>
                                                         <td>
-                                                            <a href="{{ route('templeinventory.editinventory', $item->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                                            <a href="{{ route('templeinventory.editinventory', $item->id) }}" class="btn btn-primary"><i class="fa fa-edit"></i></a>
 
 															<form id="delete-form-{{ $item->id }}" action="{{ route('templeinventory.deleteinventory', $item->id) }}" method="POST" style="display:inline;">
                                                                 @csrf

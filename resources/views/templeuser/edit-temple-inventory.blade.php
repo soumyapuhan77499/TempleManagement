@@ -96,13 +96,14 @@
                                                             <select class="form-control" id="inventory_category" name="inventory_category" required>
                                                                 <option value="">Select Category</option>
                                                                 @foreach($categories as $category)
-                                                                    <option value="{{ $category->inventory_categoy }}" {{ $inventory->inventory_category == $category->inventory_categoy ? 'selected' : '' }}>
-                                                                        {{ $category->inventory_categoy }}
+                                                                    <option value="{{ $category->id }}" {{ $inventory->inventory_category == $category->id ? 'selected' : '' }}>
+                                                                        {{ $category->inventory_category }} <!-- Display category name -->
                                                                     </option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
                                                     </div>
+                                                    
                                             
                                                     <!-- Type -->
                                                     <div class="col-md-12">

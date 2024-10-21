@@ -121,8 +121,8 @@ class TempleSocialMediaController extends Controller
                     'temple_images' => [],
                     'temple_videos' => []
                 ],
-                'status' => 404, // Not Found
-            ], 404);
+                'status' => 200, // Not Found
+            ], 200);
         }
     
         // Generate structured output for images and videos
