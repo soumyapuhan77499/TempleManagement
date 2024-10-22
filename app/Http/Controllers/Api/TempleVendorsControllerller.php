@@ -112,6 +112,7 @@ public function manageVendorDetails()
         if ($vendor_details->isEmpty()) {
             return response()->json([
                 'message' => 'No vendor details found',
+                'data' => [],
                 'status' => 200
             ], 200); // 404 Not Found
         }
