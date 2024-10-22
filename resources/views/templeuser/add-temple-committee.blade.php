@@ -19,13 +19,12 @@
 		
 			.trust-section-card {
 				border-radius: 10px;
-				padding: 20px;
+				padding: 20px 20px 8px 20px;
 				margin: 10px;
 				text-align: center;
 				transition: transform 0.3s ease, box-shadow 0.3s ease;
 				box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 			}
-		
 			.trust-section-card:hover {
 				transform: scale(1.05);
 				box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
@@ -149,7 +148,7 @@
 															<i class="fas fa-clock trust-section-icon"></i><br>
 															<span class="trust-section-title">Today's Date</span>
 															{{-- <h4 id="live-today-date" class="trust-section-h4"></h4> --}}
-															<p style="font-size: 18px; font-family: 'Courier New', monospace; font-weight: bold;"
+															<p style="font-size: 16px;line-height: 35px;font-family: 'Courier New', monospace;font-weight: bold;"
 															id="currentDateTime"></p> <!-- Live Date -->
 														</div>
 													</div>

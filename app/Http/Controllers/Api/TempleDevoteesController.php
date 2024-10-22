@@ -30,7 +30,7 @@ class TempleDevoteesController extends Controller
             'name' => 'required|string|max:255',
             'phone_number' => 'required|string',
             'dob' => 'required|date',
-            'photo' => 'required|image|max:2048',
+            'photo' => 'image|max:2048',
             'gotra' => 'required|string|max:255',
             'rashi' => 'required|string|max:255',
             'nakshatra' => 'nullable|string|max:255',
