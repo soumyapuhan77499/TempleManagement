@@ -148,7 +148,7 @@
 														<div class="trust-section-card live-today-date-card">
 															<i class="fas fa-clock trust-section-icon"></i><br>
 															<span class="trust-section-title">Today's Date</span>
-															<h4 id="live-today-date" class="trust-section-h4">{{ \Carbon\Carbon::today()->format('Y-m-d') }}</h4>
+															{{-- <h4 id="live-today-date" class="trust-section-h4"></h4> --}}
 															<p style="font-size: 18px; font-family: 'Courier New', monospace; font-weight: bold;"
 															id="currentDateTime"></p> <!-- Live Date -->
 														</div>
@@ -224,7 +224,7 @@
 				});
 	
 				// Update the content of the 'currentDateTime' element
-				document.getElementById('currentDateTime').textContent = formattedTime;
+				document.getElementById('currentDateTime').textContent =formattedDate + ' ' + formattedTime;
 			}
 	
 			// Update the time every second
