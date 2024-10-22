@@ -19,10 +19,10 @@ use App\Http\Controllers\Api\TempleExpenditureController;
 use App\Http\Controllers\Api\TempleDevoteesController;
 use App\Http\Controllers\Api\TempleBannerController;
 use App\Http\Controllers\Api\TempleInventoryController;
-
+use App\Http\Controllers\Api\TempleHundiController;
 use App\Http\Controllers\Api\TempleMandapController;
 use App\Http\Controllers\Api\TemplePoojaController;
-
+use App\Http\Controllers\Api\TempleHundiCollectionController;
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -88,7 +88,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('/update-special-rituals/{id}', 'updateSpecialRitual');
         Route::delete('/delet-special-rituals/{id}','deleteSpecialRitual');
         Route::get('/edit-special-ritual/{id}', 'editSpecialRitual');
-
       });
 
       Route::controller(TempleNewsController::class)->group(function() {
@@ -166,5 +165,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('/update-temple-vendors/{id}', 'updateVendorDetails')->name('templevendor.update');
         Route::delete('/delete-temple-vendors/{id}', 'deleteVendorDetails')->name('templevendor.delete');
       });
-       
+
+      Route::controller(TempleHundiController::class)->group(function() {
+        Route::post('/save-hundi', 'saveHundi');
+        Route::put('/update-hundi/{id}', 'updateHundi');
+        Route::get('/manage-hundi', 'manageHundi');
+        Route::delete('/delete-hundi/{id}',  'deleteHundi');
+      });
+
+      Route::controller(TempleHundiCollectionController::class)->group(function() {
+        Route::post('/save-hundi-collection', 'saveHundiCollection');
+        Route::get('/hundi-list', 'hundiList');
+      });
+      
 });
