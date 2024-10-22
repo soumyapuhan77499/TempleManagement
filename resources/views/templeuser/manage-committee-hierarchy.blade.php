@@ -20,13 +20,12 @@
 		
 			.trust-section-card {
 				border-radius: 10px;
-				padding: 20px;
+				padding: 20px 20px 8px 20px;
 				margin: 10px;
 				text-align: center;
 				transition: transform 0.3s ease, box-shadow 0.3s ease;
 				box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 			}
-		
 			.trust-section-card:hover {
 				transform: scale(1.05);
 				box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
@@ -103,15 +102,16 @@
 													<div class="trust-section-card trust-start-date-card">
 														<i class="fas fa-calendar-alt trust-section-icon"></i><br>
 														<span class="trust-section-title">Committee Starting Date</span>
-														<h4 class="trust-section-h4">{{ $committeedetails->committee_creation_date }}</h4>
+														<p style="font-size: 16px;line-height: 35px;font-family: 'Courier New', monospace;font-weight: bold;">{{ \Carbon\Carbon::parse($committeedetails->committee_creation_date)->format('F d, Y') }}</p>
+
 													</div>
 												</div>
 												<div class="col-md-4">
 													<div class="trust-section-card live-today-date-card">
 														<i class="fas fa-clock trust-section-icon"></i><br>
 														<span class="trust-section-title">Today's Date</span>
-														<h4 id="live-today-date" class="trust-section-h4">{{ \Carbon\Carbon::today()->format('Y-m-d') }}</h4>
-														<p style="font-size: 18px; font-family: 'Courier New', monospace; font-weight: bold;"
+														{{-- <h4 id="live-today-date" class="trust-section-h4"></h4> --}}
+														<p style="font-size: 16px;line-height: 35px;font-family: 'Courier New', monospace;font-weight: bold;"
 														id="currentDateTime"></p> <!-- Live Date -->
 													</div>
 												</div>
@@ -119,7 +119,7 @@
 													<div class="trust-section-card total-days-card">
 														<i class="fas fa-hourglass-half trust-section-icon"></i><br>
 														<span class="trust-section-title">Total Days</span>
-														<h4 class="trust-section-h4">{{ $totalDays }}</h4>
+														<p style="font-size: 16px;line-height: 35px;font-family: 'Courier New', monospace;font-weight: bold;">{{ $totalDays }}</p>
 													</div>
 												</div>
 											</div>
@@ -273,7 +273,8 @@
 		});
 
 		// Update the content of the 'currentDateTime' element
-		document.getElementById('currentDateTime').textContent = formattedTime;
+		document.getElementById('currentDateTime').textContent =formattedDate + ' ' + formattedTime;
+
 	}
 
 	// Update the time every second

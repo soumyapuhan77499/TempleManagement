@@ -140,7 +140,8 @@
 														<div class="trust-section-card trust-start-date-card">
 															<i class="fas fa-calendar-alt trust-section-icon"></i><br>
 															<span class="trust-section-title">Committee Starting Date</span>
-															<h4 class="trust-section-h4">{{ $committeedetails->committee_creation_date }}</h4>
+															<p style="font-size: 16px;line-height: 35px;font-family: 'Courier New', monospace;font-weight: bold;">{{ \Carbon\Carbon::parse($committeedetails->committee_creation_date)->format('F d, Y') }}</p>
+
 														</div>
 													</div>
 													<div class="col-md-4">
@@ -156,7 +157,7 @@
 														<div class="trust-section-card total-days-card">
 															<i class="fas fa-hourglass-half trust-section-icon"></i><br>
 															<span class="trust-section-title">Total Days</span>
-															<h4 class="trust-section-h4">{{ $totalDays }}</h4>
+															<p style="font-size: 16px;line-height: 35px;font-family: 'Courier New', monospace;font-weight: bold;">{{ $totalDays }}</p>
 														</div>
 													</div>
 												</div>
