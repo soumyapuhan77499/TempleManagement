@@ -40,8 +40,8 @@
 
 										<li><a class="slide-item" href="{{route('templeuser.addnewcommittee')}}">Create New Committee</a></li>
 										<li><a class="slide-item" href="{{route('templeuser.addcommitteemember')}}">Add Committee Member</a></li>
-										<li><a class="slide-item" href="{{route('templeuser.mnghierarchy')}}">Hierarchy Manage</a></li>
-										<li><a class="slide-item" href="{{route('templeuser.managetrustmember')}}">Manage Committee Member</a></li>
+										<li><a class="slide-item" href="{{route('templeuser.mngcommitteehierarchy')}}">Hierarchy Manage</a></li>
+										<li><a class="slide-item" href="{{route('templeuser.managecommitteemember')}}">Manage Committee Member</a></li>
 										<li><a class="slide-item" href="{{route('templeuser.addsubcommittee')}}">Add Sub Committee</a></li>
 										
 									</ul>

@@ -26,17 +26,17 @@ class TempleDevoteesController extends Controller
         }
 
         // Validate the request
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'phone_number' => 'required|string',
-            'dob' => 'required|date',
-            'photo' => 'required|image|max:2048',
-            'gotra' => 'required|string|max:255',
-            'rashi' => 'required|string|max:255',
-            'nakshatra' => 'nullable|string|max:255',
-            'anniversary_date' => 'nullable|date',
-            'address' => 'required|string|max:500',
-        ]);
+        // $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'phone_number' => 'required|string',
+        //     'dob' => 'required|date',
+        //     'photo' => 'nullable|image|max:2048',
+        //     'gotra' => 'required|string|max:255',
+        //     'rashi' => 'required|string|max:255',
+        //     'nakshatra' => 'nullable|string|max:255',
+        //     'anniversary_date' => 'nullable|date',
+        //     'address' => 'required|string|max:500',
+        // ]);
 
         // Handle photo upload
         if ($request->hasFile('photo')) {

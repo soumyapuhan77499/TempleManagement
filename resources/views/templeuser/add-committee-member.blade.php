@@ -53,15 +53,10 @@
 								<div class="col-12 col-sm-12">
 									<div class="card">
 										<div class="card-body pt-0 pt-4">
-												
-											<form method="POST" enctype="multipart/form-data" action="{{ route('templeuser.storecommitteeMember') }}">
+											<form method="POST" enctype="multipart/form-data" action="{{ route('templeuser.storecommitteeMember') }}" id="committeeForm">
 												@csrf
-												@method('POST') <!-- Assuming you're creating a new entry -->
-											
-												
+												@method('POST')
 												<div class="row">
-													
-													
 													<div class="col-md-6">
 														<div class="form-group">
 															<label for="committee_creation_date">Committee Creation Date <span style="color:red">*</span></label>
@@ -69,7 +64,6 @@
 																value="{{ old('committee_creation_date', $committeedetails->committee_creation_date ?? '') }}" readonly>
 														</div>
 													</div>
-
 													<div class="col-md-6">
 														<div class="form-group">
 															<label for="financial_period">Financial Period <span style="color:red">*</span></label>
@@ -79,93 +73,94 @@
 													</div>
 													<div class="col-md-6" style="display: none">
 														<div class="form-group">
-															<label for="committee_id">Financial Period <span style="color:red">*</span></label>
+															<label for="committee_id">Committee ID <span style="color:red">*</span></label>
 															<input type="text" class="form-control" id="committee_id" name="committee_id" 
 																value="{{ old('committee_id', $committeedetails->committee_id ?? '') }}" readonly>
 														</div>
 													</div>
-													
 												</div>
-											
-
-										</div>
-									</div>
-									<div class="card">
-										<div class="card-header">
-											<h4 class="card-title">Create Managaing Committee</h4>
-										</div>
-										
-										<div class="card-body pt-0">
-										
-												
-												<div class="row">
-													
-													<div class="col-md-6">
-														<div class="form-group">
-															<label for="member_name">Member Name <span style="color:red">*</span></label>
-															<input type="text" class="form-control" id="member_name" name="member_name" value="{{ old('member_name') }}" placeholder="Enter member name" required>
-														</div>
+												<div class="card">
+													<div class="card-header">
+														<h4 class="card-title">Create Managing Committee</h4>
 													</div>
-													<div class="col-md-6">
-														<div class="form-group">
-															<label for="contact_number">DOB <span style="color:red">*</span></label>
-															<input type="date" class="form-control" id="contact_number" name="dob" value="{{ old('dob') }}" placeholder="Enter 10-digit contact number" pattern="\d{10}" required title="Must be 10 digits">
+													<div class="card-body pt-0">
+														<div class="row">
+															<!-- Member Name -->
+															<div class="col-md-6">
+																<div class="form-group">
+																	<label for="member_name">Member Name <span style="color:red">*</span></label>
+																	<input type="text" class="form-control" id="member_name" name="member_name" value="{{ old('member_name') }}" required>
+																</div>
+															</div>
+															<!-- DOB -->
+															<div class="col-md-6">
+																<div class="form-group">
+																	<label for="dob">DOB <span style="color:red">*</span></label>
+																	<input type="date" class="form-control" id="dob" name="dob" value="{{ old('dob') }}" required>
+																</div>
+															</div>
 														</div>
-													</div>
+														<div class="row">
+															<!-- Member Designation -->
+															<div class="col-md-6">
+																<div class="form-group">
+																	<label for="member_designation">Profession <span style="color:red">*</span></label>
+																	<input type="text" class="form-control" id="member_designation" name="member_designation" value="{{ old('member_designation') }}" required>
+																</div>
+															</div>
+															<!-- Temple Designation -->
+															<div class="col-md-6">
+																<div class="form-group">
+																	<label for="temple_designation">Temple Designation <span style="color:red">*</span></label>
+																	<input type="text" class="form-control" id="temple_designation" name="temple_designation" value="{{ old('temple_designation') }}" required>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<!-- Contact Number -->
+															<div class="col-md-4">
+																<div class="form-group">
+																	<label for="member_contact_no">Contact Number <span style="color:red">*</span></label>
+																	<input type="text" class="form-control" id="member_contact_no" name="member_contact_no" value="{{ old('member_contact_no') }}" required pattern="\d{10}" title="Must be 10 digits">
+																</div>
+															</div>
+															<!-- WhatsApp Number -->
+															<div class="col-md-4">
+																<div class="form-group">
+																	<label for="whatsapp_number">WhatsApp Number <span style="color:red">*</span></label>
+																	<input type="text" class="form-control" id="whatsapp_number" name="whatsapp_number" value="{{ old('whatsapp_number') }}" required pattern="\d{10}" title="Must be 10 digits">
+																</div>
+															</div>
+															<!-- Email -->
+															<div class="col-md-4">
+																<div class="form-group">
+																	<label for="email">Email Id</label>
+																	<input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}">
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<!-- About Member -->
+															<div class="col-md-12">
+																<div class="form-group">
+																	<label for="about_member">About </label>
+																	<textarea name="about_member" class="form-control" id="about_member" cols="30" rows="3">{{ old('about_member') }}</textarea>
+																</div>
+															</div>
+														</div>
+														<div class="row mt-2">
+															<!-- Member Photo -->
+															<div class="col-md-12">
+																<div class="form-group">
+																	<label for="member_photo">Member Photo <span style="color:red">*</span></label>
+																	<input type="file" class="form-control" id="member_photo" name="member_photo" required>
+																</div>
+															</div>
+														</div>
+														<button type="submit" class="btn btn-primary mt-3">Submit</button>
+													</form>
 												</div>
-												<div class="row">
-													<div class="col-md-6">
-														<div class="form-group">
-															<label for="member_designation">Profession <span style="color:red">*</span></label>
-															<input type="text" class="form-control" id="member_designation" name="member_designation" value="{{ old('member_designation') }}" placeholder="Enter designation" required>
-														</div>
-													</div>
-													<div class="col-md-6">
-														<div class="form-group">
-															<label for="member_designation">Temple Designation <span style="color:red">*</span></label>
-															<input type="text" class="form-control" id="temple_designation" name="temple_designation" value="{{ old('temple_designation') }}" placeholder="Enter designation" required>
-														</div>
-													</div>
-													
-												</div>
-												<div class="row">
-													<div class="col-md-4">
-														<div class="form-group">
-															<label for="contact_number">Contact Number <span style="color:red">*</span></label>
-															<input type="text" class="form-control" id="contact_number" name="member_contact_no" value="{{ old('member_contact_no') }}" placeholder="Enter 10-digit contact number" pattern="\d{10}" required title="Must be 10 digits">
-														</div>
-													</div>
-													<div class="col-md-4">
-														<div class="form-group">
-															<label for="contact_number">Whatsapp Number <span style="color:red">*</span></label>
-															<input type="text" class="form-control" id="contact_number" name="whatsapp_number" value="{{ old('whatsapp_number') }}" placeholder="Enter 10-digit Whatsapp number" pattern="\d{10}" required title="Must be 10 digits">
-														</div>
-													</div>
-													<div class="col-md-4">
-														<div class="form-group">
-															<label for="contact_number">Email Id</label>
-															<input type="email" class="form-control" id="contact_number" name="email" value="{{ old('email') }}" placeholder="Enter Email" >
-														</div>
-													</div>
-												</div>
-												<div class="row">
-													<div class="col-md-12">
-														<label for="about_member">About </label>
-														<textarea name="about_member" class="form-control" id="about_member" cols="30" rows="3" placeholder="Tell us about the member" >{{ old('about_member') }}</textarea>
-													</div>
-												</div>
-												<div class="row mt-2">
-													<div class="col-md-12">
-														<div class="form-group">
-															<label for="member_photo">Member Photo <span style="color:red">*</span></label>
-															<input type="file" class="form-control" id="member_photo" name="member_photo" required>
-														</div>
-													</div>
-												</div>
-												
-												<button type="submit" class="btn btn-primary mt-3">Submit</button>
-											</form>
-										
+											</div>
 										</div>
 									</div>
 								</div>
@@ -245,5 +240,41 @@
 				}
 			}
 		</script>
+			<script>
+				document.getElementById('committeeForm').addEventListener('submit', function (event) {
+					let committeeId = document.getElementById('committee_id').value;
+					let committeeCreationDate = document.getElementById('committee_creation_date').value;
+					let financialPeriod = document.getElementById('financial_period').value;
 			
+					if (!committeeId || !committeeCreationDate || !financialPeriod) {
+						event.preventDefault();
+						Swal.fire({
+							icon: 'warning',
+							title: 'Committee Information Missing',
+							text: 'Still committee is not created',
+						});
+					}
+				});
+			</script>
+		  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+		  @if(session('error'))
+		  <script>
+			  Swal.fire({
+				  icon: 'error',
+				  title: 'Error',
+				  text: '{{ session('error') }}',
+			  });
+		  </script>
+		  @endif
+  
+		  @if(session('success'))
+		  <script>
+			  Swal.fire({
+				  icon: 'success',
+				  title: 'Success',
+				  text: '{{ session('success') }}',
+			  });
+		  </script>
+		  @endif
     @endsection
