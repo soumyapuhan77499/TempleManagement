@@ -577,7 +577,7 @@ button:hover,
 
 .section-title .subtitle {
   font-weight: var(--font-medium);
-  color: var(--color-primary);
+  color: #640404;
   display: inline-block;
   margin-bottom: 10px;
 }
@@ -1026,7 +1026,7 @@ textarea {
   position: relative;
   padding-top: 30px;
   padding-bottom: 30px;
-  color: var(--color-dark);
+  color: #fff;
   font-weight: var(--font-medium);
   font-size: 14px;
 }
@@ -4939,9 +4939,8 @@ margin-bottom: 15px;
 }
 
 header.header-area.aos-init.aos-animate {
-  background: orange;
-  background: #fdbe57;
-  background: linear-gradient(90deg, rgb(255 137 87) 0%, rgb(255 243 243) 10%, rgb(252 147 103) 40%, rgb(255 149 104) 100%);
+ 
+  background: linear-gradient(90deg, #640404 0%, rgb(255 243 243) 10%, #a23232 40%, #640404 100%);
   background-repeat: repeat-x;
   padding: 0 40px;
   z-index: 9;
@@ -4968,7 +4967,7 @@ header.header-area.aos-init.aos-animate {
 
 }
 .feature-card-unique {
-  background: linear-gradient(135deg, #fdc3ad, #ff7c42);
+  background: linear-gradient(135deg, #114042, #114042);
   padding: 35px;
   border-radius: 20px;
   text-align: center;
@@ -5101,11 +5100,10 @@ header.header-area.aos-init.aos-animate {
 /* Card Icon */
 .card-icon {
   font-size: 40px;
-  color: #ff7c42;
+  color: #640404;
   margin-bottom: 20px;
   transition: transform 0.3s;
 }
-
 .card-unique:hover .card-icon {
   transform: scale(1.2);
 }

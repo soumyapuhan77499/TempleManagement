@@ -78,7 +78,7 @@
 					</div>
 					<!-- /breadcrumb -->
 
-						@if(session()->has('success'))
+						{{-- @if(session()->has('success'))
 						<div class="alert alert-success" id="Message">
 							{{ session()->get('success') }}
 						</div>
@@ -88,7 +88,7 @@
 							<div class="alert alert-danger" id="Message">
 								{{ $errors->first('danger') }}
 							</div>
-						@endif
+						@endif --}}
 
 						<!-- Row -->
 						<div class="row row-sm">
@@ -163,17 +163,12 @@
                                                         <td>{{ $committeemember->temple_designation }}</td> <!-- Assuming member_designation exists -->
                                                         <td>{{ $committeemember->hierarchy_position }}</td> 
 														<td>{{ $committeemember->status }}</td><!-- Assuming about_member exists -->
-                                                        <td>
-                                                            <!-- Actions (edit/delete buttons, etc.) can be added here -->
-                                                            <a href="" class="btn btn-warning">Edit</a>
-
-															<form id="delete-form-{{ $committeemember->id }}" action="" method="POST" style="display:inline;">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $committeemember->id }})"><i class="fa fa-trash"></i></button>
-                                                            </form>
-
-                                                        </td>
+														<td>
+															<a href="{{route('templeuser.editcommitteeMember',$committeemember->id)}}" class="btn btn-warning"><i class="fa fa-edit"></i></a>
+															<button type="button" class="btn btn-danger" onclick="confirmDelete({{ $committeemember->id }})">
+																<i class="fa fa-trash"></i>
+															</button>
+														</td>
                                                     </tr>
                                                     @endforeach
                                                 </tbody>
@@ -189,11 +184,57 @@
 							</div>
 						</div>
 						<!-- End Row -->
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Action</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="deleteForm" method="POST" action="">
+                @csrf
+                @method('DELETE')
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="status">Select Action</label>
+                        <select name="status" id="status" class="form-control" required>
+                            <option value="deleted">Delete</option>
+                            <option value="suspended">Suspend</option>
+                            <option value="deactivate">Deactivate</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reason">Reason</label>
+                        <textarea name="reason" id="reason" class="form-control" rows="3" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Confirm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
     @endsection
 
     @section('scripts')
+<script>
+	function confirmDelete(memberId) {
+    // Set the form action dynamically based on member ID
+    var formAction = "{{ route('templeuser.deletecommitteeMember', ':id') }}";
+    formAction = formAction.replace(':id', memberId);
+    document.getElementById('deleteForm').action = formAction;
 
+    // Open the modal
+    $('#deleteModal').modal('show');
+}
+
+</script>
 		<!-- Internal Data tables -->
 		<script src="{{asset('assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
 		<script src="{{asset('assets/plugins/datatable/js/dataTables.bootstrap5.js')}}"></script>
@@ -215,23 +256,7 @@
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 		<script>
-			// Function to confirm delete
-			function confirmDelete(id) {
-				Swal.fire({
-					title: 'Are you sure?',
-					text: "You won't be able to revert this!",
-					icon: 'warning',
-					showCancelButton: true,
-					confirmButtonColor: '#3085d6',
-					cancelButtonColor: '#d33',
-					confirmButtonText: 'Yes, delete it!'
-				}).then((result) => {
-					if (result.isConfirmed) {
-						// Submit the form after confirmation
-						document.getElementById('delete-form-' + id).submit();
-					}
-				});
-			}
+			
 			function confirmDeactivation() {
         Swal.fire({
             title: 'Are you sure?',
@@ -286,4 +311,24 @@
 	// Initial call to display the time immediately on page load
 	updateDateTime();
 </script>
+
+@if(session('error'))
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: '{{ session('error') }}',
+        });
+    </script>
+@endif
+
+@if(session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: '{{ session('success') }}',
+        });
+    </script>
+@endif
     @endsection

@@ -42,6 +42,13 @@ Route::get('/', function () {
 Route::get('/contact', function () {
     return view('contactus');
 });
+Route::get('/package', function () {
+    return view('package');
+});
+Route::get('/about', function () {
+    return view('about');
+});
+
 
 ## Temple User Routes
 
@@ -87,6 +94,7 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
     });
 
     Route::controller(TempleCommitteeController::class)->group(function() {
+        Route::post('/save-temple-committee', 'saveCommittee')->name('templeuser.savecommittee');
         Route::get('/add-temple-committee', 'addnewcommittee')->name('templeuser.addnewcommittee');
         Route::get('/add-committee-member', 'addcommitteemember')->name('templeuser.addcommitteemember');
         Route::post('/add-committee-member', 'storecommitteemember')->name('templeuser.storecommitteeMember');
@@ -95,8 +103,16 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
         Route::get('/manage-committee-member', 'managecommitteemember')->name('templeuser.managecommitteemember');
         Route::post('/deactivate-committee-members',  'deactivateCommitteeMembers')->name('templeuser.deactivateCommitteeMembers');
 
+        Route::get('/committee-member/edit/{id}', 'editcommittemember')->name('templeuser.editcommitteeMember'); // Edit route
+        Route::put('/committee-member/update/{id}', 'updatecommittemember')->name('templeuser.updatecommitteeMember'); // Update route
+        Route::delete('/committee-member/delete/{id}', 'destroycommittemember')->name('templeuser.deletecommitteeMember'); // Delete route
+
         Route::get('/add-temple-sub-committee', 'addsubcommittee')->name('templeuser.addsubcommittee');
-        Route::post('/save-temple-committee', 'saveCommittee')->name('templeuser.savecommittee');
+        Route::post('/store-temple-sub-committee', 'storesubcommittee')->name('templeuser.storesubcommittee');
+
+        Route::post('/add-other-member', 'storeothermember')->name('templeuser.storeothermember');
+
+       
     });
 
     Route::controller(TempleBankController::class)->group(function() {

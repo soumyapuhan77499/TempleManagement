@@ -64,10 +64,10 @@
                             <a class="nav-link" href="#" target="_self">Modules</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#" target="_self">Package</a>
+                            <a class="nav-link" href="{{url('package')}}" target="_self">Package</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#" target="_self">About</a>
+                            <a class="nav-link" href="{{url('about')}}" target="_self">About</a>
                         </li>
                       
                         <li class="nav-item">

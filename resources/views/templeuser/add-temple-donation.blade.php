@@ -49,62 +49,275 @@
 							</div>
 							@endif
 							<!-- row  -->
-							<div class="row">
-								<div class="col-12 col-sm-12">
-									<div class="card">
-										{{-- <div class="card-header">
-											<h4 class="card-title">Temple About</h4>
-										</div> --}}
-										<div class="card-body pt-0 pt-4">
-											<form method="POST" action="{{ route('templedonation.storedonation') }}" enctype="multipart/form-data">
-												@csrf
-												<div class="row">
-													<div class="col-md-6">
-														<div class="form-group">
-															<label for="donation_type">Donation Type <span style="color:red">*</span></label>
-															<select name="donation_type" class="form-control" id="">
-																<option selected>Choose</option>
-																<option value="cash">Cash</option>
-																<option value="Check">Check</option>
-																<option value="upi">UPI</option>
-
-															</select>
-														</div>
-													</div>
-													<div class="col-md-6">
-														<div class="form-group">
-															<label for="item_name">Item Name <span style="color:red">*</span></label>
-															<input type="text" class="form-control" id="item_name" name="item_name" placeholder="Enter Item Name" required>
-														</div>
-													</div>
-												</div>
-												<div class="row">
-													<div class="col-md-6">
-														<div class="form-group">
-															<label for="photo">Item Photo <span style="color:red">*</span></label>
-															<input type="file" class="form-control" id="photo" name="photo" required>
-														</div>
-													</div>
-													<div class="col-md-6">
-														<div class="form-group">
-															<label for="quantity">Quantity <span style="color:red">*</span></label>
-															<input type="number" class="form-control" id="quantity" name="quantity" required>
-														</div>
-													</div>
-												</div>
-												<div class="form-group">
-													<label for="item_desc">Description <span style="color:red">*</span></label>
-													<textarea name="item_desc" class="form-control" id="item_desc" placeholder="Enter Item Description" required></textarea>
-												</div>
-											
-												<button type="submit" class="btn btn-primary">Submit</button>
-											</form>
-											
-                                            
+							<div class="row mt-4">
+								<div class="col-lg-12 col-md-12">
+									<div class="card overflow-hidden">
+										<div class="card-header pb-0">
+											<h2 class="card-title">ADD DONATIONS</h2>
 										</div>
+										<!-- Card Body -->
+										<div class="card-body">
+											<div class="panel-group1" id="accordion11" role="tablist">
+												<!-- Accordion for Sunday -->
+												<div class="card overflow-hidden">
+													<a class="accordion-toggle panel-heading1 collapsed" 
+													   data-bs-toggle="collapse" 
+													   data-bs-parent="#accordion11" 
+													   href="#collapseDay0" 
+													   aria-expanded="false" 
+													   style="font-size: 25px; font-weight: bold; color: black; background-color: rgb(196, 231, 251)">
+														Cash Donations
+													</a>
+													<div id="collapseDay0" class="panel-collapse collapse" role="tabpanel" aria-expanded="false">
+														<div class="panel-body">
+															<div class="row row-sm">
+																<div class="col-lg-12 col-md-12">
+																	<div class="custom-card main-content-body-profile">
+																		<div class="main-content-body tab-pane border-top-0" id="bank">
+																			<!-- Ritual Form -->
+																			<form action="http://127.0.0.1:8000/templeuser/savetempleritual" method="post" enctype="multipart/form-data" id="ritual-form" style="background-color: rgba(21, 225, 244, 0.2); padding: 15px;">
+																				<input type="hidden" name="_token" value="QXh1TWx4S3VikwimysYlzooX0tJzLimFlnWicrO2">   
+																				<div id="form-container">
+																					<div class="form-group-wrapper">
+																						<div class="row">
+																							<input type="hidden" name="day_name[]" value="Sunday" class="day_name">
+							
+																							<!-- Donated By -->
+																							<div class="col-md-4">
+																								<div class="form-group">
+																									<label for="donated_by">Donated By</label>
+																									<input type="text" class="form-control" name="donated_by" placeholder="Enter your name">
+																								</div>
+																							</div>
+							
+																							<!-- Amount -->
+																							<div class="col-md-4">
+																								<div class="form-group">
+																									<label for="amount">Amount</label>
+																									<input type="number" class="form-control" name="amount" placeholder="Enter amount" min="1">
+																								</div>
+																							</div>
+							
+																							<!-- Date & Time -->
+																							<div class="col-md-4">
+																								<div class="form-group">
+																									<label for="donation_date_time">Date & Time</label>
+																									<div class="input-group">
+																										<input type="datetime-local" class="form-control" name="donation_date_time">
+																									</div>
+																								</div>
+																							</div>
+							
+																							<!-- Phone Number -->
+																							<div class="col-md-4">
+																								<div class="form-group">
+																									<label for="phone_number">Phone Number</label>
+																									<input type="tel" class="form-control" name="phone_number" placeholder="Enter phone number" pattern="[0-9]{10}">
+																								</div>
+																							</div>
+							
+																							<!-- Address -->
+																							<div class="col-md-4">
+																								<div class="form-group">
+																									<label for="address">Address</label>
+																									<input type="text" class="form-control" name="address" placeholder="Enter your address">
+																								</div>
+																							</div>
+																	
+																						</div>
+																					</div>
+																				</div>
+																				<!-- Add and Submit Buttons -->
+																				<div class="text-center col-md-12">
+																					<button type="submit" class="btn btn-primary">Save Donations</button>
+																				</div>
+																			</form>
+																			<!-- End of Ritual Form -->
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<!-- End of Accordion for Sunday -->
+											</div>
+											<div class="panel-group1" id="accordion12" role="tablist">
+												<!-- Accordion for Sunday -->
+												<div class="card overflow-hidden">
+													<a class="accordion-toggle panel-heading1 collapsed" 
+													   data-bs-toggle="collapse" 
+													   data-bs-parent="#accordion12" 
+													   href="#collapseDay1" 
+													   aria-expanded="false" 
+													   style="font-size: 25px; font-weight: bold; color: black; background-color: rgb(196, 231, 251)">
+														Online Donations ( Cheque / UPI)
+													</a>
+													<div id="collapseDay1" class="panel-collapse collapse" role="tabpanel" aria-expanded="false">
+														<div class="panel-body">
+															<div class="row row-sm">
+																<div class="col-lg-12 col-md-12">
+																	<div class="custom-card main-content-body-profile">
+																		<div class="main-content-body tab-pane border-top-0" id="bank">
+																			<!-- Ritual Form -->
+																			<form action="http://127.0.0.1:8000/templeuser/savetempleritual" method="post" enctype="multipart/form-data" id="ritual-form" style="background-color: rgba(21, 225, 244, 0.2); padding: 15px;">
+																				<input type="hidden" name="_token" value="QXh1TWx4S3VikwimysYlzooX0tJzLimFlnWicrO2">   
+																				<div id="form-container">
+																					<div class="form-group-wrapper">
+																						<div class="row">
+																							<input type="hidden" name="day_name[]" value="Sunday" class="day_name">
+							
+																							<!-- Donated By -->
+																							<div class="col-md-4">
+																								<div class="form-group">
+																									<label for="donated_by">Donated By</label>
+																									<input type="text" class="form-control" name="donated_by" placeholder="Enter your name">
+																								</div>
+																							</div>
+							
+																							<!-- Amount -->
+																							<div class="col-md-4">
+																								<div class="form-group">
+																									<label for="amount">Amount</label>
+																									<input type="number" class="form-control" name="amount" placeholder="Enter amount" min="1">
+																								</div>
+																							</div>
+							
+																							<!-- Date & Time -->
+																							<div class="col-md-4">
+																								<div class="form-group">
+																									<label for="donation_date_time">Date & Time</label>
+																									<div class="input-group">
+																										<input type="datetime-local" class="form-control" name="donation_date_time">
+																									</div>
+																								</div>
+																							</div>
+							
+																							<!-- Phone Number -->
+																							<div class="col-md-4">
+																								<div class="form-group">
+																									<label for="phone_number">Phone Number</label>
+																									<input type="tel" class="form-control" name="phone_number" placeholder="Enter phone number" pattern="[0-9]{10}">
+																								</div>
+																							</div>
+							
+																							<!-- Address -->
+																							<div class="col-md-4">
+																								<div class="form-group">
+																									<label for="address">Address</label>
+																									<input type="text" class="form-control" name="address" placeholder="Enter your address">
+																								</div>
+																							</div>
+																	
+																						</div>
+																					</div>
+																				</div>
+																				<!-- Add and Submit Buttons -->
+																				<div class="text-center col-md-12">
+																					<button type="submit" class="btn btn-primary">Save Donations</button>
+																				</div>
+																			</form>
+																			<!-- End of Ritual Form -->
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<!-- End of Accordion for Sunday -->
+											</div>
+											<div class="panel-group1" id="accordion13" role="tablist">
+												<!-- Accordion for Sunday -->
+												<div class="card overflow-hidden">
+													<a class="accordion-toggle panel-heading1 collapsed" 
+													   data-bs-toggle="collapse" 
+													   data-bs-parent="#accordion13" 
+													   href="#collapseDay2" 
+													   aria-expanded="false" 
+													   style="font-size: 25px; font-weight: bold; color: black; background-color: rgb(196, 231, 251)">
+														Item Donations 
+													</a>
+													<div id="collapseDay2" class="panel-collapse collapse" role="tabpanel" aria-expanded="false">
+														<div class="panel-body">
+															<div class="row row-sm">
+																<div class="col-lg-12 col-md-12">
+																	<div class="custom-card main-content-body-profile">
+																		<div class="main-content-body tab-pane border-top-0" id="bank">
+																			<!-- Ritual Form -->
+																			<form action="http://127.0.0.1:8000/templeuser/savetempleritual" method="post" enctype="multipart/form-data" id="ritual-form" style="background-color: rgba(21, 225, 244, 0.2); padding: 15px;">
+																				<input type="hidden" name="_token" value="QXh1TWx4S3VikwimysYlzooX0tJzLimFlnWicrO2">   
+																				<div id="form-container">
+																					<div class="form-group-wrapper">
+																						<div class="row">
+																							<input type="hidden" name="day_name[]" value="Sunday" class="day_name">
+							
+																							<!-- Donated By -->
+																							<div class="col-md-4">
+																								<div class="form-group">
+																									<label for="donated_by">Donated By</label>
+																									<input type="text" class="form-control" name="donated_by" placeholder="Enter your name">
+																								</div>
+																							</div>
+							
+																							<!-- Amount -->
+																							<div class="col-md-4">
+																								<div class="form-group">
+																									<label for="amount">Amount</label>
+																									<input type="number" class="form-control" name="amount" placeholder="Enter amount" min="1">
+																								</div>
+																							</div>
+							
+																							<!-- Date & Time -->
+																							<div class="col-md-4">
+																								<div class="form-group">
+																									<label for="donation_date_time">Date & Time</label>
+																									<div class="input-group">
+																										<input type="datetime-local" class="form-control" name="donation_date_time">
+																									</div>
+																								</div>
+																							</div>
+							
+																							<!-- Phone Number -->
+																							<div class="col-md-4">
+																								<div class="form-group">
+																									<label for="phone_number">Phone Number</label>
+																									<input type="tel" class="form-control" name="phone_number" placeholder="Enter phone number" pattern="[0-9]{10}">
+																								</div>
+																							</div>
+							
+																							<!-- Address -->
+																							<div class="col-md-4">
+																								<div class="form-group">
+																									<label for="address">Address</label>
+																									<input type="text" class="form-control" name="address" placeholder="Enter your address">
+																								</div>
+																							</div>
+																	
+																						</div>
+																					</div>
+																				</div>
+																				<!-- Add and Submit Buttons -->
+																				<div class="text-center col-md-12">
+																					<button type="submit" class="btn btn-primary">Save Donations</button>
+																				</div>
+																			</form>
+																			<!-- End of Ritual Form -->
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<!-- End of Accordion for Sunday -->
+											</div>
+										</div>
+										<!-- End of Card Body -->
 									</div>
 								</div>
 							</div>
+									
 							<!-- /row closed -->
 
 
