@@ -2,6 +2,11 @@
 
 @section('styles')
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .accordion-item {
+            margin-bottom: 20px;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -26,18 +31,25 @@
                         {{ $errors->first('danger') }}
                     </div>
                 @endif
+
                 <div class="card-body">
-                    <div class="panel-group1" id="accordion11" role="tablist">
+                    <div class="accordion" id="accordionDays">
                         @foreach ($weekDays as $index => $day)
-                            <div class="card overflow-hidden">
-                                <a class="accordion-toggle panel-heading1 collapsed" data-bs-toggle="collapse"
-                                    data-bs-parent="#accordion11" href="#collapseDay{{ $index }}"
-                                    aria-expanded="false" style="font-sie: 25px;font-weight: bold;color: black">
-                                    {{ $day }}
-                                </a>
-                                <div id="collapseDay{{ $index }}" class="panel-collapse collapse" role="tabpanel"
-                                    aria-expanded="false">
-                                    <div class="panel-body">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingDay{{ $index }}">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseDay{{ $index }}" aria-expanded="false"
+                                        aria-controls="collapseDay{{ $index }}"
+                                        style="color: black; background-color: rgb(196, 231, 251);">
+                                        {{ $day }}
+                                    </button>
+                                </h2>
+
+                                <div id="collapseDay{{ $index }}" class="accordion-collapse collapse"
+                                    aria-labelledby="headingDay{{ $index }}" data-bs-parent="#accordionDays">
+                                    <div class="accordion-body">
+                                        <!-- Add the content you want to show for each day -->
+
                                         <div class="row row-sm">
                                             <div class="col-lg-12 col-md-12">
                                                 <div class="custom-card main-content-body-profile">
@@ -50,7 +62,7 @@
                                                                 <form id="ritualUpdateForm{{ $darshan->id }}"
                                                                     action="{{ route('templeuser.updateDarshan') }}"
                                                                     method="POST" enctype="multipart/form-data"
-                                                                    style="background-color: rgba(160, 213, 218, 0.2); padding: 15px">
+                                                                    style="background-color:  rgba(21, 225, 244, 0.2); padding: 15px">
                                                                     @csrf
                                                                     @method('POST')
 
@@ -225,6 +237,7 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -237,26 +250,10 @@
 @endsection
 
 @section('scripts')
-    <script>
-        setTimeout(function() {
-            document.getElementById('Message').style.display = 'none';
-        }, 3000);
-        setTimeout(function() {
-            document.getElementById('Messages').style.display = 'none';
-        }, 3000);
-    </script>
-
     <!-- Bootstrap JS (including Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        document.querySelectorAll('[data-bs-toggle="modal"]').forEach(button => {
-            button.addEventListener('click', () => {
-                console.log('Modal button clicked for: ', button.getAttribute('data-bs-target'));
-            });
-        });
-    </script>
+
     <!-- SweetAlert JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

@@ -43,7 +43,7 @@
                                data-bs-toggle="collapse" 
                                data-bs-parent="#accordion11" 
                                href="#collapseDay{{ $index }}" 
-                               aria-expanded="false" style="font-size: 15px; color: black">
+                               aria-expanded="false" style="font-size: 15px; color: black;background-color: rgb(196, 231, 251)">
                                {{ $day }}
                             </a>
                             <div id="collapseDay{{ $index }}" 
@@ -56,7 +56,7 @@
                                             <div class="custom-card main-content-body-profile">
                                                 <div class="main-content-body tab-pane border-top-0" id="bank">
 
-                                                   <form action="{{ route('templeuser.savetempledarshan') }}" method="post" enctype="multipart/form-data" id="darshan-form"  style="background-color: rgba(160, 213, 218, 0.2); padding: 15px">
+                                                   <form action="{{ route('templeuser.savetempledarshan') }}" method="post" enctype="multipart/form-data" id="darshan-form"  style="background-color:  rgba(21, 225, 244, 0.2); padding: 15px">
                                                      @csrf
                                                         <div id="form-container">
                                                             <div class="form-group-wrapper">

@@ -77,16 +77,39 @@ class TempleVendorsControllerller extends Controller
 
 public function manageVendorDetails()
 {
-    $templeId = Auth::guard('api')->user()->temple_id;
+    try {
+        $templeId = Auth::guard('api')->user()->temple_id;
 
-    // Fetch active vendors with related bank details
-    $vendor_details = VendorDetails::where('temple_id', $templeId)
-                        ->where('status', 'active')
-                        ->with('vendorBanks') // Eager load the related bank details
-                        ->get();
+        // Check if temple ID is valid
+        if (!$templeId) {
+            return response()->json([
+                'message' => 'Invalid Temple ID',
+            ], 400); // 400 Client Error
+        }
 
-    // Return a JSON response
-    return response()->json($vendor_details);
+        // Fetch active vendors with related bank details
+        $vendor_details = VendorDetails::where('temple_id', $templeId)
+                            ->where('status', 'active')
+                            ->with('vendorBanks') // Eager load the related bank details
+                            ->get();
+
+        // Check if vendor details exist
+        if ($vendor_details->isEmpty()) {
+            return response()->json([
+                'message' => 'No vendor details found',
+            ], 404); // 404 Not Found
+        }
+
+        return response()->json([
+            'message' => 'Vendor details fetched successfully',
+            'vendor_details' => $vendor_details,
+        ], 200); // 200 Success
+    } catch (\Exception $e) {
+        return response()->json([
+            'message' => 'Server error',
+            'error' => $e->getMessage(),
+        ], 500); // 500 Server Error
+    }
 }
 
 public function editVendorDetails($id)
