@@ -17,8 +17,9 @@ class TempleExpenditureController extends Controller
 
         if (!$user) {
             return response()->json([
+                'status' => 400,
                 'message' => 'Unauthorized. Please log in as a temple user.',
-            ], 401); // HTTP 401 Unauthorized
+            ], 400); // HTTP 401 Unauthorized
         }
         // Validate the form data
         $request->validate([
@@ -55,12 +56,14 @@ class TempleExpenditureController extends Controller
 
         // Return success response
         return response()->json([
+            'status' => 200,
             'message' => 'Expenditure recorded successfully',
             'data' => $expenditure
         ], 200); // HTTP 200 OK
     } catch (\Exception $e) {
         // Return error response with 500 status code
         return response()->json([
+            'status' => 500,
             'message' => 'An error occurred while saving the expenditure',
             'error' => $e->getMessage()
         ], 500); // HTTP 500 Internal Server Error
@@ -76,8 +79,9 @@ public function manageExpenditure()
         // Check if the user is authenticated
         if (!$user) {
             return response()->json([
+                'status' => 400,
                 'message' => 'Unauthorized. Please log in as a temple user.',
-            ], 401); // HTTP 401 Unauthorized
+            ], 400); // HTTP 401 Unauthorized
         }
 
         $templeId = $user->temple_id;
@@ -89,12 +93,14 @@ public function manageExpenditure()
 
         // Return success response with the list of expenditures
         return response()->json([
+            'status' => 200,
             'message' => 'Temple Expenditure List Retrieved Successfully',
             'data' => $templeExpenditure
         ], 200); // HTTP 200 OK
     } catch (\Exception $e) {
         // Return error response with 500 status code
         return response()->json([
+            'status' => 500,
             'message' => 'An error occurred while retrieving temple expenditure',
             'error' => $e->getMessage()
         ], 500); // HTTP 500 Internal Server Error
@@ -109,12 +115,14 @@ public function editExpenditure($id)
 
         // Return success response with expenditure data
         return response()->json([
+            'status' => 200,
             'message' => 'Expenditure details retrieved successfully.',
             'data' => $expenditure
         ], 200); // HTTP 200 OK
     } catch (\Exception $e) {
         // Return error response if something goes wrong
         return response()->json([
+            'status' => 500,
             'message' => 'An error occurred while fetching the expenditure details.',
             'error' => $e->getMessage()
         ], 500); // HTTP 500 Internal Server Error
@@ -125,19 +133,7 @@ public function editExpenditure($id)
 public function updateExpenditure(Request $request, $id)
 {
     try {
-        // Validate the incoming request data
-        $request->validate([
-            'person_name' => 'required|string|max:255',
-            'payment_date' => 'required|date',
-            'amount' => 'required|numeric',
-            'category' => 'required|string',
-            'category_type' => 'required|string',
-            'payment_mode' => 'required|string',
-            'payment_number' => 'required|string|max:255',
-            'payment_done_by' => 'required|string|max:255',
-            'payment_description' => 'nullable|string',
-        ]);
-
+     
         // Find the expenditure by ID
         $expenditure = TempleExpenditure::findOrFail($id);
 
@@ -146,12 +142,14 @@ public function updateExpenditure(Request $request, $id)
 
         // Return success response
         return response()->json([
+            'status' => 200,
             'message' => 'Expenditure updated successfully.',
             'data' => $expenditure
         ], 200); // HTTP 200 OK
     } catch (\Exception $e) {
         // Return error response in case of an exception
         return response()->json([
+            'status' => 500,
             'message' => 'An error occurred while updating the expenditure.',
             'error' => $e->getMessage()
         ], 500); // HTTP 500 Internal Server Error
@@ -172,17 +170,20 @@ public function deleteExpenditure($id)
     
             // Return a success response
             return response()->json([
+                'status' => 200,
                 'message' => 'Temple Expenditure has been deleted successfully.'
             ], 200); // HTTP 200 OK
         } else {
             // Return error response if the expenditure does not exist
             return response()->json([
+                'status' => 400,
                 'message' => 'Temple Expenditure not found.'
-            ], 404); // HTTP 404 Not Found
+            ], 400); // HTTP 404 Not Found
         }
     } catch (\Exception $e) {
         // Return error response in case of exception
         return response()->json([
+            'status' => 500,
             'message' => 'An error occurred while deleting the Temple Expenditure.',
             'error' => $e->getMessage()
         ], 500); // HTTP 500 Internal Server Error
@@ -203,12 +204,14 @@ public function getVendors()
     
         // Return a JSON response with the vendors data
         return response()->json([
+            'status' => 200,
             'vendors' => $vendors,
             'message' => 'Vendors fetched successfully.'
         ], 200); // HTTP 200 OK
     } catch (\Exception $e) {
         // Return error response if something goes wrong
         return response()->json([
+            'status' => 500,
             'message' => 'An error occurred while fetching vendors.',
             'error' => $e->getMessage()
         ], 500); // HTTP 500 Internal Server Error
@@ -222,12 +225,14 @@ public function printInvoice($id)
         
         // Return a success response with the expenditure details
         return response()->json([
+            'status' => 200,
             'expenditure' => $expenditure,
             'message' => 'Expenditure invoice fetched successfully.'
         ], 200); // HTTP 200 OK
     } catch (\Exception $e) {
         // Return error response if something goes wrong
         return response()->json([
+            'status' => 500,
             'message' => 'An error occurred while fetching the invoice.',
             'error' => $e->getMessage()
         ], 500); // HTTP 500 Internal Server Error

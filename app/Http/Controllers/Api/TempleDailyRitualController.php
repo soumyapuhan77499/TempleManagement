@@ -15,6 +15,13 @@ class TempleDailyRitualController extends Controller
         try {
             $templeId = Auth::guard('api')->user()->temple_id;
 
+            if (!$templeId) {
+                return response()->json([
+                    'status' => 400,
+                    'message' => 'Invalid temple ID. Please authenticate again.',
+                ], 400);
+            }
+
             // Validate that the required fields are present
             $this->validate($request, [
                 'ritual_name' => 'required|array',
@@ -73,11 +80,17 @@ class TempleDailyRitualController extends Controller
             }
 
             // Return a successful response
-            return response()->json(['success' => 'Rituals saved successfully.'], 200);
+            return response()->json([
+                'status' => 200,
+                'success' => 'Rituals saved successfully.'
+            ], 200);
         } catch (\Exception $e) {
             // Log the exception message for debugging
             \Log::error('Error saving rituals: ' . $e->getMessage());
-            return response()->json(['error' => 'An error occurred while saving the rituals: ' . $e->getMessage()], 500);
+            return response()->json([
+                'status' => 500,
+                'error' => 'An error occurred while saving the rituals: ' . $e->getMessage()
+            ], 500);
         }
     }
 
@@ -100,21 +113,45 @@ class TempleDailyRitualController extends Controller
     
 
     public function apiManageDailyRitual()
-{
-    $templeId = Auth::guard('api')->user()->temple_id;
-
-    $rituals = TempleRitual::where('status', 'active')->where('temple_id', $templeId)->get();
-
-    $groupedRituals = $rituals->groupBy('ritual_day_name');
-
-    // Prepare the response data
-    $response = [
-        'weekDays' => ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-        'rituals' => $groupedRituals,
-    ];
-
-    return response()->json($response, 200);
-}
+    {
+        try {
+            $templeId = Auth::guard('api')->user()->temple_id;
+    
+            if (!$templeId) {
+                return response()->json([
+                    'status' => 400,
+                    'message' => 'Invalid temple ID. Please authenticate again.',
+                ], 400);
+            }
+    
+            // Fetch active rituals for the temple
+            $rituals = TempleRitual::where('status', 'active')
+                ->where('temple_id', $templeId)
+                ->get();
+    
+            // Group rituals by ritual_day_name
+            $groupedRituals = $rituals->groupBy('ritual_day_name');
+    
+            // Prepare the response data
+            $response = [
+                'status' => 200,
+                'message' => 'Rituals fetched successfully.',
+                'weekDays' => ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+                'rituals' => $groupedRituals,
+            ];
+    
+            return response()->json($response, 200);
+    
+        } catch (\Exception $e) {
+            // Return a server error response
+            return response()->json([
+                'status' => 500,
+                'message' => 'An error occurred while fetching the rituals. Please try again later.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+    
 
 public function apiUpdateRituals(Request $request)
 {
@@ -123,10 +160,14 @@ public function apiUpdateRituals(Request $request)
     // Process each ritual update
     try {
         foreach ($request->ritual_id as $index => $ritualId) {
+
             $ritual = TempleRitual::find($ritualId);
 
             if (!$ritual) {
-                return response()->json(['error' => 'Ritual not found for ID: ' . $ritualId], 404); // 404 Not Found
+                return response()->json([
+                    'status' => 400,
+                    'error' => 'Ritual not found for ID: ' . $ritualId
+                ], 400); // 404 Not Found
             }
 
             $ritual->ritual_name = $request->ritual_name[$index] ?? $ritual->ritual_name;
@@ -168,10 +209,16 @@ public function apiUpdateRituals(Request $request)
             $ritual->save();
         }
 
-        return response()->json(['success' => 'Rituals updated successfully!'], 200); // 200 OK
+        return response()->json([
+            'status' => 200,
+            'success' => 'Rituals updated successfully!'
+        ], 200); // 200 OK
     } catch (\Exception $e) {
         \Log::error('Update Rituals Error: ' . $e->getMessage()); // Log the error
-        return response()->json(['error' => 'Server error occurred.'], 500); // 500 Internal Server Error
+        return response()->json([
+            'status' => 500,
+            'error' => 'Server error occurred.'
+        ], 500); // 500 Internal Server Error
     }
 }
 public function apiDeleteRitual($id)
@@ -180,6 +227,12 @@ public function apiDeleteRitual($id)
         // Find the ritual by ID or fail if not found
         $ritual = TempleRitual::findOrFail($id);
 
+        if (!$ritual) {
+            return response()->json([
+                'status' => 400,
+                'error' => 'Ritual not found for ID: ' . $ritualId
+            ], 400); // 404 Not Found
+        }
         // Update the status to 'deleted'
         $ritual->status = 'deleted'; // Update the status value to 'deleted' instead of removing the row
         $ritual->save();
@@ -193,10 +246,16 @@ public function apiDeleteRitual($id)
         }
 
         // Return a success response
-        return response()->json(['success' => 'Ritual status updated to deleted.'], 200); // 200 OK
+        return response()->json([
+            'status' => 200,
+            'success' => 'Ritual status updated to deleted.'
+        ], 200); // 200 OK
     } catch (\Exception $e) {
         \Log::error('Delete Ritual Error: ' . $e->getMessage()); // Log the error
-        return response()->json(['error' => 'Server error occurred.'], 500); // 500 Internal Server Error
+        return response()->json([
+            'status' => 500,
+            'error' => 'Server error occurred.'
+        ], 500); // 500 Internal Server Error
     }
 }
 

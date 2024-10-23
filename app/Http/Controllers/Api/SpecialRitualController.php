@@ -16,6 +16,12 @@ class SpecialRitualController extends Controller
         // Get temple_id from authenticated temple user
         $templeId = Auth::guard('api')->user()->temple_id;
 
+        if (!$templeId) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Invalid temple ID. Please authenticate again.',
+            ], 400);
+        }
         // Initialize new SpecialRitual model
         $ritual = new SpecialRitual();
         $ritual->temple_id = $templeId; // Assuming temple_id is linked to the authenticated user
@@ -47,6 +53,7 @@ class SpecialRitualController extends Controller
 
         // Return success response
         return response()->json([
+            'status' => 200,
             'success' => true,
             'message' => 'Special Ritual saved successfully.',
             'data' => $ritual
@@ -58,6 +65,7 @@ class SpecialRitualController extends Controller
 
         // Return server error response
         return response()->json([
+            'status' => 500,
             'success' => false,
             'message' => 'An error occurred while saving the special ritual. Please try again.'
         ], 500);
@@ -70,6 +78,12 @@ public function manageSpecialRitual()
         // Get the authenticated user's temple ID
         $templeId = Auth::guard('api')->user()->temple_id;
 
+        if (!$templeId) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Invalid temple ID. Please authenticate again.',
+            ], 400);
+        }
         // Fetch all active special rituals belonging to the authenticated temple
         $special_rituals = SpecialRitual::where('status', 'active')
                                          ->where('temple_id', $templeId)
@@ -77,6 +91,7 @@ public function manageSpecialRitual()
 
         // Return JSON response with the data
         return response()->json([
+            'status' => 200,
             'success' => true,
             'data' => $special_rituals
         ], 200);
@@ -86,6 +101,7 @@ public function manageSpecialRitual()
 
         // Return server error response
         return response()->json([
+            'status' => 500,
             'success' => false,
             'message' => 'An error occurred while fetching the yearly rituals. Please try again.'
         ], 500);
@@ -128,6 +144,7 @@ public function updateSpecialRitual(Request $request, $id)
 
         // Return success response
         return response()->json([
+            'status' => 200,
             'success' => true,
             'message' => 'Yearly Special Ritual updated successfully!',
             'data' => $specialRitual
@@ -136,13 +153,15 @@ public function updateSpecialRitual(Request $request, $id)
     } catch (ModelNotFoundException $e) {
         // Return client error if ritual not found
         return response()->json([
+            'status' => 400,
             'success' => false,
             'message' => 'Yearly Special Ritual not found.'
-        ], 404);
+        ], 400);
     } catch (\Exception $e) {
         // Log error with full stack trace
         Log::error($e->getMessage(), ['exception' => $e]);
         return response()->json([
+            'status' => 500,
             'success' => false,
             'message' => 'An error occurred',
             'error' => $e->getMessage()
@@ -162,6 +181,7 @@ public function deleteSpecialRitual($id)
 
         // Return success response
         return response()->json([
+            'status' => 200,
             'success' => true,
             'message' => 'Special Ritual marked as deleted successfully.',
         ], 200);
@@ -169,9 +189,10 @@ public function deleteSpecialRitual($id)
     } catch (ModelNotFoundException $e) {
         // Return client error response if ritual not found
         return response()->json([
+            'status' => 400,
             'success' => false,
             'message' => 'Special Ritual not found.',
-        ], 404);
+        ], 400);
 
     } catch (\Exception $e) {
         // Log the error for debugging purposes
@@ -179,6 +200,7 @@ public function deleteSpecialRitual($id)
 
         // Return server error response
         return response()->json([
+            'status' => 500,
             'success' => false,
             'message' => 'An error occurred while deleting the special ritual. Please try again.',
         ], 500);
@@ -193,11 +215,13 @@ public function editSpecialRitual($id)
 
         // Return a success response with the ritual data
         return response()->json([
+            'status' => 200,
             'success' => true,
             'data' => $specialRitual
         ], 200);
     } catch (\Exception $e) {
         return response()->json([
+            'status' => 500,
             'success' => false,
             'message' => 'Ritual not found or an error occurred: ' . $e->getMessage()
         ], 500);

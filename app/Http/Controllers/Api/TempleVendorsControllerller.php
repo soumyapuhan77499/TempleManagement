@@ -124,6 +124,7 @@ public function manageVendorDetails()
         ], 200); // 200 Success
     } catch (\Exception $e) {
         return response()->json([
+            'status' => 500,
             'message' => 'Server error',
             'error' => $e->getMessage(),
         ], 500); // 500 Server Error

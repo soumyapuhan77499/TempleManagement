@@ -20,8 +20,8 @@ class TempleNewsController extends Controller
             return response()->json([
                 'message' => 'User not authenticated.',
                 'data' => null,
-                'status' => 401, // Unauthorized
-            ], 401);
+                'status' => 400, // Unauthorized
+            ], 400);
         }
     
         // Validate the request data
@@ -68,8 +68,8 @@ class TempleNewsController extends Controller
             return response()->json([
                 'message' => 'User not authenticated.',
                 'data' => null,
-                'status' => 401, // Unauthorized
-            ], 401);
+                'status' => 400, // Unauthorized
+            ], 400);
         }
     
         try {

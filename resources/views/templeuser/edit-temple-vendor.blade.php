@@ -147,8 +147,7 @@
                         <div class="row">
                             <div class="col-md-12 mt-4">
                                 <h4>Bank Details</h4>
-                                <hr>
-                                <button type="button" id="add-bank-section" class="btn btn-success">Add Bank Section</button>
+                               
                             </div>
                         </div>
 
@@ -210,6 +209,7 @@
 
                         <!-- Submit Button -->
                         <div class="form-group text-center">
+                            <button type="button" id="add-bank-section" class="btn btn-success">Add Bank Section</button>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </form>

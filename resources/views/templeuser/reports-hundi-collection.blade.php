@@ -52,8 +52,6 @@
                                             @endforeach
                                         </select>
                                 
-                                        <!-- Button to open modal -->
-                                        <a class="btn ripple btn-success ms-2" data-bs-target="#popover" data-bs-toggle="modal" href="#">+</a>
                                     </div>
                                 </div>
                                 
@@ -61,28 +59,9 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="hundi_open_date">Hundi Open Date <span style="color:red">*</span></label>
+                                    <label for="hundi_open_date">Date <span style="color:red">*</span></label>
                                     <input type="date" class="form-control" id="hundi_open_date" name="hundi_open_date"
                                         required>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="present_member">Present Member</label>
-                                    <select multiple="multiple" class="testselect2" name="present_member[]">
-                                        <option value="Member 1">Member 1</option>
-                                        <option value="Member 2">Member 2</option>
-                                        <option value="Member 3">Member 3</option>
-                                        <option value="Member 4">Member 4</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="opened_by">Opened By <span style="color:red">*</span></label>
-                                    <input type="text" class="form-control" id="opened_by" name="opened_by" required>
                                 </div>
                             </div>
                         </div>
@@ -188,9 +167,7 @@
     <div class="modal fade" id="popover">
         <div class="modal-dialog modal-fullscreen-lg-down" role="document">
             <div class="modal-content  modal-content-demo">
-                <div class="modal-header">
-                    <h6 class="modal-title">Add New Hundi</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
-                </div>
+              
                 <div class="modal-body">
                     <form method="POST" action="{{ route('templeuser.savehundi') }}">
                         @csrf
@@ -228,126 +205,4 @@
     <script src="{{ asset('assets/plugins/sumoselect/jquery.sumoselect.js') }}"></script>
     <script src="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
 
-    {{-- sweet alert --}}
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <script>
-        // Function to validate and allow only numeric input
-        function validateNumberInput(input) {
-            input.value = input.value.replace(/[^0-9]/g, ''); // Replace any non-numeric character
-        }
-    </script>
-
-    <script>
-        function calculateTotal() {
-            let cashTypes = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000];
-            let grandTotal = 0;
-
-            cashTypes.forEach((value, index) => {
-                // Get the input field for number of cash
-                let cashInput = document.querySelector(`input[name="cash_${value}"]`);
-                let cashAmount = parseInt(cashInput.value) || 0;
-
-                // Calculate the total based on cash type and number of cash
-                let totalAmount = cashAmount * value;
-
-                // Update the total field for that denomination
-                let totalInput = document.querySelector(`input[name="total_${value}"]`);
-                totalInput.value = totalAmount;
-
-                // Add to the grand total
-                grandTotal += totalAmount;
-            });
-
-            // Update the grand total field
-            document.querySelector('input[name="grand_total"]').value = grandTotal;
-        }
-
-        // Validate input to ensure only numbers are allowed
-        function validateNumberInput(input) {
-            input.value = input.value.replace(/[^0-9]/g, ''); // Only allow numbers
-            calculateTotal(); // Trigger calculation whenever input changes
-        }
-    </script>
-    <script>
-        // Function to get the current date and time
-        function updateDateTime() {
-            const now = new Date();
-            const options = {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            };
-            const formattedDate = now.toLocaleDateString('en-US', options);
-            const formattedTime = now.toLocaleTimeString('en-US', {
-                hour: 'numeric',
-                minute: 'numeric',
-                second: 'numeric',
-                hour12: true
-            });
-
-            // Update the content of the 'currentDateTime' element
-            document.getElementById('currentDateTime').textContent = formattedDate + ' ' + formattedTime;
-        }
-
-        // Update the time every second
-        setInterval(updateDateTime, 1000);
-
-        // Initial call to display the time immediately on page load
-        updateDateTime();
-    </script>
-    {{-- message hide --}}
-    <script>
-        setTimeout(function() {
-            document.getElementById('Message').style.display = 'none';
-        }, 3000);
-        setTimeout(function() {
-            document.getElementById('Messages').style.display = 'none';
-        }, 3000);
-    </script>
-
-    {{-- sweet alert --}}
-    <script>
-        document.getElementById('submitButton').addEventListener('click', function(e) {
-            // Prevent the default form submission
-            e.preventDefault();
-
-            // SweetAlert confirmation dialog
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Please review the details before submitting!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, submit it!',
-                cancelButtonText: 'Reverify'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Disable form inputs to prevent further editing
-                    document.querySelectorAll('#hundiCollectionForm input').forEach(input => {
-                        input.setAttribute('readonly', 'readonly');
-                    });
-
-                    // SweetAlert Success Message before submission
-                    Swal.fire(
-                        'Submitting...',
-                        'Your form is being submitted!',
-                        'success'
-                    ).then(() => {
-                        // Manually submit the form
-                        document.getElementById('hundiCollectionForm').submit();
-                    });
-
-                } else {
-                    // SweetAlert message for reverify action
-                    Swal.fire(
-                        'Recheck!',
-                        'You can review the form before submitting.',
-                        'info'
-                    );
-                }
-            });
-        });
-    </script>
 @endsection

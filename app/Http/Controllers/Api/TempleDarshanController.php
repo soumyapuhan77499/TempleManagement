@@ -14,8 +14,15 @@ class TempleDarshanController extends Controller
 {
     public function apiSaveTempleDarshan(Request $request)
     {
+       
         $templeId = Auth::guard('api')->user()->temple_id;
-    
+
+        if (!$templeId) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Invalid temple ID. Please authenticate again.',
+            ], 400);
+        }
         try {
             // Loop through each darshan entry from the JSON request
             foreach ($request->input('darshans') as $darshanData) {
@@ -58,14 +65,20 @@ class TempleDarshanController extends Controller
             }
     
             // Return 200 success response
-            return response()->json(['success' => 'Darshans saved successfully.'], 200);
+            return response()->json([
+                'status' => 200,
+                'success' => 'Darshans saved successfully.'
+            ], 200);
     
         } catch (\Exception $e) {
             // Log the exception for debugging
             \Log::error('Error saving darshans: ' . $e->getMessage());
     
             // Return 500 server error
-            return response()->json(['error' => 'An error occurred while saving darshans.'], 500);
+            return response()->json([
+                'status' => 500,
+                'error' => 'An error occurred while saving darshans.'
+            ], 500);
         }
     }
     
@@ -77,39 +90,49 @@ private function convert24ToCarbonInstance($time, $period)
 
 public function ManageTempleDarshan()
 {
-    $templeId = Auth::guard('api')->user()->temple_id;
+    try {
+        $templeId = Auth::guard('api')->user()->temple_id;
+        
+        if (!$templeId) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Invalid temple ID. Please authenticate again.',
+            ], 400);
+        }
 
-    // Fetch active darshans for the temple
-    $darshans = TempleDarshan::where('status', 'active')->where('temple_id', $templeId)->get();
+        // Fetch active darshans for the temple
+        $darshans = TempleDarshan::where('status', 'active')
+            ->where('temple_id', $templeId)
+            ->get();
 
-    // Group darshans by darshan_day
-    $groupedDarshans = $darshans->groupBy('darshan_day');
+        // Group darshans by darshan_day
+        $groupedDarshans = $darshans->groupBy('darshan_day');
 
-    // Prepare the list of weekdays
-    $weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        // Prepare the list of weekdays
+        $weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-    // Return a JSON response
-    return response()->json([
-        'groupedDarshans' => $groupedDarshans,
-        'weekDays' => $weekDays
-    ]);
+        // Return a successful JSON response
+        return response()->json([
+            'status' => 200,
+            'message' => 'Darshans fetched successfully.',
+            'groupedDarshans' => $groupedDarshans,
+            'weekDays' => $weekDays
+        ], 200);
+    } catch (\Exception $e) {
+        // Return a server error message
+        return response()->json([
+            'status' => 500,
+            'message' => 'An error occurred while fetching the darshans. Please try again later.',
+            'error' => $e->getMessage()
+        ], 500);
+    }
 }
+
 
 
 public function updateTempleDarshan(Request $request)
 {
-    // Validate the incoming data
-    $request->validate([
-        'darshan_id.*' => 'required|exists:temple_darshan,id', // Ensure the darshan ID exists
-        'darshan_name.*' => 'required|string|max:255',
-        'darshan_start_time.*' => 'required',
-        'darshan_start_period.*' => 'required',
-        'darshan_end_time.*' => 'required',
-        'darshan_end_period.*' => 'required',
-        'description.*' => 'nullable|string',
-        'darshan_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
-
+   
     try {
         // Loop through each darshan entry
         foreach ($request->darshan_id as $key => $id) {
@@ -156,9 +179,15 @@ public function updateTempleDarshan(Request $request)
             }
         }
 
-        return response()->json(['success' => true, 'message' => 'Darshans updated successfully.'], 200);
+        return response()->json([
+            'success' => 200, 
+            'message' => 'Darshans updated successfully.'
+        ], 200);
     } catch (\Exception $e) {
-        return response()->json(['success' => false, 'message' => 'An error occurred while updating darshans: ' . $e->getMessage()], 500);
+        return response()->json([
+            'success' => 500,
+             'message' => 'An error occurred while updating darshans: ' . $e->getMessage()
+        ], 500);
     }
 }
 
@@ -173,12 +202,21 @@ public function deleteTempleDarshan($id)
             $darshan->status = 'deleted';
             $darshan->save();
 
-            return response()->json(['success' => true, 'message' => 'Darshan deleted successfully.'], 200);
+            return response()->json([
+                'success' => 200,
+                 'message' => 'Darshan deleted successfully.'
+            ], 200);
         } else {
-            return response()->json(['success' => false, 'message' => 'Darshan not found.'], 404);
+            return response()->json([
+                'success' => 200,
+                 'message' => 'Darshan not found.'
+                ], 200);
         }
     } catch (\Exception $e) {
-        return response()->json(['success' => false, 'message' => 'An error occurred while deleting the darshan: ' . $e->getMessage()], 500);
+        return response()->json([
+            'success' => 500,
+             'message' => 'An error occurred while deleting the darshan: ' . $e->getMessage()
+            ], 500);
     }
 }
 
