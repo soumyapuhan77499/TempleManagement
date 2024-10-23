@@ -93,94 +93,41 @@
 
 						<!-- Row -->
 						<div class="row row-sm">
-							<div class="col-lg-12">
-								<div class="card custom-card overflow-hidden">
-									<div class="card-body">
-										<div class="row">
-											<div class="col-md-4">
-												<div class="trust-section-card trust-start-date-card">
-													<i class="fas fa-calendar-alt trust-section-icon"></i>
-													<span class="trust-section-title">Trust Starting Date</span>
-													<h4 class="trust-section-h4">{{ $trustdetails->trust_start_date }}</h4>
-												</div>
-											</div>
-											<div class="col-md-4">
-												<div class="trust-section-card live-today-date-card">
-													<i class="fas fa-clock trust-section-icon"></i>
-													<span class="trust-section-title">Today Date</span>
-													<h4 id="live-today-date" class="trust-section-h4">{{ \Carbon\Carbon::today()->format('Y-m-d') }}</h4>  <h3 style="text-shadow: 3px 3px 10px rgba(0,0,0,0.4);color: #B7070A;font-family: 'Trebuchet MS', sans-serif; font-size: 20px;"
-													id="liveTime"></h3> <!-- Live Date -->
-												</div>
-											</div>
-											<div class="col-md-4">
-												<div class="trust-section-card total-days-card">
-													<i class="fas fa-hourglass-half trust-section-icon"></i>
-													<span class="trust-section-title">Total Days</span>
-													<h4 class="trust-section-h4">{{ $totalDays }}</h4>
+							@foreach($trustmembers as $member)
+								<div class="col-xl-3 col-md-6 col-lg-6 col-sm-6">
+									<div class="card">
+										<div class="card-body">
+											<div class="plan-card text-center">
+												<!-- Member Photo -->
+												<span class="avatar-sm">
+													<img src="{{ $member->member_photo ? asset('storage/' . $member->member_photo) : 'https://spruko.com/demo/nowa/dist/assets/images/faces/5.jpg' }}" alt="img" class="rounded-circle">
+												</span>
+												
+												<!-- Member Name -->
+												<h6 class="text-dark text-uppercase mt-2">{{ $member->member_name }}</h6>
+						
+												<!-- Member Designation -->
+												<h5 class="mb-2">{{ $member->temple_designation	 }}</h5>
+						
+												<!-- Status Badge -->
+												<span class="badge badge-success">{{ $member->status }}</span>
+						
+												<!-- Edit and Delete Buttons -->
+												<div class="mt-3">
+													<a href="{{ route('templeuser.editTrustMember', $member->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
+													<form action="{{ route('templeuser.deleteTrustMember', $member->id) }}" method="POST" style="display:inline-block;">
+														@csrf
+														@method('DELETE')
+														<button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+													</form>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="card custom-card overflow-hidden">
-									<div class="card-body">
-										
-										<div class="table-responsive  export-table">
-                                            <table class="table table-bordered text-nowrap key-buttons border-bottom">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="border-bottom-0">#</th> <!-- Index column -->
-                                                        <th class="border-bottom-0">Name</th>
-                                                        <th class="border-bottom-0">Temple Designation</th>
-                                                        <th class="border-bottom-0">Position</th>
-                                                        <th class="border-bottom-0">Status</th>
-
-                                                        <th class="border-bottom-0">Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($trustmembers as $index => $trustmember)
-                                                    <tr>
-                                                        <td>{{ $index + 1 }}</td>
-                                                        <td class="tb-col">
-                                                            <div class="media-group">
-                                                                <div class="media media-md media-middle media-circle">
-                                                                    <img src="{{ asset('storage/' .$trustmember->member_photo) }}" alt="user" style="width: 50px; height: 50px;"> <!-- Adjust image size -->
-                                                                </div>
-                                                                <div class="media-text" style="color: blue">
-                                                                    <a style="color: blue" href="#" class="title">{{ $trustmember->member_name }}</a> <!-- Corrected to member_name -->
-                                                                    <span class="small text">{{ $trustmember->member_contact_no }}</span> <!-- Assuming contact_number exists -->
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>{{ $trustmember->temple_designation }}</td> <!-- Assuming member_designation exists -->
-                                                        <td>{{ $trustmember->hierarchy_position }}</td> 
-														<td>{{ $trustmember->status }}</td><!-- Assuming about_member exists -->
-                                                        <td>
-                                                            <!-- Actions (edit/delete buttons, etc.) can be added here -->
-                                                            <a href="{{ route('templeuser.editTrustMember', $trustmember->id) }}" class="btn btn-warning">Edit</a>
-
-															<form id="delete-form-{{ $trustmember->id }}" action="{{ route('templeuser.deleteTrustMember', $trustmember->id) }}" method="POST" style="display:inline;">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $trustmember->id }})"><i class="fa fa-trash"></i></button>
-                                                            </form>
-
-                                                        </td>
-                                                    </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-
-											<form id="deactivate-form" action="{{ route('templeuser.deactivateTrustMembers') }}" method="POST">
-												@csrf
-												<button type="button" class="btn btn-primary" onclick="confirmDeactivation()">Deactivate</button>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
+							@endforeach
 						</div>
+						
 						<!-- End Row -->
 
     @endsection
@@ -263,4 +210,25 @@
 	setInterval(updateTime, 1000); // Update every second
 	updateTime(); // Initial call to set the time immediately
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if(session('error'))
+<script>
+	Swal.fire({
+		icon: 'error',
+		title: 'Error',
+		text: '{{ session('error') }}',
+	});
+</script>
+@endif
+
+@if(session('success'))
+<script>
+	Swal.fire({
+		icon: 'success',
+		title: 'Success',
+		text: '{{ session('success') }}',
+	});
+</script>
+@endif
     @endsection

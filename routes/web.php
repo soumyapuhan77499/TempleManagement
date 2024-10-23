@@ -84,7 +84,7 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
     Route::controller(TrustMemberController::class)->group(function() {
         Route::get('/add-trust-member', 'addtrustmember')->name('templeuser.addtrustmember');
         Route::post('trustmembers/{id}/save-hierarchy', 'saveHierarchyPosition')->name('templeuser.saveHierarchyPosition');
-        Route::post('/add-trust-member', 'storedata')->name('templeuser.storeTrustMember');
+        Route::post('/store-trust-member', 'storedata')->name('templeuser.storeTrustMember');
         Route::get('/manage-trust-member', 'managetrustmember')->name('templeuser.managetrustmember');
         Route::get('/manage-hierarchy', 'mnghierarchy')->name('templeuser.mnghierarchy');
         Route::post('/deactivate-trust-members',  'deactivateTrustMembers')->name('templeuser.deactivateTrustMembers');

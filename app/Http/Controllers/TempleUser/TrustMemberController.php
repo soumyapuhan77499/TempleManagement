@@ -53,9 +53,7 @@ class TrustMemberController extends Controller
     {
         // Validate the incoming request
         $request->validate([
-            'trust_name' => 'required|string|max:255',
-            'trust_number' => 'required|string|max:255',
-            'trust_start_date' => 'required|date',
+           
             'member_name' => 'required|string|max:255',
             'member_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'member_designation' => 'nullable|string|max:255',
@@ -71,17 +69,7 @@ class TrustMemberController extends Controller
             'about_member' => 'nullable|string', // `about_member` is not mandatory
         ]);
 
-        // Update or create the temple record
-            $temple = TempleTrustDetail::updateOrCreate(
-                ['temple_id' => Auth::guard('temples')->user()->temple_id],
-                [
-                    'trust_name' => $request->trust_name,
-                    'trust_number' => $request->trust_number,
-                    'trust_start_date' => $request->trust_start_date,
-                ]
-            );
-    
-        // Handle file upload for member photo, if provided
+       
         $memberPhotoPath = null;
         if ($request->hasFile('member_photo')) {
             $memberPhotoPath = $request->file('member_photo')->store('member_photos', 'public');
@@ -90,7 +78,7 @@ class TrustMemberController extends Controller
         // Create a new trust member with the validated data
         TempleTrustMemberDetail::create([
             'temple_id' => Auth::guard('temples')->user()->temple_id, // Adjust based on your auth logic
-            'trust_number' => $request->trust_number, // Assuming trust_id is part of the request
+           
             'member_name' => $request->member_name,
             'member_photo' => $memberPhotoPath,
             'temple_designation' => $request->temple_designation,
@@ -101,7 +89,7 @@ class TrustMemberController extends Controller
             'email' => $request->email,
             'about_member' => $request->about_member, // Optional field
            
-            'trust_start_date' => $request->trust_start_date,
+         
           
             'status' => 'active', // Assuming new members have active status
         ]);
@@ -129,17 +117,9 @@ class TrustMemberController extends Controller
     
         // Fetch active trust members for the specific temple, ordered by hierarchy_position
         $trustmembers = TempleTrustMemberDetail::where('temple_id', $templeId)
-            ->orderBy('hierarchy_position', 'asc') // Order by hierarchy_position in ascending order
+            ->where('status', 'active')
             ->get();
-
-            
-        $trustdetails = TempleTrustDetail::where('temple_id', $templeId)
-                    ->first();
-                    $trustStartDate = Carbon::parse($trustdetails->trust_start_date);
-                    $today = Carbon::today();
-                    $totalDays = $trustStartDate->diffInDays($today);
-    
-        return view('templeuser.manage-trust-members', compact('trustmembers','trustdetails','today', 'totalDays'));
+        return view('templeuser.manage-trust-members', compact('trustmembers'));
     }
     
     
@@ -150,20 +130,30 @@ class TrustMemberController extends Controller
     }
     
     public function update(Request $request, $id) {
+        // Validate the incoming request
         $request->validate([
             'member_name' => 'required|string|max:255',
-            'member_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Assuming photo is optional
+            'dob' => 'required|date',
             'member_designation' => 'required|string|max:255',
+            'temple_designation' => 'required|string|max:255',
             'member_contact_no' => 'required|digits:10',
+            'whatsapp_number' => 'required|digits:10',
+            'email' => 'nullable|email|max:255',
             'about_member' => 'nullable|string',
+            'member_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
     
-        $trustmember = TempleTrustMemberDetail::findOrFail($id); // Find trust member by ID
+        // Find the trust member by ID
+        $trustmember = TempleTrustMemberDetail::findOrFail($id);
     
         // Update the trust member data
         $trustmember->member_name = $request->member_name;
+        $trustmember->dob = $request->dob;
         $trustmember->member_designation = $request->member_designation;
+        $trustmember->temple_designation = $request->temple_designation;
         $trustmember->member_contact_no = $request->member_contact_no;
+        $trustmember->whatsapp_number = $request->whatsapp_number;
+        $trustmember->email = $request->email;
         $trustmember->about_member = $request->about_member;
     
         // Handle file upload if a new member photo is uploaded
@@ -173,10 +163,13 @@ class TrustMemberController extends Controller
             $trustmember->member_photo = 'uploads/trustmembers/' . $fileName;
         }
     
-        $trustmember->save(); // Save the updated data
+        // Save the updated data
+        $trustmember->save();
     
+        // Redirect back with success message
         return redirect()->route('templeuser.managetrustmember')->with('success', 'Trust member updated successfully!');
     }
+    
     public function destroy($id) {
         $trustmember = TempleTrustMemberDetail::findOrFail($id); // Find the trust member by ID
         $trustmember->status = 'deleted'; // Change status to 'deactive'

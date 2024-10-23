@@ -51,39 +51,16 @@
 							<!-- row  -->
 							<div class="row">
 								<div class="col-12 col-sm-12">
-									<div class="card">
-										<div class="card-body pt-0 pt-4">
-												
-											<form method="POST" enctype="multipart/form-data" action="{{ route('templeuser.storeTrustMember') }}">
-												@csrf
-												@method('POST') <!-- Assuming you're creating a new entry -->
-											
-												
-												<div class="row">
-													
-													
-													<div class="col-md-6">
-														<div class="form-group">
-															<label for="trust_start_date">Committee Creation Date <span style="color:red">*</span></label>
-															<input type="date" class="form-control" id="trust_start_date" name="trust_start_date" 
-																value="{{ old('trust_start_date', $trustDetail->trust_start_date ?? '') }}" required>
-														</div>
-													</div>
-
-													
-												</div>
-											
-
-										</div>
-									</div>
+									
 									<div class="card">
 										<div class="card-header">
-											<h4 class="card-title">Create Managaing Committee</h4>
+											<h4 class="card-title">Create Trust Member</h4>
 										</div>
 										
 										<div class="card-body pt-0">
 										
-												
+											<form method="POST" enctype="multipart/form-data" action="{{ route('templeuser.storeTrustMember') }}">
+												@csrf
 												<div class="row">
 													
 													<div class="col-md-6">

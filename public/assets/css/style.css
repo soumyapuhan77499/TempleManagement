@@ -14146,6 +14146,13 @@ a.tag-addon:hover {
   margin: 0 auto;
   text-align: center;
 }
+.avatar-sm img {
+    width: 80px; /* Smaller size */
+    height: 80px; /* Maintain equal height and width for round shape */
+    object-fit: cover; /* Ensures the image covers the entire area */
+    border-radius: 50%; /* Makes the image round */
+    border: 2px solid #ccc; /* Optional: Add a subtle border */
+}
 
 .fade {
   transition: opacity 0.15s linear;
