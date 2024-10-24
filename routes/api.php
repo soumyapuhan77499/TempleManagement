@@ -184,10 +184,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('/update-cash-donation/{id}', [TempleDonationController::class, 'updateDonation'])->name('api.templedonation.update');
         Route::delete('/delete-cash-donation/{id}', [TempleDonationController::class, 'deleteDonation'])->name('api.templedonation.delete');
    
-    Route::post('/store-online-donation', [TempleDonationController::class, 'storeOnlineDonation']);
-    Route::get('/online-donations', [TempleDonationController::class, 'manageOnlineDonations']);
+        Route::post('/store-online-donation', [TempleDonationController::class, 'storeOnlineDonation']);
+        Route::get('/online-donations', [TempleDonationController::class, 'manageOnlineDonations']);
+        Route::put('/update-online-donation/{id}', [TempleDonationController::class, 'updateDonationOnline']);
+        Route::delete('/delete-online-donation/{id}', [TempleDonationController::class, 'deleteDonationOnline']);
 
-    Route::put('/update-online-donation/{id}', [TempleDonationController::class, 'updateDonationOnline']);
+        Route::post('/store-item-donation', [TempleDonationController::class, 'storeItemDonation']);
+        Route::get('/item-donations', [TempleDonationController::class, 'manageItemDonations']);
+        Route::post('/update-item-donation/{id}', [TempleDonationController::class, 'updateDonationItem']);
+        Route::delete('/delete-item-donation/{id}', [TempleDonationController::class, 'deleteDonationItem']);
 
-    Route::delete('/delete-online-donation/{id}', [TempleDonationController::class, 'deleteDonationOnline']);
 });

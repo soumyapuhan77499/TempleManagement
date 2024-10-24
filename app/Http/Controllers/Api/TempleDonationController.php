@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\TempleDonation;
+use Illuminate\Support\Facades\Storage;
 
 class TempleDonationController extends Controller
 {
@@ -314,6 +315,164 @@ class TempleDonationController extends Controller
         return response()->json([
             'message' => 'Donation deleted successfully!',
             'data' =>  $donation,
+            'status' => 200,
+        ], 200);
+    }
+
+
+    public function storeItemDonation(Request $request)
+    {
+        // Check if the user is authenticated
+        $temple_id = Auth::guard('api')->user()->temple_id;
+        if (!$temple_id) {
+            return response()->json([
+                'message' => 'User not authenticated.',
+                'data' => null,
+                'status' => 401,
+            ], 401);
+        }
+
+        // Validate the incoming request
+        $validatedData = $request->validate([
+            'donated_by' => 'required|string|max:255',
+            'item_name' => 'required|string|max:255',
+            'quantity' => 'required|integer',
+            'donation_date_time' => 'required|date',
+            'phone_number' => 'required|digits:10',
+            'address' => 'required|string|max:255',
+            'item_image' => 'required|image|', // Validate the image file
+        ]);
+
+        // Handle the file upload for item_image using Laravel's store method
+        if ($request->hasFile('item_image')) {
+            // Store the file in 'public/donations' directory
+            $imagePath = $request->file('item_image')->store('donations', 'public');
+        }
+        
+        $donation_id = 'DON' . mt_rand(1000000, 9999999);
+
+        // Store the data in the database
+        $templeDonation = TempleDonation::create([
+            'temple_id' => $temple_id,
+            'donation_id' => $donation_id,
+            'donated_by' => $validatedData['donated_by'],
+            'item_name' => $validatedData['item_name'],
+            'quantity' => $validatedData['quantity'],
+            'donation_date_time' => $validatedData['donation_date_time'],
+            'phone_number' => $validatedData['phone_number'],
+            'address' => $validatedData['address'],
+            'item_image' => isset($imagePath) ? $imagePath : null, // Save the image path
+            'type' => 'item',
+            'status' => 'active',
+        ]);
+
+        return response()->json([
+            'message' => 'Item donation added successfully!',
+            'data' => $templeDonation,
+            'status' => 201,
+        ], 201);
+    }
+
+    public function manageItemDonations()
+    {
+        // Check if the user is authenticated
+        $temple_id = Auth::guard('api')->user()->temple_id;
+        if (!$temple_id) {
+            return response()->json([
+                'message' => 'User not authenticated.',
+                'data' => null,
+                'status' => 401,
+            ], 401);
+        }
+    
+        $itemDonations = TempleDonation::where('status', 'active')
+            ->where('temple_id', $temple_id)
+            ->where('type', 'item')
+            ->get()
+            ->map(function ($donation) {
+                // Prepend the base URL to the image path
+                if ($donation->item_image) {
+                    $donation->item_image = asset('storage/' . $donation->item_image);
+                }
+                return $donation;
+            });
+    
+        return response()->json([
+            'message' => 'Item donations retrieved successfully.',
+            'data' => $itemDonations,
+            'status' => 200,
+        ], 200);
+    }
+    
+    public function updateDonationItem(Request $request, $id)
+    {
+        // Check if the user is authenticated
+        $temple_id = Auth::guard('api')->user()->temple_id;
+        if (!$temple_id) {
+            return response()->json([
+                'message' => 'User not authenticated.',
+                'data' => null,
+                'status' => 401,
+            ], 401);
+        }
+
+        // Validate the incoming request
+        $validatedData = $request->validate([
+            'donated_by' => 'required|string|max:255',
+            'item_name' => 'required|string|max:255',
+            'quantity' => 'required|integer|min:1',
+            'donation_date_time' => 'required|date',
+            'phone_number' => 'required|digits:10',
+            'address' => 'required|string|max:255',
+            'item_image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image file
+        ]);
+
+        // Find the donation record by ID
+        $donation = TempleDonation::findOrFail($id);
+
+        // Handle file upload if item_image is provided
+        if ($request->hasFile('item_image')) {
+            // Store the image in 'public/donations' and get the path
+            $imagePath = $request->file('item_image')->store('donations', 'public');
+
+            // Delete the old image if it exists
+            if ($donation->item_image) {
+                Storage::disk('public')->delete($donation->item_image);
+            }
+
+            // Update the donation's item_image field with the new path
+            $donation->item_image = $imagePath;
+        }
+
+        // Update the donation details
+        $donation->update($validatedData);
+
+        return response()->json([
+            'message' => 'Item donation updated successfully!',
+            'data' => $donation,
+            'status' => 200,
+        ], 200);
+    }
+
+    public function deleteDonationItem($id)
+    {
+        // Check if the user is authenticated
+        $temple_id = Auth::guard('api')->user()->temple_id;
+        if (!$temple_id) {
+            return response()->json([
+                'message' => 'User not authenticated.',
+                'data' => null,
+                'status' => 401,
+            ], 401);
+        }
+
+        $donation = TempleDonation::findOrFail($id);
+        $donation->status = 'deleted'; // Mark as deleted instead of actually deleting
+        $donation->save();
+
+        return response()->json([
+            'message' => 'Donation deleted successfully!',
+            'data' => $donation,
             'status' => 200,
         ], 200);
     }
