@@ -75,12 +75,12 @@
 																	<div class="custom-card main-content-body-profile">
 																		<div class="main-content-body tab-pane border-top-0" id="bank">
 																			<!-- Ritual Form -->
-																			<form action="http://127.0.0.1:8000/templeuser/savetempleritual" method="post" enctype="multipart/form-data" id="ritual-form" style="background-color: rgba(21, 225, 244, 0.2); padding: 15px;">
-																				<input type="hidden" name="_token" value="QXh1TWx4S3VikwimysYlzooX0tJzLimFlnWicrO2">   
+																			<form action="{{route('templedonation.storeCashDonation')}}" method="post" enctype="multipart/form-data" id="ritual-form" style="background-color: rgba(21, 225, 244, 0.2); padding: 15px;">
+																				@csrf
 																				<div id="form-container">
 																					<div class="form-group-wrapper">
 																						<div class="row">
-																							<input type="hidden" name="day_name[]" value="Sunday" class="day_name">
+																							
 							
 																							<!-- Donated By -->
 																							<div class="col-md-4">
@@ -94,7 +94,7 @@
 																							<div class="col-md-4">
 																								<div class="form-group">
 																									<label for="amount">Amount</label>
-																									<input type="number" class="form-control" name="amount" placeholder="Enter amount" min="1">
+																									<input type="number" class="form-control" name="donation_amount" placeholder="Enter amount" min="1">
 																								</div>
 																							</div>
 							
@@ -121,6 +121,13 @@
 																								<div class="form-group">
 																									<label for="address">Address</label>
 																									<input type="text" class="form-control" name="address" placeholder="Enter your address">
+																								</div>
+																							</div>
+
+																							<div class="col-md-4">
+																								<div class="form-group">
+																									<label for="address">Pan Card</label>
+																									<input type="text" class="form-control" name="pan_card" placeholder="Enter your Pan Card">
 																								</div>
 																							</div>
 																	
@@ -160,12 +167,12 @@
 																	<div class="custom-card main-content-body-profile">
 																		<div class="main-content-body tab-pane border-top-0" id="bank">
 																			<!-- Ritual Form -->
-																			<form action="http://127.0.0.1:8000/templeuser/savetempleritual" method="post" enctype="multipart/form-data" id="ritual-form" style="background-color: rgba(21, 225, 244, 0.2); padding: 15px;">
-																				<input type="hidden" name="_token" value="QXh1TWx4S3VikwimysYlzooX0tJzLimFlnWicrO2">   
+																			<form action="{{route('templedonation.storeonlineDonation')}}" method="post" enctype="multipart/form-data" id="ritual-form" style="background-color: rgba(21, 225, 244, 0.2); padding: 15px;">
+																				 @csrf  
 																				<div id="form-container">
 																					<div class="form-group-wrapper">
 																						<div class="row">
-																							<input type="hidden" name="day_name[]" value="Sunday" class="day_name">
+																							
 							
 																							<!-- Donated By -->
 																							<div class="col-md-4">
@@ -179,7 +186,7 @@
 																							<div class="col-md-4">
 																								<div class="form-group">
 																									<label for="amount">Amount</label>
-																									<input type="number" class="form-control" name="amount" placeholder="Enter amount" min="1">
+																									<input type="number" class="form-control" name="donation_amount" placeholder="Enter amount" min="1">
 																								</div>
 																							</div>
 							
@@ -207,6 +214,19 @@
 																									<label for="address">Address</label>
 																									<input type="text" class="form-control" name="address" placeholder="Enter your address">
 																								</div>
+																							</div>
+																							<div class="form-group col-md-4">
+																								<label for="payment_mode">Payment Mode <span style="color:red">*</span></label>
+																								<select name="payment_mode" class="form-control" id="payment_mode" onchange="togglePaymentIdField()" required>
+																									
+																									<option value="UPI">UPI</option>
+																									<option value="IMPS">IMPS</option>
+																									<option value="CHEQUE">CHEQUE</option>
+																								</select>
+																							</div>
+																							<div class="form-group col-md-4" id="payment_id_field">
+																								<label for="payment_number" id="payment_id_label">Payment Number <span style="color:red">*</span></label>
+																								<input type="text" class="form-control" name="payment_number" id="payment_id" placeholder="" required>
 																							</div>
 																	
 																						</div>
@@ -245,12 +265,12 @@
 																	<div class="custom-card main-content-body-profile">
 																		<div class="main-content-body tab-pane border-top-0" id="bank">
 																			<!-- Ritual Form -->
-																			<form action="http://127.0.0.1:8000/templeuser/savetempleritual" method="post" enctype="multipart/form-data" id="ritual-form" style="background-color: rgba(21, 225, 244, 0.2); padding: 15px;">
-																				<input type="hidden" name="_token" value="QXh1TWx4S3VikwimysYlzooX0tJzLimFlnWicrO2">   
+																			<form action="{{route('templedonation.storeitemDonation')}}" method="post" enctype="multipart/form-data" id="ritual-form" style="background-color: rgba(21, 225, 244, 0.2); padding: 15px;">
+																				   @csrf
 																				<div id="form-container">
 																					<div class="form-group-wrapper">
 																						<div class="row">
-																							<input type="hidden" name="day_name[]" value="Sunday" class="day_name">
+																							
 							
 																							<!-- Donated By -->
 																							<div class="col-md-4">
@@ -263,11 +283,16 @@
 																							<!-- Amount -->
 																							<div class="col-md-4">
 																								<div class="form-group">
-																									<label for="amount">Amount</label>
-																									<input type="number" class="form-control" name="amount" placeholder="Enter amount" min="1">
+																									<label for="amount">Item Name</label>
+																									<input type="text" class="form-control" name="item_name" placeholder="Enter Item Name">
 																								</div>
 																							</div>
-							
+																							<div class="col-md-4">
+																								<div class="form-group">
+																									<label for="address">Quantity</label>
+																									<input type="text" class="form-control" name="quantity" placeholder="Enter your Quantity">
+																								</div>
+																							</div>
 																							<!-- Date & Time -->
 																							<div class="col-md-4">
 																								<div class="form-group">
@@ -291,6 +316,15 @@
 																								<div class="form-group">
 																									<label for="address">Address</label>
 																									<input type="text" class="form-control" name="address" placeholder="Enter your address">
+																								</div>
+																							</div>
+
+																						
+
+																							<div class="col-md-4">
+																								<div class="form-group">
+																									<label for="address">Item Image</label>
+																									<input type="file" class="form-control" name="item_image">
 																								</div>
 																							</div>
 																	
@@ -353,5 +387,39 @@
 		<script src="{{asset('assets/plugins/select2/js/select2.full.min.js')}}"></script>
 		<script src="{{asset('assets/js/select2.js')}}"></script>
 	
+		<script>
+			function togglePaymentIdField() {
+				var paymentMode = document.getElementById("payment_mode").value;
+				var paymentIdField = document.getElementById("payment_id_field");
+				var paymentIdLabel = document.getElementById("payment_id_label");
+				var paymentIdInput = document.getElementById("payment_id");
 			
+				if (paymentMode === "CASH") {
+					// Hide the payment_id field if CASH is selected
+					paymentIdField.style.display = "none";
+					paymentIdInput.removeAttribute('required');  // Remove required attribute
+				} else {
+					// Show the payment_id field if any other mode is selected
+					paymentIdField.style.display = "block";
+					paymentIdInput.setAttribute('required', true);  // Add required attribute
+			
+					// Modify the label and placeholder based on the selected payment mode
+					if (paymentMode === "UPI") {
+						paymentIdLabel.innerHTML = "Transaction ID <span style='color:red'>*</span>";
+						paymentIdInput.placeholder = "Enter UPI Transaction ID";
+					} else if (paymentMode === "IMPS") {
+						paymentIdLabel.innerHTML = "IMPS Transaction Number <span style='color:red'>*</span>";
+						paymentIdInput.placeholder = "Enter IMPS Transaction Number";
+					} else if (paymentMode === "CHEQUE") {
+						paymentIdLabel.innerHTML = "Cheque Number <span style='color:red'>*</span>";
+						paymentIdInput.placeholder = "Enter Cheque Number";
+					}
+				}
+			}
+			
+			// Call the function on page load to ensure correct behavior
+			document.addEventListener("DOMContentLoaded", function() {
+				togglePaymentIdField(); // Ensure the field state is set based on the default value
+			});
+			</script>
     @endsection

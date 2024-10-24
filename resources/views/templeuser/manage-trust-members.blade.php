@@ -115,10 +115,12 @@
 												<!-- Edit and Delete Buttons -->
 												<div class="mt-3">
 													<a href="{{ route('templeuser.editTrustMember', $member->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
-													<form action="{{ route('templeuser.deleteTrustMember', $member->id) }}" method="POST" style="display:inline-block;">
+													<form id="delete-form-{{ $member->id }}" action="{{ route('templeuser.deleteTrustMember', $member->id) }}" method="POST" style="display:inline-block;">
 														@csrf
 														@method('DELETE')
-														<button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+														<button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('{{ $member->id }}')">
+															<i class="fa fa-trash"></i>
+														</button>
 													</form>
 												</div>
 											</div>
@@ -153,7 +155,24 @@
 		<script src="{{asset('assets/plugins/select2/js/select2.full.min.js')}}"></script>
 
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+		<script>
+			function confirmDelete(memberId) {
+				Swal.fire({
+					title: 'Are you sure?',
+					text: "Do you really want to delete this member?",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Yes, delete it!'
+				}).then((result) => {
+					if (result.isConfirmed) {
+						// Submit the form after confirmation
+						document.getElementById('delete-form-' + memberId).submit();
+					}
+				});
+			}
+			</script>
 		<script>
 			// Function to confirm delete
 			function confirmDelete(id) {

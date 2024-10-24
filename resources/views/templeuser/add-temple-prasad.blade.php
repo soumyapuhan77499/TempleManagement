@@ -46,10 +46,9 @@
 											<h4 class="card-title">Temple About</h4>
 										</div> --}}
 										<div class="card-body pt-0 pt-4">
-											<form method="POST">
-                                                @csrf
-                                                <div class="row">
-                                                   
+											<form action="{{ route('templeprasad.store') }}" method="POST">
+												@csrf
+												<div class="row">
 													<div class="col-md-3">
 														<div class="form-group">
 															<label for="darshan_start_time">Prasad Start Time</label>
@@ -62,8 +61,7 @@
 															</div>
 														</div>
 													</div>
-
-													<!-- Darshan End Time -->
+											
 													<div class="col-md-3">
 														<div class="form-group">
 															<label for="darshan_end_time">Prasad End Time</label>
@@ -76,43 +74,50 @@
 															</div>
 														</div>
 													</div>
-                                                </div>
-                                            
-                                               <div class="row">
-													<div class="col-md-6">
-														<input type="checkbox" name="" class="" id=""> Do your Temple Provide Online Order
-													</div>
-											   </div>
-											   <div class="row mt-2 prasad-details">
-													<div class="col-md-3">
-														<div class="form-group">
-                                                            <label for="festival_name">Prasad Name <span style="color:red">*</span></label>
-                                                            <input type="text" class="form-control" id="festival_name" name="festival_name" placeholder="Enter Festival Name" required>
-                                                        </div>
-													</div>
-													<div class="col-md-3">
-														<div class="form-group">
-                                                            <label for="festival_name">Prasad Price <span style="color:red">*</span></label>
-                                                            <input type="text" class="form-control" id="festival_name" name="festival_name" placeholder="Enter Festival Name" required>
-                                                        </div>
-													</div>
-													<div class="col-md-3">
-														<button class="btn btn-primary mt-4">Add More</button>
-													</div>
-											   </div>
-											   <div class="row">
-														<div class="col-md-6">
-															<input type="checkbox" name="" class="mt-1" id=""> Do your Temple Provide Pre Order
-														</div>
 												</div>
+											
 												<div class="row">
 													<div class="col-md-6">
-														<input type="checkbox" name="" class="mt-1" id=""> Do your Temple Provide Offline Order
+														<input type="checkbox" name="online_order" id="onlineOrderCheckbox"> Do your Temple Provide Online Order
 													</div>
-											   </div>
-                                                
-                                                <button type="submit" class="btn btn-primary mt-2">Submit</button>
-                                            </form>
+												</div>
+											
+												<div class="row mt-2 prasad-details" id="prasadDetailsForm" style="display:none;">
+													<div class="col-md-12">
+														<div id="prasadFieldsContainer">
+															<div class="row">
+																<div class="col-md-3">
+																	<div class="form-group">
+																		<label for="prasad_name">Prasad Name <span style="color:red">*</span></label>
+																		<input type="text" class="form-control" id="prasad_name" name="prasad_name[]" placeholder="Enter Prasad Name" required>
+																	</div>
+																</div>
+																<div class="col-md-3">
+																	<div class="form-group">
+																		<label for="prasad_price">Prasad Price <span style="color:red">*</span></label>
+																		<input type="text" class="form-control" id="prasad_price" name="prasad_price[]" placeholder="Enter Prasad Price" required>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<button type="button" class="btn btn-primary mt-1" id="addMorePrasad">Add More</button>
+													</div>
+												</div>
+											
+												<div class="row">
+													<div class="col-md-6">
+														<input type="checkbox" name="pre_order" class="mt-1"> Do your Temple Provide Pre Order
+													</div>
+												</div>
+												
+												<div class="row">
+													<div class="col-md-6">
+														<input type="checkbox" name="offline_order" class="mt-1"> Do your Temple Provide Offline Order
+													</div>
+												</div>
+											
+												<button type="submit" class="btn btn-primary mt-2">Submit</button>
+											</form>
                                             
 										</div>
 									</div>
@@ -153,5 +158,58 @@
 		<script src="{{asset('assets/plugins/select2/js/select2.full.min.js')}}"></script>
 		<script src="{{asset('assets/js/select2.js')}}"></script>
 	
-			
+		<script>
+			document.getElementById('onlineOrderCheckbox').addEventListener('change', function() {
+				var prasadDetailsForm = document.getElementById('prasadDetailsForm');
+				if (this.checked) {
+					prasadDetailsForm.style.display = 'block'; // Show the form
+				} else {
+					prasadDetailsForm.style.display = 'none'; // Hide the form
+				}
+			});
+		
+			let fieldCounter = 0;
+
+function addPrasadFields() {
+	fieldCounter++;
+	const prasadFieldsContainer = document.getElementById('prasadFieldsContainer');
+
+	const newFieldRow = document.createElement('div');
+	newFieldRow.classList.add('row', 'mt-2');
+	newFieldRow.setAttribute('id', `prasadRow_${fieldCounter}`);
+
+	newFieldRow.innerHTML = `
+		<div class="col-md-3">
+			<div class="form-group">
+				<label for="prasad_name_${fieldCounter}">Prasad Name <span style="color:red">*</span></label>
+				<input type="text" class="form-control" id="prasad_name_${fieldCounter}" name="prasad_name[]" placeholder="Enter Prasad Name" required>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="form-group">
+				<label for="prasad_price_${fieldCounter}">Prasad Price <span style="color:red">*</span></label>
+				<input type="text" class="form-control" id="prasad_price_${fieldCounter}" name="prasad_price[]" placeholder="Enter Prasad Price" required>
+			</div>
+		</div>
+		<div class="col-md-2">
+			<button type="button" class="btn btn-danger mt-4 removePrasadField" data-id="${fieldCounter}">Remove</button>
+		</div>
+	`;
+
+	prasadFieldsContainer.appendChild(newFieldRow);
+
+	document.querySelector(`#prasadRow_${fieldCounter} .removePrasadField`).addEventListener('click', function() {
+		const rowId = this.getAttribute('data-id');
+		document.getElementById(`prasadRow_${rowId}`).remove();
+	});
+}
+
+document.getElementById('addMorePrasad').addEventListener('click', function() {
+	addPrasadFields();
+});
+
+document.getElementById('onlineOrderCheckbox').addEventListener('change', function() {
+	document.getElementById('prasadDetailsForm').style.display = this.checked ? 'block' : 'none';
+});
+		</script>
     @endsection

@@ -171,15 +171,29 @@ Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
 
     Route::controller(TemplePrasadController::class)->group(function() {
         Route::get('/add-temple-prasad', 'addPrasad')->name('templeprasad.prasad');
+        Route::post('/store-temple-prasad', 'store')->name('templeprasad.store');
     });
 
     Route::controller(TempleDonationController::class)->group(function() {
         Route::get('/add-temple-donation', 'adddonation')->name('templedonation.donation');
-        Route::post('/store-temple-donation', 'storeDonation')->name('templedonation.storedonation');
-        Route::get('/manage-temple-donations', 'manageDonations')->name('templedonation.manage');
-        Route::get('/edit-temple-donation/{id}', 'editDonation')->name('templedonation.edit');
-        Route::post('/update-temple-donation/{id}', 'updateDonation')->name('templedonation.update');
-        Route::delete('/delete-temple-donation/{id}', 'deleteDonation')->name('templedonation.delete');
+        Route::post('/store-temple-cash-donation', 'storeCashDonation')->name('templedonation.storeCashDonation');
+        Route::get('/manage-temple-cash-donations', 'managecashDonations')->name('templedonation.manage');
+        Route::get('temple-donations/{id}/edit', 'editDonation')->name('templedonation.edit');
+        Route::put('temple-donations/{id}', 'updateDonation')->name('templedonation.update');
+        Route::delete('temple-donations/{id}', 'deleteDonation')->name('templedonation.destroy');
+
+        Route::post('/store-temple-online-donation', 'storeonlineDonation')->name('templedonation.storeonlineDonation');
+        Route::get('/manage-temple-online-donations', 'manageonlineDonations')->name('templedonation.manageonline');
+        Route::get('temple-donations-online/{id}/edit', 'editDonationonline')->name('templedonation.editonline');
+        Route::put('temple-donations-online/{id}', 'updateDonationonline')->name('templedonation.updateonline');
+        Route::delete('temple-donations-online/{id}', 'deleteDonationonline')->name('templedonation.destroyonline');
+
+        Route::post('/store-temple-item-donation', 'storeitemDonation')->name('templedonation.storeitemDonation');
+        Route::get('/manage-temple-item-donations', 'manageitemDonations')->name('templedonation.manageitem');
+        Route::get('temple-donations-item/{id}/edit', 'editDonationitem')->name('templedonation.edititem');
+        Route::put('temple-donations-item/{id}', 'updateDonationitem')->name('templedonation.updateitem');
+        Route::delete('temple-donations-item/{id}', 'deleteDonationitem')->name('templedonation.destroyitem');
+
     });
     
     Route::controller(TempleInventoryController::class)->group(function() {

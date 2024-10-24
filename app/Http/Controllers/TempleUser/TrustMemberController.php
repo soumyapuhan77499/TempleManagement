@@ -95,7 +95,7 @@ class TrustMemberController extends Controller
         ]);
     
         // Redirect to the route with success message
-        return redirect()->route('templeuser.addtrustmember')->with('success', 'Member added successfully.');
+        return redirect()->route('templeuser.managetrustmember')->with('success', 'Member added successfully.');
     }
     public function saveHierarchyPosition(Request $request, $id)
     {

@@ -27,17 +27,7 @@
 						</div>
 					</div>
 					<!-- /breadcrumb -->
-							@if(session()->has('success'))
-							<div class="alert alert-success" id="Message">
-								{{ session()->get('success') }}
-							</div>
-							@endif
-						
-							@if ($errors->has('danger'))
-								<div class="alert alert-danger" id="Message">
-									{{ $errors->first('danger') }}
-								</div>
-							@endif
+							
 							  <!-- Display validation errors -->
 							@if ($errors->any())
 							<div class="alert alert-danger" id="Message">
@@ -208,5 +198,25 @@
 				}
 			}
 		</script>
-			
+			  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+			  @if(session('error'))
+			  <script>
+				  Swal.fire({
+					  icon: 'error',
+					  title: 'Error',
+					  text: '{{ session('error') }}',
+				  });
+			  </script>
+			  @endif
+	  
+			  @if(session('success'))
+			  <script>
+				  Swal.fire({
+					  icon: 'success',
+					  title: 'Success',
+					  text: '{{ session('success') }}',
+				  });
+			  </script>
+			  @endif
     @endsection
