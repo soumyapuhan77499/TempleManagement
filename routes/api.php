@@ -23,7 +23,7 @@ use App\Http\Controllers\Api\TempleHundiController;
 use App\Http\Controllers\Api\TempleMandapController;
 use App\Http\Controllers\Api\TemplePoojaController;
 use App\Http\Controllers\Api\TempleHundiCollectionController;
-
+use App\Http\Controllers\Api\TempleDonationController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -177,5 +177,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/save-hundi-collection', 'saveHundiCollection');
         Route::get('/hundi-list', 'hundiList');
       });
-      
+
+    
+        Route::post('/store-cash-donation', [TempleDonationController::class, 'storeCashDonation'])->name('api.templedonation.store');
+        Route::get('/cash-donations', [TempleDonationController::class, 'manageCashDonations'])->name('api.templedonation.manage');
+        Route::put('/update-cash-donation/{id}', [TempleDonationController::class, 'updateDonation'])->name('api.templedonation.update');
+        Route::delete('/delete-cash-donation/{id}', [TempleDonationController::class, 'deleteDonation'])->name('api.templedonation.delete');
+   
+    Route::post('/store-online-donation', [TempleDonationController::class, 'storeOnlineDonation']);
+    Route::get('/online-donations', [TempleDonationController::class, 'manageOnlineDonations']);
+
+    Route::put('/update-online-donation/{id}', [TempleDonationController::class, 'updateDonationOnline']);
+
+    Route::delete('/delete-online-donation/{id}', [TempleDonationController::class, 'deleteDonationOnline']);
 });
