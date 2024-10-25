@@ -15,31 +15,39 @@ class TemplePrasadController extends Controller
     }
     public function store(Request $request)
     {
-        // Validate incoming request
-       
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+            'darshan_start_time' => 'required|',
+            'darshan_end_time' => 'required|',
+            'online_order' => 'nullable',
+            'pre_order' => 'nullable',
+            'offline_order' => 'nullable',
+            'prasad_name' => 'required|',
+            'prasad_price' => 'required|',
+        ]);
         $prasadId = 'PRASAD' . mt_rand(1000000, 9999999);
-        // Store general data in temple_prasads table
-        $templePrasad = new TemplePrasad();
-        $temple_id = Auth::guard('temples')->user()->temple_id;
-        $temple_prasad_id =$prasadId;
-        $templePrasad->darshan_start_time = $request->darshan_start_time;
-        $templePrasad->darshan_start_period = $request->darshan_start_period;
-        $templePrasad->darshan_end_time = $request->darshan_end_time;
-        $templePrasad->darshan_end_period = $request->darshan_end_period;
-        $templePrasad->online_order = $request->has('online_order');
-        $templePrasad->pre_order = $request->has('pre_order');
-        $templePrasad->offline_order = $request->has('offline_order');
-        $templePrasad->save();
-
-        // Store each prasad in temple_prasad_items table
-        foreach ($request->prasad_name as $index => $prasadName) {
+        // Save the main temple prasad details in 'temple_prasads' table
+        $templePrasad = TemplePrasad::create([
+            'temple_id' => Auth::guard('temples')->user()->temple_id,
+            'temple_prasad_id' => $prasadId, // Assuming you have authenticated user with temple_id
+            'darshan_start_time' => json_encode($request->darshan_start_time),
+            'darshan_end_time' => json_encode($request->darshan_end_time),
+            'online_order' => $request->has('online_order') ? 1 : 0,
+            'pre_order' => $request->has('pre_order') ? 1 : 0,
+            'offline_order' => $request->has('offline_order') ? 1 : 0,
+        ]);
+    
+        // Save the additional prasad details in 'temple_prasad_details' table
+        foreach ($request->prasad_name as $key => $prasadName) {
             TemplePrasadItem::create([
-                'temple_prasad_id' => $templePrasad->id,
+                'temple_id' =>Auth::guard('temples')->user()->temple_id,
+                'temple_prasad_id' => $templePrasad->temple_prasad_id,
                 'prasad_name' => $prasadName,
-                'prasad_price' => $request->prasad_price[$index],
+                'prasad_price' => $request->prasad_price[$key],
             ]);
         }
-
-        return redirect()->route('templeprasad.prasad')->with('success', 'Prasad information saved successfully!');
+    
+        return redirect()->back()->with('success', 'Prasad details have been saved successfully!');
     }
+    
 }

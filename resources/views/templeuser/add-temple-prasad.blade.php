@@ -27,17 +27,15 @@
 						</div>
 					</div>
 					<!-- /breadcrumb -->
-							@if(session()->has('success'))
-							<div class="alert alert-success" id="Message">
-								{{ session()->get('success') }}
-							</div>
-							@endif
-						
-							@if ($errors->has('danger'))
-								<div class="alert alert-danger" id="Message">
-									{{ $errors->first('danger') }}
-								</div>
-							@endif
+					@if ($errors->any())
+					<div class="alert alert-danger">
+						<ul>
+							@foreach ($errors->all() as $error)
+								<li>{{ $error }}</li>
+							@endforeach
+						</ul>
+					</div>
+				@endif
 							<!-- row  -->
 							<div class="row">
 								<div class="col-12 col-sm-12">
@@ -212,4 +210,26 @@ document.getElementById('onlineOrderCheckbox').addEventListener('change', functi
 	document.getElementById('prasadDetailsForm').style.display = this.checked ? 'block' : 'none';
 });
 		</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if(session('error'))
+<script>
+	Swal.fire({
+		icon: 'error',
+		title: 'Error',
+		text: '{{ session('error') }}',
+	});
+</script>
+@endif
+
+@if(session('success'))
+<script>
+	Swal.fire({
+		icon: 'success',
+		title: 'Success',
+		text: '{{ session('success') }}',
+	});
+</script>
+@endif
     @endsection

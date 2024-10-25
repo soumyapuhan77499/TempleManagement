@@ -11,14 +11,18 @@ class TemplePrasad extends Model
     protected $table = 'temple__prasads';
     protected $fillable = [
         'temple_id',
-        'prasad_name',
-        'prasad_price',
+        'temple_prasad_id',
         'darshan_start_time',
-        'darshan_start_period',
+       
         'darshan_end_time',
-        'darshan_end_period',
+      
         'online_order',
         'pre_order',
         'offline_order'
     ];
+    public function prasadDetails()
+{
+    return $this->hasMany(TemplePrasadItem::class, 'temple_prasad_id');
+}
+
 }

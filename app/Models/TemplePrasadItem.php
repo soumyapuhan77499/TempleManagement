@@ -18,6 +18,7 @@ class TemplePrasadItem extends Model
     // Define the relationship with TemplePrasad
     public function templePrasad()
     {
-        return $this->belongsTo(TemplePrasad::class);
+        return $this->belongsTo(TemplePrasad::class, 'temple_prasad_id');
     }
+    
 }

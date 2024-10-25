@@ -65,7 +65,7 @@ Route::controller(TempleUserController::class)->group(function () {
     Route::post('templeuser/verify-otp', 'verifyOtp');
 });
 
-Route::prefix('templeuser')->middleware('auth:temples')->group(function () {
+Route::prefix('templeuser')->middleware('templeauth')->group(function () {
 
     Route::controller(TempleUserController::class)->group(function() {
         Route::get('/temple-dashboard', 'templedashboard')->name('templedashboard');
