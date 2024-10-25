@@ -24,6 +24,8 @@ use App\Http\Controllers\Api\TempleMandapController;
 use App\Http\Controllers\Api\TemplePoojaController;
 use App\Http\Controllers\Api\TempleHundiCollectionController;
 use App\Http\Controllers\Api\TempleDonationController;
+use App\Http\Controllers\Api\TemplePrasadController;
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -57,10 +59,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('/delete-bank/{id}', 'deleteBank');
       });
 
-      Route::controller(TrustMemberController::class)->group(function() {
-        Route::post('/save-trust-member',  'storedata');
-      });
-
+     
       Route::controller(TempleDailyRitualController::class)->group(function() {
         Route::post('/save-daily-rituals',  'saveTempleRitual');
         Route::get('/show-daily-rituals',  'apiManageDailyRitual');
@@ -194,4 +193,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/update-item-donation/{id}', [TempleDonationController::class, 'updateDonationItem']);
         Route::delete('/delete-item-donation/{id}', [TempleDonationController::class, 'deleteDonationItem']);
 
+        Route::post('/store-temple-prasad', [TemplePrasadController::class, 'store']);
+        Route::get('/temple-prasads', [TemplePrasadController::class, 'manageprasad']);
+        Route::put('/update-temple-prasad/{id}', [TemplePrasadController::class, 'update']);
+        Route::delete('/delete-temple-prasad/{id}', [TemplePrasadController::class, 'destroy']);
+
+        Route::post('store-trust-member', [TrustMemberController::class, 'storeTrustMember']);
+        Route::get('trust-members', [TrustMemberController::class, 'getTrustMembers']);
+        Route::put('update-trust-member/{id}', [TrustMemberController::class, 'updateTrustMember']);
+        Route::delete('delete-trust-members/{id}', [TrustMemberController::class, 'deleteTrustMember']);
 });

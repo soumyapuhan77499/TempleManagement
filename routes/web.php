@@ -92,6 +92,7 @@ Route::prefix('templeuser')->middleware('templeauth')->group(function () {
         Route::put('/trust-member/update/{id}', 'update')->name('templeuser.updateTrustMember'); // Update route
         Route::delete('/trust-member/delete/{id}', 'destroy')->name('templeuser.deleteTrustMember'); // Delete route
     });
+    Route::post('/saveTrustMemberOrder', [TrustMemberController::class, 'saveTrustMemberOrder'])->name('templeuser.saveTrustMemberOrder');
 
     Route::controller(TempleCommitteeController::class)->group(function() {
         Route::post('/save-temple-committee', 'saveCommittee')->name('templeuser.savecommittee');
@@ -172,6 +173,11 @@ Route::prefix('templeuser')->middleware('templeauth')->group(function () {
     Route::controller(TemplePrasadController::class)->group(function() {
         Route::get('/add-temple-prasad', 'addPrasad')->name('templeprasad.prasad');
         Route::post('/store-temple-prasad', 'store')->name('templeprasad.store');
+        Route::get('/manage-temple-prasad', 'manageprasad')->name('templeprasad.manageprasad');
+        Route::get('/edit-temple-prasad/{id}/edit',  'edit')->name('templeprasad.edit');
+        Route::put('/update-temple-prasad/{id}',  'update')->name('templeprasad.update');
+        Route::delete('/delete-temple-prasad/{id}',  'destroy')->name('templeprasad.destroy');
+        
     });
 
     Route::controller(TempleDonationController::class)->group(function() {

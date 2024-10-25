@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\TempleTrustMemberDetail;
 use App\Models\TempleTrustDetail;
 use Carbon\Carbon; // Import Carbon for date manipulation
-
+use DB;
 use Illuminate\Support\Facades\Auth;
 
 class TrustMemberController extends Controller
@@ -118,6 +118,7 @@ class TrustMemberController extends Controller
         // Fetch active trust members for the specific temple, ordered by hierarchy_position
         $trustmembers = TempleTrustMemberDetail::where('temple_id', $templeId)
             ->where('status', 'active')
+            ->orderBy('hierarchy_position')
             ->get();
         return view('templeuser.manage-trust-members', compact('trustmembers'));
     }
@@ -229,5 +230,18 @@ class TrustMemberController extends Controller
     }
     
    
-
+    public function saveTrustMemberOrder(Request $request)
+    {
+        $order = $request->order;
+    
+        foreach ($order as $item) {
+            // Update each member's hierarchy_position based on the new order
+            DB::table('temple__trust_member_details')
+                ->where('id', $item['id'])
+                ->update(['hierarchy_position' => $item['position']]);
+        }
+    
+        return response()->json(['status' => 'success', 'message' => 'Order saved successfully!']);
+    }
+    
 }

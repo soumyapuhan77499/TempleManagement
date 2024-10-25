@@ -92,9 +92,9 @@
 						@endif
 
 						<!-- Row -->
-						<div class="row row-sm">
+						<div class="row row-sm" id="sortable">
 							@foreach($trustmembers as $member)
-								<div class="col-xl-3 col-md-6 col-lg-6 col-sm-6">
+								<div class="col-xl-3 col-md-6 col-lg-6 col-sm-6 sortable-item" data-id="{{ $member->id }}">
 									<div class="card">
 										<div class="card-body">
 											<div class="plan-card text-center">
@@ -105,13 +105,13 @@
 												
 												<!-- Member Name -->
 												<h6 class="text-dark text-uppercase mt-2">{{ $member->member_name }}</h6>
-						
+								
 												<!-- Member Designation -->
-												<h5 class="mb-2">{{ $member->temple_designation	 }}</h5>
-						
+												<h5 class="mb-2">{{ $member->temple_designation }}</h5>
+								
 												<!-- Status Badge -->
 												<span class="badge badge-success">{{ $member->status }}</span>
-						
+								
 												<!-- Edit and Delete Buttons -->
 												<div class="mt-3">
 													<a href="{{ route('templeuser.editTrustMember', $member->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
@@ -129,7 +129,8 @@
 								</div>
 							@endforeach
 						</div>
-						
+						<button class="btn btn-success mt-4" onclick="saveOrder()">Save Order</button>
+
 						<!-- End Row -->
 
     @endsection
@@ -250,4 +251,45 @@
 	});
 </script>
 @endif
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+<script>
+    $(function() {
+        $("#sortable").sortable(); // Enable sorting
+        $("#sortable").disableSelection();
+    });
+
+    function saveOrder() {
+        let order = [];
+        $(".sortable-item").each(function(index) {
+            order.push({ id: $(this).data("id"), position: index + 1 });
+        });
+
+        $.ajax({
+            url: "{{ route('templeuser.saveTrustMemberOrder') }}",
+            type: "POST",
+            data: {
+                order: order,
+                _token: "{{ csrf_token() }}"
+            },
+			success: function(response) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Order saved successfully!'
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error("Error details:", xhr.responseText);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'There was an error saving the order. Please try again.'
+            });
+        }
+        });
+    }
+</script>
     @endsection

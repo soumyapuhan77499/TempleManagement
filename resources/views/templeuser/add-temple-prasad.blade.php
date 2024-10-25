@@ -49,10 +49,10 @@
 												<div class="row">
 													<div class="col-md-3">
 														<div class="form-group">
-															<label for="darshan_start_time">Prasad Start Time</label>
+															<label for="prasad_start_time">Prasad Start Time</label>
 															<div class="input-group">
-																<input type="time" class="form-control" name="darshan_start_time[]" required>
-																<select class="form-control" name="darshan_start_period[]">
+																<input type="time" class="form-control" name="prasad_start_time" required>
+																<select class="form-control" name="prasad_start_period">
 																	<option value="AM">AM</option>
 																	<option value="PM">PM</option>
 																</select>
@@ -62,14 +62,21 @@
 											
 													<div class="col-md-3">
 														<div class="form-group">
-															<label for="darshan_end_time">Prasad End Time</label>
+															<label for="prasad_end_time">Prasad End Time</label>
 															<div class="input-group">
-																<input type="time" class="form-control" name="darshan_end_time[]" required>
-																<select class="form-control" name="darshan_end_period[]">
+																<input type="time" class="form-control" name="prasad_end_time" required>
+																<select class="form-control" name="prasad_end_period">
 																	<option value="AM">AM</option>
 																	<option value="PM">PM</option>
 																</select>
 															</div>
+														</div>
+													</div>
+
+													<div class="col-md-4">
+														<div class="form-group">
+															<label for="full_prasad_price">Full Prasad Price <span style="color:red">*</span></label>
+															<input type="text" class="form-control" id="full_prasad_price" name="full_prasad_price" placeholder="Enter Full Prasad Price" required>
 														</div>
 													</div>
 												</div>

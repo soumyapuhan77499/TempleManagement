@@ -106,7 +106,7 @@
 									<ul class="slide-menu">
 										
 										<li><a class="slide-item" href="{{route('templeprasad.prasad')}}">Add Prasad Details</a></li>
-										<li><a class="slide-item" href="">Manage Prasad</a></li>
+										<li><a class="slide-item" href="{{route('templeprasad.manageprasad')}}">Manage Prasad</a></li>
 										
 									</ul>
 								</li>
