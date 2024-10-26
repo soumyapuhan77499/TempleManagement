@@ -28,7 +28,8 @@
                             {{ $errors->first('danger') }}
                         </div>
                     @endif
-                    <form id="hundiCollectionForm" method="POST" action="{{ route('templeuser.savehundicollection') }}">
+                    
+                    <form id="hundiCollectionForm" method="POST" action="{{ route('templeuser.searchHundiCollection') }}">
                         @csrf
                         <div style="background-color: #FFBD5A; padding: 20px; text-align: center;">
                             <!-- Aligning and changing the font style of the H1 tag -->
@@ -65,6 +66,11 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="mt-4 col-md-12 text-center">
+                            <button type="button" id="submitButton" class="btn btn-primary">Search</button>
+                        </div>
+                    </form>
 
                         <div class="col-md-12">
                             <h3 style="font-family: 'Arial', sans-serif; font-weight: bold; color: #333;">CASH TRAY</h3>
@@ -154,10 +160,7 @@
                         </div>
 
                         <!-- Adding space above the button -->
-                        <div class="mt-4 col-md-12 text-center">
-                            <button type="button" id="submitButton" class="btn btn-primary">Submit</button>
-                        </div>
-                    </form>
+                       
 
                 </div>
             </div>
