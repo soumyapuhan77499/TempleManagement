@@ -111,7 +111,7 @@ Route::prefix('templeuser')->middleware('templeauth')->group(function () {
         Route::get('/add-temple-sub-committee', 'addsubcommittee')->name('templeuser.addsubcommittee');
         Route::post('/store-temple-sub-committee', 'storesubcommittee')->name('templeuser.storesubcommittee');
 
-        Route::post('/add-other-member', 'storeothermember')->name('templeuser.storeothermember');
+        Route::post('/store-other-member', 'storeothermember')->name('templeuser.storeothermember');
 
        
     });

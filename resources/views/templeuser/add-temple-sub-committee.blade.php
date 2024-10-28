@@ -1,8 +1,56 @@
 @extends('templeuser.layouts.app')
 
 @section('styles')
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
     <link href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
+	<style>
+		.task-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    position: relative;
+    transition: background-color 0.3s ease;
+}
+.task-card:hover {
+    background-color: #f9f9f9;
+}
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.task-body {
+    display: none;
+    margin-top: 10px;
+}
+.task-expanded .task-body {
+    display: block;
+}
+.task-options {
+    display: flex;
+    gap: 10px;
+}
+.subtask-list {
+    margin-top: 10px;
+    padding-left: 20px;
+    list-style-type: none;
+}
+.subtask-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+.subtask-item input[type="text"] {
+    flex: 1;
+    margin-right: 5px;
+}
+</style>
+
+	</style>
 
 @endsection
 
@@ -48,22 +96,19 @@
 									<div class="card">
 										<div class="card-body pt-0 pt-4">
 												
-											<form method="POST" action="{{route('templeuser.storesubcommittee')}}" enctype="multipart/form-data">
+											<form method="POST" action="{{ route('templeuser.storesubcommittee') }}" enctype="multipart/form-data">
 												@csrf
-												@method('POST')
 												<div class="row">
-													<div class="form-group" style="display: none">
-														<label for="committee_id">Committee ID <span style="color:red">*</span></label>
-														<input type="text" class="form-control" id="committee_id" name="committee_id" 
-															value="{{ old('committee_id', $committeedetails->committee_id ?? '') }}" readonly>
-													</div>
+													<!-- Committee Name -->
 													<div class="col-md-4">
 														<div class="form-group">
-															<label for="committee_name">Name Of Committee <span style="color:red">*</span></label>
+															<label for="sub_committee_name">Name Of Committee <span style="color:red">*</span></label>
 															<input type="text" class="form-control" id="sub_committee_name" name="sub_committee_name" value="">
 														</div>
 													</div>
-													<div class="col-md-5">
+											
+													<!-- Select Members -->
+													<div class="col-md-3">
 														<div class="form-group">
 															<label for="select_member">Select Member <span style="color:red">*</span></label>
 															<select class="form-control select2" id="select_member" name="members[]" multiple="multiple" required>
@@ -73,11 +118,45 @@
 															</select>
 														</div>
 													</div>
-													<div class="col-md-3 mt-4">
-														<a class="btn ripple btn-success ms-2" data-bs-target="#popover" data-bs-toggle="modal" href="#">Add Another Member</a>
+											
+													<!-- Add Another Member Button -->
+													<div class="col-md-2 mt-4">
+														<a class="btn ripple btn-success ms-2" data-bs-target="#popover" data-bs-toggle="modal" href="#"><i class="fas fa-plus"></i> Add Member</a>
+													</div>
+													<div class="col-md-3 ">
+														<div class="form-group">
+															<label for="creation_date">Date of Creation</label>
+															<input type="date" class="form-control" id="creation_date" name="creation_date" value="{{ old('creation_date') }}">
+														</div>
+													</div>
+											
+													<!-- Description Field -->
+													<div class="col-md-12 mt-3">
+														<div class="form-group">
+															<label for="description">Description</label>
+															<textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter a description for the committee..."></textarea>
+														</div>
+													</div>
+											
+													<!-- Date of Creation Field -->
+												
+											
+													<!-- Create Task Section -->
+													<div class="col-md-12 mt-4">
+														<h5>Create Task</h5>
+														<div id="task-list" class="task-list">
+															<!-- Task Card Template -->
+														</div>
+											
+														<!-- Add Task Button -->
+														<button type="button" class="btn btn-outline-primary mt-2" id="add-task"><i class="fas fa-plus"></i> Add Task</button>
+													</div>
+											
+													<!-- Submit Button -->
+													<div class="col-md-12 mt-4">
+														<button type="submit" class="btn btn-primary">Submit</button>
 													</div>
 												</div>
-												<button type="submit" class="btn btn-primary">Submit</button>
 											</form>
 											
 										</div>
@@ -94,7 +173,7 @@
 											<h6 class="modal-title">Add New Member</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
 										</div>
 										<div class="modal-body">
-											<form method="POST" enctype="multipart/form-data" action="{{route('templeuser.storeothermember')}}" id="committeeForm">
+											<form method="POST" enctype="multipart/form-data" action="{{url('/templeuser/store-other-member')}}" id="committeeForm">
 												@csrf
 												@method('POST')
 												<div class="card">
@@ -204,4 +283,133 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
  {{-- sweet alert --}}
  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+ <script>
+document.addEventListener("DOMContentLoaded", function() {
+    let taskIndex = 1;
+
+    // Add New Task
+    document.getElementById("add-task").addEventListener("click", function() {
+        const taskList = document.getElementById("task-list");
+        const taskCard = document.createElement("div");
+        taskCard.classList.add("task-card", "task-expanded");
+
+        taskCard.innerHTML = `
+            <div class="task-header">
+                <input type="text" name="tasks[${taskIndex}][name]" class="form-control border-0" placeholder="Task Name" required>
+                <button type="button" class="btn btn-light btn-sm toggle-task"><i class="fas fa-chevron-up"></i></button>
+            </div>
+            <div class="task-body">
+                <textarea name="tasks[${taskIndex}][description]" class="form-control mt-2" rows="2" placeholder="Describe the task here..."></textarea>
+
+                <!-- Priority and Due Date -->
+                <div class="task-options mt-2">
+                    <select name="tasks[${taskIndex}][priority]" class="form-control">
+                        <option value="" disabled selected>Priority</option>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
+                    <input type="date" name="tasks[${taskIndex}][due_date]" class="form-control" placeholder="Due Date">
+                </div>
+
+                <!-- Subtask List -->
+                <div class="subtask-list mt-3">
+                    <h6>Subtasks</h6>
+                    <ul id="subtask-list-${taskIndex}" class="subtask-list"></ul>
+                    <button type="button" class="btn btn-outline-secondary btn-sm add-subtask" data-index="${taskIndex}"><i class="fas fa-plus"></i> Add Subtask</button>
+                </div>
+
+                <!-- Delete Task Button -->
+                <button type="button" class="btn btn-danger btn-sm mt-3 remove-task"><i class="fas fa-trash-alt"></i> Delete Task</button>
+            </div>
+        `;
+
+        taskList.appendChild(taskCard);
+        taskIndex++;
+    });
+
+    // Toggle Task Body Visibility
+    document.getElementById("task-list").addEventListener("click", function(e) {
+        if (e.target.closest(".toggle-task")) {
+            const taskCard = e.target.closest(".task-card");
+            taskCard.classList.toggle("task-expanded");
+            e.target.innerHTML = taskCard.classList.contains("task-expanded") ? '<i class="fas fa-chevron-up"></i>' : '<i class="fas fa-chevron-down"></i>';
+        }
+
+        // Remove Task
+        if (e.target.closest(".remove-task")) {
+            e.target.closest(".task-card").remove();
+        }
+
+        // Add Subtask
+        if (e.target.closest(".add-subtask")) {
+            const index = e.target.getAttribute("data-index");
+            const subtaskList = document.getElementById(`subtask-list-${index}`);
+            const subtaskItem = document.createElement("li");
+            subtaskItem.classList.add("subtask-item");
+            subtaskItem.innerHTML = `
+                <input type="text" name="tasks[${index}][subtasks][]" class="form-control form-control-sm" placeholder="Subtask Name">
+                <button type="button" class="btn btn-sm btn-light remove-subtask"><i class="fas fa-times"></i></button>
+            `;
+            subtaskList.appendChild(subtaskItem);
+        }
+
+        // Remove Subtask
+        if (e.target.closest(".remove-subtask")) {
+            e.target.closest(".subtask-item").remove();
+        }
+    });
+});
+
+ </script>
+
+ <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('committeeForm');
+    if (form) {
+        form.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
+            
+            // Create form data object
+            const formData = new FormData(form);
+
+            // AJAX request to submit the form
+            fetch(form.action, {
+                method: form.method,
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+            .then(response => {
+                // Check if response is JSON
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    return response.text().then(text => { throw new Error(text); });
+                }
+            })
+            .then(data => {
+                if (data.success) {
+                    $('#popover').modal('hide');
+                    const memberDropdown = document.getElementById('select_member');
+                    const newOption = new Option(data.member_name, data.member_id, false, false);
+                    memberDropdown.add(newOption);
+                    form.reset();
+                    alert('Member added successfully!');
+                } else {
+                    alert('Failed to add member. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred: ' + error.message);
+            });
+        });
+    }
+});
+
+
+ </script>
     @endsection
