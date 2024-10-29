@@ -25,7 +25,7 @@ use App\Http\Controllers\Api\TemplePoojaController;
 use App\Http\Controllers\Api\TempleHundiCollectionController;
 use App\Http\Controllers\Api\TempleDonationController;
 use App\Http\Controllers\Api\TemplePrasadController;
-
+use App\Http\Controllers\Api\TempleCommitteeController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -202,4 +202,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('trust-members', [TrustMemberController::class, 'getTrustMembers']);
         Route::put('update-trust-member/{id}', [TrustMemberController::class, 'updateTrustMember']);
         Route::delete('delete-trust-members/{id}', [TrustMemberController::class, 'deleteTrustMember']);
+
+        Route::get('/committee-details', [TempleCommitteeController::class, 'addnewcommittee']);
+        Route::post('/save-committee', [TempleCommitteeController::class, 'saveCommittee']);
+        Route::get('/committee-members', [TempleCommitteeController::class, 'getcommitteemember']);
+        Route::post('/store-committee-member', [TempleCommitteeController::class, 'storecommitteemember']);
+        Route::get('/mng-committee-hierarchy', [TempleCommitteeController::class, 'mngcommitteehierarchy']);
+        Route::post('/committee/hierarchy-position/{id}', [TempleCommitteeController::class, 'saveCommitteeHierarchyPosition']);
+        // Route::get('/committee/manage-members', [TempleCommitteeController::class, 'manageCommitteeMember']);
 });

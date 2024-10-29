@@ -39,16 +39,7 @@ class TempleCommitteeController extends Controller
         return view('templeuser.add-temple-committee', compact('committeedetails', 'committeeStartDate', 'today', 'totalDays'));
     }
     
-    public function addsubcommittee(){
-        $templeId = Auth::guard('temples')->user()->temple_id;
-        $committeeMembers = TempleCommitteeMemberDetail::where('temple_id', $templeId)
-        ->where('status', 'active')->get();
-        $committeedetails = TempleCommittee::where('temple_id', $templeId)
-        ->where('status', 'active')
-        ->whereNull('committee_end_date')
-        ->first();
-        return view('templeuser.add-temple-sub-committee',compact('committeeMembers','committeedetails'));
-    }
+   
     public function saveCommittee(Request $request)
     {
         // Validate the request data
@@ -303,11 +294,19 @@ class TempleCommitteeController extends Controller
         return redirect()->route('templeuser.managecommitteemember')->with('success', 'Member status updated successfully.');
     }
 
-
+    public function addsubcommittee(){
+        $templeId = Auth::guard('temples')->user()->temple_id;
+        $committeeMembers = TempleCommitteeMemberDetail::where('temple_id', $templeId)
+        ->where('status', 'active')->get();
+        $committeedetails = TempleCommittee::where('temple_id', $templeId)
+        ->where('status', 'active')
+        ->whereNull('committee_end_date')
+        ->first();
+        return view('templeuser.add-temple-sub-committee',compact('committeeMembers','committeedetails'));
+    }
     public function storeothermember(Request $request)
     {
-        
-        // Validate the incoming request
+        // Validate request
         $request->validate([
             'committee_id' => 'required|string|max:255',
             'member_name' => 'required|string|max:255',
@@ -321,35 +320,50 @@ class TempleCommitteeController extends Controller
             'about_member' => 'nullable|string',
         ]);
     
-        // Handle file upload for member photo, if provided
-        $memberPhotoPath = null;
-        if ($request->hasFile('member_photo')) {
-            $memberPhotoPath = $request->file('member_photo')->store('member_photos', 'public');
+        try {
+            // Handle file upload
+            $memberPhotoPath = $request->hasFile('member_photo') 
+                ? $request->file('member_photo')->store('member_photos', 'public') 
+                : null;
+    
+            // Create new member
+            $newMember = TempleCommitteeMemberDetail::create([
+                'temple_id' => Auth::guard('temples')->user()->temple_id,
+                'committee_id' => $request->committee_id,
+                'member_name' => $request->member_name,
+                'member_photo' => $memberPhotoPath,
+                'member_designation' => $request->member_designation,
+                'temple_designation' => $request->temple_designation,
+                'dob' => $request->dob,
+                'member_contact_no' => $request->member_contact_no,
+                'whatsapp_number' => $request->whatsapp_number,
+                'email' => $request->email,
+                'about_member' => $request->about_member,
+                'status' => 'active',
+                'type' => 'othermember'
+            ]);
+    
+            // Return JSON response with new member details
+            return response()->json([
+                'success' => true,
+                'member_id' => $newMember->id,
+                'member_name' => $newMember->member_name,
+            ]);
+    
+        } catch (\Exception $e) {
+            // Log the error for debugging
+            \Log::error('Error storing new member: ' . $e->getMessage());
+    
+            // Return JSON response with error message
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while adding the member. Please try again.',
+            ], 500);
         }
-    
-        // Create a new committee member record
-        TempleCommitteeMemberDetail::create([
-            'temple_id' => Auth::guard('temples')->user()->temple_id,
-            'committee_id' => $request->committee_id,
-            'member_name' => $request->member_name,
-            'member_photo' => $memberPhotoPath,
-            'member_designation' => $request->member_designation,
-            'temple_designation' => $request->temple_designation,
-            'dob' => $request->dob,
-            'member_contact_no' => $request->member_contact_no,
-            'whatsapp_number' => $request->whatsapp_number,
-            'email' => $request->email,
-            'about_member' => $request->about_member,
-            'committee_creation_date' => $request->committee_creation_date,
-            // 'financial_period' => $request->financial_period,
-            'status' => 'active',
-             'type' => 'othermember'
-        ]);
-    
-        
-        return redirect()->route('templeuser.addsubcommittee')->with('success', 'Committee member created successfully.');
-
     }
+    
+    
+    
     public function storesubcommittee(Request $request)
     {
         // Validate the form data
