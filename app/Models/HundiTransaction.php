@@ -10,7 +10,6 @@ class HundiTransaction extends Model
     use HasFactory;
 
     protected $table = 'temple__hundi_transaction';
-
     // Add the columns to the fillable array
     protected $fillable = [
         'temple_id',

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\HundiCollection;
 use App\Models\HundiTransaction;
 use App\Models\Hundi;
+use App\Models\TempleCommitteeMemberDetail;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -103,7 +105,9 @@ public function addHundiCollection(){
 
     $hundi_names = Hundi::where('temple_id', $templeId)->where('status', 'active')->get();
 
-    return view('templeuser.add-temple-hundi-collection', compact('hundi_names'));
+    $member_details = TempleCommitteeMemberDetail::where('temple_id', $templeId)->where('status', 'active')->where('type','committeemember')->get();
+
+    return view('templeuser.add-temple-hundi-collection', compact('hundi_names','member_details'));
 }
 
   public function saveHundiCollection(Request $request)

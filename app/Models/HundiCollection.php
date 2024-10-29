@@ -21,4 +21,10 @@ class HundiCollection extends Model
         'opened_by',
         'collection_amount',
     ];
+
+    public function transactions()
+    {
+        return $this->hasMany(HundiTransaction::class, 'collection_id');
+    }
+    
 }

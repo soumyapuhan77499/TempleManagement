@@ -48,7 +48,7 @@
                                         <select class="form-control me-2" id="hundi_name" name="hundi_name" required>
                                             <option value="">Select Hundi Name</option>
                                             @foreach ($hundi_names as $hundi)
-                                                <option value="{{ $hundi->id }}">{{ $hundi->hundi_name }}</option>
+                                                <option value="{{ $hundi->hundi_name }}">{{ $hundi->hundi_name }}</option>
                                             @endforeach
                                         </select>
                                 
@@ -71,13 +71,13 @@
                                 <div class="form-group">
                                     <label for="present_member">Present Member</label>
                                     <select multiple="multiple" class="testselect2" name="present_member[]">
-                                        <option value="Member 1">Member 1</option>
-                                        <option value="Member 2">Member 2</option>
-                                        <option value="Member 3">Member 3</option>
-                                        <option value="Member 4">Member 4</option>
+                                        @foreach ($member_details as $member)
+                                            <option value="{{ $member->id }}">{{ $member->member_name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
+                            
 
                             <div class="col-md-3">
                                 <div class="form-group">

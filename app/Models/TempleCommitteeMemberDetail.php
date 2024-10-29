@@ -11,7 +11,7 @@ class TempleCommitteeMemberDetail extends Model
 
     protected $table = 'temple__committee_member_details'; // Specify the table name
 
-   
+
     protected $fillable = [
         'temple_id',
         'committee_id',

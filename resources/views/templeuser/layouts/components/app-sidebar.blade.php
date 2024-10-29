@@ -173,6 +173,8 @@
 										<li><a class="slide-item" href="{{route('templeuser.manageexpenditure')}}">Manage Expenditure</a></li>
 										<li><a class="slide-item" href="{{route('templeuser.managehundi')}}">Manage Hundi</a></li>
 										<li><a class="slide-item" href="{{ route('templeuser.addhundicollection') }}">Add Hundi Collection</a></li>
+										<li><a class="slide-item" href="{{ route('templeuser.reportHundicollection') }}">Hundi Collection Reports</a></li>
+
 									</ul>
 								</li>
 								<li class="slide">
