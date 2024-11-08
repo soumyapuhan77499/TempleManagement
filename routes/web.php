@@ -23,6 +23,7 @@ use App\Http\Controllers\TempleUser\TempleTrustController;
 use App\Http\Controllers\TempleUser\TempleDonationController;
 use App\Http\Controllers\TempleUser\TempleCommitteeController;
 use App\Http\Controllers\TempleUser\TempleHundiController;
+use App\Http\Controllers\Reports\TempleHundiCollectionReport;
 
 
 use App\Http\Controllers\TempleUser\TempleBankController;
@@ -34,6 +35,14 @@ use App\Http\Controllers\TempleUser\TempleExpenditureController;
 use App\Http\Controllers\Superadmin\SuperAdminController;
 use App\Http\Controllers\Superadmin\TempleRequestController;
 use App\Http\Controllers\Superadmin\TempleTitleController;
+
+
+// Niti Controller 
+use App\Http\Controllers\TempleUser\NitiController;
+use App\Http\Controllers\TempleUser\SebakController;
+use App\Http\Controllers\TempleUser\DeityController;
+
+
 
 ## Home pages Routes
 Route::get('/', function () {
@@ -290,7 +299,55 @@ Route::prefix('templeuser')->middleware('templeauth')->group(function () {
         Route::post('/save-temple-hundi-collection', 'saveHundiCollection')->name('templeuser.savehundicollection');
     });
 
+    Route::controller(TempleHundiCollectionReport::class)->group(function() {
+        Route::get('/report-temple-hundi-collection', 'reportHundiCollection')->name('templeuser.reportHundicollection');
+        Route::post('/search-temple-hundi-collection', 'searchHundiCollection')->name('templeuser.searchHundiCollection');
+        Route::get('/hundi-collection-cashtray/{id}',  'showCashTray')->name('templeuser.collectionCashTray');
+    });
+
 });
+
+## temple niti route
+
+    Route::controller(NitiController::class)->group(function(){
+        Route::get('admin/add-niti','addniti')->name('templeuser.add-niti');
+        Route::get('admin/manage-niti','manageniti')->name('manageniti');
+        Route::post('admin/save-niti', 'saveNitiMaster')->name('saveNitiMaster');
+        Route::delete('admin/delete-niti-master/{id}', 'deleteNitiMaster')->name('deletNitiMaster');
+        Route::get('admin/edit-niti-master/{id}','editNitiMaster')->name('editNitiMaster');
+        Route::put('admin/update-niti-master/{id}', 'updateNitiMaster')->name('updateNitiMaster');
+    
+    });
+
+    Route::controller(SebakController::class)->group(function(){
+    
+        Route::get('admin/manage-seba','manageSeba')->name('manageSeba');
+        Route::get('admin/add-seba','addSeba')->name('templeuser.add-seba');
+        Route::post('admin/save-seba', 'saveSeba')->name('saveSeba');
+        Route::delete('admin/delete-seba/{id}', 'deleteSeba')->name('deleteSeba');
+        Route::get('admin/edit-seba/{id}','editSeba')->name('editSeba');
+        Route::put('admin/update-seba/{id}','updateSeba')->name('updateSeba');
+    
+        Route::get('admin/manage-sebayat','manageSebayat')->name('manageSebayat');
+        Route::get('admin/add-sebayat','addSebayat')->name('templeuser.add-sebayat');
+        Route::post('admin/save-sebayat', 'saveSebayat')->name('saveSebayat');
+        Route::delete('admin/delete-sebayat/{id}', 'deleteSebayat')->name('deleteSebayat');
+        Route::get('admin/edit-sebayat/{id}','editSebayat')->name('editSebayat');
+        Route::put('admin/update-sebayat/{id}','updateSebayat')->name('updateSebayat');
+
+    });
+
+    Route::controller(DeityController::class)->group(function(){
+
+        Route::get('admin/manage-deity','manageDeity')->name('manageDeity');
+        Route::get('admin/add-deity','addDeity')->name('templeuser.add-deity');
+        Route::post('admin/save-deity', 'saveDeity')->name('saveDeity');
+        Route::delete('admin/delete-deity/{id}', 'deletDeity')->name('deletDeity');
+        Route::get('admin/edit-deity/{id}','editDeity')->name('editDeity');
+        Route::put('admin/update-deity/{id}','updateDeity')->name('updateDeity');
+        
+    });
+    
 
 ## super admin Routes
     Route::controller(SuperAdminController::class)->group(function() {

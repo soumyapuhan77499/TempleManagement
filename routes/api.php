@@ -26,6 +26,8 @@ use App\Http\Controllers\Api\TempleHundiCollectionController;
 use App\Http\Controllers\Api\TempleDonationController;
 use App\Http\Controllers\Api\TemplePrasadController;
 use App\Http\Controllers\Api\TempleCommitteeController;
+use App\Http\Controllers\Api\ReportHundiCollection;
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -44,6 +46,8 @@ Route::controller(TempleLoginController::class)->group(function() {
 Route::middleware('auth:sanctum')->group(function () {
   Route::post('/update-temple-details', [TempleAboutController::class, 'updateTempleDetails']);
 });
+
+
 Route::middleware(['auth:sanctum'])->group(function () {
       Route::controller(TempleSocialMediaController::class)->group(function() {
         Route::get('/social-media', 'socialmedia');
@@ -145,7 +149,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('/delete-devotees/{id}',  'destroy')->name('templedevotees.destroy');
       });
 
-
+      Route::controller(ReportHundiCollection::class)->group(function() {
+        Route::get('/report-hundi-collection', 'reportHundiCollection');
+        Route::post('/search-hundi-collection','searchHundiCollection');
+        Route::get('/cash-tray/{id}',  'showCashTray');
+      });
 
       Route::controller(TempleExpenditureController::class)->group(function() {
         Route::post('/save-temple-expenditure', 'saveExpenditure')->name('templeexpenditure.save');

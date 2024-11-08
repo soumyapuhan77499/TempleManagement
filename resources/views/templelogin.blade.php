@@ -70,7 +70,6 @@
                                                                                     style="margin-left: 5px; flex: 1;" required
                                                                                     pattern="\d*" title="Please enter only numbers" 
                                                                                     oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);">
-                                                                                
                                                                             </div>
                                                                         </div>
                                                                         <input type="submit" class="btn btn-primary" value="Generate OTP">
