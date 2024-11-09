@@ -7,14 +7,19 @@ use Illuminate\Http\Request;
 use App\Models\SebaMaster;
 use App\Models\SebayatMaster;
 use App\Models\SebaStep;
+use Illuminate\Support\Facades\Auth;
+
 
 class SebakController extends Controller
 {
     
     public function manageSeba()
     {
+        $templeId = Auth::guard('temples')->user()->temple_id;
+
         // Fetch SebaMaster records with their associated SebaStep records
-        $manage_seba = SebaMaster::where('status', 'active')->with('steps')->get();
+        $manage_seba = SebaMaster::where('status', 'active')->where('temple_id',$templeId)->with('steps')->get();
+
         return view('templeuser.manage-seba', compact('manage_seba'));
     }
     
@@ -39,8 +44,11 @@ public function saveSeba(Request $request)
         'step_of_seba.*' => 'string|max:255',
     ]);
 
+    $templeId = Auth::guard('temples')->user()->temple_id;
+
     // Save data to the SebaMaster model
     $seba = new SebaMaster();
+    $seba->temple_id = $templeId;
     $seba->language = $request->input('language');
     $seba->seba_name = $request->input('seba_name');
     $seba->description = $request->input('description');
@@ -121,9 +129,14 @@ public function deleteSeba($id)
 
    // sebayat controller start here
 
-   public function manageSebayat(){
-    $manage_sebayat = SebayatMaster::where('status', 'active')->get();
+public function manageSebayat(){
+
+    $templeId = Auth::guard('temples')->user()->temple_id;
+
+    $manage_sebayat = SebayatMaster::where('status', 'active')->where('temple_id',$templeId)->get();
+
     return view('templeuser.manage-sebayat',compact('manage_sebayat'));
+
 }
 
 public function addSebayat(){
@@ -143,9 +156,11 @@ public function saveSebayat(Request $request)
         'sebayat_name' => 'required|string|max:255',
         'description' => 'nullable|string',
     ]);
+    $templeId = Auth::guard('temples')->user()->temple_id;
 
     // Save data to the Niti model
     $niti = new SebayatMaster();
+    $niti->temple_id = $templeId;
     $niti->language = $request->input('language');
     $niti->sebayat_name = $request->input('sebayat_name');
     $niti->description = $request->input('description');

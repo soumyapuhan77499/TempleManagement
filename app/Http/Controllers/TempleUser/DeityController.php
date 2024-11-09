@@ -5,6 +5,8 @@ namespace App\Http\Controllers\templeUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DeityMaster;
+use Illuminate\Support\Facades\Auth;
+
 
 class DeityController extends Controller
 {
@@ -13,8 +15,9 @@ class DeityController extends Controller
     }
 
     public function manageDeity(){
+        $templeId = Auth::guard('temples')->user()->temple_id;
 
-        $manage_deity = DeityMaster::where('status', 'active')->get();
+        $manage_deity = DeityMaster::where('status', 'active')->where('temple_id', $templeId)->get();
         return view('templeuser.manage-deity',compact('manage_deity'));
     }
 
@@ -25,8 +28,12 @@ class DeityController extends Controller
         'description' => 'nullable|string',
         'deity_type' => 'nullable|boolean', // Validate deity_type as boolean
     ]);
+    $templeId = Auth::guard('temples')->user()->temple_id;
+
 
     $deity = new DeityMaster();
+
+    $deity->temple_id = $templeId;
     $deity->language = $request->input('language');
     $deity->deity_name = $request->input('deity_name');
     $deity->description = $request->input('description');

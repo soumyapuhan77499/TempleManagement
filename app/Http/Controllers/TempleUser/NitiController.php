@@ -7,13 +7,17 @@ use Illuminate\Http\Request;
 use App\Models\NitiMaster;
 use App\Models\SebaMaster;
 use App\Models\NitiStep;
+use Illuminate\Support\Facades\Auth;
+
 
 class NitiController extends Controller
 {
      
     public function addniti(){
+        
+        $templeId = Auth::guard('temples')->user()->temple_id;
 
-        $manage_seba = SebaMaster::where('status', 'active')->get();
+        $manage_seba = SebaMaster::where('status', 'active')->where('temple_id', $templeId)->get();
 
         return view('templeuser.add-niti', compact('manage_seba'));
 
@@ -29,9 +33,12 @@ class NitiController extends Controller
             'seba_name' => 'nullable|array', // Ensure that seba_name is an array if it's passed as multiple values
             'step_of_niti' => 'nullable|array', // Ensure step_of_niti is an array if multiple steps are provided
         ]);
-    
+
+        $templeId = Auth::guard('temples')->user()->temple_id;
+
         // Save data to the NitiMaster model
         $niti = new NitiMaster();
+        $niti->temple_id = $templeId;
         $niti->language = $request->input('language');
         $niti->niti_name = $request->input('niti_name');
         $niti->description = $request->input('description');
@@ -61,7 +68,11 @@ class NitiController extends Controller
     
      
     public function manageniti() {
-        $manage_niti_master = NitiMaster::with('steps')->where('status', 'active')->get();
+
+        $templeId = Auth::guard('temples')->user()->temple_id;
+
+        $manage_niti_master = NitiMaster::with('steps')->where('status', 'active')->where('temple_id',$templeId)->get();
+
         $manage_seba = SebaMaster::all();  // Fetching Seba data, assuming the `Seba` model exists.
         
         return view('templeuser.manage-niti-master', compact('manage_niti_master', 'manage_seba'));
