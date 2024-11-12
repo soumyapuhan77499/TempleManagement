@@ -2973,7 +2973,7 @@ input[type=submit].btn-block, input[type=reset].btn-block, input[type=button].bt
   }
 }
 .card {
-  border-radius: 5px;
+  border-radius: 15px;
 }
 .card.text-white .card-title, .card.tx-white .card-title {
   color: #fff;

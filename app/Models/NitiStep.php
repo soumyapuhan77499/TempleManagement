@@ -11,5 +11,5 @@ class NitiStep extends Model
 
     protected $table = 'temple__niti_step';
 
-    protected $fillable = ['niti_id', 'step_name', 'status'];
+    protected $fillable = ['niti_id', 'step_name', 'seba_name']; // Ensure seba_name is in the fillable array
 }

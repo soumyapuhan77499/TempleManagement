@@ -12,6 +12,7 @@ class SebayatMaster extends Model
 
     protected $fillable = [
         'language',
+        'temple_id',
        'sebayat_name',
        'description'
     ];

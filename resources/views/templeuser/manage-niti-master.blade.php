@@ -47,8 +47,12 @@
                                     <th class="border-bottom-0">SlNo</th>
                                     <th class="border-bottom-0">Language</th>
                                     <th class="border-bottom-0">Niti Name</th>
-                                    <th class="border-bottom-0">Seba Name</th>
-                                    <th class="border-bottom-0">Niti Steps</th>
+                                    <th class="border-bottom-0">Time</th>
+                                    <th class="border-bottom-0">Type</th>
+                                    <th class="border-bottom-0">Niti About</th>
+                                    <th class="border-bottom-0">Sebayat</th>
+                                    <th class="border-bottom-0">Steps</th> <!-- New column for steps -->
+                                    <th class="border-bottom-0">Items</th> <!-- New column for items -->
                                     <th class="border-bottom-0">Description</th>
                                     <th class="border-bottom-0">Action</th>
                                 </tr>
@@ -57,59 +61,49 @@
                                 @foreach ($manage_niti_master as $niti)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $niti->language }}</td> <!-- Display language -->
+                                        <td>{{ $niti->language }}</td>
                                         <td>{{ $niti->niti_name }}</td>
-                        
-                                        <!-- Display multiple Seba names -->
+                                        <td>{{ $niti->date_time }}</td>
+                                        <td>{{ $niti->niti_type }}</td>
+                                        <td>{{ $niti->niti_about }}</td>
+
+                                        <!-- Sebayat Modal Trigger -->
                                         <td>
-                                            @if($niti->seba_name) <!-- Check if seba_name exists -->
-                                                @php
-                                                    $sebaNames = explode(',', $niti->seba_name); // Exploding the comma-separated string
-                                                @endphp
-                                                <ol>
-                                                    @foreach ($sebaNames as $sebaName)
-                                                        <li>{{ $sebaName }}</li> <!-- Display each Seba name -->
-                                                    @endforeach
-                                                </ol>
-                                            @else
-                                                <p>No Seba name available</p>
-                                            @endif
+                                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                                                data-bs-target="#sebayatModal{{ $niti->id }}">
+                                                VIEW
+                                            </button>
                                         </td>
-                        
-                                        <!-- Display Steps -->
+
+                                        <!-- Steps Modal Trigger -->
                                         <td>
-                                            @if($niti->steps->isNotEmpty())
-                                                <table class="table table-bordered mb-0">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Step No</th>
-                                                            <th>Step Name</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach ($niti->steps as $step)
-                                                            <tr>
-                                                                <td>{{ $loop->iteration }}</td>
-                                                                <td>{{ $step->step_name }}</td>
-                                                            </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
-                                            @else
-                                                <p>No steps available</p>
-                                            @endif
+                                            <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                data-bs-target="#stepsModal{{ $niti->id }}">
+                                                VIEW
+                                            </button>
                                         </td>
-                        
+
+                                        <!-- Items Modal Trigger -->
+                                        <td>
+                                            <button type="button" class="btn btn-info" data-bs-toggle="modal"
+                                                data-bs-target="#itemsModal{{ $niti->id }}">
+                                                VIEW
+                                            </button>
+                                        </td>
+
                                         <td>{{ $niti->description }}</td>
-                        
-                                        <td style="color:#B7070A;font-size: 15px">
-                                            <a class="btn btn-success cursor-pointer" href="{{ url('admin/edit-niti-master/' . $niti->id) }}">
+                                        <td style="color:#B7070A; font-size: 15px;">
+                                            <a class="btn btn-success cursor-pointer"
+                                                href="{{ url('admin/edit-niti-master/' . $niti->id) }}">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            <form id="delete-form-{{ $niti->id }}" action="{{ route('deletNitiMaster', $niti->id) }}" method="POST" style="display:inline;">
+                                            <form id="delete-form-{{ $niti->id }}"
+                                                action="{{ route('deletNitiMaster', $niti->id) }}" method="POST"
+                                                style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="button" class="btn btn-danger" style="display:inline;" onclick="confirmDelete({{ $niti->id }})">
+                                                <button type="button" class="btn btn-danger"
+                                                    onclick="confirmDelete({{ $niti->id }})">
                                                     <i class="fa fa-trash"></i>
                                                 </button>
                                             </form>
@@ -117,8 +111,128 @@
                                     </tr>
                                 @endforeach
                             </tbody>
+
                         </table>
-                        
+
+
+                        <!-- Sebayat Modal -->
+                        <div class="modal fade" id="sebayatModal{{ $niti->id }}" tabindex="-1"
+                            aria-labelledby="sebayatModalLabel{{ $niti->id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="sebayatModalLabel{{ $niti->id }}">Sebayat List</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        @php
+                                            // Split the names by comma if they are stored as a comma-separated string
+                                            $sebayatList = explode(',', $niti->niti_sebayat);
+                                        @endphp
+
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th class="bg-info">Serial No.</th>
+                                                    <th class="bg-info">Sebayat Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($sebayatList as $index => $name)
+                                                    <tr>
+                                                        <td>{{ $index + 1 }}</td>
+                                                        <td>{{ trim($name) }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Steps Modal -->
+                        <div class="modal fade" id="stepsModal{{ $niti->id }}" tabindex="-1"
+                            aria-labelledby="stepsModalLabel{{ $niti->id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="stepsModalLabel{{ $niti->id }}">Steps</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        @if ($niti->steps->isNotEmpty())
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="bg-info">Serial No.</th>
+                                                        <th class="bg-info">Step Name</th>
+                                                        <th class="bg-info">Seba Name</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($niti->steps as $index => $step)
+                                                        <tr>
+                                                            <td>{{ $index + 1 }}</td>
+                                                            <td>{{ $step->step_name }}</td>
+                                                            <td>{{ $step->seba_name }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        @else
+                                            <p>No steps available</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Items Modal -->
+                        <!-- Items Modal -->
+                        <div class="modal fade" id="itemsModal{{ $niti->id }}" tabindex="-1"
+                            aria-labelledby="itemsModalLabel{{ $niti->id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="itemsModalLabel{{ $niti->id }}">Items</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        @if ($niti->niti_items->isNotEmpty())
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="bg-info">SlNo.</th>
+                                                        <th class="bg-info">Item Name</th>
+                                                        <th class="bg-info">Quantity</th>
+                                                        <th class="bg-info">Unit</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($niti->niti_items as $index => $item)
+                                                        <tr>
+                                                            <td>{{ $index + 1 }}</td>
+                                                            <td>{{ $item->item_name }}</td>
+                                                            <td>{{ $item->quantity }}</td>
+                                                            <td>{{ $item->unit }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        @else
+                                            <p>No items available</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
@@ -164,10 +278,10 @@
             });
         }
     </script>
-    
-<script>
+
+    <script>
         // Hide success/error message after 3 seconds
-        setTimeout(function(){
+        setTimeout(function() {
             document.getElementById('Message').style.display = 'none';
         }, 3000);
     </script>

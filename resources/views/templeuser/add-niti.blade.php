@@ -2,7 +2,43 @@
 
 @section('styles')
     <!-- Internal Select2 CSS -->
+    <script src="{{ asset('assets/plugins/jquery-ui/ui/widgets/datepicker.js') }}"></script>
+
     <link href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- Include Select2 JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <!--Internal  Datetimepicker-slider css -->
+    <link href="{{ asset('assets/plugins/amazeui-datetimepicker/css/amazeui.datetimepicker.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/plugins/jquery-simple-datetimepicker/jquery.simple-dtpicker.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/plugins/pickerjs/picker.min.css') }}" rel="stylesheet">
+
+    <!-- Internal Spectrum-colorpicker css -->
+    <link href="{{ asset('assets/plugins/spectrum-colorpicker/spectrum.css') }}" rel="stylesheet">
+
+    <!--Bootstrap-datepicker css-->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.css') }}">
+    <style>
+        .card-body {
+            padding: 11px 10px 10px 10px !important;
+        }
+    </style>
+
+    <style>
+        /* Additional styling for alignment */
+        .step-container .step-item {
+            margin-bottom: 10px;
+        }
+
+        .step-container .card-body {
+            padding: 10px;
+        }
+
+        .step-container .select2-container {
+            width: 100% !important;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -44,88 +80,204 @@
         </div>
     @endif
 
-    <div class="row">
-        <div class="col-lg-12 col-md-">
-            <div class="card custom-card">
-                <div class="card-body">
-
-                    <form action="{{ route('saveNitiMaster') }}" method="post" enctype="multipart/form-data">
-                        @csrf
-
+    <form action="{{ route('saveNitiMaster') }}" method="post" enctype="multipart/form-data">
+        @csrf
+        <div class="row">
+            <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <h4 class="card-title mb-1">NITI DETAILS</h4>
+                        </div>
+    
                         <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="language">Language</label>
+                            <!-- Language Selection -->
+                            <div class="col-md-3">
+                                <div class="card-body">
+                                    <div class="main-content-label mg-b-5">Language</div>
                                     <select class="form-control" id="language" name="language">
-                                        <option value=" ">Select language...</option>
+                                        <option value="">Select language...</option>
                                         <option value="English">English</option>
                                         <option value="Hindi">Hindi</option>
                                         <option value="Odia">Odia</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="niti_name">Niti Name</label>
-                                    <input type="text" class="form-control" id="niti_name" name="niti_name"
-                                        placeholder="Enter Niti Name">
+    
+                            <!-- Niti Name Input -->
+                            <div class="col-md-3">
+                                <div class="card-body">
+                                    <div class="main-content-label mg-b-5">Niti Name</div>
+                                    <input type="text" class="form-control" id="niti_name" name="niti_name" placeholder="Enter Niti Name">
                                 </div>
                             </div>
-
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="sebak_name">Seba Name</label>
-                                    <select class="form-control select2" id="seba_name" name="seba_name[]"
-                                        multiple="multiple">
-                                        <option value="">Select Sebak</option>
-                                        @foreach ($manage_seba as $seba)
-                                            <option value="{{ $seba->seba_name }}">{{ $seba->seba_name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="step-container">
-                            <div class="row step-item">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Niti Step 1</label>
-                                        <input type="text" class="form-control" name="step_of_niti[]"
-                                            placeholder="Enter Step Of Niti Name">
+    
+                            <!-- Date & Time Picker -->
+                            <div class="col-md-3">
+                                <div class="card-body">
+                                    <div class="main-content-label mg-b-5">Date & Time Picker</div>
+                                    <div class="input-group">
+                                        <div class="input-group-text">
+                                            <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                                        </div>
+                                        <input class="form-control" id="datetimepicker" name="date_time" type="text">
                                     </div>
                                 </div>
-                                <div class="col-md-2">
-                                    <button type="button" class="btn btn-success add-step">Add Step</button>
-                                    <button type="button" class="btn btn-danger remove-step"
-                                        style="display: none;">Remove</button>
-                                </div>
                             </div>
-                        </div>
-
-
-                        <div class="row">
-
-                            <div class="col-md-12">
+    
+                            <div class="col-md-3 mt-3">
                                 <div class="form-group">
-                                    <label for="description">Description</label>
-                                    <textarea class="form-control" id="description" name="description" placeholder="Enter Description"></textarea>
+                                    <label class="custom-switch">
+                                        <span class="custom-switch-description tx-20 me-2">Special Niti</span>
+                                        <input type="checkbox" name="niti_type" class="custom-switch-input">
+                                        <span class="custom-switch-indicator custom-switch-indicator-xl custom-square"></span>
+                                    </label>
+                                    <p class="text-danger d-block mt-2" style="font-size: 11px">
+                                        If this Niti is not special, it will be saved as a daily Niti.
+                                    </p>
                                 </div>
                             </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group" style="padding-top: 27px">
-                                    <input type="submit" class="btn btn-primary" value="Submit">
+    
+                            <!-- Niti About Textarea -->
+                            <div class="col-md-12">
+                                <div class="card-body">
+                                    <div class="main-content-label">Niti About</div>
+                                    <textarea class="form-control" id="niti_about" name="niti_about" placeholder="Enter Niti About"></textarea>
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    
+        <div class="row">
+            <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-1">NITI ITEMS</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="item-container">
+                            <div class="row item-row align-items-center mb-3">
+                                <div class="col-md-4">
+                                    <div class="main-content-label mg-b-5">Item Name</div>
+                                    <input type="text" class="form-control" name="item_name[]" placeholder="Enter Item Name">
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="main-content-label mg-b-5">Quantity</div>
+                                    <input type="text" class="form-control" name="quantity[]" placeholder="Enter Quantity">
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="main-content-label mg-b-5">Unit</div>
+                                    <select class="form-control" name="unit[]">
+                                        <option value="">Select Unit</option>
+                                        <option value="kg">Kilogram (kg)</option>
+                                        <option value="mg">Milligram (mg)</option>
+                                        <option value="g">Gram (g)</option>
+                                        <option value="ltr">Liter (ltr)</option>
+                                        <option value="ml">Milliliter (ml)</option>
+                                        <option value="pcs">Pieces (pcs)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2 d-flex align-items-center mt-2">
+                                    <button type="button" class="btn btn-success add-item me-1">Add Items</button>
+                                    <button type="button" class="btn btn-danger remove-item" style="display: none;">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="row">
+            <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-1">NITI SEBAYAT</h4>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="main-content-label mg-b-5">SEBAYAT INVOLVED LIST</div>
+                                <select class="form-control select2" id="niti_sebayat" name="niti_sebayat[]" multiple="multiple">
+                                    <option value="">Select Sebak</option>
+                                    @foreach ($sebayat_list as $sebayat)
+                                        <option value="{{ $sebayat->sebayat_name }}">{{ $sebayat->sebayat_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <h4 class="card-title mb-1">NITI STEP</h4>
+                        </div>
+    
+                        <div class="step-container">
+                            <div class="row step-item align-items-center">
+                                <div class="col-md-6">
+                                    <div class="card-body">
+                                        <div class="main-content-label mg-b-5">NITI STEP 1</div>
+                                        <input type="text" class="form-control" name="step_of_niti[]" placeholder="Enter Step Of Niti Name">
+                                    </div>
+                                </div>
+
+                                
+                                <div class="col-md-4">
+                                    <div class="card-body">
+                                        <div class="main-content-label mg-b-5">SEBA NAME</div>
+                                        <select class="form-control select2" name="seba_name[]" multiple="multiple">
+                                            <option value="">Select Seba</option>
+                                            @foreach ($manage_seba as $seba)
+                                                <option value="{{ $seba->seba_name }}">{{ $seba->seba_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-2 mt-3 d-flex justify-content-center">
+                                    <button type="button" class="btn btn-success add-step me-1">Add Step</button>
+                                    <button type="button" class="btn btn-danger remove-step" style="display: none;">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="main-content-label">Description</div>
+                        <textarea class="form-control" id="description" name="description" placeholder="Enter Niti Description"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="card">
+                    <div class="card-body">
+                        <button type="submit" class="btn btn-warning">SAVE NITI DETAILS</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
 @endsection
 
 @section('modal')
@@ -134,6 +286,42 @@
 @section('scripts')
     <script src="{{ asset('assets/js/form-layouts.js') }}"></script>
     <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
+    <!--Internal  Datepicker js -->
+    <script src="{{ asset('assets/plugins/jquery-ui/ui/widgets/datepicker.js') }}"></script>
+
+    <!--Internal  jquery.maskedinput js -->+
+    <script src="{{ asset('assets/plugins/jquery.maskedinput/jquery.maskedinput.js') }}"></script>
+
+    <!--Internal  spectrum-colorpicker js -->
+    <script src="{{ asset('assets/plugins/spectrum-colorpicker/spectrum.js') }}"></script>
+
+    <!--Internal Ion.rangeSlider.min js -->
+    <script src="{{ asset('assets/plugins/ion-rangeslider/js/ion.rangeSlider.min.js') }}"></script>
+
+    <!--Internal  jquery-simple-datetimepicker js -->
+    <script src="{{ asset('assets/plugins/amazeui-datetimepicker/js/amazeui.datetimepicker.min.js') }}"></script>
+
+    <!-- Ionicons js -->
+    <script src="{{ asset('assets/plugins/jquery-simple-datetimepicker/jquery.simple-dtpicker.js') }}"></script>
+
+    <!--Internal  pickerjs js -->
+    <script src="{{ asset('assets/plugins/pickerjs/picker.min.js') }}"></script>
+
+    <!--internal color picker js-->
+    <script src="{{ asset('assets/plugins/colorpicker/pickr.es5.min.js') }}"></script>
+    <script src="{{ asset('assets/js/colorpicker.js') }}"></script>
+
+    <!--Bootstrap-datepicker js-->
+    <script src="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
+
+    <!-- Internal Select2.min js -->
+    <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <!-- Internal form-elements js -->
+    <script src="{{ asset('assets/js/form-elements.js') }}"></script>
+
+
     <script>
         $(document).ready(function() {
             $('.select2').select2();
@@ -145,33 +333,56 @@
     </script>
 
     <script>
-        let stepCount = 1;
+        let stepCount = 1; // Initialize the step counter
 
         document.addEventListener('click', function(event) {
             if (event.target.classList.contains('add-step')) {
                 stepCount++;
                 const stepContainer = document.querySelector('.step-container');
                 const newStep = document.createElement('div');
-                newStep.classList.add('row', 'step-item');
+                newStep.classList.add('row', 'step-item', 'align-items-center');
+
+                // Template literal for dynamic HTML
                 newStep.innerHTML = `
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label>Niti Step ${stepCount}</label>
-                        <input type="text" class="form-control" name="step_of_niti[]" placeholder="Enter Step Of Niti Name">
-                    </div>
+            <div class="col-md-6">
+                <div class="card-body">
+                    <div class="main-content-label mg-b-5">NITI STEP ${stepCount}</div>
+                    <input type="text" class="form-control" name="step_of_niti[]" placeholder="Enter Step Of Niti Name">
                 </div>
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-success add-step">Add Step</button>
-                    <button type="button" class="btn btn-danger remove-step">Remove</button>
+            </div>
+            <div class="col-md-4">
+                <div class="card-body">
+                    <div class="main-content-label mg-b-5">SEBA NAME</div>
+                    <select class="form-control select2" name="seba_name[]" multiple="multiple">
+                        <option value="">Select Seba</option>
+                        ${`@foreach ($manage_seba as $seba)
+                                        <option value="{{ $seba->seba_name }}">{{ $seba->seba_name }}</option>
+                                    @endforeach`}
+                    </select>
                 </div>
-            `;
+            </div>
+            <div class="col-md-2 mt-3 d-flex justify-content-center">
+                <button type="button" class="btn btn-success add-step me-1">Add Step</button>
+                <button type="button" class="btn btn-danger remove-step">Remove</button>
+            </div>
+        `;
+
                 stepContainer.appendChild(newStep);
+
+                // Initialize Select2 for the newly added dropdown
+                $(newStep).find('.select2').select2();
+
                 updateButtons();
             } else if (event.target.classList.contains('remove-step')) {
                 event.target.closest('.step-item').remove();
                 stepCount--;
                 updateButtons();
             }
+        });
+
+        // Call this once on page load to initialize any existing select elements
+        $(document).ready(function() {
+            $('.select2').select2();
         });
 
         function updateButtons() {
@@ -184,6 +395,48 @@
             });
         }
 
-        updateButtons(); // Initial call to set up buttons
+        // Call updateButtons initially to handle existing steps
+        updateButtons();
+    </script>
+
+    <script>
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('add-item')) {
+                const itemContainer = document.querySelector('.item-container');
+                const newItemRow = document.querySelector('.item-row').cloneNode(true);
+
+                // Clear values for the cloned input fields
+                newItemRow.querySelectorAll('input').forEach(input => input.value = '');
+                newItemRow.querySelector('select').selectedIndex = 0;
+
+                // Update buttons
+                newItemRow.querySelector('.add-item').style.display = 'none';
+                newItemRow.querySelector('.remove-item').style.display = 'inline-block';
+
+                itemContainer.appendChild(newItemRow);
+            } else if (event.target.classList.contains('remove-item')) {
+                event.target.closest('.item-row').remove();
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const datetimeInput = document.getElementById("datetimepicker");
+
+            // Get the current date and time
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+
+            // Format as 'YYYY-MM-DD HH:MM'
+            const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
+
+            // Set the value of the input field
+            datetimeInput.value = formattedDateTime;
+        });
     </script>
 @endsection
