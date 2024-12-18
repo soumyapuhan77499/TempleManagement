@@ -16,133 +16,213 @@
 								<li class="slide">
 									<a class="side-menu__item" data-bs-toggle="slide" href="{{route('templedashboard')}}"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M3 13h1v7c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2v-7h1a1 1 0 0 0 .707-1.707l-9-9a.999.999 0 0 0-1.414 0l-9 9A1 1 0 0 0 3 13zm7 7v-5h4v5h-4zm2-15.586 6 6V15l.001 5H16v-5c0-1.103-.897-2-2-2h-4c-1.103 0-2 .897-2 2v5H6v-9.586l6-6z"/></svg><span class="side-menu__label">Dashboard</span></a>
 								</li>
+
+								<li class="slide">
+									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg><span class="side-menu__label">Temple About</span><i class="angle fe fe-chevron-right"></i></a>
+									<ul class="slide-menu">
+										{{-- <li class="side-menu__label1"><a href="javascript:void(0);"></a></li> --}}
+										<li><a class="slide-item" href="{{route('templeuser.templeAbout')}}">About</a></li>
+										<li><a class="slide-item" href="{{route('templeuser.photos')}}">Photos/Videos</a></li>
+										<li><a class="slide-item" href="{{route('templeuser.socialmedia')}}">Social Media</a></li>
+									
+										<li class="sub-slide">
+											<a class="slide-item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">News</span><i class="sub-angle fe fe-chevron-down me-4"></i></a>
+											<ul class="sub-slide-menu">
+												<li><a class="sub-side-menu__item" href="{{route('templenews.addNews')}}">Add News</a></li>
+												<li><a class="sub-side-menu__item" href="{{route('templenews.manageNews')}}">Manage News</a></li>
+												
+											</ul>
+										</li>
+
+										<li class="sub-slide">
+											<a class="slide-item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">Inside Temples</span><i class="sub-angle fe fe-chevron-down me-4"></i></a>
+											<ul class="sub-slide-menu">
+												<li><a class="sub-side-menu__item"  href="{{ route('templeuser.addinsidetemple') }}">Add Temples</a></li>
+												<li><a class="sub-side-menu__item" href="{{route('templeuser.manageinsidetemple')}}">Manage Temples</a></li>
+												
+											</ul>
+										</li>
+
+									</ul>
+								</li>
 								
 								<li class="slide">
-									<a class="side-menu__item" href="{{route('templeuser.templeAbout')}}"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11 4h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6h-4v-4h4v4zM17 3c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2zM7 13c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple About</span></a>
+									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg><span class="side-menu__label">Temple Manage</span><i class="angle fe fe-chevron-right"></i></a>
+									<ul class="slide-menu">
+										
+										<li class="sub-slide">
+											<a class="slide-item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">Trust</span><i class="sub-angle fe fe-chevron-down me-4"></i></a>
+											<ul class="sub-slide-menu">
+												<li><a class="sub-side-menu__item" href="{{route('templeuser.addtrustmember')}}">Add Trust Member</a></li>
+												<li><a class="sub-side-menu__item" href="{{route('templeuser.managetrustmember')}}">Manage Trust Member</a></li>
+												
+											</ul>
+										</li>
+
+										<li class="sub-slide">
+											<a class="slide-item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">Committee</span><i class="sub-angle fe fe-chevron-down me-4"></i></a>
+											<ul class="sub-slide-menu">
+												<li><a class="sub-side-menu__item"  href="{{route('templeuser.addnewcommittee')}}">Create New Committee</a></li>
+												<li><a class="sub-side-menu__item" href="{{route('templeuser.addcommitteemember')}}">Add Committee Member</a></li>
+												<li><a class="sub-side-menu__item" href="{{route('templeuser.mngcommitteehierarchy')}}">Hierarchy Manage</a></li>
+												<li><a class="sub-side-menu__item" href="{{route('templeuser.managecommitteemember')}}">Manage Committee Member</a></li>
+												<li><a class="sub-side-menu__item" href="{{route('templeuser.addsubcommittee')}}">Add Sub Committee</a></li>
+
+												
+											</ul>
+										</li>
+
+									</ul>
+								</li>
+
+								<li class="slide">
+									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg><span class="side-menu__label">Temple Ritual</span><i class="angle fe fe-chevron-right"></i></a>
+									<ul class="slide-menu">
+										
+										<li class="sub-slide">
+											<a class="slide-item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">Ritual</span><i class="sub-angle fe fe-chevron-down me-4"></i></a>
+											<ul class="sub-slide-menu">
+												<li><a class="sub-side-menu__item" href="{{route('templeuser.add-dailyritual')}}">Add Daily Ritual</a></li>
+												<li><a class="sub-side-menu__item" href="{{route('templeuser.manage-dailyritual')}}">Manage Daily Ritual</a></li>
+												<li><a class="sub-side-menu__item" href="{{route('templeuser.add-yearlyritual')}}">Add Yearly Ritual</a></li>
+												<li><a class="sub-side-menu__item" href="{{route('templeuser.manage-yearlyritual')}}">Manage Yearly Ritual</a></li>
+
+												
+											</ul>
+										</li>
+
+										<li class="sub-slide">
+											<a class="slide-item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">Festivals</span><i class="sub-angle fe fe-chevron-down me-4"></i></a>
+											<ul class="sub-slide-menu">
+												<li><a class="sub-side-menu__item"  href="{{route('templefestival.addFestival')}}">Add Festival</a></li>
+												<li><a class="sub-side-menu__item" href="{{route('templefestival.managefestivals')}}">Manage Festivals</a></li>
+
+											</ul>
+										</li>
+
+										<li class="sub-slide">
+											<a class="slide-item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">Niti</span><i class="sub-angle fe fe-chevron-down me-4"></i></a>
+											<ul class="sub-slide-menu">
+												<li><a class="sub-side-menu__item"  href="{{ route('templeuser.add-niti') }}">Add Niti</a></li>
+												<li><a class="sub-side-menu__item" href="{{route('templeuser.add-seba')}}">Add Seba</a></li>
+												<li><a class="sub-side-menu__item" href="{{route('templeuser.add-sebayat')}}">Add Sebayat</a></li>
+												<li><a class="sub-side-menu__item" href="{{route('templeuser.add-deity')}}">Add Deity</a></li>
+
+
+											</ul>
+										</li>
+										
+									</ul>
 								</li>
 								
 								<li class="slide">
-									<a class="side-menu__item" href="{{route('templeuser.photos')}}"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11 4h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6h-4v-4h4v4zM17 3c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2zM7 13c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Photos/Videos</span></a>
-								</li>
-
-								<li class="slide">
-									<a class="side-menu__item" href="{{route('templeuser.socialmedia')}}"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11 4h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6h-4v-4h4v4zM17 3c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2zM7 13c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Social Media</span></a>
-								</li>
-								<li class="slide">
-									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Trust</span><i class="angle fe fe-chevron-right"></i></a>
-									<ul class="slide-menu">
-										<li><a class="slide-item" href="{{route('templeuser.addtrustmember')}}">Add Trust Member</a></li>
-										<li><a class="slide-item" href="{{route('templeuser.managetrustmember')}}">Manage Trust Member</a></li>
-									</ul>
-								</li>
-								<li class="slide">
-									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Committee</span><i class="angle fe fe-chevron-right"></i></a>
-									<ul class="slide-menu">
-										{{-- <li><a class="slide-item" href="{{route('templeuser.addnewcommittee')}}">Create New Committee</a></li>
-										<li><a class="slide-item" href="{{route('templeuser.addtrustmember')}}">Add Committee Member</a></li>
-										<li><a class="slide-item" href="{{route('templeuser.mnghierarchy')}}">Hierarchy Manage</a></li>
-										<li><a class="slide-item" href="{{route('templeuser.managetrustmember')}}">Manage Committee Member</a></li>
-										<li><a class="slide-item" href="{{route('templeuser.addsubcommittee')}}">Add Sub Committee</a></li> --}}
-
-										<li><a class="slide-item" href="{{route('templeuser.addnewcommittee')}}">Create New Committee</a></li>
-										<li><a class="slide-item" href="{{route('templeuser.addcommitteemember')}}">Add Committee Member</a></li>
-										<li><a class="slide-item" href="{{route('templeuser.mngcommitteehierarchy')}}">Hierarchy Manage</a></li>
-										<li><a class="slide-item" href="{{route('templeuser.managecommitteemember')}}">Manage Committee Member</a></li>
-										<li><a class="slide-item" href="{{route('templeuser.addsubcommittee')}}">Add Sub Committee</a></li>
-										
-									</ul>
-								</li>
-
-								<li class="slide">
-									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Bank</span><i class="angle fe fe-chevron-right"></i></a>
-									<ul class="slide-menu">
-										<li><a class="slide-item" href="{{route('templeuser.bankdetails')}}">Add Bank</a></li>
-										<li><a class="slide-item" href="{{route('templeuser.managebank')}}">Manage Bank</a></li>
-									</ul>
-								</li>
-
-								<li class="slide">
-									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Ritual</span><i class="angle fe fe-chevron-right"></i></a>
-									<ul class="slide-menu">
-										<li class="side-menu__label1"><a href="javascript:void(0);">Apps</a></li>
-										<li><a class="slide-item" href="{{route('templeuser.add-dailyritual')}}">Add Daily Ritual</a></li>
-										<li><a class="slide-item" href="{{route('templeuser.manage-dailyritual')}}">Manage Daily Ritual</a></li>
-										<li><a class="slide-item" href="{{route('templeuser.add-yearlyritual')}}">Add Yearly Ritual</a></li>
-										<li><a class="slide-item" href="{{route('templeuser.manage-yearlyritual')}}">Manage Yearly Ritual</a></li>
-									</ul>
-								</li>
-								<li class="slide">
-									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Festivals</span><i class="angle fe fe-chevron-right"></i></a>
-									<ul class="slide-menu">
-										
-										<li><a class="slide-item" href="{{route('templefestival.addFestival')}}">Add Festival</a></li>
-										<li><a class="slide-item" href="{{route('templefestival.managefestivals')}}">Manage Festivals</a></li>
-										
-									</ul>
-								</li>
-								<li class="slide">
-									<a class="side-menu__item" href="https://peoplecount.mandirparikrama.com/dashboard" target="_blank"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11 4h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6h-4v-4h4v4zM17 3c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2zM7 13c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Manage Devotee Count</span></a>
-								</li>
-								<li class="slide">
-									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple News</span><i class="angle fe fe-chevron-right"></i></a>
-									<ul class="slide-menu">
-										
-										<li><a class="slide-item" href="{{route('templenews.addNews')}}">Add News</a></li>
-										<li><a class="slide-item" href="{{route('templenews.manageNews')}}">Manage News</a></li>
-										
-									</ul>
-								</li>
-
-								<li class="slide">
-									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Darshan</span><i class="angle fe fe-chevron-right"></i></a>
+									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg><span class="side-menu__label">Temple Darshan</span><i class="angle fe fe-chevron-right"></i></a>
 									<ul class="slide-menu">
 										<li><a class="slide-item" href="http://onlineq.mandirparikrama.com/" target="_blank">Darshan Booking For Differently Abled</a></li>
-										
 										<li><a class="slide-item" href="{{route('add-templedarshan')}}">Add Darshan</a></li>
 										<li><a class="slide-item" href="{{route('manage-templedarshan')}}">Manage Darshan</a></li>
-										
+
 									</ul>
 								</li>
 
 								<li class="slide">
-									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Prasad</span><i class="angle fe fe-chevron-right"></i></a>
+									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fa fa-shopping-cart menu-custom-icon" aria-hidden="true"></i><span class="side-menu__label">Temple Booking</span><i class="angle fe fe-chevron-right"></i></a>
 									<ul class="slide-menu">
 										
-										<li><a class="slide-item" href="{{route('templeprasad.prasad')}}">Add Prasad Details</a></li>
-										<li><a class="slide-item" href="{{route('templeprasad.manageprasad')}}">Manage Prasad</a></li>
+									
+										<li class="sub-slide">
+											<a class="slide-item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">Pooja</span><i class="sub-angle fe fe-chevron-down me-4"></i></a>
+											<ul class="sub-slide-menu">
+												<li><a class="sub-side-menu__item" href="{{route('templepooja.pooja')}}">Add Pooja Booking</a></li>
+												<li><a class="sub-side-menu__item"  href="{{route('templepooja.managepooja')}}">Manage Pooja Booking</a></li>
+																	
+											</ul>
+										</li>
+
+										<li class="sub-slide">
+											<a class="slide-item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">Mandap</span><i class="sub-angle fe fe-chevron-down me-4"></i></a>
+											<ul class="sub-slide-menu">
+												<li><a class="sub-side-menu__item" href="{{route('templemandap.mandap')}}">Add Mandap</a></li>
+												<li><a class="sub-side-menu__item"  href="{{route('templemandap.managemandap')}}">Manage Mandap</a></li>
+																	
+											</ul>
+										</li>
+										<li class="sub-slide">
+											<a class="slide-item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">Prasad</span><i class="sub-angle fe fe-chevron-down me-4"></i></a>
+											<ul class="sub-slide-menu">
+												<li><a class="sub-side-menu__item" href="{{route('templeprasad.prasad')}}">Add Prasad Details</a></li>
+												<li><a class="sub-side-menu__item" href="{{route('templeprasad.manageprasad')}}">Manage Prasad</a></li>
+																	
+											</ul>
+										</li>
 										
+
 									</ul>
 								</li>
 
 								<li class="slide">
-									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Mandap</span><i class="angle fe fe-chevron-right"></i></a>
+									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fa fa-money menu-custom-icon" aria-hidden="true"></i><span class="side-menu__label">Temple Finance</span><i class="angle fe fe-chevron-right"></i></a>
 									<ul class="slide-menu">
 										
-										<li><a class="slide-item" href="{{route('templemandap.mandap')}}">Add Mandap</a></li>
-										<li><a class="slide-item" href="{{route('templemandap.managemandap')}}">Manage Mandap</a></li>
+										<li class="sub-slide">
+											<a class="slide-item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">Bank</span><i class="sub-angle fe fe-chevron-down me-4"></i></a>
+											<ul class="sub-slide-menu">
+												<li><a class="sub-side-menu__item" href="{{route('templeuser.bankdetails')}}">Add Bank</a></li>
+												<li><a class="sub-side-menu__item" href="{{route('templeuser.managebank')}}">Manage Bank</a></li>
+																	
+											</ul>
+										</li>
+
+										<li class="sub-slide">
+											<a class="slide-item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">Donations</span><i class="sub-angle fe fe-chevron-down me-4"></i></a>
+											<ul class="sub-slide-menu">
+												<li><a class="sub-side-menu__item" href="{{route('templedonation.donation')}}">Add Donations</a></li>
+												<li><a class="sub-side-menu__item"  href="{{route('templedonation.manage')}}">Manage Donations</a></li>
+																	
+											</ul>
+										</li>
+										<li><a class="slide-item" href="#">Manage Income</a></li>
 										
+										<li class="sub-slide">
+											<a class="slide-item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">Expenditure</span><i class="sub-angle fe fe-chevron-down me-4"></i></a>
+											<ul class="sub-slide-menu">
+												<li><a class="sub-side-menu__item"  href="{{ route('templeuser.addexpenditure') }}">Add Expenditure</a></li>
+												<li><a class="sub-side-menu__item"  href="{{route('templeuser.manageexpenditure')}}">Manage Expenditure</a></li>
+																	
+											</ul>
+										</li>
+
+										<li class="sub-slide">
+											<a class="slide-item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">Hundi</span><i class="sub-angle fe fe-chevron-down me-4"></i></a>
+											<ul class="sub-slide-menu">
+												<li><a class="sub-side-menu__item" href="{{route('templeuser.managehundi')}}">Manage Hundi</a></li>
+												<li><a class="sub-side-menu__item" href="{{ route('templeuser.addhundicollection') }}">Add Hundi Collection</a></li>
+												<li><a class="sub-side-menu__item" href="{{ route('templeuser.reportHundicollection') }}">Hundi Collection Reports</a></li>
+
+																	
+											</ul>
+										</li>
+									
+
 									</ul>
 								</li>
 
 								<li class="slide">
-									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Pooja</span><i class="angle fe fe-chevron-right"></i></a>
+									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fa fa-cog menu-custom-icon"  aria-hidden="true"></i><span class="side-menu__label">Setting</span><i class="angle fe fe-chevron-right"></i></a>
 									<ul class="slide-menu">
 										
-										<li><a class="slide-item" href="{{route('templepooja.pooja')}}">Add Pooja Booking</a></li>
-										<li><a class="slide-item" href="{{route('templepooja.managepooja')}}">Manage Pooja Booking</a></li>
+										<li class="sub-slide">
+											<a class="slide-item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">Banners</span><i class="sub-angle fe fe-chevron-down me-4"></i></a>
+											<ul class="sub-slide-menu">
+												<li><a class="sub-side-menu__item" href="{{route('templebanner.banner')}}">Add Banner</a></li>
+												<li><a class="sub-side-menu__item" href="{{route('templebanner.managebanner')}}">Manage Banners</a></li>
+																	
+											</ul>
+										</li>
 										
 									</ul>
 								</li>
-
-								<li class="slide">
-									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Banners</span><i class="angle fe fe-chevron-right"></i></a>
-									<ul class="slide-menu">
-										
-										<li><a class="slide-item" href="{{route('templebanner.banner')}}">Add Banner</a></li>
-										<li><a class="slide-item" href="{{route('templebanner.managebanner')}}">Manage Banners</a></li>
-										
-									</ul>
-								</li>
+								
 
 								<li class="slide">
 									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Inventory</span><i class="angle fe fe-chevron-right"></i></a>
@@ -157,30 +237,6 @@
 									</ul>
 								</li>
 								<li class="slide">
-									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Donations</span><i class="angle fe fe-chevron-right"></i></a>
-									<ul class="slide-menu">
-										<li><a class="slide-item" href="{{route('templedonation.donation')}}">Add Donations</a></li>
-										<li><a class="slide-item" href="{{route('templedonation.manage')}}">Manage Donations</a></li>
-										
-									</ul>
-								</li>
-								<li class="slide">
-									<a class="side-menu__item" href="{{route('templedevotees.managedevotees')}}"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11 4h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6h-4v-4h4v4zM17 3c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2zM7 13c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Devotees</span></a>
-								</li>
-
-								<li class="slide">
-									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Finance</span><i class="angle fe fe-chevron-right"></i></a>
-									<ul class="slide-menu">
-										<li><a class="slide-item" href="#">Manage Income</a></li>
-										<li><a class="slide-item" href="{{ route('templeuser.addexpenditure') }}">Add Expenditure</a></li>
-										<li><a class="slide-item" href="{{route('templeuser.manageexpenditure')}}">Manage Expenditure</a></li>
-										<li><a class="slide-item" href="{{route('templeuser.managehundi')}}">Manage Hundi</a></li>
-										<li><a class="slide-item" href="{{ route('templeuser.addhundicollection') }}">Add Hundi Collection</a></li>
-										<li><a class="slide-item" href="{{ route('templeuser.reportHundicollection') }}">Hundi Collection Reports</a></li>
-
-									</ul>
-								</li>
-								<li class="slide">
 									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Vendors</span><i class="angle fe fe-chevron-right"></i></a>
 									<ul class="slide-menu">
 										<li><a class="slide-item" href="{{route('templeuser.addvendor')}}">Add Vendors</a></li>
@@ -188,24 +244,29 @@
 
 									</ul>
 								</li>
-
 								<li class="slide">
-									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Inside Temples</span><i class="angle fe fe-chevron-right"></i></a>
-									<ul class="slide-menu">
-										<li><a class="slide-item" href="{{ route('templeuser.addinsidetemple') }}">Add Temples</a></li>
-										<li><a class="slide-item" href="{{route('templeuser.manageinsidetemple')}}">Manage Temples</a></li>
-									</ul>
+									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Security</span><i class="angle fe fe-chevron-right"></i></a>
+									{{-- <ul class="slide-menu">
+										<li><a class="slide-item" href="{{route('templeuser.addvendor')}}">Add Vendors</a></li>
+										<li><a class="slide-item" href="{{route('templeuser.managevendor')}}">Manage Vendors</a></li>
+
+									</ul> --}}
+								</li>
+								<li class="slide">
+									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Public Seba</span><i class="angle fe fe-chevron-right"></i></a>
+									{{-- <ul class="slide-menu">
+										<li><a class="slide-item" href="{{route('templeuser.addvendor')}}">Add Vendors</a></li>
+										<li><a class="slide-item" href="{{route('templeuser.managevendor')}}">Manage Vendors</a></li>
+
+									</ul> --}}
+								</li>
+								
+								<li class="slide">
+									<a class="side-menu__item" href="{{route('templedevotees.managedevotees')}}"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11 4h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6h-4v-4h4v4zM17 3c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2zM7 13c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Devotees</span></a>
 								</li>
 
 								<li class="slide">
-									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Niti</span><i class="angle fe fe-chevron-right"></i></a>
-									<ul class="slide-menu">
-										<li><a class="slide-item" href="{{ route('templeuser.add-niti') }}">Add Niti</a></li>
-										<li><a class="slide-item" href="{{route('templeuser.add-seba')}}">Add Seba</a></li>
-										<li><a class="slide-item" href="{{route('templeuser.add-sebayat')}}">Add Sebayat</a></li>
-										<li><a class="slide-item" href="{{route('templeuser.add-deity')}}">Add Deity</a></li>
-
-									</ul>
+									<a class="side-menu__item" href="https://peoplecount.mandirparikrama.com/dashboard" target="_blank"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11 4h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6h-4v-4h4v4zM17 3c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2zM7 13c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Manage Devotee Count</span></a>
 								</li>
 								
 								

@@ -101574,3 +101574,18 @@ a.text-dark:hover, a.text-dark:focus {
 .btn-w-lg {
   min-width: 150px;
 }
+
+
+
+.menu-custom-icon{
+  font-size: 16px;
+    line-height: 0;
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    border-radius: 2px;
+    text-align: center;
+    color: #7b8191;
+    fill: #7b8191;
+}
