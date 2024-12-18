@@ -92,7 +92,7 @@
     
                         <div class="row">
                             <!-- Language Selection -->
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="card-body">
                                     <div class="main-content-label mg-b-5">Language</div>
                                     <select class="form-control" id="language" name="language">
@@ -111,11 +111,26 @@
                                     <input type="text" class="form-control" id="niti_name" name="niti_name" placeholder="Enter Niti Name">
                                 </div>
                             </div>
+                               
     
-                            <!-- Date & Time Picker -->
-                            <div class="col-md-3">
+                            <div class="col-md-4" style="margin-top: 30px">
+                                <div class="form-group row">
+                                    <label class="custom-switch">
+                                        <span class="custom-switch-description tx-15  mg-b-5">Special Niti</span>
+                                        <input type="checkbox" name="niti_type" value="special" class="custom-switch-input" id="specialNiti" onchange="toggleNitiType('special')">
+                                        <span class="custom-switch-indicator custom-switch-indicator-xl custom-square"></span>
+                                    </label>
+                                    <label class="custom-switch">
+                                        <span class="custom-switch-description tx-15 me-2">Daily Niti</span>
+                                        <input type="checkbox" name="niti_type" value="daily" class="custom-switch-input" id="dailyNiti" onchange="toggleNitiType('daily')">
+                                        <span class="custom-switch-indicator custom-switch-indicator-xl custom-square"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                             <div class="col-md-3">
                                 <div class="card-body">
-                                    <div class="main-content-label mg-b-5">Date & Time Picker</div>
+                                    <div class="main-content-label mg-b-5">Date & Time</div>
                                     <div class="input-group">
                                         <div class="input-group-text">
                                             <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
@@ -124,20 +139,8 @@
                                     </div>
                                 </div>
                             </div>
-    
-                            <div class="col-md-3 mt-3">
-                                <div class="form-group">
-                                    <label class="custom-switch">
-                                        <span class="custom-switch-description tx-20 me-2">Special Niti</span>
-                                        <input type="checkbox" name="niti_type" class="custom-switch-input">
-                                        <span class="custom-switch-indicator custom-switch-indicator-xl custom-square"></span>
-                                    </label>
-                                    <p class="text-danger d-block mt-2" style="font-size: 11px">
-                                        If this Niti is not special, it will be saved as a daily Niti.
-                                    </p>
-                                </div>
-                            </div>
-    
+                            
+                          
                             <!-- Niti About Textarea -->
                             <div class="col-md-12">
                                 <div class="card-body">
@@ -257,7 +260,7 @@
         </div>
     
         <div class="row">
-            <div class="col-md-12 text-center">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
                         <div class="main-content-label">Description</div>
@@ -439,4 +442,14 @@
             datetimeInput.value = formattedDateTime;
         });
     </script>
+
+<script>
+    function toggleNitiType(selectedType) {
+        if (selectedType === 'special') {
+            document.getElementById('dailyNiti').checked = false;
+        } else if (selectedType === 'daily') {
+            document.getElementById('specialNiti').checked = false;
+        }
+    }
+</script>
 @endsection
