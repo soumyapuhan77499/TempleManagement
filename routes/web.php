@@ -39,6 +39,7 @@ use App\Http\Controllers\Superadmin\TempleTitleController;
 
 // Niti Controller 
 use App\Http\Controllers\TempleUser\NitiController;
+use App\Http\Controllers\TempleUser\PanjiController;
 use App\Http\Controllers\TempleUser\SebakController;
 use App\Http\Controllers\TempleUser\DeityController;
 
@@ -317,6 +318,13 @@ Route::prefix('templeuser')->middleware('templeauth')->group(function () {
         Route::get('admin/edit-niti-master/{id}','editNitiMaster')->name('editNitiMaster');
         Route::put('admin/update-niti-master/{id}', 'updateNitiMaster')->name('updateNitiMaster');
     
+    });
+
+    Route::controller(PanjiController::class)->group(function(){
+        Route::get('admin/add-panji','addPanji')->name('templeuser.addPanji');
+        Route::post('admin/save-panji', 'savePanjiDetails')->name('templeuser.savePanji');
+        Route::post('admin/update-panji/{id}', 'updatePanjiDetails')->name('templeuser.updatePanji');
+
     });
 
     Route::controller(SebakController::class)->group(function(){

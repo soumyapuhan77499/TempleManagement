@@ -150,7 +150,25 @@
                     </div>
                 </div>
             </div>
-            
+
+
+            <div class="pd-b-0 main-content-calendar pt-0">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Calendar View</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="col-md-12">
+                                    <div id="calendar2"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
         </div>
     </div>
 

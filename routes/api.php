@@ -27,6 +27,7 @@ use App\Http\Controllers\Api\TempleDonationController;
 use App\Http\Controllers\Api\TemplePrasadController;
 use App\Http\Controllers\Api\TempleCommitteeController;
 use App\Http\Controllers\Api\ReportHundiCollection;
+use App\Http\Controllers\Api\PanjiController;
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -183,6 +184,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
       Route::controller(TempleHundiCollectionController::class)->group(function() {
         Route::post('/save-hundi-collection', 'saveHundiCollection');
         Route::get('/hundi-list', 'hundiList');
+      });
+
+      Route::controller(PanjiController::class)->group(function() {
+        Route::get('/get-panjidetails', 'getPanjiDetails');
       });
 
     

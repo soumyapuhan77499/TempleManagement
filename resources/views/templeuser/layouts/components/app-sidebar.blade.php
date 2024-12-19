@@ -86,8 +86,6 @@
 												<li><a class="sub-side-menu__item" href="{{route('templeuser.manage-dailyritual')}}">Manage Daily Ritual</a></li>
 												<li><a class="sub-side-menu__item" href="{{route('templeuser.add-yearlyritual')}}">Add Yearly Ritual</a></li>
 												<li><a class="sub-side-menu__item" href="{{route('templeuser.manage-yearlyritual')}}">Manage Yearly Ritual</a></li>
-
-												
 											</ul>
 										</li>
 
@@ -107,8 +105,13 @@
 												<li><a class="sub-side-menu__item" href="{{route('templeuser.add-seba')}}">Add Seba</a></li>
 												<li><a class="sub-side-menu__item" href="{{route('templeuser.add-sebayat')}}">Add Sebayat</a></li>
 												<li><a class="sub-side-menu__item" href="{{route('templeuser.add-deity')}}">Add Deity</a></li>
-
-
+											</ul>
+										</li>
+										
+										<li class="sub-slide">
+											<a class="slide-item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">Panji</span><i class="sub-angle fe fe-chevron-down me-4"></i></a>
+											<ul class="sub-slide-menu">
+												<li><a class="sub-side-menu__item"  href="{{ route('templeuser.addPanji') }}">Add Panji</a></li>
 											</ul>
 										</li>
 										
@@ -121,7 +124,6 @@
 										<li><a class="slide-item" href="http://onlineq.mandirparikrama.com/" target="_blank">Darshan Booking For Differently Abled</a></li>
 										<li><a class="slide-item" href="{{route('add-templedarshan')}}">Add Darshan</a></li>
 										<li><a class="slide-item" href="{{route('manage-templedarshan')}}">Manage Darshan</a></li>
-
 									</ul>
 								</li>
 
@@ -129,13 +131,11 @@
 									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fa fa-shopping-cart menu-custom-icon" aria-hidden="true"></i><span class="side-menu__label">Temple Booking</span><i class="angle fe fe-chevron-right"></i></a>
 									<ul class="slide-menu">
 										
-									
 										<li class="sub-slide">
 											<a class="slide-item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">Pooja</span><i class="sub-angle fe fe-chevron-down me-4"></i></a>
 											<ul class="sub-slide-menu">
 												<li><a class="sub-side-menu__item" href="{{route('templepooja.pooja')}}">Add Pooja Booking</a></li>
 												<li><a class="sub-side-menu__item"  href="{{route('templepooja.managepooja')}}">Manage Pooja Booking</a></li>
-																	
 											</ul>
 										</li>
 
