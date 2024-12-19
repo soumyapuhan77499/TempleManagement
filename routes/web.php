@@ -23,6 +23,9 @@ use App\Http\Controllers\TempleUser\TempleTrustController;
 use App\Http\Controllers\TempleUser\TempleDonationController;
 use App\Http\Controllers\TempleUser\TempleCommitteeController;
 use App\Http\Controllers\TempleUser\TempleHundiController;
+use App\Http\Controllers\TempleUser\TempleBeshaController;
+use App\Http\Controllers\TempleUser\TempleItemController;
+
 use App\Http\Controllers\Reports\TempleHundiCollectionReport;
 
 
@@ -303,6 +306,27 @@ Route::prefix('templeuser')->middleware('templeauth')->group(function () {
         Route::get('/report-temple-hundi-collection', 'reportHundiCollection')->name('templeuser.reportHundicollection');
         Route::post('/search-temple-hundi-collection', 'searchHundiCollection')->name('templeuser.searchHundiCollection');
         Route::get('/hundi-collection-cashtray/{id}',  'showCashTray')->name('templeuser.collectionCashTray');
+    });
+
+    Route::controller(TempleBeshaController::class)->group(function() {
+        Route::get('/temple-manage-besha', 'templemanagebesha')->name('templeuser.managebesha');
+        Route::get('/add-besha', 'addbesha')->name('templeuser.addbesha');
+        Route::post('/save-temple-besha', 'savebesha')->name('templeuser.savebesha');
+
+        Route::get('temple/besha/edit/{id}',  'edit')->name('templeuser.besha.edit');
+        Route::put('temple/besha/update/{id}', 'update')->name('templeuser.besha.update');
+        Route::get('temple/besha/delete/{id}',  'delete')->name('templeuser.besha.delete');
+
+    });
+
+    Route::controller(TempleItemController::class)->group(function() {
+        Route::get('/temple-manage-item', 'templemanageitem')->name('templeuser.manageitems');
+        Route::get('/add-item', 'additem')->name('templeuser.additem');
+        Route::post('/save-temple-item', 'saveitem')->name('templeuser.saveitem');
+        Route::get('/edit-item/{id}', 'edititem')->name('templeuser.edititem');
+        Route::post('/update-item/{id}', 'updateitem')->name('templeuser.updateitem');
+        Route::delete('/delete-item/{id}', 'deleteitem')->name('templeuser.deleteitem');
+
     });
 
 });
