@@ -18,7 +18,7 @@
 								</li>
 
 								<li class="slide">
-									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg><span class="side-menu__label">Temple About</span><i class="angle fe fe-chevron-right"></i></a>
+									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><img src="{{asset('assets/img/brand/info.png')}}" style="height: 20px;width: 20px" alt="logo"><span class="side-menu__label" style="margin-left: 10px">Temple About</span><i class="angle fe fe-chevron-right"></i></a>
 									<ul class="slide-menu">
 										{{-- <li class="side-menu__label1"><a href="javascript:void(0);"></a></li> --}}
 										<li><a class="slide-item" href="{{route('templeuser.templeAbout')}}">About</a></li>
@@ -47,7 +47,7 @@
 								</li>
 								
 								<li class="slide">
-									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg><span class="side-menu__label">Temple Manage</span><i class="angle fe fe-chevron-right"></i></a>
+									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><img src="{{asset('assets/img/brand/management.png')}}" style="height: 20px;width: 20px" alt="logo"><span class="side-menu__label" style="margin-left: 10px">Temple Manage</span><i class="angle fe fe-chevron-right"></i></a>
 									<ul class="slide-menu">
 										
 										<li class="sub-slide">
@@ -76,7 +76,7 @@
 								</li>
 
 								<li class="slide">
-									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg><span class="side-menu__label">Temple Ritual</span><i class="angle fe fe-chevron-right"></i></a>
+									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><img src="{{asset('assets/img/brand/hands.png')}}" style="height: 20px;width: 20px" alt="logo"><span class="side-menu__label" style="margin-left: 10px">Temple Ritual</span><i class="angle fe fe-chevron-right"></i></a>
 									<ul class="slide-menu">
 										
 										<li class="sub-slide">
@@ -119,7 +119,7 @@
 								</li>
 								
 								<li class="slide">
-									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg><span class="side-menu__label">Temple Darshan</span><i class="angle fe fe-chevron-right"></i></a>
+									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><img src="{{asset('assets/img/brand/pray.png')}}" style="height: 20px;width: 20px" alt="logo"><span class="side-menu__label" style="margin-left: 10px">Temple Darshan</span><i class="angle fe fe-chevron-right"></i></a>
 									<ul class="slide-menu">
 										<li><a class="slide-item" href="http://onlineq.mandirparikrama.com/" target="_blank">Darshan Booking For Differently Abled</a></li>
 										<li><a class="slide-item" href="{{route('add-templedarshan')}}">Add Darshan</a></li>
@@ -128,7 +128,7 @@
 								</li>
 
 								<li class="slide">
-									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fa fa-shopping-cart menu-custom-icon" aria-hidden="true"></i><span class="side-menu__label">Temple Booking</span><i class="angle fe fe-chevron-right"></i></a>
+									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><img src="{{asset('assets/img/brand/booking.png')}}" style="height: 20px;width: 20px" alt="logo"><span class="side-menu__label" style="margin-left: 10px">Temple Booking</span><i class="angle fe fe-chevron-right"></i></a>
 									<ul class="slide-menu">
 										
 										<li class="sub-slide">
@@ -161,7 +161,7 @@
 								</li>
 
 								<li class="slide">
-									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fa fa-money menu-custom-icon" aria-hidden="true"></i><span class="side-menu__label">Temple Finance</span><i class="angle fe fe-chevron-right"></i></a>
+									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><img src="{{asset('assets/img/brand/accounts.png')}}" style="height: 20px;width: 20px" alt="logo"><span class="side-menu__label" style="margin-left: 10px">Temple Finance</span><i class="angle fe fe-chevron-right"></i></a>
 									<ul class="slide-menu">
 										
 										<li class="sub-slide">
@@ -208,7 +208,7 @@
 								</li>
 
 								<li class="slide">
-									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fa fa-cog menu-custom-icon"  aria-hidden="true"></i><span class="side-menu__label">Setting</span><i class="angle fe fe-chevron-right"></i></a>
+									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><img src="{{asset('assets/img/brand/settings.png')}}" style="height: 20px;width: 20px" alt="logo"><span class="side-menu__label" style="margin-left: 10px">Temple Setting</span><i class="angle fe fe-chevron-right"></i></a>
 									<ul class="slide-menu">
 										
 										<li class="sub-slide">
@@ -225,7 +225,7 @@
 								
 
 								<li class="slide">
-									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Inventory</span><i class="angle fe fe-chevron-right"></i></a>
+									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><img src="{{asset('assets/img/brand/inventory.png')}}" style="height: 20px;width: 20px" alt="logo"><span class="side-menu__label" style="margin-left: 10px">Temple Inventory</span><i class="angle fe fe-chevron-right"></i></a>
 									<ul class="slide-menu">
 										
 										<li><a class="slide-item" href="{{route('templeinventory.mnginventorycategory')}}">Manage Inventory Category</a></li>
@@ -237,7 +237,7 @@
 									</ul>
 								</li>
 								<li class="slide">
-									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Vendors</span><i class="angle fe fe-chevron-right"></i></a>
+									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><img src="{{asset('assets/img/brand/vendor.png')}}" style="height: 20px;width: 20px" alt="logo"><span class="side-menu__label" style="margin-left: 10px">Temple Vendors</span><i class="angle fe fe-chevron-right"></i></a>
 									<ul class="slide-menu">
 										<li><a class="slide-item" href="{{route('templeuser.addvendor')}}">Add Vendors</a></li>
 										<li><a class="slide-item" href="{{route('templeuser.managevendor')}}">Manage Vendors</a></li>
@@ -245,7 +245,7 @@
 									</ul>
 								</li>
 								<li class="slide">
-									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Security</span><i class="angle fe fe-chevron-right"></i></a>
+									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><img src="{{asset('assets/img/brand/cyber-security.png')}}" style="height: 20px;width: 20px" alt="logo"><span class="side-menu__label" style="margin-left: 10px">Temple Security</span><i class="angle fe fe-chevron-right"></i></a>
 									{{-- <ul class="slide-menu">
 										<li><a class="slide-item" href="{{route('templeuser.addvendor')}}">Add Vendors</a></li>
 										<li><a class="slide-item" href="{{route('templeuser.managevendor')}}">Manage Vendors</a></li>
@@ -253,20 +253,20 @@
 									</ul> --}}
 								</li>
 								<li class="slide">
-									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Public Seba</span><i class="angle fe fe-chevron-right"></i></a>
+									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><img src="{{asset('assets/img/brand/service.png')}}" style="height: 20px;width: 20px" alt="logo"><span class="side-menu__label" style="margin-left: 10px">Temple Public Seba</span><i class="angle fe fe-chevron-right"></i></a>
 									<ul class="slide-menu">
 										<li><a class="slide-item" href="{{route('templeuser.manageitems')}}">Manage Items</a></li>
 										<li><a class="slide-item" href="{{route('templeuser.managebesha')}}">Manage Besha</a></li>
-
+										<li><a class="slide-item" href="{{route('templeuser.showbesha')}}">Show Besha</a></li>
 									</ul>
 								</li>
 								
 								<li class="slide">
-									<a class="side-menu__item" href="{{route('templedevotees.managedevotees')}}"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11 4h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6h-4v-4h4v4zM17 3c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2zM7 13c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Temple Devotees</span></a>
+									<a class="side-menu__item" href="{{route('templedevotees.managedevotees')}}"><img src="{{asset('assets/img/brand/man.png')}}" style="height: 20px;width: 20px" alt="logo"><span class="side-menu__label" style="margin-left: 10px">Temple Devotees</span></a>
 								</li>
 
 								<li class="slide">
-									<a class="side-menu__item" href="https://peoplecount.mandirparikrama.com/dashboard" target="_blank"><svg xmlns="http://www.w3.org/2000/svg"  class="side-menu__icon" width="24" height="24" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11 4h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6h-4v-4h4v4zM17 3c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2zM7 13c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/></svg><span class="side-menu__label">Manage Devotee Count</span></a>
+									<a class="side-menu__item" href="https://peoplecount.mandirparikrama.com/dashboard" target="_blank"><img src="{{asset('assets/img/brand/counting.png')}}" style="height: 20px;width: 20px" alt="logo"><span class="side-menu__label" style="margin-left: 10px">Temple Devotee Count</span></a>
 								</li>
 								
 								

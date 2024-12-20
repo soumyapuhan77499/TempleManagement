@@ -193,5 +193,42 @@ public function delete($id)
         // Redirect back with success message
         return redirect()->route('templeuser.managebesha')->with('success', 'Besha deleted successfully!');
     }
+    
+    public function showBesha()
+    {
+        // Fetch all Besha data for calendar
+        $events = TempleBesha::all()->map(function ($besha) {
+            return [
+                'id' => $besha->id,
+                'title' => $besha->besha_name,
+                'start' => $besha->date,
+                'end' => $besha->date,
+                'description' => $besha->description,
+            ];
+        });
+    
+        // Fetch today's Besha list
+        $today = now()->format('Y-m-d');
+        $todayBeshaList = TempleBesha::where('date', $today)->get(['besha_name', 'estimated_time', 'total_time']);
+    
+        return view('templeuser.templebesha.temple-show-besha', compact('events', 'todayBeshaList'));
+    }
+    
+
+    public function showBeshaDetails($date)
+    {
+        // Fetch all Besha records ordered by date in ascending order
+        $beshas = TempleBesha::whereDate('date', '=', $date)->orderBy('date', 'asc')->get();
+        
+        // If no records are found, redirect with an error
+        if ($beshas->isEmpty()) {
+            return redirect()->route('templeuser.templebesha.temple-show-besha')->with('error', 'No Besha found for the selected date.');
+        }
+    
+        // Return the view with the Besha records
+        return view('templeuser.templebesha.temple-show-besha-details', compact('beshas'));
+    }
+    
+    
 
 }

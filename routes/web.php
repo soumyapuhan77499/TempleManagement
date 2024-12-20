@@ -318,6 +318,12 @@ Route::prefix('templeuser')->middleware('templeauth')->group(function () {
         Route::put('temple/besha/update/{id}', 'update')->name('templeuser.besha.update');
         Route::get('temple/besha/delete/{id}',  'delete')->name('templeuser.besha.delete');
 
+// calendar view
+
+        Route::get('/temple-show-besha', 'showBesha')->name('templeuser.showbesha');
+        Route::get('/temple-besha-details/{date}','showBeshaDetails')->name('temple.beshaDetails');
+
+
     });
 
     Route::controller(TempleItemController::class)->group(function() {

@@ -150,25 +150,7 @@
                     </div>
                 </div>
             </div>
-
-
-            <div class="pd-b-0 main-content-calendar pt-0">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Calendar View</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="col-md-12">
-                                    <div id="calendar2"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
+            
         </div>
     </div>
 
@@ -226,11 +208,11 @@
                         rituals.forEach(function(ritual) {
                             var listItem = document.createElement('li');
                             listItem.innerHTML = `
-        <strong>Ritual Name:</strong> ${ritual.ritual_name}<br>
-        <strong>Time:</strong> ${ritual.ritual_start_time} - ${ritual.ritual_end_time}<br>
-        <strong>Duration:</strong> ${ritual.ritual_duration}<br><br>
-        <img src="${assetBaseUrl}${ritual.ritual_image}" style="width: 100px; height: 100px; object-fit: cover;" alt="${ritual.ritual_name}">
-    `;
+                        <strong>Ritual Name:</strong> ${ritual.ritual_name}<br>
+                        <strong>Time:</strong> ${ritual.ritual_start_time} - ${ritual.ritual_end_time}<br>
+                        <strong>Duration:</strong> ${ritual.ritual_duration}<br><br>
+                        <img src="${assetBaseUrl}${ritual.ritual_image}" style="width: 100px; height: 100px; object-fit: cover;" alt="${ritual.ritual_name}">
+                    `;
                             ritualList.appendChild(listItem);
                         });
 
