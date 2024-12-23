@@ -6,7 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TempleDressColor;
 use App\Models\TempleBesha;
+use App\Models\BeshaBooking;
 use App\Models\DeityDressItem;
+use Carbon\Carbon;
+use Illuminate\Support\Collection;
+
 // use Illuminate\Support\Facades\Log;
 class TempleBeshaController extends Controller
 {
@@ -17,11 +21,15 @@ class TempleBeshaController extends Controller
         // Return the view with the data
         return view('templeuser.templebesha.temple-manage-besha', compact('temple_beshas'));
     }
+
     public function addbesha(){
+
         $dressColors = TempleDressColor::all();
         $items = DeityDressItem::where('status', 'active')
        ->get();
+
         return view('templeuser.templebesha.temple-add-besha',compact('dressColors','items'));
+        
     }
     // Method to save the Besha data (form submission)
     public function savebesha(Request $request)
@@ -32,31 +40,28 @@ class TempleBeshaController extends Controller
             'items' => 'required|array',
             'description' => 'nullable|string',
             'estimated_time' => 'required|date_format:H:i',
-            'time_period' => 'required|in:AM,PM',
-            'date' => 'nullable|date',
             'weekly_day' => 'nullable|string',
             'dress_color' => 'nullable|string',
-
             'special_day' => 'nullable|string',
             'photos' => 'nullable|array',
             'photos.*' => 'image|mimes:jpeg,png,jpg|max:2048'
         ]);
-
+    
         // Save the Besha data
         $besha = new TempleBesha;
         $besha->besha_name = $request->besha_name;
         $besha->items = implode(',', $request->items); // Store items as comma-separated string
         $besha->description = $request->description;
         $besha->estimated_time = $request->estimated_time;
-        $besha->time_period =  $request->time_period;
-
         $besha->total_time = $request->total_time;
         $besha->date = $request->date;
-
+    
         $besha->weekly_day = $request->weekly_day;
         $besha->dress_color = $request->dress_color;
-        $besha->special_day = $request->special_day;
-
+    
+        // Check if 'special_day' is checked and save "yes" or "no"
+        $besha->special_day = $request->has('special_day') ? 'yes' : 'no';
+    
         // Handle photo uploads
         if ($request->hasFile('photos')) {
             $photos = [];
@@ -66,14 +71,14 @@ class TempleBeshaController extends Controller
             }
             $besha->photos = implode(',', $photos);
         }
-      
-
+    
         // Save the Besha record to the database
         $besha->save();
-
-        // Redirect to a success page (you can change this URL as needed)
+    
+        // Redirect to a success page
         return redirect()->route('templeuser.managebesha')->with('success', 'Besha added successfully');
     }
+    
     public function edit($id)
 {
     $besha = TempleBesha::findOrFail($id);
@@ -91,7 +96,6 @@ public function update(Request $request, $id)
         'items' => 'nullable|array',
         'description' => 'nullable|string',
         'estimated_time' => 'nullable|string',
-        'time_period' => 'nullable|string|in:AM,PM',
         'total_time' => 'nullable|string',
         'date' => 'nullable|date',
         'weekly_day' => 'nullable|string',
@@ -107,12 +111,11 @@ public function update(Request $request, $id)
     $besha->items = implode(',', $request->items);
     $besha->description = $request->description;
     $besha->estimated_time = $request->estimated_time;
-    $besha->time_period = $request->time_period;
     $besha->total_time = $request->total_time;
     $besha->date = $request->date;
     $besha->weekly_day = $request->weekly_day;
     $besha->dress_color = $request->dress_color;
-    $besha->special_day = $request->special_day;
+    $besha->special_day = $request->has('special_day') ? 'yes' : 'no';
 
    // Handle Removed Photos
    $removedPhotos = $request->input('removed_photos') ? explode(',', $request->input('removed_photos')) : [];
@@ -193,40 +196,156 @@ public function delete($id)
         // Redirect back with success message
         return redirect()->route('templeuser.managebesha')->with('success', 'Besha deleted successfully!');
     }
-    
+
     public function showBesha()
     {
-        // Fetch all Besha data for calendar
-        $events = TempleBesha::all()->map(function ($besha) {
-            return [
-                'id' => $besha->id,
-                'title' => $besha->besha_name,
-                'start' => $besha->date,
-                'end' => $besha->date,
-                'description' => $besha->description,
-            ];
-        });
+        // Fetch all one-time Besha events
+        $events = TempleBesha::whereNull('weekly_day')
+            ->where(function ($query) {
+                $query->where('special_day', 'no')
+                      ->orWhereNull('special_day');
+            })
+            ->get()
+            ->map(function ($besha) {
+                return [
+                    'id' => $besha->id,
+                    'title' => $besha->besha_name,
+                    'start' => $besha->date,
+                    'end' => $besha->date,
+                    'description' => $besha->description,
+                ];
+            });
     
-        // Fetch today's Besha list
-        $today = now()->format('Y-m-d');
-        $todayBeshaList = TempleBesha::where('date', $today)->get(['besha_name', 'estimated_time', 'total_time']);
+        // Add special Besha events (special_day = yes)
+        $specialBeshaEvents = TempleBesha::where('special_day', 'yes')
+            ->whereNotNull('date') // Ensure the date is provided
+            ->get()
+            ->map(function ($besha) {
+                return [
+                    'id' => $besha->id,
+                    'title' => $besha->besha_name,
+                    'start' => $besha->date,
+                    'end' => $besha->date,
+                    'description' => $besha->description,
+                ];
+            });
     
-        return view('templeuser.templebesha.temple-show-besha', compact('events', 'todayBeshaList'));
+        // Generate weekly recurring events
+        $weeklyEvents = TempleBesha::whereNotNull('weekly_day')
+            ->where(function ($query) {
+                $query->where('special_day', 'no')
+                      ->orWhereNull('special_day');
+            })
+            ->get()
+            ->flatMap(function ($besha) {
+                $currentYear = Carbon::now()->year;
+                $currentDate = Carbon::create($currentYear, 1, 1)->startOfWeek();
+                $endOfYear = Carbon::create($currentYear, 12, 31);
+                $events = [];
+    
+                while ($currentDate->lte($endOfYear)) {
+                    if ($currentDate->format('l') === ucfirst($besha->weekly_day)) {
+                        $events[] = [
+                            'id' => $besha->id,
+                            'title' => $besha->besha_name,
+                            'start' => $currentDate->toDateString(),
+                            'end' => $currentDate->toDateString(),
+                            'description' => $besha->description,
+                        ];
+                    }
+                    $currentDate->addDay();
+                }
+    
+                return $events;
+            });
+    
+        // Merge all event types
+        $allEvents = collect($events)
+            ->merge($specialBeshaEvents)
+            ->merge($weeklyEvents);
+    
+        // Fetch Besha list for today based on day name
+        $todayDayName = now()->format('l'); // E.g., "Monday"
+        $todayBeshaList = TempleBesha::where(function ($query) use ($todayDayName) {
+                $query->where('weekly_day', strtolower($todayDayName))
+                      ->orWhere('weekly_day', ucfirst($todayDayName));
+            })
+            ->orWhere(function ($query) {
+                $query->where('special_day', 'yes')
+                      ->where('date', now()->toDateString());
+            })
+            ->get(['besha_name', 'estimated_time', 'total_time']);
+    
+        // Pass all events and today's Besha list to the view
+        return view('templeuser.templebesha.temple-show-besha', [
+            'events' => $allEvents,
+            'todayBeshaList' => $todayBeshaList,
+        ]);
     }
-    
+
 
     public function showBeshaDetails($date)
     {
-        // Fetch all Besha records ordered by date in ascending order
-        $beshas = TempleBesha::whereDate('date', '=', $date)->orderBy('date', 'asc')->get();
-        
-        // If no records are found, redirect with an error
+        // Convert the date to a Carbon instance and get the day name
+        $dayName = Carbon::parse($date)->format('l');
+    
+        // Fetch Special Beshas for the selected date
+        $specialBeshas = TempleBesha::where('date', $date)
+            ->where('special_day', 'yes')
+            ->get();
+    
+        // Fetch Normal Beshas for the selected day name where the `date` field is null
+        $normalBeshas = TempleBesha::whereNull('date')
+            ->where(function ($query) use ($dayName) {
+                $query->where('weekly_day', strtolower($dayName))
+                    ->orWhere('weekly_day', ucfirst($dayName));
+            })
+            ->where('special_day', 'no')
+            ->get();
+    
+        // Combine the two collections
+        $beshas = $specialBeshas->merge($normalBeshas);
+    
+        // Check if no records are found
         if ($beshas->isEmpty()) {
-            return redirect()->route('templeuser.templebesha.temple-show-besha')->with('error', 'No Besha found for the selected date.');
+            return redirect()->route('templeuser.templebesha.temple-show-besha')
+                ->with('error', 'No Besha found for the selected date.');
         }
     
-        // Return the view with the Besha records
-        return view('templeuser.templebesha.temple-show-besha-details', compact('beshas'));
+        // Pass records to the view
+        return view('templeuser.templebesha.temple-show-besha-details', compact('beshas', 'date'));
+    }
+
+
+    public function bookBesha(Request $request, $beshaId)
+    {
+        // Validate the incoming request data
+        $validated = $request->validate([
+            'user_name' => 'required|string|max:255',
+            'gotra' => 'required|string|max:255',
+            'mobile' => 'required|numeric|digits:10',
+            'payment_type' => 'required|string|max:255',
+            'payment_amount' => 'required|numeric',
+            'address' => 'required|string',
+            'description' => 'nullable|string',
+        ]);
+
+        // Create a new booking record
+        $beshaBooking = new BeshaBooking([
+            'booking_id' => Str::uuid(), // Generate a unique ID for the booking
+            'besha_id' => $beshaId,
+            'name' => $request->user_name,
+            'gotra' => $request->gotra,
+            'phone_no' => $request->mobile,
+            'date' => Carbon::now()->format('Y-m-d'), // You can set the booking date or make it dynamic
+            'day_name' => Carbon::parse($request->date)->format('l'),
+        ]);
+
+        // Save the booking details
+        $beshaBooking->save();
+
+        // Return a response, redirecting with a success message
+        return redirect()->back()->with('success', 'Besha booked successfully!');
     }
     
     

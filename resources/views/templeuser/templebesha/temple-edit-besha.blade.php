@@ -92,10 +92,7 @@
                                     <label for="estimated_time">Estimated Time of this Besha</label>
                                     <div class="input-group">
                                         <input type="time" class="form-control" name="estimated_time" value="{{ $besha->estimated_time }}" required>
-                                        <select class="form-control" name="time_period">
-                                            <option value="AM" {{ $besha->time_period == 'AM' ? 'selected' : '' }}>AM</option>
-                                            <option value="PM" {{ $besha->time_period == 'PM' ? 'selected' : '' }}>PM</option>
-                                        </select>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -136,15 +133,10 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="special_day">Special Day</label>
-                                    <select class="form-control" id="special_day" name="special_day">
-                                        <option value="">Select Days...</option>
-                                        <option value="Everyday" {{ $besha->special_day == 'Everyday' ? 'selected' : '' }}>Everyday</option>
-                                        <option value="Alternative Days" {{ $besha->special_day == 'Alternative Days' ? 'selected' : '' }}>Alternative Days</option>
-                                        <option value="Weekly" {{ $besha->special_day == 'Weekly' ? 'selected' : '' }}>Weekly</option>
-                                    </select>
+                            <div class="col-md-4 d-flex align-items-center">
+                                <div class="form-group mb-0">
+                                    <label for="special_day" class="d-block">Special Besha</label>
+                                    <input type="checkbox" id="special_day" name="special_day" onchange="toggleDateField()" style="width: 20px; height: 20px;" {{ $besha->special_day ? 'checked' : '' }}>
                                 </div>
                             </div>
                         </div>
@@ -179,9 +171,6 @@
                         <!-- Hidden Input to Keep Track of Images to Remove -->
                         <input type="hidden" name="removed_photos" id="removed_photos">
                         
-                       
-                        
-                
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group" style="padding-top: 27px">

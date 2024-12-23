@@ -15,7 +15,6 @@ class TempleBesha extends Model
         'items', 
         'description', 
         'estimated_time',
-        'time_period',
         'total_time',
         'date',
         'weekly_day',

@@ -193,7 +193,7 @@
                 </div>
             </div>
         </div>
-        
+    
     </div>
 </div>
 @endsection
@@ -202,57 +202,56 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
 <script>
-    $(document).ready(function() {
-     console.log('Initializing FullCalendar...'); // Debugging log
- 
-     // Pass events from controller to JS
-     var events = @json($events); 
- 
-     // Prepare events and group them by date
-     var eventCounts = {};
- 
-     // Loop through events to count the number of events on each date
-     events.forEach(function(event) {
-         var eventDate = moment(event.start).format('YYYY-MM-DD'); // Format the start date to 'YYYY-MM-DD'
-         eventCounts[eventDate] = eventCounts[eventDate] ? eventCounts[eventDate] + 1 : 1;
-     });
- 
-     $('#calendar2').fullCalendar({
-         header: {
-             left: 'prev,next today',
-             center: 'title',
-             right: 'month,agendaWeek,agendaDay'
-         },
-         defaultView: 'month',
-         editable: false,
-         events: events,
-         eventColor: 'transparent', // Event customization
-         eventRender: function(event, element) {
-             var eventDate = moment(event.start).format('YYYY-MM-DD'); // Get the formatted event date
- 
-             // Check if there are multiple events on the same day
-             if (eventCounts[eventDate]) {
-                 // Add a rounded circle with the count of events
-                 var count = eventCounts[eventDate];
-                 var circle = $('<div class="event-count-circle"></div>').text(count);
-                 element.empty(); // Empty the event element
-                 element.append(circle); // Append the circle to the event element, no title
-             }
-         },
-         eventClick: function(event) {
-             var eventDate = moment(event.start).format('YYYY-MM-DD'); // Get the event date when the circle is clicked
-             
-             // Redirect to a new page to show the Besha details with the clicked date
-             window.location.href = '/templeuser/temple-besha-details/' + eventDate; // Adjust this URL as needed
-         }
-     });
- 
-     console.log('FullCalendar initialized successfully.'); // Debugging log
- 
-     setTimeout(function() {
-         $('#Message').fadeOut('slow');
-     }, 3000);
- });
- </script>
+    $(document).ready(function () {
+        // Pass events from the controller to JS
+        var events = @json($events);
+
+        // Prepare events and group them by date
+        var eventCounts = {};
+
+        // Count the number of events on each date
+        events.forEach(function (event) {
+            var eventDate = moment(event.start).format('YYYY-MM-DD');
+            eventCounts[eventDate] = eventCounts[eventDate] ? eventCounts[eventDate] + 1 : 1;
+        });
+
+        // Initialize FullCalendar
+        $('#calendar2').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            defaultView: 'month',
+            editable: false,
+            events: events,
+            eventColor: 'transparent',
+            eventRender: function (event, element) {
+                var eventDate = moment(event.start).format('YYYY-MM-DD');
+
+                // Display a count if there are multiple events on the same date
+                if (eventCounts[eventDate] > 1) {
+                    var count = eventCounts[eventDate];
+                    var circle = $('<div class="event-count-circle"></div>').text(count);
+                    element.empty(); // Clear default event rendering
+                    element.append(circle); // Append the circle with the count
+                }
+            },
+            eventClick: function (event) {
+                var eventDate = moment(event.start).format('YYYY-MM-DD');
+
+                // Redirect to Besha details page with the clicked date
+                window.location.href = '/templeuser/temple-besha-details/' + eventDate;
+            }
+        });
+
+        // Fade out messages after 3 seconds
+        setTimeout(function () {
+            $('#Message').fadeOut('slow');
+        }, 3000);
+    });
+</script>
+
+
  
 @endsection
