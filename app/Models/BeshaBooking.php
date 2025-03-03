@@ -24,4 +24,6 @@ class BeshaBooking extends Model
 
     // Optionally, you can disable timestamps if your table does not have 'created_at' and 'updated_at'
     public $timestamps = true;
+
+    
 }

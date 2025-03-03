@@ -236,6 +236,8 @@ public function delete($id)
                 $query->where('special_day', 'no')
                       ->orWhereNull('special_day');
             })
+
+                    
             ->get()
             ->flatMap(function ($besha) {
                 $currentYear = Carbon::now()->year;
@@ -283,18 +285,14 @@ public function delete($id)
         ]);
     }
 
-
     public function showBeshaDetails($date)
     {
-        // Convert the date to a Carbon instance and get the day name
         $dayName = Carbon::parse($date)->format('l');
     
-        // Fetch Special Beshas for the selected date
         $specialBeshas = TempleBesha::where('date', $date)
             ->where('special_day', 'yes')
             ->get();
     
-        // Fetch Normal Beshas for the selected day name where the `date` field is null
         $normalBeshas = TempleBesha::whereNull('date')
             ->where(function ($query) use ($dayName) {
                 $query->where('weekly_day', strtolower($dayName))
@@ -303,20 +301,24 @@ public function delete($id)
             ->where('special_day', 'no')
             ->get();
     
-        // Combine the two collections
         $beshas = $specialBeshas->merge($normalBeshas);
     
-        // Check if no records are found
+        // Check booking status for each besha
+        $beshas->map(function ($besha) use ($date) {
+            $besha->is_booked = BeshaBooking::where('besha_id', $besha->id)
+                ->where('date', $date)
+                ->exists();
+            return $besha;
+        });
+    
         if ($beshas->isEmpty()) {
             return redirect()->route('templeuser.templebesha.temple-show-besha')
                 ->with('error', 'No Besha found for the selected date.');
         }
     
-        // Pass records to the view
         return view('templeuser.templebesha.temple-show-besha-details', compact('beshas', 'date'));
     }
-
-
+    
     public function bookBesha(Request $request, $beshaId)
     {
         // Validate the incoming request data
@@ -330,24 +332,38 @@ public function delete($id)
             'description' => 'nullable|string',
         ]);
 
-        // Create a new booking record
+        $existingBooking = BeshaBooking::where('besha_id', $id)
+        ->where('date', $request->date)
+        ->first();
+
+    if ($existingBooking) {
+        return redirect()->back()->with('error', 'This Besha has already been booked.');
+    }
+
+    
+        // Fetch the Besha record to determine its type and date
+        $besha = TempleBesha::findOrFail($beshaId);
+    
+        // Determine the date and day name
+        $date = $besha->date ?: Carbon::now()->format('Y-m-d'); // Use Besha date or current date
+        $dayName = Carbon::parse($date)->format('l'); // Get the day name from the date
+        $booking_id = 'BOOK' . rand(1000, 9999);
+        
         $beshaBooking = new BeshaBooking([
-            'booking_id' => Str::uuid(), // Generate a unique ID for the booking
+            'booking_id' => $booking_id, // Generate a unique ID for the booking
             'besha_id' => $beshaId,
             'name' => $request->user_name,
             'gotra' => $request->gotra,
             'phone_no' => $request->mobile,
-            'date' => Carbon::now()->format('Y-m-d'), // You can set the booking date or make it dynamic
-            'day_name' => Carbon::parse($request->date)->format('l'),
+            'date' => $date,
+            'day_name' => $dayName,
         ]);
-
+    
         // Save the booking details
         $beshaBooking->save();
-
+    
         // Return a response, redirecting with a success message
         return redirect()->back()->with('success', 'Besha booked successfully!');
     }
     
-    
-
 }

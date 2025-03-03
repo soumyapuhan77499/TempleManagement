@@ -9,7 +9,7 @@ class TempleBesha extends Model
 {
     use HasFactory;
     protected $table = 'temple__beshas';
-
+    
     protected $fillable = [
         'besha_name', 
         'items', 
@@ -22,6 +22,12 @@ class TempleBesha extends Model
         'special_day',
         'photos',
     ];
+
+    public function bookings()
+{
+    return $this->hasMany(BeshaBooking::class, 'besha_id');
+}
+
 }
 
 
