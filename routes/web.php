@@ -47,6 +47,9 @@ use App\Http\Controllers\TempleUser\SebakController;
 use App\Http\Controllers\TempleUser\DeityController;
 
 
+// parking
+use App\Http\Controllers\TempleUser\TempleParkingController;
+
 
 ## Home pages Routes
 Route::get('/', function () {
@@ -408,8 +411,18 @@ Route::prefix('templeuser')->middleware('templeauth')->group(function () {
         Route::put('/updateTitle/{id}', 'updateTitle')->name('templetitle.updateTitle');
         Route::put('/deleteTitle/{id}', 'deleteTitle')->name('templetitle.deleteTitle');
     });
-});
 
+
+
+});
+Route::controller(TempleParkingController::class)->group(function() {
+    Route::get('templeuser/add-parking','parking');
+    Route::post('templeuser/saveParking', 'saveParking')->name('saveParking');
+    Route::get('templeuser/manage-parking', 'manageParking')->name('manageparking');
+    Route::get('templeuser/edit-parking/{id}', 'editParking')->name('edit.parking');
+    Route::put('templeuser/update-parking/{id}',  'updateParking')->name('updateParking');
+    Route::get('templeuser/delete-parking/{id}',  'deleteParking')->name('delete.parking');
+});
 
 
 
