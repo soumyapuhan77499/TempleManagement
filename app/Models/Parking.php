@@ -12,6 +12,7 @@ class Parking extends Model
     protected $table = 'temple__parking_details';
 
     protected $fillable = [
+       'temple_id',
        'language',
        'vehicle_type',
        'pass_type',
@@ -20,6 +21,8 @@ class Parking extends Model
        'map_url',
        'parking_photo',
        'parking_address',
+       'area_type',
+       'parking_management',
        'status'
     ];
 

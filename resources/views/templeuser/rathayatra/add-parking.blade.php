@@ -71,35 +71,9 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <!-- Vehicle Type Section -->
-                                <div class="form-group row">
-                                    <label for="vehicle_type" class="col-sm-4 col-form-label">Vehicle Type</label>
-                                    <div class="col-sm-10 d-flex">
-                                        <div class="form-check me-3">
-                                            <input class="form-check-input" type="radio" id="two_wheeler"
-                                                name="vehicle_type" value="two_wheeler">
-                                            <label class="form-check-label" for="two_wheeler">Two Wheeler</label>
-                                        </div>
-                                        <div class="form-check me-3">
-                                            <input class="form-check-input" type="radio" id="four_wheeler"
-                                                name="vehicle_type" value="four_wheeler">
-                                            <label class="form-check-label" for="four_wheeler">Four Wheeler</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" id="both"
-                                                name="vehicle_type" value="both">
-                                            <label class="form-check-label" for="both">Both</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class = "row">
-                           
-                            <div class="col-md-4">
                                 <!-- Pass Type Section -->
                                 <div class="form-group row">
-                                    <label for="pass_type" class="col-sm-4 col-form-label">Pass Type</label>
+                                    <label for="pass_type" class="col-sm-4 col-form-label">Who Can Park</label>
                                     <div class="col-sm-10 d-flex">
                                         <div class="form-check me-3">
                                             <input class="form-check-input" type="radio" id="vip"
@@ -116,15 +90,93 @@
                                                 name="pass_type" value="normal">
                                             <label class="form-check-label" for="normal">Normal</label>
                                         </div>
-                                        <div class="form-check">
+
+                                        <div class="form-check me-3">
+                                            <input class="form-check-input" type="radio" id="all"
+                                                name="sebayat" value="sebayat">
+                                            <label class="form-check-label" for="sebayat">Sebayat</label>
+                                        </div>
+
+                                        <div class="form-check me-3">
                                             <input class="form-check-input" type="radio" id="all"
                                                 name="pass_type" value="all">
+                                            <label class="form-check-label" for="all">All</label>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Vehicle Type Section -->
+                            <div class="col-md-4 mb-4">
+                                <div class="form-group">
+                                    <label for="vehicle_type" class="form-label">Vehicle Type</label>
+                                    <div class="d-flex flex-wrap">
+                                        <div class="form-check me-3">
+                                            <input class="form-check-input" type="radio" id="two_wheeler" name="vehicle_type" value="two wheeler">
+                                            <label class="form-check-label" for="two_wheeler">Two Wheeler</label>
+                                        </div>
+                                        <div class="form-check me-3">
+                                            <input class="form-check-input" type="radio" id="four_wheeler" name="vehicle_type" value="four wheeler">
+                                            <label class="form-check-label" for="four_wheeler">Four Wheeler</label>
+                                        </div>
+                                        <div class="form-check me-3">
+                                            <input class="form-check-input" type="radio" id="three_wheeler" name="vehicle_type" value="three wheeler">
+                                            <label class="form-check-label" for="three_wheeler">Three Wheeler</label>
+                                        </div>
+                                        <div class="form-check me-3">
+                                            <input class="form-check-input" type="radio" id="heavy_vehicle" name="vehicle_type" value="heavy vehicle">
+                                            <label class="form-check-label" for="heavy_vehicle">Heavy Vehicle</label>
+                                        </div>
+                                        <div class="form-check me-3">
+                                            <input class="form-check-input" type="radio" id="electric_vehicle" name="vehicle_type" value="electric vehicle">
+                                            <label class="form-check-label" for="electric_vehicle">Electric Vehicle</label>
+                                        </div>
+                                        <div class="form-check me-3">
+                                            <input class="form-check-input" type="radio" id="all" name="vehicle_type" value="all">
                                             <label class="form-check-label" for="all">All</label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        
+                            <!-- Parking Area Type Section -->
+                            <div class="col-md-4 mb-4">
+                                <div class="form-group">
+                                    <label for="area_type" class="form-label">Parking Area Type</label>
+                                    <div class="d-flex flex-wrap">
+                                        <div class="form-check me-3">
+                                            <input class="form-check-input" type="radio" id="cover" name="area_type" value="cover">
+                                            <label class="form-check-label" for="cover">Covered</label>
+                                        </div>
+                                        <div class="form-check me-3">
+                                            <input class="form-check-input" type="radio" id="open" name="area_type" value="open">
+                                            <label class="form-check-label" for="open">Open</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <!-- Parking Management Section -->
+                            <div class="col-md-4 mb-4">
+                                <div class="form-group">
+                                    <label for="parking_management" class="form-label">Parking Management</label>
+                                    <div class="d-flex flex-wrap">
+                                        <div class="form-check me-3">
+                                            <input class="form-check-input" type="radio" id="automated" name="parking_management" value="automated">
+                                            <label class="form-check-label" for="automated">Automated</label>
+                                        </div>
+                                        <div class="form-check me-3">
+                                            <input class="form-check-input" type="radio" id="manual" name="parking_management" value="manual">
+                                            <label class="form-check-label" for="manual">Manual</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                        
+                                           
 
                         <div class="row">
                             <div class="col-md-12">

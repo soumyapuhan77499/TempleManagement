@@ -12,6 +12,7 @@ class TemplePooja extends Model
     protected $fillable = [
         'temple_id', 'pooja_image', 'inside_temple_id' ,'pooja_name', 'pooja_price', 'pooja_descp', 'status'
     ];
+    
     public function insideTemple()
     {
         return $this->belongsTo(InsideTemple::class, 'inside_temple_id');

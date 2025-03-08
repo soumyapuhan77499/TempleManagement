@@ -123,7 +123,7 @@
                                                         <img src="{{ asset('storage/' . $photo) }}"
                                                             class="img-fluid rounded" alt="Besha Image">
                                                     </div>
-                                                @endforeach
+                                                @enforeach
                                             </div>
                                         @else
                                             <p class="no-data">No images available for this Besha.</p>

@@ -51,6 +51,8 @@
                                     <th class="border-bottom-0">Language</th>
                                     <th class="border-bottom-0">Vehicle Type</th>
                                     <th class="border-bottom-0">Pass Type</th>
+                                    <th class="border-bottom-0">Area Type</th>
+                                    <th class="border-bottom-0">Management</th>
                                     <th class="border-bottom-0">Parking Name</th>
                                     <th class="border-bottom-0">Availability</th>
                                     <th class="border-bottom-0">Map URL</th>
@@ -66,6 +68,8 @@
                                         <td>{{ $parking->language }}</td>
                                         <td>{{ $parking->vehicle_type }}</td>
                                         <td>{{ $parking->pass_type }}</td>
+                                        <td>{{ $parking->area_type }}</td>
+                                        <td>{{ $parking->parking_management }}</td>
                                         <td>{{ $parking->parking_name }}</td>
                                         <td>{{ $parking->parking_availability }}</td>
                                         <td>{{ $parking->map_url }}</td>
@@ -75,10 +79,10 @@
                                         </td>
                                         <td>{{ $parking->parking_address }}</td>
                                         <td style="color:#B7070A; font-size: 15px">
-                                            <a class="cursor-pointer"
-                                                href="{{ url('admin/edit-parking/' . $parking->id) }}"><i
+                                            <a class="cursor-pointer btn btn-success btn-sm"
+                                                href="{{ url('templeuser/edit-parking/' . $parking->id) }}"><i
                                                     class="fa fa-edit"></i></a> |
-                                            <a class="cursor-pointer"
+                                            <a class="cursor-pointer btn btn-danger btn-sm"
                                                 href="{{ url('admin/delete-parking/' . $parking->id) }}"><i
                                                     class="fa fa-trash"></i></a>
                                         </td>

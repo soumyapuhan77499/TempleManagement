@@ -47,8 +47,9 @@ use App\Http\Controllers\TempleUser\SebakController;
 use App\Http\Controllers\TempleUser\DeityController;
 
 
-// parking
+// temple feature
 use App\Http\Controllers\TempleUser\TempleParkingController;
+use App\Http\Controllers\TempleUser\TempleMathaController;
 
 
 ## Home pages Routes
@@ -411,10 +412,8 @@ Route::prefix('templeuser')->middleware('templeauth')->group(function () {
         Route::put('/updateTitle/{id}', 'updateTitle')->name('templetitle.updateTitle');
         Route::put('/deleteTitle/{id}', 'deleteTitle')->name('templetitle.deleteTitle');
     });
-
-
-
 });
+
 Route::controller(TempleParkingController::class)->group(function() {
     Route::get('templeuser/add-parking','parking');
     Route::post('templeuser/saveParking', 'saveParking')->name('saveParking');
@@ -424,5 +423,22 @@ Route::controller(TempleParkingController::class)->group(function() {
     Route::get('templeuser/delete-parking/{id}',  'deleteParking')->name('delete.parking');
 });
 
+Route::controller(TempleMathaController::class)->group(function() {
+    Route::get('templeuser/add-matha','addMatha');
+    Route::post('templeuser/saveMatha', 'saveMatha')->name('saveMatha');
+    Route::get('templeuser/manage-matha', 'manageMatha')->name('manageMatha');
+    Route::get('templeuser/edit-matha/{id}', 'editMatha')->name('editMatha');
+    Route::put('templeuser/update-matha/{id}',  'updateMatha')->name('updateMatha');
+    Route::get('templeuser/delete-matha/{id}',  'deletMatha')->name('deleteMatha');
+});
 
+
+Route::controller(TempleNijogaController::class)->group(function() {
+    Route::get('templeuser/add-nijoga','addNijoga');
+    Route::post('templeuser/save-nijoga', 'saveNijoga')->name('saveNijoga');
+    Route::get('templeuser/manage-nijoga', 'manageNijoga')->name('manageNijoga');
+    Route::get('templeuser/edit-nijoga/{id}', 'editNijoga')->name('editNijoga');
+    Route::put('templeuser/update-nijoga/{id}',  'updateNijoga')->name('updateNijoga');
+    Route::get('templeuser/delete-nijoga/{id}',  'deletNijoga')->name('deletNijoga');
+});
 

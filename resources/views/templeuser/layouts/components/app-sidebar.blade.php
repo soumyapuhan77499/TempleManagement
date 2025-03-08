@@ -268,6 +268,16 @@
 								<li class="slide">
 									<a class="side-menu__item" href="https://peoplecount.mandirparikrama.com/dashboard" target="_blank"><img src="{{asset('assets/img/brand/counting.png')}}" style="height: 20px;width: 20px" alt="logo"><span class="side-menu__label" style="margin-left: 10px">Temple Devotee Count</span></a>
 								</li>
+
+
+								<li class="slide">
+									<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><img src="{{asset('assets/img/brand/service.png')}}" style="height: 20px;width: 20px" alt="logo"><span class="side-menu__label" style="margin-left: 10px">Temple Feature</span><i class="angle fe fe-chevron-right"></i></a>
+									<ul class="slide-menu">
+										<li><a class="slide-item" href="{{route('manageparking')}}">Manage Parking</a></li>
+										<li><a class="slide-item" href="{{route('manageMatha')}}">Manage Matha</a></li>
+										<li><a class="slide-item" href="{{route('manageNijoga')}}">Manage Nijoga</a></li>
+									</ul>
+								</li>
 								
 								
 							</ul>
