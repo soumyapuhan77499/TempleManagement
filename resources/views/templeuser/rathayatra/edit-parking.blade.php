@@ -45,177 +45,179 @@
     @endif
 
     <div class="row">
-        <div class="col-lg-12 col-md-">
+        <div class="col-lg-12">
             <div class="card custom-card">
                 <div class="card-body">
-                        <form action="{{ route('updateParking', $parking->id) }}" method="post" enctype="multipart/form-data">
-                            @csrf
-                            @method('PUT') <!-- Change method to PUT for updating an existing record -->
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="language">Language</label>
-                                        <select class="form-control" id="language" name="language">
-                                            <option value="odia" {{ $parking->language == 'odia' ? 'selected' : '' }}>Odia</option>
-                                            <option value="english" {{ $parking->language == 'english' ? 'selected' : '' }}>English</option>
-                                        </select>
-                                    </div>
+                    <form action="{{ route('updateParking', $parking->id) }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+    
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="language">Language</label>
+                                    <select class="form-control" id="language" name="language">
+                                        <option value="odia" {{ $parking->language == 'odia' ? 'selected' : '' }}>Odia</option>
+                                        <option value="english" {{ $parking->language == 'english' ? 'selected' : '' }}>English</option>
+                                    </select>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="parking">Parking Name</label>
-                                        <input type="text" class="form-control" id="parking_name" name="parking_name" value="{{ $parking->parking_name }}" placeholder="Enter parking name">
-                                    </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="parking_name">Parking Name</label>
+                                    <input type="text" class="form-control" id="parking_name" name="parking_name" value="{{ $parking->parking_name }}" placeholder="Enter parking name">
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="availability">Parking Availability</label>
-                                        <input type="text" class="form-control" id="parking_availability" name="parking_availability" value="{{ $parking->parking_availability }}" placeholder="Enter parking availability">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="parking_availability">Parking Availability</label>
+                                    <input type="text" class="form-control" id="parking_availability" name="parking_availability" value="{{ $parking->parking_availability }}" placeholder="Enter parking availability">
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="map_url">Map URL</label>
+                                    <input type="text" class="form-control" id="map_url" name="map_url" value="{{ $parking->map_url }}" placeholder="Enter URL...">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="parking_photo">Photo</label>
+                                    <input type="file" class="form-control" id="parking_photo" name="parking_photo">
+                                    @if ($parking->parking_photo)
+                                        <img src="{{ asset($parking->parking_photo) }}" alt="Parking Photo" class="mt-2" style="width: 100px; height: 100px;">
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+    
+                        <!-- Pass Type Section -->
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Who Can Park</label>
+                                    <div class="d-flex flex-wrap">
+                                        @php $selectedPassTypes = json_decode($parking->pass_type, true) ?? []; @endphp
+                                        @foreach (['vip', 'vvip', 'normal', 'sebayat'] as $type)
+                                            <div class="form-check me-3">
+                                                <input class="form-check-input" type="checkbox" name="pass_type[]" value="{{ $type }}" {{ in_array($type, $selectedPassTypes) ? 'checked' : '' }}>
+                                                <label class="form-check-label">{{ ucfirst($type) }}</label>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="map_url">Map URL</label>
-                                        <input type="text" class="form-control" id="map_url" name="map_url" value="{{ $parking->map_url }}" placeholder="Enter URL...">
-                                    </div>
-                                </div>
-                        
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="parking_photo">Photo</label>
-                                        <input type="file" class="form-control" id="parking_photo" name="parking_photo">
-                                        @if($parking->parking_photo)
-                                            <img src="{{  asset( $parking->parking_photo) }}" alt="Parking Photo" style="width: 100px; height: 100px; margin-top: 10px;">
-                                        @endif
-                                    </div>
-                                </div>
-                        
-                                <div class="col-md-4">
-                                    <!-- Pass Type Section -->
-                                    <div class="form-group row">
-                                        <label for="pass_type" class="col-sm-4 col-form-label">Who Can Park</label>
-                                        <div class="col-sm-10 d-flex">
+    
+                            <!-- Vehicle Type Section -->
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Vehicle Type</label>
+                                    <div class="d-flex flex-wrap">
+                                        @php $selectedVehicleTypes = json_decode($parking->vehicle_type, true) ?? []; @endphp
+                                        @foreach (['two wheeler', 'four wheeler', 'three wheeler', 'heavy vehicle', 'electric vehicle'] as $vehicle)
                                             <div class="form-check me-3">
-                                                <input class="form-check-input" type="radio" id="vip" name="pass_type" value="vip" {{ $parking->pass_type == 'vip' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="vip">Vip</label>
+                                                <input class="form-check-input" type="checkbox" name="vehicle_type[]" value="{{ $vehicle }}" {{ in_array($vehicle, $selectedVehicleTypes) ? 'checked' : '' }}>
+                                                <label class="form-check-label">{{ ucfirst($vehicle) }}</label>
                                             </div>
-                                            <div class="form-check me-3">
-                                                <input class="form-check-input" type="radio" id="vvip" name="pass_type" value="vvip" {{ $parking->pass_type == 'vvip' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="vvip">Vvip</label>
-                                            </div>
-                                            <div class="form-check me-3">
-                                                <input class="form-check-input" type="radio" id="normal" name="pass_type" value="normal" {{ $parking->pass_type == 'normal' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="normal">Normal</label>
-                                            </div>
-                        
-                                            <div class="form-check me-3">
-                                                <input class="form-check-input" type="radio" id="sebayat" name="pass_type" value="sebayat" {{ $parking->pass_type == 'sebayat' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="sebayat">Sebayat</label>
-                                            </div>
-                        
-                                            <div class="form-check me-3">
-                                                <input class="form-check-input" type="radio" id="all" name="pass_type" value="all" {{ $parking->pass_type == 'all' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="all">All</label>
-                                            </div>
-                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
-                        
-                            <div class="row">
-                                <!-- Vehicle Type Section -->
-                                <div class="col-md-4 mb-4">
-                                    <div class="form-group">
-                                        <label for="vehicle_type" class="form-label">Vehicle Type</label>
-                                        <div class="d-flex flex-wrap">
+    
+                            <!-- Parking Area Type -->
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Parking Area Type</label>
+                                    <div class="d-flex flex-wrap">
+                                        @php $selectedAreaTypes = json_decode($parking->area_type, true) ?? []; @endphp
+                                        @foreach (['cover' => 'Covered', 'open' => 'Open'] as $key => $label)
                                             <div class="form-check me-3">
-                                                <input class="form-check-input" type="radio" id="two_wheeler" name="vehicle_type" value="two wheeler" {{ $parking->vehicle_type == 'two wheeler' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="two_wheeler">Two Wheeler</label>
+                                                <input class="form-check-input" type="checkbox" name="area_type[]" value="{{ $key }}" {{ in_array($key, $selectedAreaTypes) ? 'checked' : '' }}>
+                                                <label class="form-check-label">{{ $label }}</label>
                                             </div>
-                                            <div class="form-check me-3">
-                                                <input class="form-check-input" type="radio" id="four_wheeler" name="vehicle_type" value="four wheeler" {{ $parking->vehicle_type == 'four wheeler' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="four_wheeler">Four Wheeler</label>
-                                            </div>
-                                            <div class="form-check me-3">
-                                                <input class="form-check-input" type="radio" id="three_wheeler" name="vehicle_type" value="three wheeler" {{ $parking->vehicle_type == 'three wheeler' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="three_wheeler">Three Wheeler</label>
-                                            </div>
-                                            <div class="form-check me-3">
-                                                <input class="form-check-input" type="radio" id="heavy_vehicle" name="vehicle_type" value="heavy vehicle" {{ $parking->vehicle_type == 'heavy vehicle' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="heavy_vehicle">Heavy Vehicle</label>
-                                            </div>
-                                            <div class="form-check me-3">
-                                                <input class="form-check-input" type="radio" id="electric_vehicle" name="vehicle_type" value="electric vehicle" {{ $parking->vehicle_type == 'electric vehicle' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="electric_vehicle">Electric Vehicle</label>
-                                            </div>
-                                            <div class="form-check me-3">
-                                                <input class="form-check-input" type="radio" id="all" name="vehicle_type" value="all" {{ $parking->vehicle_type == 'all' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="all">All</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                        
-                                <!-- Parking Area Type Section -->
-                                <div class="col-md-4 mb-4">
-                                    <div class="form-group">
-                                        <label for="area_type" class="form-label">Parking Area Type</label>
-                                        <div class="d-flex flex-wrap">
-                                            <div class="form-check me-3">
-                                                <input class="form-check-input" type="radio" id="cover" name="area_type" value="cover" {{ $parking->area_type == 'cover' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="cover">Covered</label>
-                                            </div>
-                                            <div class="form-check me-3">
-                                                <input class="form-check-input" type="radio" id="open" name="area_type" value="open" {{ $parking->area_type == 'open' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="open">Open</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                        
-                                <!-- Parking Management Section -->
-                                <div class="col-md-4 mb-4">
-                                    <div class="form-group">
-                                        <label for="parking_management" class="form-label">Parking Management</label>
-                                        <div class="d-flex flex-wrap">
-                                            <div class="form-check me-3">
-                                                <input class="form-check-input" type="radio" id="automated" name="parking_management" value="automated" {{ $parking->parking_management == 'automated' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="automated">Automated</label>
-                                            </div>
-                                            <div class="form-check me-3">
-                                                <input class="form-check-input" type="radio" id="manual" name="parking_management" value="manual" {{ $parking->parking_management == 'manual' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="manual">Manual</label>
-                                            </div>
-                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
-                        
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="parking_address">Parking Address</label>
-                                        <textarea class="form-control" id="parking_address" name="parking_address">{{ $parking->parking_address }}</textarea>
+                        </div>
+    
+                        <!-- Parking Management -->
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Parking Management</label>
+                                    <div class="d-flex flex-wrap">
+                                        @php $selectedManagements = json_decode($parking->parking_management, true) ?? []; @endphp
+                                        @foreach (['automated', 'manual'] as $management)
+                                            <div class="form-check me-3">
+                                                <input class="form-check-input" type="checkbox" name="parking_management[]" value="{{ $management }}" {{ in_array($management, $selectedManagements) ? 'checked' : '' }}>
+                                                <label class="form-check-label">{{ ucfirst($management) }}</label>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
-                        
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group" style="padding-top: 27px">
-                                        <input type="submit" class="btn btn-primary" value="Update">
-                                    </div>
+                        </div>
+    
+                        <h5 class="mt-4">Address Details</h5>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="country">Country</label>
+                                    <select class="form-control" id="country" name="country">
+                                        <option value="India">India</option>
+                                    </select>
                                 </div>
                             </div>
-                        </form>
-                        
-
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="state">State</label>
+                                    <select class="form-control" id="state" name="state">
+                                        <option value="Odisha">Odisha</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="district">District</label>
+                                    <input type="text" class="form-control" id="district" name="district" value="{{ $parking->district }}" placeholder="Enter district">
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="landmark">Landmark</label>
+                                    <input type="text" class="form-control" id="landmark" name="landmark" value="{{ $parking->landmark }}" placeholder="Enter landmark">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="pincode">Pincode</label>
+                                    <input type="text" class="form-control" id="pincode" name="pincode" value="{{ $parking->pincode }}" placeholder="Enter pincode">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="city_village">City/Village</label>
+                                    <input type="text" class="form-control" id="city_village" name="city_village" value="{{ $parking->city_village }}" placeholder="Enter city or village">
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="mt-4 text-center">
+                            <input type="submit" class="btn btn-primary" value="Update">
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+    
 @endsection
 
 @section('modal')

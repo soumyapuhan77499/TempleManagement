@@ -51,17 +51,17 @@
                                     <th>Name</th>
                                     <th>Endowment</th>
                                     <th>Photo</th>
+                                    <th>Description</th>
+                                    <th>Address</th>
+                                    <th>Relation With Temple</th>
                                     <th>Mahanta Name</th>
                                     <th>Estd Date</th>
                                     <th>Estd By</th>
-                                    <th>Relation With Temple</th>
                                     <th>Availability</th>
                                     <th>Map Link</th>
                                     <th>Contact No</th>
                                     <th>WhatsApp No</th>
                                     <th>Email</th>
-                                    <th>Address</th>
-                                    <th>Description</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -108,19 +108,6 @@
                                                 No Image
                                             @endif
                                         </td>
-
-                                        <td>{{ $matha->mahanta_name ?? 'N/A' }}</td>
-                                        <td>{{ date('d-m-Y', strtotime($matha->established_date)) }}</td>
-                                        <td>{{ $matha->established_by }}</td>
-                                        <td>
-                                            <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#relationModal{{ $matha->id }}">View</button>
-                                        </td>
-                                        <td>{{ ucfirst($matha->availability) }}</td>
-                                        <td><a href="{{ $matha->google_map_link }}" target="_blank">View Map</a></td>
-                                        <td>{{ $matha->contact_no }}</td>
-                                        <td>{{ $matha->whatsapp_no }}</td>
-                                        <td>{{ $matha->email_id }}</td>
                                         <td>
                                             <button class="btn btn-info btn-sm" data-bs-toggle="modal"
                                                 data-bs-target="#descModal{{ $matha->id }}">View</button>
@@ -129,6 +116,21 @@
                                             <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                                 data-bs-target="#addressModal{{ $matha->id }}">View</button>
                                         </td>
+                                        <td>
+                                            <button class="btn btn-success btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#relationModal{{ $matha->id }}">View</button>
+                                        </td>
+
+                                        <td>{{ $matha->mahanta_name ?? 'N/A' }}</td>
+                                        <td>{{ date('d-m-Y', strtotime($matha->established_date)) }}</td>
+                                        <td>{{ $matha->established_by }}</td>
+                                        
+                                        <td>{{ ucfirst($matha->availability) }}</td>
+                                        <td><a href="{{ $matha->google_map_link }}" target="_blank">View Map</a></td>
+                                        <td>{{ $matha->contact_no }}</td>
+                                        <td>{{ $matha->whatsapp_no }}</td>
+                                        <td>{{ $matha->email_id }}</td>
+                                        
                                         <td>
                                             <a class="btn btn-success btn-sm"
                                                 href="{{ url('templeuser/edit-matha/' . $matha->id) }}">
@@ -173,7 +175,12 @@
                                                         aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    {{ $matha->address }}
+                                                    <p><strong>City/Village:</strong> {{ $matha->city_village }}</p>
+                                                    <p><strong>Landmark:</strong> {{ $matha->landmark }}</p>
+                                                    <p><strong>Pincode:</strong> {{ $matha->pincode }}</p>
+                                                    <p><strong>District:</strong> {{ $matha->district }}</p>
+                                                    <p><strong>State:</strong> {{ $matha->state }}</p>
+                                                    <p><strong>Country:</strong> {{ $matha->country }}</p>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"

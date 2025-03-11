@@ -20,7 +20,6 @@ class TempleMathaController extends Controller
             // Validate the request
             $request->validate([
                 'matha_name' => 'required|string|max:255',
-                'photo.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validate each image file
                 'established_date' => 'required|date',
                 'established_by' => 'required|string|max:255',
                 'endowment' => 'required|string|in:yes,no',
@@ -29,7 +28,6 @@ class TempleMathaController extends Controller
                 'contact_no' => 'required|string|max:15',
                 'whatsapp_no' => 'required|string|max:15',
                 'email_id' => 'required|email|max:255',
-                'address' => 'required|string|max:1000',
                 'description' => 'required|string|max:1000',
             ]);
     
@@ -61,7 +59,12 @@ class TempleMathaController extends Controller
                 'contact_no' => $request->contact_no,
                 'whatsapp_no' => $request->whatsapp_no,
                 'email_id' => $request->email_id,
-                'address' => $request->address,
+                'landmark' => $request->landmark,
+                'pincode' => $request->pincode,
+                'city_village' => $request->city_village,
+                'district' => $request->district,
+                'state' => $request->state,
+                'country' => $request->country,
                 'description' => $request->description,
             ]);
     
@@ -103,7 +106,6 @@ class TempleMathaController extends Controller
                 'whatsapp_no' => 'nullable|string|max:15',
                 'email_id' => 'nullable|email|max:255',
                 'relation_with_temple' => 'nullable|string|max:255',
-                'address' => 'required|string',
                 'description' => 'required|string',
             ]);
     
@@ -133,10 +135,15 @@ class TempleMathaController extends Controller
                 'whatsapp_no' => $request->whatsapp_no,
                 'email_id' => $request->email_id,
                 'relation_with_temple' => $request->relation_with_temple,
-                'address' => $request->address,
-                'description' => $request->description,
+                'landmark' => $request->landmark,
+                'pincode' => $request->pincode,
+                'city_village' => $request->city_village,
+                'district' => $request->district,
+                'state' => $request->state,
+                'country' => $request->country,
+                                'description' => $request->description,
             ]);
-
+            
             return redirect()->route('manageMatha')->with('success', 'Matha details updated successfully!');
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return redirect()->back()->with('error', 'Matha record not found.');

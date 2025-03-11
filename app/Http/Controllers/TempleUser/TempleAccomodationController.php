@@ -29,7 +29,6 @@ class TempleAccomodationController extends Controller
                 'email' => 'required|email',
                 'check_in_time' => 'nullable|date_format:H:i',
                 'check_out_time' => 'nullable|date_format:H:i',
-                'address' => 'required|string',
                 'description' => 'required|string',
                 'food_type' => 'nullable|string',
                 'opening_time' => 'nullable|date_format:H:i',
@@ -68,8 +67,15 @@ class TempleAccomodationController extends Controller
             $accomodation->food_type = $request->food_type;
             $accomodation->opening_time = $request->opening_time;
             $accomodation->closing_time = $request->closing_time;
+            $accomodation->landmark = $request->landmark;
+            $accomodation->pincode = $request->pincode;
+            $accomodation->city_village = $request->city_village;
+            $accomodation->district = $request->district;
+            $accomodation->state = $request->state;
+            $accomodation->country = $request->country;
+
             $accomodation->save();
-    
+
             return redirect()->back()->with('success', 'Accommodation details saved successfully!');
         } catch (Exception $e) {
             return back()->withErrors(['error' => $e->getMessage()])->withInput();
@@ -117,7 +123,6 @@ class TempleAccomodationController extends Controller
             'email' => 'required|email',
             'check_in_time' => 'nullable',
             'check_out_time' => 'nullable',
-            'address' => 'required|string',
             'description' => 'required|string',
             'photos.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validate images
         ];
@@ -143,7 +148,12 @@ class TempleAccomodationController extends Controller
         $accomodation->email = $request->email;
         $accomodation->check_in_time = $request->check_in_time;
         $accomodation->check_out_time = $request->check_out_time;
-        $accomodation->address = $request->address;
+        $accomodation->landmark = $request->landmark;
+        $accomodation->pincode = $request->pincode;
+        $accomodation->city_village = $request->city_village;
+        $accomodation->district = $request->district;
+        $accomodation->state = $request->state;
+        $accomodation->country = $request->country;
         $accomodation->description = $request->description;
 
         // Handle Restaurant Fields

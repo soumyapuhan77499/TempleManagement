@@ -159,11 +159,51 @@
                                 </div>
                             </div>
     
-                            <!-- Address & Description -->
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="address">Address</label>
-                                    <textarea class="form-control" id="address" name="address" rows="3" required>{{ $accomodation->address }}</textarea>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="country">Country</label>
+                                        <select class="form-control" id="country" name="country">
+                                            <option value="India">India</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="state">State</label>
+                                        <select class="form-control" id="state" name="state">
+                                            <option value="Odisha">Odisha</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="district">District</label>
+                                        <input type="text" class="form-control" id="district" name="district" value="{{ $accomodation->district }}" placeholder="Enter district">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="landmark">Landmark</label>
+                                        <input type="text" class="form-control" id="landmark" name="landmark" value="{{ $accomodation->landmark }}" placeholder="Enter landmark">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="pincode">Pincode</label>
+                                        <input type="text" class="form-control" id="pincode" name="pincode" value="{{ $accomodation->pincode }}" placeholder="Enter pincode">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="city_village">City/Village</label>
+                                        <input type="text" class="form-control" id="city_village" name="city_village" value="{{ $accomodation->city_village }}" placeholder="Enter city or village">
+                                    </div>
                                 </div>
                             </div>
     
@@ -173,6 +213,7 @@
                                     <textarea class="form-control" id="description" name="description" rows="3" required>{{ $accomodation->description }}</textarea>
                                 </div>
                             </div>
+
                         </div>
     
                         <!-- Submit Button -->

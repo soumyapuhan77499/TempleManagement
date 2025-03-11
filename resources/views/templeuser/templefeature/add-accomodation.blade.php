@@ -24,6 +24,9 @@
                 <div class="card-body">
                     <form action="{{ route('saveAccomodation') }}" method="post" enctype="multipart/form-data">
                         @csrf
+                        
+                        <!-- Basic Details -->
+                        <h5 class="mb-3">Basic Details</h5>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -31,14 +34,12 @@
                                     <input type="text" class="form-control" id="name" name="name" required>
                                 </div>
                             </div>
-    
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="photos">Photos</label>
                                     <input type="file" class="form-control" id="photos" name="photos[]" multiple>
                                 </div>
                             </div>
-    
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="accomodation_type">Accommodation Type</label>
@@ -53,6 +54,8 @@
                             </div>
                         </div>
     
+                        <!-- Timings -->
+                        <h5 class="mt-4 mb-3">Timings</h5>
                         <div class="row check-time">
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -93,13 +96,9 @@
                             </div>
                         </div>
     
+                        <!-- Contact Information -->
+                        <h5 class="mt-4 mb-3">Contact Information</h5>
                         <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="google_map_link">Google Map Link</label>
-                                    <input type="url" class="form-control" id="google_map_link" name="google_map_link" required>
-                                </div>
-                            </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="contact_no">Contact No</label>
@@ -121,12 +120,65 @@
                         </div>
     
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="address">Address</label>
-                                    <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
+                                    <label for="google_map_link">Google Map Link</label>
+                                    <input type="url" class="form-control" id="google_map_link" name="google_map_link" required>
                                 </div>
                             </div>
+                        </div>
+    
+                        <!-- Address -->
+                        <h5 class="mt-4 mb-3">Address</h5>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="landmark">Landmark</label>
+                                    <input type="text" class="form-control" id="landmark" name="landmark" placeholder="Enter landmark">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="pincode">Pincode</label>
+                                    <input type="text" class="form-control" id="pincode" name="pincode" placeholder="Enter pincode">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="city_village">City/Village</label>
+                                    <input type="text" class="form-control" id="city_village" name="city_village" placeholder="Enter city or village">
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="district">District</label>
+                                    <input type="text" class="form-control" id="district" name="district" placeholder="Enter district">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="state">State</label>
+                                    <select class="form-control" id="state" name="state">
+                                        <option value="Odisha">Odisha</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="country">Country</label>
+                                    <select class="form-control" id="country" name="country">
+                                        <option value="India">India</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <!-- Description -->
+                        <h5 class="mt-4 mb-3">Description</h5>
+                        <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="description">Description</label>
@@ -135,6 +187,7 @@
                             </div>
                         </div>
     
+                        <!-- Submit Button -->
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group" style="padding-top: 27px">
@@ -142,11 +195,13 @@
                                 </div>
                             </div>
                         </div>
+    
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    
     
     
 @endsection

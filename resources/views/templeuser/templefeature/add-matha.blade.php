@@ -70,12 +70,8 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="google_map_link">Google Map Link</label>
-                                    <input type="url" class="form-control" id="google_map_link" name="google_map_link" required>
-                                </div>
-                            </div>
+                          
+                            
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="contact_no">Contact No</label>
@@ -94,22 +90,71 @@
                                     <input type="email" class="form-control" id="email_id" name="email_id">
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="email_id">Relation With Temple</label>
-                                    <input type="text" class="form-control" id="relation_with_temple" name="relation_with_temple">
+                                    <label for="google_map_link">Google Map Link</label>
+                                    <input type="url" class="form-control" id="google_map_link" name="google_map_link" required>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="address">Address</label>
-                                    <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="landmark">Landmark</label>
+                                        <input type="text" class="form-control" id="landmark" name="landmark"
+                                            placeholder="Enter landmark">
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="pincode">Pincode</label>
+                                        <input type="text" class="form-control" id="pincode" name="pincode"
+                                            placeholder="Enter pincode">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="city_village">City/Village</label>
+                                        <input type="text" class="form-control" id="city_village" name="city_village"
+                                            placeholder="Enter city or village">
+                                    </div>
+                                </div>
+    
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="district">District</label>
+                                        <input type="text" class="form-control" id="district" name="district"
+                                            placeholder="Enter district">
+                                    </div>
+                                </div>
+    
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="state">State</label>
+                                        <select class="form-control" id="state" name="state">
+                                            <option value="Odisha">Odisha</option>
+                                        </select>
+                                    </div>
+                                </div>
+    
+    
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="country">Country</label>
+                                        <select class="form-control" id="country" name="country">
+                                            <option value="India">India</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="email_id">Relation With Temple</label>
+                                        <textarea class="form-control" id="relation_with_temple" name="relation_with_temple"></textarea>
+                                    </div>
+                                </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                                    <textarea class="form-control" id="description" name="description" ></textarea>
                                 </div>
                             </div>
                         </div>

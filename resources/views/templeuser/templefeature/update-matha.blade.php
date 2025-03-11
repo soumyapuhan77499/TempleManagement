@@ -127,18 +127,64 @@
                                     <input type="email" class="form-control" id="email_id" name="email_id" value="{{ $matha->email_id }}">
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                           
+                          
+                            <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="relation_with_temple">Relation With Temple</label>
-                                    <input type="text" class="form-control" id="relation_with_temple" name="relation_with_temple" value="{{ $matha->relation_with_temple }}">
+                                    <label for="landmark">Landmark</label>
+                                    <input type="text" class="form-control" value="{{ $matha->landmark }}" id="landmark" name="landmark"
+                                        placeholder="Enter landmark">
                                 </div>
                             </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="pincode">Pincode</label>
+                                    <input type="text" class="form-control" value="{{ $matha->pincode }}" id="pincode" name="pincode"
+                                        placeholder="Enter pincode">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="city_village">City/Village</label>
+                                    <input type="text" class="form-control" value="{{ $matha->city_village }}" id="city_village" name="city_village"
+                                        placeholder="Enter city or village">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="district">District</label>
+                                    <input type="text" class="form-control" value="{{ $matha->district }}" id="district" name="district"
+                                        placeholder="Enter district">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="state">State</label>
+                                    <select class="form-control" id="state" name="state">
+                                        <option value="Odisha">Odisha</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="country">Country</label>
+                                    <select class="form-control" id="country" name="country">
+                                        <option value="India">India</option>
+                                    </select>
+                                </div>
+                            </div>
+
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="address">Address</label>
-                                    <textarea class="form-control" id="address" name="address" rows="3" required>{{ $matha->address }}</textarea>
+                                    <label for="relation_with_temple">Relation With Temple</label>
+                                    <textarea  class="form-control" id="relation_with_temple" name="relation_with_temple">{{ $matha->relation_with_temple }}</textarea>
                                 </div>
                             </div>
+
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="description">Description</label>

@@ -23,10 +23,15 @@ class Accomodation extends Model
        'email',
        'check_in_time',
        'check_out_time',
-       'address',
        'description',
        'food_type',
        'opening_time',
        'closing_time',
+       'landmark',
+       'pincode',
+       'city_village',
+       'district',
+       'state',
+       'country',
     ];
 }

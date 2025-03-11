@@ -145,9 +145,16 @@
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                                 aria-label="Close"></button>
                                                         </div>
+                                                       
                                                         <div class="modal-body">
-                                                            {{ $accomodation->address }}
+                                                            <p><strong>City/Village:</strong> {{ $accomodation->city_village }}</p>
+                                                            <p><strong>Landmark:</strong> {{ $accomodation->landmark }}</p>
+                                                            <p><strong>Pincode:</strong> {{ $accomodation->pincode }}</p>
+                                                            <p><strong>District:</strong> {{ $accomodation->district }}</p>
+                                                            <p><strong>State:</strong> {{ $accomodation->state }}</p>
+                                                            <p><strong>Country:</strong> {{ $accomodation->country }}</p>
                                                         </div>
+                                                        
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary"
                                                                 data-bs-dismiss="modal">Close</button>

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 ## Home Controller
 
 ## Temple user Controller
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\TempleUser\TempleUserController;
 use App\Http\Controllers\TempleUser\TempleRegistrationController;
 use App\Http\Controllers\TempleUser\SocialMediaController;
@@ -423,6 +424,7 @@ Route::controller(TempleParkingController::class)->group(function() {
     Route::get('templeuser/edit-parking/{id}', 'editParking')->name('edit.parking');
     Route::put('templeuser/update-parking/{id}',  'updateParking')->name('updateParking');
     Route::get('templeuser/delete-parking/{id}',  'deleteParking')->name('delete.parking');
+    
 });
 
 Route::controller(TempleMathaController::class)->group(function() {
@@ -454,4 +456,8 @@ Route::controller(TempleAccomodationController::class)->group(function() {
     Route::get('templeuser/delete-accomodation/{id}',  'deleteAccomodation')->name('deleteAccomodation');
 });
 
+Route::controller(LocationController::class)->group(function() {
+    Route::get('/get-countries',  'getCountries')->name('get.countries');
+    Route::get('/get-states/{country_id}', 'getStates');
+});
 

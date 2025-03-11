@@ -66,18 +66,47 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $parking->language }}</td>
-                                        <td>{{ $parking->vehicle_type }}</td>
-                                        <td>{{ $parking->pass_type }}</td>
-                                        <td>{{ $parking->area_type }}</td>
-                                        <td>{{ $parking->parking_management }}</td>
+                                        <!-- Vehicle Type as Badges -->
+                                        <td>
+                                            @foreach (json_decode($parking->vehicle_type, true) as $vehicle)
+                                                <span class="badge bg-primary">{{ $vehicle }}</span>
+                                            @endforeach
+                                        </td>
+
+                                        <!-- Pass Type as Badges -->
+                                        <td>
+                                            @foreach (json_decode($parking->pass_type, true) as $pass)
+                                                <span class="badge bg-success">{{ $pass }}</span>
+                                            @endforeach
+                                        </td>
+
+                                        <!-- Area Type as Badges -->
+                                        <td>
+                                            @foreach (json_decode($parking->area_type, true) as $area)
+                                                <span class="badge bg-warning text-dark">{{ $area }}</span>
+                                            @endforeach
+                                        </td>
+
+                                        <!-- Parking Management as Badges -->
+                                        <td>
+                                            @foreach (json_decode($parking->parking_management, true) as $management)
+                                                <span class="badge bg-info">{{ $management }}</span>
+                                            @endforeach
+                                        </td>
                                         <td>{{ $parking->parking_name }}</td>
                                         <td>{{ $parking->parking_availability }}</td>
                                         <td>{{ $parking->map_url }}</td>
                                         <td>
-                                            <a href="{{ asset( $parking->parking_photo) }}"
-                                                target="_blank" class="btn btn-primary btn-sm">View Photo</a>
+                                            <a href="{{ asset($parking->parking_photo) }}" target="_blank"
+                                                class="btn btn-primary btn-sm">View Photo</a>
                                         </td>
-                                        <td>{{ $parking->parking_address }}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#addressModal{{ $parking->id }}">
+                                                View Address
+                                            </button>
+                                        </td>
+
                                         <td style="color:#B7070A; font-size: 15px">
                                             <a class="cursor-pointer btn btn-success btn-sm"
                                                 href="{{ url('templeuser/edit-parking/' . $parking->id) }}"><i
@@ -96,6 +125,31 @@
             </div>
         </div>
     </div>
+    @foreach ($parkings as $parking)
+        <div class="modal fade" id="addressModal{{ $parking->id }}" tabindex="-1"
+            aria-labelledby="addressModalLabel{{ $parking->id }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addressModalLabel{{ $parking->id }}">Parking Address Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>City/Village:</strong> {{ $parking->city_village }}</p>
+                        <p><strong>Landmark:</strong> {{ $parking->landmark }}</p>
+                        <p><strong>Pincode:</strong> {{ $parking->pincode }}</p>
+                        <p><strong>District:</strong> {{ $parking->district }}</p>
+                        <p><strong>State:</strong> {{ $parking->state }}</p>
+                        <p><strong>Country:</strong> {{ $parking->country }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
     <!-- End Row -->
 @endsection
 

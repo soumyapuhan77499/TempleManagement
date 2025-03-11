@@ -23,6 +23,12 @@ class Parking extends Model
        'parking_address',
        'area_type',
        'parking_management',
+       'landmark',
+       'pincode',
+       'city_village',
+       'district',
+       'state',
+       'country',
        'status'
     ];
 

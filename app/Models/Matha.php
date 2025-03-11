@@ -24,8 +24,13 @@ class Matha extends Model
        'whatsapp_no',
        'contact_no',
        'email_id',
-       'address',
        'description',
+       'landmark',
+       'pincode',
+       'city_village',
+       'district',
+       'state',
+       'country',
        'status'
     ];
 
