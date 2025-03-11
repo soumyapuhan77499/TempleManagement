@@ -1,7 +1,6 @@
 @extends('templeuser.layouts.app')
 
 @section('styles')
-    <!-- Internal Select2 CSS -->
     <link href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
 @endsection
 

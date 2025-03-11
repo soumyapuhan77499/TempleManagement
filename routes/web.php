@@ -50,6 +50,8 @@ use App\Http\Controllers\TempleUser\DeityController;
 // temple feature
 use App\Http\Controllers\TempleUser\TempleParkingController;
 use App\Http\Controllers\TempleUser\TempleMathaController;
+use App\Http\Controllers\TempleUser\TempleNijogaController;
+use App\Http\Controllers\TempleUser\TempleAccomodationController;
 
 
 ## Home pages Routes
@@ -437,8 +439,19 @@ Route::controller(TempleNijogaController::class)->group(function() {
     Route::get('templeuser/add-nijoga','addNijoga');
     Route::post('templeuser/save-nijoga', 'saveNijoga')->name('saveNijoga');
     Route::get('templeuser/manage-nijoga', 'manageNijoga')->name('manageNijoga');
-    Route::get('templeuser/edit-nijoga/{id}', 'editNijoga')->name('editNijoga');
     Route::put('templeuser/update-nijoga/{id}',  'updateNijoga')->name('updateNijoga');
-    Route::get('templeuser/delete-nijoga/{id}',  'deletNijoga')->name('deletNijoga');
+    Route::get('templeuser/delete-nijoga/{id}',  'deleteNijoga')->name('deletNijoga');
 });
+
+
+
+Route::controller(TempleAccomodationController::class)->group(function() {
+    Route::get('templeuser/add-accomodation','addAccomodation');
+    Route::post('templeuser/save-accomodation', 'saveAccomodation')->name('saveAccomodation');
+    Route::get('templeuser/manage-accomodation', 'manageAccomodation')->name('manageAccomodation');
+    Route::get('templeuser/edit-accomodation/{id}', 'editAccomodation')->name('editAccomodation');
+    Route::put('templeuser/update-accomodation/{id}',  'updateAccomodation')->name('updateAccomodation');
+    Route::get('templeuser/delete-accomodation/{id}',  'deleteAccomodation')->name('deleteAccomodation');
+});
+
 
