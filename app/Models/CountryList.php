@@ -16,4 +16,16 @@ class CountryList extends Model
         'name', 
         
     ];
+    
+ // Relationship with NearByTemple
+ public function temples()
+ {
+     return $this->hasMany(NearByTemple::class, 'country');
+ }
+
+ // Relationship with States
+ public function states()
+ {
+     return $this->hasMany(StateList::class, 'country_id');
+ }
 }

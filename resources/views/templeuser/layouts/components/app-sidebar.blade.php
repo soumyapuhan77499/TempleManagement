@@ -276,6 +276,10 @@
 										<li><a class="slide-item" href="{{route('manageparking')}}">Manage Parking</a></li>
 										<li><a class="slide-item" href="{{route('manageMatha')}}">Manage Matha</a></li>
 										<li><a class="slide-item" href="{{route('manageNijoga')}}">Manage Nijoga</a></li>
+										<li><a class="slide-item" href="{{route('manageAccomodation')}}">Manage Accomodation</a></li>
+										<li><a class="slide-item" href="{{route('manageNearByTemple')}}">Manage Near BY Temple</a></li>
+										<li><a class="slide-item" href="{{route('manageCommute')}}">Manage Commute</a></li>
+										<li><a class="slide-item" href="{{route('manageEmergency')}}">Manage Emergency</a></li>
 									</ul>
 								</li>
 								

@@ -53,6 +53,9 @@ use App\Http\Controllers\TempleUser\TempleParkingController;
 use App\Http\Controllers\TempleUser\TempleMathaController;
 use App\Http\Controllers\TempleUser\TempleNijogaController;
 use App\Http\Controllers\TempleUser\TempleAccomodationController;
+use App\Http\Controllers\TempleUser\TempleNearByTempleController;
+use App\Http\Controllers\TempleUser\TempleCommuteController;
+use App\Http\Controllers\TempleUser\TempleEmergencyController;
 
 
 ## Home pages Routes
@@ -461,3 +464,29 @@ Route::controller(LocationController::class)->group(function() {
     Route::get('/get-states/{country_id}', 'getStates');
 });
 
+
+Route::controller(TempleNearByTempleController::class)->group(function() {
+    Route::get('templeuser/add-nearbytemple','addNearByTemple');
+    Route::post('templeuser/save-nearbytemple', 'saveNearByTemple')->name('saveNearByTemple');
+    Route::get('templeuser/manage-nearbytemple', 'manageNearByTemple')->name('manageNearByTemple');
+    Route::get('templeuser/edit-nearbytemple/{id}', 'editNearByTemple')->name('editNearByTemple');
+    Route::put('templeuser/update-nearbytemple/{id}',  'updateNearByTemple')->name('updateNearByTemple');
+    Route::get('templeuser/delete-nearbytemple/{id}',  'deleteNearByTemple')->name('deleteNearByTemple');
+});
+
+
+Route::controller(TempleCommuteController::class)->group(function() {
+    Route::get('templeuser/add-commute','addCommute');
+    Route::post('templeuser/save-commute', 'saveCommute')->name('saveCommute');
+    Route::get('templeuser/manage-commute', 'manageCommute')->name('manageCommute');
+    Route::put('templeuser/update-commute/{id}',  'updateCommute')->name('updateCommute');
+    Route::get('templeuser/delete-commute/{id}',  'deleteCommute')->name('deleteCommute');
+});
+
+Route::controller(TempleEmergencyController::class)->group(function() {
+    Route::get('templeuser/add-emergency','addEmergency');
+    Route::post('templeuser/save-emergency', 'saveEmergency')->name('saveEmergency');
+    Route::get('templeuser/manage-emergency', 'manageEmergency')->name('manageEmergency');
+    Route::put('templeuser/update-emergency/{id}',  'updateEmergency')->name('updateEmergency');
+    Route::get('templeuser/delete-emergency/{id}',  'deleteEmergency')->name('deleteEmergency');
+});

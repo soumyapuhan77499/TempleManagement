@@ -15,4 +15,15 @@ class StateList extends Model
         'country_id', 
         'name', 
     ];
+
+    public function temples()
+    {
+        return $this->hasMany(NearByTemple::class, 'state');
+    }
+
+    // Relationship with CountryList
+    public function country()
+    {
+        return $this->belongsTo(CountryList::class, 'country_id');
+    }
 }

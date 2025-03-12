@@ -50,7 +50,7 @@
                     <form action="{{ route('updateAccomodation', $accomodation->id) }}" method="post" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
-    
+                        
                         <div class="row">
                             <!-- Name -->
                             <div class="col-md-4">
@@ -59,7 +59,7 @@
                                     <input type="text" class="form-control" id="name" name="name" value="{{ $accomodation->name }}" required>
                                 </div>
                             </div>
-    
+                            
                             <!-- Photos -->
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -73,7 +73,7 @@
                                     @endforeach
                                 @endif
                             </div>
-    
+                            
                             <!-- Google Map Link -->
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -81,7 +81,9 @@
                                     <input type="url" class="form-control" id="google_map_link" name="google_map_link" value="{{ $accomodation->google_map_link }}" required>
                                 </div>
                             </div>
-    
+                        </div>
+                        
+                        <div class="row">
                             <!-- Accommodation Type -->
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -95,7 +97,7 @@
                                     </select>
                                 </div>
                             </div>
-    
+                            
                             <!-- Restaurant Fields (Hidden by default) -->
                             <div class="col-md-4 restaurant-fields" style="display: none;">
                                 <div class="form-group">
@@ -103,25 +105,27 @@
                                     <input type="time" class="form-control" id="opening_time" name="opening_time" value="{{ $accomodation->opening_time ?? '' }}">
                                 </div>
                             </div>
-    
+                            
                             <div class="col-md-4 restaurant-fields" style="display: none;">
                                 <div class="form-group">
                                     <label for="closing_time">Closing Time</label>
                                     <input type="time" class="form-control" id="closing_time" name="closing_time" value="{{ $accomodation->closing_time ?? '' }}">
                                 </div>
                             </div>
-    
-                            <div class="col-md-4 restaurant-fields" style="display: none;">
+
+                            <div class="col-md-4 restaurant-fields">
                                 <div class="form-group">
                                     <label for="food_type">Food Type</label>
-                                    <select class="form-control" id="food_type" name="food_type">
-                                        <option value="veg" {{ $accomodation->food_type == 'veg' ? 'selected' : '' }}>Vegetarian</option>
-                                        <option value="non_veg" {{ $accomodation->food_type == 'non_veg' ? 'selected' : '' }}>Non-Vegetarian</option>
+                                    <select class="form-control select2" id="food_type" name="food_type">
+                                        <option value="veg" {{ $accomodation->food_type == 'veg' ? 'selected' : '' }}>Veg</option>
+                                        <option value="non_veg"  {{ $accomodation->food_type == 'non_veg' ? 'selected' : '' }}>Non-Veg</option>
                                         <option value="both" {{ $accomodation->food_type == 'both' ? 'selected' : '' }}>Both</option>
                                     </select>
                                 </div>
                             </div>
-    
+                        </div>
+                        
+                        <div class="row">
                             <!-- Contact Details -->
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -129,93 +133,59 @@
                                     <input type="text" class="form-control" id="contact_no" name="contact_no" value="{{ $accomodation->contact_no }}" required>
                                 </div>
                             </div>
-    
+                            
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="whatsapp_no">WhatsApp No</label>
                                     <input type="text" class="form-control" id="whatsapp_no" name="whatsapp_no" value="{{ $accomodation->whatsapp_no }}" required>
                                 </div>
                             </div>
-    
+                            
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input type="email" class="form-control" id="email" name="email" value="{{ $accomodation->email }}" required>
                                 </div>
                             </div>
-    
-                            <!-- Check-In & Check-Out (Hidden for Restaurant) -->
-                            <div class="col-md-4 check-fields">
+                        </div>
+                        
+                        <div class="row">
+                            <!-- Location Details -->
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="check_in_time">Check-In Time</label>
-                                    <input type="time" class="form-control" id="check_in_time" name="check_in_time" value="{{ $accomodation->check_in_time }}">
+                                    <label for="country">Country</label>
+                                    <select class="form-control" id="country" name="country">
+                                        <option value="India">India</option>
+                                    </select>
                                 </div>
                             </div>
-    
-                            <div class="col-md-4 check-fields">
+                            
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="check_out_time">Check-Out Time</label>
-                                    <input type="time" class="form-control" id="check_out_time" name="check_out_time" value="{{ $accomodation->check_out_time }}">
+                                    <label for="state">State</label>
+                                    <select class="form-control" id="state" name="state">
+                                        <option value="Odisha">Odisha</option>
+                                    </select>
                                 </div>
                             </div>
-    
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="country">Country</label>
-                                        <select class="form-control" id="country" name="country">
-                                            <option value="India">India</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="state">State</label>
-                                        <select class="form-control" id="state" name="state">
-                                            <option value="Odisha">Odisha</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="district">District</label>
-                                        <input type="text" class="form-control" id="district" name="district" value="{{ $accomodation->district }}" placeholder="Enter district">
-                                    </div>
+                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="district">District</label>
+                                    <input type="text" class="form-control" id="district" name="district" value="{{ $accomodation->district }}">
                                 </div>
                             </div>
-
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="landmark">Landmark</label>
-                                        <input type="text" class="form-control" id="landmark" name="landmark" value="{{ $accomodation->landmark }}" placeholder="Enter landmark">
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="pincode">Pincode</label>
-                                        <input type="text" class="form-control" id="pincode" name="pincode" value="{{ $accomodation->pincode }}" placeholder="Enter pincode">
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="city_village">City/Village</label>
-                                        <input type="text" class="form-control" id="city_village" name="city_village" value="{{ $accomodation->city_village }}" placeholder="Enter city or village">
-                                    </div>
-                                </div>
-                            </div>
-    
+                        </div>
+                        
+                        <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="description">Description</label>
                                     <textarea class="form-control" id="description" name="description" rows="3" required>{{ $accomodation->description }}</textarea>
                                 </div>
                             </div>
-
                         </div>
-    
+                        
                         <!-- Submit Button -->
                         <div class="row">
                             <div class="col-md-4">
@@ -229,7 +199,7 @@
             </div>
         </div>
     </div>
-        
+
 @endsection
 
 @section('modal')

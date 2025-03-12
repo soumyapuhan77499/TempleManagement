@@ -62,7 +62,6 @@ class TempleAccomodationController extends Controller
             $accomodation->email = $request->email;
             $accomodation->check_in_time = $request->check_in_time;
             $accomodation->check_out_time = $request->check_out_time;
-            $accomodation->address = $request->address;
             $accomodation->description = $request->description;
             $accomodation->food_type = $request->food_type;
             $accomodation->opening_time = $request->opening_time;

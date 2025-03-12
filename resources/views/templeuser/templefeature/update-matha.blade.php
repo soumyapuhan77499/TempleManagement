@@ -9,14 +9,13 @@
     <!-- Breadcrumb -->
     <div class="breadcrumb-header justify-content-between">
         <div class="left-content">
-            <span class="main-content-title mg-b-0 mg-b-lg-1">UPDATE PARKING DETAILS</span>
+            <span class="main-content-title mg-b-0 mg-b-lg-1">UPDATE MATHA DETAILS</span>
         </div>
         <div class="justify-content-center mt-2">
             <ol class="breadcrumb d-flex justify-content-between align-items-center">
-                <li class="breadcrumb-item tx-15"><a href="{{ url('admin/manage-parking') }}"
-                        class="btn btn-warning text-dark">Add Parking</a></li>
+                <li class="breadcrumb-item tx-15"><a href="{{ url('templeuser/manage-matha') }}"
+                        class="btn btn-warning text-dark">Manage Matha</a></li>
                 <li class="breadcrumb-item tx-15"><a href="javascript:void(0);">Dashboard</a></li>
-                <li class="breadcrumb-item active tx-15" aria-current="page">Parking</li>
             </ol>
         </div>
     </div>
