@@ -50,6 +50,7 @@ class TempleMathaController extends Controller
             Matha::create([
                 'temple_id' => Auth::guard('temples')->user()->temple_id,
                 'matha_name' => $request->matha_name,
+                'mahanta_name' => $request->mahanta_name,
                 'photo' => $photoPathsJson, // Save as JSON
                 'established_date' => $request->established_date,
                 'established_by' => $request->established_by,
@@ -126,6 +127,7 @@ class TempleMathaController extends Controller
             $matha->update([
                 'matha_name' => $request->matha_name,
                 'photo' => json_encode($photoPaths), // Store images as JSON
+                'mahanta_name' => $request->mahanta_name,
                 'established_date' => $request->established_date,
                 'established_by' => $request->established_by,
                 'endowment' => $request->endowment,

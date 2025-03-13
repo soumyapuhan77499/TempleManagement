@@ -60,6 +60,12 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
+                                    <label for="matha_name">Mahanta Name</label>
+                                    <input type="text" class="form-control" id="mahanta_name" name="mahanta_name" value="{{ $matha->mahanta_name }}" >
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
                                     <label for="photo">Photo Upload</label>
                                     <input type="file" class="form-control" id="photo" name="photo[]" multiple>
                                     @if($matha->photo)

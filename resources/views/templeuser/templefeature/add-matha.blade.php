@@ -32,6 +32,14 @@
                                     <input type="text" class="form-control" id="matha_name" name="matha_name" required>
                                 </div>
                             </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="matha_name">Matha Name</label>
+                                    <input type="text" class="form-control" id="mahanta_name" name="mahanta_name" required>
+                                </div>
+                            </div>
+
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="photo">Photo Upload</label>

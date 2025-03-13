@@ -14,6 +14,7 @@ class Matha extends Model
     protected $fillable = [
        'temple_id',
        'matha_name',
+       'mahanta_name',
        'photo',
        'established_date',
        'established_by',
