@@ -48,7 +48,6 @@
                             <thead>
                                 <tr>
                                     <th class="border-bottom-0">SlNo</th>
-                                    <th class="border-bottom-0">Language</th>
                                     <th class="border-bottom-0">Vehicle Type</th>
                                     <th class="border-bottom-0">Pass Type</th>
                                     <th class="border-bottom-0">Area Type</th>
@@ -65,7 +64,6 @@
                                 @foreach ($parkings as $parking)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $parking->language }}</td>
                                         <!-- Vehicle Type as Badges -->
                                         <td>
                                             @foreach (json_decode($parking->vehicle_type, true) as $vehicle)

@@ -27,7 +27,6 @@ class TempleParkingController extends Controller
         try {
             // Validate the request
             $request->validate([
-                'language' => 'required|string|max:255',
                 'parking' => 'required|string|max:255',
                 'availability' => 'required|string|max:255',
                 'map_url' => 'nullable|url',
@@ -48,33 +47,33 @@ class TempleParkingController extends Controller
                 'country' => 'nullable|string|max:255',
             ]);
     
+            // Ensure user is authenticated
+            $user = Auth::guard('temples')->user();
+            if (!$user) {
+                return redirect()->back()->with('error', 'You must be logged in to save parking details.');
+            }
+    
             // Handle the file upload
             $photoPath = null;
             if ($request->hasFile('parking_photo')) {
-                // Store the file and get the path
-                $photoPath = $request->file('parking_photo')->store('parking_photos', 'public');
-        
-                // Additional manual file move (if needed)
                 $file = $request->file('parking_photo');
                 $ext = $file->getClientOriginalExtension();
                 $filename = time().'.'.$ext;
                 $file->move(public_path('assets/uploads/parking_photo'), $filename);
-        
-                // Update photoPath with the manually moved file path
                 $photoPath = 'assets/uploads/parking_photo/' . $filename;
             }
-
+    
             Parking::create([
-                'temple_id' => Auth::guard('temples')->user()->temple_id, // Ensure temple_id is set
+                'temple_id' => $user->temple_id,
                 'language' => $request->language,
                 'parking_name' => $request->parking,
                 'parking_availability' => $request->availability,
                 'map_url' => $request->map_url,
                 'parking_photo' => $photoPath,
-                'vehicle_type' => json_encode($request->vehicle_type), // Convert array to JSON
-                'pass_type' => json_encode($request->pass_type),
-                'area_type' => json_encode($request->area_type),
-                'parking_management' => json_encode($request->parking_management),
+                'vehicle_type' => json_encode($request->vehicle_type ?? []),
+                'pass_type' => json_encode($request->pass_type ?? []),
+                'area_type' => json_encode($request->area_type ?? []),
+                'parking_management' => json_encode($request->parking_management ?? []),
                 'landmark' => $request->landmark,
                 'pincode' => $request->pincode,
                 'city_village' => $request->city_village,
@@ -87,11 +86,12 @@ class TempleParkingController extends Controller
             return redirect()->back()->with('success', 'Parking saved successfully!');
     
         } catch (\Exception $e) {
-            // Handle the exception and log it
-            \Log::error('Error saving parking: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'There was an error saving the parking. Please try again.');
+            \Log::error('Error saving parking', ['error' => $e]);
+            return redirect()->back()->with('error', $e->getMessage());
         }
+        
     }
+    
     
     
 
@@ -122,7 +122,6 @@ class TempleParkingController extends Controller
         ]);
 
         $parking = Parking::findOrFail($id);
-
 
         $photoPath = $parking->parking_photo; // default to the current photo if no new one is uploaded
         if ($request->hasFile('parking_photo')) {

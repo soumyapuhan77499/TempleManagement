@@ -70,10 +70,10 @@ Route::get('/contact', function () {
 Route::get('/package', function () {
     return view('package');
 });
+
 Route::get('/about', function () {
     return view('about');
 });
-
 
 ## Temple User Routes
 
@@ -199,7 +199,6 @@ Route::prefix('templeuser')->middleware('templeauth')->group(function () {
         Route::get('/add-temple-prasad', 'addPrasad')->name('templeprasad.prasad');
         Route::post('/store-temple-prasad', 'store')->name('templeprasad.store');
         Route::get('/manage-temple-prasad', 'manageprasad')->name('templeprasad.manageprasad');
-        Route::get('/edit-temple-prasad/{id}/edit',  'edit')->name('templeprasad.edit');
         Route::put('/update-temple-prasad/{id}',  'update')->name('templeprasad.update');
         Route::delete('/delete-temple-prasad/{id}',  'destroy')->name('templeprasad.destroy');
         

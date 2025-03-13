@@ -1,154 +1,357 @@
 @extends('templeuser.layouts.app')
 
-    @section('styles')
+@section('styles')
+    <!-- Data table css -->
+    <link href="{{ asset('assets/plugins/datatable/css/dataTables.bootstrap5.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/plugins/datatable/css/buttons.bootstrap5.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/plugins/datatable/responsive.bootstrap5.css') }}" rel="stylesheet" />
 
-		<!-- Data table css -->
-		<link href="{{asset('assets/plugins/datatable/css/dataTables.bootstrap5.css')}}" rel="stylesheet" />
-		<link href="{{asset('assets/plugins/datatable/css/buttons.bootstrap5.min.css')}}"  rel="stylesheet">
-		<link href="{{asset('assets/plugins/datatable/responsive.bootstrap5.css')}}" rel="stylesheet" />
+    <!-- INTERNAL Select2 css -->
+    <link href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet" />
+@endsection
 
-		<!-- INTERNAL Select2 css -->
-		<link href="{{asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet" />
+@section('content')
+    <!-- breadcrumb -->
+    <div class="breadcrumb-header justify-content-between">
+        <div class="left-content">
+            <span class="main-content-title mg-b-0 mg-b-lg-1">Manage Prasad</span>
+        </div>
+        <div class="justify-content-center mt-2">
+            <ol class="breadcrumb d-flex justify-content-between align-items-center">
+                <a href="{{ url('templeuser/add-temple-prasad') }}" class="breadcrumb-item tx-15 btn btn-warning">Add Prasad</a>
+                <li class="breadcrumb-item tx-15"><a href="javascript:void(0);">Dashboard</a></li>
+            </ol>
+        </div>
+    </div>
+    <!-- /breadcrumb -->
 
-    @endsection
+    <!-- Row -->
+    <div class="row row-sm">
+        <div class="col-lg-12">
+            <div class="card custom-card overflow-hidden">
+                <div class="card-body">
+                    <div class="table-responsive  export-table">
+                        <table id="file-datatable" class="table table-bordered text-nowrap key-buttons border-bottom">
+                            <thead>
+                                <tr>
+                                    <th>SlNo</th>
+                                    <th>Prasad Name</th>
+                                    <th>Time</th>
+                                    <th>Price</th>
+                                    <th>Items</th>
+                                    <th>Online Order</th>
+                                    <th>Offline Order</th>
+                                    <th>Pre Order</th>
+                                    <th>Description</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($prasadas as $index => $prasad)
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $prasad->prasad_name }}</td>
+                                        <td>{{ $prasad->prasad_time }}</td>
+                                        <td>₹{{ number_format($prasad->prasad_price, 2) }}</td>
 
-    @section('content')
+                                        <!-- Display prasad items as badges -->
+                                        <td>
+                                            @foreach (explode(',', $prasad->prasad_item) as $item)
+                                                <span class="badge bg-primary">{{ $item }}</span>
+                                            @endforeach
+                                        </td>
 
-					<!-- breadcrumb -->
-					<div class="breadcrumb-header justify-content-between">
-						<div class="left-content">
-						  <span class="main-content-title mg-b-0 mg-b-lg-1">Manage Prasads</span>
-						</div>
-						<div class="justify-content-center mt-2">
-							<ol class="breadcrumb">
-								<li class="breadcrumb-item tx-15"><a href="javascript:void(0);">Tables</a></li>
-								<li class="breadcrumb-item active" aria-current="page">Manage Prasads</li>
-							</ol>
-						</div>
-					</div>
-					<!-- /breadcrumb -->
+                                        <!-- Display order availability -->
+                                        <td>
+                                            <span class="badge {{ $prasad->online_order ? 'bg-success' : 'bg-danger' }}">
+                                                {{ $prasad->online_order ? 'Available' : 'Not Available' }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge {{ $prasad->offline_order ? 'bg-success' : 'bg-danger' }}">
+                                                {{ $prasad->offline_order ? 'Available' : 'Not Available' }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge {{ $prasad->pre_order ? 'bg-success' : 'bg-danger' }}">
+                                                {{ $prasad->pre_order ? 'Available' : 'Not Available' }}
+                                            </span>
+                                        </td>
 
-						@if(session()->has('success'))
-						<div class="alert alert-success" id="Message">
-							{{ session()->get('success') }}
-						</div>
-						@endif
-					
-						@if ($errors->has('danger'))
-							<div class="alert alert-danger" id="Message">
-								{{ $errors->first('danger') }}
-							</div>
-						@endif
+                                        <td>{{ $prasad->description }}</td>
 
-						<!-- Row -->
-						<div class="row row-sm">
-							<div class="col-lg-12">
-								<div class="card custom-card overflow-hidden">
-									<div class="card-body">
-										
-										<div class="table-responsive  export-table">
-                                            <table id="file-datatable" class="table table-bordered text-nowrap key-buttons border-bottom">
-                                                <thead>
-													<tr>
-														<th>Temple ID</th>
+                                        <td>
+                                            <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#editModal{{ $prasad->id }}">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            |
+                                            <a href="javascript:void(0);" class="btn btn-danger btn-sm delete-confirm"
+                                                data-id="{{ $prasad->id }}">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
 
-														<th>Temple Prasad ID</th>
-														<th>Prasad Start Time</th>
-														<th>Prasad End Time</th>
-														<th>Prasad Full Price</th>
-														<th>Online Order</th>
-														<th>Prasad Items</th>
-														<th>Action</th>
-													</tr>
-												</thead>
-												<tbody>
-													@foreach($templePrasads as $templePrasad)
-														<tr>
-															<td>{{ $templePrasad->temple_id }}</td>
+                                    <!-- Edit Modal -->
+                                    <div class="modal fade" id="editModal{{ $prasad->id }}" tabindex="-1"
+                                        aria-labelledby="editModalLabel{{ $prasad->id }}" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Edit Prasad</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <form action="{{ route('templeprasad.update', $prasad->id) }}"
+                                                    method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="modal-body">
 
-															<td>{{ $templePrasad->temple_prasad_id }}</td>
-															<td>{{ $templePrasad->prasad_start_time }} {{ $templePrasad->prasad_start_period }}</td>
-															<td>{{ $templePrasad->prasad_end_time }} {{ $templePrasad->prasad_end_period }}</td>
-															<td>{{ $templePrasad->full_prasad_price }}</td>
+                                                        <!-- Prasad Name, Time & Price -->
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="prasad_name">Prasad Name</label>
+                                                                    <input type="text" class="form-control"
+                                                                        name="prasad_name"
+                                                                        value="{{ $prasad->prasad_name }}" required>
+                                                                </div>
+                                                            </div>
 
-															<td>{{ $templePrasad->online_order ? 'Yes' : 'No' }}</td>
-															<td>
-																<ul>
-																	@foreach($templePrasad->prasadItems as $item)
-																		<li>{{ $item->prasad_name }} - ₹{{ $item->prasad_price }}</li>
-																	@endforeach
-																</ul>
-															</td>
-															<td>
-																<a href="{{ route('templeprasad.edit', $templePrasad->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-																<form action="{{ route('templeprasad.destroy', $templePrasad->id) }}" method="POST" style="display:inline;">
-																	@csrf
-																	@method('DELETE')
-																	<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"></i></button>
-																</form>
-															</td>
-														</tr>
-													@endforeach
-												</tbody>
-                                            </table>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- End Row -->
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="prasad_time">Prasad Time</label>
+                                                                    <input type="time" class="form-control"
+                                                                        name="prasad_time"
+                                                                        value="{{ $prasad->prasad_time }}" required>
+                                                                </div>
+                                                            </div>
 
-    @endsection
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="prasad_price">Full Prasad Price <span
+                                                                            class="text-danger">*</span></label>
+                                                                    <input type="text" class="form-control"
+                                                                        name="prasad_price"
+                                                                        value="{{ $prasad->prasad_price }}"
+                                                                        placeholder="Enter Full Prasad Price" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
-    @section('scripts')
+                                                        <!-- Prasad Items Section -->
+                                                        <div id="prasadItemContainer">
+                                                            @foreach (explode(',', $prasad->prasad_item) as $item)
+                                                                <div class="row prasad-item align-items-end">
+                                                                    <div class="col-md-5">
+                                                                        <div class="form-group">
+                                                                            <label for="prasad_item">Prasad Item <span
+                                                                                    class="text-danger">*</span></label>
+                                                                            <input type="text" class="form-control"
+                                                                                name="prasad_item[]"
+                                                                                value="{{ trim($item) }}" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-2">
+                                                                        <button type="button"
+                                                                            class="btn btn-danger removeItem"  style="margin-bottom: 15px"><b>-</b></button>
+                                                                    </div>
+                                                                </div>
+                                                            @endforeach
+                                                            <div class="row">
+                                                                <div class="col-md-5">
+                                                                    <button type="button"
+                                                                        class="btn btn-success addMore"><b>+</b> Add
+                                                                        More</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
-		<!-- Internal Data tables -->
-		<script src="{{asset('assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
-		<script src="{{asset('assets/plugins/datatable/js/dataTables.bootstrap5.js')}}"></script>
-		<script src="{{asset('assets/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
-		<script src="{{asset('assets/plugins/datatable/js/buttons.bootstrap5.min.js')}}"></script>
-		<script src="{{asset('assets/plugins/datatable/js/jszip.min.js')}}"></script>
-		<script src="{{asset('assets/plugins/datatable/pdfmake/pdfmake.min.js')}}"></script>
-		<script src="{{asset('assets/plugins/datatable/pdfmake/vfs_fonts.js')}}"></script>
-		<script src="{{asset('assets/plugins/datatable/js/buttons.html5.min.js')}}"></script>
-		<script src="{{asset('assets/plugins/datatable/js/buttons.print.min.js')}}"></script>
-		<script src="{{asset('assets/plugins/datatable/js/buttons.colVis.min.js')}}"></script>
-		<script src="{{asset('assets/plugins/datatable/dataTables.responsive.min.js')}}"></script>
-		<script src="{{asset('assets/plugins/datatable/responsive.bootstrap5.min.js')}}"></script>
-		<script src="{{asset('assets/js/table-data.js')}}"></script>
+                                                        <!-- Order Options -->
+                                                        <div class="row mt-3">
+                                                            <div class="col-md-4">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox"
+                                                                        name="online_order" id="onlineOrderCheckbox"
+                                                                        {{ $prasad->online_order ? 'checked' : '' }}>
+                                                                    <label class="form-check-label"
+                                                                        for="onlineOrderCheckbox">Does your Temple Provide
+                                                                        Online Order?</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox"
+                                                                        name="pre_order"
+                                                                        {{ $prasad->pre_order ? 'checked' : '' }}>
+                                                                    <label class="form-check-label">Does your Temple
+                                                                        Provide Pre Order?</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox"
+                                                                        name="offline_order"
+                                                                        {{ $prasad->offline_order ? 'checked' : '' }}>
+                                                                    <label class="form-check-label">Does your Temple
+                                                                        Provide Offline Order?</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
-		<!-- INTERNAL Select2 js -->
-		<script src="{{asset('assets/plugins/select2/js/select2.full.min.js')}}"></script>
+                                                        <!-- Description -->
+                                                        <div class="row mt-3">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label for="description">Description</label>
+                                                                    <textarea class="form-control" name="description" placeholder="Enter description">{{ $prasad->description }}</textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
+                                                    </div>
 
-		
-		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                                                    <!-- Modal Footer -->
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-primary">Update</button>
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                    </div>
 
-<script>
-    // Function to confirm delete
-    function confirmDelete(id) {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Submit the form after confirmation
-                document.getElementById('delete-form-' + id).submit();
-            }
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Row -->
+@endsection
+
+@section('scripts')
+    <!-- Internal Data tables -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/js/dataTables.bootstrap5.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/js/buttons.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/js/jszip.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/pdfmake/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/js/buttons.colVis.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/responsive.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('assets/js/table-data.js') }}"></script>
+
+    <!-- INTERNAL Select2 js -->
+    <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.body.addEventListener('click', function(event) {
+                if (event.target.closest('.delete-confirm')) {
+                    let PrasadId = event.target.closest('.delete-confirm').getAttribute('data-id');
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "This will mark the Prasad as deleted but won't permanently remove it.",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#d33",
+                        cancelButtonColor: "#3085d6",
+                        confirmButtonText: "Yes, delete it!"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = `/delete-temple-prasad/${PrasadId}`;
+                        }
+                    });
+                }
+            });
         });
-    }
+    </script>
 
-    // Hide the alert message after a few seconds
-    setTimeout(() => {
-        var messageElement = document.getElementById('Message');
-        if (messageElement) {
-            messageElement.style.display = 'none';
+
+    <script>
+        function showFullImage(imageSrc) {
+            Swal.fire({
+                imageUrl: imageSrc,
+                imageAlt: 'Matha Photo',
+                showCloseButton: true,
+                showConfirmButton: false,
+            });
         }
-    }, 3000);
-</script>
-    @endsection
+    </script>
+
+
+
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: "{{ session('success') }}",
+            });
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: "{{ session('error') }}",
+            });
+        </script>
+    @endif
+
+    @if ($errors->any())
+        <script>
+            let errorMessages = "";
+            @foreach ($errors->all() as $error)
+                errorMessages += "{{ $error }}\n";
+            @endforeach
+            Swal.fire({
+                icon: 'error',
+                title: 'Validation Errors',
+                text: errorMessages,
+            });
+        </script>
+    @endif
+
+	<script>
+		$(document).ready(function () {
+    // Add more Prasad items
+    $(".addMore").click(function () {
+        let newItem = `
+            <div class="row prasad-item align-items-end">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="prasad_item">Prasad Item <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="prasad_item[]" placeholder="Enter Prasad Item" required>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-danger removeItem"  style="margin-bottom: 15px"><b>-</b></button>
+                </div>
+            </div>
+        `;
+        $("#prasadItemContainer").append(newItem);
+    });
+
+    // Remove Prasad items
+    $(document).on("click", ".removeItem", function () {
+        $(this).closest(".prasad-item").remove();
+    });
+});
+
+	</script>
+@endsection

@@ -29,7 +29,7 @@
                     <form action="{{ route('saveParking') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
-                            <div class="col-md-4">
+                            {{-- <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="language">Language</label>
                                     <select class="form-control" id="language" name="language">
@@ -37,7 +37,7 @@
                                         <option value="english">English</option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="notice">Parking Name</label>
@@ -52,9 +52,6 @@
                                         placeholder="Enter parking availability">
                                 </div>
                             </div>
-
-                        </div>
-                        <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="map_url">Map URL</label>
@@ -62,13 +59,54 @@
                                         placeholder="Enter URL...">
                                 </div>
                             </div>
-
+                        </div>
+                        <div class="row">
+                          
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="parking_photo">Photo</label>
                                     <input type="file" class="form-control" id="parking_photo" name="parking_photo">
                                 </div>
                             </div>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="vehicle_type" class="form-label">Vehicle Type</label>
+                                    <div class="d-flex ">
+                                        <div class="form-check me-3">
+                                            <input class="form-check-input" type="checkbox" id="two_wheeler"
+                                                name="vehicle_type[]" value="two wheeler">
+                                            <label class="form-check-label" for="two_wheeler">Two Wheeler</label>
+                                        </div>
+                                        <div class="form-check me-3">
+                                            <input class="form-check-input" type="checkbox" id="four_wheeler"
+                                                name="vehicle_type[]" value="four wheeler">
+                                            <label class="form-check-label" for="four_wheeler">Four Wheeler</label>
+                                        </div>
+                                        <div class="form-check me-3">
+                                            <input class="form-check-input" type="checkbox" id="three_wheeler"
+                                                name="vehicle_type[]" value="three wheeler">
+                                            <label class="form-check-label" for="three_wheeler">Three Wheeler</label>
+                                        </div>
+                                        <div class="form-check me-3">
+                                            <input class="form-check-input" type="checkbox" id="heavy_vehicle"
+                                                name="vehicle_type[]" value="heavy vehicle">
+                                            <label class="form-check-label" for="heavy_vehicle">Heavy Vehicle</label>
+                                        </div>
+                                        <div class="form-check me-3">
+                                            <input class="form-check-input" type="checkbox" id="electric_vehicle"
+                                                name="vehicle_type[]" value="electric vehicle">
+                                            <label class="form-check-label" for="electric_vehicle">Electric
+                                                Vehicle</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                           
+                        </div>
+                        <div class="row">
+                            <!-- Vehicle Type Section -->
+                           
                             <div class="col-md-4">
                                 <!-- Pass Type Section -->
                                 <div class="form-group row">
@@ -101,44 +139,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <!-- Vehicle Type Section -->
-                            <div class="col-md-4 mb-4">
-                                <div class="form-group">
-                                    <label for="vehicle_type" class="form-label">Vehicle Type</label>
-                                    <div class="d-flex flex-wrap">
-                                        <div class="form-check me-3">
-                                            <input class="form-check-input" type="checkbox" id="two_wheeler"
-                                                name="vehicle_type[]" value="two wheeler">
-                                            <label class="form-check-label" for="two_wheeler">Two Wheeler</label>
-                                        </div>
-                                        <div class="form-check me-3">
-                                            <input class="form-check-input" type="checkbox" id="four_wheeler"
-                                                name="vehicle_type[]" value="four wheeler">
-                                            <label class="form-check-label" for="four_wheeler">Four Wheeler</label>
-                                        </div>
-                                        <div class="form-check me-3">
-                                            <input class="form-check-input" type="checkbox" id="three_wheeler"
-                                                name="vehicle_type[]" value="three wheeler">
-                                            <label class="form-check-label" for="three_wheeler">Three Wheeler</label>
-                                        </div>
-                                        <div class="form-check me-3">
-                                            <input class="form-check-input" type="checkbox" id="heavy_vehicle"
-                                                name="vehicle_type[]" value="heavy vehicle">
-                                            <label class="form-check-label" for="heavy_vehicle">Heavy Vehicle</label>
-                                        </div>
-                                        <div class="form-check me-3">
-                                            <input class="form-check-input" type="checkbox" id="electric_vehicle"
-                                                name="vehicle_type[]" value="electric vehicle">
-                                            <label class="form-check-label" for="electric_vehicle">Electric
-                                                Vehicle</label>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
 
                             <!-- Parking Area Type Section -->
                             <div class="col-md-4 mb-4">

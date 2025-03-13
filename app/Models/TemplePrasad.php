@@ -8,23 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class TemplePrasad extends Model
 {
     use HasFactory;
-    protected $table = 'temple__prasads';
+
+    protected $table = 'temple__prasad_details';
     
     protected $fillable = [
         'temple_id',
-        'temple_prasad_id',
-        'prasad_start_time',
-       'prasad_start_period',
-        'prasad_end_time',
-        'prasad_end_period',
-      'full_prasad_price',
+        'prasad_name',
+        'prasad_time',
+        'prasad_price',
+        'prasad_item',
+        'description',
         'online_order',
         'pre_order',
         'offline_order'
     ];
-    public function prasadItems()
-    {
-        return $this->hasMany(TemplePrasadItem::class, 'temple_prasad_id', 'temple_prasad_id');
-    }
+
 
 }

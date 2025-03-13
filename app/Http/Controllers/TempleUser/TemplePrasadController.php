@@ -9,6 +9,7 @@ use App\Models\TemplePrasadItem;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
+
 class TemplePrasadController extends Controller
 {
     //
@@ -18,114 +19,104 @@ class TemplePrasadController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the incoming request data
-        $validatedData = $request->validate([
-            'prasad_start_time' => 'required',
-            'prasad_start_period' => 'required',
-            'prasad_end_time' => 'required',
-            'prasad_end_period' => 'required',
-            'online_order' => 'nullable',
-            'pre_order' => 'nullable',
-            'offline_order' => 'nullable',
-            'prasad_name' => 'required|array',
-            'prasad_price' => 'required|array',
-        ]);
-
-        $prasadId = 'PRASAD' . mt_rand(1000000, 9999999);
-
         try {
-            // Save the main temple prasad details in 'temple_prasads' table
-            $templePrasad = TemplePrasad::create([
-                'temple_id' => Auth::guard('temples')->user()->temple_id,
-                'temple_prasad_id' => $prasadId,
-                'prasad_start_time' => $request->prasad_start_time,
-                'prasad_start_period' => $request->prasad_start_period,
-                'prasad_end_time' => $request->prasad_end_time,
-                'prasad_end_period' => $request->prasad_end_period,
-                'full_prasad_price' => $request->full_prasad_price,
-                'online_order' => $request->has('online_order') ? 1 : 0,
-                'pre_order' => $request->has('pre_order') ? 1 : 0,
-                'offline_order' => $request->has('offline_order') ? 1 : 0,
-            ]);
-
-            // Save the additional prasad details in 'temple_prasad_details' table
-            foreach ($request->prasad_name as $key => $prasadName) {
-                TemplePrasadItem::create([
-                    'temple_id' => Auth::guard('temples')->user()->temple_id,
-                    'temple_prasad_id' => $templePrasad->temple_prasad_id,
-                    'prasad_name' => $prasadName,
-                    'prasad_price' => $request->prasad_price[$key],
-                ]);
+            // Ensure the authenticated temple user exists
+            $templeUser = Auth::guard('temples')->user();
+            if (!$templeUser) {
+                return redirect()->back()->with('error', 'Unauthorized access.');
             }
-
+    
+            // Validate request data
+            $request->validate([
+                'prasad_name'  => 'required|string|max:255',
+                'prasad_time'  => 'required',
+                'prasad_price' => 'required|numeric',
+                'prasad_item'  => 'required|array|min:1',
+                'description'  => 'nullable|string',
+            ]);
+    
+            // Convert prasad items array to a comma-separated string
+            $prasadItems = implode(",", $request->input('prasad_item', []));
+    
+            // Create new TemplePrasad record
+            $prasad = TemplePrasad::create([
+                'temple_id'    => $templeUser->temple_id, // Ensure this ID exists
+                'prasad_name'  => $request->input('prasad_name'),
+                'prasad_time'  => $request->input('prasad_time'),
+                'prasad_price' => $request->input('prasad_price'),
+                'prasad_item'  => $prasadItems,
+                'description'  => $request->input('description'),
+                'online_order' => $request->has('online_order') ? 1 : 0,
+                'pre_order'    => $request->has('pre_order') ? 1 : 0,
+                'offline_order'=> $request->has('offline_order') ? 1 : 0,
+            ]);
+    
+            if ($prasad) {
+                return redirect()->back()->with('success', 'Temple Prasad details saved successfully!');
+            } else {
+                return redirect()->back()->with('error', 'Failed to save Temple Prasad details.');
+            }
+    
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Failed to save prasad details. Please try again.');
+            // Log full error details for debugging
+            Log::error('Error saving temple prasad: ', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            
+            return redirect()->back()->with('error', 'An error occurred while saving the prasad details.');
         }
-
-        return redirect()->back()->with('success', 'Prasad details have been saved successfully!');
     }
-
+    
     public function manageprasad()
     {
         // Get the current authenticated temple's ID
         $templeId = Auth::guard('temples')->user()->temple_id;
     
         // Fetch temple prasad records associated with the current temple's ID
-        $templePrasads = TemplePrasad::with('prasadItems')
-            ->where('temple_id', $templeId) // Add condition for temple_id
+        $prasadas = TemplePrasad::
+            where('temple_id', $templeId) // Add condition for temple_id
             ->get();
     
-        return view('templeuser.manage-temple-prasads', compact('templePrasads'));
+        return view('templeuser.manage-temple-prasads', compact('prasadas'));
     }
     
-    public function edit($id)
-{
-    $templePrasad = TemplePrasad::with('prasadItems')->findOrFail($id);
-    return view('templeuser.edit-temple-prasad', compact('templePrasad'));
-}
 
-public function update(Request $request, $id)
+    public function update(Request $request, $id)
 {
+    // Validate request data
     $request->validate([
-        'prasad_start_time' => 'required',
-        'prasad_end_time' => 'required',
-        'full_prasad_price' => 'required|numeric',
-        'prasad_name.*' => 'required',
-        'prasad_price.*' => 'required|numeric',
+        'prasad_name' => 'required|string|max:255',
+        'prasad_time' => 'required',
+        'prasad_price' => 'required|numeric',
+        'prasad_item' => 'required|array',
+        'prasad_item.*' => 'string|max:255',
+        'description' => 'nullable|string',
     ]);
 
-    $templePrasad = TemplePrasad::findOrFail($id);
-    $templePrasad->update([
-        'prasad_start_time' => $request->input('prasad_start_time'),
-        'prasad_end_time' => $request->input('prasad_end_time'),
-        'full_prasad_price' => $request->input('full_prasad_price'),
-        'pre_order' => $request->has('pre_order'),
-        'offline_order' => $request->has('offline_order'),
-    ]);
+    // Find the Prasad record by ID
+    $prasad = TemplePrasad::findOrFail($id);
 
-    // Delete existing items
-    $templePrasad->prasadItems()->delete();
+    // Update the record
+    $prasad->prasad_name = $request->prasad_name;
+    $prasad->prasad_time = $request->prasad_time;
+    $prasad->prasad_price = $request->prasad_price;
+    $prasad->prasad_item = implode(',', $request->prasad_item); // Store as a comma-separated string
+    $prasad->online_order = $request->has('online_order') ? 1 : 0;
+    $prasad->pre_order = $request->has('pre_order') ? 1 : 0;
+    $prasad->offline_order = $request->has('offline_order') ? 1 : 0;
+    $prasad->description = $request->description;
 
-    // Add updated prasad items
-    $prasadItems = [];
-    foreach ($request->input('prasad_name') as $key => $name) {
-        $prasadItems[] = [
-            'temple_id' => Auth::guard('temples')->user()->temple_id,
+    // Save updated data
+    $prasad->save();
 
-            'prasad_name' => $name,
-            'prasad_price' => $request->input('prasad_price')[$key],
-        ];
-    }
-    $templePrasad->prasadItems()->createMany($prasadItems);
-
-    return redirect()->route('templeprasad.manageprasad')->with('success', 'Temple Prasad updated successfully');
+    // Redirect back with success message
+    return redirect()->back()->with('success', 'Prasad details updated successfully!');
 }
+
 
 public function destroy($id)
 {
     $templePrasad = TemplePrasad::findOrFail($id);
-    $templePrasad->prasadItems()->delete();  // Remove related prasad items
-    $templePrasad->delete();  // Delete the main record
+    $templePrasad->status = 'deleted';
+    $templePrasad->save();  // Delete the main record
 
     return redirect()->route('templeprasad.manageprasad')->with('success', 'Temple Prasad deleted successfully');
 }
