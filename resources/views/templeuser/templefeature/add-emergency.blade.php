@@ -8,12 +8,12 @@
     <!-- Breadcrumb -->
     <div class="breadcrumb-header justify-content-between">
         <div class="left-content">
-            <span class="main-content-title mg-b-0 mg-b-lg-1">ADD COMMUTE</span>
+            <span class="main-content-title mg-b-0 mg-b-lg-1">ADD EMERGENCY</span>
         </div>
         <div class="justify-content-center mt-2">
             <ol class="breadcrumb d-flex justify-content-between align-items-center">
-                <li class="breadcrumb-item tx-15"><a href="{{ route('manageCommute') }}"
-                        class="btn btn-warning text-dark">Manage Commute</a></li>
+                <li class="breadcrumb-item tx-15"><a href="{{ route('manageEmergency') }}"
+                        class="btn btn-warning text-white">Manage Emergency</a></li>
                 <li class="breadcrumb-item tx-15"><a href="javascript:void(0);">Dashboard</a></li>
             </ol>
         </div>

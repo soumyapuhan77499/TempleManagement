@@ -56,6 +56,8 @@ use App\Http\Controllers\TempleUser\TempleAccomodationController;
 use App\Http\Controllers\TempleUser\TempleNearByTempleController;
 use App\Http\Controllers\TempleUser\TempleCommuteController;
 use App\Http\Controllers\TempleUser\TempleEmergencyController;
+use App\Http\Controllers\TempleUser\TemplePublicServiceController;
+
 
 
 ## Home pages Routes
@@ -489,4 +491,13 @@ Route::controller(TempleEmergencyController::class)->group(function() {
     Route::get('templeuser/manage-emergency', 'manageEmergency')->name('manageEmergency');
     Route::put('templeuser/update-emergency/{id}',  'updateEmergency')->name('updateEmergency');
     Route::get('templeuser/delete-emergency/{id}',  'deleteEmergency')->name('deleteEmergency');
+});
+
+
+Route::controller(TemplePublicServiceController::class)->group(function() {
+    Route::get('templeuser/add-service','addService');
+    Route::post('templeuser/save-service', 'saveService')->name('saveService');
+    Route::get('templeuser/manage-service', 'manageService')->name('manageService');
+    Route::put('templeuser/update-service/{id}',  'updateService')->name('updateService');
+    Route::get('templeuser/delete-service/{id}',  'deleteService')->name('deleteService');
 });

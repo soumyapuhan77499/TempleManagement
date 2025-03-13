@@ -73,4 +73,43 @@ class TempleEmergencyController extends Controller
         return redirect()->route('manageEmergency')->with('success', 'Commute status updated to deleted successfully!');
     }
 
+
+    public function updateEmergency(Request $request, $id)
+{
+    // Validate incoming request
+    $request->validate([
+        'emergency_type' => 'required|string',
+        'contact_no' => 'required|string|max:15',
+        'google_map_link' => 'nullable|string',
+        'landmark' => 'nullable|string|max:255',
+        'pincode' => 'nullable|string|max:10',
+        'city_village' => 'nullable|string|max:100',
+        'district' => 'nullable|string|max:100',
+        'state' => 'nullable|string|max:100',
+        'country' => 'nullable|string|max:100',
+        'description' => 'nullable|string',
+    ]);
+
+    // Find the emergency record by ID
+    $emergency = EmergencyContact::findOrFail($id);
+
+    // Update the record
+    $emergency->update([
+        'type' => $request->emergency_type,
+        'contact_no' => $request->contact_no,
+        'google_map_link' => $request->google_map_link,
+        'landmark' => $request->landmark,
+        'pincode' => $request->pincode,
+        'city_village' => $request->city_village,
+        'district' => $request->district,
+        'state' => $request->state,
+        'country' => $request->country,
+        'description' => $request->description,
+    ]);
+
+    // Redirect back with success message
+    return redirect()->back()->with('success', 'Emergency details updated successfully.');
+}
+
+
 }
