@@ -42,8 +42,8 @@ class TemplePublicServiceController extends Controller
             if ($request->hasFile('photo')) {
                 foreach ($request->file('photo') as $photo) {
                     $fileName = time() . '_' . $photo->getClientOriginalName();
-                    $photo->move(public_path('uploads/public_services'), $fileName);
-                    $photoPaths[] = 'uploads/public_services/' . $fileName;
+                    $photo->move(public_path('assets/uploads/public_services'), $fileName);
+                    $photoPaths[] = 'assets/uploads/public_services/' . $fileName;
                 }
             }
 

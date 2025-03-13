@@ -118,7 +118,7 @@
                                     <label for="food_type">Food Type</label>
                                     <select class="form-control select2" id="food_type" name="food_type">
                                         <option value="veg" {{ $accomodation->food_type == 'veg' ? 'selected' : '' }}>Veg</option>
-                                        <option value="non_veg"  {{ $accomodation->food_type == 'non_veg' ? 'selected' : '' }}>Non-Veg</option>
+                                        <option value="pure_veg"  {{ $accomodation->food_type == 'pure_veg' ? 'selected' : '' }}>Pure-Veg</option>
                                         <option value="both" {{ $accomodation->food_type == 'both' ? 'selected' : '' }}>Both</option>
                                     </select>
                                 </div>

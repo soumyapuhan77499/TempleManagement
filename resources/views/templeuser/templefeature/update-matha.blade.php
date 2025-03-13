@@ -133,7 +133,6 @@
                                 </div>
                             </div>
                            
-                          
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="landmark">Landmark</label>

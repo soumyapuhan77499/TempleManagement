@@ -88,8 +88,9 @@
                                 <div class="form-group">
                                     <label for="food_type">Food Type</label>
                                     <select class="form-control select2" id="food_type" name="food_type">
+                                        <option value="">Select..</option>
                                         <option value="veg">Veg</option>
-                                        <option value="non_veg">Non-Veg</option>
+                                        <option value="pure_veg">Non-Veg</option>
                                         <option value="both">Both</option>
                                     </select>
                                 </div>
@@ -177,7 +178,6 @@
                         </div>
     
                         <!-- Description -->
-                        <h5 class="mt-4 mb-3">Description</h5>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
