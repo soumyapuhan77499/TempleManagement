@@ -64,6 +64,11 @@ use App\Http\Controllers\TempleUser\TemplePublicServiceController;
 Route::get('/', function () {
     return view('index');
 });
+
+Route::get('/puri-dham', function () {
+    return view('website.index');
+});
+
 Route::get('/contact', function () {
     return view('contactus');
 });
@@ -128,17 +133,12 @@ Route::prefix('templeuser')->middleware('templeauth')->group(function () {
         Route::post('committeemembers/{id}/save-committee-hierarchy', 'saveCommitteeHierarchyPosition')->name('templeuser.saveCommitteeHierarchyPosition');
         Route::get('/manage-committee-member', 'managecommitteemember')->name('templeuser.managecommitteemember');
         Route::post('/deactivate-committee-members',  'deactivateCommitteeMembers')->name('templeuser.deactivateCommitteeMembers');
-
         Route::get('/committee-member/edit/{id}', 'editcommittemember')->name('templeuser.editcommitteeMember'); // Edit route
         Route::put('/committee-member/update/{id}', 'updatecommittemember')->name('templeuser.updatecommitteeMember'); // Update route
         Route::delete('/committee-member/delete/{id}', 'destroycommittemember')->name('templeuser.deletecommitteeMember'); // Delete route
-
         Route::get('/add-temple-sub-committee', 'addsubcommittee')->name('templeuser.addsubcommittee');
         Route::post('/store-temple-sub-committee', 'storesubcommittee')->name('templeuser.storesubcommittee');
-
         Route::post('/store-other-member', 'storeothermember')->name('templeuser.storeothermember');
-
-       
     });
 
     Route::controller(TempleBankController::class)->group(function() {

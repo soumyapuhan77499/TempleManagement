@@ -11,6 +11,22 @@ class TempleFestival extends Model
 
     protected $table = 'temple__festival';
 
-    protected $fillable = ['festival_name', 'festival_date', 'festival_descp', 'temple_id', 'status'];
+    protected $fillable = [
+        'temple_id',
+        'festival_id',
+        'festival_name',
+        'start_date',
+        'end_date',
+        'photo',
+        'live_url',
+        'description',
+        'status'
+        ];
+
+        public function subFestivals()
+{
+    return $this->hasMany(SubFestival::class, 'festival_id', 'festival_id');
+}
+
 
 }

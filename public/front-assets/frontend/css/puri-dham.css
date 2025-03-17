@@ -1,0 +1,742 @@
+
+/* HEADER STYLING */
+.header-area {
+    background: white;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    height: 70px;
+}
+
+.header-content {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.toggle-btn {
+    width: 50px;
+    height: 25px;
+    background: red;
+    border-radius: 15px;
+    position: relative;
+    cursor: pointer;
+}
+
+.toggle-circle {
+    width: 15px;
+    height: 15px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+}
+
+.logo-text {
+    color: white;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-menu a {
+    color: #7D3EC6;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.separator {
+    color: #7D3EC6;
+    font-weight: bold;
+}
+
+.live-badge {
+    background: red;
+    color: white;
+    padding: 3px 5px;
+    border-radius: 15px;
+    font-weight: bold;
+}
+
+.hamburger-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.hamburger-menu span {
+    width: 20px;
+    height: 2px;
+    background: purple;
+}
+
+   /* Banner Section */
+.banner-section {
+    position: relative;
+    text-align: center;
+    color: white;
+    overflow: hidden;
+}
+
+.banner-image img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+}
+
+.banner-content {
+    position: absolute;
+    top: 30%;
+    left: 10%;
+    text-align: left;
+}
+
+.banner-content h2 {
+    font-size: 2rem;
+    font-weight: 400;
+    color: #FFD700;
+}
+
+.banner-content h1 {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: white;
+}
+/* Container for Niti Cards */
+.niti-cards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+/* Individual Niti Card */
+.niti-card {
+    background: white;
+    color: black;
+    border-radius: 12px;
+    padding: 12px 15px;
+    width: 400px;
+    height: 120px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: row; /* Aligns items in a row */
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+    border-left: 4px solid transparent;
+    position: relative;
+}
+
+/* Active (Highlighted) Card */
+.niti-card.active {
+    border-left: 4px solid red;
+}
+
+/* Left Section (Text) */
+.niti-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Title */
+.niti-card h3 {
+    color: #3A506B;
+    margin-bottom: 5px;
+    font-size: 19px;
+    font-weight: 400;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Underline effect for Title */
+.niti-card h3::after {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 2px;
+    background: rgb(87, 76, 76);
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+}
+
+/* Niti card content */
+.niti-card p {
+    font-size: 14px;
+    margin: 3px 0;
+    display: flex;
+    align-items: center;
+    color: #4F4F4F;
+    font-weight: 500;
+}
+
+/* Icon Styling */
+.niti-card p i {
+    margin-right: 6px;
+    color: rgb(87, 70, 70);
+    font-size: 14px;
+}
+
+/* Right Section (Icons & Time) */
+.niti-icons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 50px;
+}
+
+/* Right Arrow */
+.niti-card::after {
+    content: "\f105"; /* FontAwesome Right Arrow */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 600;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #C4C4C4;
+    font-size: 30px;
+}
+
+/* Responsive Fix */
+@media screen and (max-width: 768px) {
+    .niti-cards {
+        flex-direction: column;
+        bottom: 2%;
+        width: 100%;
+        align-items: center;
+    }
+
+    .niti-card {
+        width: 90%;
+    }
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+   
+    height: 100vh;
+    margin: 0;
+}
+
+/* Shree Mandir Section */
+.shree-mandir-section {
+    width: 100%;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.section-titles {
+    font-size: 24px;
+    font-weight: bold;
+    color: #3A506B;
+    margin-left: 45px;
+    margin-top: 20px;
+}
+
+.live-badge {
+    background-color: red;
+    color: white;
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+
+.mandir-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 50px;
+    gap: 20px;
+}
+
+.mandir-card {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    height: 320px;
+}
+.card-content {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.card-icon {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #7B54E3;
+    margin-bottom: 30px;
+}
+
+.card-icon i {
+    font-size: 24px;
+    color: #7B54E3;
+}
+
+p {
+    font-size: 14px;
+    color: #666;
+    margin: 10px 15px;
+
+}
+.video-container {
+    flex: 1;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #f4f4f4;
+    padding: 15px;
+    text-align: left;
+    height: 310px;
+}
+.video-preview {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+iframe {
+    width: 100%;
+    height: 260px;
+    border-radius: 10px;
+}
+.video-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.radio-card {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    height: 320px;
+}
+
+.card-content {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.card-icon {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #7B54E3;
+    gap: 10px;
+}
+
+.card-icon i {
+    font-size: 24px;
+    color: #7B54E3;
+}
+
+p {
+    font-size: 14px;
+    color: #666;
+    margin: 5px 0;
+}
+
+.radio-player {
+    flex: 1;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: left;
+}
+
+.radio-header {
+    background: #1e1e2d;
+    color: white;
+    padding: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    position: relative;
+}
+
+.radio-header::after {
+    content: "";
+    width: 50px;
+    height: 5px;
+    background: #ccc;
+    border-radius: 10px;
+    display: block;
+    margin: 10px auto 0;
+}
+
+.radio-nav {
+    display: flex;
+    justify-content: space-around;
+    padding: 15px;
+    font-size: 14px;
+    color: #888;
+    background: white;
+}
+
+.radio-nav span {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.radio-nav i {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.radio-nav .active {
+    color: #7B54E3;
+    font-weight: bold;
+}
+
+.radio-station {
+    padding: 10px;
+    background: white;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.radio-station h4 {
+    color: #1eaf59;
+    margin: 0;
+}
+
+.radio-station p {
+    font-size: 12px;
+    color: #666;
+}
+
+.radio-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.radio-controls button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.radio-controls input {
+    width: 100px;
+}
+.radio-controls input {
+    width: 100px;
+}
+
+@media (max-width: 768px) {
+    .mandir-content {
+        flex-direction: column;
+    }
+    .mandir-card {
+        flex: 1 1 100%;
+    }
+}
+
+/* General Section Styling */
+.services-section {
+    text-align: center;
+}
+.section-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #243673;
+    margin-bottom: 20px;
+    position: relative;
+}
+.section-title::after {
+    content: "";
+    display: block;
+    width: 50px;
+    height: 3px;
+    background: red;
+    margin: 5px auto;
+}
+
+/* Grid Layout */
+.services-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 1250px;
+    margin: auto;
+}
+
+/* Service Card */
+.service-card {
+    display: flex;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    padding: 20px;
+    height: 120px; /* Exact Height */
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    height: 200px;
+}
+.service-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Icon Section */
+.icon-container {
+    width: 180px;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    position: relative;
+}
+.icon-container i {
+    font-size: 36px;
+    color: white;
+}
+.icon-container::after {
+    content: "";
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+}
+
+/* Service Content */
+.service-content {
+    flex: 1;
+    padding-left: 20px;
+    text-align: left;
+}
+.service-content h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+.service-content p {
+    font-size: 14px;
+    color: gray;
+    margin: 5px 0;
+}
+.read-more {
+    font-size: 12px;
+    color: black;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    float: right;
+}
+.read-more:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+/* Colors */
+.accommodation-card .icon-container {
+    background: #E8B253;
+}
+.donations-card .icon-container {
+    background: #A7C67C;
+}
+.darshan-card .icon-container {
+    background: #5A9BD4;
+}
+.gifts-card .icon-container {
+    background: #49BEB7;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .services-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* SWIPE IMAGE */
+
+/* Section Title */
+/* Title Styling */
+.temple-slider {
+    text-align: center;
+    margin: 40px auto;
+}
+
+.slider-title {
+    font-size: 22px;
+    color: #6A359C;
+    font-weight: bold;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.slider-title::after {
+    content: "";
+    display: block;
+    width: 50px;
+    height: 3px;
+    background: red;
+    margin: 5px auto;
+}
+
+/* Swiper Container */
+.swiper {
+    width: 80%;
+    margin: auto;
+    padding-top: 30px;  /* ✅ No extra space */
+}
+
+/* Swiper Slides */
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.5s ease-in-out;
+    padding: 30px;  /* ✅ Remove padding */
+    margin: 0px;   /* ✅ Remove margin */
+}
+
+/* Images inside slides */
+.swiper-slide img {
+    width: 100%;  /* ✅ Ensure full width */
+    max-width: 340px; 
+    border-radius: 15px;
+    filter: grayscale(100%);
+    transition: all 0.5s ease-in-out;
+}
+
+/* Active Slide Styling */
+.swiper-slide-active img {
+    filter: grayscale(0);
+    transform: scale(1.3);
+height: 200px;
+width:320px;
+}
+
+/* Navigation Buttons */
+.swiper-button-prev, .swiper-button-next {
+    color: rgb(230, 14, 14);
+}
+
+/* Convenience Section Styling */
+.temple-convenience {
+    text-align: center;
+    padding: 40px 0;
+}
+
+.convenience-title {
+    font-size: 24px;
+    color: #6A359C;
+    font-weight: bold;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.convenience-title::after {
+    content: "";
+    display: block;
+    width: 50px;
+    height: 3px;
+    background: red;
+    margin: 5px auto;
+}
+
+.convenience-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    background: #F8F7FC;
+    padding: 20px;
+    border-radius: 12px;
+    max-width: 80%;
+    margin: auto;
+}
+
+.convenience-item {
+    text-align: center;
+    background: #F0EAFB;
+    padding: 15px;
+    border-radius: 12px;
+    width: 120px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.convenience-item:hover {
+    transform: scale(1.1);
+}
+
+.convenience-item i {
+    font-size: 30px;
+    color: #6A359C;
+    margin-bottom: 10px;
+}
+
+.convenience-item p {
+    font-size: 14px;
+    font-weight: 500;
+    color: #4A148C;
+}
+

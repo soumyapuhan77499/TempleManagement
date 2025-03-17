@@ -133,10 +133,9 @@ class TempleUserController extends Controller
         $today = Carbon::today()->toDateString();
 
         // Fetch festivals for today
-        $festivals = TempleFestival::where('festival_date', $today)
+        $festivals = TempleFestival::where('start_date', $today)
             ->where('status', 'active') // Assuming you only want active festivals
             ->get();
-
 
         // Fetching data using the corresponding models
         $aboutDetails = TempleAboutDetail::where('temple_id', $templeId)->first();
