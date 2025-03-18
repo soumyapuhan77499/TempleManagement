@@ -44,6 +44,7 @@
 
         </div>
     </div>
+
     <section class="shree-mandir-section">
         <h2 class="section-titles">Shree Mandir <span class="live-badge">⚡ Live</span></h2>
         <div class="mandir-content">
@@ -52,12 +53,12 @@
             <div class="mandir-card">
                 <div class="card-content">
                     <div class="card-icon">
-                        <i class="fa fa-tv"></i>
-                        <h3>TV</h3>
+                        <img src="{{ asset('website/tv.png') }}" style="height: 60px;width: 70px" alt="Shree Jagannatha Dham">
+                        <h3 style="color: #db4d30">TV</h3>
                     </div>
-                    <p>Listen or Watch all thelive broadcasts from Shree Mandira</p>
-                    <p>🕒 03:17 pm</p>
-                    <p>📅 4th Mar</p>
+                    <p class="para" >Listen or Watch all the live broadcasts from Shree Mandira</p>
+                    <p style="margin-top: 10px">🕒 03:17 pm</p>
+                    <p style="margin-top: 10px">📅 4th Mar</p>
                 </div>
                 <div class="video-container">
                     <iframe width="700" height="315"
@@ -73,12 +74,12 @@
             <div class="radio-card">
                 <div class="card-content">
                     <div class="card-icon">
-                        <i class="fa fa-radio"></i>
-                        <h3>Radio</h3>
+                        <img src="{{ asset('website/radio.png') }}" style="height: 60px;width: 70px" alt="Shree Jagannatha Dham">
+                        <h3 style="color: #db4d30">Radio</h3>
                     </div>
-                    <p>Listen or Watch all the live broadcasts from Shree Mandira</p>
-                    <p>🕒 03:17 pm</p>
-                    <p>📅 4th Mar</p>
+                    <p class="para">Listen or Watch all the live broadcasts from Shree Mandira</p>
+                    <p style="margin-top: 10px">🕒 03:17 pm</p>
+                    <p style="margin-top: 10px">📅 4th Mar</p>
                 </div>
                 <div class="radio-player">
                     <div class="radio-header">Browse</div>
@@ -100,13 +101,25 @@
                         </span>
                     </div>
                     <div class="radio-station">
-                        <h4>Lifelight Radio</h4>
-                        <p>Bengaluru, India</p>
+                        <!-- Header with Title & Icons -->
+                        <div class="radio-headers">
+                            <h4 >Bhajans Name</h4>
+                            <div class="radio-icons">
+                                <i class="fas fa-heart"></i>
+                                <i class="fas fa-ellipsis-h"></i>
+                            </div>
+                        </div>
+                
+                        <!-- Player Controls -->
                         <div class="radio-controls">
-                            <button>⏮</button>
-                            <button>⏯</button>
-                            <button>⏭</button>
-                            <input type="range" min="0" max="100">
+                            <div class="song">
+                                <img src="{{ asset('website/12.png') }}" alt="Prev">
+                                <img src="{{ asset('website/11.png') }}" alt="Play">
+                                <img src="{{ asset('website/10.png') }}" alt="Next">
+                            </div>
+                            <div class="progress-bar">
+                                <input type="range" min="0" max="100">
+                            </div>
                         </div>
                     </div>
                 </div>

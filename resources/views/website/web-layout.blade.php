@@ -65,6 +65,9 @@
            
         <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400&display=swap" rel="stylesheet">
+
+
 </head>
 
 <body>
