@@ -476,7 +476,8 @@ p {
     }
 }
 
-/* General Section Styling */
+/* SERVICE SECTION */
+
 .services-section {
     text-align: center;
 }
@@ -597,6 +598,116 @@ p {
     }
 }
 
+/* Menu Container */
+.menu-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 30px;
+    background-color: #fff;
+    position: relative;
+    margin-top: 50px;
+}
+
+/* Arrows */
+.arrow {
+    font-size: 24px;
+    color: #A0A0A0;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+    margin-bottom: 30px;
+
+}
+
+.arrow:hover {
+    color: #7B54E3;
+}
+
+/* Menu Items Container */
+.menu-items {
+    display: flex;
+    gap: 50px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Individual Menu Item */
+.menu-item {
+    background-color: #EAF0FF;
+    border-radius: 20px;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.para{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+/* Active Menu Item */
+.menu-item.active {
+    background-color: #4A5D9A;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Icons */
+.menu-item i {
+    font-size: 32px;
+    margin-bottom: 10px;
+    color: #4A5D9A;
+}
+
+/* Active Icon */
+.menu-item.active i {
+    color: white;
+}
+
+/* Menu Text */
+.menu-item p {
+    font-size: 15px;
+    font-weight: bold;
+    color: #555;
+}
+
+/* Active Text */
+.menu-item.active p {
+    color: white;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .menu-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .menu-items {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .menu-item {
+        width: 100px;
+        height: 100px;
+    }
+
+    .arrow {
+        display: none; /* Hide arrows on small screens */
+    }
+}
+
 
 /* SWIPE IMAGE */
 
@@ -680,7 +791,7 @@ width:320px;
 .convenience-title::after {
     content: "";
     display: block;
-    width: 50px;
+    width: 100px;
     height: 3px;
     background: red;
     margin: 5px auto;
@@ -689,12 +800,12 @@ width:320px;
 .convenience-container {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 40px;
     flex-wrap: wrap;
     background: #F8F7FC;
-    padding: 20px;
+    padding: 40px;
     border-radius: 12px;
-    max-width: 80%;
+    max-width: 100%;
     margin: auto;
 }
 
@@ -724,3 +835,29 @@ width:320px;
     color: #4A148C;
 }
 
+/* ABOUT PURI */
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Default Styles */
+.inactive-tab img {
+    filter: grayscale(100%);
+    opacity: 0.5;
+}
+
+.active-tab img {
+    filter: none;
+    opacity: 1;
+}
+
+
+/* MAP */
+
+#map {
+    width: 100%;
+    height: 500px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}

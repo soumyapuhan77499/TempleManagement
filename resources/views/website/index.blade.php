@@ -12,7 +12,7 @@
     <!-- Niti Cards Section -->
     <div class="niti-cards">
         <div class="niti-card active">
-            <div class="niti-content" >
+            <div class="niti-content">
                 <h3 style="font-size: 22px;padding-bottom:5px">Panchami</h3>
                 <p style="padding-top: 5px"><strong>Shukla Paksha</strong></p>
             </div>
@@ -113,108 +113,294 @@
             </div>
         </div>
     </section>
+
+    <section class="services-section">
+        <h2 class="section-title">Quick Services</h2>
+
+        <div class="services-container" style="margin-top: 50px">
+            <!-- Accommodation -->
+            <div class="service-card accommodation-card">
+                <div class="icon-container">
+                    <i class="fa fa-bed"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Accommodation</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                        et dolore magna aliqua.</p>
+                    <a href="#" class="read-more">Read More</a>
+                </div>
+            </div>
+
+            <!-- Donations -->
+            <div class="service-card donations-card">
+                <div class="icon-container">
+                    <i class="fa fa-hand-holding-heart"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Donations</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                        et dolore magna aliqua.</p>
+                    <a href="#" class="read-more">Read More</a>
+                </div>
+            </div>
+
+            <!-- Darshan Booking -->
+            <div class="service-card darshan-card">
+                <div class="icon-container">
+                    <i class="fa fa-calendar-alt"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Darshan Booking</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                        et dolore magna aliqua.</p>
+                    <a href="#" class="read-more">Read More</a>
+                </div>
+            </div>
+
+            <!-- Gifts & Offerings -->
+            <div class="service-card gifts-card">
+                <div class="icon-container">
+                    <i class="fa fa-gift"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Donations</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                        et dolore magna aliqua.</p>
+                    <a href="#" class="read-more">Read More</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-container">
+            <span class="arrow left">❮</span>
+            <div class="menu-items">
+                <div class="para">
+                    <div class="menu-item active">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <p style="margin-top: 10px;font-weight: bold; color: #555;">Bhakta Nibas</p>
+                </div>
+
+                <div class="para">
+                    <div class="menu-item">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <p style="margin-top: 10px;font-weight: bold; color: #555;">Online Donation</p>
+                </div>
+
+                <div class="para">
+                    <div class="menu-item">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <p style="margin-top: 10px;font-weight: bold; color: #555;">Hundi Collection</p>
+
+                </div>
+
+                <div class="para">
+                    <div class="menu-item">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <p style="margin-top: 10px;font-weight: bold; color: #555;">Online Donation</p>
+                </div>
+
+                <div class="para">
+                    <div class="menu-item">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <p style="margin-top: 10px;font-weight: bold; color: #555;">Hundi Collection</p>
+                </div>
+
+            </div>
+            <span class="arrow right">❯</span>
+        </div>
+
+    </section>
+    <section class="temple-slider">
+        <h2 class="slider-title">Nearby Temples</h2>
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="{{ asset('website/11.jpg') }}" alt="Temple"></div>
+                <div class="swiper-slide"><img src="{{ asset('website/11.jpg') }}" alt="Temple"></div>
+                <div class="swiper-slide"><img src="{{ asset('website/11.jpg') }}" alt="Temple"></div>
+                <div class="swiper-slide"><img src="{{ asset('website/11.jpg') }}" alt="Temple"></div>
+                <div class="swiper-slide"><img src="{{ asset('website/11.jpg') }}" alt="Temple"></div>
+            </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </section>
+
+    <section class="temple-convenience">
+        <h2 class="convenience-title">Conveniences</h2>
+        <div class="convenience-container">
+            <div class="convenience-item">
+                <i class="fas fa-tint"></i>
+                <p> Water</p>
+            </div>
+            <div class="convenience-item">
+                <i class="fas fa-phone-alt"></i>
+                <p> Contacts</p>
+            </div>
+            <div class="convenience-item">
+                <i class="fas fa-wheelchair"></i>
+                <p> Handicap </p>
+            </div>
+            <div class="convenience-item">
+                <i class="fas fa-map-marked-alt"></i>
+                <p>Route Map</p>
+            </div>
+            <div class="convenience-item">
+                <i class="fas fa-utensils"></i>
+                <p>Free Food</p>
+            </div>
+            <div class="convenience-item">
+                <i class="fas fa-search"></i>
+                <p>Lost & Found</p>
+            </div>
+            <div class="convenience-item">
+                <i class="fas fa-toilet"></i>
+                <p>Toilet</p>
+            </div>
+        </div>
+    </section>
+    
    
-<section class="services-section">
-    <h2 class="section-title">Quick Services</h2>
-
-    <div class="services-container">
-        <!-- Accommodation -->
-        <div class="service-card accommodation-card">
-            <div class="icon-container">
-                <i class="fa fa-bed"></i>
+    <section class="bg-gray-100 p-10">
+        <div class="max-w-6xl mx-auto">
+            <!-- Header -->
+            <div class="flex justify-between">
+                <h2 class="text-2xl font-bold text-red-600">Panji Calendar</h2>
+                <h2 class="text-2xl font-bold text-red-600">Events</h2>
             </div>
-            <div class="service-content">
-                <h3>Accommodation</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                <a href="#" class="read-more">Read More</a>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-5">
+                <!-- Calendar Section -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-yellow-300">
+                    <h3 class="text-md font-semibold text-red-500">Select date</h3>
+                    <div id="calendar"></div>
+                </div>
+    
+                <!-- Events Section -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-300">
+                    <h3 class="text-lg font-semibold text-red-500 text-center">Upcoming Events</h3>
+                    <div id="events" class="grid grid-cols-3 gap-4 mt-4">
+                        <!-- Event Cards -->
+                        <div class="bg-red-100 p-3 rounded-lg text-center shadow-md hover:shadow-xl transition">
+                            <img src="website/1.png" class="mx-auto w-12 h-12">
+                            <p class="text-red-600 font-semibold">Sankranti</p>
+                        </div>
+                        <div class="bg-blue-100 p-3 rounded-lg text-center shadow-md hover:shadow-xl transition">
+                            <img src="website/2.png" class="mx-auto w-12 h-12">
+                            <p class="text-blue-600 font-semibold">Amavasya</p>
+                        </div>
+                        <div class="bg-green-100 p-3 rounded-lg text-center shadow-md hover:shadow-xl transition">
+                            <img src="website/3.png" class="mx-auto w-12 h-12">
+                            <p class="text-green-600 font-semibold">Pournami</p>
+                        </div>
+                        <div class="bg-red-100 p-3 rounded-lg text-center shadow-md hover:shadow-xl transition">
+                            <img src="website/1.png" class="mx-auto w-12 h-12">
+                            <p class="text-red-600 font-semibold">Sankranti</p>
+                        </div>
+                        <div class="bg-blue-100 p-3 rounded-lg text-center shadow-md hover:shadow-xl transition">
+                            <img src="website/2.png" class="mx-auto w-12 h-12">
+                            <p class="text-blue-600 font-semibold">Amavasya</p>
+                        </div>
+                        <div class="bg-green-100 p-3 rounded-lg text-center shadow-md hover:shadow-xl transition">
+                            <img src="{{ asset('website/3.png') }}" class="mx-auto w-12 h-12">
+                            <p class="text-green-600 font-semibold">Pournami</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <!-- Donations -->
-        <div class="service-card donations-card">
-            <div class="icon-container">
-                <i class="fa fa-hand-holding-heart"></i>
+    </section>
+    <div class="max-w-6xl mx-auto text-center">
+        <!-- Section Title -->
+        <h2 class="convenience-title" style="margin-top:50px">About Puri</h2>
+        <div class="flex justify-center items-center gap-4" style="margin-bottom: 50px">
+            <!-- Left Scroll Button -->
+            <button id="scrollLeft" class="hidden md:block text-gray-400 hover:text-gray-600 text-xl">◀</button>
+            
+            <!-- Navigation Items -->
+            <div id="navContainer" class="flex gap-6 overflow-x-auto no-scrollbar">
+                <!-- Tab Items -->
+                <div class="text-center min-w-[100px] cursor-pointer active-tab">
+                    <img src="website/6.png" class="mx-auto w-10 h-10">
+                    <p class="text-red-600 font-semibold"  style="margin-top:12px">About Temple</p>
+                    <div class="h-1 bg-red-500 w-full mt-1" style="margin-top:10px"></div>
+                </div>
+                <div class="text-center min-w-[100px] cursor-pointer inactive-tab">
+                    <img src="website/6.png" class="mx-auto w-10 h-10">
+                    <p class="text-gray-500" style="margin-top:12px">Shree Khetra</p>
+                </div>
+                <div class="text-center min-w-[100px] cursor-pointer inactive-tab">
+                    <img src="website/6.png" class="mx-auto w-10 h-10">
+                    <p class="text-gray-500" style="margin-top:12px">Matha & Ashram</p>
+                </div>
+                <div class="text-center min-w-[100px] cursor-pointer inactive-tab">
+                    <img src="website/6.png" class="mx-auto w-10 h-10">
+                    <p class="text-gray-500" style="margin-top:12px">Festivals</p>
+                </div>
+                <div class="text-center min-w-[100px] cursor-pointer inactive-tab">
+                    <img src="website/6.png" class="mx-auto w-10 h-10">
+                    <p class="text-gray-500" style="margin-top:12px">36 Nijoga</p>
+                </div>
+                <div class="text-center min-w-[100px] cursor-pointer inactive-tab">
+                    <img src="website/6.png" class="mx-auto w-10 h-10">
+                    <p class="text-gray-500" style="margin-top:12px">Besha</p>
+                </div>
+                <div class="text-center min-w-[100px] cursor-pointer inactive-tab">
+                    <img src="website/6.png" class="mx-auto w-10 h-10">
+                    <p class="text-gray-500" style="margin-top:12px">Darshan Facility</p>
+                </div>
+                <div class="text-center min-w-[100px] cursor-pointer inactive-tab">
+                    <img src="website/6.png" class="mx-auto w-10 h-10">
+                    <p class="text-gray-500" style="margin-top:12px">Maha Prasad</p>
+                </div>
             </div>
-            <div class="service-content">
-                <h3>Donations</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                <a href="#" class="read-more">Read More</a>
-            </div>
-        </div>
-
-        <!-- Darshan Booking -->
-        <div class="service-card darshan-card">
-            <div class="icon-container">
-                <i class="fa fa-calendar-alt"></i>
-            </div>
-            <div class="service-content">
-                <h3>Darshan Booking</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                <a href="#" class="read-more">Read More</a>
-            </div>
-        </div>
-
-        <!-- Gifts & Offerings -->
-        <div class="service-card gifts-card">
-            <div class="icon-container">
-                <i class="fa fa-gift"></i>
-            </div>
-            <div class="service-content">
-                <h3>Donations</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                <a href="#" class="read-more">Read More</a>
-            </div>
+            
+            <!-- Right Scroll Button -->
+            <button id="scrollRight" class="hidden md:block text-gray-400 hover:text-gray-600 text-xl">▶</button>
         </div>
     </div>
 
+<section class="bg-gray-100 p-10">
+    <div class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <!-- Image Section -->
+            <div style="height: 350px;width: 450px;margin-top: 50px">
+                <img src="website/11.jpg" alt="Temple Image" class="rounded-xl shadow-lg" >
+            </div>
+            
+            <!-- Text Content Section -->
+            <div style="margin-left: -100px">
+                <h2 class="text-2xl font-bold text-red-600">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                </h2>
+                <h3 class="text-xl text-gray-600 mt-2">
+                    Lorem ipsum dolor sit amet
+                </h3>
+                <p class="text-gray-500 mt-4 leading-relaxed">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                </p>
+                
+                <button class="mt-6 px-6 py-2 bg-red-100 text-red-600 rounded-lg shadow-md hover:bg-red-200 transition">
+                    Read More
+                </button>
+            </div>
+        </div>
+    </div>
 </section>
-<section class="temple-slider">
-    <h2 class="slider-title">Nearby Temples</h2>
-    <div class="swiper mySwiper">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="{{ asset('website/11.jpg') }}" alt="Temple"></div>
-            <div class="swiper-slide"><img src="{{ asset('website/11.jpg') }}" alt="Temple"></div>
-            <div class="swiper-slide"><img src="{{ asset('website/11.jpg') }}" alt="Temple"></div>
-            <div class="swiper-slide"><img src="{{ asset('website/11.jpg') }}" alt="Temple"></div>
-            <div class="swiper-slide"><img src="{{ asset('website/11.jpg') }}" alt="Temple"></div>
-        </div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-    </div>
-</section>
 
-<section class="temple-convenience">
-    <h2 class="convenience-title">Conveniences</h2>
-    <div class="convenience-container">
-        <div class="convenience-item">
-            <i class="fas fa-tint"></i>
-            <p> Water</p>
-        </div>
-        <div class="convenience-item">
-            <i class="fas fa-phone-alt"></i>
-            <p> Contacts</p>
-        </div>
-        <div class="convenience-item">
-            <i class="fas fa-wheelchair"></i>
-            <p> Handicap </p>
-        </div>
-        <div class="convenience-item">
-            <i class="fas fa-map-marked-alt"></i>
-            <p>Route Map</p>
-        </div>
-        <div class="convenience-item">
-            <i class="fas fa-utensils"></i>
-            <p>Free Food</p>
-        </div>
-        <div class="convenience-item">
-            <i class="fas fa-search"></i>
-            <p>Lost & Found</p>
-        </div>
-        <div class="convenience-item">
-            <i class="fas fa-toilet"></i>
-            <p>Toilet</p>
+<section class="bg-gray-100 p-10">
+    <div class="max-w-6xl mx-auto text-center">
+        <!-- Section Title -->
+        <h2 class="convenience-title">Jagannatha Temples Worldwide</h2>
+        <div class="banner-image">
+            <img src="{{ asset('website/18.png') }}" alt="Shree Jagannatha Dham">
         </div>
     </div>
+
 </section>
 
 @endsection

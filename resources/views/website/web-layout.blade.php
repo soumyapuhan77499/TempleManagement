@@ -63,6 +63,7 @@
     {{-- <link href="{{ asset('front-assets/frontend/css/style-base-color.php') . '?color=' . $bs->base_color }}"
         rel="stylesheet"> --}}
            
+        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
 </head>
 
@@ -130,6 +131,126 @@
 
 
 </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const calendarContainer = document.getElementById("calendar");
+    const eventsContainer = document.getElementById("events");
+    
+    function generateCalendar(year, month) {
+        const today = new Date();
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+        const daysInMonth = lastDay.getDate();
+        const startDay = firstDay.getDay();
+        
+        let html = `
+            <div class="flex justify-between items-center mb-4">
+                <button id="prevMonth" class="text-gray-600">◀</button>
+                <h2 class="text-lg font-bold">${firstDay.toLocaleString('default', { month: 'long' })} ${year}</h2>
+                <button id="nextMonth" class="text-gray-600">▶</button>
+            </div>
+            <div class="grid grid-cols-7 gap-2 text-center text-gray-500 font-semibold">
+                <div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div>
+            </div>
+            <div class="grid grid-cols-7 gap-2 mt-2 text-center">
+        `;
+
+        for (let i = 0; i < startDay; i++) {
+            html += `<div></div>`; // Empty slots for previous month
+        }
+
+        for (let day = 1; day <= daysInMonth; day++) {
+            const isToday = today.getDate() === day && today.getMonth() === month && today.getFullYear() === year;
+            html += `<div class="p-2 rounded-full cursor-pointer ${isToday ? "bg-red-500 text-white" : "hover:bg-gray-200"}" data-day="${day}">${day}</div>`;
+        }
+
+        html += `</div>`;
+        calendarContainer.innerHTML = html;
+
+        document.getElementById("prevMonth").addEventListener("click", () => updateCalendar(year, month - 1));
+        document.getElementById("nextMonth").addEventListener("click", () => updateCalendar(year, month + 1));
+
+        document.querySelectorAll("#calendar div[data-day]").forEach(dayEl => {
+            dayEl.addEventListener("click", function () {
+                document.querySelectorAll("#calendar div[data-day]").forEach(el => el.classList.remove("bg-red-500", "text-white"));
+                this.classList.add("bg-red-500", "text-white");
+
+                const selectedDay = this.getAttribute("data-day");
+                updateEvents(selectedDay, month + 1, year);
+            });
+        });
+    }
+
+    function updateEvents(day, month, year) {
+        const eventTypes = ["Sankranti", "Amavasya", "Pournami"];
+        const eventDay = parseInt(day);
+
+        const eventsHtml = eventTypes.map(event => `
+            <div class="text-gray-400 ${eventDay % 5 === 0 ? "opacity-100 text-black" : "opacity-40"}">
+                <img src="website/11.jpg" class="mx-auto w-10 h-10">
+                <p>${event}</p>
+            </div>
+        `).join("");
+
+        eventsContainer.innerHTML = `<div class="grid grid-cols-3 gap-4 text-center">${eventsHtml}</div>`;
+    }
+
+    function updateCalendar(year, month) {
+        if (month < 0) {
+            year -= 1;
+            month = 11;
+        } else if (month > 11) {
+            year += 1;
+            month = 0;
+        }
+        generateCalendar(year, month);
+    }
+
+    const now = new Date();
+    generateCalendar(now.getFullYear(), now.getMonth());
+});
+
+</script>
+
+<script>
+    // Scroll functionality
+    const navContainer = document.getElementById('navContainer');
+    const scrollLeft = document.getElementById('scrollLeft');
+    const scrollRight = document.getElementById('scrollRight');
+
+    scrollLeft.addEventListener('click', () => {
+        navContainer.scrollBy({ left: -200, behavior: 'smooth' });
+    });
+
+    scrollRight.addEventListener('click', () => {
+        navContainer.scrollBy({ left: 200, behavior: 'smooth' });
+    });
+
+    // Tab Selection
+    document.querySelectorAll(".inactive-tab").forEach(tab => {
+        tab.addEventListener("click", function() {
+            document.querySelectorAll(".active-tab").forEach(activeTab => {
+                activeTab.classList.remove("active-tab");
+                activeTab.classList.add("inactive-tab");
+                activeTab.querySelector("p").classList.replace("text-red-600", "text-gray-500");
+                activeTab.querySelector("img").src = "website/1.png";
+                activeTab.querySelector("div")?.remove();
+            });
+
+            this.classList.add("active-tab");
+            this.classList.remove("inactive-tab");
+            this.querySelector("p").classList.replace("text-gray-500", "text-red-600");
+            this.querySelector("img").src = "website/2.png";
+
+            // Add underline effect
+            const underline = document.createElement("div");
+            underline.classList.add("h-1", "bg-red-500", "w-full", "mt-1");
+            this.appendChild(underline);
+        });
+    });
+</script>
+
     
 </body>
 
