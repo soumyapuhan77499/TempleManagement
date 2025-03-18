@@ -251,7 +251,12 @@
     });
 </script>
 
-    
+<script>
+    function toggleMobileNav() {
+        const mobileNav = document.getElementById("mobileNav");
+        mobileNav.classList.toggle("hidden");
+    }
+</script>
 </body>
 
 
