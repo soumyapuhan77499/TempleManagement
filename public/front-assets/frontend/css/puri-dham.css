@@ -154,7 +154,7 @@
 
 /* Active Card Styling */
 .niti-card.active {
-    border-left: 5px solid #7D3EC6;
+    border-left: 5px solid #db4d30;
     background: #f9f9f9;
 }
 
@@ -226,7 +226,6 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f8f9fa;
-
     height: 100vh;
     margin: 0;
 }
@@ -236,26 +235,48 @@ body {
     width: 100%;
     margin-top: -50px;
 }
-
 .section-titles {
     font-size: 24px;
     font-weight: bold;
     color: #db4d30;
+    display: flex;
+    align-items: center;
+    position: relative;
+    font-family: Arial, sans-serif;
     margin-left: 70px;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
-
-.section-titles::after{
-    
+.section-titles::after {
     content: "";
     width: 50px;
-    height: 5px;
+    height: 4px;
     background: #db4d30;
-    border-radius: 10px;
-
+    position: absolute;
+    bottom: -5px; /* ✅ Correct positioning */
+    left: 0; /* ✅ Aligns with text */
+    border-radius: 2px;
 }
 
+/* Live Badge Styling */
+.live-badge {
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    padding: 5px 12px;
+    margin-left: 10px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(to right, #ff4e00, #ff9800);
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Live Badge Icon */
+.live-badge::before {
+    content: "⚡";
+    margin-right: 5px;
+}
 .section-quick {
     font-size: 24px;
     font-weight: bold;
@@ -278,7 +299,7 @@ body {
 }
 
 
-.live-badge {
+.live-badges {
     background-color: red;
     color: white;
     font-size: 14px;
@@ -650,6 +671,8 @@ input[type="range"]::-webkit-slider-thumb {
     border: 1px solid rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease-in-out;
     height: 200px;
+    border: 1px solid #db4d30;
+
 }
 
 .service-card:hover {
@@ -660,11 +683,7 @@ input[type="range"]::-webkit-slider-thumb {
 .icon-container {
     width: 180px;
     height: 180px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-    position: relative;
+   
 }
 
 .icon-container i {
@@ -715,22 +734,6 @@ input[type="range"]::-webkit-slider-thumb {
     background: rgba(0, 0, 0, 0.1);
 }
 
-/* Colors */
-.accommodation-card .icon-container {
-    background: #E8B253;
-}
-
-.donations-card .icon-container {
-    background: #A7C67C;
-}
-
-.darshan-card .icon-container {
-    background: #5A9BD4;
-}
-
-.gifts-card .icon-container {
-    background: #49BEB7;
-}
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -776,7 +779,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 /* Individual Menu Item */
 .menu-item {
-    background-color: #EAF0FF;
+    background-color: #db4d30;
     border-radius: 20px;
     width: 80px;
     height: 80px;
@@ -797,10 +800,18 @@ input[type="range"]::-webkit-slider-thumb {
     align-items: center;
 }
 
+
+.paras {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 /* Active Menu Item */
 .menu-item.active {
-    background-color: #4A5D9A;
-    color: #fff;
+    background-color: #db4d30;
+    color: white;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
@@ -808,7 +819,7 @@ input[type="range"]::-webkit-slider-thumb {
 .menu-item i {
     font-size: 32px;
     margin-bottom: 10px;
-    color: #4A5D9A;
+    color: white;
 }
 
 /* Active Icon */
@@ -857,11 +868,12 @@ input[type="range"]::-webkit-slider-thumb {
 .temple-slider {
     text-align: center;
     margin: 40px auto;
+    width: 1250px;
 }
 
 .slider-title {
     font-size: 22px;
-    color: #6A359C;
+    color: #db4d30;
     font-weight: bold;
     margin-bottom: 10px;
     position: relative;
@@ -870,7 +882,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 /* Swiper Container */
 .swiper {
-    width: 80%;
+    width: 79%;
     margin: auto;
     padding-top: 30px;
     /* ✅ No extra space */
@@ -886,6 +898,7 @@ input[type="range"]::-webkit-slider-thumb {
     /* ✅ Remove padding */
     margin: 0px;
     /* ✅ Remove margin */
+    
 }
 
 /* Images inside slides */
@@ -893,23 +906,38 @@ input[type="range"]::-webkit-slider-thumb {
     width: 100%;
     /* ✅ Ensure full width */
     max-width: 340px;
-    border-radius: 15px;
+    border-radius: 7px;
     filter: grayscale(100%);
     transition: all 0.5s ease-in-out;
+    height: 230px;
 }
 
 /* Active Slide Styling */
 .swiper-slide-active img {
     filter: grayscale(0);
     transform: scale(1.3);
-    height: 200px;
-    width: 320px;
+    height: 240px;
+    width: 300px;
+    border-bottom-left-radius: 10px;
 }
 
-/* Navigation Buttons */
 .swiper-button-prev,
 .swiper-button-next {
-    color: rgb(230, 14, 14);
+    color: rgb(150, 148, 148);
+    font-size: 24px;
+    top: 60%;
+    transform: translateY(-50%);
+    position: absolute;
+}
+
+/* Left Arrow Position */
+.swiper-button-prev {
+    left: -2px; /* ✅ Adjusted space from left */
+}
+
+/* Right Arrow Position */
+.swiper-button-next {
+    right: -2px; /* ✅ Adjusted space from right */
 }
 
 /* Convenience Section Styling */
@@ -920,10 +948,10 @@ input[type="range"]::-webkit-slider-thumb {
 
 .convenience-title {
     font-size: 24px;
-    color: #6A359C;
-    font-weight: bold;
+    color: #db4d30;
     position: relative;
     margin-bottom: 20px;
+    font-family: Arial sans-serif;
 }
 
 .convenience-container {
@@ -954,14 +982,14 @@ input[type="range"]::-webkit-slider-thumb {
 
 .convenience-item i {
     font-size: 30px;
-    color: #6A359C;
+    color: #db4d30;
     margin-bottom: 10px;
 }
 
 .convenience-item p {
     font-size: 14px;
     font-weight: 500;
-    color: #4A148C;
+    color: #db4d30;
 }
 
 /* ABOUT PURI */
@@ -1006,4 +1034,22 @@ input[type="range"]::-webkit-slider-thumb {
     margin-top: 10px;
     margin-left: -20px;
 
+}
+
+
+.map-title {
+    font-size: 24px;
+    color: #db4d30;
+    position: relative;
+    margin-bottom: 20px;
+    font-family: Arial, sans-serif;
+
+}
+
+.about-title{
+    font-size: 24px;
+    color: #db4d30;
+    position: relative;
+    margin-bottom: 20px;
+    font-family: Arial, sans-serif;
 }

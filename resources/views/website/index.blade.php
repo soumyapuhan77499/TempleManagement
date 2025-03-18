@@ -46,7 +46,7 @@
     </div>
 
     <section class="shree-mandir-section">
-        <h2 class="section-titles">Shree Mandir <span class="live-badge">⚡ Live</span></h2>
+        <h2 class="section-titles">Shree Mandir <span class="live-badge">Live</span></h2>
         <div class="mandir-content">
             <!-- TV Section -->
 
@@ -129,7 +129,7 @@
 
     <section class="services-section">
         <div class="section-container">
-            <h2 class="section-quick">Quick Services</h2>
+            <h2 class="section-quick" style="color: #db4d30">Quick Services</h2>
             <div class="image-container">
                 <img src="{{ asset('website/v1.png') }}" alt="Shree Jagannatha Dham">
             </div>
@@ -138,10 +138,10 @@
             <!-- Accommodation -->
             <div class="service-card accommodation-card">
                 <div class="icon-container">
-                    <i class="fa fa-bed"></i>
+                    <img src="{{ asset('website/30.png') }}" alt="Shree Jagannatha Dham">
                 </div>
                 <div class="service-content">
-                    <h3>Accommodation</h3>
+                    <h3 style="color: #db4d30">Accommodation</h3>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
                         et dolore magna aliqua.</p>
                     <a href="#" class="read-more">Read More</a>
@@ -151,11 +151,11 @@
             <!-- Donations -->
             <div class="service-card donations-card">
                 <div class="icon-container">
-                    <i class="fa fa-hand-holding-heart"></i>
+                    <img src="{{ asset('website/31.png') }}" alt="Shree Jagannatha Dham">
                 </div>
                 <div class="service-content">
-                    <h3>Donations</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    <h3 style="color: #db4d30">Donations</h3>
+                    <p >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
                         et dolore magna aliqua.</p>
                     <a href="#" class="read-more">Read More</a>
                 </div>
@@ -164,10 +164,10 @@
             <!-- Darshan Booking -->
             <div class="service-card darshan-card">
                 <div class="icon-container">
-                    <i class="fa fa-calendar-alt"></i>
+                    <img src="{{ asset('website/32.png') }}" alt="Shree Jagannatha Dham">
                 </div>
                 <div class="service-content">
-                    <h3>Darshan Booking</h3>
+                    <h3 style="color: #db4d30">Darshan Booking</h3>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
                         et dolore magna aliqua.</p>
                     <a href="#" class="read-more">Read More</a>
@@ -177,10 +177,10 @@
             <!-- Gifts & Offerings -->
             <div class="service-card gifts-card">
                 <div class="icon-container">
-                    <i class="fa fa-gift"></i>
+                    <img src="{{ asset('website/33.png') }}" alt="Shree Jagannatha Dham">
                 </div>
                 <div class="service-content">
-                    <h3>Donations</h3>
+                    <h3 style="color: #db4d30">Donations</h3>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
                         et dolore magna aliqua.</p>
                     <a href="#" class="read-more">Read More</a>
@@ -190,52 +190,53 @@
 
         <div class="menu-container">
             <div class="arrow left">
-                <img src="{{ asset('website/v3.png') }}" alt="Shree Jagannatha Dham">
+                <img src="{{ asset('website/v3.png') }}" alt="Shree Jagannatha Dham" style="height: 60px;width: 60px">
             </div>
             <div class="menu-items">
-                <div class="para">
+                <div class="paras">
                     <div class="menu-item active">
                         <i class="fas fa-calendar-alt"></i>
                     </div>
-                    <p style="margin-top: 10px;font-weight: bold; color: #555;">Bhakta Nibas</p>
+                    <p style="margin-top: 10px;font-weight: bold; color: #db4d30;">Bhakta Nibas</p>
                 </div>
 
-                <div class="para">
+                <div class="paras">
                     <div class="menu-item">
                         <i class="fas fa-calendar-alt"></i>
                     </div>
-                    <p style="margin-top: 10px;font-weight: bold; color: #555;">Online Donation</p>
+                    <p style="margin-top: 10px;font-weight: bold; color: #db4d30;">Online Donation</p>
                 </div>
 
-                <div class="para">
+                <div class="paras">
                     <div class="menu-item">
                         <i class="fas fa-calendar-alt"></i>
                     </div>
-                    <p style="margin-top: 10px;font-weight: bold; color: #555;">Hundi Collection</p>
+                    <p style="margin-top: 10px;font-weight: bold; color: #db4d30;">Hundi Collection</p>
 
                 </div>
 
-                <div class="para">
+                <div class="paras">
                     <div class="menu-item">
                         <i class="fas fa-calendar-alt"></i>
                     </div>
-                    <p style="margin-top: 10px;font-weight: bold; color: #555;">Online Donation</p>
+                    <p style="margin-top: 10px;font-weight: bold; color: #db4d30;">Online Donation</p>
                 </div>
 
-                <div class="para">
+                <div class="paras">
                     <div class="menu-item">
                         <i class="fas fa-calendar-alt"></i>
                     </div>
-                    <p style="margin-top: 10px;font-weight: bold; color: #555;">Hundi Collection</p>
+                    <p style="margin-top: 10px;font-weight: bold; color: #db4d30;">Hundi Collection</p>
                 </div>
 
             </div>
             <div class="arrow right">
-                <img src="{{ asset('website/v2.png') }}" alt="Shree Jagannatha Dham">
+                <img src="{{ asset('website/v2.png') }}" alt="Shree Jagannatha Dham"  style="height: 60px;width: 60px">
             </div>
         </div>
 
     </section>
+
     <section class="temple-slider">
         <h2 class="slider-title">Nearby Temples</h2>
         <div class="image-container">
@@ -249,7 +250,7 @@
                 <div class="swiper-slide"><img src="{{ asset('website/11.jpg') }}" alt="Temple"></div>
                 <div class="swiper-slide"><img src="{{ asset('website/11.jpg') }}" alt="Temple"></div>
             </div>
-            <div class="swiper-button-prev"></div>
+            <div  class="swiper-button-prev"></div>
             <div class="swiper-button-next"></div>
         </div>
     </section>
@@ -297,12 +298,12 @@
             <!-- Header -->
             <div class="flex justify-between">
                 <div class="image-panji">
-                    <h2 class="text-2xl font-bold" style="color: #7B54E3;">Panji Calendar</h2>
+                    <p class="text-2xl font-bold;" style="color: #db4d30;font-family: Arial, sans-serif;font-size: 24px;">Panji Calendar</p>
 
                     <img src="{{ asset('website/v4.png') }}" alt="Shree Jagannatha Dham">
                 </div>
                 <div class="image-event">
-                    <h2 class="text-2xl font-bold" style="color: #7B54E3;">Events</h2>
+                    <p style="color: #db4d30;font-family: Arial, sans-serif;font-size: 24px;">Events</p>
                     <img src="{{ asset('website/v4.png') }}" alt="Shree Jagannatha Dham">
                 </div>
                 <h2 class="text-2xl font-bold text-red-600"></h2>
@@ -318,7 +319,6 @@
 
                 <!-- Events Section -->
                 <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-300">
-                    <h3 class="text-lg font-semibold text-red-500 text-center">Upcoming Events</h3>
                     <div id="events" class="grid grid-cols-3 gap-4 mt-4">
                         <!-- Event Cards -->
                         <div class="bg-red-100 p-3 rounded-lg text-center shadow-md hover:shadow-xl transition">
@@ -345,14 +345,28 @@
                             <img src="{{ asset('website/3.png') }}" class="mx-auto w-12 h-12">
                             <p class="text-green-600 font-semibold">Pournami</p>
                         </div>
+
+                        <div class="bg-red-100 p-3 rounded-lg text-center shadow-md hover:shadow-xl transition">
+                            <img src="website/1.png" class="mx-auto w-12 h-12">
+                            <p class="text-red-600 font-semibold">Sankranti</p>
+                        </div>
+                        <div class="bg-blue-100 p-3 rounded-lg text-center shadow-md hover:shadow-xl transition">
+                            <img src="website/2.png" class="mx-auto w-12 h-12">
+                            <p class="text-blue-600 font-semibold">Amavasya</p>
+                        </div>
+                        <div class="bg-green-100 p-3 rounded-lg text-center shadow-md hover:shadow-xl transition">
+                            <img src="{{ asset('website/3.png') }}" class="mx-auto w-12 h-12">
+                            <p class="text-green-600 font-semibold">Pournami</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
     <div class="max-w-6xl mx-auto text-center">
         <!-- Section Title -->
-        <h2 class="convenience-title" style="margin-top:50px">About Puri</h2>
+        <h2 class="about-title" style="margin-top:50px">About Puri</h2>
         <div class="image-container">
             <img src="{{ asset('website/v1.png') }}" alt="Shree Jagannatha Dham">
         </div>
@@ -413,7 +427,7 @@
 
                 <!-- Text Content Section -->
                 <div style="margin-left: -100px">
-                    <h2 class="text-2xl font-bold" style="color: #3A506B;">
+                    <h2 class="text-2xl font-bold" style="color: #db4d30;">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit
                     </h2>
                     <h3 class="text-xl text-gray-600 mt-2">
@@ -438,7 +452,7 @@
     <section class="bg-gray-100 p-10">
         <div class="max-w-6xl mx-auto text-center">
             <!-- Section Title -->
-            <h2 class="convenience-title">Jagannatha Temples Worldwide</h2>
+            <h2 class="map-title">Jagannatha Temples Worldwide</h2>
             <div class="image-container" >
                 <img src="{{ asset('website/v1.png') }}" alt="Shree Jagannatha Dham">
             </div>
