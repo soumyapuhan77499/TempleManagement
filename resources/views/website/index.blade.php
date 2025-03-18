@@ -12,9 +12,9 @@
     <!-- Niti Cards Section -->
     <div class="niti-cards">
         <div class="niti-card active">
-            <div class="niti-content">
-                <h3>Panchami</h3>
-                <p><strong>Shukla Paksha</strong></p>
+            <div class="niti-content" >
+                <h3 style="font-size: 22px;padding-bottom:5px">Panchami</h3>
+                <p style="padding-top: 5px"><strong>Shukla Paksha</strong></p>
             </div>
             <div class="niti-icons">
                 <p><i class="fa fa-clock"></i> 03:17 pm</p>
@@ -23,8 +23,8 @@
         </div>
         <div class="niti-card">
             <div class="niti-content">
-                <h3>Niti Name</h3>
-                <p><strong>Shukla Paksha</strong></p>
+                <h3 style="font-size: 22px;padding-bottom:5px">Niti Name</h3>
+                <p style="padding-top: 5px"><strong>Shukla Paksha</strong></p>
             </div>
             <div class="niti-icons">
                 <p><i class="fa fa-clock"></i> 03:17 pm</p>
@@ -34,8 +34,8 @@
         </div>
         <div class="niti-card">
             <div class="niti-content">
-                <h3>Niti Name</h3>
-                <p><strong>Shukla Paksha</strong></p>
+                <h3 style="font-size: 22px;padding-bottom:5px">Niti Name</h3>
+                <p style="padding-top: 5px"><strong>Shukla Paksha</strong></p>
             </div>
             <div class="niti-icons">
                 <p><i class="fa fa-clock"></i> 03:17 pm</p>
