@@ -7,8 +7,8 @@
         <div class="banner-image">
             <img src="{{ asset('website/d.png') }}" alt="Shree Jagannatha Dham">
         </div>
-
     </section>
+    
 
     <div class="niti-cards">
         <div class="niti-card active">
@@ -178,7 +178,7 @@
                     <img src="{{ asset('website/1003.png') }}" alt="Shree Jagannatha Dham">
                 </div>
                 <div class="service-content">
-                    <h3 style="color: #db4d30">Offer</h3>
+                    <h3 style="color: #db4d30">Offering</h3>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
                         et dolore magna aliqua.</p>
                     <a href="#" class="read-more">Read More</a>
@@ -193,7 +193,7 @@
             <div class="menu-items">
                 <div class="service-icon">
                     <div class="menu-item active">
-                        <i class="fas fa-calendar-alt"></i>
+                        <img src="{{ asset('website/bhakta.png') }}" alt="Shree Jagannatha Dham" style="height: 50px;width: 50px">
                     </div>
                     <p style="margin-top: 10px;font-weight: bold; color: #db4d30;">Bhakta Nibas</p>
                 </div>
@@ -207,7 +207,7 @@
 
                 <div class="service-icon">
                     <div class="menu-item">
-                        <i class="fas fa-calendar-alt"></i>
+                        <img src="{{ asset('website/parking.png') }}" alt="Shree Jagannatha Dham" style="height: 50px;width: 50px">
                     </div>
                     <p style="margin-top: 10px;font-weight: bold; color: #db4d30;">Parking</p>
 
@@ -215,14 +215,14 @@
 
                 <div class="service-icon">
                     <div class="menu-item">
-                        <i class="fas fa-calendar-alt"></i>
+                        <img src="{{ asset('website/locker.png') }}" alt="Shree Jagannatha Dham" style="height: 50px;width: 50px">
                     </div>
                     <p style="margin-top: 10px;font-weight: bold; color: #db4d30;">Locker & Shoes</p>
                 </div>
 
                 <div class="service-icon">
                     <div class="menu-item">
-                        <i class="fas fa-calendar-alt"></i>
+                        <img src="{{ asset('website/hundi.png') }}" alt="Shree Jagannatha Dham" style="height: 50px;width: 50px">
                     </div>
                     <p style="margin-top: 10px;font-weight: bold; color: #db4d30;">Hundi Collection</p>
                 </div>
