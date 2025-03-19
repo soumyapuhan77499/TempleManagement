@@ -31,7 +31,6 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/bootstrap.min.css') }}">
     <!-- Fontawesome Icon CSS -->
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/fonts/fontawesome/css/all.min.css') }}">
@@ -96,7 +95,8 @@
     <!-- AOS JS -->
     <script src="front-assets/frontend/js/aos.min.js"></script>
     <script src="front-assets/frontend/js/toastr.min.js"></script>
-
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script>
         "use strict";
         var rtl = false; // Hardcoded for static version
@@ -215,36 +215,56 @@
 });
 
 </script>
-
 <script>
-    // Scroll functionality
-    const navContainer = document.getElementById('navContainer');
-    const scrollLeft = document.getElementById('scrollLeft');
-    const scrollRight = document.getElementById('scrollRight');
+    const tabData = {
+        aboutTemple: {
+            title: "About Temple",
+            subtitle: "Discover the rich history of the temple",
+            description: "The Jagannath Temple is a sacred Hindu temple dedicated to Lord Jagannath...",
+            image: "website/12.jpg"
+        },
+        shreeKhetra: {
+            title: "Shree Khetra",
+            subtitle: "The Holy Land of Lord Jagannath",
+            description: "Shree Khetra, also known as Puri, is one of the most important pilgrimage sites in India...",
+            image: "website/11.jpg"
+        },
+        mathaAshram: {
+            title: "Matha & Ashram",
+            subtitle: "Spiritual Centers of Devotion",
+            description: "Mathas and Ashrams around the temple have been centers of learning and spiritual practice...",
+            image: "website/100.jpeg"
+        },
+        festivals: {
+            title: "Festivals",
+            subtitle: "Celebrating Lord Jagannath",
+            description: "The temple is known for its grand festivals like Rath Yatra, Snana Purnima, and more...",
+            image: "website/festivals.jpg"
+        }
+    };
 
-    scrollLeft.addEventListener('click', () => {
-        navContainer.scrollBy({ left: -200, behavior: 'smooth' });
-    });
-
-    scrollRight.addEventListener('click', () => {
-        navContainer.scrollBy({ left: 200, behavior: 'smooth' });
-    });
-
-    // Tab Selection
-    document.querySelectorAll(".inactive-tab").forEach(tab => {
+    document.querySelectorAll(".tab-item").forEach(tab => {
         tab.addEventListener("click", function() {
-            document.querySelectorAll(".active-tab").forEach(activeTab => {
-                activeTab.classList.remove("active-tab");
-                activeTab.classList.add("inactive-tab");
-                activeTab.querySelector("p").classList.replace("text-red-600", "text-gray-500");
-                activeTab.querySelector("img").src = "website/1.png";
-                activeTab.querySelector("div")?.remove();
+            let selectedTab = this.getAttribute("data-tab");
+
+            // Update Content
+            document.getElementById("contentTitle").innerText = tabData[selectedTab].title;
+            document.getElementById("contentSubtitle").innerText = tabData[selectedTab].subtitle;
+            document.getElementById("contentDescription").innerText = tabData[selectedTab].description;
+            document.getElementById("contentImage").src = tabData[selectedTab].image;
+
+            // Remove active class from all tabs
+            document.querySelectorAll(".tab-item").forEach(t => {
+                t.classList.remove("active-tab");
+                t.classList.add("inactive-tab");
+                t.querySelector("p").classList.replace("text-red-600", "text-gray-500");
+                t.querySelector("div")?.remove();
             });
 
+            // Add active class to clicked tab
             this.classList.add("active-tab");
             this.classList.remove("inactive-tab");
             this.querySelector("p").classList.replace("text-gray-500", "text-red-600");
-            this.querySelector("img").src = "website/2.png";
 
             // Add underline effect
             const underline = document.createElement("div");
@@ -260,6 +280,34 @@
         mobileNav.classList.toggle("hidden");
     }
 </script>
+<script>
+    function showContent(tab, element) {
+        // Remove active class from all buttons
+        document.querySelectorAll(".tab-buttons").forEach(button => {
+            button.classList.remove("active-tabs");
+            button.classList.remove("underline-effect");
+        });
+
+        // Add active class to clicked button
+        element.classList.add("active-tabs");
+        element.classList.add("underline-effect");
+
+        // Update image based on selected tab
+        let imagePath = "";
+        if (tab === "worldwide") {
+            imagePath = "{{ asset('website/18.png') }}";
+        } else if (tab === "india") {
+            imagePath = "{{ asset('website/india.png') }}";
+        } else if (tab === "odisha") {
+            imagePath = "{{ asset('website/odisha.png') }}";
+        }
+
+        // Change the image source
+        document.getElementById("dynamicImage").src = imagePath;
+    }
+</script>
+
+
 </body>
 
 
