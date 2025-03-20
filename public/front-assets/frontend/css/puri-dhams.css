@@ -241,15 +241,15 @@
     /* Play/Pause Button */
     .play-pause-button {
         position: absolute;
-        top: 50%;
-        left: 50%;
+        bottom: 2%;
+        left: 3%;
         transform: translate(-50%, -50%);
         background: rgba(0, 0, 0, 0.1);
         border: none;
         color: #fff;
         border-radius: 50%;
-        width: 60px;
-        height: 60px;
+        width: 35px;
+        height: 35px;
         font-size: 24px;
         cursor: pointer;
         z-index: 15;
@@ -261,15 +261,15 @@
       /* Mute/Unmute Button */
       .mute-toggle {
         position: absolute;
-        bottom: 41%;
-        left: 45%;
+        bottom: 2%;
+        right: 1%;
         transform: translate(-50%, -50%);
         background: rgba(0, 0, 0, 0.1);
         border: none;
         color: #fff;
         border-radius: 50%;
-        width: 58px;
-        height: 58px;
+        width: 35px;
+        height: 35px;
         font-size: 20px;
         cursor: pointer;
         z-index: 15;

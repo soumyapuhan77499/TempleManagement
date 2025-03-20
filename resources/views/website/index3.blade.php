@@ -41,7 +41,7 @@
     <!-- Play/Pause Button (Centered) -->
     <button id="playPauseButton" class="play-pause-button"><i class="fa fa-pause"></i></button>
     <!-- Mute/Unmute Button (Bottom Center) -->
-    <button id="muteToggle" class="mute-toggle"><i class="fa fa-volume-mute"></i></button>
+    <button id="muteToggle" class="mute-toggle"><i style="height:18px;width: 18px" class="fa fa-volume-mute"></i></button>
   </section>
 
     <div class="niti-cards">
