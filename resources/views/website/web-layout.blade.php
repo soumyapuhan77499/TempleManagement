@@ -334,10 +334,10 @@
         muteButton.addEventListener("click", function () {
             if (video.muted) {
                 video.muted = false;
-                muteButton.textContent = "🔇 Mute";
+                muteButton.textContent = "🔇 ";
             } else {
                 video.muted = true;
-                muteButton.textContent = "🔊 Unmute";
+                muteButton.textContent = "🔊 ";
             }
         });
     });

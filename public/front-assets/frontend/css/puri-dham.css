@@ -116,23 +116,25 @@
     left: 0;
 }
 
-/* Mute/Unmute Button */
-.mute-button {
+.mute-toggle {
     position: absolute;
-    bottom: 20px;
-    right: 20px;
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
+    top: 5%;
+    left: 2%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.1);
     border: none;
-    padding: 10px 15px;
-    font-size: 14px;
+    color: #fff;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
     cursor: pointer;
-    border-radius: 5px;
-}
-
-.mute-button:hover {
-    background: rgba(0, 0, 0, 0.8);
-}
+    z-index: 15;
+    transition: background 0.3s ease;
+  }
+  .mute-toggle:hover {
+    background: rgba(0, 0, 0, 0.9);
+  }
 
 
 .banner-content {
