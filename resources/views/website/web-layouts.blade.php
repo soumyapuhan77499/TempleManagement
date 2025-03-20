@@ -337,8 +337,25 @@
         });
     });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const hamburger = document.querySelector('.hamburger-icon');
+      const navMenu = document.querySelector('.nav-menu');
+      const navClose = document.querySelector('.nav-close');
 
-
+      // Toggle menu on hamburger click
+      hamburger.addEventListener('click', function () {
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+      });
+      
+      // Close menu on close icon click
+      navClose.addEventListener('click', function () {
+        navMenu.classList.remove('active');
+        hamburger.classList.remove('active');
+      });
+    });
+  </script>
 </body>
 
 

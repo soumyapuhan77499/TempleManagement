@@ -13,15 +13,147 @@
     justify-content: space-between;
 }
 
-.logo {
+.banner-sections {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Full viewport height */
+    overflow: hidden;
     display: flex;
     align-items: center;
-}
+    justify-content: center;
+  }
 
-.logo img{
-    height: 60px;
-    width: 66px;
-}
+
+  /* Logo styling */
+  .logo {
+    position: absolute;
+    top: 20px;  /* Adjust as needed */
+    left: 30px; /* Adjust as needed */
+    z-index: 10; /* Ensure logo appears above the video */
+  }
+  
+  .logo img {
+    max-width: 120px; /* Adjust size as needed */
+    height: auto;
+    display: block;
+  }
+
+
+    /* === Hamburger Icon (Top Right) === */
+    .hamburger-icon {
+        position: absolute;
+        top: 50px;
+        right: 50px;
+        z-index: 11;
+        cursor: pointer;
+        width: 50px;
+        height: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+      }
+      
+      .hamburger-menu span {
+        display: block;
+        height: 5px;
+        border-radius: 2px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
+      
+      /* Colorful spans */
+      .hamburger-menu span:nth-child(1) {
+        background: #FF5733; /* Reddish */
+      }
+      
+      .hamburger-menu span:nth-child(2) {
+        background: #FFC300; /* Bright Yellow */
+      }
+      
+      .hamburger-menu span:nth-child(3) {
+        background: #28B463; /* Vibrant Green */
+      }
+      
+      /* Hover effect to brighten the colors */
+      .hamburger-icon:hover .hamburger-menu span:nth-child(1) {
+        background: #FF6F50;
+      }
+      
+      .hamburger-icon:hover .hamburger-menu span:nth-child(2) {
+        background: #FFD700;
+      }
+      
+      .hamburger-icon:hover .hamburger-menu span:nth-child(3) {
+        background: #2ECC71;
+      }
+      
+      /* Active state transformation example */
+      .hamburger-icon.active .hamburger-menu span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+      
+      .hamburger-icon.active .hamburger-menu span:nth-child(2) {
+        opacity: 0;
+      }
+      
+      .hamburger-icon.active .hamburger-menu span:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+      }
+      
+      /* === Navigation Menu (Sliding Overlay) === */
+      .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -320px; /* Initially hidden */
+        width: 320px;
+        height: 100%;
+        background: linear-gradient(135deg, #1a1a1a, #333);
+        color: #fff;
+        transition: right 0.5s ease-in-out;
+        padding: 60px 20px 20px;
+        z-index: 20;
+        box-shadow: -4px 0 15px rgba(0, 0, 0, 0.5);
+      }
+      .nav-menu.active {
+        right: 0;
+      }
+      .nav-menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+      }
+      .nav-menu li {
+        margin: 20px 0;
+      }
+      .nav-menu li a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 18px;
+        transition: color 0.3s;
+      }
+      .nav-menu li a:hover {
+        color: #ccc;
+      }
+      /* Styling for the Live badge inside menu */
+      .nav-menu .live-badges {
+        color: #f4eded;
+        font-weight: bold;
+        margin-left: 38%;
+      }
+      
+      /* === Close Icon in the Nav Menu === */
+      .nav-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 24px;
+        color: #fff;
+        cursor: pointer;
+        transition: color 0.3s;
+      }
+      .nav-close:hover {
+        color: #ff4d4d;
+      }
 
 .toggle-btn {
     width: 50px;
@@ -49,18 +181,6 @@
     margin-left: 10px;
 }
 
-.nav-menu {
-    display: flex;
-    align-items: center;
-    gap: 40px;
-}
-
-.nav-menu a {
-    color: #4d6189;
-    text-decoration: none;
-    font-size: 15px;
-    font-weight: 500;
-}
 
 .live-badge {
     background: red;
@@ -385,6 +505,7 @@ body {
     font-weight: bold;
     text-decoration: none;
     white-space: nowrap;
+    width: 80px;
 }
 
 .live-badges .fa-bolt {

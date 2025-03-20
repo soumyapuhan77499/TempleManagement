@@ -1,16 +1,44 @@
 @extends('website.web-layouts')
 
 @section('content')
-
-    <section class="banner-sections">
-        <div class="banner-video">
-            <video id="bannerVideo" autoplay loop playsinline >
-                <source src="{{ asset('website/480.mp4') }}" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-    </section>
-    
+<section class="banner-sections">
+    <!-- Video Banner -->
+    <div class="banner-video">
+      <video id="bannerVideo" autoplay loop playsinline>
+        <source src="{{ asset('website/480.mp4') }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <!-- Logo positioned at top left -->
+    <div class="logo">
+      <img src="{{ asset('website/logo.png') }}" alt="logo">
+    </div>
+    <!-- Hamburger Icon positioned at top right -->
+    <div class="hamburger-icon">
+      <div class="hamburger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    <!-- Navigation Menu (Hidden by default) -->
+    <nav class="nav-menu">
+      <!-- Close Icon -->
+      <div class="nav-close"><i class="fa fa-times"></i></div>
+      <ul>
+        <li><a href="#">Nitis</a></li>
+        <li>
+          <a href="#">SM 
+            <span class="live-badges"><i class="fa fa-bolt"></i> Live</span>
+          </a>
+        </li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Nearby Temples</a></li>
+        <li><a href="#">Conveniences</a></li>
+        <li><a href="#">Temple Information</a></li>
+      </ul>
+    </nav>
+  </section>
 
     <div class="niti-cards">
         <div class="niti-card active">
