@@ -4,7 +4,7 @@
 <section class="banner-sections">
     <!-- Video Banner -->
     <div class="banner-video">
-      <video id="bannerVideo" autoplay loop playsinline>
+      <video id="bannerVideo" autoplay loop playsinline muted>
         <source src="{{ asset('website/480.mp4') }}" type="video/mp4">
         Your browser does not support the video tag.
       </video>
