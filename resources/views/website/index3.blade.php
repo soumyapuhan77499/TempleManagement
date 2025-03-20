@@ -4,16 +4,16 @@
 <section class="banner-sections">
     <!-- Video Banner -->
     <div class="banner-video">
-      <video id="bannerVideo" autoplay loop playsinline muted>
+      <video id="bannerVideo" autoplay loop playsinline muted preload="metadata" poster="{{ asset('website/poster.jpg') }}">
         <source src="{{ asset('website/480.mp4') }}" type="video/mp4">
         Your browser does not support the video tag.
       </video>
     </div>
-    <!-- Logo positioned at top left -->
+    <!-- Logo (Top Left) -->
     <div class="logo">
       <img src="{{ asset('website/logo.png') }}" alt="logo">
     </div>
-    <!-- Hamburger Icon positioned at top right -->
+    <!-- Hamburger Icon (Top Right) -->
     <div class="hamburger-icon">
       <div class="hamburger-menu">
         <span></span>
@@ -38,6 +38,10 @@
         <li><a href="#">Temple Information</a></li>
       </ul>
     </nav>
+    <!-- Play/Pause Button (Centered) -->
+    <button id="playPauseButton" class="play-pause-button"><i class="fa fa-pause"></i></button>
+    <!-- Mute/Unmute Button (Bottom Center) -->
+    <button id="muteToggle" class="mute-toggle"><i class="fa fa-volume-mute"></i></button>
   </section>
 
     <div class="niti-cards">

@@ -308,51 +308,58 @@
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const video = document.getElementById("bannerVideo");
-        const muteButton = document.getElementById("muteToggle");
-
-        function checkScroll() {
-            const rect = video.getBoundingClientRect();
-            const inView = rect.top >= 0 && rect.bottom <= window.innerHeight;
-
-            if (inView) {
-                video.play();
-            } else {
-                video.pause();
-            }
-        }
-
-        // Scroll event listener
-        window.addEventListener("scroll", checkScroll);
-
-        // Mute/Unmute toggle
-        muteButton.addEventListener("click", function () {
-            if (video.muted) {
-                video.muted = false;
-                muteButton.textContent = "🔇 Mute";
-            } else {
-                video.muted = true;
-                muteButton.textContent = "🔊 Unmute";
-            }
-        });
-    });
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
+      const video = document.getElementById("bannerVideo");
+      const playPauseButton = document.getElementById("playPauseButton");
+      const muteToggle = document.getElementById("muteToggle");
       const hamburger = document.querySelector('.hamburger-icon');
       const navMenu = document.querySelector('.nav-menu');
       const navClose = document.querySelector('.nav-close');
 
-      // Toggle menu on hamburger click
-      hamburger.addEventListener('click', function () {
-        hamburger.classList.toggle('active');
-        navMenu.classList.toggle('active');
+      // Play/Pause Toggle
+      playPauseButton.addEventListener("click", function () {
+        if (video.paused) {
+          video.play();
+          playPauseButton.innerHTML = '<i class="fa fa-pause"></i>';
+        } else {
+          video.pause();
+          playPauseButton.innerHTML = '<i class="fa fa-play"></i>';
+        }
+      });
+
+      // Mute/Unmute Toggle
+      muteToggle.addEventListener("click", function () {
+        if (video.muted) {
+          video.muted = false;
+          muteToggle.innerHTML = '<i class="fa fa-volume-up"></i>';
+        } else {
+          video.muted = true;
+          muteToggle.innerHTML = '<i class="fa fa-volume-mute"></i>';
+        }
+      });
+
+      // Optional: Auto play/pause based on scroll
+      function checkScroll() {
+        const rect = video.getBoundingClientRect();
+        const inView = rect.top >= 0 && rect.bottom <= window.innerHeight;
+        if (inView) {
+          video.play();
+        } else {
+          video.pause();
+          playPauseButton.innerHTML = '<i class="fa fa-play"></i>';
+        }
+      }
+      window.addEventListener("scroll", checkScroll);
+
+      // Toggle Navigation Menu on Hamburger Click
+      hamburger.addEventListener("click", function () {
+        hamburger.classList.toggle("active");
+        navMenu.classList.toggle("active");
       });
       
-      // Close menu on close icon click
-      navClose.addEventListener('click', function () {
-        navMenu.classList.remove('active');
-        hamburger.classList.remove('active');
+      // Close Navigation Menu on Close Icon Click
+      navClose.addEventListener("click", function () {
+        navMenu.classList.remove("active");
+        hamburger.classList.remove("active");
       });
     });
   </script>
