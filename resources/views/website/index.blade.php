@@ -200,7 +200,7 @@
 
                 <div class="service-icon">
                     <div class="menu-item">
-                        <i class="fas fa-calendar-alt"></i>
+                        <img src="{{ asset('website/online.png') }}" alt="Shree Jagannatha Dham" style="height: 50px;width: 50px">
                     </div>
                     <p style="margin-top: 10px;font-weight: bold; color: #db4d30;">Online Donation</p>
                 </div>

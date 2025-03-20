@@ -69,6 +69,17 @@ Route::get('/puri-dham', function () {
     return view('website.index');
 });
 
+
+Route::get('/puri-dhams', function () {
+    return view('website.index2');
+});
+
+
+Route::get('/puri-video', function () {
+    return view('website.index3');
+});
+
+
 Route::get('/contact', function () {
     return view('contactus');
 });

@@ -306,7 +306,43 @@
         document.getElementById("dynamicImage").src = imagePath;
     }
 </script>
-
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const video = document.getElementById("bannerVideo");
+        const muteButton = document.getElementById("muteToggle");
+    
+        function loadVideo() {
+            if (!video.getAttribute('data-loaded')) {
+                video.src = "{{ asset('website/480.mp4') }}";
+                video.setAttribute('data-loaded', 'true');
+            }
+        }
+    
+        function checkScroll() {
+            const rect = video.getBoundingClientRect();
+            const inView = rect.top >= 0 && rect.bottom <= window.innerHeight;
+            if (inView) {
+                loadVideo();
+                video.play();
+            } else {
+                video.pause();
+            }
+        }
+    
+        window.addEventListener("scroll", checkScroll);
+    
+        muteButton.addEventListener("click", function () {
+            if (video.muted) {
+                video.muted = false;
+                muteButton.textContent = "🔇 Mute";
+            } else {
+                video.muted = true;
+                muteButton.textContent = "🔊 Unmute";
+            }
+        });
+    });
+    </script>
+    
 
 </body>
 
