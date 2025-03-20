@@ -46,7 +46,7 @@
         right: 50px;
         z-index: 11;
         cursor: pointer;
-        width: 50px;
+        width: 45px;
         height: 30px;
         display: flex;
         flex-direction: column;
@@ -55,7 +55,7 @@
       
       .hamburger-menu span {
         display: block;
-        height: 5px;
+        height: 6px;
         border-radius: 2px;
         transition: background-color 0.3s ease, transform 0.3s ease;
       }
@@ -63,14 +63,23 @@
       /* Colorful spans */
       .hamburger-menu span:nth-child(1) {
         background: #FF5733; /* Reddish */
+        width: 100%;
+        height: 5px;
       }
       
       .hamburger-menu span:nth-child(2) {
         background: #FFC300; /* Bright Yellow */
+        width: 100%;
+        height: 5px;
+
+
       }
       
       .hamburger-menu span:nth-child(3) {
-        background: #28B463; /* Vibrant Green */
+        background: #f7f7f8; /* Vibrant Green */
+        width: 100%;
+        height: 5px;
+
       }
       
       /* Hover effect to brighten the colors */
@@ -83,7 +92,7 @@
       }
       
       .hamburger-icon:hover .hamburger-menu span:nth-child(3) {
-        background: #2ECC71;
+        background: #f9f9fb;
       }
       
       /* Active state transformation example */
@@ -235,7 +244,7 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background: rgba(0, 0, 0, 0.7);
+        background: rgba(0, 0, 0, 0.1);
         border: none;
         color: #fff;
         border-radius: 50%;
@@ -252,15 +261,15 @@
       /* Mute/Unmute Button */
       .mute-toggle {
         position: absolute;
-        bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(0, 0, 0, 0.7);
+        bottom: 41%;
+        left: 45%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.1);
         border: none;
         color: #fff;
         border-radius: 50%;
-        width: 50px;
-        height: 50px;
+        width: 58px;
+        height: 58px;
         font-size: 20px;
         cursor: pointer;
         z-index: 15;
