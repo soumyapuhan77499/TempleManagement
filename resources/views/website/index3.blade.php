@@ -4,7 +4,7 @@
 <section class="banner-sections">
     <!-- Video Banner -->
     <div class="banner-video">
-      <video id="bannerVideo" autoplay loop playsinline muted preload="metadata" poster="{{ asset('website/poster.jpg') }}">
+      <video id="bannerVideo" autoplay loop playsinline muted preload="metadata" poster="{{ asset('website/d.png') }}">
         <source src="{{ asset('website/480.mp4') }}" type="video/mp4">
         Your browser does not support the video tag.
       </video>
@@ -38,10 +38,8 @@
         <li><a href="#">Temple Information</a></li>
       </ul>
     </nav>
-    <!-- Play/Pause Button (Centered) -->
-    <button id="playPauseButton" class="play-pause-button"><i class="fa fa-pause"></i></button>
     <!-- Mute/Unmute Button (Bottom Center) -->
-    <button id="muteToggle" class="mute-toggle"><i class="fa fa-volume-mute"></i></button>
+    <button id="muteToggle" class="play-pause-button"><i class="fa fa-volume-mute"></i></button>
   </section>
 
     <div class="niti-cards">
