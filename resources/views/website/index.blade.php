@@ -5,11 +5,10 @@
 
     <section class="banner-section">
         <div class="banner-image">
-            <img src="{{ asset('website/d.png') }}" alt="Shree Jagannatha Dham">
+            <img src="{{ asset('website/2001.jpg') }}" alt="Shree Jagannatha Dham">
         </div>
     </section>
     
-
     <div class="niti-cards">
         <div class="niti-card active">
             <div class="niti-content">

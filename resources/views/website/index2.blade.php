@@ -5,15 +5,12 @@
     @includeIf('partials.web-header')
 
     <section class="banner-sections">
-
         <div class="banner-video">
-
             <video id="bannerVideo" autoplay loop playsinline muted preload="metadata" poster="{{ asset('website/d.png') }}">
-                <source src="{{ asset('website/480.mp4') }}" type="video/mp4">
+                <source src="{{ asset('website/1.mkv') }}" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
             <button id="muteToggle" class="mute-toggle"><i style="height:18px;width: 18px" class="fa fa-volume-mute"></i></button>
-
         </div>
     </section>
     

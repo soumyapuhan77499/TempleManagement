@@ -47,6 +47,7 @@
     <!-- Nice Select -->
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/nice-select.css') }}">
     <!-- Main Style CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Open+Sans&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/puri-dham.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
