@@ -516,79 +516,80 @@
         </div>
     </section>
 
-    <div class="max-w-6xl mx-auto text-center px-4">
-        <!-- Header -->
-        <div class="flex flex-wrap justify-center items-center gap-3 mt-10">
-            <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-28 sm:w-36 h-5">
-            <h2 class="text-xl sm:text-2xl text-[#db4d30] font-sans font-semibold">Temple Information</h2>
-            <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-28 sm:w-36 h-5">
+  
+
+    <div class="max-w-6xl mx-auto text-center">
+
+        <div class="flex justify-center items-center gap-5 mt-12">
+            <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
+            <h2 class="text-2xl text-[#db4d30] flex items-center font-sans">
+                Temple Information
+            </h2>
+            <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
         </div>
-    
+
         <!-- Navigation Tabs -->
-        <div class="flex justify-center items-center mt-6 mb-10 px-2">
-            <div id="navContainer" class="flex gap-5 overflow-x-auto no-scrollbar w-full max-w-full">
+        <div class="flex justify-center items-center gap-6" style="margin-bottom: 50px;margin-top: 20px">
+            <div id="navContainer" class="flex gap-10 overflow-x-auto no-scrollbar">
                 <!-- Tab Items -->
                 <div class="tab-item text-center min-w-[100px] cursor-pointer active-tab" data-tab="aboutTemple">
                     <img src="website/6.png" class="mx-auto w-10 h-10">
-                    <p class="text-red-600 font-semibold text-sm mt-2">About Temple</p>
+                    <p class="text-red-600 font-semibold mt-3">About Temple</p>
                     <div class="h-1 bg-red-500 w-full mt-1"></div>
                 </div>
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="shreeKhetra">
                     <img src="website/6.png" class="mx-auto w-10 h-10">
-                    <p class="text-gray-500 text-sm mt-2">Shree Khetra</p>
+                    <p class="text-gray-500 mt-3">Shree Khetra</p>
                 </div>
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="mathaAshram">
                     <img src="website/6.png" class="mx-auto w-10 h-10">
-                    <p class="text-gray-500 text-sm mt-2">Matha & Ashram</p>
+                    <p class="text-gray-500 mt-3">Matha & Ashram</p>
                 </div>
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="festivals">
                     <img src="website/6.png" class="mx-auto w-10 h-10">
-                    <p class="text-gray-500 text-sm mt-2">Festivals</p>
+                    <p class="text-gray-500 mt-3">Festivals</p>
                 </div>
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="nijoga">
                     <img src="website/6.png" class="mx-auto w-10 h-10">
-                    <p class="text-gray-500 text-sm mt-2">36 Nijoga</p>
+                    <p class="text-gray-500 mt-3">36 Nijoga</p>
                 </div>
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="besha">
                     <img src="website/6.png" class="mx-auto w-10 h-10">
-                    <p class="text-gray-500 text-sm mt-2">Besha</p>
+                    <p class="text-gray-500 mt-3">Besha</p>
                 </div>
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="darshan">
                     <img src="website/6.png" class="mx-auto w-10 h-10">
-                    <p class="text-gray-500 text-sm mt-2">Darshan Facility</p>
+                    <p class="text-gray-500 mt-3">Darshan Facility</p>
                 </div>
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="prasad">
                     <img src="website/6.png" class="mx-auto w-10 h-10">
-                    <p class="text-gray-500 text-sm mt-2">Maha Prasad</p>
+                    <p class="text-gray-500 mt-3">Maha Prasad</p>
                 </div>
             </div>
         </div>
     </div>
-    
-    <!-- Content Section -->
-    <section id="dynamicContent" class="bg-100 px-4 pb-10">
+
+    <section id="dynamicContent" class="bg-100">
         <div class="max-w-6xl mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <!-- Image -->
-                <div id="contentImageContainer" class="w-full h-auto mt-6 flex justify-center">
-                    <img id="contentImage" src="website/12.jpg" alt="Temple Image" class="rounded-xl shadow-lg w-full max-w-md">
+                <div id="contentImageContainer" style="height: 350px;width: 450px;margin-top: 50px">
+                    <img id="contentImage" src="website/12.jpg" alt="Temple Image" class="rounded-xl shadow-lg">
                 </div>
-    
-                <!-- Text Content -->
-                <div class="mt-6 md:mt-0 md:ml-0">
-                    <h2 id="contentTitle" class="text-xl sm:text-2xl font-bold text-[#db4d30]">
+                <div style="margin-left: -100px">
+                    <h2 id="contentTitle" class="text-2xl font-bold" style="color: #db4d30;">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit
                     </h2>
-                    <h3 id="contentSubtitle" class="text-lg text-gray-600 mt-2">
+                    <h3 id="contentSubtitle" class="text-xl text-gray-600 mt-2">
                         Lorem ipsum dolor sit amet
                     </h3>
-                    <p id="contentDescription" class="text-gray-500 mt-4 leading-relaxed text-sm sm:text-base">
+                    <p id="contentDescription" class="text-gray-500 mt-4 leading-relaxed">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
                         et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
                         aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
                         cillum dolore eu fugiat nulla pariatur.
                     </p>
-                    <button class="mt-6 px-6 py-2 bg-red-100 text-red-600 rounded-lg shadow-md hover:bg-red-200 transition">
+                    <button
+                        class="mt-6 px-6 py-2 bg-red-100 text-red-600 rounded-lg shadow-md hover:bg-red-200 transition">
                         Read More
                     </button>
                 </div>
@@ -596,35 +597,36 @@
         </div>
     </section>
     
-    <section class="bg-100 p-6 sm:p-10 relative">
+    <section class="bg-100 p-10 relative">
         <div class="max-w-6xl mx-auto text-center relative">
-            
-            <!-- Section Header -->
-            <div class="flex justify-center items-center flex-wrap gap-3 mt-6">
-                <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-24 sm:w-36 h-5">
-                <h2 class="text-xl sm:text-2xl text-[#db4d30] font-semibold font-sans">
-                    Jagannatha Temples Worldwide
-                </h2>
-                <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-24 sm:w-36 h-5">
-            </div>
-    
             <!-- Tabs Container -->
-            <div class="flex justify-center sm:absolute sm:top-28 sm:right-0 mt-6 sm:mt-0 px-2 space-x-2 sm:space-x-3">
+
+            <div class="absolute top-28 right-0 flex space-x-3 p-3  rounded-lg">
+                <!-- Worldwide Tab -->
                 <button class="tab-buttons active-tabs" onclick="showContent('worldwide', this)">
                     Worldwide
                 </button>
+                <!-- India Tab -->
                 <button class="tab-buttons" onclick="showContent('india', this)">
                     India
                 </button>
+                <!-- Odisha Tab -->
                 <button class="tab-buttons" onclick="showContent('odisha', this)">
                     Odisha
                 </button>
             </div>
-    
+
+            <div class="flex justify-center items-center gap-5 mt-12">
+                <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
+                <h2 class="text-2xl text-[#db4d30] flex items-center font-sans">
+                    Jagannatha Temples Worldwide
+                </h2>
+                <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
+            </div>
+
             <!-- Banner Image -->
-            <div class="dynamic-image mt-8 sm:mt-16">
-                <img id="dynamicImage" src="{{ asset('website/18.png') }}" alt="Shree Jagannatha Dham"
-                    class="mx-auto w-full max-w-xl rounded-lg shadow-md">
+            <div class="dynamic-image mt-10">
+                <img id="dynamicImage" src="{{ asset('website/18.png') }}" alt="Shree Jagannatha Dham" class="mx-auto">
             </div>
         </div>
     </section>

@@ -19,10 +19,10 @@
   .convenience-container {
     display: flex;
     justify-content: center;
-    gap: 30px;
+    gap: 50px;
     flex-wrap: wrap;
     padding: 40px 20px;
-    max-width: 1200px;
+    max-width: 1250px;
     margin: 0 auto;
   }
   
