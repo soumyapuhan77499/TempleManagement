@@ -1,0 +1,408 @@
+.header-area {
+    background: white;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    height: 70px;
+}
+
+.header-content {
+    margin-top: -5px;
+    display: flex;
+    margin-left: 50px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    z-index: 10;
+}
+
+.logo img {
+    max-width: 120px;
+    height: auto;
+    display: block;
+}
+
+/* === Hamburger Icon (Top Right) === */
+.hamburger-icon {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    z-index: 11;
+    cursor: pointer;
+    width: 45px;
+    height: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+
+/* Colorful spans */
+.hamburger-menu span:nth-child(1) {
+    background: #FF5733;
+    /* Reddish */
+    width: 100%;
+    height: 5px;
+}
+
+.hamburger-menu span:nth-child(2) {
+    background: #FFC300;
+    /* Bright Yellow */
+    width: 100%;
+    height: 5px;
+
+
+}
+
+.hamburger-menu span:nth-child(3) {
+    background: #f7f7f8;
+    /* Vibrant Green */
+    width: 100%;
+    height: 5px;
+
+}
+
+/* Hover effect to brighten the colors */
+.hamburger-icon:hover .hamburger-menu span:nth-child(1) {
+    background: #FF6F50;
+}
+
+.hamburger-icon:hover .hamburger-menu span:nth-child(2) {
+    background: #FFD700;
+}
+
+.hamburger-icon:hover .hamburger-menu span:nth-child(3) {
+    background: #f9f9fb;
+}
+
+/* Active state transformation example */
+.hamburger-icon.active .hamburger-menu span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-icon.active .hamburger-menu span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-icon.active .hamburger-menu span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* === Navigation Menu (Sliding Overlay) === */
+.nav-menu {
+    position: fixed;
+    top: 0;
+    right: -320px;
+    width: 320px;
+    height: 100%;
+    background: linear-gradient(135deg, #1a1a1a, #333);
+    color: #fff;
+    transition: right 0.5s ease-in-out;
+    padding: 60px 20px 20px;
+    z-index: 20;
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.nav-menu.active {
+    right: 0;
+}
+
+.nav-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+.nav-menu li {
+    margin: 20px 0;
+}
+
+.nav-menu li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+.nav-menu li a:hover {
+    color: #ccc;
+}
+
+/* Styling for the Live badge inside menu */
+.nav-menu .live-badges {
+    color: #f4eded;
+    font-weight: bold;
+    margin-left: 38%;
+}
+
+/* === Close Icon in the Nav Menu === */
+.nav-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    color: #fff;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.nav-close:hover {
+    color: #ff4d4d;
+}
+
+.toggle-btn {
+    width: 50px;
+    height: 25px;
+    background: red;
+    border-radius: 15px;
+    position: relative;
+    cursor: pointer;
+}
+
+.toggle-circle {
+    width: 15px;
+    height: 15px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+}
+
+.logo-text {
+    color: white;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+
+.live-badge {
+    background: red;
+    color: white;
+    border-radius: 15px;
+    font-weight: bold;
+}
+
+.hamburger-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.banner-image img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+}
+
+.banner-sections {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    /* Full viewport height */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Video Styling */
+.banner-video video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Ensures full section coverage */
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* === Video Controls === */
+/* Play/Pause Button */
+.play-pause-button {
+    position: absolute;
+    bottom: 2%;
+    left: 3%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.1);
+    border: none;
+    color: #fff;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 15;
+    transition: background 0.3s ease;
+}
+
+.play-pause-button:hover {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+/* Mute/Unmute Button */
+.mute-toggle {
+    position: absolute;
+    bottom: 2%;
+    right: 1%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.1);
+    border: none;
+    color: #fff;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 15;
+    transition: background 0.3s ease;
+}
+
+.mute-toggle:hover {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+.banner-content {
+    position: absolute;
+    top: 30%;
+    left: 10%;
+    text-align: left;
+}
+
+.banner-content h2 {
+    font-size: 2rem;
+    font-weight: 400;
+    color: #FFD700;
+}
+
+.banner-content h1 {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .banner-sections {
+      flex-direction: column;
+      justify-content: flex-start;
+      height: 100vh;
+    }
+  
+    .banner-video video {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+  
+    .logo {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 120px;
+      z-index: 10;
+    }
+  
+    .logo img {
+      width: 100%;
+      height: auto;
+    }
+  
+    .hamburger-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 11;
+    }
+  
+    .hamburger-menu span {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background-color: white;
+      margin: 5px 0;
+      transition: 0.4s;
+    }
+  
+    .nav-menu {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      height: 100vh;
+      width: 80%;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 20;
+      transition: right 0.3s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      padding-top: 60px;
+    }
+  
+    .nav-menu.active {
+      right: 0;
+    }
+  
+    .nav-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+  
+    .nav-menu ul li {
+      margin: 20px 0;
+      text-align: center;
+    }
+  
+    .nav-menu ul li a {
+      color: #fff;
+      font-size: 20px;
+      text-decoration: none;
+    }
+  
+    .nav-close {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 28px;
+      color: white;
+      cursor: pointer;
+    }
+  
+    .play-pause-button,
+    .mute-toggle {
+      width: 30px;
+      height: 30px;
+      font-size: 18px;
+    }
+  
+    .play-pause-button {
+      left: 10%;
+    }
+  
+    .mute-toggle {
+      right: 10%;
+    }
+  
+    .banner-content {
+      top: 25%;
+      left: 5%;
+      right: 5%;
+      text-align: center;
+    }
+  
+    .banner-content h2 {
+      font-size: 1.2rem;
+    }
+  
+    .banner-content h1 {
+      font-size: 2rem;
+    }
+  }
+  

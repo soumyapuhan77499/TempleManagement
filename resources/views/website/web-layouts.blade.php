@@ -49,23 +49,29 @@
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/nice-select.css') }}">
     <!-- Main Style CSS -->
 
-    <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/puri-dhams.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <!-- summernote Style CSS -->
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/summernote-content.css') }}">
     <!-- Responsive CSS -->
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/responsive.css') }}">
-    {{-- @if ($rtl == 1) --}}
-    {{-- <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/rtl.css') }}"> --}}
-    {{-- @endif --}}
-    <!-- base color change -->
-    {{-- <link href="{{ asset('front-assets/frontend/css/style-base-color.php') . '?color=' . $bs->base_color }}"
-        rel="stylesheet"> --}}
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400&display=swap" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/puri-dhams.css') }}">
+    <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/banner.css') }}">
+    <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/niti.css') }}">
+    <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/shree-mandir.css') }}">
+    <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/service.css') }}">
+    <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/temple-slider.css') }}">
+    <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/convience.css') }}">
+    <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/calendar.css') }}">
+
+
+
 
 
 </head>
@@ -111,21 +117,30 @@
     <script>
         var swiper = new Swiper(".mySwiper", {
           slidesPerView: 3,
+          spaceBetween: 20,
           centeredSlides: true,
           loop: true,
-          spaceBetween: 0,
           navigation: {
             nextEl: ".swiper-button-next",
             prevEl: ".swiper-button-prev",
           },
           breakpoints: {
-            1024: { slidesPerView: 3, spaceBetween: 0 },
-            768: { slidesPerView: 2, spaceBetween: 0 },
-            480: { slidesPerView: 1, spaceBetween: 0 }
-          }
+            // when window width is <= 768px
+            768: {
+              slidesPerView: 1,
+              centeredSlides: false,
+            },
+            992: {
+              slidesPerView: 2,
+            },
+            1200: {
+              slidesPerView: 3,
+            },
+          },
         });
       </script>
       
+
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -211,6 +226,7 @@
             generateCalendar(now.getFullYear(), now.getMonth());
         });
     </script>
+
     <script>
         const tabData = {
             aboutTemple: {
@@ -276,6 +292,7 @@
             mobileNav.classList.toggle("hidden");
         }
     </script>
+
     <script>
         function showContent(tab, element) {
             // Remove active class from all buttons
@@ -302,63 +319,60 @@
             document.getElementById("dynamicImage").src = imagePath;
         }
     </script>
+
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const video = document.getElementById("bannerVideo");
-            const playPauseButton = document.getElementById("playPauseButton");
-            const muteToggle = document.getElementById("muteToggle");
-            const hamburger = document.querySelector('.hamburger-icon');
-            const navMenu = document.querySelector('.nav-menu');
-            const navClose = document.querySelector('.nav-close');
+document.addEventListener("DOMContentLoaded", function () {
+    const video = document.getElementById("bannerVideo");
+    const playPauseButton = document.getElementById("playPauseButton");
+    const muteToggle = document.getElementById("muteToggle");
+    const hamburger = document.querySelector(".hamburger-icon");
+    const navMenu = document.querySelector(".nav-menu");
+    const navClose = document.querySelector(".nav-close");
 
-            // Play/Pause Toggle
-            playPauseButton.addEventListener("click", function() {
-                if (video.paused) {
-                    video.play();
-                    playPauseButton.innerHTML = '<i class="fa fa-pause"></i>';
-                } else {
-                    video.pause();
-                    playPauseButton.innerHTML = '<i class="fa fa-play"></i>';
-                }
-            });
+    // Play/Pause Toggle
+    playPauseButton.addEventListener("click", function () {
+        if (video.paused) {
+            video.play();
+            this.innerHTML = '<i class="fa fa-pause"></i>';
+        } else {
+            video.pause();
+            this.innerHTML = '<i class="fa fa-play"></i>';
+        }
+    });
 
-            // Mute/Unmute Toggle
-            muteToggle.addEventListener("click", function() {
-                if (video.muted) {
-                    video.muted = false;
-                    muteToggle.innerHTML = '<i class="fa fa-volume-up"></i>';
-                } else {
-                    video.muted = true;
-                    muteToggle.innerHTML = '<i class="fa fa-volume-mute"></i>';
-                }
-            });
+    // Mute/Unmute Toggle
+    muteToggle.addEventListener("click", function () {
+        video.muted = !video.muted;
+        this.innerHTML = video.muted
+            ? '<i class="fa fa-volume-mute"></i>'
+            : '<i class="fa fa-volume-up"></i>';
+    });
 
-            // Optional: Auto play/pause based on scroll
-            function checkScroll() {
-                const rect = video.getBoundingClientRect();
-                const inView = rect.top >= 0 && rect.bottom <= window.innerHeight;
-                if (inView) {
-                    video.play();
-                } else {
-                    video.pause();
-                    playPauseButton.innerHTML = '<i class="fa fa-play"></i>';
-                }
-            }
-            window.addEventListener("scroll", checkScroll);
+    // Scroll-triggered pause
+    function checkScroll() {
+        const rect = video.getBoundingClientRect();
+        const inView = rect.top < window.innerHeight && rect.bottom > 0;
+        if (!inView) {
+            video.pause();
+            playPauseButton.innerHTML = '<i class="fa fa-play"></i>';
+        }
+    }
+    window.addEventListener("scroll", checkScroll);
 
-            // Toggle Navigation Menu on Hamburger Click
-            hamburger.addEventListener("click", function() {
-                hamburger.classList.toggle("active");
-                navMenu.classList.toggle("active");
-            });
+    // Navigation Toggle
+    hamburger.addEventListener("click", function () {
+        hamburger.classList.toggle("active");
+        navMenu.classList.toggle("active");
+        console.log("Hamburger clicked, nav toggled");
+    });
 
-            // Close Navigation Menu on Close Icon Click
-            navClose.addEventListener("click", function() {
-                navMenu.classList.remove("active");
-                hamburger.classList.remove("active");
-            });
-        });
-    </script>
+    navClose.addEventListener("click", function () {
+        navMenu.classList.remove("active");
+        hamburger.classList.remove("active");
+    });
+});
+</script>
+
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <script>

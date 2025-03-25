@@ -13,7 +13,7 @@
         <div class="logo">
             <img src="{{ asset('website/logo.png') }}" alt="logo">
         </div>
-        <!-- Hamburger Icon (Top Right) -->
+        <!-- Hamburger Icon -->
         <div class="hamburger-icon">
             <div class="hamburger-menu">
                 <span></span>
@@ -21,16 +21,14 @@
                 <span></span>
             </div>
         </div>
-        <!-- Navigation Menu (Hidden by default) -->
+
+        <!-- Navigation Menu -->
         <nav class="nav-menu">
-            <!-- Close Icon -->
             <div class="nav-close"><i class="fa fa-times"></i></div>
             <ul>
                 <li><a href="#">Nitis</a></li>
                 <li>
-                    <a href="#">SM
-                        <span class="live-badges"><i class="fa fa-bolt"></i> Live</span>
-                    </a>
+                    <a href="#">SM <span class="live-badges"><i class="fa fa-bolt"></i> Live</span></a>
                 </li>
                 <li><a href="#">Services</a></li>
                 <li><a href="#">Nearby Temples</a></li>
@@ -38,6 +36,7 @@
                 <li><a href="#">Temple Information</a></li>
             </ul>
         </nav>
+
         <!-- Play/Pause Button (Centered) -->
         <button id="playPauseButton" class="play-pause-button"><i class="fa fa-pause"></i></button>
         <!-- Mute/Unmute Button (Bottom Center) -->
@@ -45,117 +44,135 @@
                 class="fa fa-volume-mute"></i></button>
     </section>
 
-    <div class="niti-cards">
-        <div class="niti-card active">
-            <div class="niti-content">
-                <h3 style="font-size: 22px;padding-bottom:5px">Dwara Phita</h3>
-                <p style="padding-top: 5px"><strong>Mangala Alati</strong></p>
+    <div class="niti-cards-scroll">
+        <div class="niti-cards">
+            <div class="niti-card active">
+                <div class="niti-content">
+                    <h3 style="font-size: 22px;padding-bottom:5px">Dwara Phita</h3>
+                    <p style="padding-top: 5px"><strong>Mangala Alati</strong></p>
+                </div>
+                <div class="niti-icons">
+                    <p style="color: rgb(139, 137, 137)"><ion-icon name="time-outline"
+                            style=" margin: 6px;color: #ff0011;font-size: 16px;"></ion-icon> 05:00
+                        AM
+                    </p>
+                    <p style="color: rgb(139, 137, 137)"><ion-icon name="calendar-outline"
+                            style=" margin: 6px;color: #ff0011;font-size: 16px;"></ion-icon>
+                        20th
+                        Mar</p>
+                </div>
             </div>
-            <div class="niti-icons">
-                <p><ion-icon name="time-outline" style=" margin: 6px;color: #ff0011;font-size: 16px;"></ion-icon> 05:00 AM
-                </p>
-                <p><ion-icon name="calendar-outline" style=" margin: 6px;color: #ff0011;font-size: 16px;"></ion-icon> 20th
-                    Mar</p>
-            </div>
-        </div>
-        <div class="niti-card ">
-            <div class="niti-content">
-                <h3 style="font-size: 22px;padding-bottom:5px">Mailama</h3>
-                <p style="padding-top: 5px"><strong>Abakasha</strong></p>
-            </div>
-            <div class="niti-icons">
-                <p><ion-icon name="time-outline" style=" margin: 6px;font-size: 16px;"></ion-icon> 06:00 AM</p>
-                <p><ion-icon name="calendar-outline" style=" margin: 6px;font-size: 16px;"></ion-icon>20th Mar</p>
-            </div>
+            <div class="niti-card ">
+                <div class="niti-content">
+                    <h3 style="font-size: 22px;padding-bottom:5px">Mailama</h3>
+                    <p style="padding-top: 5px"><strong>Abakasha</strong></p>
+                </div>
+                <div class="niti-icons">
+                    <p style="color: rgb(139, 137, 137)"><ion-icon name="time-outline"
+                            style=" margin: 6px;font-size: 16px;"></ion-icon> 06:00 AM</p>
+                    <p style="color: rgb(139, 137, 137)"><ion-icon name="calendar-outline"
+                            style=" margin: 6px;font-size: 16px;"></ion-icon>20th Mar</p>
+                </div>
 
-        </div>
-        <div class="niti-card ">
-            <div class="niti-content">
-                <h3 style="font-size: 22px;padding-bottom:5px">View All Niti</h3>
             </div>
+            <div class="niti-card ">
+                <div class="niti-content">
+                    <h3 style="font-size: 22px;padding-bottom:5px">View All Niti</h3>
+                </div>
 
+            </div>
         </div>
     </div>
 
-    <section class="shree-mandir-section">
-        <div class="section-container">
-            <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham">
-            <h2 class="section-titles">Shree Mandir <span class="live-badge"><i class="fa fa-bolt"
-                        style="margin-right: 6px"></i>Live</span></h2>
-            <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham">
+    <section class="shree-mandir-section mt-12 w-full">
+        <div class="flex justify-center items-center gap-5 mt-12">
+            <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
+            <h2 class="text-2xl text-[#db4d30] flex items-center font-sans">
+                Shree Mandir
+                <span
+                    class="ml-2 text-sm font-bold text-white px-3 py-1 rounded-md flex items-center bg-gradient-to-r from-[#ff4e00] to-[#ff9800] shadow-md">
+                    <i class="fa fa-bolt mr-1"></i>Live
+                </span>
+            </h2>
+            <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
         </div>
 
-        <div class="mandir-content">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 px-4">
             <!-- TV Section -->
-
-            <div class="mandir-card">
-                <div class="card-content">
-                    <div class="card-icon">
-                        <img src="{{ asset('website/tv.png') }}" style="height: 60px;width: 65px"
-                            alt="Shree Jagannatha Dham">
-                        <h3 style="color: #db4d30">TV</h3>
+            <div class="flex flex-col md:flex-row bg-white rounded-lg border border-gray-300 max-w-full overflow-hidden">
+                <div class="flex-1 px-6 py-4">
+                    <div class="flex items-center gap-3 mb-6">
+                        <img src="{{ asset('website/tv.png') }}" class="h-16 w-16" alt="TV">
+                        <h3 class="text-[#db4d30] text-lg font-semibold">TV</h3>
                     </div>
-                    <p class="para">Watch all the live broadcasts from Shree Mandira</p>
-                    <p style="margin-top: 10px">🕒 03:17 pm</p>
-                    <p style="margin-top: 10px">📅 4th Mar</p>
+                    <p class="text-gray-600 text-base mb-2">Watch all the live broadcasts from Shree Mandira</p>
+                    <p class="text-sm mt-2">🕒 03:17 pm</p>
+                    <p class="text-sm mt-2">📅 4th Mar</p>
                 </div>
-                <div class="video-container">
-                    <img src="{{ asset('website/60.png') }}" style="height: 250px;width: 400px;border-radius: 10px"
-                        alt="Shree Jagannatha Dham">
+                <div class="bg-gray-100 p-4">
+                    <img src="{{ asset('website/60.png') }}" class="h-64 w-full md:w-[400px] rounded-lg object-cover"
+                        alt="TV Stream">
                 </div>
             </div>
 
             <!-- Radio Section -->
-            <div class="radio-card">
-                <div class="card-content">
-                    <div class="card-icon">
-                        <img src="{{ asset('website/radio.png') }}" style="height: 60px;width: 65px"
-                            alt="Shree Jagannatha Dham">
-                        <h3 style="color: #db4d30">Radio</h3>
+            <div class="flex flex-col md:flex-row bg-white rounded-lg border border-gray-300 max-w-full overflow-hidden">
+                <div class="flex-1 px-6 py-4">
+                    <div class="flex items-center gap-3 mb-6">
+                        <img src="{{ asset('website/radio.png') }}" class="h-16 w-16" alt="Radio">
+                        <h3 class="text-[#db4d30] text-lg font-semibold">Radio</h3>
                     </div>
-                    <p class="paras">Listen all the live broadcasts from Shree Mandira</p>
-                    <p style="margin-top: 10px">🕒 03:17 pm</p>
-                    <p style="margin-top: 10px">📅 4th Mar</p>
+                    <p class="text-gray-600 text-base mb-2">Listen all the live broadcasts from Shree Mandira</p>
+                    <p class="text-sm mt-2">🕒 03:17 pm</p>
+                    <p class="text-sm mt-2">📅 4th Mar</p>
                 </div>
-                <div class="radio-player">
-                    <div class="radio-header">Browse</div>
-                    <div class="radio-nav">
-                        <span><i class="fa fa-compass"></i>
-                            <p style="font-size: 10px">Explore</p>
+                <div class="bg-gray-100 p-4 w-full md:w-[400px]">
+                    <div class="bg-[#1e1e2d] text-white py-4 px-6 rounded-t-lg text-center font-semibold relative">
+                        <span class="absolute top-2 left-1/2 -translate-x-1/2 w-8 h-1.5 bg-gray-400 rounded-full"></span>
+                        Jay Jagannath
+                    </div>
+
+                    <div
+                        class="flex justify-around items-center text-sm text-gray-800 py-3 border border-gray-300 bg-white">
+                        <span class="flex flex-col items-center">
+                            <i class="fa fa-compass"></i>
+                            <p class="text-xs">Explore</p>
                         </span>
-                        <span><i class="fa fa-heart"></i>
-                            <p style="font-size: 10px">Favorites</p>
+                        <span class="flex flex-col items-center">
+                            <i class="fa fa-heart"></i>
+                            <p class="text-xs">Favorites</p>
                         </span>
-                        <span class="active"><i class="fa fa-map"></i>
-                            <p style="font-size: 10px">Browse</p>
+                        <span class="flex flex-col items-center text-green-600 font-bold">
+                            <i class="fa fa-map"></i>
+                            <p class="text-xs">Browse</p>
                         </span>
-                        <span><i class="fa fa-search"></i>
-                            <p style="font-size: 10px">Search</p>
+                        <span class="flex flex-col items-center">
+                            <i class="fa fa-search"></i>
+                            <p class="text-xs">Search</p>
                         </span>
-                        <span><i class="fa fa-bars"></i>
-                            <p style="font-size: 10px">Settings</p>
+                        <span class="flex flex-col items-center">
+                            <i class="fa fa-bars"></i>
+                            <p class="text-xs">Settings</p>
                         </span>
                     </div>
-                    <div class="radio-station">
-                        <!-- Header with Title & Icons -->
-                        <div class="radio-headers">
-                            <h4>Bhajans Name</h4>
-                            <div class="radio-icons">
-                                <i class="fas fa-heart"></i>
-                                <i class="fas fa-ellipsis-h"></i>
+
+                    <div class="bg-white border border-gray-300 rounded-lg p-4 mt-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <h4 class="text-[#db4d30] text-base font-bold">Bhajans Name</h4>
+                            <div class="flex items-center gap-2 text-gray-500">
+                                <i class="fas fa-heart cursor-pointer"></i>
+                                <i class="fas fa-ellipsis-h cursor-pointer"></i>
                             </div>
                         </div>
 
-                        <!-- Player Controls -->
-                        <div class="radio-controls">
-                            <div class="song">
-                                <img src="{{ asset('website/12.png') }}" alt="Prev">
-                                <img src="{{ asset('website/11.png') }}" alt="Play">
-                                <img src="{{ asset('website/10.png') }}" alt="Next">
+                        <div class="flex items-center justify-between mt-2">
+                            <div class="flex items-center gap-4">
+                                <img src="{{ asset('website/12.png') }}" class="w-5 h-5 cursor-pointer" alt="Prev">
+                                <img src="{{ asset('website/11.png') }}" class="w-5 h-5 cursor-pointer" alt="Play">
+                                <img src="{{ asset('website/10.png') }}" class="w-5 h-5 cursor-pointer" alt="Next">
                             </div>
-                            <div class="progress-bar">
-                                <input type="range" min="0" max="100">
-                            </div>
+                            <input type="range" min="0" max="100"
+                                class=" ml-4 accent-[#db4d30] h-1 rounded">
                         </div>
                     </div>
                 </div>
@@ -165,10 +182,13 @@
 
     <section class="services-section">
 
-        <div class="section-container">
-            <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham">
-            <h2 class="section-titles">Quick Services </h2>
-            <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham">
+        <div class="flex justify-center items-center gap-5 mt-12">
+            <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
+            <h2 class="text-2xl text-[#db4d30] flex items-center font-sans">
+                Quick Services
+
+            </h2>
+            <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
         </div>
 
         <div class="services-container" style="margin-top: 50px">
@@ -312,34 +332,40 @@
     </section>
 
     <section class="temple-slider">
-        <div class="section-container">
-          <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham">
-          <h2 class="section-titles">Nearby Temples</h2>
-          <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham">
-        </div>
-      
-        <div class="swiper mySwiper">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="{{ asset('website/11.jpg') }}" alt="Temple"></div>
-            <div class="swiper-slide"><img src="{{ asset('website/11.jpg') }}" alt="Temple"></div>
-            <div class="swiper-slide"><img src="{{ asset('website/11.jpg') }}" alt="Temple"></div>
-            <div class="swiper-slide"><img src="{{ asset('website/11.jpg') }}" alt="Temple"></div>
-            <div class="swiper-slide"><img src="{{ asset('website/11.jpg') }}" alt="Temple"></div>
-            <div class="swiper-slide"><img src="{{ asset('website/11.jpg') }}" alt="Temple"></div>
 
-          </div>
-      
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
+
+        <div class="flex justify-center items-center gap-5 mt-12">
+            <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
+            <h2 class="text-2xl text-[#db4d30] flex items-center font-sans">
+                Nearby Temples
+            </h2>
+            <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
         </div>
-      </section>
-      
+
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="{{ asset('website/11.jpg') }}" alt="Temple"></div>
+                <div class="swiper-slide"><img src="{{ asset('website/11.jpg') }}" alt="Temple"></div>
+                <div class="swiper-slide"><img src="{{ asset('website/11.jpg') }}" alt="Temple"></div>
+                <div class="swiper-slide"><img src="{{ asset('website/11.jpg') }}" alt="Temple"></div>
+                <div class="swiper-slide"><img src="{{ asset('website/11.jpg') }}" alt="Temple"></div>
+                <div class="swiper-slide"><img src="{{ asset('website/11.jpg') }}" alt="Temple"></div>
+
+            </div>
+
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </section>
 
     <section class="temple-convenience">
-        <div class="section-container">
-            <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham">
-            <h2 class="section-titles">Conveniences</h2>
-            <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham">
+
+        <div class="flex justify-center items-center gap-5 mt-12">
+            <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
+            <h2 class="text-2xl text-[#db4d30] flex items-center font-sans">
+                Conveniences
+            </h2>
+            <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
         </div>
 
         <div class="convenience-container">
@@ -408,35 +434,44 @@
         </div>
     </section>
 
-
     <section class="bg-100 p-10">
         <div class="max-w-6xl mx-auto">
             <!-- Header -->
-            <div class="flex justify-between">
-                <div class="image-panji">
-                    <p class="text-2xl font-bold;" style="color: #db4d30;font-family: Arial, sans-serif;font-size: 24px;">
-                        Panji Calendar</p>
-
-                    <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0">
+                <div class="image-panji flex items-center gap-2">
+                    <p class="text-2xl text-[#db4d30] flex items-center font-sans">
+                        Panji Calendar
+                    </p>
+                    <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-28 h-5">
                 </div>
-                <div class="image-event">
-                    <p style="color: #db4d30;font-family: Arial, sans-serif;font-size: 24px;">Events</p>
-                    <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham">
+                <!-- Desktop-only: Events Header stays here on larger screens -->
+                <div class="image-event flex items-center gap-2 hidden md:flex">
+                    <p class="text-2xl text-[#db4d30] flex items-center font-sans">
+                        Events
+                    </p>
+                    <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-28 h-5">
                 </div>
-                <h2 class="text-2xl font-bold text-red-600"></h2>
 
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-5">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                 <!-- Calendar Section -->
                 <div class="bg-white p-6 rounded-xl border border-yellow-300">
-                    <h3 class="text-md font-semibold text-red-500">Select date</h3>
+                    <h3 class="text-md font-semibold text-red-500 mb-2">Select date</h3>
                     <div id="calendar"></div>
                 </div>
 
+
                 <!-- Events Section -->
-                <div class="bg-white p-6 rounded-xl border border-300">
-                    <div id="events" class="grid grid-cols-3 gap-4 mt-4">
+                <div class="bg-white p-6 rounded-xl border border-gray-300">
+                    <div class="flex items-center gap-2 mb-4 md:hidden">
+                        <p class="text-xl font-semibold text-[#db4d30] font-sans">
+                            Events
+                        </p>
+                        <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-28 h-5">
+                    </div>
+                    <div id="events" class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
                         <!-- Event Cards -->
                         <div class="bg-100 p-3 rounded-lg text-center hover:shadow-xl transition">
                             <img src="website/6.png" class="mx-auto w-12 h-12">
@@ -481,113 +516,117 @@
         </div>
     </section>
 
-    <div class="max-w-6xl mx-auto text-center">
-
-        <div class="section-container">
-            <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham">
-            <h2 class="section-titles">Temple Information</h2>
-            <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham">
+    <div class="max-w-6xl mx-auto text-center px-4">
+        <!-- Header -->
+        <div class="flex flex-wrap justify-center items-center gap-3 mt-10">
+            <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-28 sm:w-36 h-5">
+            <h2 class="text-xl sm:text-2xl text-[#db4d30] font-sans font-semibold">Temple Information</h2>
+            <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-28 sm:w-36 h-5">
         </div>
-
+    
         <!-- Navigation Tabs -->
-        <div class="flex justify-center items-center gap-6" style="margin-bottom: 50px;margin-top: 20px">
-            <div id="navContainer" class="flex gap-10 overflow-x-auto no-scrollbar">
+        <div class="flex justify-center items-center mt-6 mb-10 px-2">
+            <div id="navContainer" class="flex gap-5 overflow-x-auto no-scrollbar w-full max-w-full">
                 <!-- Tab Items -->
                 <div class="tab-item text-center min-w-[100px] cursor-pointer active-tab" data-tab="aboutTemple">
                     <img src="website/6.png" class="mx-auto w-10 h-10">
-                    <p class="text-red-600 font-semibold mt-3">About Temple</p>
+                    <p class="text-red-600 font-semibold text-sm mt-2">About Temple</p>
                     <div class="h-1 bg-red-500 w-full mt-1"></div>
                 </div>
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="shreeKhetra">
                     <img src="website/6.png" class="mx-auto w-10 h-10">
-                    <p class="text-gray-500 mt-3">Shree Khetra</p>
+                    <p class="text-gray-500 text-sm mt-2">Shree Khetra</p>
                 </div>
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="mathaAshram">
                     <img src="website/6.png" class="mx-auto w-10 h-10">
-                    <p class="text-gray-500 mt-3">Matha & Ashram</p>
+                    <p class="text-gray-500 text-sm mt-2">Matha & Ashram</p>
                 </div>
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="festivals">
                     <img src="website/6.png" class="mx-auto w-10 h-10">
-                    <p class="text-gray-500 mt-3">Festivals</p>
+                    <p class="text-gray-500 text-sm mt-2">Festivals</p>
                 </div>
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="nijoga">
                     <img src="website/6.png" class="mx-auto w-10 h-10">
-                    <p class="text-gray-500 mt-3">36 Nijoga</p>
+                    <p class="text-gray-500 text-sm mt-2">36 Nijoga</p>
                 </div>
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="besha">
                     <img src="website/6.png" class="mx-auto w-10 h-10">
-                    <p class="text-gray-500 mt-3">Besha</p>
+                    <p class="text-gray-500 text-sm mt-2">Besha</p>
                 </div>
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="darshan">
                     <img src="website/6.png" class="mx-auto w-10 h-10">
-                    <p class="text-gray-500 mt-3">Darshan Facility</p>
+                    <p class="text-gray-500 text-sm mt-2">Darshan Facility</p>
                 </div>
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="prasad">
                     <img src="website/6.png" class="mx-auto w-10 h-10">
-                    <p class="text-gray-500 mt-3">Maha Prasad</p>
+                    <p class="text-gray-500 text-sm mt-2">Maha Prasad</p>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Dynamic Content Section -->
-    <section id="dynamicContent" class="bg-100">
+    
+    <!-- Content Section -->
+    <section id="dynamicContent" class="bg-100 px-4 pb-10">
         <div class="max-w-6xl mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <div id="contentImageContainer" style="height: 350px;width: 450px;margin-top: 50px">
-                    <img id="contentImage" src="website/12.jpg" alt="Temple Image" class="rounded-xl shadow-lg">
+                <!-- Image -->
+                <div id="contentImageContainer" class="w-full h-auto mt-6 flex justify-center">
+                    <img id="contentImage" src="website/12.jpg" alt="Temple Image" class="rounded-xl shadow-lg w-full max-w-md">
                 </div>
-                <div style="margin-left: -100px">
-                    <h2 id="contentTitle" class="text-2xl font-bold" style="color: #db4d30;">
+    
+                <!-- Text Content -->
+                <div class="mt-6 md:mt-0 md:ml-0">
+                    <h2 id="contentTitle" class="text-xl sm:text-2xl font-bold text-[#db4d30]">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit
                     </h2>
-                    <h3 id="contentSubtitle" class="text-xl text-gray-600 mt-2">
+                    <h3 id="contentSubtitle" class="text-lg text-gray-600 mt-2">
                         Lorem ipsum dolor sit amet
                     </h3>
-                    <p id="contentDescription" class="text-gray-500 mt-4 leading-relaxed">
+                    <p id="contentDescription" class="text-gray-500 mt-4 leading-relaxed text-sm sm:text-base">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
                         et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
                         aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
                         cillum dolore eu fugiat nulla pariatur.
                     </p>
-                    <button
-                        class="mt-6 px-6 py-2 bg-red-100 text-red-600 rounded-lg shadow-md hover:bg-red-200 transition">
+                    <button class="mt-6 px-6 py-2 bg-red-100 text-red-600 rounded-lg shadow-md hover:bg-red-200 transition">
                         Read More
                     </button>
                 </div>
             </div>
         </div>
     </section>
-
-    <section class="bg-100 p-10 relative">
+    
+    <section class="bg-100 p-6 sm:p-10 relative">
         <div class="max-w-6xl mx-auto text-center relative">
+            
+            <!-- Section Header -->
+            <div class="flex justify-center items-center flex-wrap gap-3 mt-6">
+                <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-24 sm:w-36 h-5">
+                <h2 class="text-xl sm:text-2xl text-[#db4d30] font-semibold font-sans">
+                    Jagannatha Temples Worldwide
+                </h2>
+                <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-24 sm:w-36 h-5">
+            </div>
+    
             <!-- Tabs Container -->
-
-            <div class="absolute top-28 right-0 flex space-x-3 p-3  rounded-lg">
-                <!-- Worldwide Tab -->
+            <div class="flex justify-center sm:absolute sm:top-28 sm:right-0 mt-6 sm:mt-0 px-2 space-x-2 sm:space-x-3">
                 <button class="tab-buttons active-tabs" onclick="showContent('worldwide', this)">
                     Worldwide
                 </button>
-                <!-- India Tab -->
                 <button class="tab-buttons" onclick="showContent('india', this)">
                     India
                 </button>
-                <!-- Odisha Tab -->
                 <button class="tab-buttons" onclick="showContent('odisha', this)">
                     Odisha
                 </button>
             </div>
-
-            <div class="section-container">
-                <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham">
-                <h2 class="section-titles">Jagannatha Temples Worldwide</h2>
-                <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham">
-            </div>
-
+    
             <!-- Banner Image -->
-            <div class="dynamic-image mt-10">
-                <img id="dynamicImage" src="{{ asset('website/18.png') }}" alt="Shree Jagannatha Dham" class="mx-auto">
+            <div class="dynamic-image mt-8 sm:mt-16">
+                <img id="dynamicImage" src="{{ asset('website/18.png') }}" alt="Shree Jagannatha Dham"
+                    class="mx-auto w-full max-w-xl rounded-lg shadow-md">
             </div>
         </div>
     </section>
+    
 @endsection

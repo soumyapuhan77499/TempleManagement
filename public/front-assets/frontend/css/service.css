@@ -1,0 +1,121 @@
+.services-sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 6px;
+    max-width: 1260px;
+    padding-top: 60px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin: 0 auto;
+  }
+  
+  .service-cards {
+    background: #fff;
+    border-radius: 13px;
+    border: 1px solid rgb(213, 213, 213);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease;
+    height: 145px;
+    position: relative;
+    width: 230px; /* Limit card width on large screens */
+    margin: 0 auto; /* Center cards on small screens */
+  }
+  
+  .service-cards:hover {
+    transform: translateY(-3px);
+  }
+  
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 50px;
+  }
+  
+  .card-title {
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: #797676;
+    line-height: 1.3;
+  }
+  
+  .card-desc {
+    font-size: 0.85rem;
+    color: #a2a0a0;
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+  
+  .arrow-icon {
+    width: 60px;
+    height: 30px;
+    color: #999;
+  }
+  
+  .card-bottom {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  
+  .card-icons {
+    width: 45px;
+    height: 45px;
+    margin-bottom: 25px;
+    margin-right: 5%;
+  }
+  
+  .footer-bar {
+    height: 4px;
+    width: 65px;
+    margin-bottom: -10px;
+  }
+  
+  .bar-orange { background-color: #c27462; }
+  .bar-red    { background-color: #e75230; }
+  .bar-blue   { background-color: #6577e6; }
+  .bar-cyan   { background-color: #22c5ee; }
+  .bar-green  { background-color: #6bbf84; }
+  
+  /* Enhanced mobile responsiveness */
+  @media (max-width: 768px) {
+    .services-sections {
+      grid-template-columns: 1fr;
+      gap: 20px;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+  
+    .service-cards {
+      width: 100%;
+      max-width: 100%;
+    }
+  
+    .card-title {
+      font-size: 1rem;
+    }
+  
+    .card-desc {
+      font-size: 0.85rem;
+    }
+  
+    .arrow-icon {
+      width: 40px;
+      height: 24px;
+    }
+  
+    .card-icons {
+      width: 40px;
+      height: 40px;
+      margin-right: 0;
+    }
+  
+    .footer-bar {
+      width: 50px;
+    }
+  }
+  
