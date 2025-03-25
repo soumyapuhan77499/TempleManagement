@@ -18,7 +18,6 @@ class TempleNearByTempleController extends Controller
         return view('templeuser.templefeature.add-near-by-temple');
     }
 
-
     public function saveNearByTemple(Request $request)
     {
         try {

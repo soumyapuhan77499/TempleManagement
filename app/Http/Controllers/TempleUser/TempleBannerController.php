@@ -69,6 +69,7 @@ class TempleBannerController extends Controller
             return redirect()->route('templebanner.managebanner')->with('success', 'Banner updated successfully!');
         
     }
+
     public function manageBanner()
     {
         // Get the current temple's ID from the authenticated user
@@ -82,6 +83,7 @@ class TempleBannerController extends Controller
         // Pass the banners to the view
         return view('templeuser.manage-banner', compact('banners'));
     }
+
     public function deleteBanner($id)
     {
         $banner = TempleBanner::findOrFail($id);

@@ -1,6 +1,7 @@
 @extends('website.web-layouts')
 
 @section('content')
+
     <section class="banner-sections">
         <!-- Video Banner -->
         <div class="banner-video">
@@ -515,8 +516,6 @@
             </div>
         </div>
     </section>
-
-  
 
     <div class="max-w-6xl mx-auto text-center">
 

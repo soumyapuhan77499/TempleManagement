@@ -95,8 +95,6 @@ public function deleteHundi($id)
     return redirect()->route('templeuser.managehundi')->with('success', 'Hundi marked as deleted successfully.');
 }
 
-
-
 // hundi collection start
 
 public function addHundiCollection(){
@@ -160,6 +158,4 @@ public function addHundiCollection(){
     }
 }
 
-  
-    
 }

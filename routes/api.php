@@ -29,6 +29,10 @@ use App\Http\Controllers\Api\TempleCommitteeController;
 use App\Http\Controllers\Api\ReportHundiCollection;
 use App\Http\Controllers\Api\PanjiController;
 
+// website
+
+use App\Http\Controllers\Api\WebsiteBannerController;
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -223,4 +227,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/mng-committee-hierarchy', [TempleCommitteeController::class, 'mngcommitteehierarchy']);
         Route::post('/committee/hierarchy-position/{id}', [TempleCommitteeController::class, 'saveCommitteeHierarchyPosition']);
         // Route::get('/committee/manage-members', [TempleCommitteeController::class, 'manageCommitteeMember']);
+});
+
+Route::controller(WebsiteBannerController::class)->group(function() {
+  Route::get('/manage-website-banner', 'manageWebsiteBanner');
 });
