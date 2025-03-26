@@ -34,6 +34,7 @@ class WebsiteBannerController extends Controller
                     'niti_about'    => $niti->niti_about,
                     'niti_sebayat'  => $niti->niti_sebayat,
                     'description'   => $niti->description,
+                    'niti_status'   => $niti->niti_status,
                     'items'         => $niti->niti_items->map(function ($item) {
                         return [
                             'item_name' => $item->item_name,

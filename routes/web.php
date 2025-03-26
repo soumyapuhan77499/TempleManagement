@@ -514,6 +514,6 @@ Route::controller(TemplePublicServiceController::class)->group(function() {
 
 
 Route::controller(TemplePublicServiceController::class)->group(function() {
-    Route::get('templeuser/add-service','addService');
-   
+    Route::get('templeuser/add-mahaprasad','addMahaprasad')->name('addMahaprasad');
+
 });

@@ -19,7 +19,8 @@ class NitiMaster extends Model
         'niti_type',
         'niti_about',
         'niti_sebayat',
-        'description'
+        'description',
+        'niti_status'
     ];
 
     public function steps()
