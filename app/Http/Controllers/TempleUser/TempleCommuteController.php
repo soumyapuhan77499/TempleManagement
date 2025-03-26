@@ -76,8 +76,6 @@ class TempleCommuteController extends Controller
         }
     }
 
-    
-    
     public function manageCommute(){
 
         $temple_id = Auth::guard('temples')->user()->temple_id;
@@ -87,8 +85,6 @@ class TempleCommuteController extends Controller
         return view('templeuser.templefeature.manage-commute', compact('commutes'));
     }
 
-
-    
     public function deleteCommute($id)
     {
         $commute = CommuteMode::findOrFail($id);

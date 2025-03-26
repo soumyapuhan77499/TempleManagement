@@ -18,7 +18,6 @@ class TempleFestivalController extends Controller
         return view('templeuser.add-temple-festival');
     }
    
-   
         public function storeData(Request $request)
         {
             try {
@@ -110,40 +109,101 @@ class TempleFestivalController extends Controller
             return view('templeuser.manage-festivals', compact('festivals'));
         }
         
-     // Display the edit form
-     public function edit($id)
+        public function editFestival($id)
+        {
+            $festival = TempleFestival::with('subFestivals')->findOrFail($id);
+            return view('templeuser.edit-festival', compact('festival'));
+        }
+        
+        public function updateFestival(Request $request, $id)
+        {
+            try {
+                // Validate request
+                $request->validate([
+                    'festival_name' => 'required|string|max:255',
+                    'start_date' => 'required|date',
+                    'festival_descp' => 'required|string',
+                    'festival_photos.*' => 'image|mimes:jpg,jpeg,png,gif|max:2048',
+                    'sub_festival_photo.*' => 'image|mimes:jpg,jpeg,png,gif|max:2048',
+                ]);
+        
+                $templeId = Auth::guard('temples')->user()->temple_id;
+        
+                // Fetch the existing festival
+                $festival = TempleFestival::findOrFail($id);
+        
+                $festival->temple_id = $templeId;
+                $festival->festival_name = $request->festival_name;
+                $festival->start_date = $request->start_date;
+                $festival->end_date = $request->end_date;
+                $festival->live_url = $request->live_url;
+                $festival->description = $request->festival_descp;
+        
+                // Handle new uploaded photos and append to existing if needed
+                $existingPhotos = json_decode($festival->photo ?? '[]', true);
+                $newPhotoPaths = [];
+        
+                if ($request->hasFile('festival_photos')) {
+                    foreach ($request->file('festival_photos') as $file) {
+                        if ($file->isValid()) {
+                            $ext = $file->getClientOriginalExtension();
+                            $filename = time() . '_' . uniqid() . '.' . $ext;
+                            $file->move(public_path('assets/uploads/festival_photos'), $filename);
+                            $newPhotoPaths[] = 'assets/uploads/festival_photos/' . $filename;
+                        }
+                    }
+                }
+        
+                // Merge old and new if you want to retain existing photos
+                $festival->photo = json_encode(array_merge($existingPhotos, $newPhotoPaths));
+        
+                $festival->save();
+        
+                // Clear existing sub festivals if you want to replace all
+                SubFestival::where('festival_id', $festival->festival_id)->delete();
+        
+                // Save sub-festivals
+                if ($request->sub_festival_name) {
+                    foreach ($request->sub_festival_name as $index => $subFestivalName) {
+                        if (!empty($subFestivalName)) {
+                            $subFestival = new SubFestival();
+                            $subFestival->temple_id = $templeId;
+                            $subFestival->festival_id = $festival->festival_id;
+                            $subFestival->sub_festival_name = $subFestivalName;
+                            $subFestival->sub_festival_date = $request->sub_festival_date[$index];
+                            $subFestival->sub_festival_time = $request->sub_festival_time[$index];
+        
+                            $photoPath = null;
+                            if ($request->hasFile("sub_festival_photo.$index")) {
+                                $file = $request->file("sub_festival_photo.$index");
+                                if ($file->isValid()) {
+                                    $ext = $file->getClientOriginalExtension();
+                                    $filename = time() . '_' . uniqid() . '.' . $ext;
+                                    $file->move(public_path('assets/uploads/sub_festival_photo'), $filename);
+                                    $photoPath = 'assets/uploads/sub_festival_photo/' . $filename;
+                                }
+                            }
+        
+                            $subFestival->sub_festival_photo = $photoPath;
+                            $subFestival->save();
+                        }
+                    }
+                }
+        
+                return redirect()->route('templefestival.managefestivals')->with('success', 'Festival updated successfully!');
+            } catch (\Exception $e) {
+                Log::error('Error updating festival: ' . $e->getMessage());
+                return redirect()->back()->with('error', 'An error occurred while updating the festival. Please try again. Error: ' . $e->getMessage());
+            }
+        }
+
+     public function deleteFestival($id)
      {
          $festival = TempleFestival::findOrFail($id);
-         return view('templeuser.edit-festival', compact('festival'));
-     }
- 
-     // Update the festival in the database
-     public function update(Request $request, $id)
-     {
-         $validatedData = $request->validate([
-             'festival_name' => 'required|string|max:255',
-             'festival_date' => 'required|date',
-             'festival_descp' => 'required|string',
-         ]);
- 
-         $festival = TempleFestival::findOrFail($id);
-         $festival->update([
-             'festival_name' => $validatedData['festival_name'],
-             'festival_date' => $validatedData['festival_date'],
-             'festival_descp' => $validatedData['festival_descp'],
-         ]);
- 
-         return redirect()->route('templefestival.managefestivals')->with('success', 'Festival updated successfully!');
-     }
- 
-     // Soft-delete the festival (mark as inactive)
-     public function destroy($id)
-     {
-         $festival = TempleFestival::findOrFail($id); // Find the festival by ID
-         $festival->status = 'deleted'; // Change status to 'deactive'
-         $festival->save(); // Save the updated status
+         $festival->status = 'deleted';
+         $festival->save();
      
-         return redirect()->route('templefestival.managefestivals')->with('success', 'Festival deactivated successfully!');
-     }
-     
+         return redirect()->back()->with('success', 'Festival deleted successfully.');
+     }     
+
 }

@@ -13,6 +13,7 @@ class TempleParkingController extends Controller
       
         return view('templeuser.rathayatra.add-parking');
     }
+
     public function manageParking(){
 
         $temple_id = Auth::guard('temples')->user()->temple_id;
@@ -89,11 +90,8 @@ class TempleParkingController extends Controller
             \Log::error('Error saving parking', ['error' => $e]);
             return redirect()->back()->with('error', $e->getMessage());
         }
-        
+
     }
-    
-    
-    
 
     public function editParking($id)
     {
@@ -158,7 +156,6 @@ class TempleParkingController extends Controller
 
         return redirect()->route('manageparking')->with('success', 'Parking details updated successfully!');
     }
-    
 
     public function deleteParking($id)
     {

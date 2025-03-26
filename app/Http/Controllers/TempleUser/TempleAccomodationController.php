@@ -16,7 +16,6 @@ class TempleAccomodationController extends Controller
         return view('templeuser.templefeature.add-accomodation');
     }
 
-
     public function saveAccomodation(Request $request)
     {
         try {
@@ -80,8 +79,6 @@ class TempleAccomodationController extends Controller
             return back()->withErrors(['error' => $e->getMessage()])->withInput();
         }
     }
-    
-
     
     public function manageAccomodation(){
 

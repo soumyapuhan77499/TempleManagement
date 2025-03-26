@@ -165,9 +165,9 @@ Route::prefix('templeuser')->middleware('templeauth')->group(function () {
         Route::get('/add-temple-festival', 'addFestival')->name('templefestival.addFestival');
         Route::post('/add-temple-festival', 'storedata')->name('templefestival.storeFestival');
         Route::get('/manage-festivals', 'managefestivals')->name('templefestival.managefestivals');
-        Route::get('/festival/{id}/edit', 'edit')->name('templefestival.edit');
-        Route::put('/festival/{id}', 'update')->name('templefestival.update');
-        Route::delete('/festival/{id}', 'destroy')->name('templefestival.destroy');
+        Route::get('/edit-festival/{id}', 'editFestival')->name('templefestival.editFestival');
+        Route::post('/update-festival/{id}', 'updateFestival')->name('templefestival.updateFestival');
+        Route::post('/delete-festival/{id}', 'deleteFestival')->name('templefestival.deleteFestival');
     });
 
     Route::controller(TempleNewsController::class)->group(function() {

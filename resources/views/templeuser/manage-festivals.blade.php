@@ -23,7 +23,6 @@
             </ol>
         </div>
     </div>
-    <!-- /breadcrumb -->
 
     @if (session()->has('success'))
         <div class="alert alert-success" id="Message">
@@ -73,17 +72,23 @@
                                                 View Photos
                                             </button>
                                         </td>
-                                        <td><a href="{{ $festival->live_url }}" class="btn btn-success btn-sm" target="_blank">Live Link</a></td>
+                                        <td><a href="{{ $festival->live_url }}" class="btn btn-success btn-sm"
+                                                target="_blank">Live Link</a></td>
                                         <td>
                                             <button class="btn btn-info btn-sm" data-bs-toggle="modal"
                                                 data-bs-target="#subFestivalModal{{ $festival->id }}">
                                                 View Sub Festivals
                                             </button>
                                         </td>
-                                        <td>{{ Str::limit($festival->festival_descp, 50) }}</td>
+                                        <td>{{ Str::limit($festival->description, 50) }}</td>
                                         <td>
-                                            <button class="btn btn-warning btn-sm">Edit</button>
-                                            <button class="btn btn-danger btn-sm">Delete</button>
+                                            <a href="{{ route('templefestival.editFestival', $festival->id) }}"
+                                                class="btn btn-sm btn-success"><i class="fa fa-edit"></i></a>
+                                            <button class="btn btn-danger btn-sm delete-btn" data-id="{{ $festival->id }}"
+                                                data-name="{{ $festival->festival_name }}">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+
                                         </td>
                                     </tr>
 
@@ -118,7 +123,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Sub-Festival Modal -->
                                     <!-- Sub-Festival Modal -->
                                     <div class="modal fade" id="subFestivalModal{{ $festival->id }}" tabindex="-1"
                                         aria-labelledby="subFestivalModalLabel{{ $festival->id }}" aria-hidden="true">
@@ -172,7 +176,13 @@
                                         </div>
                                     </div>
                                 @endforeach
+                               
+                                
                             </tbody>
+
+                            <form id="delete-festival-form" method="POST" style="display: none;">
+                                @csrf
+                            </form>
                         </table>
 
                     </div>
@@ -201,8 +211,6 @@
 
     <!-- INTERNAL Select2 js -->
     <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
-
-
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -233,4 +241,33 @@
             }
         }, 3000);
     </script>
+<script>
+   document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const festivalId = this.dataset.id;
+            const festivalName = this.dataset.name;
+
+            Swal.fire({
+                title: `Delete "${festivalName}"?`,
+                text: "This will mark the festival as deleted.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const form = document.getElementById('delete-festival-form');
+                    form.action = `{{ url('/templeuser/delete-festival') }}/${festivalId}`;
+                    form.submit();
+                }
+            });
+        });
+    });
+});
+
+</script>
+
 @endsection

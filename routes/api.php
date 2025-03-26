@@ -32,6 +32,9 @@ use App\Http\Controllers\Api\PanjiController;
 // website
 
 use App\Http\Controllers\Api\WebsiteBannerController;
+use App\Http\Controllers\Api\TempleInformationController;
+use App\Http\Controllers\Api\QuickServiceController;
+
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -232,3 +235,20 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::controller(WebsiteBannerController::class)->group(function() {
   Route::get('/manage-website-banner', 'manageWebsiteBanner');
 });
+
+
+Route::controller(TempleInformationController::class)->group(function() {
+  Route::get('/get-festival', 'getFestival')->name('templeinformation.getFestival');
+  Route::get('/get-matha', 'getMathaList')->name('templeinformation.getMatha');
+  Route::get('/get-nijoga', 'getNijogaList')->name('templeinformation.getNijoga');
+
+});
+
+Route::controller(QuickServiceController::class)->group(function() {
+  Route::get('/get-parking', 'getParkingList')->name('quickservice.getParkingList');
+  Route::get('/get-accomodation', 'getAccomodationList')->name('quickservice.getAccomodation');
+  Route::get('/get-commute', 'getCommuteList')->name('quickservice.getCommute');
+  Route::get('/get-emergency', 'getEmergencyContacts')->name('quickservice.getEmergencyContacts');
+  Route::get('/get-all-service-list', 'getPublicServiceList')->name('quickservice.getPublicServiceList');
+});
+
