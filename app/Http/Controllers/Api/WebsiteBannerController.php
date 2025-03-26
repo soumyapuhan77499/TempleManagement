@@ -22,14 +22,31 @@ class WebsiteBannerController extends Controller
 
             $previousDate = Carbon::yesterday()->toDateString(); // e.g., '2025-03-24'
 
-            $nitiMaster = NitiMaster::with(['niti_items'])
-                            ->where('status', 'active')
-                            ->where('temple_id', $templeId)
-                            ->get();
-
+            $nitiMaster = NitiMaster::with(['niti_items:id,niti_id,item_name,quantity,unit']) // fetch only necessary columns
+            ->where('status', 'active')
+            ->where('temple_id', $templeId)
+            ->get(['niti_id', 'niti_name', 'date_time', 'niti_type', 'niti_about', 'niti_sebayat', 'description']) // fetch only specific columns from NitiMaster
+            ->map(function ($niti) {
+                return [
+                    'niti_name'     => $niti->niti_name,
+                    'date_time'     => $niti->date_time,
+                    'niti_type'     => $niti->niti_type,
+                    'niti_about'    => $niti->niti_about,
+                    'niti_sebayat'  => $niti->niti_sebayat,
+                    'description'   => $niti->description,
+                    'items'         => $niti->niti_items->map(function ($item) {
+                        return [
+                            'item_name' => $item->item_name,
+                            'quantity'  => $item->quantity,
+                            'unit'      => $item->unit,
+                        ];
+                    }),
+                ];
+            });
+        
             $banners = TempleBanner::where('temple_id', $templeId)
-                            ->where('status', 'active')
-                            ->get();
+            ->where('status', 'active')
+            ->get(['banner_image', 'banner_type']);
 
             $nearbyTemples = NearByTemple::where('status', 'active')
                                 ->where('temple_id', $templeId)
