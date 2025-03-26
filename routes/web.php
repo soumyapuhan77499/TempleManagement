@@ -511,3 +511,9 @@ Route::controller(TemplePublicServiceController::class)->group(function() {
     Route::put('templeuser/update-service/{id}',  'updateService')->name('updateService');
     Route::get('templeuser/delete-service/{id}',  'deleteService')->name('deleteService');
 });
+
+
+Route::controller(TemplePublicServiceController::class)->group(function() {
+    Route::get('templeuser/add-service','addService');
+   
+});

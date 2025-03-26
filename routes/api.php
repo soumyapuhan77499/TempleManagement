@@ -233,9 +233,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 Route::controller(WebsiteBannerController::class)->group(function() {
-  Route::get('/manage-website-banner', 'manageWebsiteBanner');
+  Route::get('/get-home-section', 'manageWebsiteBanner');
 });
-
 
 Route::controller(TempleInformationController::class)->group(function() {
   Route::get('/get-festival', 'getFestival')->name('templeinformation.getFestival');
