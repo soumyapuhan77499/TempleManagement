@@ -18,6 +18,8 @@ class PanjiDetails extends Model
         'language',
         'event_name',
         'tithi',
+        'yoga',
+        'nakshatra',
         'sun_set',
         'sun_rise',
         'good_time',

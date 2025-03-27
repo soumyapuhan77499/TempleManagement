@@ -281,8 +281,7 @@
 										<li><a class="slide-item" href="{{route('manageCommute')}}">Manage Commute</a></li>
 										<li><a class="slide-item" href="{{route('manageEmergency')}}">Manage Emergency</a></li>
 										<li><a class="slide-item" href="{{url('templeuser/manage-service')}}">Manage Services</a></li>
-										<li><a class="slide-item" href="{{route('')}}">Manage Services</a></li>
-
+										<li><a class="slide-item" href="{{route('lostAndFound')}}">Lost And Found</a></li>
 									</ul>
 								</li>
 								

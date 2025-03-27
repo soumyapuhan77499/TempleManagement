@@ -96,10 +96,15 @@
 
                         <div class="row">
                             <!-- Tithi -->
-                            <div class="col-md-12 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <label for="tithi" class="form-label">Tithi</label>
                                 <input type="text" class="form-control" id="tithi" name="tithi"
                                     placeholder="Enter Tithi">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="nakshatra" class="form-label">Nakshatra</label>
+                                <input type="text" class="form-control" id="nakshatra" name="nakshatra"
+                                    placeholder="Enter Nakshatra">
                             </div>
                         </div>
 
@@ -130,7 +135,13 @@
                                     placeholder="Enter Bad Time">
                             </div>
                         </div>
-
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="yoga" class="form-label">Yoga</label>
+                                <input type="text" class="form-control" id="yoga" name="yoga"
+                                    placeholder="Enter Yoga">
+                            </div>
+                        </div>
                         <!-- Description -->
                         <div class="mb-3">
                             <label for="eventDescription" class="form-label">Description</label>
@@ -183,10 +194,11 @@
                     // Set the modal to edit mode and populate fields with clicked event data
                     document.getElementById('eventDate').value = info.event.startStr; // Set the date
                     document.getElementById('selectedDate').textContent = info.event.startStr; // Display the date
-    
                     document.getElementById('language').value = info.event.extendedProps.language; // Set language
                     document.getElementById('event_name').value = info.event.title; // Set event name
                     document.getElementById('tithi').value = info.event.extendedProps.tithi; // Set tithi
+                    document.getElementById('nakshatra').value = info.event.extendedProps.nakshatra; // Set nakshatra
+                    document.getElementById('yoga').value = info.event.extendedProps.yoga; // Set yoga
                     document.getElementById('sun_set').value = info.event.extendedProps.sun_set; // Set sun set time
                     document.getElementById('sun_rise').value = info.event.extendedProps.sun_rise; // Set sun rise time
                     document.getElementById('good_time').value = info.event.extendedProps.good_time; // Set good time
@@ -209,6 +221,8 @@
                             description: '{{ $event->description }}',
                             language: '{{ $event->language }}',
                             tithi: '{{ $event->tithi }}',
+                            nakshatra: '{{ $event->nakshatra }}',
+                            yoga: '{{ $event->yoga }}',
                             sun_set: '{{ $event->sun_set }}',
                             sun_rise: '{{ $event->sun_rise }}',
                             good_time: '{{ $event->good_time }}',
@@ -227,6 +241,8 @@
                 document.getElementById('language').value = '';
                 document.getElementById('event_name').value = '';
                 document.getElementById('tithi').value = '';
+                document.getElementById('nakshatra').value = '';
+                document.getElementById('yoga').value = '';
                 document.getElementById('sun_set').value = '';
                 document.getElementById('sun_rise').value = '';
                 document.getElementById('good_time').value = '';

@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\TempleFestival;
 use App\Models\Matha;
 use App\Models\NijogaMaster;
+use App\Models\TempleAboutDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -111,5 +112,41 @@ class TempleInformationController extends Controller
         }
     }
 
-    
+    public function getTempleAbout(Request $request)
+    {
+        try {
+            $templeId = 'TEMPLE25402';
+
+            if (!$templeId) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Temple ID is required.'
+                ], 400);
+            }
+
+            $temple = TempleAboutDetail::where('temple_id', $templeId)->first();
+
+            if (!$temple) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'No temple about information found.'
+                ], 404);
+            }
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Temple about details fetched successfully.',
+                'data' => $temple
+            ], 200);
+
+        } catch (\Exception $e) {
+            Log::error('Error fetching temple about: ' . $e->getMessage());
+
+            return response()->json([
+                'status' => false,
+                'message' => 'Internal Server Error',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

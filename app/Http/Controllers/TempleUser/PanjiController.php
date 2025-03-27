@@ -22,8 +22,6 @@ class PanjiController extends Controller
         // Validate the incoming data
         $request->validate([
             'date' => 'required|date',
-            'language' => 'required|string',
-            'event_name' => 'required|string',
             'tithi' => 'nullable|string',
             'sun_set' => 'nullable|date_format:H:i',
             'sun_rise' => 'nullable|date_format:H:i',
@@ -43,6 +41,8 @@ class PanjiController extends Controller
             'language' => $request->language,
             'event_name' => $request->event_name,
             'tithi' => $request->tithi,
+            'yoga' => $request->yoga,
+            'nakshatra' => $request->nakshatra,
             'sun_set' => $request->sun_set,
             'sun_rise' => $request->sun_rise,
             'good_time' => $request->good_time,
@@ -62,8 +62,6 @@ class PanjiController extends Controller
     // Validate the incoming data
     $request->validate([
         'date' => 'required|date',
-        'language' => 'required|string',
-        'event_name' => 'required|string',
         'tithi' => 'nullable|string',
         'sun_set' => 'nullable|date_format:H:i',
         'sun_rise' => 'nullable|date_format:H:i',
@@ -78,6 +76,8 @@ class PanjiController extends Controller
         'language' => $request->language,
         'event_name' => $request->event_name,
         'tithi' => $request->tithi,
+        'yoga' => $request->yoga,
+        'nakshatra' => $request->nakshatra,
         'sun_set' => $request->sun_set,
         'sun_rise' => $request->sun_rise,
         'good_time' => $request->good_time,

@@ -57,8 +57,8 @@ use App\Http\Controllers\TempleUser\TempleNearByTempleController;
 use App\Http\Controllers\TempleUser\TempleCommuteController;
 use App\Http\Controllers\TempleUser\TempleEmergencyController;
 use App\Http\Controllers\TempleUser\TemplePublicServiceController;
-
-
+use App\Http\Controllers\TempleUser\TempleGalleryController;
+use App\Http\Controllers\TempleUser\TempleLostAndFoundController;
 
 ## Home pages Routes
 Route::get('/', function () {
@@ -513,7 +513,12 @@ Route::controller(TemplePublicServiceController::class)->group(function() {
 });
 
 
-Route::controller(TemplePublicServiceController::class)->group(function() {
-    Route::get('templeuser/add-mahaprasad','addMahaprasad')->name('addMahaprasad');
-
+Route::controller(TempleLostAndFoundController::class)->group(function() {
+    Route::get('templeuser/add-lost-and-found','lostAndFound')->name('lostAndFound');
+    Route::post('templeuser/save-lost-and-found','saveLostAndFound')->name('saveLostAndFound');
+    Route::get('templeuser/lost-found/{id}','getSingle')->name('lostAndFound.get');
+    Route::post('templeuser/update-lost-and-found/{id}', 'editLostAndFound')->name('editLostAndFound');
+    Route::post('templeuser/delete-lost-and-found/{id}', 'deleteLostAndFound')->name('deleteLostAndFound');
 });
+
+

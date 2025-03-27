@@ -197,7 +197,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/get-panjidetails', 'getPanjiDetails');
       });
 
-    
         Route::post('/store-cash-donation', [TempleDonationController::class, 'storeCashDonation'])->name('api.templedonation.store');
         Route::get('/cash-donations', [TempleDonationController::class, 'manageCashDonations'])->name('api.templedonation.manage');
         Route::put('/update-cash-donation/{id}', [TempleDonationController::class, 'updateDonation'])->name('api.templedonation.update');
@@ -229,7 +228,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/store-committee-member', [TempleCommitteeController::class, 'storecommitteemember']);
         Route::get('/mng-committee-hierarchy', [TempleCommitteeController::class, 'mngcommitteehierarchy']);
         Route::post('/committee/hierarchy-position/{id}', [TempleCommitteeController::class, 'saveCommitteeHierarchyPosition']);
-        // Route::get('/committee/manage-members', [TempleCommitteeController::class, 'manageCommitteeMember']);
 });
 
 Route::controller(WebsiteBannerController::class)->group(function() {
@@ -240,7 +238,7 @@ Route::controller(TempleInformationController::class)->group(function() {
   Route::get('/get-festival', 'getFestival')->name('templeinformation.getFestival');
   Route::get('/get-matha', 'getMathaList')->name('templeinformation.getMatha');
   Route::get('/get-nijoga', 'getNijogaList')->name('templeinformation.getNijoga');
-
+  Route::get('/get-temple-about',  'getTempleAbout')->name('quickservice.getTempleAbout');
 });
 
 Route::controller(QuickServiceController::class)->group(function() {
@@ -249,5 +247,8 @@ Route::controller(QuickServiceController::class)->group(function() {
   Route::get('/get-commute', 'getCommuteList')->name('quickservice.getCommute');
   Route::get('/get-emergency', 'getEmergencyContacts')->name('quickservice.getEmergencyContacts');
   Route::get('/get-all-service-list', 'getPublicServiceList')->name('quickservice.getPublicServiceList');
+  Route::get('/get-maha-prasad', 'getTemplePrasadList')->name('quickservice.getTemplePrasadList');
+  Route::get('/get-panji', 'getPanji')->name('quickservice.getPanji');
+  Route::get('/get-darshan', 'getDarshan')->name('quickservice.getDarshan');
 });
 
