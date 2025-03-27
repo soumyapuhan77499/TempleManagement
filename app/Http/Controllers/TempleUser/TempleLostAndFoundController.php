@@ -15,7 +15,7 @@ class TempleLostAndFoundController extends Controller
     {
         $records = TempleLostAndFound::where('status','active')->orderByDesc('created_at')->get();
 
-        return view('templeUser.add-temple-lost-and-found', compact('records'));
+        return view('templeuser.add-temple-lost-and-found', compact('records'));
     }
 
 public function saveLostAndFound(Request $request)
