@@ -41,13 +41,13 @@
             <div class="card">
 
                 <div class="card-body pt-0 pt-4">
-                    
+
                     <form method="POST" enctype="multipart/form-data" action="{{ route('templebanner.storeBanner') }}">
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="banner_image">Banner Image<span style="color:red">*</span></label>
+                                    <label for="banner_image">Banner Image</label>
                                     <input type="file" class="form-control" id="banner_image" name="banner_image"
                                         required>
                                     <small class="form-text text-red">

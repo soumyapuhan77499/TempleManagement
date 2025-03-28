@@ -69,6 +69,11 @@ class TempleBannerController extends Controller
                 $bannerImagePath = $request->file('banner_image')->store('banner_images', 'public');
                 $banner->banner_image = $bannerImagePath;
             }
+
+            if ($request->hasFile('banner_video')) {
+                $bannerVideoPath = $request->file('banner_video')->store('banner_video', 'public');
+                $banner->banner_video = $bannerVideoPath;
+            }
         
             // Update other fields
             $banner->banner_type = $request->banner_type;
