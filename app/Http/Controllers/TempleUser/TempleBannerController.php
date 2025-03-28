@@ -16,7 +16,7 @@ class TempleBannerController extends Controller
     public function storeBanner(Request $request)
     {
         $request->validate([
-            'banner_image' => 'required|file|mimes:jpeg,png,jpg,gif',
+            'banner_image' => 'nullable|file|mimes:jpeg,png,jpg,gif',
             'banner_video' => 'nullable|file|mimetypes:video/mp4,video/quicktime,video/x-msvideo,video/x-ms-wmv|max:51200', // max ~50MB
             'banner_type' => 'required|string',
         ]);
