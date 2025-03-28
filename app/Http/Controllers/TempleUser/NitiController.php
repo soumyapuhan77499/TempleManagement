@@ -43,13 +43,6 @@ class NitiController extends Controller
                 'niti_sebayat' => 'sometimes|array',
                 'niti_sebayat.*' => 'string',
                 'item_name' => 'sometimes|array',
-                'item_name.*' => 'string|max:255',
-                'quantity' => 'sometimes|array',
-                'quantity.*' => 'numeric|min:0',
-                'unit' => 'sometimes|array',
-                'unit.*' => 'string|max:10',
-                'step_of_niti' => 'sometimes|array',
-                'step_of_niti.*' => 'string|max:255',
              
             ]);
             
