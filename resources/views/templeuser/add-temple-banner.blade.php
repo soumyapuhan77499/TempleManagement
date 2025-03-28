@@ -48,8 +48,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="banner_image">Banner Image</label>
-                                    <input type="file" class="form-control" id="banner_image" name="banner_image"
-                                        required>
+                                    <input type="file" class="form-control" id="banner_image" name="banner_image" >
+                                       
                                     <small class="form-text text-red">
                                         For web banner image, the size is 1900x600 and for app banner image, the size is
                                         1000x400.
