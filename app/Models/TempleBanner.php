@@ -14,7 +14,8 @@ class TempleBanner extends Model
 
     protected $fillable = [
         'temple_id', 
-        'banner_image', 
+        'banner_image',
+        'banner_video', 
         'banner_type', 
         'banner_descp',
         'status'

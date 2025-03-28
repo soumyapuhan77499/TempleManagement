@@ -85,95 +85,85 @@
         </div>
     </div>
 
-    <section class="shree-mandir-section mt-12 w-full">
-        <div class="flex justify-center items-center gap-5 mt-12">
-            <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
-            <h2 class="text-2xl text-[#db4d30] flex items-center font-sans">
-                Shree Mandir
-                <span
-                    class="ml-2 text-sm font-bold text-white px-3 py-1 rounded-md flex items-center bg-gradient-to-r from-[#ff4e00] to-[#ff9800] shadow-md">
-                    <i class="fa fa-bolt mr-1"></i>Live
-                </span>
-            </h2>
-            <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
+    <section class="shree-mandir-section">
+        <div class="section-container">
+            <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham">
+            <h2 class="section-titles">Shree Mandir <span class="live-badge"><i class="fa fa-bolt"
+                        style="margin-right: 6px"></i>Live</span></h2>
+            <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham">
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 px-4">
+        <div class="mandir-content">
             <!-- TV Section -->
-            <div class="flex flex-col md:flex-row bg-white rounded-lg border border-gray-300 max-w-full overflow-hidden">
-                <div class="flex-1 px-6 py-4">
-                    <div class="flex items-center gap-3 mb-6">
-                        <img src="{{ asset('website/tv.png') }}" class="h-16 w-16" alt="TV">
-                        <h3 class="text-[#db4d30] text-lg font-semibold">TV</h3>
+
+            <div class="mandir-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <img src="{{ asset('website/tv.png') }}" style="height: 60px;width: 65px"
+                            alt="Shree Jagannatha Dham">
+                        <h3 style="color: #db4d30">TV</h3>
                     </div>
-                    <p class="text-gray-600 text-base mb-2">Watch all the live broadcasts from Shree Mandira</p>
-                    <p class="text-sm mt-2">🕒 03:17 pm</p>
-                    <p class="text-sm mt-2">📅 4th Mar</p>
+                    <p class="para">Watch all the live broadcasts from Shree Mandira</p>
+                    <p style="margin-top: 10px">🕒 03:17 pm</p>
+                    <p style="margin-top: 10px">📅 4th Mar</p>
                 </div>
-                <div class="bg-gray-100 p-4">
-                    <img src="{{ asset('website/60.png') }}" class="h-64 w-full md:w-[400px] rounded-lg object-cover"
-                        alt="TV Stream">
+                <div class="video-container">
+                    <img src="{{ asset('website/60.png') }}" style="height: 250px;width: 400px;border-radius: 10px"
+                        alt="Shree Jagannatha Dham">
                 </div>
             </div>
 
             <!-- Radio Section -->
-            <div class="flex flex-col md:flex-row bg-white rounded-lg border border-gray-300 max-w-full overflow-hidden">
-                <div class="flex-1 px-6 py-4">
-                    <div class="flex items-center gap-3 mb-6">
-                        <img src="{{ asset('website/radio.png') }}" class="h-16 w-16" alt="Radio">
-                        <h3 class="text-[#db4d30] text-lg font-semibold">Radio</h3>
+            <div class="radio-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <img src="{{ asset('website/radio.png') }}" style="height: 60px;width: 65px"
+                            alt="Shree Jagannatha Dham">
+                        <h3 style="color: #db4d30">Radio</h3>
                     </div>
-                    <p class="text-gray-600 text-base mb-2">Listen all the live broadcasts from Shree Mandira</p>
-                    <p class="text-sm mt-2">🕒 03:17 pm</p>
-                    <p class="text-sm mt-2">📅 4th Mar</p>
+                    <p class="paras">Listen all the live broadcasts from Shree Mandira</p>
+                    <p style="margin-top: 10px">🕒 03:17 pm</p>
+                    <p style="margin-top: 10px">📅 4th Mar</p>
                 </div>
-                <div class="bg-gray-100 p-4 w-full md:w-[400px]">
-                    <div class="bg-[#1e1e2d] text-white py-4 px-6 rounded-t-lg text-center font-semibold relative">
-                        <span class="absolute top-2 left-1/2 -translate-x-1/2 w-8 h-1.5 bg-gray-400 rounded-full"></span>
-                        Jay Jagannath
-                    </div>
-
-                    <div
-                        class="flex justify-around items-center text-sm text-gray-800 py-3 border border-gray-300 bg-white">
-                        <span class="flex flex-col items-center">
-                            <i class="fa fa-compass"></i>
-                            <p class="text-xs">Explore</p>
+                <div class="radio-player">
+                    <div class="radio-header">Jay Jagannath</div>
+                    <div class="radio-nav">
+                        <span><i class="fa fa-compass"></i>
+                            <p style="font-size: 10px">Explore</p>
                         </span>
-                        <span class="flex flex-col items-center">
-                            <i class="fa fa-heart"></i>
-                            <p class="text-xs">Favorites</p>
+                        <span><i class="fa fa-heart"></i>
+                            <p style="font-size: 10px">Favorites</p>
                         </span>
-                        <span class="flex flex-col items-center text-green-600 font-bold">
-                            <i class="fa fa-map"></i>
-                            <p class="text-xs">Browse</p>
+                        <span class="active"><i class="fa fa-map"></i>
+                            <p style="font-size: 10px">Browse</p>
                         </span>
-                        <span class="flex flex-col items-center">
-                            <i class="fa fa-search"></i>
-                            <p class="text-xs">Search</p>
+                        <span><i class="fa fa-search"></i>
+                            <p style="font-size: 10px">Search</p>
                         </span>
-                        <span class="flex flex-col items-center">
-                            <i class="fa fa-bars"></i>
-                            <p class="text-xs">Settings</p>
+                        <span><i class="fa fa-bars"></i>
+                            <p style="font-size: 10px">Settings</p>
                         </span>
                     </div>
-
-                    <div class="bg-white border border-gray-300 rounded-lg p-4 mt-4">
-                        <div class="flex justify-between items-center mb-2">
-                            <h4 class="text-[#db4d30] text-base font-bold">Bhajans Name</h4>
-                            <div class="flex items-center gap-2 text-gray-500">
-                                <i class="fas fa-heart cursor-pointer"></i>
-                                <i class="fas fa-ellipsis-h cursor-pointer"></i>
+                    <div class="radio-station">
+                        <!-- Header with Title & Icons -->
+                        <div class="radio-headers">
+                            <h4>Bhajans Name</h4>
+                            <div class="radio-icons">
+                                <i class="fas fa-heart"></i>
+                                <i class="fas fa-ellipsis-h"></i>
                             </div>
                         </div>
 
-                        <div class="flex items-center justify-between mt-2">
-                            <div class="flex items-center gap-4">
-                                <img src="{{ asset('website/12.png') }}" class="w-5 h-5 cursor-pointer" alt="Prev">
-                                <img src="{{ asset('website/11.png') }}" class="w-5 h-5 cursor-pointer" alt="Play">
-                                <img src="{{ asset('website/10.png') }}" class="w-5 h-5 cursor-pointer" alt="Next">
+                        <!-- Player Controls -->
+                        <div class="radio-controls">
+                            <div class="song">
+                                <img src="{{ asset('website/12.png') }}" alt="Prev">
+                                <img src="{{ asset('website/11.png') }}" alt="Play">
+                                <img src="{{ asset('website/10.png') }}" alt="Next">
                             </div>
-                            <input type="range" min="0" max="100"
-                                class=" ml-4 accent-[#db4d30] h-1 rounded">
+                            <div class="progress-bar">
+                                <input type="range" min="0" max="100">
+                            </div>
                         </div>
                     </div>
                 </div>

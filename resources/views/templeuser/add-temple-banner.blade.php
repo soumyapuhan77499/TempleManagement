@@ -39,19 +39,22 @@
     <div class="row">
         <div class="col-12 col-sm-12">
             <div class="card">
-              
+
                 <div class="card-body pt-0 pt-4">
+                    
                     <form method="POST" enctype="multipart/form-data" action="{{ route('templebanner.storeBanner') }}">
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
-								<div class="form-group">
-									<label for="banner_image">Banner Image<span style="color:red">*</span></label>
-									<input type="file" class="form-control" id="banner_image" name="banner_image" required>
-									<small id="bannerHelp" class="form-text text-red" style="color:red">
-										For web banner image, the size is 1900x600 and for app banner image, the size is 1000x400.
-									</small>
-								</div>								
+                                <div class="form-group">
+                                    <label for="banner_image">Banner Image<span style="color:red">*</span></label>
+                                    <input type="file" class="form-control" id="banner_image" name="banner_image"
+                                        required>
+                                    <small class="form-text text-red">
+                                        For web banner image, the size is 1900x600 and for app banner image, the size is
+                                        1000x400.
+                                    </small>
+                                </div>
                             </div>
 
                             <div class="col-md-6">
@@ -65,12 +68,23 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- New video upload field -->
+                        <div class="form-group">
+                            <label for="banner_video">Banner Video (optional)</label>
+                            <input type="file" class="form-control" id="banner_video" name="banner_video"
+                                accept="video/*">
+                            <small class="form-text text-muted">Only .mp4, .mov, etc. Max size ~50MB.</small>
+                        </div>
+
                         <div class="form-group">
                             <label for="banner_descp">Description</label>
                             <textarea name="banner_descp" class="form-control" id="banner_descp"></textarea>
                         </div>
+
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
+
                 </div>
             </div>
         </div>
@@ -106,30 +120,29 @@
     <!-- INTERNAL Select2 js -->
     <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('assets/js/select2.js') }}"></script>
-	<script>
-		document.addEventListener('DOMContentLoaded', function () {
-			const bannerType = document.getElementById('banner_type');
-			const bannerHelp = document.getElementById('bannerHelp');
-	
-			function updateBannerHelpText(value) {
-				if (value === 'web') {
-					bannerHelp.innerText = 'For web banner image, the size is 1900x600.';
-				} else if (value === 'app') {
-					bannerHelp.innerText = 'For app banner image, the size is 1000x400.';
-				} else if (value === 'sub') {
-					bannerHelp.innerText = 'For sub banner image, the size is 800x300.'; // Example size
-				} else {
-					bannerHelp.innerText = '';
-				}
-			}
-	
-			bannerType.addEventListener('change', function () {
-				updateBannerHelpText(this.value);
-			});
-	
-			// Initial set
-			updateBannerHelpText(bannerType.value);
-		});
-	</script>
-	
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const bannerType = document.getElementById('banner_type');
+            const bannerHelp = document.getElementById('bannerHelp');
+
+            function updateBannerHelpText(value) {
+                if (value === 'web') {
+                    bannerHelp.innerText = 'For web banner image, the size is 1900x600.';
+                } else if (value === 'app') {
+                    bannerHelp.innerText = 'For app banner image, the size is 1000x400.';
+                } else if (value === 'sub') {
+                    bannerHelp.innerText = 'For sub banner image, the size is 800x300.'; // Example size
+                } else {
+                    bannerHelp.innerText = '';
+                }
+            }
+
+            bannerType.addEventListener('change', function() {
+                updateBannerHelpText(this.value);
+            });
+
+            // Initial set
+            updateBannerHelpText(bannerType.value);
+        });
+    </script>
 @endsection

@@ -12,31 +12,41 @@ class TempleBannerController extends Controller
     public function addbanner(){
         return view('templeuser.add-temple-banner');
     }
+
     public function storeBanner(Request $request)
     {
         $request->validate([
             'banner_image' => 'required|file|mimes:jpeg,png,jpg,gif',
+            'banner_video' => 'nullable|file|mimetypes:video/mp4,video/quicktime,video/x-msvideo,video/x-ms-wmv|max:51200', // max ~50MB
             'banner_type' => 'required|string',
         ]);
-    
-        // Store image
+
         $bannerImagePath = null;
+        $bannerVideoPath = null;
+
+        // Store image
         if ($request->hasFile('banner_image')) {
             $bannerImagePath = $request->file('banner_image')->store('banner_images', 'public');
         }
-    
-        // Create a new banner entry
+
+        // Store video (optional)
+        if ($request->hasFile('banner_video')) {
+            $bannerVideoPath = $request->file('banner_video')->store('banner_videos', 'public');
+        }
+
+        // Save to DB
         TempleBanner::create([
-            'temple_id' =>  Auth::guard('temples')->user()->temple_id,
+            'temple_id' => Auth::guard('temples')->user()->temple_id,
             'banner_image' => $bannerImagePath,
+            'banner_video' => $bannerVideoPath,
             'banner_type' => $request->banner_type,
             'banner_descp' => $request->banner_descp,
-            'status' => 'active',
         ]);
-    
+
         return redirect()->route('templebanner.managebanner')->with('success', 'Banner added successfully!');
+
     }
-    
+
     // Edit banner
     public function editBanner($id)
     {
@@ -67,7 +77,6 @@ class TempleBannerController extends Controller
             $banner->save();
         
             return redirect()->route('templebanner.managebanner')->with('success', 'Banner updated successfully!');
-        
     }
 
     public function manageBanner()
