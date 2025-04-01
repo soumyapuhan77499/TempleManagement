@@ -64,19 +64,22 @@ class QuickServiceController extends Controller
                 ->where('status', 'active')
                 ->get()
                 ->map(function ($accomodation) {
-                    // Decode the photo JSON string into array
+                    // Decode the photo JSON string
                     $photos = json_decode($accomodation->photo, true);
     
                     if (is_array($photos)) {
-                        $formattedPhotos = array_map(function ($path) {
-                            return "'http://temple.mandirparikrama.com/" . ltrim($path, '/') . "'";
+                        $imageUrls = array_map(function ($path) {
+                            return "http://temple.mandirparikrama.com/" . ltrim($path, '/');
                         }, $photos);
-    
-                        // Join the formatted array into a comma-separated string
-                        $accomodation->photo = implode(',', $formattedPhotos);
                     } else {
-                        $accomodation->photo = '';
+                        $imageUrls = [];
                     }
+    
+                    // Add images array to the response
+                    $accomodation->images = $imageUrls;
+    
+                    // Optionally remove the original `photo` field
+                    unset($accomodation->photo);
     
                     return $accomodation;
                 });
@@ -97,6 +100,7 @@ class QuickServiceController extends Controller
             ], 500);
         }
     }
+    
     
     public function getCommuteList(Request $request)
     {
