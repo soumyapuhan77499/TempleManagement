@@ -284,7 +284,6 @@ public function getTemplePrasadList(Request $request)
         ], 500);
     }
 }
-
 public function getDarshan()
 {
     try {
@@ -294,6 +293,14 @@ public function getDarshan()
             ->where('temple_id', $templeId)
             ->get();
 
+        // Map through the darshans to update the image path
+        $darshans = $darshans->map(function ($darshan) {
+            // Prepend the full URL to the darshan image path
+            $darshan->darshan_image = url($darshan->darshan_image);
+            return $darshan;
+        });
+
+        // Group darshans by darshan_day
         $groupedDarshans = $darshans->groupBy('darshan_day');
 
         return response()->json([
@@ -313,4 +320,5 @@ public function getDarshan()
         ], 500);
     }
 }
+
 }
