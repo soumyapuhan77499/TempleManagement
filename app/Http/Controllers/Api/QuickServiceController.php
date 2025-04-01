@@ -172,27 +172,36 @@ class QuickServiceController extends Controller
     {
         try {
             $templeId = 'TEMPLE25402';
-
+    
             if (!$templeId) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Temple ID is required.'
                 ], 400);
             }
-
+    
             $services = PublicServices::where('temple_id', $templeId)
                 ->where('status', 'active')
-                ->get();
-
+                ->get()
+                ->map(function ($service) {
+                    // Decode and format the photo
+                    $photoArray = json_decode($service->photo, true);
+                    $service->photo = isset($photoArray[0])
+                        ? 'http://temple.mandirparikrama.com/' . ltrim($photoArray[0], '/')
+                        : null;
+    
+                    return $service;
+                });
+    
             return response()->json([
                 'status' => true,
                 'message' => 'Public services fetched successfully.',
                 'data' => $services
             ], 200);
-
+    
         } catch (\Exception $e) {
             Log::error('Error fetching public services: ' . $e->getMessage());
-
+    
             return response()->json([
                 'status' => false,
                 'message' => 'Internal Server Error',
@@ -200,6 +209,7 @@ class QuickServiceController extends Controller
             ], 500);
         }
     }
+    
 
     public function getTemplePrasadList(Request $request)
     {
