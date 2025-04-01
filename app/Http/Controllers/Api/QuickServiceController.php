@@ -18,20 +18,28 @@ class QuickServiceController extends Controller
     public function getParkingList(Request $request)
     {
         try {
-
+    
             $templeId = 'TEMPLE25402';
-
+    
             if (!$templeId) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Temple ID is required.',
                 ], 400);
             }
-
+    
             $parkings = Parking::where('temple_id', $templeId)
                 ->where('status', 'active')
-                ->get();
-
+                ->get()
+                ->map(function ($parking) {
+                    // Prefix the parking_photo with the base URL
+                    if ($parking->parking_photo) {
+                        $parking->parking_photo = 'http://temple.mandirparikrama.com/' . ltrim($parking->parking_photo, '/');
+                    }
+    
+                    return $parking;
+                });
+    
             return response()->json([
                 'status' => true,
                 'message' => 'Parking list fetched successfully.',
@@ -39,7 +47,7 @@ class QuickServiceController extends Controller
             ], 200);
         } catch (\Exception $e) {
             Log::error('Error fetching parking list: ' . $e->getMessage());
-
+    
             return response()->json([
                 'status' => false,
                 'message' => 'Internal Server Error',
@@ -47,6 +55,7 @@ class QuickServiceController extends Controller
             ], 500);
         }
     }
+    
 
     public function getAccomodationList(Request $request)
     {
