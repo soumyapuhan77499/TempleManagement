@@ -229,37 +229,41 @@ class QuickServiceController extends Controller
 
     
 
-    public function getTemplePrasadList(Request $request)
-    {
-        try {
-            $templeId = 'TEMPLE25402';
+public function getTemplePrasadList(Request $request)
+{
+    try {
+        $templeId = 'TEMPLE25402';
 
-            if (!$templeId) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Temple ID is required.'
-                ], 400);
-            }
-
-            $prasadas = TemplePrasad::where('temple_id', $templeId)->get();
-
-            return response()->json([
-                'status' => true,
-                'message' => 'Temple prasad list fetched successfully.',
-                'data' => $prasadas
-            ], 200);
-            
-        } catch (\Exception $e) {
-
-            Log::error('Error fetching prasad list: ' . $e->getMessage());
-
+        if (!$templeId) {
             return response()->json([
                 'status' => false,
-                'message' => 'Internal Server Error',
-                'error' => $e->getMessage()
-            ], 500);
+                'message' => 'Temple ID is required.'
+            ], 400);
         }
+
+        $prasadas = TemplePrasad::where('temple_id', $templeId)->get()->map(function ($prasad) {
+            // Prepend the full URL to the prasad photo path
+            $prasad->prasad_photo = url('assets/temple/prasad_photo/' . $prasad->prasad_photo);
+            return $prasad;
+        });
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Temple prasad list fetched successfully.',
+            'data' => $prasadas
+        ], 200);
+
+    } catch (\Exception $e) {
+
+        Log::error('Error fetching prasad list: ' . $e->getMessage());
+
+        return response()->json([
+            'status' => false,
+            'message' => 'Internal Server Error',
+            'error' => $e->getMessage()
+        ], 500);
     }
+}
 
     public function getPanji()
 {
