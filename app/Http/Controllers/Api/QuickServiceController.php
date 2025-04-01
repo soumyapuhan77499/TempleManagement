@@ -52,27 +52,44 @@ class QuickServiceController extends Controller
     {
         try {
             $templeId = 'TEMPLE25402';
-
+    
             if (!$templeId) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Temple ID is required.'
                 ], 400);
             }
-
+    
             $accomodations = Accomodation::where('temple_id', $templeId)
                 ->where('status', 'active')
-                ->get();
-
+                ->get()
+                ->map(function ($accomodation) {
+                    // Decode the photo JSON string into array
+                    $photos = json_decode($accomodation->photo, true);
+    
+                    if (is_array($photos)) {
+                        $formattedPhotos = array_map(function ($path) {
+                            return "'http://temple.mandirparikrama.com/" . ltrim($path, '/') . "'";
+                        }, $photos);
+    
+                        // Join the formatted array into a comma-separated string
+                        $accomodation->photo = implode(',', $formattedPhotos);
+                    } else {
+                        $accomodation->photo = '';
+                    }
+    
+                    return $accomodation;
+                });
+    
             return response()->json([
                 'status' => true,
                 'message' => 'Accomodation list fetched successfully.',
                 'data' => $accomodations
             ], 200);
-
+    
         } catch (\Exception $e) {
             Log::error('Error fetching accomodations: ' . $e->getMessage());
-
+    
             return response()->json([
                 'status' => false,
                 'message' => 'Internal Server Error',
@@ -80,7 +97,7 @@ class QuickServiceController extends Controller
             ], 500);
         }
     }
-
+    
     public function getCommuteList(Request $request)
     {
         try {
