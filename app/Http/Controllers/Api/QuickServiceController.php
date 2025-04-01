@@ -243,7 +243,7 @@ public function getTemplePrasadList(Request $request)
 
         $prasadas = TemplePrasad::where('temple_id', $templeId)->get()->map(function ($prasad) {
             // Prepend the full URL to the prasad photo path
-            $prasad->prasad_photo = url('assets/temple/prasad_photo/' . $prasad->prasad_photo);
+            $prasad->prasad_photo = url( $prasad->prasad_photo);
             return $prasad;
         });
 
