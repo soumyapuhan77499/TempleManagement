@@ -198,12 +198,8 @@
 												<li><a class="sub-side-menu__item" href="{{route('templeuser.managehundi')}}">Manage Hundi</a></li>
 												<li><a class="sub-side-menu__item" href="{{ route('templeuser.addhundicollection') }}">Add Hundi Collection</a></li>
 												<li><a class="sub-side-menu__item" href="{{ route('templeuser.reportHundicollection') }}">Hundi Collection Reports</a></li>
-
-																	
 											</ul>
 										</li>
-									
-
 									</ul>
 								</li>
 
@@ -282,11 +278,10 @@
 										<li><a class="slide-item" href="{{route('manageEmergency')}}">Manage Emergency</a></li>
 										<li><a class="slide-item" href="{{url('templeuser/manage-service')}}">Manage Services</a></li>
 										<li><a class="slide-item" href="{{route('lostAndFound')}}">Lost And Found</a></li>
+										<li><a class="slide-item" href="{{route('addMainMenu')}}">Menu Management</a></li>
 									</ul>
 								</li>
-								
 							</ul>
-
 							
 							<div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24"><path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"/></svg></div>
 						</div>

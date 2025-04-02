@@ -112,34 +112,35 @@
     <!-- Main script JS -->
     <script src="front-assets/frontend/js/script.js"></script>
 
-
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
-        var swiper = new Swiper(".mySwiper", {
-          slidesPerView: 3,
-          spaceBetween: 20,
-          centeredSlides: true,
-          loop: true,
-          navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-          },
-          breakpoints: {
-            // when window width is <= 768px
-            768: {
-              slidesPerView: 1,
-              centeredSlides: false,
-            },
-            992: {
-              slidesPerView: 2,
-            },
-            1200: {
-              slidesPerView: 3,
-            },
-          },
+        document.addEventListener('DOMContentLoaded', function() {
+            var swiper = new Swiper(".mySwiper", {
+                slidesPerView: 3,
+                spaceBetween: 0,
+                centeredSlides: true,
+                loop: true,
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+                breakpoints: {
+                    0: {
+                        slidesPerView: 1,
+                        centeredSlides: true,
+                    },
+                    768: {
+                        slidesPerView: 2,
+                        centeredSlides: true,
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                        centeredSlides: true,
+                    }
+                }
+            });
         });
-      </script>
-      
+    </script>
 
 
     <script>
@@ -226,46 +227,87 @@
             generateCalendar(now.getFullYear(), now.getMonth());
         });
     </script>
+<script>
+    // Auto-activate About Temple tab when page loads
+    document.addEventListener("DOMContentLoaded", function () {
+        const defaultTab = document.querySelector('.tab-item[data-tab="aboutTemple"]');
+        if (defaultTab) {
+            defaultTab.click();
+        }
+    });
+</script>
 
     <script>
         const tabData = {
             aboutTemple: {
                 title: "About Temple",
-                subtitle: "Discover the rich history of the temple",
-                description: "The Jagannath Temple is a sacred Hindu temple dedicated to Lord Jagannath...",
-                image: "website/12.jpg"
+                subtitle: @json(strip_tags($aboutTemple->temple_about ?? 'No about content available')),
+                description: @json(strip_tags($aboutTemple->temple_history ?? 'No history available')),
+                image: "{{ asset($photos->temple_images[0] ?? 'website/12.jpg') }}"
             },
+
             shreeKhetra: {
                 title: "Shree Khetra",
                 subtitle: "The Holy Land of Lord Jagannath",
                 description: "Shree Khetra, also known as Puri, is one of the most important pilgrimage sites in India...",
                 image: "website/11.jpg"
             },
+
             mathaAshram: {
                 title: "Matha & Ashram",
-                subtitle: "Spiritual Centers of Devotion",
-                description: "Mathas and Ashrams around the temple have been centers of learning and spiritual practice...",
-                image: "website/100.jpeg"
+                subtitle: @json($matha->matha_name ?? 'No matha info'),
+                description: @json($matha->description ?? 'No description available'),
+                image: "{{ asset($matha->photo ?? 'website/100.jpeg') }}"
             },
+
             festivals: {
                 title: "Festivals",
-                subtitle: "Celebrating Lord Jagannath",
-                description: "The temple is known for its grand festivals like Rath Yatra, Snana Purnima, and more...",
-                image: "website/festivals.jpg"
+                subtitle: @json($festival->festival_name ?? 'No festivals'),
+                description: @json($festival->description ?? 'No description available'),
+                image: "{{ asset($festival->photo ?? 'website/festivals.jpg') }}"
+            },
+            
+            nijoga: {
+                title: "36 Nijoga",
+                subtitle: @json($nijoga->nijoga_name ?? 'No nijoga data'),
+                description: @json($nijoga->description ?? 'No description available'),
+                image: "{{ asset($nijoga->nijoga_photo ?? 'website/6.png') }}"
+            },
+            besha: {
+                title: "Besha",
+                subtitle: @json($besha->besha_name ?? 'No besha available'),
+                description: @json($besha->description ?? 'No description available'),
+                image: "{{ asset($besha->photos ?? 'website/6.png') }}"
+            },
+            darshan: {
+                title: "Darshan Facility",
+                subtitle: @json($darshan->darshan_name ?? 'No darshan info'),
+                description: @json($darshan->description ?? 'No description available'),
+                image: "{{ asset($darshan->darshan_image ?? 'website/darshan.jpg') }}"
+            },
+            prasad: {
+                title: "Maha Prasad",
+                subtitle: @json($prasad->prasad_name ?? 'No prasad info'),
+                description: @json($prasad->description ?? 'No description available'),
+                image: "{{ asset($prasad->prasad_photo ?? 'website/prasad.jpg') }}"
             }
         };
+    </script>
 
+
+    <script>
         document.querySelectorAll(".tab-item").forEach(tab => {
             tab.addEventListener("click", function() {
-                let selectedTab = this.getAttribute("data-tab");
+                const selectedTab = this.getAttribute("data-tab");
+                const data = tabData[selectedTab];
 
-                // Update Content
-                document.getElementById("contentTitle").innerText = tabData[selectedTab].title;
-                document.getElementById("contentSubtitle").innerText = tabData[selectedTab].subtitle;
-                document.getElementById("contentDescription").innerText = tabData[selectedTab].description;
-                document.getElementById("contentImage").src = tabData[selectedTab].image;
+                if (!data) return;
 
-                // Remove active class from all tabs
+                document.getElementById("contentTitle").innerText = data.title;
+                document.getElementById("contentSubtitle").innerText = data.subtitle;
+                document.getElementById("contentDescription").innerText = data.description;
+                document.getElementById("contentImage").src = data.image;
+
                 document.querySelectorAll(".tab-item").forEach(t => {
                     t.classList.remove("active-tab");
                     t.classList.add("inactive-tab");
@@ -273,12 +315,10 @@
                     t.querySelector("div")?.remove();
                 });
 
-                // Add active class to clicked tab
                 this.classList.add("active-tab");
                 this.classList.remove("inactive-tab");
                 this.querySelector("p").classList.replace("text-gray-500", "text-red-600");
 
-                // Add underline effect
                 const underline = document.createElement("div");
                 underline.classList.add("h-1", "bg-red-500", "w-full", "mt-1");
                 this.appendChild(underline);
@@ -321,57 +361,57 @@
     </script>
 
     <script>
-document.addEventListener("DOMContentLoaded", function () {
-    const video = document.getElementById("bannerVideo");
-    const playPauseButton = document.getElementById("playPauseButton");
-    const muteToggle = document.getElementById("muteToggle");
-    const hamburger = document.querySelector(".hamburger-icon");
-    const navMenu = document.querySelector(".nav-menu");
-    const navClose = document.querySelector(".nav-close");
+        document.addEventListener("DOMContentLoaded", function() {
+            const video = document.getElementById("bannerVideo");
+            const playPauseButton = document.getElementById("playPauseButton");
+            const muteToggle = document.getElementById("muteToggle");
+            const hamburger = document.querySelector(".hamburger-icon");
+            const navMenu = document.querySelector(".nav-menu");
+            const navClose = document.querySelector(".nav-close");
 
-    // Play/Pause Toggle
-    playPauseButton.addEventListener("click", function () {
-        if (video.paused) {
-            video.play();
-            this.innerHTML = '<i class="fa fa-pause"></i>';
-        } else {
-            video.pause();
-            this.innerHTML = '<i class="fa fa-play"></i>';
-        }
-    });
+            // Play/Pause Toggle
+            playPauseButton.addEventListener("click", function() {
+                if (video.paused) {
+                    video.play();
+                    this.innerHTML = '<i class="fa fa-pause"></i>';
+                } else {
+                    video.pause();
+                    this.innerHTML = '<i class="fa fa-play"></i>';
+                }
+            });
 
-    // Mute/Unmute Toggle
-    muteToggle.addEventListener("click", function () {
-        video.muted = !video.muted;
-        this.innerHTML = video.muted
-            ? '<i class="fa fa-volume-mute"></i>'
-            : '<i class="fa fa-volume-up"></i>';
-    });
+            // Mute/Unmute Toggle
+            muteToggle.addEventListener("click", function() {
+                video.muted = !video.muted;
+                this.innerHTML = video.muted ?
+                    '<i class="fa fa-volume-mute"></i>' :
+                    '<i class="fa fa-volume-up"></i>';
+            });
 
-    // Scroll-triggered pause
-    function checkScroll() {
-        const rect = video.getBoundingClientRect();
-        const inView = rect.top < window.innerHeight && rect.bottom > 0;
-        if (!inView) {
-            video.pause();
-            playPauseButton.innerHTML = '<i class="fa fa-play"></i>';
-        }
-    }
-    window.addEventListener("scroll", checkScroll);
+            // Scroll-triggered pause
+            function checkScroll() {
+                const rect = video.getBoundingClientRect();
+                const inView = rect.top < window.innerHeight && rect.bottom > 0;
+                if (!inView) {
+                    video.pause();
+                    playPauseButton.innerHTML = '<i class="fa fa-play"></i>';
+                }
+            }
+            window.addEventListener("scroll", checkScroll);
 
-    // Navigation Toggle
-    hamburger.addEventListener("click", function () {
-        hamburger.classList.toggle("active");
-        navMenu.classList.toggle("active");
-        console.log("Hamburger clicked, nav toggled");
-    });
+            // Navigation Toggle
+            hamburger.addEventListener("click", function() {
+                hamburger.classList.toggle("active");
+                navMenu.classList.toggle("active");
+                console.log("Hamburger clicked, nav toggled");
+            });
 
-    navClose.addEventListener("click", function () {
-        navMenu.classList.remove("active");
-        hamburger.classList.remove("active");
-    });
-});
-</script>
+            navClose.addEventListener("click", function() {
+                navMenu.classList.remove("active");
+                hamburger.classList.remove("active");
+            });
+        });
+    </script>
 
     <script src="https://unpkg.com/lucide@latest"></script>
 

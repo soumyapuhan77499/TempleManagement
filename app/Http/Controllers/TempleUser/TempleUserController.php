@@ -247,7 +247,7 @@ class TempleUserController extends Controller
     {
         // Get the authenticated temple user's temple ID
         $temple_id = Auth::guard('temples')->user()->temple_id;
-        
+
         // Fetch the details from the TempleAboutDetail model, or return null if not found
         $temple = TempleAboutDetail::where('temple_id', $temple_id)->first();
 

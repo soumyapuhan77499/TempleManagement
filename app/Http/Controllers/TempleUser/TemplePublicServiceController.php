@@ -22,10 +22,9 @@ class TemplePublicServiceController extends Controller
             // Validate input fields
             $request->validate([
                 'service_type' => 'required|string',
+                'service_name' => 'required|string',
                 'photo.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'google_map_link' => 'required|url',
-                'contact_no' => 'required|string',
-                'whatsapp_no' => 'required|string',
                 'opening_time' => 'nullable',
                 'closing_time' => 'nullable',
                 'landmark' => 'nullable|string',
@@ -51,6 +50,7 @@ class TemplePublicServiceController extends Controller
             PublicServices::create([
                 'temple_id' => Auth::guard('temples')->user()->temple_id, // Ensure temple_id is set
                 'service_type' => $request->service_type,
+                'service_name' => $request->service_name,
                 'photo' => json_encode($photoPaths), // Store as JSON
                 'google_map_link' => $request->google_map_link,
                 'contact_no' => $request->contact_no,
@@ -101,6 +101,7 @@ class TemplePublicServiceController extends Controller
     
         $request->validate([
             'service_type' => 'required|string',
+            'service_name' => 'required|string',
             'google_map_link' => 'nullable|url',
             'contact_no' => 'required|string',
             'whatsapp_no' => 'nullable|string',

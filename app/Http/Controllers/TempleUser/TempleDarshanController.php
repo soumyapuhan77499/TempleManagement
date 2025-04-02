@@ -36,12 +36,8 @@ class TempleDarshanController extends Controller
     {
         // Validate the incoming data
         $request->validate([
-            'day_name.*' => 'required|string',
             'darshan_name.*' => 'required|string|max:255',
             'darshan_start_time.*' => 'required',
-            'darshan_start_period.*' => 'required',
-            'darshan_end_time.*' => 'required',
-            'darshan_end_period.*' => 'required',
             'darshan_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4096',
             'description.*' => 'nullable|string',
         ]);
@@ -69,9 +65,7 @@ class TempleDarshanController extends Controller
                 $darshan->darshan_day = $request->day_name[$key];
                 $darshan->darshan_name = $darshanName;
                 $darshan->darshan_start_time = $request->darshan_start_time[$key];
-                $darshan->darshan_start_period = $request->darshan_start_period[$key];
                 $darshan->darshan_end_time = $request->darshan_end_time[$key];
-                $darshan->darshan_end_period = $request->darshan_end_period[$key];
                 $darshan->darshan_duration = $darshanDuration;
     
                 // Handle image upload
@@ -111,9 +105,6 @@ public function updateTempleDarshan(Request $request)
     $request->validate([
         'darshan_name.*' => 'required|string|max:255',
         'darshan_start_time.*' => 'required',
-        'darshan_start_period.*' => 'required',
-        'darshan_end_time.*' => 'required',
-        'darshan_end_period.*' => 'required',
         'description.*' => 'nullable|string',
         'darshan_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
@@ -123,8 +114,8 @@ public function updateTempleDarshan(Request $request)
         foreach ($request->darshan_id as $key => $id) {
 
             // Convert start and end time to Carbon instances
-            $startTime = $this->convert24ToCarbonInstance($request->darshan_start_time[$key], $request->darshan_start_period[$key]);
-            $endTime = $this->convert24ToCarbonInstance($request->darshan_end_time[$key], $request->darshan_end_period[$key]);
+            $startTime = $this->convert24ToCarbonInstance($request->darshan_start_time[$key]);
+            $endTime = $this->convert24ToCarbonInstance($request->darshan_end_time[$key]);
 
             // Check if start time is greater than end time (overnight case)
             if ($startTime->greaterThan($endTime)) {
@@ -145,9 +136,7 @@ public function updateTempleDarshan(Request $request)
                 // Update the darshan details
                 $darshan->darshan_name = $request->darshan_name[$key];
                 $darshan->darshan_start_time = $request->darshan_start_time[$key];
-                $darshan->darshan_start_period = $request->darshan_start_period[$key];
                 $darshan->darshan_end_time = $request->darshan_end_time[$key];
-                $darshan->darshan_end_period = $request->darshan_end_period[$key];
                 $darshan->darshan_duration = $darshanDuration;  // Save the calculated darshan duration
                 $darshan->description = $request->description[$key] ?? null;
 

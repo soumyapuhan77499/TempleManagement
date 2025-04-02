@@ -43,7 +43,6 @@ class NitiController extends Controller
                 'niti_sebayat' => 'sometimes|array',
                 'niti_sebayat.*' => 'string',
                 'item_name' => 'sometimes|array',
-             
             ]);
             
             // Generate a unique niti_id

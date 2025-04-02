@@ -40,23 +40,7 @@
                 <div class="collapse navbar-collapse">
                     <ul id="mainMenu" class="navbar-nav mobile-item">
                         
-                    {{--                      
-                        <li class="nav-item">
-                            <a class="nav-link toggle" href="link2.html" target="_self">Link 2 <i class="fal fa-plus"></i></a>
-                            <ul class="menu-dropdown">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="sublink1.html" target="_self">Sub Link 1</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="sublink2.html" target="_self">Sub Link 2</a>
-                                </li>
-                            </ul>
-                        </li> --}}
-                        
-                      
-                       
-                     
-                       
+                  
                         <li class="nav-item">
                             <a class="nav-link" href="{{url('/')}}" target="_self">Home</a>
                         </li>

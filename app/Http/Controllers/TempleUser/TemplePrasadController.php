@@ -9,7 +9,6 @@ use App\Models\TemplePrasadItem;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
-
 class TemplePrasadController extends Controller
 {
     //
@@ -20,48 +19,53 @@ class TemplePrasadController extends Controller
     public function store(Request $request)
     {
         try {
-            // Ensure the authenticated temple user exists
             $templeUser = Auth::guard('temples')->user();
             if (!$templeUser) {
                 return redirect()->back()->with('error', 'Unauthorized access.');
             }
     
-            // Validate request data
             $request->validate([
-                'prasad_name'  => 'required|string|max:255',
-                'prasad_time'  => 'required',
-                'prasad_price' => 'required|numeric',
-                'prasad_item'  => 'required|array|min:1',
-                'description'  => 'nullable|string',
+                'prasad_name'   => 'required|string|max:255',
+                'prasad_time'   => 'required',
+                'prasad_price'  => 'required|numeric',
+                'prasad_item'   => 'required|array|min:1',
+                'description'   => 'nullable|string',
+                'prasad_photo'  => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             ]);
-    
-            // Convert prasad items array to a comma-separated string
+
+            $photoPath = null;
+          
+            if ($request->hasFile('prasad_photo')) {
+                $image = $request->file('prasad_photo');
+                $imageName = time() . '_' . $image->getClientOriginalName();
+                $imagePath = 'assets/temple/prasad_photo';
+                $image->move(public_path($imagePath), $imageName);
+                $photoPath  = $imagePath . '/' . $imageName;
+            }
+
             $prasadItems = implode(",", $request->input('prasad_item', []));
     
-            // Create new TemplePrasad record
             $prasad = TemplePrasad::create([
-                'temple_id'    => $templeUser->temple_id, // Ensure this ID exists
-                'prasad_name'  => $request->input('prasad_name'),
-                'prasad_time'  => $request->input('prasad_time'),
-                'prasad_price' => $request->input('prasad_price'),
-                'prasad_item'  => $prasadItems,
-                'description'  => $request->input('description'),
-                'online_order' => $request->has('online_order') ? 1 : 0,
-                'pre_order'    => $request->has('pre_order') ? 1 : 0,
-                'offline_order'=> $request->has('offline_order') ? 1 : 0,
+                'temple_id'     => $templeUser->temple_id,
+                'prasad_name'   => $request->input('prasad_name'),
+                'prasad_time'   => $request->input('prasad_time'),
+                'prasad_price'  => $request->input('prasad_price'),
+                'prasad_item'   => $prasadItems,
+                'description'   => $request->input('description'),
+                'prasad_photo'  => $photoPath,
+                'online_order'  => $request->has('online_order') ? 1 : 0,
+                'pre_order'     => $request->has('pre_order') ? 1 : 0,
+                'offline_order' => $request->has('offline_order') ? 1 : 0,
             ]);
     
-            if ($prasad) {
-                return redirect()->back()->with('success', 'Temple Prasad details saved successfully!');
-            } else {
-                return redirect()->back()->with('error', 'Failed to save Temple Prasad details.');
-            }
-    
+            return redirect()->back()->with('success', 'Temple Prasad details saved successfully!');
         } catch (\Exception $e) {
-            // Log full error details for debugging
-            Log::error('Error saving temple prasad: ', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
-            
-            return redirect()->back()->with('error', 'An error occurred while saving the prasad details.');
+            Log::error('Error saving temple prasad: ', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+    
+            return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
         }
     }
     
@@ -77,9 +81,9 @@ class TemplePrasadController extends Controller
     
         return view('templeuser.manage-temple-prasads', compact('prasadas'));
     }
-    
 
-    public function update(Request $request, $id)
+    
+public function update(Request $request, $id)
 {
     // Validate request data
     $request->validate([
@@ -89,27 +93,38 @@ class TemplePrasadController extends Controller
         'prasad_item' => 'required|array',
         'prasad_item.*' => 'string|max:255',
         'description' => 'nullable|string',
+        'prasad_photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
     ]);
 
     // Find the Prasad record by ID
     $prasad = TemplePrasad::findOrFail($id);
 
-    // Update the record
+    // Handle new photo upload
+    $photoPath = null;
+          
+    if ($request->hasFile('prasad_photo')) {
+        $image = $request->file('prasad_photo');
+        $imageName = time() . '_' . $image->getClientOriginalName();
+        $imagePath = 'assets/temple/prasad_photo';
+        $image->move(public_path($imagePath), $imageName);
+        $photoPath  = $imagePath . '/' . $imageName;
+    }
+    // Update other fields
     $prasad->prasad_name = $request->prasad_name;
     $prasad->prasad_time = $request->prasad_time;
     $prasad->prasad_price = $request->prasad_price;
-    $prasad->prasad_item = implode(',', $request->prasad_item); // Store as a comma-separated string
+    $prasad->prasad_item = implode(',', $request->prasad_item);
+    $prasad->prasad_photo = $photoPath ? $photoPath : $prasad->prasad_photo; // Only update if a new photo is uploaded
     $prasad->online_order = $request->has('online_order') ? 1 : 0;
     $prasad->pre_order = $request->has('pre_order') ? 1 : 0;
     $prasad->offline_order = $request->has('offline_order') ? 1 : 0;
     $prasad->description = $request->description;
 
-    // Save updated data
     $prasad->save();
 
-    // Redirect back with success message
     return redirect()->back()->with('success', 'Prasad details updated successfully!');
 }
+
 
 
 public function destroy($id)

@@ -20,55 +20,55 @@
     font-weight: bold;
     margin: 0;
   }
-  
-  /* Swiper Container */
-  .swiper {
-    width: 100%;
-    padding: 40px 0;
-    position: relative;
-    margin-top: 30px;
-  }
-  
+  /* Ensure Swiper is full width */
+.swiper {
+  width: 100%;
+  padding: 40px 0;
+  margin-top: 30px;
+  position: relative;
+  overflow: visible; /* allow slide overflow for scaling */
+}
+
   /* Slides Wrapper */
   .swiper-wrapper {
     display: flex;
     align-items: center;
   }
-  
-  /* Slides */
-  .swiper-slide {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: transform 0.5s ease-in-out;
-  }
-  
-  /* Images */
-  .swiper-slide img {
-    width: 100%;
-    max-width: 320px;
-    height: 220px;
-    border-radius: 12px;
-    filter: grayscale(100%);
-    transition: all 0.5s ease;
-    object-fit: cover;
-    transform: scale(0.9);
-    opacity: 0.4;
-  }
-  
-  /* Active Slide */
-  .swiper-slide-active img {
-    filter: grayscale(0);
-    transform: scale(1.1);
-    z-index: 2;
-    opacity: 1;
-  }
+  /* Each slide takes natural space */
+.swiper-slide {
+  flex-shrink: 0;
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.5s ease-in-out;
+}
+/* Slide Images */
+.swiper-slide img {
+  width: 100%;
+  max-width: 350px;
+  height: 260px;
+  border-radius: 12px;
+  filter: grayscale(100%);
+  transition: all 0.5s ease;
+  object-fit: cover;
+  transform: scale(0.9);
+  opacity: 0.4;
+}
+
+/* Highlight center image */
+.swiper-slide-active img {
+  filter: grayscale(0);
+  transform: scale(1.1);
+  z-index: 2;
+  opacity: 1;
+}
   
   /* Navigation Buttons */
   .swiper-button-prev,
   .swiper-button-next {
     color: #888;
-    top: 50%;
+    top: 57%;
     transform: translateY(-50%);
     position: absolute;
     z-index: 10;
@@ -80,11 +80,11 @@
   }
   
   .swiper-button-prev {
-    left: -20px;
+    left: -9px;
   }
   
   .swiper-button-next {
-    right: -20px;
+    right: -9px;
   }
   
   /* Mobile Responsive */

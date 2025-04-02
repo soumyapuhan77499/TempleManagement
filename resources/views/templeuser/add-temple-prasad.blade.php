@@ -37,26 +37,33 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('templeprasad.store') }}" method="POST">
+                    <form action="{{ route('templeprasad.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         
                         <!-- Prasad Name & Time & Price -->
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="prasad_name">Prasad Name</label>
                                     <input type="text" class="form-control" name="prasad_name" required>
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="prasad_time">Prasad Time</label>
                                     <input type="time" class="form-control" name="prasad_time" required>
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="prasad_photo">Prasad Photo</label>
+                                    <input type="file" class="form-control" name="prasad_photo">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="prasad_price">Full Prasad Price <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="prasad_price" placeholder="Enter Full Prasad Price" required>
@@ -157,7 +164,6 @@
         });
     });
 </script>
-
 <!-- SweetAlert for Notifications -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -166,7 +172,7 @@
         Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: '{{ session('error') }}',
+            text: @json(session('error')),
         });
     </script>
 @endif
@@ -176,8 +182,18 @@
         Swal.fire({
             icon: 'success',
             title: 'Success',
-            text: '{{ session('success') }}',
+            text: @json(session('success')),
         });
     </script>
 @endif
+@if ($errors->any())
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Validation Error',
+            html: `{!! implode('<br>', $errors->all()) !!}`
+        });
+    </script>
+@endif
+
 @endsection

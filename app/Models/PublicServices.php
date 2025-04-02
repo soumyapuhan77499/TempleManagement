@@ -14,6 +14,7 @@ class PublicServices extends Model
     protected $fillable = [
        'temple_id',
        'service_type',
+       'service_name',
        'photo',
        'google_map_link',
        'contact_no',

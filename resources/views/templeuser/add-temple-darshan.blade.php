@@ -77,10 +77,7 @@
                                                                             <label for="darshan_start_time">Darshan Start Time</label>
                                                                             <div class="input-group">
                                                                                 <input type="time" class="form-control" name="darshan_start_time[]" required>
-                                                                                <select class="form-control" name="darshan_start_period[]">
-                                                                                    <option value="AM">AM</option>
-                                                                                    <option value="PM">PM</option>
-                                                                                </select>
+                                                                               
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -90,11 +87,8 @@
                                                                         <div class="form-group">
                                                                             <label for="darshan_end_time">Darshan End Time</label>
                                                                             <div class="input-group">
-                                                                                <input type="time" class="form-control" name="darshan_end_time[]" required>
-                                                                                <select class="form-control" name="darshan_end_period[]">
-                                                                                    <option value="AM">AM</option>
-                                                                                    <option value="PM">PM</option>
-                                                                                </select>
+                                                                                <input type="time" class="form-control" name="darshan_end_time[]" >
+                                                                              
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -103,7 +97,7 @@
                                                                     <div class="col-md-4">
                                                                         <div class="form-group">
                                                                             <label for="darshan_image">Darshan Image</label>
-                                                                            <input type="file" class="form-control" name="darshan_image[]" accept="image/*" required>
+                                                                            <input type="file" class="form-control" name="darshan_image[]" accept="image/*">
                                                                         </div>
                                                                     </div>
 

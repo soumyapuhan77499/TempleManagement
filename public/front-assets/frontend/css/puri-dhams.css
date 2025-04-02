@@ -5,9 +5,7 @@ body {
     margin: 0;
 }
 
-
 /* SERVICE SECTION */
-
 .services-section {
     text-align: center;
 }
@@ -154,7 +152,7 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.image-panji{
+.image-panji {
     display: flex;
     flex-direction: row;
 }
@@ -166,7 +164,7 @@ body {
     margin-left: 10px;
 }
 
-.image-event{
+.image-event {
     display: flex;
     flex-direction: row;
     margin-left: -80px;
@@ -227,6 +225,19 @@ body {
     position: absolute;
     left: 50%;
     bottom: -5px;
+    width: 80%;
+    height: 3px;
+    background: #db4d30;
+    transform: translateX(-50%);
+    border-radius: 5px;
+}
+
+/* Underline Effect on Active Tab */
+.tab-buttons.active-tabs::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -4px;
     width: 80%;
     height: 3px;
     background: #db4d30;

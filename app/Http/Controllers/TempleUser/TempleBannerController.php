@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TempleBanner;
 use Illuminate\Support\Facades\Auth;
+
 class TempleBannerController extends Controller
 {
     //

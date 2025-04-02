@@ -11,18 +11,16 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('temple__prasad_items', function (Blueprint $table) {
+        Schema::create('temple__photos_videos', function (Blueprint $table) {
             $table->id();
-            $table->string('temple_id');
-            $table->string('temple_prasad_id');
-            $table->string('prasad_name');
-            $table->decimal('prasad_price', 8, 2);
+            $table->unsignedBigInteger('temple_id')->nullable();
+            $table->json('temple_images')->nullable();
+            $table->json('temple_videos')->nullable();
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('temple_prasad_items');
+        Schema::dropIfExists('temple__photos_videos');
     }
 };

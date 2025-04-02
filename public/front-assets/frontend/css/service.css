@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 6px;
-    max-width: 1260px;
+    max-width: 1290px;
     padding-top: 60px;
     padding-left: 15px;
     padding-right: 15px;
@@ -20,7 +20,7 @@
     transition: transform 0.2s ease;
     height: 145px;
     position: relative;
-    width: 230px; /* Limit card width on large screens */
+    width: 240px; /* Limit card width on large screens */
     margin: 0 auto; /* Center cards on small screens */
   }
   

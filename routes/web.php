@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 ## Temple user Controller
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\TempleUser\TempleUserController;
 use App\Http\Controllers\TempleUser\TempleRegistrationController;
 use App\Http\Controllers\TempleUser\SocialMediaController;
@@ -28,7 +29,6 @@ use App\Http\Controllers\TempleUser\TempleBeshaController;
 use App\Http\Controllers\TempleUser\TempleItemController;
 
 use App\Http\Controllers\Reports\TempleHundiCollectionReport;
-
 
 use App\Http\Controllers\TempleUser\TempleBankController;
 use App\Http\Controllers\TempleUser\TempleDailyRitualController;
@@ -60,6 +60,11 @@ use App\Http\Controllers\TempleUser\TemplePublicServiceController;
 use App\Http\Controllers\TempleUser\TempleGalleryController;
 use App\Http\Controllers\TempleUser\TempleLostAndFoundController;
 
+// website
+
+use App\Http\Controllers\Website\HomeSectionController;
+use App\Http\Controllers\Website\QuickServiceController;
+
 ## Home pages Routes
 Route::get('/', function () {
     return view('index');
@@ -69,20 +74,14 @@ Route::get('/puri-dham', function () {
     return view('website.index');
 });
 
-
 Route::get('/puri-dhams', function () {
     return view('website.index2');
 });
 
-
-Route::get('/puri-video', function () {
-    return view('website.index3');
-});
-
-
 Route::get('/contact', function () {
     return view('contactus');
 });
+
 Route::get('/package', function () {
     return view('package');
 });
@@ -91,7 +90,12 @@ Route::get('/about', function () {
     return view('about');
 });
 
-## Temple User Routes
+Route::controller(MenuController::class)->group(function() {
+    Route::get('add-menu', 'addMainMenu')->name('addMainMenu');
+    Route::post('/save-sub-menu', 'saveSubMenu')->name('saveSubMenu');
+    Route::post('/save-main-menu', 'saveMainMenu')->name('saveMainMenu');
+
+});
 
 Route::controller(TempleRegistrationController::class)->group(function() {
     Route::get('templeuser/temple-register', 'templeregister')->name('temple-register');
@@ -133,6 +137,7 @@ Route::prefix('templeuser')->middleware('templeauth')->group(function () {
         Route::put('/trust-member/update/{id}', 'update')->name('templeuser.updateTrustMember'); // Update route
         Route::delete('/trust-member/delete/{id}', 'destroy')->name('templeuser.deleteTrustMember'); // Delete route
     });
+
     Route::post('/saveTrustMemberOrder', [TrustMemberController::class, 'saveTrustMemberOrder'])->name('templeuser.saveTrustMemberOrder');
 
     Route::controller(TempleCommitteeController::class)->group(function() {
@@ -340,7 +345,7 @@ Route::prefix('templeuser')->middleware('templeauth')->group(function () {
         Route::put('temple/besha/update/{id}', 'update')->name('templeuser.besha.update');
         Route::get('temple/besha/delete/{id}',  'delete')->name('templeuser.besha.delete');
 
-// calendar view
+
 
         Route::get('/temple-show-besha', 'showBesha')->name('templeuser.showbesha');
         Route::get('/temple-besha-details/{date}','showBeshaDetails')->name('temple.beshaDetails');
@@ -461,7 +466,6 @@ Route::controller(TempleNijogaController::class)->group(function() {
 });
 
 
-
 Route::controller(TempleAccomodationController::class)->group(function() {
     Route::get('templeuser/add-accomodation','addAccomodation');
     Route::post('templeuser/save-accomodation', 'saveAccomodation')->name('saveAccomodation');
@@ -470,6 +474,7 @@ Route::controller(TempleAccomodationController::class)->group(function() {
     Route::put('templeuser/update-accomodation/{id}',  'updateAccomodation')->name('updateAccomodation');
     Route::get('templeuser/delete-accomodation/{id}',  'deleteAccomodation')->name('deleteAccomodation');
 });
+
 
 Route::controller(LocationController::class)->group(function() {
     Route::get('/get-countries',  'getCountries')->name('get.countries');
@@ -521,4 +526,22 @@ Route::controller(TempleLostAndFoundController::class)->group(function() {
     Route::post('templeuser/delete-lost-and-found/{id}', 'deleteLostAndFound')->name('deleteLostAndFound');
 });
 
+// PURI DHAM WEBSITE ROUTE
+
+Route::controller(HomeSectionController::class)->group(function() {
+    Route::get('puri-website', 'puriWebsite')->name('puriWebsite');
+    Route::get('/view-all-niti','viewAllNiti')->name('all.niti');
+    Route::get('/mandir-tv', 'mandirTv')->name('tv.layout');
+    Route::get('/mandir-radio', 'mandirRadio')->name('radio.layout');
+    Route::get('/darshan-timeline', 'mandirDarshan')->name('darshan.timeline');
+   
+});
+
+Route::controller(QuickServiceController::class)->group(function() {
+    Route::get('/maha-prasad','prasadTimeline')->name('prasad.timeline');
+    Route::get('/parking-list', 'parkingList')->name('parking.list');
+    Route::get('/bhaktanibas-list', 'bhaktanibasList')->name('bhaktanibas.list');
+    Route::get('/locker-shoe-list', 'lockerShoeList')->name('lockershoe.list');
+
+});
 

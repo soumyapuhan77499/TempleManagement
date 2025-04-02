@@ -45,11 +45,8 @@
     transition: transform 0.3s ease;
   }
   
-  .convenience-item.active {
-    background: #c64058;
-  }
   
-  .convenience-item.active i {
+  .convenience-item i:hover {
     color: white;
   }
   
@@ -60,6 +57,7 @@
   
   .convenience-item:hover {
     transform: scale(1.1);
+    background: #c64058;
   }
   
   .conv p {

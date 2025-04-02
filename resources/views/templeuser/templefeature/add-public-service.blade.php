@@ -32,6 +32,7 @@
                                         <option value="locker">Locker</option>
                                         <option value="shoe_stand">Shoe Stand</option>
                                         <option value="drinking_water">Drinking Water</option>
+                                        <option value="toilet">Toilet</option>
                                         <option value="free_food">Free Food</option>
                                         <option value="ratha_yatra_mela">Ratha Yatra Mela</option>
                                         <option value="beach">Beach</option>
@@ -41,6 +42,12 @@
                                         <option value="atm">ATM</option>
                                         <option value="lost_and_found_booth">Lost and Found Booth</option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="service_name">Service Name</label>
+                                    <input type="email" class="form-control" id="service_name" name="service_name" required>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -64,19 +71,19 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="contact_no">Contact No</label>
-                                    <input type="text" class="form-control" id="contact_no" name="contact_no" required>
+                                    <input type="text" class="form-control" id="contact_no" name="contact_no" >
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="whatsapp_no">WhatsApp No</label>
-                                    <input type="text" class="form-control" id="whatsapp_no" name="whatsapp_no" required>
+                                    <input type="text" class="form-control" id="whatsapp_no" name="whatsapp_no" >
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="email">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" required>
+                                    <input type="email" class="form-control" id="email" name="email" >
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -121,6 +128,7 @@
                                         placeholder="Enter district">
                                 </div>
                             </div>
+
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="state">State</label>
@@ -129,6 +137,7 @@
                                     </select>
                                 </div>
                             </div>
+
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="country">Country</label>

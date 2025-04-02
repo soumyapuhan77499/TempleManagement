@@ -107,7 +107,7 @@
     align-items: center;
     background-color: white;
     border-radius: 8px;
-    max-width: 650px;
+    max-width: 614px;
     width: 100%;
     height: 303px;
     border: 2px solid rgb(224, 224, 224);
@@ -191,7 +191,7 @@ iframe {
     align-items: center;
     background-color: white;
     border-radius: 8px;
-    width: 580px;
+    width: 614px;
     height: 303px;
     border: 2px solid rgb(224, 224, 224);
 }

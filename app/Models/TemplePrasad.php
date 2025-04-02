@@ -16,12 +16,12 @@ class TemplePrasad extends Model
         'prasad_name',
         'prasad_time',
         'prasad_price',
+        'prasad_photo',
         'prasad_item',
         'description',
         'online_order',
         'pre_order',
         'offline_order'
     ];
-
-
+    
 }

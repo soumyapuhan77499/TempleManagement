@@ -35,9 +35,9 @@
                                 <tr>
                                     <th>SlNo</th>
                                     <th>Service Type</th>
+                                    <th>Name</th>
                                     <th>Photo</th>
                                     <th>Address</th>
-
                                     <th>Contact No.</th>
                                     <th>Whatsapp No.</th>
                                     <th>Email</th>
@@ -53,6 +53,7 @@
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $service->service_type }}</td>
+                                        <td>{{ $service->service_name }}</td>
                                         <td>
                                             <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
                                                 data-bs-target="#photoModal{{ $service->id }}">View</button>
@@ -97,7 +98,7 @@
                                             <a href="{{ $service->google_map_link }}" target="_blank"
                                                 class="btn btn-info btn-sm">View Map</a>
                                         </td>
-                                        
+
                                         <td>{{ $service->description }}</td>
                                         <td>
                                             <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
@@ -199,6 +200,14 @@
                                                             </div>
                                                             <div class="col-md-4">
                                                                 <div class="form-group">
+                                                                    <label for="service_name">Service Name</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="service_name" name="service_name"
+                                                                        value="{{ $service->service_name }}" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
                                                                     <label for="photos">Photos</label>
                                                                     <input type="file" class="form-control"
                                                                         id="photo" name="photo[]" multiple>
@@ -234,7 +243,7 @@
                                                                     <label for="contact_no">Contact No</label>
                                                                     <input type="text" class="form-control"
                                                                         id="contact_no" name="contact_no"
-                                                                        value="{{ $service->contact_no }}" required>
+                                                                        value="{{ $service->contact_no }}" >
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-4">
@@ -242,7 +251,7 @@
                                                                     <label for="whatsapp_no">WhatsApp No</label>
                                                                     <input type="text" class="form-control"
                                                                         id="whatsapp_no" name="whatsapp_no"
-                                                                        value="{{ $service->whatsapp_no }}" required>
+                                                                        value="{{ $service->whatsapp_no }}" >
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-4">
@@ -250,7 +259,7 @@
                                                                     <label for="email">Email</label>
                                                                     <input type="email" class="form-control"
                                                                         id="email" name="email"
-                                                                        value="{{ $service->email }}" required>
+                                                                        value="{{ $service->email }}" >
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-4">
