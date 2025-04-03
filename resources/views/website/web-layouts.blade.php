@@ -241,14 +241,14 @@
                 title: "About Temple",
                 subtitle: @json(strip_tags($aboutTemple->temple_about ?? 'No about content available')),
                 description: @json(strip_tags($aboutTemple->temple_history ?? 'No history available')),
-                image: "{{ asset($photos->temple_images[0] ?? 'website/12.jpg') }}"
+                image: "website/ss.jpg"
             },
 
             shreeKhetra: {
                 title: "Shree Khetra",
                 subtitle: "The Holy Land of Lord Jagannath",
                 description: "Shree Kshetra, also known as Puri, is one of the holiest pilgrimage sites in India and one of the sacred Char Dham (four divine abodes) established by Adi Shankaracharya. It is the eternal home of Lord Jagannath, the Lord of the Universe, along with his siblings Balabhadra and Subhadra.",
-                image: "website/11.jpg"
+                image: "website/sankha.png"
             },
 
             mathaAshram: {
@@ -262,14 +262,14 @@
                 title: "Festivals",
                 subtitle: @json($festival->festival_name ?? 'No festivals'),
                 description: @json($festival->description ?? 'No description available'),
-                image: "website/11.jpg"
+                image: "website/dipa.png"
             },
 
             nijoga: {
                 title: "36 Nijoga",
                 subtitle: @json($nijoga->nijoga_name ?? 'No nijoga data'),
                 description: @json($nijoga->description ?? 'No description available'),
-                image: "{{ asset($nijoga->nijoga_photo ?? 'website/6.png') }}"
+                image: "website/nijoga.png"
             },
             besha: {
                 title: "Besha",
@@ -287,7 +287,7 @@
                 title: "Maha Prasad",
                 subtitle: @json($prasad->prasad_name ?? 'No prasad info'),
                 description: @json($prasad->description ?? 'No description available'),
-                image: "{{ asset($prasad->prasad_photo ?? 'website/prasad.jpg') }}"
+                image: "website/mp.png"
             }
         };
     </script>
