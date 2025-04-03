@@ -1,6 +1,7 @@
 @extends('website.web-layouts')
 
 @section('content')
+
     <section class="banner-sections">
         <!-- Video Banner -->
         @if ($latestWebVideo && $latestWebVideo->banner_video)
@@ -12,11 +13,9 @@
                 </video>
             </div>
         @else
-            <!-- Optional fallback image or message -->
             <img src="{{ asset('website/d.png') }}" alt="Default Banner" style="width: 100%;">
         @endif
 
-        <!-- Logo (Top Left) -->
         <div class="logo">
             <img src="{{ asset('website/logo.png') }}" alt="logo">
         </div>
@@ -201,10 +200,10 @@
             <div class="flex flex-col gap-6 justify-between h-[450px]">
                 <!-- Maha Prasad -->
                 <div class="bg-white border-l-4 border-[#db4d30]  px-5 py-4 flex items-center gap-5 h-[150px]  hover:translate-x-1 duration-300"  style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
-                    <img src="{{ asset('website/mahaprasad32.png') }}" alt="Maha Prasad"
+                    <img src="{{ asset('website/mp.png') }}" alt="Maha Prasad"
                          class="w-16 h-16">
                     <div>
-                        <h3 class="text-lg font-semibold text-[#db4d30]">Maha Prasad</h3>
+                        <h3 class="text-lg font-semibold text-[#db4d30]">Mahaprasad</h3>
                         <p class="text-sm text-gray-600">Savor the sacred offering blessed by the divine presence.</p>
                         <a href="{{ route('prasad.timeline') }}" class="text-sm text-[#db4d30] hover:underline mt-1 inline-block">Read More</a>
                     </div>
@@ -244,7 +243,7 @@
                     <div class="card-title">Bhakta Nibas</div>
                     <div class="card-desc">Temple owned <br>properties for<br>pilgrim stay</div>
                 </div>
-                <div class="arrow-icon" style="font-size: 20px;">➡️</div>
+                <div class="arrow-icon" style="font-size: 30px;"><i class="fa-solid fa-arrow-right"></i></div>
             </div>
             <div class="card-bottom">
                 <div class="card-icons" ><img src="{{ asset('website/niwas.png') }}" alt="Maha Prasad" style="height: 40px; width: 40px;"></div>
@@ -263,7 +262,7 @@
             </div>
             <div class="card-bottom">
                 <div style="margin-right:5%; height: 50px; width: 50px; margin-bottom: 25px; display: flex; align-items: center; justify-content: center;">
-                    <span style="color: white; font-size: 40px;"><img src="{{ asset('website/parking.png') }}" alt="Maha Prasad" style="height: 40px; width: 40px;"></span>
+                    <span style="color: white; font-size: 40px;"><img src="{{ asset('website/park.png') }}" alt="Maha Prasad" style="height: 40px; width: 40px;"></span>
                 </div>
                 <div class="footer-bar bar-red"></div>
             </div>
@@ -280,7 +279,7 @@
                 <div class="arrow-icon" style="font-size: 20px;">➡️</div>
             </div>
             <div class="card-bottom">
-                <div class="card-icons" style="font-size: 40px; color: #6577e6;"><img src="{{ asset('website/locker.png') }}" alt="Maha Prasad" style="height: 40px; width: 40px;"></div>
+                <div class="card-icons" style="font-size: 40px; color: #6577e6;"><img src="{{ asset('website/lck.png') }}" alt="Maha Prasad" style="height: 40px; width: 40px;"></div>
                 <div class="footer-bar bar-blue"></div>
             </div>
         </a>
@@ -313,7 +312,7 @@
                 <div class="arrow-icon" style="font-size: 20px;">➡️</div>
             </div>
             <div class="card-bottom">
-                <div class="card-icons" style="font-size: 40px; color: #6bbf84;"><img src="{{ asset('website/online.png') }}" alt="Maha Prasad" style="height: 40px; width: 40px;"></div>
+                <div class="card-icons" style="font-size: 40px; color: #6bbf84;"><img src="{{ asset('website/hundic.png') }}" alt="Maha Prasad" style="height: 40px; width: 40px;"></div>
                 <div class="footer-bar bar-green"></div>
             </div>
         </div>
@@ -607,11 +606,15 @@
            <!-- Image -->
             <div class="dynamic-image mt-10 flex justify-center">
                 <img id="dynamicImage"
-                    src="{{ asset('website/world.svg') }}"
+                    src="{{ asset('website/18.png') }}"
                     alt="Jagannatha Temples Worldwide"
                     class="w-[600px] h-[800px] object-contain rounded-xl shadow-md" />
             </div>
 
+        </div>
+
+        <div class="timeline-footer">
+            © {{ date('Y') }} Temple Management System. All rights reserved.
         </div>
     </section>
 

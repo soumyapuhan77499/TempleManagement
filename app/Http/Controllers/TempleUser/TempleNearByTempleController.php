@@ -26,11 +26,9 @@ class TempleNearByTempleController extends Controller
                 'temple_name' => 'required|string|max:255',
                 'photo.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Allow multiple photos
                 'google_map_link' => 'nullable|url',
-                'area_type' => 'required|in:worldwide,inside_india',
                 'estd_date' => 'nullable|date',
                 'estd_by' => 'nullable|string|max:255',
                 'committee_name' => 'nullable|string|max:255',
-                'contact_no' => 'required|digits_between:10,15',
                 'whatsapp_no' => 'nullable|digits_between:10,15',
                 'email' => 'nullable|email|max:255',
                 'priest_name' => 'nullable|string|max:255',
@@ -39,9 +37,6 @@ class TempleNearByTempleController extends Controller
                 'landmark' => 'nullable|string|max:255',
                 'pincode' => 'nullable|digits:6', // Indian Pincode is 6 digits
                 'city_village' => 'nullable|string|max:255',
-                'district' => 'required|string|max:255',
-                'state' => 'required|string|max:255',
-                'country' => 'required|string|max:255',
             ]);
     
             if ($validator->fails()) {

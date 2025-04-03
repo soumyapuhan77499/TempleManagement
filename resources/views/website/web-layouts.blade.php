@@ -79,7 +79,9 @@
 
     <!-- Content -->
     @yield('content')
-
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Jquery JS -->
@@ -345,10 +347,10 @@
         let altText = "";
 
         if (tab === "worldwide") {
-            imagePath = "{{ asset('website/world.svg') }}";
+            imagePath = "{{ asset('website/18.png') }}";
             altText = "Jagannatha Temples Worldwide";
         } else if (tab === "india") {
-            imagePath = "{{ asset('website/india.svg') }}";
+            imagePath = "{{ asset('website/india.png') }}";
             altText = "Jagannatha Temples in India";
         } else if (tab === "odisha") {
             imagePath = "{{ asset('website/odisha.png') }}"; // You can also switch this to .svg if available
@@ -418,6 +420,7 @@
     <script>
         lucide.createIcons();
     </script>
+
 </body>
 
 

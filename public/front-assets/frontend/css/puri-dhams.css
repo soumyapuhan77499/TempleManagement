@@ -262,3 +262,10 @@ body {
     object-fit: cover;
     /* Ensures full coverage */
 }
+
+.timeline-footer {
+    text-align: center;
+    font-size: 13px;
+    color: #aaa;
+    margin: 30px 0;
+}

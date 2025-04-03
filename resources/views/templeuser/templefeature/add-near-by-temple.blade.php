@@ -107,21 +107,21 @@
     
                             <div class="col-md-3 form-group">
                                 <label for="district">District</label>
-                                <input type="text" class="form-control" id="district" name="district" required>
+                                <input type="text" class="form-control" id="district" name="district" >
                             </div>
     
                            
                             
                             <div class="col-md-3 form-group">
                                 <label for="country">Country</label>
-                                <select class="form-control" id="country" name="country" required>
+                                <select class="form-control" id="country" name="country" >
                                     <option value="">Select Country</option>
                                 </select>
                             </div>
                             
                             <div class="col-md-3 form-group">
                                 <label for="state">State</label>
-                                <select class="form-control" id="state" name="state" required>
+                                <select class="form-control" id="state" name="state" >
                                     <option value="">Select State</option>
                                 </select>
                             </div>
