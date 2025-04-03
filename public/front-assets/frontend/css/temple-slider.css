@@ -1,9 +1,11 @@
 .temple-slider {
     text-align: center;
     margin: 40px auto;
-    max-width: 1250px;
+    max-width: 100%;
     position: relative;
     overflow: hidden;
+    margin-top: 50px;
+    padding-bottom: 50px;
   }
   
   .section-container {
@@ -81,11 +83,11 @@
   }
   
   .swiper-button-prev {
-    left: -9px;
+    left: 15px;
   }
   
   .swiper-button-next {
-    right: -9px;
+    right: 15px;
   }
   
   /* Mobile Responsive */

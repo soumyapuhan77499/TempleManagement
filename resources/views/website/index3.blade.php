@@ -175,7 +175,6 @@
         </div>
     </section>
 
-
     <section class="services-section py-10  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
         <!-- Section Title -->
         <div class="text-center mb-14">
@@ -322,7 +321,7 @@
     
     </section>
 
-    <section class="temple-slider bg-white ">
+    <section class="temple-slider bg-white  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
         <div class="flex justify-center items-center gap-5 mt-12">
             <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
             <h2 class="text-xl text-[#db4d30] font-semi-bold">Nearby Temples</h2>
@@ -353,7 +352,7 @@
 
     <section class="temple-convenience">
 
-        <div class="flex justify-center items-center gap-5 mt-12">
+        <div class="flex justify-center items-center gap-5">
             <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
             <h2 class="text-2xl text-[#db4d30] flex items-center font-sans">
                 Conveniences
@@ -427,7 +426,7 @@
         </div>
     </section>
 
-    <section class="bg-100 p-10">
+    <section class="bg-100 p-10  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
         <div class="max-w-6xl mx-auto">
             <!-- Header -->
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0">
@@ -590,7 +589,7 @@
         </div>
     </section>
 
-    <section class="bg-100 p-10 relative">
+    <section class="bg-100 p-2 relative  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100" style="margin-top: 50px">
         <div class="max-w-6xl mx-auto text-center relative">
             <!-- Tabs Container -->
 
