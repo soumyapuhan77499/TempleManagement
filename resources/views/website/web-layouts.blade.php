@@ -328,32 +328,39 @@
         }
     </script>
 
-    <script>
-        function showContent(tab, element) {
-            // Remove active class from all buttons
-            document.querySelectorAll(".tab-buttons").forEach(button => {
-                button.classList.remove("active-tabs");
-                button.classList.remove("underline-effect");
-            });
+<script>
+    function showContent(tab, element) {
+        // Remove active class from all buttons
+        document.querySelectorAll(".tab-buttons").forEach(button => {
+            button.classList.remove("active-tabs");
+            button.classList.remove("underline-effect");
+        });
 
-            // Add active class to clicked button
-            element.classList.add("active-tabs");
-            element.classList.add("underline-effect");
+        // Add active class to clicked button
+        element.classList.add("active-tabs");
+        element.classList.add("underline-effect");
 
-            // Update image based on selected tab
-            let imagePath = "";
-            if (tab === "worldwide") {
-                imagePath = "{{ asset('website/18.png') }}";
-            } else if (tab === "india") {
-                imagePath = "{{ asset('website/india.png') }}";
-            } else if (tab === "odisha") {
-                imagePath = "{{ asset('website/odisha.png') }}";
-            }
+        // Update image based on selected tab
+        let imagePath = "";
+        let altText = "";
 
-            // Change the image source
-            document.getElementById("dynamicImage").src = imagePath;
+        if (tab === "worldwide") {
+            imagePath = "{{ asset('website/world.svg') }}";
+            altText = "Jagannatha Temples Worldwide";
+        } else if (tab === "india") {
+            imagePath = "{{ asset('website/india.svg') }}";
+            altText = "Jagannatha Temples in India";
+        } else if (tab === "odisha") {
+            imagePath = "{{ asset('website/odisha.png') }}"; // You can also switch this to .svg if available
+            altText = "Jagannatha Temples in Odisha";
         }
-    </script>
+
+        // Change the image source and alt
+        const imgEl = document.getElementById("dynamicImage");
+        imgEl.src = imagePath;
+        imgEl.alt = altText;
+    }
+</script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {

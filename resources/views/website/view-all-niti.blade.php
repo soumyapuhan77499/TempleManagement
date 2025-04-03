@@ -11,25 +11,124 @@
             background: #f5f5f5;
         }
 
-        .niti-header {
-            background-color: #c64058;
-            color: white;
-            padding: 25px 15px;
+        .header-area {
+            background: white;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+            height: 70px;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 60px;
+            width: 70px;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            margin-right: 30px;
+        }
+
+        .nav-menu a {
+            color: #4d6189;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .separator {
+            font-weight: bold;
+            color: #ff4b2b;
+        }
+
+        .live-badges {
+            background: red;
+            color: white !important;
+            padding: 2px 10px;
+            border-radius: 10px;
+            margin-left: 5px;
+        }
+
+        .hamburger-menu {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .hamburger-menu span {
+            width: 20px;
+            height: 2px;
+            background: purple;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero {
+            position: relative;
+            height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, rgba(0, 0, 0, 0.8), rgba(153, 32, 13, 0.8));
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
             text-align: center;
-            border-bottom-left-radius: 25px;
-            border-bottom-right-radius: 25px;
+            padding: 0 20px;
         }
 
-        .niti-header h2 {
-            font-size: 22px;
-            margin-bottom: 8px;
+        .hero-content h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #fff;
         }
 
-        .niti-header p {
-            font-size: 14px;
-            color: #ffdce6;
+        .hero-content p {
+            font-size: 20px;
+            color: #f5f5f5;
         }
 
+        
         .call-btn {
             margin-top: 10px;
             background: white;
@@ -205,10 +304,43 @@
 </head>
 <body>
 
-    <div class="niti-header">
-        <h2>Complete List Of Niti's</h2>
-        <p>Rituals & their importance – live updates</p>
-        <a href="tel:+91XXXXXXXXXX" class="call-btn">Call To Know →</a>
+
+    <header class="header-area" data-aos="fade-down">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <div class="logo">
+                    <img src="{{ asset('website/logo.png') }}" alt="logo">
+                </div>
+
+                <!-- Navigation Menu -->
+                <nav class="nav-menu">
+                    <a href="#">Nitis</a>
+                    <span class="separator">SM <a href="#" class="live-badges"><i class="fa fa-bolt"></i> Live</a></span>
+                    <a href="#">Services</a>
+                    <a href="#">Nearby Temples</a>
+                    <a href="#">Conveniences</a>
+                    <a href="#">Temple Information</a>
+                    <div class="hamburger-menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <img class="hero-bg" src="{{ asset('website/parking.jpeg') }}" alt="Mandir Background" />
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+           
+            <h1>Complete List Of Niti's</h1>
+            <p>Rituals & their importance – live updates</p>
+            <a href="tel:+91XXXXXXXXXX" class="call-btn">Call To Know →</a>
+        </div>
     </div>
 
     <div class="timeline-section">
@@ -271,7 +403,6 @@
                 `;
             });
         }
-
         function scrollTimeline(direction) {
             const container = document.getElementById("timelineScroll");
             const boxWidth = 280; // approx width of timeline-box + gap

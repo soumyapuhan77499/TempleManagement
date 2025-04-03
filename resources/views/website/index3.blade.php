@@ -82,7 +82,7 @@
         </div>
     </div>
 
-    <section class="shree-mandir-section">
+    <section class="shree-mandir-section  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
 
         <div class="section-container">
             <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham">
@@ -175,7 +175,7 @@
         </div>
     </section>
 
-    <section class="services-section py-10  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
+    <section class="services-section py-10 ">
         <!-- Section Title -->
         <div class="text-center mb-14">
             <div class="flex justify-center items-center gap-4">
@@ -188,22 +188,21 @@
         <!-- Services Layout -->
         <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
             <!-- Left Featured Card (Fixed height: 450px) -->
-            <div class="bg-gradient-to-r from-[#ffe4e1] to-[#fff7f0] rounded-3xl shadow-md p-8 flex flex-col justify-between transition-all duration-500 hover:scale-105 h-[450px]">
+            <div class="p-8 flex flex-col justify-between transition-all duration-500 hover:scale-105 h-[455px]" style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
                 <a href="{{ route('darshan.timeline') }}" class="flex flex-col items-center text-center h-full">
                     <img src="{{ asset('website/1000.jpg') }}" alt="Darshan"
                          class="mb-2 transition-transform duration-300 hover:rotate-12 p-2  shadow-md" style="width: 400px; height: 170px; border-radius: 25px;">
                     <h3 class="text-2xl font-bold text-[#db4d30] mb-2">Darshan</h3>
-                    <p class="text-gray-700 mb-5 leading-relaxed">Experience the divine Darshan of Lord Jagannath in a seamless and sacred way the divine Darshan of Lord Jagannath in a seamless and sacred way.of Lord Jagannath in a seamless and sacred way. the divine Darshan of Lord Jagannath in a seamless and sacred way the divine Darshan </p>
-                    <span class="inline-block mt-auto text-white bg-gradient-to-r from-[#db4d30] to-[#ff7f50] py-2 px-6 rounded-full text-sm font-semibold shadow hover:shadow-lg transition">Read More</span>
+                    <p class="text-gray-700 mb-5 leading-relaxed">Experience the divine Darshan of Lord Jagannath in a seamless and sacred way the divine Darshan of Lord Jagannath in a seamless and sacred way.of Lord Jagannath in a seamless and sacred way. the divine Darshan of Lord Jagannath in a seamless and sacred way the divine Darshan Lord Jagannath in a seamless and sacred way the divine Darshan of Lord Jagannath in a seamless and sacred way.of Lord Jagannath in a seamless </p>
                 </a>
             </div>
     
             <!-- Right Side - 3 Fixed Cards (150px each) -->
             <div class="flex flex-col gap-6 justify-between h-[450px]">
                 <!-- Maha Prasad -->
-                <div class="bg-white border-l-4 border-[#db4d30] rounded-xl shadow-md px-5 py-4 flex items-center gap-5 h-[150px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300">
-                    <img src="{{ asset('website/1001.png') }}" alt="Maha Prasad"
-                         class="w-16 h-16 bg-gradient-to-r from-yellow-200 to-yellow-400 p-2 rounded-full shadow-md">
+                <div class="bg-white border-l-4 border-[#db4d30]  px-5 py-4 flex items-center gap-5 h-[150px]  hover:translate-x-1 duration-300"  style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
+                    <img src="{{ asset('website/mahaprasad32.png') }}" alt="Maha Prasad"
+                         class="w-16 h-16">
                     <div>
                         <h3 class="text-lg font-semibold text-[#db4d30]">Maha Prasad</h3>
                         <p class="text-sm text-gray-600">Savor the sacred offering blessed by the divine presence.</p>
@@ -212,9 +211,9 @@
                 </div>
     
                 <!-- Panji -->
-                <div class="bg-white border-l-4 border-[#db4d30] rounded-xl shadow-md px-5 py-4 flex items-center gap-5 h-[150px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300">
-                    <img src="{{ asset('website/1002.png') }}" alt="Panji"
-                         class="w-16 h-16 bg-gradient-to-r from-blue-200 to-blue-400 p-2 rounded-full shadow-md">
+                <div class="bg-white border-l-4 border-[#db4d30] px-5 py-4 flex items-center gap-5 h-[150px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300"  style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
+                    <img src="{{ asset('website/panji765.png') }}" alt="Panji"
+                         class="w-16 h-16">
                     <div>
                         <h3 class="text-lg font-semibold text-[#db4d30]">Panji</h3>
                         <p class="text-sm text-gray-600">Explore traditional records and sacred schedules maintained over centuries.</p>
@@ -223,8 +222,8 @@
                 </div>
     
                 <!-- Offering -->
-                <div class="bg-white border-l-4 border-[#db4d30] rounded-xl shadow-md px-5 py-4 flex items-center gap-5 h-[150px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300">
-                    <img src="{{ asset('website/1003.png') }}" alt="Offering"
+                <div class="bg-white border-l-4 border-[#db4d30]  px-5 py-4 flex items-center gap-5 h-[150px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300"  style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
+                    <img src="{{ asset('website/offering.png') }}" alt="Offering"
                          class="w-16 h-16 bg-gradient-to-r from-pink-200 to-red-300 p-2 rounded-full shadow-md">
                     <div>
                         <h3 class="text-lg font-semibold text-[#db4d30]">Offering</h3>
@@ -248,7 +247,7 @@
                 <div class="arrow-icon" style="font-size: 20px;">➡️</div>
             </div>
             <div class="card-bottom">
-                <div class="card-icons" style="font-size: 40px; color: #c27462;">🏠</div>
+                <div class="card-icons" ><img src="{{ asset('website/niwas.png') }}" alt="Maha Prasad" style="height: 40px; width: 40px;"></div>
                 <div class="footer-bar bar-orange"></div>
             </div>
         </a>
@@ -264,7 +263,7 @@
             </div>
             <div class="card-bottom">
                 <div style="margin-right:5%; height: 50px; width: 50px; margin-bottom: 25px; display: flex; align-items: center; justify-content: center;">
-                    <span style="color: white; font-size: 40px;">🅿️</span>
+                    <span style="color: white; font-size: 40px;"><img src="{{ asset('website/parking.png') }}" alt="Maha Prasad" style="height: 40px; width: 40px;"></span>
                 </div>
                 <div class="footer-bar bar-red"></div>
             </div>
@@ -281,7 +280,7 @@
                 <div class="arrow-icon" style="font-size: 20px;">➡️</div>
             </div>
             <div class="card-bottom">
-                <div class="card-icons" style="font-size: 40px; color: #6577e6;">🧳</div>
+                <div class="card-icons" style="font-size: 40px; color: #6577e6;"><img src="{{ asset('website/locker.png') }}" alt="Maha Prasad" style="height: 40px; width: 40px;"></div>
                 <div class="footer-bar bar-blue"></div>
             </div>
         </a>
@@ -296,7 +295,7 @@
                 <div class="arrow-icon" style="font-size: 20px;">➡️</div>
             </div>
             <div class="card-bottom">
-                <div class="card-icons" style="font-size: 40px; color: #22c5ee;">💳</div>
+                <div class="card-icons" style="font-size: 40px; color: #22c5ee;"><img src="{{ asset('website/donation.png') }}" alt="Maha Prasad" style="height: 40px; width: 40px;"></div>
                 <div class="footer-bar bar-cyan"></div>
             </div>
         </div>
@@ -314,7 +313,7 @@
                 <div class="arrow-icon" style="font-size: 20px;">➡️</div>
             </div>
             <div class="card-bottom">
-                <div class="card-icons" style="font-size: 40px; color: #6bbf84;">🪙</div>
+                <div class="card-icons" style="font-size: 40px; color: #6bbf84;"><img src="{{ asset('website/online.png') }}" alt="Maha Prasad" style="height: 40px; width: 40px;"></div>
                 <div class="footer-bar bar-green"></div>
             </div>
         </div>
@@ -589,37 +588,31 @@
         </div>
     </section>
 
-    <section class="bg-100 p-2 relative  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100" style="margin-top: 50px">
+    <section class="bg-100 p-2 relative bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100" style="margin-top: 50px">
         <div class="max-w-6xl mx-auto text-center relative">
-            <!-- Tabs Container -->
-
-            <div class="absolute top-28 right-0 flex space-x-3 p-3  rounded-lg">
-                <!-- Worldwide Tab -->
-                <button class="tab-buttons active-tabs" onclick="showContent('worldwide', this)">
-                    Worldwide
-                </button>
-                <!-- India Tab -->
-                <button class="tab-buttons" onclick="showContent('india', this)">
-                    India
-                </button>
-                <!-- Odisha Tab -->
-                <button class="tab-buttons" onclick="showContent('odisha', this)">
-                    Odisha
-                </button>
+            <!-- Tabs -->
+            <div class="absolute top-14 right-0 flex space-x-3 p-3 rounded-lg">
+                <button class="tab-buttons active-tabs" onclick="showContent('worldwide', this)">Worldwide</button>
+                <button class="tab-buttons" onclick="showContent('india', this)">India</button>
+                <button class="tab-buttons" onclick="showContent('odisha', this)">Odisha</button>
             </div>
-
+    
+            <!-- Title -->
             <div class="flex justify-center items-center gap-5 mt-12">
                 <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
-                <h2 class="text-2xl text-[#db4d30] flex items-center font-sans">
-                    Jagannatha Temples Worldwide
-                </h2>
+                <h2 class="text-2xl text-[#db4d30] flex items-center font-sans">Jagannatha Temples Worldwide</h2>
                 <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
             </div>
-
-            <!-- Banner Image -->
-            <div class="dynamic-image mt-10">
-                <img id="dynamicImage" src="{{ asset('website/18.png') }}" alt="Shree Jagannatha Dham" class="mx-auto">
+    
+           <!-- Image -->
+            <div class="dynamic-image mt-10 flex justify-center">
+                <img id="dynamicImage"
+                    src="{{ asset('website/world.svg') }}"
+                    alt="Jagannatha Temples Worldwide"
+                    class="w-[600px] h-[800px] object-contain rounded-xl shadow-md" />
             </div>
+
         </div>
     </section>
+
 @endsection

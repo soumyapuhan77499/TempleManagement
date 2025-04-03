@@ -3,7 +3,6 @@
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 6px;
     max-width: 1270px;
-    padding-top: 60px;
     padding-left: 15px;
     padding-right: 15px;
     margin: 0 auto;
