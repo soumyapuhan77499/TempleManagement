@@ -176,7 +176,7 @@
     </section>
 
 
-    <section class="services-section py-16  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
+    <section class="services-section py-10  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
         <!-- Section Title -->
         <div class="text-center mb-14">
             <div class="flex justify-center items-center gap-4">
@@ -350,7 +350,6 @@
             <div class="swiper-button-prev text-orange-500"></div>
         </div>
     </section>
-
 
     <section class="temple-convenience">
 
