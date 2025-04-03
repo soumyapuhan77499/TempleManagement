@@ -175,77 +175,70 @@
         </div>
     </section>
 
-    <section class="services-section">
 
-        <div class="flex justify-center items-center gap-5 mt-12">
-            <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
-            <h2 class="text-2xl text-[#db4d30] flex items-center font-sans">
-                Quick Services
-            </h2>
-            <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
+    <section class="services-section py-16">
+        <!-- Section Title -->
+        <div class="text-center mb-14">
+            <div class="flex justify-center items-center gap-4">
+                <img src="{{ asset('website/left.png') }}" alt="Left Decor" class="w-36 h-5 animate-pulse">
+                <h2 class="text-xl font-semibold text-[#db4d30] tracking-wide drop-shadow-md">Quick Services</h2>
+                <img src="{{ asset('website/right.png') }}" alt="Right Decor" class="w-36 h-5 animate-pulse">
+            </div>
         </div>
-
-        <div class="services-container" style="margin-top: 50px">
-            <!-- Accommodation -->
-            <div class="service-card accommodation-card">
-                <a href="{{ route('darshan.timeline') }}">
-                    <div class="icon-container">
-                        <img src="{{ asset('website/1000.png') }}" alt="Shree Jagannatha Dham">
-                    </div>
+    
+        <!-- Services Layout -->
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+            <!-- Left Featured Card (Fixed height: 450px) -->
+            <div class="border-l-4 border-[#db4d30]  rounded-3xl shadow-md p-8 flex flex-col justify-between transition-all duration-500 hover:scale-105 h-[450px]">
+                <a href="{{ route('darshan.timeline') }}" class="flex flex-col items-center text-center h-full">
+                    <img src="{{ asset('website/1000.jpg') }}" alt="Darshan"
+                         class="mb-2 transition-transform duration-300 hover:rotate-12 p-2  shadow-md" style="width: 400px; height: 170px; border-radius: 25px;">
+                    <h3 class="text-2xl font-bold text-[#db4d30] mb-2">Darshan</h3>
+                    <p class="text-gray-700 mb-5 leading-relaxed">Experience the divine Darshan of Lord Jagannath in a seamless and sacred way the divine Darshan of Lord Jagannath in a seamless and sacred way.of Lord Jagannath in a seamless and sacred way. the divine Darshan of Lord Jagannath in a seamless and sacred way the divine Darshan </p>
+                    <span class="inline-block mt-auto text-white bg-gradient-to-r from-[#db4d30] to-[#ff7f50] py-2 px-6 rounded-full text-sm font-semibold shadow hover:shadow-lg transition">Read More</span>
                 </a>
-                <div class="service-content">
-                    <h3 style="color: #db4d30">Darshan</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                        et dolore magna aliqua.</p>
-                    <a href="{{ route('darshan.timeline') }}" class="read-more">Read More</a>
-                </div>
             </div>
-
-            <!-- Donations -->
-            <div class="service-card donations-card">
-                <a href="{{ route('prasad.timeline') }}">
-                    <div class="icon-container">
-                        <img src="{{ asset('website/1001.png') }}" alt="Shree Jagannatha Dham">
+    
+            <!-- Right Side - 3 Fixed Cards (150px each) -->
+            <div class="flex flex-col gap-6 justify-between h-[450px]">
+                <!-- Maha Prasad -->
+                <div class="bg-white border-l-4 border-[#db4d30] rounded-xl shadow-md px-5 py-4 flex items-center gap-5 h-[150px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300">
+                    <img src="{{ asset('website/1001.png') }}" alt="Maha Prasad"
+                         class="w-16 h-16 bg-gradient-to-r from-yellow-200 to-yellow-400 p-2 rounded-full shadow-md">
+                    <div>
+                        <h3 class="text-lg font-semibold text-[#db4d30]">Maha Prasad</h3>
+                        <p class="text-sm text-gray-600">Savor the sacred offering blessed by the divine presence.</p>
+                        <a href="{{ route('prasad.timeline') }}" class="text-sm text-[#db4d30] hover:underline mt-1 inline-block">Read More</a>
                     </div>
-                </a>
-                <div class="service-content">
-                    <h3 style="color: #db4d30">Maha Prasad</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                        et dolore magna aliqua.</p>
-                    <a href="#" class="read-more">Read More</a>
                 </div>
-            </div>
-
-            <!-- Darshan Booking -->
-            <div class="service-card darshan-card">
-                <div class="icon-container">
-                    <img src="{{ asset('website/1002.png') }}" alt="Shree Jagannatha Dham">
+    
+                <!-- Panji -->
+                <div class="bg-white border-l-4 border-[#db4d30] rounded-xl shadow-md px-5 py-4 flex items-center gap-5 h-[150px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300">
+                    <img src="{{ asset('website/1002.png') }}" alt="Panji"
+                         class="w-16 h-16 bg-gradient-to-r from-blue-200 to-blue-400 p-2 rounded-full shadow-md">
+                    <div>
+                        <h3 class="text-lg font-semibold text-[#db4d30]">Panji</h3>
+                        <p class="text-sm text-gray-600">Explore traditional records and sacred schedules maintained over centuries.</p>
+                        <a href="#" class="text-sm text-[#db4d30] hover:underline mt-1 inline-block">Read More</a>
+                    </div>
                 </div>
-                <div class="service-content">
-                    <h3 style="color: #db4d30">Panji</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                        et dolore magna aliqua.</p>
-                    <a href="#" class="read-more">Read More</a>
-                </div>
-            </div>
-
-            <!-- Gifts & Offerings -->
-            <div class="service-card gifts-card">
-                <div class="icon-container">
-                    <img src="{{ asset('website/1003.png') }}" alt="Shree Jagannatha Dham">
-                </div>
-                <div class="service-content">
-                    <h3 style="color: #db4d30">Offering</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                        et dolore magna aliqua.</p>
-                    <a href="#" class="read-more">Read More</a>
+    
+                <!-- Offering -->
+                <div class="bg-white border-l-4 border-[#db4d30] rounded-xl shadow-md px-5 py-4 flex items-center gap-5 h-[150px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300">
+                    <img src="{{ asset('website/1003.png') }}" alt="Offering"
+                         class="w-16 h-16 bg-gradient-to-r from-pink-200 to-red-300 p-2 rounded-full shadow-md">
+                    <div>
+                        <h3 class="text-lg font-semibold text-[#db4d30]">Offering</h3>
+                        <p class="text-sm text-gray-600">Make your humble offerings to the Lord with ease and devotion.</p>
+                        <a href="#" class="text-sm text-[#db4d30] hover:underline mt-1 inline-block">Read More</a>
+                    </div>
                 </div>
             </div>
         </div>
-
     </section>
-
+    
     <section class="services-sections">
+
         <!-- Bhakta Nibas -->
         <a href="{{ route('bhaktanibas.list') }}" class="service-cards" style="text-decoration: none;">
             <div class="card-top">
@@ -253,14 +246,14 @@
                     <div class="card-title">Bhakta Nibas</div>
                     <div class="card-desc">Temple owned <br>properties for<br>pilgrim stay</div>
                 </div>
-                <i data-lucide="arrow-right" class="arrow-icon"></i>
+                <div class="arrow-icon" style="font-size: 20px;">➡️</div>
             </div>
             <div class="card-bottom">
-                <i data-lucide="building" class="card-icons" style="color:#c27462;"></i>
+                <div class="card-icons" style="font-size: 40px; color: #c27462;">🏠</div>
                 <div class="footer-bar bar-orange"></div>
             </div>
         </a>
-
+    
         <!-- Parking Areas -->
         <a href="{{ route('parking.list') }}" class="service-cards" style="text-decoration: none;">
             <div class="card-top">
@@ -268,17 +261,17 @@
                     <div class="card-title">Parking Areas</div>
                     <div class="card-desc">2, 3, 4 Wheelers</div>
                 </div>
-                <i data-lucide="arrow-right" class="arrow-icon"></i>
+                <div class="arrow-icon" style="font-size: 20px;">➡️</div>
             </div>
             <div class="card-bottom">
-                <div
-                    style="margin-right:5%; height: 50px;width: 50px;margin-bottom: 25px;display: flex;align-items: center;justify-content: center; padding: 5px; border-radius: 50%; background-color: #e75230;">
-                    <span style="color: white;font-size: 35px;font-weight: bold;">P</span>
+                <div style="margin-right:5%; height: 50px; width: 50px; margin-bottom: 25px; display: flex; align-items: center; justify-content: center;">
+                    <span style="color: white; font-size: 40px;">🅿️</span>
                 </div>
                 <div class="footer-bar bar-red"></div>
             </div>
+            
         </a>
-
+    
         <!-- Locker & Shoes -->
         <a href="{{ route('lockershoe.list') }}" class="service-cards" style="text-decoration: none;">
             <div class="card-top">
@@ -286,14 +279,14 @@
                     <div class="card-title">Locker & Shoes Stands</div>
                     <div class="card-desc">Shoes, Mobile <br>Phones etc</div>
                 </div>
-                <i data-lucide="arrow-right" class="arrow-icon"></i>
+                <div class="arrow-icon" style="font-size: 20px;">➡️</div>
             </div>
             <div class="card-bottom">
-                <i data-lucide="server" class="card-icons" style="color:#6577e6;"></i>
+                <div class="card-icons" style="font-size: 40px; color: #6577e6;">🧳</div>
                 <div class="footer-bar bar-blue"></div>
             </div>
         </a>
-
+    
         <!-- Online Donations -->
         <div class="service-cards">
             <div class="card-top">
@@ -301,14 +294,14 @@
                     <div class="card-title">Online Donations</div>
                     <div class="card-desc" style="color:#22c5ee; font-weight: 500;">Donate Now</div>
                 </div>
-                <i data-lucide="arrow-right" class="arrow-icon"></i>
+                <div class="arrow-icon" style="font-size: 20px;">➡️</div>
             </div>
             <div class="card-bottom">
-                <i data-lucide="wallet" class="card-icons" style="color:#22c5ee;"></i>
+                <div class="card-icons" style="font-size: 40px; color: #22c5ee;">💳</div>
                 <div class="footer-bar bar-cyan"></div>
             </div>
         </div>
-
+    
         <!-- Hundi Collection -->
         <div class="service-cards">
             <div class="card-top">
@@ -319,42 +312,45 @@
                         <span style="color:#e75230; font-weight:600;">₹5,30,000/-</span>
                     </div>
                 </div>
-                <i data-lucide="arrow-right" class="arrow-icon"></i>
+                <div class="arrow-icon" style="font-size: 20px;">➡️</div>
             </div>
             <div class="card-bottom">
-                <i data-lucide="layers" class="card-icons" style="color:#6bbf84;"></i>
+                <div class="card-icons" style="font-size: 40px; color: #6bbf84;">🪙</div>
                 <div class="footer-bar bar-green"></div>
             </div>
         </div>
+    
     </section>
+    
 
-   <section class="temple-slider bg-white ">
-    <div class="flex justify-center items-center gap-5 mt-12">
-        <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
-        <h2 class="text-xl text-[#db4d30] font-semi-bold">Nearby Temples</h2>
-        <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
-    </div>
-
-    <div class="swiper mySwiper mt-12">
-        <div class="swiper-wrapper">
-            @foreach ($nearbyTemples as $temple)
-                @php
-                    $photos = json_decode($temple->photo, true);
-                    $firstPhoto = isset($photos[0]) ? $photos[0] : null;
-                @endphp
-                @if ($firstPhoto)
-                    <div class="swiper-slide rounded-xl overflow-hidden shadow-lg">
-                        <img src="{{ asset($firstPhoto) }}" alt="{{ $temple->temple_name }}" class="w-full h-full object-cover">
-                    </div>
-                @endif
-            @endforeach
+    <section class="temple-slider bg-white ">
+        <div class="flex justify-center items-center gap-5 mt-12">
+            <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
+            <h2 class="text-xl text-[#db4d30] font-semi-bold">Nearby Temples</h2>
+            <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
         </div>
 
-        <!-- Navigation buttons -->
-        <div class="swiper-button-next text-orange-500"></div>
-        <div class="swiper-button-prev text-orange-500"></div>
-    </div>
-</section>
+        <div class="swiper mySwiper mt-12">
+            <div class="swiper-wrapper">
+                @foreach ($nearbyTemples as $temple)
+                    @php
+                        $photos = json_decode($temple->photo, true);
+                        $firstPhoto = isset($photos[0]) ? $photos[0] : null;
+                    @endphp
+                    @if ($firstPhoto)
+                        <div class="swiper-slide rounded-xl overflow-hidden shadow-lg">
+                            <img src="{{ asset($firstPhoto) }}" alt="{{ $temple->temple_name }}"
+                                class="w-full h-full object-cover">
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+
+            <!-- Navigation buttons -->
+            <div class="swiper-button-next text-orange-500"></div>
+            <div class="swiper-button-prev text-orange-500"></div>
+        </div>
+    </section>
 
 
     <section class="temple-convenience">

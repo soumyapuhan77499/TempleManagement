@@ -72,10 +72,6 @@
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/convience.css') }}">
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/calendar.css') }}">
 
-
-
-
-
 </head>
 
 <body>
@@ -139,9 +135,9 @@
         });
     </script>
     
-
-
-
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const calendarContainer = document.getElementById("calendar");
@@ -226,6 +222,7 @@
             generateCalendar(now.getFullYear(), now.getMonth());
         });
     </script>
+
     <script>
         // Auto-activate About Temple tab when page loads
         document.addEventListener("DOMContentLoaded", function() {
@@ -292,7 +289,6 @@
             }
         };
     </script>
-
 
     <script>
         document.querySelectorAll(".tab-item").forEach(tab => {
@@ -411,8 +407,6 @@
             });
         });
     </script>
-
-    <script src="https://unpkg.com/lucide@latest"></script>
 
     <script>
         lucide.createIcons();
