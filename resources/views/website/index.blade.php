@@ -8,7 +8,7 @@
             <img src="{{ asset('website/2001.jpg') }}" alt="Shree Jagannatha Dham">
         </div>
     </section>
-    
+
     <div class="niti-cards">
         <div class="niti-card active">
             <div class="niti-content">
@@ -16,8 +16,10 @@
                 <p style="padding-top: 5px"><strong>Mangala Alati</strong></p>
             </div>
             <div class="niti-icons">
-                <p><ion-icon name="time-outline" style=" margin: 6px;color: #ff0011;font-size: 16px;"></ion-icon> 05:00 AM</p>
-                <p><ion-icon name="calendar-outline" style=" margin: 6px;color: #ff0011;font-size: 16px;"></ion-icon> 20th Mar</p>
+                <p><ion-icon name="time-outline" style=" margin: 6px;color: #ff0011;font-size: 16px;"></ion-icon> 05:00 AM
+                </p>
+                <p><ion-icon name="calendar-outline" style=" margin: 6px;color: #ff0011;font-size: 16px;"></ion-icon> 20th
+                    Mar</p>
             </div>
         </div>
         <div class="niti-card ">
@@ -45,7 +47,8 @@
     </div>
 
     <section class="shree-mandir-section">
-        <h2 class="section-titles">Shree Mandir <span class="live-badge"><i class="fa fa-bolt" style="margin-right: 6px"></i>Live</span></h2>
+        <h2 class="section-titles">Shree Mandir <span class="live-badge"><i class="fa fa-bolt"
+                    style="margin-right: 6px"></i>Live</span></h2>
         <div class="mandir-content">
             <!-- TV Section -->
 
@@ -192,21 +195,24 @@
             <div class="menu-items">
                 <div class="service-icon">
                     <div class="menu-item active">
-                        <img src="{{ asset('website/bhakta.png') }}" alt="Shree Jagannatha Dham" style="height: 50px;width: 50px">
+                        <img src="{{ asset('website/bhakta.png') }}" alt="Shree Jagannatha Dham"
+                            style="height: 50px;width: 50px">
                     </div>
                     <p style="margin-top: 10px;font-weight: bold; color: #db4d30;">Bhakta Nibas</p>
                 </div>
 
                 <div class="service-icon">
                     <div class="menu-item">
-                        <img src="{{ asset('website/online.png') }}" alt="Shree Jagannatha Dham" style="height: 50px;width: 50px">
+                        <img src="{{ asset('website/online.png') }}" alt="Shree Jagannatha Dham"
+                            style="height: 50px;width: 50px">
                     </div>
                     <p style="margin-top: 10px;font-weight: bold; color: #db4d30;">Online Donation</p>
                 </div>
 
                 <div class="service-icon">
                     <div class="menu-item">
-                        <img src="{{ asset('website/parking.png') }}" alt="Shree Jagannatha Dham" style="height: 50px;width: 50px">
+                        <img src="{{ asset('website/parking.png') }}" alt="Shree Jagannatha Dham"
+                            style="height: 50px;width: 50px">
                     </div>
                     <p style="margin-top: 10px;font-weight: bold; color: #db4d30;">Parking</p>
 
@@ -214,14 +220,16 @@
 
                 <div class="service-icon">
                     <div class="menu-item">
-                        <img src="{{ asset('website/locker.png') }}" alt="Shree Jagannatha Dham" style="height: 50px;width: 50px">
+                        <img src="{{ asset('website/locker.png') }}" alt="Shree Jagannatha Dham"
+                            style="height: 50px;width: 50px">
                     </div>
                     <p style="margin-top: 10px;font-weight: bold; color: #db4d30;">Locker & Shoes</p>
                 </div>
 
                 <div class="service-icon">
                     <div class="menu-item">
-                        <img src="{{ asset('website/hundi.png') }}" alt="Shree Jagannatha Dham" style="height: 50px;width: 50px">
+                        <img src="{{ asset('website/hundi.png') }}" alt="Shree Jagannatha Dham"
+                            style="height: 50px;width: 50px">
                     </div>
                     <p style="margin-top: 10px;font-weight: bold; color: #db4d30;">Hundi Collection</p>
                 </div>
@@ -304,16 +312,16 @@
                 <p>Lost & Found</p>
             </div>
 
-                <div class="conv">
+            <div class="conv">
 
-                    <div class="convenience-item">
-                        <i class="fas fa-toilet"></i>
-                    </div>
-                    <p>Toilet</p>
-
+                <div class="convenience-item">
+                    <i class="fas fa-toilet"></i>
                 </div>
+                <p>Toilet</p>
 
             </div>
+
+        </div>
     </section>
 
     <section class="bg-100 p-10">
@@ -394,7 +402,7 @@
         <div class="image-container">
             <img src="{{ asset('website/v1.png') }}" alt="Shree Jagannatha Dham">
         </div>
-    
+
         <!-- Navigation Tabs -->
         <div class="flex justify-center items-center gap-6" style="margin-bottom: 50px;margin-top: 20px">
             <div id="navContainer" class="flex gap-10 overflow-x-auto no-scrollbar">
@@ -435,7 +443,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Dynamic Content Section -->
     <section id="dynamicContent" class="bg-100">
         <div class="max-w-6xl mx-auto">
@@ -456,7 +464,8 @@
                         aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
                         cillum dolore eu fugiat nulla pariatur.
                     </p>
-                    <button class="mt-6 px-6 py-2 bg-red-100 text-red-600 rounded-lg shadow-md hover:bg-red-200 transition">
+                    <button
+                        class="mt-6 px-6 py-2 bg-red-100 text-red-600 rounded-lg shadow-md hover:bg-red-200 transition">
                         Read More
                     </button>
                 </div>
@@ -466,36 +475,24 @@
 
     <section class="bg-100 p-10 relative">
         <div class="max-w-6xl mx-auto text-center relative">
-            <!-- Tabs Container -->
-           
-            <div class="absolute top-28 right-0 flex space-x-3 p-3  rounded-lg">
-                <!-- Worldwide Tab -->
-                <button class="tab-buttons active-tabs" onclick="showContent('worldwide', this)">
-                     Worldwide
-                </button>
-                <!-- India Tab -->
-                <button class="tab-buttons" onclick="showContent('india', this)">
-                     India
-                </button>
-                <!-- Odisha Tab -->
-                <button class="tab-buttons" onclick="showContent('odisha', this)">
-                     Odisha
-                </button>
+      
+          <!-- Tooltip -->
+          <div id="tooltip" class="tooltip"></div>
+      
+          <!-- Modal -->
+          <div id="locationModal" class="modal" style="display: none;">
+            <div class="modal-content">
+              <span onclick="closeModal()" class="close">&times;</span>
+              <h2 id="modalTitle">State/Location Name</h2>
             </div>
-
-            <!-- Section Title -->
-            <h2 class="map-title mt-12">Jagannatha Temples Worldwide</h2>
-
-            <!-- Image Container -->
-            <div class="image-container">
-                <img src="{{ asset('website/v1.png') }}" alt="Shree Jagannatha Dham" class="mx-auto">
-            </div>
-
-            <!-- Banner Image -->
-            <div class="dynamic-image mt-10">
-                <img id="dynamicImage"  src="{{ asset('website/18.png') }}" alt="Shree Jagannatha Dham" class="mx-auto">
-            </div>
+          </div>
+      
+          <!-- SVG Map Container -->
+          <div id="map-container">
+            @include('partials.sankha-map') <!-- Your SVG goes here -->
+          </div>
+      
         </div>
-    </section>
-
+      </section>
+      
 @endsection

@@ -175,68 +175,74 @@
         </div>
     </section>
 
-    <section class="services-section py-12 bg-[#fff9f4]">
+    <section class="services-section">
 
-        <!-- Title -->
-        <div class="flex justify-center items-center gap-5 mb-10">
+        <div class="flex justify-center items-center gap-5 mt-12">
             <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
-            <h2 class="text-3xl text-[#db4d30] font-bold tracking-wide">Quick Services</h2>
+            <h2 class="text-2xl text-[#db4d30] flex items-center font-sans">
+                Quick Services
+            </h2>
             <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
         </div>
 
-        <!-- Cards Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto px-4">
-
-            <!-- Darshan -->
-            <a href="{{ route('darshan.timeline') }}" class="service-card">
-                <div class="icon-wrapper bg-gradient-to-r from-yellow-300 to-red-400">
-                    <div class="w-12 h-12"></div>
-                </div>
-                <div class="content bg-gradient-to-br from-yellow-100 to-red-100">
-                    <h3 style="margin-top: 10px">Darshan</h3>
-                    <p style="margin-top: 10px">Experience divine darshan timings and rituals at a glance.</p>
-                    <span class="read-more">Explore</span>
-                </div>
-            </a>
-
-            <!-- Maha Prasad -->
-            <a href="{{ route('prasad.timeline') }}" class="service-card">
-                <div class="icon-wrapper bg-gradient-to-r from-green-300 to-teal-500">
-                    <div class="w-12 h-12"></div>
-                </div>
-                <div class="content bg-gradient-to-br from-green-100 to-teal-100">
-                    <h3 style="margin-top: 10px">Maha Prasad</h3>
-                    <p style="margin-top: 10px">Know about the Maha Prasad distribution.</p>
-                    <span class="read-more">Explore</span>
-                </div>
-            </a>
-
-            <!-- Panji -->
-            <div class="service-card">
-                <div class="icon-wrapper bg-gradient-to-r from-indigo-300 to-blue-500">
-                    <div class="w-12 h-12"></div>
-                </div>
-                <div class="content bg-gradient-to-br from-indigo-100 to-blue-100">
-                    <h3 style="margin-top: 10px">Panji</h3>
-                    <p style="margin-top: 10px">Access temple panji and other traditional scheduling documents.</p>
-                    <span class="read-more">Explore</span>
+        <div class="services-container" style="margin-top: 50px">
+            <!-- Accommodation -->
+            <div class="service-card accommodation-card">
+                <a href="{{ route('darshan.timeline') }}">
+                    <div class="icon-container">
+                        <img src="{{ asset('website/1000.png') }}" alt="Shree Jagannatha Dham">
+                    </div>
+                </a>
+                <div class="service-content">
+                    <h3 style="color: #db4d30">Darshan</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                        et dolore magna aliqua.</p>
+                    <a href="{{ route('darshan.timeline') }}" class="read-more">Read More</a>
                 </div>
             </div>
 
-            <!-- Offering -->
-            <div class="service-card">
-                <div class="icon-wrapper bg-gradient-to-r from-pink-300 to-rose-400">
-                    <div class="w-12 h-12"></div>
-                </div>
-                <div class="content bg-gradient-to-br from-pink-100 to-rose-100">
-                    <h3 style="margin-top: 10px">Offering</h3>
-                    <p style="margin-top: 10px">Make your offerings and contribute to the temple rituals.</p>
-                    <span class="read-more">Explore</span>
+            <!-- Donations -->
+            <div class="service-card donations-card">
+                <a href="{{ route('prasad.timeline') }}">
+                    <div class="icon-container">
+                        <img src="{{ asset('website/1001.png') }}" alt="Shree Jagannatha Dham">
+                    </div>
+                </a>
+                <div class="service-content">
+                    <h3 style="color: #db4d30">Maha Prasad</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                        et dolore magna aliqua.</p>
+                    <a href="#" class="read-more">Read More</a>
                 </div>
             </div>
 
+            <!-- Darshan Booking -->
+            <div class="service-card darshan-card">
+                <div class="icon-container">
+                    <img src="{{ asset('website/1002.png') }}" alt="Shree Jagannatha Dham">
+                </div>
+                <div class="service-content">
+                    <h3 style="color: #db4d30">Panji</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                        et dolore magna aliqua.</p>
+                    <a href="#" class="read-more">Read More</a>
+                </div>
+            </div>
 
+            <!-- Gifts & Offerings -->
+            <div class="service-card gifts-card">
+                <div class="icon-container">
+                    <img src="{{ asset('website/1003.png') }}" alt="Shree Jagannatha Dham">
+                </div>
+                <div class="service-content">
+                    <h3 style="color: #db4d30">Offering</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                        et dolore magna aliqua.</p>
+                    <a href="#" class="read-more">Read More</a>
+                </div>
+            </div>
         </div>
+
     </section>
 
     <section class="services-sections">
@@ -322,33 +328,34 @@
         </div>
     </section>
 
-    <section class="temple-slider">
-        <div class="flex justify-center items-center gap-5 mt-12">
-            <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
-            <h2 class="text-2xl text-[#db4d30] flex items-center font-sans">Nearby Temples</h2>
-            <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
+   <section class="temple-slider bg-white ">
+    <div class="flex justify-center items-center gap-5 mt-12">
+        <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
+        <h2 class="text-xl text-[#db4d30] font-semi-bold">Nearby Temples</h2>
+        <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
+    </div>
+
+    <div class="swiper mySwiper mt-12">
+        <div class="swiper-wrapper">
+            @foreach ($nearbyTemples as $temple)
+                @php
+                    $photos = json_decode($temple->photo, true);
+                    $firstPhoto = isset($photos[0]) ? $photos[0] : null;
+                @endphp
+                @if ($firstPhoto)
+                    <div class="swiper-slide rounded-xl overflow-hidden shadow-lg">
+                        <img src="{{ asset($firstPhoto) }}" alt="{{ $temple->temple_name }}" class="w-full h-full object-cover">
+                    </div>
+                @endif
+            @endforeach
         </div>
 
-        <div class="swiper mySwiper">
-            <div class="swiper-wrapper">
-                @foreach ($nearbyTemples as $temple)
-                    @php
-                        $photos = json_decode($temple->photo, true);
-                        $firstPhoto = isset($photos[0]) ? $photos[0] : null;
-                    @endphp
+        <!-- Navigation buttons -->
+        <div class="swiper-button-next text-orange-500"></div>
+        <div class="swiper-button-prev text-orange-500"></div>
+    </div>
+</section>
 
-                    @if ($firstPhoto)
-                        <div class="swiper-slide">
-                            <img src="{{ asset($firstPhoto) }}" alt="{{ $temple->temple_name }}">
-                        </div>
-                    @endif
-                @endforeach
-            </div>
-
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
-        </div>
-    </section>
 
     <section class="temple-convenience">
 

@@ -60,6 +60,8 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400&display=swap" rel="stylesheet">
 
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
 
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/puri-dhams.css') }}">
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/banner.css') }}">
@@ -112,35 +114,32 @@
     <!-- Main script JS -->
     <script src="front-assets/frontend/js/script.js"></script>
 
+    <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var swiper = new Swiper(".mySwiper", {
-                slidesPerView: 3,
-                spaceBetween: 0,
-                centeredSlides: true,
-                loop: true,
-                navigation: {
-                    nextEl: ".swiper-button-next",
-                    prevEl: ".swiper-button-prev",
-                },
-                breakpoints: {
-                    0: {
-                        slidesPerView: 1,
-                        centeredSlides: true,
-                    },
-                    768: {
-                        slidesPerView: 2,
-                        centeredSlides: true,
-                    },
-                    1024: {
-                        slidesPerView: 3,
-                        centeredSlides: true,
-                    }
-                }
-            });
+        const swiper = new Swiper(".mySwiper", {
+            effect: "coverflow",
+            grabCursor: true,
+            centeredSlides: true,
+            loop: true,
+            slidesPerView: 4, // show 7 slides total
+            initialSlide: 3, // make sure the center one is visible initially
+            coverflowEffect: {
+                rotate: 0,
+                stretch: 0,
+                depth: 150,
+                modifier: 2.5,
+                slideShadows: false,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
         });
     </script>
+    
+
 
 
     <script>
@@ -227,15 +226,15 @@
             generateCalendar(now.getFullYear(), now.getMonth());
         });
     </script>
-<script>
-    // Auto-activate About Temple tab when page loads
-    document.addEventListener("DOMContentLoaded", function () {
-        const defaultTab = document.querySelector('.tab-item[data-tab="aboutTemple"]');
-        if (defaultTab) {
-            defaultTab.click();
-        }
-    });
-</script>
+    <script>
+        // Auto-activate About Temple tab when page loads
+        document.addEventListener("DOMContentLoaded", function() {
+            const defaultTab = document.querySelector('.tab-item[data-tab="aboutTemple"]');
+            if (defaultTab) {
+                defaultTab.click();
+            }
+        });
+    </script>
 
     <script>
         const tabData = {
@@ -266,7 +265,7 @@
                 description: @json($festival->description ?? 'No description available'),
                 image: "{{ asset($festival->photo ?? 'website/festivals.jpg') }}"
             },
-            
+
             nijoga: {
                 title: "36 Nijoga",
                 subtitle: @json($nijoga->nijoga_name ?? 'No nijoga data'),
