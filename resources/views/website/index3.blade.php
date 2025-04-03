@@ -176,7 +176,7 @@
     </section>
 
 
-    <section class="services-section py-16">
+    <section class="services-section py-16  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
         <!-- Section Title -->
         <div class="text-center mb-14">
             <div class="flex justify-center items-center gap-4">
@@ -189,7 +189,7 @@
         <!-- Services Layout -->
         <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
             <!-- Left Featured Card (Fixed height: 450px) -->
-            <div class="border-l-4 border-[#db4d30]  rounded-3xl shadow-md p-8 flex flex-col justify-between transition-all duration-500 hover:scale-105 h-[450px]">
+            <div class="bg-gradient-to-r from-[#ffe4e1] to-[#fff7f0] rounded-3xl shadow-md p-8 flex flex-col justify-between transition-all duration-500 hover:scale-105 h-[450px]">
                 <a href="{{ route('darshan.timeline') }}" class="flex flex-col items-center text-center h-full">
                     <img src="{{ asset('website/1000.jpg') }}" alt="Darshan"
                          class="mb-2 transition-transform duration-300 hover:rotate-12 p-2  shadow-md" style="width: 400px; height: 170px; border-radius: 25px;">
@@ -321,7 +321,6 @@
         </div>
     
     </section>
-    
 
     <section class="temple-slider bg-white ">
         <div class="flex justify-center items-center gap-5 mt-12">
