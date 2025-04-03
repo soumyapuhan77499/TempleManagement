@@ -110,32 +110,42 @@ class QuickServiceController extends Controller
         }
     }
     
-    
     public function getCommuteList(Request $request)
     {
         try {
             $templeId = 'TEMPLE25402';
-
+    
             if (!$templeId) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Temple ID is required.'
                 ], 400);
             }
-
+    
             $commutes = CommuteMode::where('temple_id', $templeId)
                 ->where('status', 'active')
-                ->get();
-
+                ->get()
+                ->map(function ($commute) {
+                    // Decode photo array if it's stored as JSON string
+                    $photos = is_string($commute->photo) ? json_decode($commute->photo, true) : $commute->photo;
+    
+                    // Assign first photo or null, and prepend base URL
+                    $commute->photo = isset($photos[0])
+                        ? 'http://temple.mandirparikrama.com/' . ltrim($photos[0], '/')
+                        : null;
+    
+                    return $commute;
+                });
+    
             return response()->json([
                 'status' => true,
                 'message' => 'Commute list fetched successfully.',
                 'data' => $commutes
             ], 200);
-
+    
         } catch (\Exception $e) {
             Log::error('Error fetching commute list: ' . $e->getMessage());
-
+    
             return response()->json([
                 'status' => false,
                 'message' => 'Internal Server Error',
@@ -143,6 +153,7 @@ class QuickServiceController extends Controller
             ], 500);
         }
     }
+    
 
     public function getEmergencyContacts(Request $request)
     {
