@@ -1,7 +1,6 @@
 @extends('website.web-layouts')
 
 @section('content')
-
     <section class="banner-sections">
         <!-- Video Banner -->
         @if ($latestWebVideo && $latestWebVideo->banner_video)
@@ -91,30 +90,7 @@
         </div>
 
         <div class="mandir-content">
-            <!-- TV Section -->
-            <div class="mandir-card">
-                <div class="card-content">
-                    <a href="{{ route('tv.layout') }}">
-                        <div class="card-icon">
-                            <img src="{{ asset('website/tv.png') }}" style="height: 60px;width: 65px"
-                                alt="Shree Jagannatha Dham">
-                            <h3 style="color: #db4d30">TV</h3>
-                        </div>
-                    </a>
-                    <p class="para">Watch all the live broadcasts from Shree Mandira</p>
-                    <p style="margin-top: 10px">🕒 03:17 pm</p>
-                    <p style="margin-top: 10px">📅 4th Mar</p>
-                </div>
-                <a href="{{ route('tv.layout') }}">
-                    <div class="video-container">
-                        <img src="{{ asset('website/60.png') }}" style="height: 250px;width: 400px;border-radius: 10px"
-                            alt="Shree Jagannatha Dham">
-                    </div>
-                </a>
 
-            </div>
-
-            <!-- Radio Section -->
             <div class="radio-card">
                 <div class="card-content">
                     <a href="{{ route('radio.layout') }}">
@@ -124,9 +100,9 @@
                             <h3 style="color: #db4d30">Radio</h3>
                         </div>
                     </a>
-                    <p class="paras">Listen all the live broadcasts from Shree Mandira</p>
-                    <p style="margin-top: 10px">🕒 03:17 pm</p>
-                    <p style="margin-top: 10px">📅 4th Mar</p>
+                    <p class="paras">Listen to all the live broadcasts from Shree Mandira</p>
+                    <p style="margin-top: 10px">🕒 12:00 pm</p>
+                    <p style="margin-top: 10px">📅 4th Apr</p>
                 </div>
                 <div class="radio-player">
                     <div class="radio-header">Jay Jagannath</div>
@@ -152,8 +128,8 @@
                         <div class="radio-headers">
                             <h4>Bhajans Name</h4>
                             <div class="radio-icons">
-                                <i class="fas fa-heart"></i>
-                                <i class="fas fa-ellipsis-h"></i>
+                                <i style="color: #ff4e00" class="fas fa-heart"></i>
+                                <i style="color: #ff4e00" class="fas fa-ellipsis-h"></i>
                             </div>
                         </div>
 
@@ -171,6 +147,32 @@
                     </div>
                 </div>
             </div>
+
+            <!-- TV Section -->
+            <div class="mandir-card">
+                <div class="card-content">
+                    <a href="{{ route('tv.layout') }}">
+                        <div class="card-icon">
+                            <img src="{{ asset('website/tv.png') }}" style="height: 60px;width: 65px"
+                                alt="Shree Jagannatha Dham">
+                            <h3 style="color: #db4d30">TV</h3>
+                        </div>
+                    </a>
+                    <p class="para">Watch all the live broadcasts from Shree Mandira</p>
+                    <p style="margin-top: 10px">🕒 12:00 pm</p>
+                    <p style="margin-top: 10px">📅 4th Apr</p>
+                </div>
+                <a href="{{ route('tv.layout') }}">
+                    <div class="video-container">
+                        <img src="{{ asset('website/60.png') }}" style="height: 250px;width: 400px;border-radius: 10px"
+                            alt="Shree Jagannatha Dham">
+                    </div>
+                </a>
+
+            </div>
+
+            <!-- Radio Section -->
+
         </div>
     </section>
 
@@ -179,61 +181,68 @@
         <div class="text-center mb-14">
             <div class="flex justify-center items-center gap-4">
                 <img src="{{ asset('website/left.png') }}" alt="Left Decor" class="w-36 h-5 animate-pulse">
-                <h2 class="text-xl font-semibold text-[#db4d30] tracking-wide drop-shadow-md">Quick Services</h2>
+                <h2 class="section-titles">Quick Services</h2>
                 <img src="{{ asset('website/right.png') }}" alt="Right Decor" class="w-36 h-5 animate-pulse">
             </div>
         </div>
-    
+
         <!-- Services Layout -->
         <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
             <!-- Left Featured Card (Fixed height: 450px) -->
-            <div class="p-8 flex flex-col justify-between transition-all duration-500 hover:scale-105 h-[455px]" style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
+            <div class="p-8 flex flex-col justify-between transition-all duration-500 hover:scale-105 h-[455px]"
+                style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
                 <a href="{{ route('darshan.timeline') }}" class="flex flex-col items-center text-center h-full">
-                    <img src="{{ asset('website/1000.jpg') }}" alt="Darshan"
-                         class="mb-2 transition-transform duration-300 hover:rotate-12 p-2  shadow-md" style="width: 400px; height: 170px; border-radius: 25px;">
+                    <img src="{{ asset('website/darshan34.png') }}" alt="Darshan"
+                        class="mb-2 transition-transform duration-300 "
+                        style="width: 170px; height: 250px; border-radius: 25px;">
                     <h3 class="text-2xl font-bold text-[#db4d30] mb-2">Darshan</h3>
-                    <p class="text-gray-700 mb-5 leading-relaxed">Experience the divine Darshan of Lord Jagannath in a seamless and sacred way the divine Darshan of Lord Jagannath in a seamless and sacred way.of Lord Jagannath in a seamless and sacred way. the divine Darshan of Lord Jagannath in a seamless and sacred way the divine Darshan Lord Jagannath in a seamless and sacred way the divine Darshan of Lord Jagannath in a seamless and sacred way.of Lord Jagannath in a seamless </p>
+                    <p class="text-gray-700 mb-5 leading-relaxed">Darshan of Shree Jagannatha Mahaprabhu is available
+                        almost throughout the day i.e. from early in the morning till late night excepting some festive
+                        occasions.
+                        Generally, Temple opens and darshan starts at around 5.30 A.M. After offering of the perpetual lamp
+                        (Mangal Arati), devotees are allowed entry up to Jagamohan (Bhitara Kaatha) of the temple and
+                        darshan from this point is available till completion of “Besha”.
+                    </p>
                 </a>
             </div>
-    
+
             <!-- Right Side - 3 Fixed Cards (150px each) -->
             <div class="flex flex-col gap-6 justify-between h-[450px]">
                 <!-- Maha Prasad -->
-                <div class="bg-white border-l-4 border-[#db4d30]  px-5 py-4 flex items-center gap-5 h-[150px]  hover:translate-x-1 duration-300"  style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
-                    <img src="{{ asset('website/mp.png') }}" alt="Maha Prasad"
-                         class="w-16 h-16">
+                <a href="{{ route('prasad.timeline') }}"
+                    class="bg-white border-l-4 border-[#db4d30]  px-5 py-4 flex items-center gap-5 h-[150px]  hover:translate-x-1 duration-300"
+                    style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
+                    <img src="{{ asset('website/prasad879.png') }}" alt="Maha Prasad" style="height: 70px;width:70px">
                     <div>
                         <h3 class="text-lg font-semibold text-[#db4d30]">Mahaprasad</h3>
                         <p class="text-sm text-gray-600">Savor the sacred offering blessed by the divine presence.</p>
-                        <a href="{{ route('prasad.timeline') }}" class="text-sm text-[#db4d30] hover:underline mt-1 inline-block">Read More</a>
                     </div>
-                </div>
-    
+                </a>
+
                 <!-- Panji -->
-                <div class="bg-white border-l-4 border-[#db4d30] px-5 py-4 flex items-center gap-5 h-[150px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300"  style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
-                    <img src="{{ asset('website/panji765.png') }}" alt="Panji"
-                         class="w-16 h-16">
+                <div class="bg-white border-l-4 border-[#db4d30] px-5 py-4 flex items-center gap-5 h-[150px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300"
+                    style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
+                    <img src="{{ asset('website/panji765.png') }}" alt="Panji" class="w-16 h-16">
                     <div>
                         <h3 class="text-lg font-semibold text-[#db4d30]">Panji</h3>
-                        <p class="text-sm text-gray-600">Explore traditional records and sacred schedules maintained over centuries.</p>
-                        <a href="#" class="text-sm text-[#db4d30] hover:underline mt-1 inline-block">Read More</a>
+                        <p class="text-sm text-gray-600">Explore traditional records and sacred schedules maintained over
+                            centuries.</p>
                     </div>
                 </div>
-    
+
                 <!-- Offering -->
-                <div class="bg-white border-l-4 border-[#db4d30]  px-5 py-4 flex items-center gap-5 h-[150px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300"  style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
-                    <img src="{{ asset('website/offering.png') }}" alt="Offering"
-                         class="w-16 h-16 bg-gradient-to-r from-pink-200 to-red-300 p-2 rounded-full shadow-md">
+                <div class="bg-white border-l-4 border-[#db4d30]  px-5 py-4 flex items-center gap-5 h-[150px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300"
+                    style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
+                    <img src="{{ asset('website/ofr.png') }}" alt="Offering" class="w-16 h-16 ">
                     <div>
                         <h3 class="text-lg font-semibold text-[#db4d30]">Offering</h3>
                         <p class="text-sm text-gray-600">Make your humble offerings to the Lord with ease and devotion.</p>
-                        <a href="#" class="text-sm text-[#db4d30] hover:underline mt-1 inline-block">Read More</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
+
     <section class="services-sections">
 
         <!-- Bhakta Nibas -->
@@ -243,14 +252,16 @@
                     <div class="card-title">Bhakta Nibas</div>
                     <div class="card-desc">Temple owned <br>properties for<br>pilgrim stay</div>
                 </div>
-                <div class="arrow-icon" style="font-size: 30px;"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="arrow-icon" style="font-size: 25px;"><i class="fa-solid fa-arrow-right"
+                        style="color: #e9372b;"></i></div>
             </div>
             <div class="card-bottom">
-                <div class="card-icons" ><img src="{{ asset('website/niwas.png') }}" alt="Maha Prasad" style="height: 40px; width: 40px;"></div>
+                <div class="card-icons"><img src="{{ asset('website/niwas.png') }}" alt="Maha Prasad"
+                        style="height: 40px; width: 40px;"></div>
                 <div class="footer-bar bar-orange"></div>
             </div>
         </a>
-    
+
         <!-- Parking Areas -->
         <a href="{{ route('parking.list') }}" class="service-cards" style="text-decoration: none;">
             <div class="card-top">
@@ -258,17 +269,20 @@
                     <div class="card-title">Parking Areas</div>
                     <div class="card-desc">2, 3, 4 Wheelers</div>
                 </div>
-                <div class="arrow-icon" style="font-size: 20px;">➡️</div>
+                <div class="arrow-icon" style="font-size: 25px;"><i class="fa-solid fa-arrow-right"
+                        style="color: #e9372b;"></i></div>
             </div>
             <div class="card-bottom">
-                <div style="margin-right:5%; height: 50px; width: 50px; margin-bottom: 25px; display: flex; align-items: center; justify-content: center;">
-                    <span style="color: white; font-size: 40px;"><img src="{{ asset('website/park.png') }}" alt="Maha Prasad" style="height: 40px; width: 40px;"></span>
+                <div
+                    style="margin-right:5%; height: 50px; width: 50px; margin-bottom: 25px; display: flex; align-items: center; justify-content: center;">
+                    <span style="color: white; font-size: 40px;"><img src="{{ asset('website/park.png') }}"
+                            alt="Maha Prasad" style="height: 40px; width: 40px;"></span>
                 </div>
                 <div class="footer-bar bar-red"></div>
             </div>
-            
+
         </a>
-    
+
         <!-- Locker & Shoes -->
         <a href="{{ route('lockershoe.list') }}" class="service-cards" style="text-decoration: none;">
             <div class="card-top">
@@ -276,47 +290,55 @@
                     <div class="card-title">Locker & Shoes Stands</div>
                     <div class="card-desc">Shoes, Mobile <br>Phones etc</div>
                 </div>
-                <div class="arrow-icon" style="font-size: 20px;">➡️</div>
+                <div class="arrow-icon" style="font-size: 25px;"><i class="fa-solid fa-arrow-right"
+                        style="color: #e9372b;"></i></div>
             </div>
             <div class="card-bottom">
-                <div class="card-icons" style="font-size: 40px; color: #6577e6;"><img src="{{ asset('website/lck.png') }}" alt="Maha Prasad" style="height: 40px; width: 40px;"></div>
+                <div class="card-icons" style="font-size: 40px; color: #6577e6;"><img
+                        src="{{ asset('website/lck.png') }}" alt="Maha Prasad" style="height: 40px; width: 40px;"></div>
                 <div class="footer-bar bar-blue"></div>
             </div>
         </a>
-    
+
         <!-- Online Donations -->
         <div class="service-cards">
             <div class="card-top">
                 <div class="card-text">
                     <div class="card-title">Online Donations</div>
-                    <div class="card-desc" style="color:#22c5ee; font-weight: 500;">Donate Now</div>
+                    <div class="card-desc" style="font-weight: 500;">Donate Now</div>
                 </div>
-                <div class="arrow-icon" style="font-size: 20px;">➡️</div>
+                <div class="arrow-icon" style="font-size: 25px;"><i class="fa-solid fa-arrow-right"
+                        style="color: #e9372b;"></i></div>
             </div>
             <div class="card-bottom">
-                <div class="card-icons" style="font-size: 40px; color: #22c5ee;"><img src="{{ asset('website/donation.png') }}" alt="Maha Prasad" style="height: 40px; width: 40px;"></div>
+                <div class="card-icons" style="font-size: 40px; color: #22c5ee;"><img
+                        src="{{ asset('website/donation.png') }}" alt="Maha Prasad" style="height: 40px; width: 40px;">
+                </div>
                 <div class="footer-bar bar-cyan"></div>
             </div>
         </div>
-    
+
         <!-- Hundi Collection -->
         <div class="service-cards">
             <div class="card-top">
                 <div class="card-text">
                     <div class="card-title">Hundi Collection</div>
                     <div class="card-desc">
-                        20th Mar, 25<br />
-                        <span style="color:#e75230; font-weight:600;">₹5,30,000/-</span>
+                        3rd Apr, 2025<br />
+                        <span style="color:#e75230; font-weight:600;">₹4,67,973/-</span>
                     </div>
                 </div>
-                <div class="arrow-icon" style="font-size: 20px;">➡️</div>
+                <div class="arrow-icon" style="font-size: 25px;margin-left: 20px"><i class="fa-solid fa-arrow-right"
+                        style="color: #e9372b;"></i></div>
             </div>
             <div class="card-bottom">
-                <div class="card-icons" style="font-size: 40px; color: #6bbf84;"><img src="{{ asset('website/hundic.png') }}" alt="Maha Prasad" style="height: 40px; width: 40px;"></div>
+                <div class="card-icons" style="font-size: 40px; color: #6bbf84;"><img
+                        src="{{ asset('website/hundic.png') }}" alt="Maha Prasad" style="height: 40px; width: 40px;">
+                </div>
                 <div class="footer-bar bar-green"></div>
             </div>
         </div>
-    
+
     </section>
 
     <section class="temple-slider bg-white  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
@@ -361,14 +383,14 @@
         <div class="convenience-container">
             <div class="conv">
                 <div class="convenience-item active">
-                    <i class="fas fa-tint"></i>
+                    <img src="{{ asset('website/wtr.png') }}" alt="Shree Jagannatha Dham">
                 </div>
                 <p>Water</p>
             </div>
 
             <div class="conv">
                 <div class="convenience-item">
-                    <i class="fas fa-phone-alt"></i>
+                    <img src="{{ asset('website/ph.png') }}" alt="Shree Jagannatha Dham">
                 </div>
                 <p>Emergency</p>
             </div>
@@ -382,8 +404,8 @@
 
             <div class="conv">
                 <div class="convenience-item">
-                    <i class="fas fa-map-marked-alt"></i>
-                </div>
+                    <img src="{{ asset('website/map.png') }}" alt="Shree Jagannatha Dham">    
+                            </div>
                 <p>Route Map</p>
             </div>
 
@@ -396,21 +418,21 @@
 
             <div class="conv">
                 <div class="convenience-item">
-                    <i class="fas fa-search"></i>
+                    <img src="{{ asset('website/lost.png') }}" alt="Shree Jagannatha Dham">    
                 </div>
                 <p>Lost & Found</p>
             </div>
 
             <div class="conv">
                 <div class="convenience-item">
-                    <i class="fas fa-toilet"></i>
+                    <img src="{{ asset('website/latin.png') }}" alt="Shree Jagannatha Dham">    
                 </div>
                 <p>Toilet</p>
             </div>
 
             <div class="conv">
                 <div class="convenience-item">
-                    <i class="fas fa-umbrella-beach"></i>
+                    <img src="{{ asset('website/sea.png') }}" alt="Shree Jagannatha Dham">    
                 </div>
                 <p>Beaches</p>
             </div>
@@ -450,6 +472,82 @@
                 <div class="bg-white p-6 rounded-xl border border-yellow-300">
                     <h3 class="text-md font-semibold text-red-500 mb-2">Select date</h3>
                     <div id="calendar"></div>
+
+
+                    <!-- Today Occasion Header -->
+                    <div class="flex justify-center items-center gap-5 mt-12">
+                        <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-25 h-4">
+                        <h2 class="text-md text-[#db4d30] font-bold font-sans tracking-wide uppercase">Today Occasion</h2>
+                        <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-25 h-4">
+                    </div>
+
+                    <!-- Today Occasion List -->
+                    <div class="mt-6 space-y-4 font-[Inter,sans-serif] text-sm md:text-base">
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-spa text-green-600 mt-1 w-5 h-5"></i>
+                            <p class="text-gray-800">Gruha Devi & Basantika Mrunmayee Devi nka Saptami Puja Arambha</p>
+                        </div>
+                        
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-fire text-red-500 mt-1 w-5 h-5"></i>
+                            <p class="text-gray-800">Pithe Astami Puja</p>
+                        </div>
+                        
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-clock text-blue-600 mt-1 w-5 h-5"></i>
+                            <p class="text-gray-800">Tithi: 4th Apr Friday, Chaitra, Mina day 22</p>
+                        </div>
+                        
+
+                        <hr class="border-dashed border-gray-300 my-4">
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
+                            <div class="flex items-start gap-2">
+                                <i class="fas fa-sun text-orange-400 w-5 h-5 mt-1"></i>
+                                <p class="text-gray-800">Sunrise: <span class="font-medium">05:38 AM</span></p>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <i class="fas fa-moon text-indigo-500 w-5 h-5 mt-1"></i>
+                                <p class="text-gray-800">Moonrise: <span class="font-medium">10:26 AM</span></p>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <i class="fas fa-sun text-red-500 w-5 h-5 mt-1"></i>
+                                <p class="text-gray-800">Sunset: <span class="font-medium">06:02 PM</span></p>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <i class="fas fa-moon text-blue-600 w-5 h-5 mt-1"></i>
+                                <p class="text-gray-800">Moonset: <span class="font-medium">12:30 AM, Apr 05</span></p>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <i class="fas fa-calendar-week text-teal-600 w-5 h-5 mt-1"></i>
+                                <p class="text-gray-800">Weekday: <span class="font-medium">Shukrawara</span></p>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <i class="fas fa-adjust text-yellow-500 w-5 h-5 mt-1"></i>
+                                <p class="text-gray-800">Paksha: <span class="font-medium">Shukla Paksha</span></p>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <i class="fas fa-star text-purple-600 w-5 h-5 mt-1"></i>
+                                <p class="text-gray-800">Tithi: <span class="font-medium">Saptami upto 08:12 PM</span></p>
+                            </div>
+                           
+                            <div class="flex items-start gap-2">
+                                <i class="fas fa-smile text-green-600 w-5 h-5 mt-1"></i>
+                                <p class="text-gray-800">Yoga: <span class="font-medium">Shobhana upto 09:45 PM</span></p>
+                            </div>
+                            
+                            <div class="flex items-start gap-2">
+                                <i class="fas fa-sun-plant-wilt text-yellow-500 w-5 h-5 mt-1"></i>
+                                <p class="text-gray-800">Sunsign: <span class="font-medium">Meena</span></p>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <i class="fas fa-moon-stars text-indigo-600 w-5 h-5 mt-1"></i>
+                                <p class="text-gray-800">Moonsign: <span class="font-medium">Mithuna</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
 
 
@@ -461,48 +559,12 @@
                         </p>
                         <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-28 h-5">
                     </div>
-                    <div id="events" class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
-                        <!-- Event Cards -->
-                        <div class="bg-100 p-3 rounded-lg text-center hover:shadow-xl transition">
-                            <img src="website/6.png" class="mx-auto w-12 h-12">
-                            <p class="text-600 font-semibold">Sankranti</p>
-                        </div>
-                        <div class="bg-100 p-3 rounded-lg text-center hover:shadow-xl transition">
-                            <img src="website/6.png" class="mx-auto w-12 h-12">
-                            <p class="text-600 font-semibold">Amavasya</p>
-                        </div>
-                        <div class="bg-100 p-3 rounded-lg text-center hover:shadow-xl transition">
-                            <img src="website/6.png" class="mx-auto w-12 h-12">
-                            <p class="text-600 font-semibold">Pournami</p>
-                        </div>
-                        <div class="bg-100 p-3 rounded-lg text-center hover:shadow-xl transition">
-                            <img src="website/6.png" class="mx-auto w-12 h-12">
-                            <p class="text-600 font-semibold">Sankranti</p>
-                        </div>
-                        <div class="bg-100 p-3 rounded-lg text-center hover:shadow-xl transition">
-                            <img src="website/6.png" class="mx-auto w-12 h-12">
-                            <p class="text-600 font-semibold">Amavasya</p>
-                        </div>
-                        <div class="bg-100 p-3 rounded-lg text-center hover:shadow-xl transition">
-                            <img src="{{ asset('website/6.png') }}" class="mx-auto w-12 h-12">
-                            <p class="text-600 font-semibold">Pournami</p>
-                        </div>
-
-                        <div class="bg-100 p-3 rounded-lg text-center hover:shadow-xl transition">
-                            <img src="website/6.png" class="mx-auto w-12 h-12">
-                            <p class="text-600 font-semibold">Sankranti</p>
-                        </div>
-                        <div class="bg-100 p-3 rounded-lg text-center hover:shadow-xl transition">
-                            <img src="website/6.png" class="mx-auto w-12 h-12">
-                            <p class="text-600 font-semibold">Amavasya</p>
-                        </div>
-                        <div class="bg-100 p-3 rounded-lg text-center hover:shadow-xl transition">
-                            <img src="{{ asset('website/6.png') }}" class="mx-auto w-12 h-12">
-                            <p class="text-600 font-semibold">Pournami</p>
-                        </div>
+                    <div id="events">
+                        <img src="{{ asset('website/astami.png') }}">
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </section>
 
@@ -520,38 +582,42 @@
         <div class="flex justify-center items-center gap-6 mt-5 mb-12">
             <div id="navContainer" class="flex gap-5 overflow-x-auto no-scrollbar">
                 <div class="tab-item text-center min-w-[100px] cursor-pointer active-tab" data-tab="aboutTemple">
-                    <img src="{{ asset('website/6.png') }}" class="mx-auto w-10 h-10">
+                    <img src="{{ asset('website/inf1.png') }}" class="mx-auto w-20 h-20" style="border-radius: 50%">
                     <p class="text-red-600 font-semibold mt-3">About Temple</p>
                     <div class="h-1 bg-red-500 w-full mt-1"></div>
                 </div>
 
-                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="mathaAshram">
-                    <img src="{{ asset('website/6.png') }}" class="mx-auto w-10 h-10">
-                    <p class="text-gray-500 mt-3">Matha & Ashram</p>
-                </div>
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="shreeKhetra">
-                    <img src="website/6.png" class="mx-auto w-10 h-10">
+                    <img src="{{ asset('website/sankha.png') }}"  style="border-radius: 50%;height: 80px;width: 120px">
                     <p class="text-gray-500 mt-3">Shree Khetra</p>
                 </div>
-                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="festivals">
-                    <img src="website/6.png" class="mx-auto w-10 h-10">
-                    <p class="text-gray-500 mt-3">Festivals</p>
-                </div>
+
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="nijoga">
-                    <img src="website/6.png" class="mx-auto w-10 h-10">
+                    <img src="{{ asset('website/nijoga.png') }}"  style="border-radius: 50%;height: 80px;width: 80px">
                     <p class="text-gray-500 mt-3">36 Nijoga</p>
                 </div>
+
+                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="festivals">
+                    <img src="{{ asset('website/dipa.png') }}"  style="border-radius: 50%;height: 80px;width: 80px">
+                    <p class="text-gray-500 mt-3">Festivals</p>
+                </div>
+               
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="besha">
-                    <img src="website/6.png" class="mx-auto w-10 h-10">
+                    <img src="{{ asset('website/besha1.png') }}"  style="border-radius: 50%;height: 80px;width: 80px">
                     <p class="text-gray-500 mt-3">Besha</p>
                 </div>
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="darshan">
-                    <img src="website/6.png" class="mx-auto w-10 h-10">
-                    <p class="text-gray-500 mt-3">Darshan Facility</p>
+                    <img src="{{ asset('website/darshan34.png') }}"  style="border-radius: 50%;height: 80px;width: 80px">
+                    <p class="text-gray-500 mt-3">Darshan</p>
                 </div>
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="prasad">
-                    <img src="website/6.png" class="mx-auto w-10 h-10">
+                    <img src="{{ asset('website/mp.png') }}"  style="border-radius: 50%;height: 80px;width: 80px">
                     <p class="text-gray-500 mt-3">Maha Prasad</p>
+                </div>
+
+                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="mathaAshram">
+                    <img src="{{ asset('website/ashram.png') }}"  style="border-radius: 50%;height: 80px;width: 80px">
+                    <p class="text-gray-500 mt-3">Matha & Ashram</p>
                 </div>
             </div>
         </div>
@@ -587,7 +653,8 @@
         </div>
     </section>
 
-    <section class="bg-100 p-2 relative bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100" style="margin-top: 50px">
+    <section class="bg-100 p-2 relative bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100"
+        style="margin-top: 50px">
         <div class="max-w-6xl mx-auto text-center relative">
             <!-- Tabs -->
             <div class="absolute top-14 right-0 flex space-x-3 p-3 rounded-lg">
@@ -595,19 +662,17 @@
                 <button class="tab-buttons" onclick="showContent('india', this)">India</button>
                 <button class="tab-buttons" onclick="showContent('odisha', this)">Odisha</button>
             </div>
-    
+
             <!-- Title -->
             <div class="flex justify-center items-center gap-5 mt-12">
                 <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
                 <h2 class="text-2xl text-[#db4d30] flex items-center font-sans">Jagannatha Temples Worldwide</h2>
                 <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
             </div>
-    
-           <!-- Image -->
+
+            <!-- Image -->
             <div class="dynamic-image mt-10 flex justify-center">
-                <img id="dynamicImage"
-                    src="{{ asset('website/18.png') }}"
-                    alt="Jagannatha Temples Worldwide"
+                <img id="dynamicImage" src="{{ asset('website/18.png') }}" alt="Jagannatha Temples Worldwide"
                     class="w-[600px] h-[800px] object-contain rounded-xl shadow-md" />
             </div>
 
@@ -617,5 +682,4 @@
             © {{ date('Y') }} Temple Management System. All rights reserved.
         </div>
     </section>
-
 @endsection

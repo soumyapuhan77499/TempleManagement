@@ -81,7 +81,7 @@
     @yield('content')
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    
+
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Jquery JS -->
@@ -247,7 +247,7 @@
             shreeKhetra: {
                 title: "Shree Khetra",
                 subtitle: "The Holy Land of Lord Jagannath",
-                description: "Shree Khetra, also known as Puri, is one of the most important pilgrimage sites in India...",
+                description: "Shree Kshetra, also known as Puri, is one of the holiest pilgrimage sites in India and one of the sacred Char Dham (four divine abodes) established by Adi Shankaracharya. It is the eternal home of Lord Jagannath, the Lord of the Universe, along with his siblings Balabhadra and Subhadra.",
                 image: "website/11.jpg"
             },
 
@@ -255,14 +255,14 @@
                 title: "Matha & Ashram",
                 subtitle: @json($matha->matha_name ?? 'No matha info'),
                 description: @json($matha->description ?? 'No description available'),
-                image: "{{ asset($matha->photo ?? 'website/100.jpeg') }}"
+                image: "website/ashram.png"
             },
 
             festivals: {
                 title: "Festivals",
                 subtitle: @json($festival->festival_name ?? 'No festivals'),
                 description: @json($festival->description ?? 'No description available'),
-                image: "{{ asset($festival->photo ?? 'website/festivals.jpg') }}"
+                image: "website/11.jpg"
             },
 
             nijoga: {
@@ -275,13 +275,13 @@
                 title: "Besha",
                 subtitle: @json($besha->besha_name ?? 'No besha available'),
                 description: @json($besha->description ?? 'No description available'),
-                image: "{{ asset($besha->photos ?? 'website/6.png') }}"
+                image: "website/besha.jpg"
             },
             darshan: {
                 title: "Darshan Facility",
                 subtitle: @json($darshan->darshan_name ?? 'No darshan info'),
                 description: @json($darshan->description ?? 'No description available'),
-                image: "{{ asset($darshan->darshan_image ?? 'website/darshan.jpg') }}"
+                image: "website/dsn.png"
             },
             prasad: {
                 title: "Maha Prasad",

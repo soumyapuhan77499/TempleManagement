@@ -233,7 +233,7 @@ p {
 }
 
 .radio-header {
-    background: #1e1e2d;
+    background: linear-gradient(to right, #ff4e00, #ff9800);
     color: white;
     padding: 23px;
     font-size: 20px;
@@ -309,6 +309,7 @@ p {
     padding: 15px;
     font-size: 14px;
     color: #131313;
+
     background-color: #f5f5f5;
     border: 2px solid rgb(224, 224, 224);
 
@@ -324,6 +325,8 @@ p {
 .radio-nav i {
     font-size: 18px;
     margin-bottom: 5px;
+    color: #ff4e00;
+
 }
 
 .radio-nav .active {
