@@ -67,7 +67,7 @@ class TempleNearByTempleController extends Controller
         NearByTemple::create([
             'temple_id' => Auth::guard('temples')->user()->temple_id,
             'place_type' => $request->place_type,
-            'temple_name' => $request->name,
+            'name' => $request->name,
             'photo' => json_encode($photoPaths),
             'cover_photo' => $coverPhotoPath,
             'google_map_link' => $request->google_map_link,

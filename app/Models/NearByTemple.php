@@ -13,8 +13,10 @@ class NearByTemple extends Model
 
     protected $fillable = [
       'temple_id',
-      'temple_name',
-      'photo', // Multiple photos stored as JSON
+      'name',
+      'cover_photo',
+      'place_type',
+      'photo',
       'google_map_link',
       'type',
       'estd_date',
