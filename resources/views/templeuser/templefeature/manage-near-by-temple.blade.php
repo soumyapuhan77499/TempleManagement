@@ -35,6 +35,7 @@
                             <thead>
                                 <tr>
                                     <th>SlNo</th>
+                                    <th>Place Type</th>
                                     <th>Name</th>
                                     <th>Photo</th>
                                     <th>Map Link</th>
@@ -54,8 +55,8 @@
                                 @foreach ($nearbytemples as $index => $nearbytemple)
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
-                                        <td>{{ $nearbytemple->temple_name }}</td>
-
+                                        <td>{{ $nearbytemple->place_type }}</td>
+                                        <td>{{ $nearbytemple->name }}</td>
                                         {{-- Display multiple photos correctly --}}
                                         <td>
                                             @if ($nearbytemple->photo)

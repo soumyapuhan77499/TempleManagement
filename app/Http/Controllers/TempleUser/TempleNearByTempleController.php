@@ -88,7 +88,7 @@ class TempleNearByTempleController extends Controller
             'state' => $request->state,
             'country' => $request->country,
         ]);
-
+ 
         return redirect()->back()->with('success', 'Nearby temple added successfully.');
     } catch (\Exception $e) {
         Log::error('Error saving nearby temple: ' . $e->getMessage());
@@ -129,6 +129,8 @@ public function deletNearByTemple($id)
         return redirect()->back()->with('error', 'Something went wrong! ' . $e->getMessage());
     }
 }
+
+
 public function updateNearByTemple(Request $request, $id)
 {
     try {
@@ -164,7 +166,7 @@ public function updateNearByTemple(Request $request, $id)
 
         // Update temple data
         $temple->update([
-            'temple_name' => $request->temple_name,
+            'name' => $request->name,
             'google_map_link' => $request->google_map_link,
             'estd_date' => $request->estd_date,
             'estd_by' => $request->estd_by,

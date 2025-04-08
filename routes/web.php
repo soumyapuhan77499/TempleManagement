@@ -284,6 +284,7 @@ Route::prefix('templeuser')->middleware('templeauth')->group(function () {
 
     Route::controller(TempleDarshanController::class)->group(function() {
         Route::get('/add-temple-darshan', 'templeDarshan')->name('add-templedarshan');
+        Route::get('/everyday-darshan', 'everydayDarshan')->name('templeuser.everydaydarshan');
         Route::get('/manage-temple-darshan', 'ManageTempleDarshan')->name('manage-templedarshan');
         Route::post('/savetempledarshan','saveTempleDarshan')->name('templeuser.savetempledarshan');
         Route::post('/update-darshan', 'updateTempleDarshan')->name('templeuser.updateDarshan');

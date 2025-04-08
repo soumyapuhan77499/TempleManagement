@@ -182,4 +182,9 @@ public function deleteTempleDarshan($id)
     }
 }
 
+public function everydayDarshan()
+{
+
+}
+
 }
