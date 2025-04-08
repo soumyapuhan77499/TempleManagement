@@ -10,7 +10,7 @@ use App\Models\StateList;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-    
+   
 class TempleNearByTempleController extends Controller
 {
     public function addNearByTemple()
@@ -19,71 +19,83 @@ class TempleNearByTempleController extends Controller
     }
 
     public function saveNearByTemple(Request $request)
-    {
-        try {
-            // Validation
-            $validator = Validator::make($request->all(), [
-                'temple_name' => 'required|string|max:255',
-                'photo.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Allow multiple photos
-                'google_map_link' => 'nullable|url',
-                'estd_date' => 'nullable|date',
-                'estd_by' => 'nullable|string|max:255',
-                'committee_name' => 'nullable|string|max:255',
-                'whatsapp_no' => 'nullable|digits_between:10,15',
-                'email' => 'nullable|email|max:255',
-                'priest_name' => 'nullable|string|max:255',
-                'priest_contact_no' => 'nullable|digits_between:10,15',
-                'description' => 'nullable|string',
-                'landmark' => 'nullable|string|max:255',
-                'pincode' => 'nullable|digits:6', // Indian Pincode is 6 digits
-                'city_village' => 'nullable|string|max:255',
-            ]);
-    
-            if ($validator->fails()) {
-                return redirect()->back()->withErrors($validator)->withInput();
-            }
-    
-            // Handle multiple photo uploads
-            $photoPaths = [];
-            if ($request->hasFile('photo')) {
-                foreach ($request->file('photo') as $file) {
-                    $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                    $file->move(public_path('assets/uploads/temple_photo'), $filename);
-                    $photoPaths[] = 'assets/uploads/temple_photo/' . $filename;
-                }
-            }
-    
-            // Save Data
-            $temple = NearByTemple::create([
-                'temple_id' => Auth::guard('temples')->user()->temple_id,
-                'temple_name' => $request->temple_name,
-                'photo' => json_encode($photoPaths), // Store multiple photos as JSON
-                'google_map_link' => $request->google_map_link,
-                'type' => $request->area_type,
-                'estd_date' => $request->estd_date,
-                'estd_by' => $request->estd_by,
-                'committee_name' => $request->committee_name,
-                'contact_no' => $request->contact_no,
-                'whatsapp_no' => $request->whatsapp_no,
-                'email' => $request->email,
-                'priest_name' => $request->priest_name,
-                'priest_contact_no' => $request->priest_contact_no,
-                'description' => $request->description,
-                'landmark' => $request->landmark,
-                'pincode' => $request->pincode,
-                'city_village' => $request->city_village,
-                'district' => $request->district,
-                'state' => $request->state,
-                'country' => $request->country,
-            ]);
-    
-            return redirect()->back()->with('success', 'Nearby temple added successfully.');
-    
-        } catch (\Exception $e) {
-            Log::error('Error saving nearby temple: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Something went wrong! Please try again.');
+{
+    try {
+        // Step 1: Validate Request
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'photo.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'google_map_link' => 'nullable|url',
+            'estd_date' => 'nullable|date',
+            'estd_by' => 'nullable|string|max:255',
+            'committee_name' => 'nullable|string|max:255',
+            'contact_no' => 'required|digits_between:10,15',
+            'whatsapp_no' => 'nullable|digits_between:10,15',
+            'email' => 'nullable|email|max:255',
+            'priest_name' => 'nullable|string|max:255',
+            'priest_contact_no' => 'nullable|digits_between:10,15',
+            'description' => 'nullable|string',
+            'landmark' => 'nullable|string|max:255',
+            'pincode' => 'nullable|digits:6',
+            'city_village' => 'nullable|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
         }
+
+        // Step 2: Handle Cover Photo Upload
+        $coverPhotoPath = null;
+        if ($request->hasFile('cover_photo')) {
+            $coverPhoto = $request->file('cover_photo');
+            $coverFilename = time() . '_cover_' . uniqid() . '.' . $coverPhoto->getClientOriginalExtension();
+            $coverPhoto->move(public_path('assets/uploads/temple_photo'), $coverFilename);
+            $coverPhotoPath = url('assets/uploads/temple_photo/' . $coverFilename); // Full URL
+        }
+
+        // Step 3: Handle Multiple Photo Uploads
+        $photoPaths = [];
+        if ($request->hasFile('photo')) {
+            foreach ($request->file('photo') as $file) {
+                $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('assets/uploads/temple_photo'), $filename);
+                $photoPaths[] = url('assets/uploads/temple_photo/' . $filename); // Full URL
+            }
+        }
+
+        // Step 4: Save to DB
+        NearByTemple::create([
+            'temple_id' => Auth::guard('temples')->user()->temple_id,
+            'place_type' => $request->place_type,
+            'temple_name' => $request->name,
+            'photo' => json_encode($photoPaths),
+            'cover_photo' => $coverPhotoPath,
+            'google_map_link' => $request->google_map_link,
+            'type' => $request->area_type,
+            'estd_date' => $request->estd_date,
+            'estd_by' => $request->estd_by,
+            'committee_name' => $request->committee_name,
+            'contact_no' => $request->contact_no,
+            'whatsapp_no' => $request->whatsapp_no,
+            'email' => $request->email,
+            'priest_name' => $request->priest_name,
+            'priest_contact_no' => $request->priest_contact_no,
+            'description' => $request->description,
+            'landmark' => $request->landmark,
+            'pincode' => $request->pincode,
+            'city_village' => $request->city_village,
+            'district' => $request->district,
+            'state' => $request->state,
+            'country' => $request->country,
+        ]);
+
+        return redirect()->back()->with('success', 'Nearby temple added successfully.');
+    } catch (\Exception $e) {
+        Log::error('Error saving nearby temple: ' . $e->getMessage());
+        return redirect()->back()->with('error', 'Something went wrong! Please try again.');
     }
+}
+
 
     public function manageNearByTemple(){
 
@@ -94,7 +106,6 @@ class TempleNearByTempleController extends Controller
         return view('templeuser.templefeature.manage-near-by-temple', compact('nearbytemples'));
 
     }
-
     
     public function editNearByTemple($id)
 {

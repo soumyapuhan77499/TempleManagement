@@ -14,11 +14,11 @@
     <!-- breadcrumb -->
     <div class="breadcrumb-header justify-content-between">
         <div class="left-content">
-            <span class="main-content-title mg-b-0 mg-b-lg-1">MANAGE NEAR BY TEMPLE</span>
+            <span class="main-content-title mg-b-0 mg-b-lg-1">MANAGE NEAR BY PLACES</span>
         </div>
         <div class="justify-content-center mt-2">
             <ol class="breadcrumb d-flex justify-content-between align-items-center">
-                <a href="{{ url('templeuser/add-nearbytemple') }}" class="breadcrumb-item tx-15 btn btn-warning">Add Near By Temple</a>
+                <a href="{{ url('templeuser/add-nearbytemple') }}" class="breadcrumb-item tx-15 btn btn-warning">Add Near By Places</a>
                 <li class="breadcrumb-item tx-15"><a href="javascript:void(0);">Dashboard</a></li>
             </ol>
         </div>

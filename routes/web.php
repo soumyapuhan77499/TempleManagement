@@ -363,7 +363,6 @@ Route::prefix('templeuser')->middleware('templeauth')->group(function () {
         Route::delete('/delete-item/{id}', 'deleteitem')->name('templeuser.deleteitem');
 
     });
-
 });
 
 ## temple niti route
@@ -414,7 +413,6 @@ Route::prefix('templeuser')->middleware('templeauth')->group(function () {
         
     });
     
-
 ## super admin Routes
     Route::controller(SuperAdminController::class)->group(function() {
         Route::get('superadmin/', 'superadminlogin')->name('superadminlogin');
@@ -456,7 +454,6 @@ Route::controller(TempleMathaController::class)->group(function() {
     Route::get('templeuser/delete-matha/{id}',  'deletMatha')->name('deleteMatha');
 });
 
-
 Route::controller(TempleNijogaController::class)->group(function() {
     Route::get('templeuser/add-nijoga','addNijoga');
     Route::post('templeuser/save-nijoga', 'saveNijoga')->name('saveNijoga');
@@ -464,7 +461,6 @@ Route::controller(TempleNijogaController::class)->group(function() {
     Route::put('templeuser/update-nijoga/{id}',  'updateNijoga')->name('updateNijoga');
     Route::get('templeuser/delete-nijoga/{id}',  'deleteNijoga')->name('deletNijoga');
 });
-
 
 Route::controller(TempleAccomodationController::class)->group(function() {
     Route::get('templeuser/add-accomodation','addAccomodation');
@@ -475,12 +471,10 @@ Route::controller(TempleAccomodationController::class)->group(function() {
     Route::get('templeuser/delete-accomodation/{id}',  'deleteAccomodation')->name('deleteAccomodation');
 });
 
-
 Route::controller(LocationController::class)->group(function() {
     Route::get('/get-countries',  'getCountries')->name('get.countries');
     Route::get('/get-states/{country_id}', 'getStates');
 });
-
 
 Route::controller(TempleNearByTempleController::class)->group(function() {
     Route::get('templeuser/add-nearbytemple','addNearByTemple');
@@ -490,7 +484,6 @@ Route::controller(TempleNearByTempleController::class)->group(function() {
     Route::put('templeuser/update-nearbytemple/{id}',  'updateNearByTemple')->name('updateNearByTemple');
     Route::get('templeuser/delete-nearbytemple/{id}',  'deleteNearByTemple')->name('deleteNearByTemple');
 });
-
 
 Route::controller(TempleCommuteController::class)->group(function() {
     Route::get('templeuser/add-commute','addCommute');
@@ -508,7 +501,6 @@ Route::controller(TempleEmergencyController::class)->group(function() {
     Route::get('templeuser/delete-emergency/{id}',  'deleteEmergency')->name('deleteEmergency');
 });
 
-
 Route::controller(TemplePublicServiceController::class)->group(function() {
     Route::get('templeuser/add-service','addService');
     Route::post('templeuser/save-service', 'saveService')->name('saveService');
@@ -517,7 +509,6 @@ Route::controller(TemplePublicServiceController::class)->group(function() {
     Route::get('templeuser/delete-service/{id}',  'deleteService')->name('deleteService');
 });
 
-
 Route::controller(TempleLostAndFoundController::class)->group(function() {
     Route::get('templeuser/add-lost-and-found','lostAndFound')->name('lostAndFound');
     Route::post('templeuser/save-lost-and-found','saveLostAndFound')->name('saveLostAndFound');
@@ -525,8 +516,6 @@ Route::controller(TempleLostAndFoundController::class)->group(function() {
     Route::post('templeuser/update-lost-and-found/{id}', 'editLostAndFound')->name('editLostAndFound');
     Route::post('templeuser/delete-lost-and-found/{id}', 'deleteLostAndFound')->name('deleteLostAndFound');
 });
-
-// PURI DHAM WEBSITE ROUTE
 
 Route::controller(HomeSectionController::class)->group(function() {
     Route::get('puri-website', 'puriWebsite')->name('puriWebsite');

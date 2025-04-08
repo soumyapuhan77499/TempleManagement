@@ -239,6 +239,7 @@ Route::controller(TempleInformationController::class)->group(function() {
   Route::get('/get-matha', 'getMathaList')->name('templeinformation.getMatha');
   Route::get('/get-nijoga', 'getNijogaList')->name('templeinformation.getNijoga');
   Route::get('/get-temple-about',  'getTempleAbout')->name('quickservice.getTempleAbout');
+  Route::get('/get-nearby-temples',  'getNearbyTemples')->name('templeinformation.getNearbyTemples');
 });
 
 Route::controller(QuickServiceController::class)->group(function() {
@@ -251,4 +252,3 @@ Route::controller(QuickServiceController::class)->group(function() {
   Route::get('/get-panji', 'getPanji')->name('quickservice.getPanji');
   Route::get('/get-darshan', 'getDarshan')->name('quickservice.getDarshan');
 });
-

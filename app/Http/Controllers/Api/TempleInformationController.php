@@ -6,6 +6,7 @@ use App\Models\TempleFestival;
 use App\Models\Matha;
 use App\Models\NijogaMaster;
 use App\Models\TempleAboutDetail;
+use App\Models\NearByTemple;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -145,6 +146,31 @@ class TempleInformationController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Internal Server Error',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getNearbyTemples()
+    {
+        try {
+
+            $templeId = 'TEMPLE25402';
+
+            $nearbyTemples = NearByTemple::where('status', 'active')
+                ->where('temple_id', $templeId)
+                ->get();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Nearby temples fetched successfully.',
+                'data' => $nearbyTemples
+            ], 200);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Something went wrong.',
                 'error' => $e->getMessage()
             ], 500);
         }
