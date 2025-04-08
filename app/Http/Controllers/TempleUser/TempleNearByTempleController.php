@@ -92,8 +92,11 @@ class TempleNearByTempleController extends Controller
         return redirect()->back()->with('success', 'Nearby temple added successfully.');
     } catch (\Exception $e) {
         Log::error('Error saving nearby temple: ' . $e->getMessage());
-        return redirect()->back()->with('error', 'Something went wrong! Please try again.');
-    }
+    
+        return redirect()
+            ->back()
+            ->withInput()
+            ->with('error', 'Error: ' . $e->getMessage());    }
 }
 
 
