@@ -51,20 +51,20 @@
                             <!-- Start Time -->
                             <div class="col-md-4 mb-3">
                                 <label for="start_time" class="form-label">Start Time</label>
-                                <input type="time" name="start_time" id="start_time" class="form-control" required>
+                                <input type="time" name="start_time" id="start_time" class="form-control">
                             </div>
                     
                             <!-- End Time -->
                             <div class="col-md-4 mb-3">
                                 <label for="end_time" class="form-label">End Time</label>
-                                <input type="time" name="end_time" id="end_time" class="form-control" required>
+                                <input type="time" name="end_time" id="end_time" class="form-control">
                             </div>
                     
                             <!-- Duration -->
                             <div class="col-md-4 mb-3">
                                 <label for="duration" class="form-label">Duration</label>
                                 <input type="text" name="duration" id="duration" class="form-control" placeholder="Auto calculated"
-                                    required readonly>
+                                 readonly>
                             </div>
                     
                             <!-- Description -->

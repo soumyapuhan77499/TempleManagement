@@ -256,4 +256,3 @@ Route::controller(QuickServiceController::class)->group(function() {
   Route::get('/darshan-list','getDarshanListApi');
 
 });
-

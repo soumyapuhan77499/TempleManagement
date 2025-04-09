@@ -14,7 +14,11 @@ class TemplePrasad extends Model
     protected $fillable = [
         'temple_id',
         'prasad_name',
-        'prasad_time',
+        'prasad_type',
+        'start_time',
+        'end_time',
+        'duration',
+        'date',
         'prasad_price',
         'prasad_photo',
         'prasad_item',

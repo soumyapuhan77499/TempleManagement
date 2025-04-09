@@ -26,7 +26,6 @@ class TemplePrasadController extends Controller
     
             $request->validate([
                 'prasad_name'   => 'required|string|max:255',
-                'prasad_time'   => 'required',
                 'prasad_price'  => 'required|numeric',
                 'prasad_item'   => 'required|array|min:1',
                 'description'   => 'nullable|string',
@@ -48,7 +47,11 @@ class TemplePrasadController extends Controller
             $prasad = TemplePrasad::create([
                 'temple_id'     => $templeUser->temple_id,
                 'prasad_name'   => $request->input('prasad_name'),
-                'prasad_time'   => $request->input('prasad_time'),
+                'prasad_type'   => $request->input('prasad_type'),
+                'start_time'   => $request->input('start_time'),
+                'end_time'     => $request->input('end_time'),
+                'duration'     => $request->input('duration'),
+                'date'         => $request->input('date'),
                 'prasad_price'  => $request->input('prasad_price'),
                 'prasad_item'   => $prasadItems,
                 'description'   => $request->input('description'),
@@ -88,8 +91,6 @@ public function update(Request $request, $id)
     // Validate request data
     $request->validate([
         'prasad_name' => 'required|string|max:255',
-        'prasad_time' => 'required',
-        'prasad_price' => 'required|numeric',
         'prasad_item' => 'required|array',
         'prasad_item.*' => 'string|max:255',
         'description' => 'nullable|string',
@@ -111,7 +112,11 @@ public function update(Request $request, $id)
     }
     // Update other fields
     $prasad->prasad_name = $request->prasad_name;
-    $prasad->prasad_time = $request->prasad_time;
+    $prasad->prasad_type = $request->prasad_type;
+    $prasad->date = $request->date;
+    $prasad->start_time = $request->start_time;
+    $prasad->end_time = $request->end_time;
+    $prasad->duration = $request->duration;
     $prasad->prasad_price = $request->prasad_price;
     $prasad->prasad_item = implode(',', $request->prasad_item);
     $prasad->prasad_photo = $photoPath ? $photoPath : $prasad->prasad_photo; // Only update if a new photo is uploaded

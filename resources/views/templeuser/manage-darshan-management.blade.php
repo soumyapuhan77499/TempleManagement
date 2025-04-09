@@ -48,7 +48,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $darshan->darshan_type }}</td>
                                         <td>{{ $darshan->darshan_name }}</td>
-                                        <td>{{ $darshan->darshan_date }}</td>
+                                        <td>{{ $darshan->date }}</td>
                                         <td>{{ $darshan->start_time }}</td>
                                         <td>{{ $darshan->end_time }}</td>
                                         <td>{{ $darshan->duration }}</td>
