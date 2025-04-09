@@ -11,6 +11,7 @@
         </div>
         <div class="justify-content-center mt-2">
             <ol class="breadcrumb">
+                <a href="{{ route('templeuser.ManageDarshanManagement') }}" class="breadcrumb-item tx-15 btn btn-warning">Manage Darshan</a>
                 <li class="breadcrumb-item tx-15"><a href="javascript:void(0);">Dashboard</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Darshan</li>
             </ol>

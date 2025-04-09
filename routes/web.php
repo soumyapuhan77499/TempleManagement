@@ -292,6 +292,8 @@ Route::prefix('templeuser')->middleware('templeauth')->group(function () {
 
         Route::get('/darshan-management', 'darshanManagement')->name('templeuser.darshanManagement');
         Route::post('/save-darshan-management','saveDarshanManagement')->name('templeuser.saveDarshanManagement');
+        Route::get('/manage-darshan-management', 'ManageDarshanManagement')->name('templeuser.ManageDarshanManagement');
+
     });
 
     Route::controller(TempleVendorController::class)->group(function() {

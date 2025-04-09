@@ -84,6 +84,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/manage-darshan', 'ManageTempleDarshan')->name('templedarshan.manage');
         Route::put('/update-darshan', 'updateTempleDarshan')->name('templedarshan.update');
         Route::delete('/delete-darshan/{id}', 'deleteTempleDarshan');
+
+        Route::get('/darshan-list','getDarshanListApi');
+
       });
 
       Route::controller(TempleFestivalController::class)->group(function() {
@@ -250,5 +253,7 @@ Route::controller(QuickServiceController::class)->group(function() {
   Route::get('/get-all-service-list', 'getPublicServiceList')->name('quickservice.getPublicServiceList');
   Route::get('/get-maha-prasad', 'getTemplePrasadList')->name('quickservice.getTemplePrasadList');
   Route::get('/get-panji', 'getPanji')->name('quickservice.getPanji');
-  Route::get('/get-darshan', 'getDarshan')->name('quickservice.getDarshan');
+  Route::get('/darshan-list','getDarshanListApi');
+
 });
+

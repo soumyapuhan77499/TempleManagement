@@ -10,6 +10,8 @@ use App\Models\EmergencyContact;
 use App\Models\TemplePrasad;
 use App\Models\PanjiDetails;
 use App\Models\TempleDarshan;
+use App\Models\TempleDarshanManagement;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -331,5 +333,32 @@ public function getDarshan()
         ], 500);
     }
 }
+
+
+
+public function getDarshanListApi()
+{
+    try {
+        $templeId = 'TEMPLE25402'; // Static temple ID
+
+        $darshans = TempleDarshanManagement::where('status', 'active')
+                        ->where('temple_id', $templeId)
+                        ->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Darshan list fetched successfully',
+            'data' => $darshans,
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to fetch darshan list',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
 
 }

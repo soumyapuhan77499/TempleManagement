@@ -217,4 +217,14 @@ public function saveDarshanManagement(Request $request)
     }
 }
 
+public function ManageDarshanManagement(){
+
+    $templeId = Auth::guard('temples')->user()->temple_id;
+
+    $darshans = TempleDarshanManagement::where('status', 'active')->where('temple_id', $templeId)->get();
+
+    return view('templeuser.manage-darshan-management', compact('darshans'));
+    
+}
+
 }
