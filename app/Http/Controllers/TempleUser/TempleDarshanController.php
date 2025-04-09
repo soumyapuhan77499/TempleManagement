@@ -5,6 +5,7 @@ namespace App\Http\Controllers\TempleUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TempleDarshan;
+use App\Models\TempleDarshanManagement;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
@@ -180,9 +181,40 @@ public function deleteTempleDarshan($id)
     }
 }
 
-public function everydayDarshan()
+public function darshanManagement()
 {
+    return view('templeuser.temple-darshan-management');
+}
 
+public function saveDarshanManagement(Request $request)
+{
+    $request->validate([
+        'darshan_name' => 'required|string|max:255',
+        'darshan_type' => 'required|in:special,normal',
+        'darshan_date' => 'required|date',
+        'start_time' => 'required',
+        'end_time' => 'required',
+        'duration' => 'required|string|max:50',
+    ]);
+
+    $templeId = Auth::guard('temples')->user()->temple_id;
+
+    try {
+        TempleDarshanManagement::create([
+            'temple_id'     => $templeId,
+            'darshan_name'  => $request->darshan_name,
+            'darshan_type'  => $request->darshan_type,
+            'date'          => $request->darshan_date,
+            'start_time'    => $request->start_time,
+            'end_time'      => $request->end_time,
+            'duration'      => $request->duration,
+            'description'   => $request->description,
+        ]);
+
+        return redirect()->back()->with('success', 'Darshan saved successfully!');
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Something went wrong. Please try again.');
+    }
 }
 
 }

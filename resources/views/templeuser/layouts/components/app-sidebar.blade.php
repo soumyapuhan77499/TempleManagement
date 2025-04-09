@@ -279,6 +279,8 @@
 										<li><a class="slide-item" href="{{url('templeuser/manage-service')}}">Manage Services</a></li>
 										<li><a class="slide-item" href="{{route('lostAndFound')}}">Lost And Found</a></li>
 										<li><a class="slide-item" href="{{route('addMainMenu')}}">Menu Management</a></li>
+										<li><a class="slide-item" href="{{route('templeuser.darshanManagement')}}">Darshan Management</a></li>
+
 									</ul>
 								</li>
 							</ul>
