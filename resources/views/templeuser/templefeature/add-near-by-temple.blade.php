@@ -69,9 +69,7 @@
                                 <label for="google_map_link">Google Map Link</label>
                                 <input type="url" class="form-control" id="google_map_link" name="google_map_link">
                             </div>
-
                          
-
                             <div class="col-md-3">
                                 <label for="contact_no">Contact Number</label>
                                 <input type="text" class="form-control" id="contact_no" name="contact_no" required>
@@ -164,16 +162,12 @@
 
                             <div class="col-md-3">
                                 <label for="country">Country</label>
-                                <select class="form-control" id="country" name="country">
-                                    <option value="">Select Country</option>
-                                </select>
+                                <input type="text" class="form-control" id="country" name="country">
                             </div>
 
                             <div class="col-md-3">
                                 <label for="state">State</label>
-                                <select class="form-control" id="state" name="state">
-                                    <option value="">Select State</option>
-                                </select>
+                                <input type="text" class="form-control" id="state" name="state">
                             </div>
 
                             <div class="col-md-12">
@@ -237,7 +231,7 @@
         </script>
     @endif
 
-    <!-- Load JavaScript -->
+    {{-- <!-- Load JavaScript -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Fetch and Populate Country Dropdown
@@ -276,7 +270,7 @@
                 }
             });
         });
-    </script>
+    </script> --}}
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

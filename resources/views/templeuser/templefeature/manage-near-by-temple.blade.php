@@ -146,8 +146,8 @@
                                                             <p><strong>Landmark:</strong> {{ $nearbytemple->landmark }}</p>
                                                             <p><strong>Pincode:</strong> {{ $nearbytemple->pincode }}</p>
                                                             <p><strong>District:</strong> {{ $nearbytemple->district }}</p>
-                                                            <p><strong>State:</strong> {{ $nearbytemple->stateData->name ?? 'N/A' }}</p>
-                                                            <p><strong>Country:</strong> {{ $nearbytemple->stateData->country->name ?? 'N/A' }}</p>
+                                                            <p><strong>State:</strong> {{ $nearbytemple->state ?? 'N/A' }}</p>
+                                                            <p><strong>Country:</strong> {{ $nearbytemple->country ?? 'N/A' }}</p>
                                                             
                                                         </div>
                                                         
