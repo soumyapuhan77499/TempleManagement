@@ -160,8 +160,6 @@ public function updateTempleDarshan(Request $request)
     }
 }
 
-
-
 public function deleteTempleDarshan($id)
 {
     try {

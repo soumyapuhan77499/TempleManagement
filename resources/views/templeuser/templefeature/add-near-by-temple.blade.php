@@ -30,7 +30,7 @@
         <div class="col-lg-12">
             <div class="card custom-card">
                 <div class="card-body">
-                    <form action="{{ route('saveNearByTemple') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('saveNearByTemple') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row g-3">
 
@@ -61,9 +61,16 @@
                             </div>
 
                             <div class="col-md-3">
+                                <label for="map_photo">Photo</label>
+                                <input type="file" class="form-control" id="map_photo" name="map_photo">
+                            </div>
+
+                            <div class="col-md-3">
                                 <label for="google_map_link">Google Map Link</label>
                                 <input type="url" class="form-control" id="google_map_link" name="google_map_link">
                             </div>
+
+                         
 
                             <div class="col-md-3">
                                 <label for="contact_no">Contact Number</label>
@@ -82,6 +89,10 @@
 
                             <!-- Conditionally Displayed Fields -->
                             <div class="temple-matha-fields d-none row g-3">
+
+                                <div class="col-12">
+                                    <h5 class="text-primary">Temple Information</h5>
+                                </div>
 
                                 <div class="col-md-3">
                                     <label for="estd_date">Established Date</label>
@@ -110,12 +121,23 @@
                                 </div>
 
                                 <div class="col-md-3">
+                                    <label for="distance_from_temple">Distance From Main Temple</label>
+                                    <input type="text" class="form-control" id="distance_from_temple"
+                                        name="distance_from_temple">
+                                </div>
+
+                                <div class="col-md-3">
                                     <label for="area_type">Temple Type</label>
                                     <select class="form-control" id="area_type" name="area_type">
                                         <option value="">Select Type</option>
                                         <option value="worldwide">Worldwide</option>
                                         <option value="inside_india">Inside India</option>
                                     </select>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label for="history">Temple History</label>
+                                    <textarea class="form-control" id="history" name="history" rows="2"></textarea>
                                 </div>
                             </div>
 
@@ -178,8 +200,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
 
     @if (session('success'))
         <script>

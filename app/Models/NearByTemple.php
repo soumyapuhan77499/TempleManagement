@@ -9,7 +9,7 @@ class NearByTemple extends Model
 {
     use HasFactory;
     
-    protected $table = 'temple__near_by_temple';
+    protected $table = 'temple__near_by_place';
 
     protected $fillable = [
       'temple_id',
@@ -17,6 +17,7 @@ class NearByTemple extends Model
       'cover_photo',
       'place_type',
       'photo',
+      'map_photo',
       'google_map_link',
       'type',
       'estd_date',
@@ -27,12 +28,14 @@ class NearByTemple extends Model
       'email',
       'priest_name',
       'priest_contact_no',
+      'distance_from_temple',
       'landmark',
       'pincode',
       'city_village',
       'district',
       'state',
       'country',
+      'history',
       'description',
   ];
 
