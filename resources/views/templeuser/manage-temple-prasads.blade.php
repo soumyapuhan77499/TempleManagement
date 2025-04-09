@@ -36,7 +36,11 @@
                                 <tr>
                                     <th>SlNo</th>
                                     <th>Prasad Name</th>
-                                    <th>Time</th>
+                                    <th>Prasad Type</th>
+                                    <th>Date</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                    <th>Duration</th>
                                     <th>Price</th>
                                     <th>Items</th>
                                     <th>Online Order</th>
@@ -51,7 +55,11 @@
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $prasad->prasad_name }}</td>
-                                        <td>{{ $prasad->prasad_time }}</td>
+                                        <td>{{ $prasad->prasad_type }}</td>
+                                        <td>{{ $prasad->date }}</td>
+                                        <td>{{ $prasad->start_time }}</td>
+                                        <td>{{ $prasad->end_time }}</td>
+                                        <td>{{ $prasad->duration }}</td>
                                         <td>₹{{ number_format($prasad->prasad_price, 2) }}</td>
 
                                         <!-- Display prasad items as badges -->
