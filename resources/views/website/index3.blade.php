@@ -206,7 +206,7 @@
                 <!-- Right Column Cards -->
                 <div class="col-md-6 d-flex flex-column justify-content-between" style="height: 455px;">
                     <!-- Maha Prasad -->
-                    <a href="{{ route('prasad.timeline') }}" class="card mb-3 p-3 d-flex flex-row align-items-center border-start border-4 border-danger text-decoration-none text-dark" style="border-radius: 13px; height: 150px;">
+                    <a href="{{ route('prasad.timeline') }}" class="card mb-3 p-3 d-flex flex-row align-items-center border-start border-1 text-decoration-none text-dark" style="border-radius: 13px; height: 150px;">
                         <img src="{{ asset('website/prasad879.png') }}" alt="Maha Prasad" style="width: 70px; height: 70px;" class="me-3">
                         <div>
                             <h5 class="fw-semibold text-danger mb-1">Mahaprasad</h5>
@@ -215,7 +215,7 @@
                     </a>
     
                     <!-- Panji -->
-                    <div class="card mb-3 p-3 d-flex flex-row align-items-center border-start border-4 border-danger" style="border-radius: 13px; height: 150px; transition: all 0.3s;">
+                    <div class="card mb-3 p-3 d-flex flex-row align-items-center border-start border-1" style="border-radius: 13px; height: 150px; transition: all 0.3s;">
                         <img src="{{ asset('website/panji765.png') }}" alt="Panji" style="width: 64px; height: 64px;" class="me-3">
                         <div>
                             <h5 class="fw-semibold text-danger mb-1">Panji</h5>
@@ -224,7 +224,7 @@
                     </div>
     
                     <!-- Offering -->
-                    <div class="card p-3 d-flex flex-row align-items-center border-start border-4 border-danger" style="border-radius: 13px; height: 150px; transition: all 0.3s;">
+                    <div class="card p-3 d-flex flex-row align-items-center border-start border-1" style="border-radius: 13px; height: 150px; transition: all 0.3s;">
                         <img src="{{ asset('website/ofr.png') }}" alt="Offering" style="width: 64px; height: 64px;" class="me-3">
                         <div>
                             <h5 class="fw-semibold text-danger mb-1">Offering</h5>
