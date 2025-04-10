@@ -136,10 +136,9 @@
             },
         });
     </script>
-    
+
     <script src="https://unpkg.com/lucide@latest"></script>
-    
-    
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const calendarContainer = document.getElementById("calendar");
@@ -330,39 +329,39 @@
         }
     </script>
 
-<script>
-    function showContent(tab, element) {
-        // Remove active class from all buttons
-        document.querySelectorAll(".tab-buttons").forEach(button => {
-            button.classList.remove("active-tabs");
-            button.classList.remove("underline-effect");
-        });
+    <script>
+        function showContent(tab, element) {
+            // Remove active class from all buttons
+            document.querySelectorAll(".tab-buttons").forEach(button => {
+                button.classList.remove("active-tabs");
+                button.classList.remove("underline-effect");
+            });
 
-        // Add active class to clicked button
-        element.classList.add("active-tabs");
-        element.classList.add("underline-effect");
+            // Add active class to clicked button
+            element.classList.add("active-tabs");
+            element.classList.add("underline-effect");
 
-        // Update image based on selected tab
-        let imagePath = "";
-        let altText = "";
+            // Update image based on selected tab
+            let imagePath = "";
+            let altText = "";
 
-        if (tab === "worldwide") {
-            imagePath = "{{ asset('website/18.png') }}";
-            altText = "Jagannatha Temples Worldwide";
-        } else if (tab === "india") {
-            imagePath = "{{ asset('website/india.png') }}";
-            altText = "Jagannatha Temples in India";
-        } else if (tab === "odisha") {
-            imagePath = "{{ asset('website/odisha.png') }}"; // You can also switch this to .svg if available
-            altText = "Jagannatha Temples in Odisha";
+            if (tab === "worldwide") {
+                imagePath = "{{ asset('website/18.png') }}";
+                altText = "Jagannatha Temples Worldwide";
+            } else if (tab === "india") {
+                imagePath = "{{ asset('website/india.png') }}";
+                altText = "Jagannatha Temples in India";
+            } else if (tab === "odisha") {
+                imagePath = "{{ asset('website/odisha.png') }}"; // You can also switch this to .svg if available
+                altText = "Jagannatha Temples in Odisha";
+            }
+
+            // Change the image source and alt
+            const imgEl = document.getElementById("dynamicImage");
+            imgEl.src = imagePath;
+            imgEl.alt = altText;
         }
-
-        // Change the image source and alt
-        const imgEl = document.getElementById("dynamicImage");
-        imgEl.src = imagePath;
-        imgEl.alt = altText;
-    }
-</script>
+    </script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
