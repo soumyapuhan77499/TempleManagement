@@ -175,116 +175,171 @@
 
         </div>
     </section>
-<!-- Quick Services Section -->
-<section class="services-section">
-    <div class="section-title">
-        <div class="decorated-title">
-            <img src="{{ asset('website/left.png') }}" alt="Left Decor" class="decor-img">
-            <h2 class="section-titles">Quick Services</h2>
-            <img src="{{ asset('website/right.png') }}" alt="Right Decor" class="decor-img">
-        </div>
-    </div>
 
-    <div class="services-container">
-        <!-- Darshan -->
-        <div class="featured-card">
-            <a href="{{ route('darshan.timeline') }}" class="featured-link">
-                <img src="{{ asset('website/darshan34.png') }}" alt="Darshan" class="featured-img">
-                <h3 class="featured-title">Darshan</h3>
-                <p class="featured-desc">
-                    Darshan of Shree Jagannatha Mahaprabhu is available almost throughout the day from early morning till late night, excluding some festive occasions.
-                    After Mangal Arati around 5.30 A.M., devotees can enter up to Jagamohan and have darshan till completion of “Besha”.
-                </p>
-            </a>
-        </div>
-
-        <!-- Side Cards -->
-        <div class="right-cards">
-            <a href="{{ route('prasad.timeline') }}" class="service-card">
-                <img src="{{ asset('website/prasad879.png') }}" alt="Mahaprasad" class="service-icon">
-                <div>
-                    <h3 class="card-title">Mahaprasad</h3>
-                    <p class="card-desc">Savor the sacred offering blessed by the divine presence.</p>
-                </div>
-            </a>
-
-            <div class="service-card">
-                <img src="{{ asset('website/panji765.png') }}" alt="Panji" class="service-icon">
-                <div>
-                    <h3 class="card-title">Panji</h3>
-                    <p class="card-desc">Explore traditional sacred records and schedules maintained for centuries.</p>
-                </div>
-            </div>
-
-            <div class="service-card">
-                <img src="{{ asset('website/ofr.png') }}" alt="Offering" class="service-icon">
-                <div>
-                    <h3 class="card-title">Offering</h3>
-                    <p class="card-desc">Make your humble offerings to the Lord with devotion.</p>
-                </div>
+    <section class="services-section py-10 ">
+        <!-- Section Title -->
+        <div class="text-center mb-14">
+            <div class="flex justify-center items-center gap-4">
+                <img src="{{ asset('website/left.png') }}" alt="Left Decor" class="w-36 h-5 animate-pulse">
+                <h2 class="section-titles">Quick Services</h2>
+                <img src="{{ asset('website/right.png') }}" alt="Right Decor" class="w-36 h-5 animate-pulse">
             </div>
         </div>
-    </div>
-</section>
 
-<!-- Extended Services Section -->
-<section class="services-extended">
-    @php
-        $services = [
-            [
-                'title' => 'Bhakta Nibas',
-                'desc' => 'Temple owned <br>properties for<br>pilgrim stay',
-                'route' => route('bhaktanibas.list'),
-                'icon' => 'niwas.png',
-                'bar' => 'bar-orange'
-            ],
-            [
-                'title' => 'Parking Areas',
-                'desc' => '2, 3, 4 Wheelers',
-                'route' => route('parking.list'),
-                'icon' => 'park.png',
-                'bar' => 'bar-red'
-            ],
-            [
-                'title' => 'Locker & Shoes Stands',
-                'desc' => 'Shoes, Mobile <br>Phones etc',
-                'route' => route('lockershoe.list'),
-                'icon' => 'lck.png',
-                'bar' => 'bar-blue'
-            ],
-            [
-                'title' => 'Online Donations',
-                'desc' => 'Donate Now',
-                'route' => null,
-                'icon' => 'donation.png',
-                'bar' => 'bar-cyan'
-            ],
-            [
-                'title' => 'Hundi Collection',
-                'desc' => '3rd Apr, 2025<br><span style="color:#e75230; font-weight:600;">₹4,67,973/-</span>',
-                'route' => null,
-                'icon' => 'hundic.png',
-                'bar' => 'bar-green'
-            ],
-        ];
-    @endphp
+        <!-- Services Layout -->
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+            <!-- Left Featured Card (Fixed height: 450px) -->
+            <div class="p-8 flex flex-col justify-between transition-all duration-500 hover:scale-105 h-[455px]"
+                style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
+                <a href="{{ route('darshan.timeline') }}" class="flex flex-col items-center text-center h-full">
+                    <img src="{{ asset('website/darshan34.png') }}" alt="Darshan"
+                        class="mb-2 transition-transform duration-300 "
+                        style="width: 170px; height: 250px; border-radius: 25px;">
+                    <h3 class="text-2xl font-bold text-[#db4d30] mb-2">Darshan</h3>
+                    <p class="text-gray-700 mb-5 leading-relaxed">Darshan of Shree Jagannatha Mahaprabhu is available
+                        almost throughout the day i.e. from early in the morning till late night excepting some festive
+                        occasions.
+                        Generally, Temple opens and darshan starts at around 5.30 A.M. After offering of the perpetual lamp
+                        (Mangal Arati), devotees are allowed entry up to Jagamohan (Bhitara Kaatha) of the temple and
+                        darshan from this point is available till completion of “Besha”.
+                    </p>
+                </a>
+            </div>
 
-    @foreach ($services as $service)
-        <a href="{{ $service['route'] ?? '#' }}" class="service-cards">
+            <!-- Right Side - 3 Fixed Cards (150px each) -->
+            <div class="flex flex-col gap-6 justify-between h-[450px]">
+                <!-- Maha Prasad -->
+                <a href="{{ route('prasad.timeline') }}"
+                    class="bg-white border-l-4 border-[#db4d30]  px-5 py-4 flex items-center gap-5 h-[150px]  hover:translate-x-1 duration-300"
+                    style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
+                    <img src="{{ asset('website/prasad879.png') }}" alt="Maha Prasad" style="height: 70px;width:70px">
+                    <div>
+                        <h3 class="text-lg font-semibold text-[#db4d30]">Mahaprasad</h3>
+                        <p class="text-sm text-gray-600">Savor the sacred offering blessed by the divine presence.</p>
+                    </div>
+                </a>
+
+                <!-- Panji -->
+                <div class="bg-white border-l-4 border-[#db4d30] px-5 py-4 flex items-center gap-5 h-[150px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300"
+                    style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
+                    <img src="{{ asset('website/panji765.png') }}" alt="Panji" class="w-16 h-16">
+                    <div>
+                        <h3 class="text-lg font-semibold text-[#db4d30]">Panji</h3>
+                        <p class="text-sm text-gray-600">Explore traditional records and sacred schedules maintained over
+                            centuries.</p>
+                    </div>
+                </div>
+
+                <!-- Offering -->
+                <div class="bg-white border-l-4 border-[#db4d30]  px-5 py-4 flex items-center gap-5 h-[150px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300"
+                    style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
+                    <img src="{{ asset('website/ofr.png') }}" alt="Offering" class="w-16 h-16 ">
+                    <div>
+                        <h3 class="text-lg font-semibold text-[#db4d30]">Offering</h3>
+                        <p class="text-sm text-gray-600">Make your humble offerings to the Lord with ease and devotion.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services-sections">
+
+        <!-- Bhakta Nibas -->
+        <a href="{{ route('bhaktanibas.list') }}" class="service-cards" style="text-decoration: none;">
             <div class="card-top">
                 <div class="card-text">
-                    <div class="card-title">{{ $service['title'] }}</div>
-                    <div class="card-desc">{!! $service['desc'] !!}</div>
+                    <div class="card-title">Bhakta Nibas</div>
+                    <div class="card-desc">Temple owned <br>properties for<br>pilgrim stay</div>
                 </div>
-                <div class="arrow-icon"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="arrow-icon" style="font-size: 25px;"><i class="fa-solid fa-arrow-right"
+                        style="color: #e9372b;"></i></div>
             </div>
             <div class="card-bottom">
-                <div class="card-icons"><img src="{{ asset('website/' . $service['icon']) }}" alt="{{ $service['title'] }}"></div>
-                <div class="footer-bar {{ $service['bar'] }}"></div>
+                <div class="card-icons"><img src="{{ asset('website/niwas.png') }}" alt="Maha Prasad"
+                        style="height: 40px; width: 40px;"></div>
+                <div class="footer-bar bar-orange"></div>
             </div>
         </a>
-    @endforeach
-</section>
+
+        <!-- Parking Areas -->
+        <a href="{{ route('parking.list') }}" class="service-cards" style="text-decoration: none;">
+            <div class="card-top">
+                <div class="card-text">
+                    <div class="card-title">Parking Areas</div>
+                    <div class="card-desc">2, 3, 4 Wheelers</div>
+                </div>
+                <div class="arrow-icon" style="font-size: 25px;"><i class="fa-solid fa-arrow-right"
+                        style="color: #e9372b;"></i></div>
+            </div>
+            <div class="card-bottom">
+                <div
+                    style="margin-right:5%; height: 50px; width: 50px; margin-bottom: 25px; display: flex; align-items: center; justify-content: center;">
+                    <span style="color: white; font-size: 40px;"><img src="{{ asset('website/park.png') }}"
+                            alt="Maha Prasad" style="height: 40px; width: 40px;"></span>
+                </div>
+                <div class="footer-bar bar-red"></div>
+            </div>
+
+        </a>
+
+        <!-- Locker & Shoes -->
+        <a href="{{ route('lockershoe.list') }}" class="service-cards" style="text-decoration: none;">
+            <div class="card-top">
+                <div class="card-text">
+                    <div class="card-title">Locker & Shoes Stands</div>
+                    <div class="card-desc">Shoes, Mobile <br>Phones etc</div>
+                </div>
+                <div class="arrow-icon" style="font-size: 25px;"><i class="fa-solid fa-arrow-right"
+                        style="color: #e9372b;"></i></div>
+            </div>
+            <div class="card-bottom">
+                <div class="card-icons" style="font-size: 40px; color: #6577e6;"><img
+                        src="{{ asset('website/lck.png') }}" alt="Maha Prasad" style="height: 40px; width: 40px;"></div>
+                <div class="footer-bar bar-blue"></div>
+            </div>
+        </a>
+
+        <!-- Online Donations -->
+        <div class="service-cards">
+            <div class="card-top">
+                <div class="card-text">
+                    <div class="card-title">Online Donations</div>
+                    <div class="card-desc" style="font-weight: 500;">Donate Now</div>
+                </div>
+                <div class="arrow-icon" style="font-size: 25px;"><i class="fa-solid fa-arrow-right"
+                        style="color: #e9372b;"></i></div>
+            </div>
+            <div class="card-bottom">
+                <div class="card-icons" style="font-size: 40px; color: #22c5ee;"><img
+                        src="{{ asset('website/donation.png') }}" alt="Maha Prasad" style="height: 40px; width: 40px;">
+                </div>
+                <div class="footer-bar bar-cyan"></div>
+            </div>
+        </div>
+
+        <!-- Hundi Collection -->
+        <div class="service-cards">
+            <div class="card-top">
+                <div class="card-text">
+                    <div class="card-title">Hundi Collection</div>
+                    <div class="card-desc">
+                        3rd Apr, 2025<br />
+                        <span style="color:#e75230; font-weight:600;">₹4,67,973/-</span>
+                    </div>
+                </div>
+                <div class="arrow-icon" style="font-size: 25px;margin-left: 20px"><i class="fa-solid fa-arrow-right"
+                        style="color: #e9372b;"></i></div>
+            </div>
+            <div class="card-bottom">
+                <div class="card-icons" style="font-size: 40px; color: #6bbf84;"><img
+                        src="{{ asset('website/hundic.png') }}" alt="Maha Prasad" style="height: 40px; width: 40px;">
+                </div>
+                <div class="footer-bar bar-green"></div>
+            </div>
+        </div>
+
+    </section>
 
     <section class="temple-slider bg-white  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
         <div class="flex justify-center items-center gap-5 mt-12">
