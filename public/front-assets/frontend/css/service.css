@@ -117,4 +117,140 @@
       width: 50px;
     }
   }
+
+
+  .services-section {
+    padding: 2.5rem 0;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 3.5rem;
+}
+
+.decorated-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.decor-img {
+    width: 9rem;
+    height: 1.25rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.services-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .services-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.featured-card {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid rgb(213, 213, 213);
+    border-radius: 13px;
+    height: 455px;
+    transition: transform 0.5s;
+}
+
+.featured-card:hover {
+    transform: scale(1.05);
+}
+
+.featured-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    text-decoration: none;
+}
+
+.featured-img {
+    width: 170px;
+    height: 250px;
+    border-radius: 25px;
+    margin-bottom: 0.5rem;
+    transition: transform 0.3s;
+}
+
+.featured-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #db4d30;
+    margin-bottom: 0.5rem;
+}
+
+.featured-desc {
+    color: #4a4a4a;
+    line-height: 1.6;
+}
+
+.right-cards {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 450px;
+    gap: 1.5rem;
+}
+
+.service-card {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1rem 1.25rem;
+    height: 150px;
+    background-color: white;
+    border: 1px solid rgb(213, 213, 213);
+    border-left: 4px solid #db4d30;
+    border-radius: 13px;
+    text-decoration: none;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.service-card:hover {
+    transform: translateX(4px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.service-icon {
+    width: 70px;
+    height: 70px;
+}
+
+.card-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #db4d30;
+    margin-bottom: 0.25rem;
+}
+
+.card-desc {
+    font-size: 0.875rem;
+    color: #4a4a4a;
+}
+
   
