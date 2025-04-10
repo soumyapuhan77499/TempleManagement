@@ -176,7 +176,7 @@
         </div>
     </section>
 
-    <section class="services-section py-10 ">
+    <section class="services-section ">
         <!-- Section Title -->
         <div class="text-center mb-14">
             <div class="flex justify-center items-center gap-4">
