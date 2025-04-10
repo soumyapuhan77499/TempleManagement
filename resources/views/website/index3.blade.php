@@ -187,7 +187,7 @@
         </div>
 
         <!-- Services Layout -->
-        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+        <div class="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
             <!-- Left Featured Card (Fixed height: 450px) -->
             <div class="p-8 flex flex-col justify-between transition-all duration-500 hover:scale-105 h-[455px]"
                 style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
