@@ -176,72 +176,62 @@
         </div>
     </section>
 
-    <section class="services-section py-10 ">
+    <section class="services-section">
         <!-- Section Title -->
-        <div class="text-center mb-14">
-            <div class="flex justify-center items-center gap-4">
-                <img src="{{ asset('website/left.png') }}" alt="Left Decor" class="w-36 h-5 animate-pulse">
+        <div class="section-title">
+            <div class="title-wrapper">
+                <img src="{{ asset('website/left.png') }}" alt="Left Decor" class="decor-img">
                 <h2 class="section-titles">Quick Services</h2>
-                <img src="{{ asset('website/right.png') }}" alt="Right Decor" class="w-36 h-5 animate-pulse">
+                <img src="{{ asset('website/right.png') }}" alt="Right Decor" class="decor-img">
             </div>
         </div>
-
+    
         <!-- Services Layout -->
-        <div class="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start" style="margin-left: 50px;margin-right: 50px">
-            <!-- Left Featured Card (Fixed height: 450px) -->
-            <div class="p-8 flex flex-col justify-between transition-all duration-500 hover:scale-105 h-[455px]"
-                style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
-                <a href="{{ route('darshan.timeline') }}" class="flex flex-col items-center text-center h-full">
-                    <img src="{{ asset('website/darshan34.png') }}" alt="Darshan"
-                        class="mb-2 transition-transform duration-300 "
-                        style="width: 170px; height: 250px; border-radius: 25px;">
-                    <h3 class="text-2xl font-bold text-[#db4d30] mb-2">Darshan</h3>
-                    <p class="text-gray-700 mb-5 leading-relaxed">Darshan of Shree Jagannatha Mahaprabhu is available
-                        almost throughout the day i.e. from early in the morning till late night excepting some festive
-                        occasions.
-                        Generally, Temple opens and darshan starts at around 5.30 A.M. After offering of the perpetual lamp
-                        (Mangal Arati), devotees are allowed entry up to Jagamohan (Bhitara Kaatha) of the temple and
-                        darshan from this point is available till completion of “Besha”.
+        <div class="services-layout">
+            <!-- Left Featured Card -->
+            <div class="featured-card">
+                <a href="{{ route('darshan.timeline') }}" class="featured-link">
+                    <img src="{{ asset('website/darshan34.png') }}" alt="Darshan" class="featured-img">
+                    <h3 class="featured-title">Darshan</h3>
+                    <p class="featured-desc">
+                        Darshan of Shree Jagannatha Mahaprabhu is available almost throughout the day i.e. from early in the morning till late night excepting some festive occasions.
+                        Generally, Temple opens and darshan starts at around 5.30 A.M. After offering of the perpetual lamp (Mangal Arati), devotees are allowed entry up to Jagamohan (Bhitara Kaatha) of the temple and darshan from this point is available till completion of “Besha”.
                     </p>
                 </a>
             </div>
-
-            <!-- Right Side - 3 Fixed Cards (150px each) -->
-            <div class="flex flex-col gap-6 justify-between h-[450px]">
+    
+            <!-- Right Side Cards -->
+            <div class="right-card-group">
                 <!-- Maha Prasad -->
-                <a href="{{ route('prasad.timeline') }}"
-                    class="bg-white border-l-4 border-[#db4d30]  px-5 py-4 flex items-center gap-5 h-[150px]  hover:translate-x-1 duration-300"
-                    style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
-                    <img src="{{ asset('website/prasad879.png') }}" alt="Maha Prasad" style="height: 70px;width:70px">
+                <a href="{{ route('prasad.timeline') }}" class="mini-card">
+                    <img src="{{ asset('website/prasad879.png') }}" alt="Maha Prasad" class="mini-icon">
                     <div>
-                        <h3 class="text-lg font-semibold text-[#db4d30]">Mahaprasad</h3>
-                        <p class="text-sm text-gray-600">Savor the sacred offering blessed by the divine presence.</p>
+                        <h3 class="mini-title">Mahaprasad</h3>
+                        <p class="mini-desc">Savor the sacred offering blessed by the divine presence.</p>
                     </div>
                 </a>
-
+    
                 <!-- Panji -->
-                <div class="bg-white border-l-4 border-[#db4d30] px-5 py-4 flex items-center gap-5 h-[150px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300"
-                    style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
-                    <img src="{{ asset('website/panji765.png') }}" alt="Panji" class="w-16 h-16">
+                <div class="mini-card">
+                    <img src="{{ asset('website/panji765.png') }}" alt="Panji" class="mini-icon">
                     <div>
-                        <h3 class="text-lg font-semibold text-[#db4d30]">Panji</h3>
-                        <p class="text-sm text-gray-600">Explore traditional records and sacred schedules maintained over
-                            centuries.</p>
+                        <h3 class="mini-title">Panji</h3>
+                        <p class="mini-desc">Explore traditional records and sacred schedules maintained over centuries.</p>
                     </div>
                 </div>
-
+    
                 <!-- Offering -->
-                <div class="bg-white border-l-4 border-[#db4d30]  px-5 py-4 flex items-center gap-5 h-[150px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300"
-                    style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
-                    <img src="{{ asset('website/ofr.png') }}" alt="Offering" class="w-16 h-16 ">
+                <div class="mini-card">
+                    <img src="{{ asset('website/ofr.png') }}" alt="Offering" class="mini-icon">
                     <div>
-                        <h3 class="text-lg font-semibold text-[#db4d30]">Offering</h3>
-                        <p class="text-sm text-gray-600">Make your humble offerings to the Lord with ease and devotion.</p>
+                        <h3 class="mini-title">Offering</h3>
+                        <p class="mini-desc">Make your humble offerings to the Lord with ease and devotion.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    
 
     <section class="services-sections">
 
