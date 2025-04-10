@@ -117,22 +117,4 @@
       width: 50px;
     }
   }
-
-  .pulse-animation {
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-}
-
-.hover-scale:hover {
-    transform: scale(1.05);
-}
-.container {
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
   

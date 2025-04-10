@@ -176,66 +176,72 @@
         </div>
     </section>
 
-    <section class="services py-5">
+    <section class="services-section py-10 ">
         <!-- Section Title -->
-        <div class="text-center mb-5">
-            <div class="d-flex justify-content-center align-items-center gap-3">
-                <img src="{{ asset('website/left.png') }}" alt="Left Decor" class="pulse-animation" style="width: 9rem; height: 1.25rem;">
+        <div class="text-center mb-14">
+            <div class="flex justify-center items-center gap-4">
+                <img src="{{ asset('website/left.png') }}" alt="Left Decor" class="w-36 h-5 animate-pulse">
                 <h2 class="section-titles">Quick Services</h2>
-                <img src="{{ asset('website/right.png') }}" alt="Right Decor" class="pulse-animation" style="width: 9rem; height: 1.25rem;">
+                <img src="{{ asset('website/right.png') }}" alt="Right Decor" class="w-36 h-5 animate-pulse">
             </div>
         </div>
-    
+
         <!-- Services Layout -->
-        <div class="container px-3 px-md-4">
-            <div class="row g-4 align-items-start">
-                <!-- Left Featured Card -->
-                <div class="col-md-6">
-                    <div class="card h-100 border" style="border-radius: 13px; transition: transform 0.5s;">
-                        <a href="{{ route('darshan.timeline') }}" class="text-decoration-none text-dark d-flex flex-column justify-content-between h-100 p-4 hover-scale">
-                            <img src="{{ asset('website/darshan34.png') }}" alt="Darshan" class="mb-3" style="width: 170px; height: 250px; border-radius: 25px; align-self: center;">
-                            <h3 class="h4 fw-bold text-danger mb-2">Darshan</h3>
-                            <p class="text-muted">
-                                Darshan of Shree Jagannatha Mahaprabhu is available almost throughout the day i.e. from early in the morning till late night excepting some festive occasions.
-                                Generally, Temple opens and darshan starts at around 5.30 A.M. After offering of the perpetual lamp (Mangal Arati), devotees are allowed entry up to Jagamohan (Bhitara Kaatha) of the temple and darshan from this point is available till completion of “Besha”.
-                            </p>
-                        </a>
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-start"  style="max-width: 1290px !important;">
+            <!-- Left Featured Card (Fixed height: 450px) -->
+            <div class="p-8 flex flex-col justify-between transition-all duration-500 hover:scale-105 h-[455px]"
+                style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
+                <a href="{{ route('darshan.timeline') }}" class="flex flex-col items-center text-center h-full">
+                    <img src="{{ asset('website/darshan34.png') }}" alt="Darshan"
+                        class="mb-2 transition-transform duration-300 "
+                        style="width: 170px; height: 250px; border-radius: 25px;">
+                    <h3 class="text-2xl font-bold text-[#db4d30] mb-2">Darshan</h3>
+                    <p class="text-gray-700 mb-5 leading-relaxed">Darshan of Shree Jagannatha Mahaprabhu is available
+                        almost throughout the day i.e. from early in the morning till late night excepting some festive
+                        occasions.
+                        Generally, Temple opens and darshan starts at around 5.30 A.M. After offering of the perpetual lamp
+                        (Mangal Arati), devotees are allowed entry up to Jagamohan (Bhitara Kaatha) of the temple and
+                        darshan from this point is available till completion of “Besha”.
+                    </p>
+                </a>
+            </div>
+
+            <!-- Right Side - 3 Fixed Cards (150px each) -->
+            <div class="flex flex-col gap-6 justify-between h-[450px]">
+                <!-- Maha Prasad -->
+                <a href="{{ route('prasad.timeline') }}"
+                    class="bg-white border-l-4 border-[#db4d30]  px-5 py-4 flex items-center gap-5 h-[150px]  hover:translate-x-1 duration-300"
+                    style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
+                    <img src="{{ asset('website/prasad879.png') }}" alt="Maha Prasad" style="height: 70px;width:70px">
+                    <div>
+                        <h3 class="text-lg font-semibold text-[#db4d30]">Mahaprasad</h3>
+                        <p class="text-sm text-gray-600">Savor the sacred offering blessed by the divine presence.</p>
+                    </div>
+                </a>
+
+                <!-- Panji -->
+                <div class="bg-white border-l-4 border-[#db4d30] px-5 py-4 flex items-center gap-5 h-[150px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300"
+                    style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
+                    <img src="{{ asset('website/panji765.png') }}" alt="Panji" class="w-16 h-16">
+                    <div>
+                        <h3 class="text-lg font-semibold text-[#db4d30]">Panji</h3>
+                        <p class="text-sm text-gray-600">Explore traditional records and sacred schedules maintained over
+                            centuries.</p>
                     </div>
                 </div>
-    
-                <!-- Right Column Cards -->
-                <div class="col-md-6 d-flex flex-column justify-content-between" style="height: 455px;">
-                    <!-- Maha Prasad -->
-                    <a href="{{ route('prasad.timeline') }}" class="card mb-3 p-3 d-flex flex-row align-items-center border-start border-1 text-decoration-none text-dark" style="border-radius: 13px; height: 150px;">
-                        <img src="{{ asset('website/prasad879.png') }}" alt="Maha Prasad" style="width: 70px; height: 70px;" class="me-3">
-                        <div>
-                            <h5 class="fw-semibold text-danger mb-1">Mahaprasad</h5>
-                            <p class="text-muted mb-0 small">Savor the sacred offering blessed by the divine presence.</p>
-                        </div>
-                    </a>
-    
-                    <!-- Panji -->
-                    <div class="card mb-3 p-3 d-flex flex-row align-items-center border-start border-1" style="border-radius: 13px; height: 150px; transition: all 0.3s;">
-                        <img src="{{ asset('website/panji765.png') }}" alt="Panji" style="width: 64px; height: 64px;" class="me-3">
-                        <div>
-                            <h5 class="fw-semibold text-danger mb-1">Panji</h5>
-                            <p class="text-muted mb-0 small">Explore traditional records and sacred schedules maintained over centuries.</p>
-                        </div>
-                    </div>
-    
-                    <!-- Offering -->
-                    <div class="card p-3 d-flex flex-row align-items-center border-start border-1" style="border-radius: 13px; height: 150px; transition: all 0.3s;">
-                        <img src="{{ asset('website/ofr.png') }}" alt="Offering" style="width: 64px; height: 64px;" class="me-3">
-                        <div>
-                            <h5 class="fw-semibold text-danger mb-1">Offering</h5>
-                            <p class="text-muted mb-0 small">Make your humble offerings to the Lord with ease and devotion.</p>
-                        </div>
+
+                <!-- Offering -->
+                <div class="bg-white border-l-4 border-[#db4d30]  px-5 py-4 flex items-center gap-5 h-[150px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300"
+                    style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
+                    <img src="{{ asset('website/ofr.png') }}" alt="Offering" class="w-16 h-16 ">
+                    <div>
+                        <h3 class="text-lg font-semibold text-[#db4d30]">Offering</h3>
+                        <p class="text-sm text-gray-600">Make your humble offerings to the Lord with ease and devotion.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
 
     <section class="services-sections">
 
