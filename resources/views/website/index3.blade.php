@@ -176,56 +176,60 @@
         </div>
     </section>
 
-    <section class="services-section">
+    <section class="services-section py-5">
         <!-- Section Title -->
-        <div class="section-title">
-            <div class="title-wrapper">
-                <img src="{{ asset('website/left.png') }}" alt="Left Decor" class="decor-img">
+        <div class="text-center mb-5">
+            <div class="d-flex justify-content-center align-items-center gap-3">
+                <img src="{{ asset('website/left.png') }}" alt="Left Decor" class="pulse-animation" style="width: 9rem; height: 1.25rem;">
                 <h2 class="section-titles">Quick Services</h2>
-                <img src="{{ asset('website/right.png') }}" alt="Right Decor" class="decor-img">
+                <img src="{{ asset('website/right.png') }}" alt="Right Decor" class="pulse-animation" style="width: 9rem; height: 1.25rem;">
             </div>
         </div>
     
         <!-- Services Layout -->
-        <div class="services-layout">
-            <!-- Left Featured Card -->
-            <div class="featured-card">
-                <a href="{{ route('darshan.timeline') }}" class="featured-link">
-                    <img src="{{ asset('website/darshan34.png') }}" alt="Darshan" class="featured-img">
-                    <h3 class="featured-title">Darshan</h3>
-                    <p class="featured-desc">
-                        Darshan of Shree Jagannatha Mahaprabhu is available almost throughout the day i.e. from early in the morning till late night excepting some festive occasions.
-                        Generally, Temple opens and darshan starts at around 5.30 A.M. After offering of the perpetual lamp (Mangal Arati), devotees are allowed entry up to Jagamohan (Bhitara Kaatha) of the temple and darshan from this point is available till completion of “Besha”.
-                    </p>
-                </a>
-            </div>
-    
-            <!-- Right Side Cards -->
-            <div class="right-card-group">
-                <!-- Maha Prasad -->
-                <a href="{{ route('prasad.timeline') }}" class="mini-card">
-                    <img src="{{ asset('website/prasad879.png') }}" alt="Maha Prasad" class="mini-icon">
-                    <div>
-                        <h3 class="mini-title">Mahaprasad</h3>
-                        <p class="mini-desc">Savor the sacred offering blessed by the divine presence.</p>
-                    </div>
-                </a>
-    
-                <!-- Panji -->
-                <div class="mini-card">
-                    <img src="{{ asset('website/panji765.png') }}" alt="Panji" class="mini-icon">
-                    <div>
-                        <h3 class="mini-title">Panji</h3>
-                        <p class="mini-desc">Explore traditional records and sacred schedules maintained over centuries.</p>
+        <div class="container">
+            <div class="row g-4 align-items-start">
+                <!-- Left Featured Card -->
+                <div class="col-md-6">
+                    <div class="card h-100 border" style="border-radius: 13px; transition: transform 0.5s;">
+                        <a href="{{ route('darshan.timeline') }}" class="text-decoration-none text-dark d-flex flex-column justify-content-between h-100 p-4 hover-scale">
+                            <img src="{{ asset('website/darshan34.png') }}" alt="Darshan" class="mb-3" style="width: 170px; height: 250px; border-radius: 25px; align-self: center;">
+                            <h3 class="h4 fw-bold text-danger mb-2">Darshan</h3>
+                            <p class="text-muted">
+                                Darshan of Shree Jagannatha Mahaprabhu is available almost throughout the day i.e. from early in the morning till late night excepting some festive occasions.
+                                Generally, Temple opens and darshan starts at around 5.30 A.M. After offering of the perpetual lamp (Mangal Arati), devotees are allowed entry up to Jagamohan (Bhitara Kaatha) of the temple and darshan from this point is available till completion of “Besha”.
+                            </p>
+                        </a>
                     </div>
                 </div>
     
-                <!-- Offering -->
-                <div class="mini-card">
-                    <img src="{{ asset('website/ofr.png') }}" alt="Offering" class="mini-icon">
-                    <div>
-                        <h3 class="mini-title">Offering</h3>
-                        <p class="mini-desc">Make your humble offerings to the Lord with ease and devotion.</p>
+                <!-- Right Column Cards -->
+                <div class="col-md-6 d-flex flex-column justify-content-between" style="height: 455px;">
+                    <!-- Maha Prasad -->
+                    <a href="{{ route('prasad.timeline') }}" class="card mb-3 p-3 d-flex flex-row align-items-center border-start border-4 border-danger text-decoration-none text-dark" style="border-radius: 13px; height: 150px;">
+                        <img src="{{ asset('website/prasad879.png') }}" alt="Maha Prasad" style="width: 70px; height: 70px;" class="me-3">
+                        <div>
+                            <h5 class="fw-semibold text-danger mb-1">Mahaprasad</h5>
+                            <p class="text-muted mb-0 small">Savor the sacred offering blessed by the divine presence.</p>
+                        </div>
+                    </a>
+    
+                    <!-- Panji -->
+                    <div class="card mb-3 p-3 d-flex flex-row align-items-center border-start border-4 border-danger" style="border-radius: 13px; height: 150px; transition: all 0.3s;">
+                        <img src="{{ asset('website/panji765.png') }}" alt="Panji" style="width: 64px; height: 64px;" class="me-3">
+                        <div>
+                            <h5 class="fw-semibold text-danger mb-1">Panji</h5>
+                            <p class="text-muted mb-0 small">Explore traditional records and sacred schedules maintained over centuries.</p>
+                        </div>
+                    </div>
+    
+                    <!-- Offering -->
+                    <div class="card p-3 d-flex flex-row align-items-center border-start border-4 border-danger" style="border-radius: 13px; height: 150px; transition: all 0.3s;">
+                        <img src="{{ asset('website/ofr.png') }}" alt="Offering" style="width: 64px; height: 64px;" class="me-3">
+                        <div>
+                            <h5 class="fw-semibold text-danger mb-1">Offering</h5>
+                            <p class="text-muted mb-0 small">Make your humble offerings to the Lord with ease and devotion.</p>
+                        </div>
                     </div>
                 </div>
             </div>
