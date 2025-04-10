@@ -141,6 +141,18 @@
                                 <input type="text" class="form-control" id="yoga" name="yoga"
                                     placeholder="Enter Yoga">
                             </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="pakshya" class="form-label">Pakshya</label>
+                                <input type="text" class="form-control" id="pakshya" name="pakshya"
+                                    placeholder="Enter Pakshya">
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="karana" class="form-label">Karana</label>
+                                <input type="text" class="form-control" id="karana" name="karana"
+                                    placeholder="Enter Karana">
+                            </div>
+
                         </div>
                         <!-- Description -->
                         <div class="mb-3">
@@ -199,6 +211,8 @@
                     document.getElementById('tithi').value = info.event.extendedProps.tithi; // Set tithi
                     document.getElementById('nakshatra').value = info.event.extendedProps.nakshatra; // Set nakshatra
                     document.getElementById('yoga').value = info.event.extendedProps.yoga; // Set yoga
+                    document.getElementById('pakshya').value = info.event.extendedProps.pakshya; // Set pakshya
+                    document.getElementById('karana').value = info.event.extendedProps.karana; // Set karana
                     document.getElementById('sun_set').value = info.event.extendedProps.sun_set; // Set sun set time
                     document.getElementById('sun_rise').value = info.event.extendedProps.sun_rise; // Set sun rise time
                     document.getElementById('good_time').value = info.event.extendedProps.good_time; // Set good time
@@ -223,6 +237,8 @@
                             tithi: '{{ $event->tithi }}',
                             nakshatra: '{{ $event->nakshatra }}',
                             yoga: '{{ $event->yoga }}',
+                            pakshya: '{{ $event->pakshya }}',
+                            karana: '{{ $event->karana }}',
                             sun_set: '{{ $event->sun_set }}',
                             sun_rise: '{{ $event->sun_rise }}',
                             good_time: '{{ $event->good_time }}',
@@ -243,6 +259,8 @@
                 document.getElementById('tithi').value = '';
                 document.getElementById('nakshatra').value = '';
                 document.getElementById('yoga').value = '';
+                document.getElementById('pakshya').value = '';
+                document.getElementById('karana').value = '';
                 document.getElementById('sun_set').value = '';
                 document.getElementById('sun_rise').value = '';
                 document.getElementById('good_time').value = '';

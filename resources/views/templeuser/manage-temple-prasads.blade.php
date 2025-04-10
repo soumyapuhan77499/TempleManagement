@@ -18,7 +18,8 @@
         </div>
         <div class="justify-content-center mt-2">
             <ol class="breadcrumb d-flex justify-content-between align-items-center">
-                <a href="{{ url('templeuser/add-temple-prasad') }}" class="breadcrumb-item tx-15 btn btn-warning">Add Prasad</a>
+                <a href="{{ url('templeuser/add-temple-prasad') }}" class="breadcrumb-item tx-15 btn btn-warning">Add
+                    Prasad</a>
                 <li class="breadcrumb-item tx-15"><a href="javascript:void(0);">Dashboard</a></li>
             </ol>
         </div>
@@ -130,10 +131,52 @@
 
                                                             <div class="col-md-4">
                                                                 <div class="form-group">
-                                                                    <label for="prasad_time">Prasad Time</label>
+                                                                    <label for="prasad_type">Prasad Type</label>
+                                                                    <select class="form-control" name="prasad_type"
+                                                                        required>
+                                                                        <option value="normal"
+                                                                            {{ $prasad->prasad_type == 'normal' ? 'selected' : '' }}>
+                                                                            Normal</option>
+                                                                        <option value="special"
+                                                                            {{ $prasad->prasad_type == 'special' ? 'selected' : '' }}>
+                                                                            Special</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="date">Date</label>
+                                                                    <input type="date" class="form-control"
+                                                                        name="date" value="{{ $prasad->date }}"
+                                                                        required>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="start_time">Start Time</label>
                                                                     <input type="time" class="form-control"
-                                                                        name="prasad_time"
-                                                                        value="{{ $prasad->prasad_time }}" required>
+                                                                        name="start_time" value="{{ $prasad->start_time }}"
+                                                                        required>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="end_time">End Time</label>
+                                                                    <input type="time" class="form-control"
+                                                                        name="end_time" value="{{ $prasad->end_time }}"
+                                                                        required>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="duration">Duration</label>
+                                                                    <input type="text" class="form-control"
+                                                                        name="duration" value="{{ $prasad->duration }}"
+                                                                        placeholder="Enter Duration" required>
                                                                 </div>
                                                             </div>
 
@@ -164,7 +207,8 @@
                                                                     </div>
                                                                     <div class="col-md-2">
                                                                         <button type="button"
-                                                                            class="btn btn-danger removeItem"  style="margin-bottom: 15px"><b>-</b></button>
+                                                                            class="btn btn-danger removeItem"
+                                                                            style="margin-bottom: 15px"><b>-</b></button>
                                                                     </div>
                                                                 </div>
                                                             @endforeach
@@ -335,11 +379,11 @@
         </script>
     @endif
 
-	<script>
-		$(document).ready(function () {
-    // Add more Prasad items
-    $(".addMore").click(function () {
-        let newItem = `
+    <script>
+        $(document).ready(function() {
+            // Add more Prasad items
+            $(".addMore").click(function() {
+                let newItem = `
             <div class="row prasad-item align-items-end">
                 <div class="col-md-5">
                     <div class="form-group">
@@ -352,14 +396,83 @@
                 </div>
             </div>
         `;
-        $("#prasadItemContainer").append(newItem);
-    });
+                $("#prasadItemContainer").append(newItem);
+            });
 
-    // Remove Prasad items
-    $(document).on("click", ".removeItem", function () {
-        $(this).closest(".prasad-item").remove();
-    });
-});
+            // Remove Prasad items
+            $(document).on("click", ".removeItem", function() {
+                $(this).closest(".prasad-item").remove();
+            });
+        });
+    </script>
 
-	</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @foreach ($prasadas as $prasad)
+                (function() {
+                    const modal = document.getElementById('editModal{{ $prasad->id }}');
+                    if (!modal) return;
+
+                    modal.addEventListener('shown.bs.modal', function() {
+                        const startTimeInput = modal.querySelector('[name="start_time"]');
+                        const endTimeInput = modal.querySelector('[name="end_time"]');
+                        const durationInput = modal.querySelector('[name="duration"]');
+                        const prasadType = modal.querySelector('[name="prasad_type"]');
+                        const dateInput = modal.querySelector('[name="date"]');
+                        const dateContainer = dateInput.closest('.col-md-4'); // container column
+
+                        function calculateDuration() {
+                            const start = startTimeInput.value;
+                            const end = endTimeInput.value;
+
+                            if (start && end) {
+                                const [startHour, startMinute] = start.split(':').map(Number);
+                                const [endHour, endMinute] = end.split(':').map(Number);
+
+                                const startDate = new Date();
+                                startDate.setHours(startHour, startMinute, 0);
+
+                                const endDate = new Date();
+                                endDate.setHours(endHour, endMinute, 0);
+
+                                let diffMinutes = (endDate - startDate) / (1000 * 60);
+                                if (diffMinutes < 0) diffMinutes += 1440;
+
+                                const hours = Math.floor(diffMinutes / 60);
+                                const minutes = Math.round(diffMinutes % 60);
+
+                                let durationText = '';
+                                if (hours > 0) durationText += hours + (hours === 1 ? ' hour ' :
+                                    ' hours ');
+                                if (minutes > 0 || hours === 0) durationText += minutes + (minutes ===
+                                    1 ? ' minute' : ' minutes');
+
+                                durationInput.value = durationText.trim();
+                            }
+                        }
+
+                        function toggleDateField() {
+                            if (prasadType.value === 'special') {
+                                dateContainer.style.display = 'block';
+                                dateInput.setAttribute('required', 'required');
+                            } else {
+                                dateContainer.style.display = 'none';
+                                dateInput.removeAttribute('required');
+                                dateInput.value = '';
+                            }
+                        }
+
+                        // Attach event listeners
+                        startTimeInput.addEventListener('change', calculateDuration);
+                        endTimeInput.addEventListener('change', calculateDuration);
+                        prasadType.addEventListener('change', toggleDateField);
+
+                        // Initialize
+                        toggleDateField();
+                        calculateDuration();
+                    });
+                })();
+            @endforeach
+        });
+    </script>
 @endsection

@@ -19,6 +19,8 @@ class PanjiDetails extends Model
         'event_name',
         'tithi',
         'yoga',
+        'karana',
+        'pakshya',
         'nakshatra',
         'sun_set',
         'sun_rise',
