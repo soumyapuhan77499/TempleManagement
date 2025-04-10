@@ -55,6 +55,8 @@
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/summernote-content.css') }}">
     <!-- Responsive CSS -->
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/responsive.css') }}">
+<!-- Bootstrap 5 CSS CDN -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 

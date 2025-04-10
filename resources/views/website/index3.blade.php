@@ -176,7 +176,7 @@
         </div>
     </section>
 
-    <section class="services-section py-5">
+    <section class="services py-5">
         <!-- Section Title -->
         <div class="text-center mb-5">
             <div class="d-flex justify-content-center align-items-center gap-3">
@@ -187,7 +187,7 @@
         </div>
     
         <!-- Services Layout -->
-        <div class="container">
+        <div class="container px-3 px-md-4">
             <div class="row g-4 align-items-start">
                 <!-- Left Featured Card -->
                 <div class="col-md-6">
