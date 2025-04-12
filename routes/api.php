@@ -267,4 +267,7 @@ Route::controller(TempleNitiLoginController::class)->group(function() {
 Route::controller(TempleNitiController::class)->group(function() {
   Route::get('/manage-niti', 'manageNiti');
   Route::post('/start-niti', 'startNiti');
+  Route::post('/pause-niti', 'pauseNiti');
+  Route::post('/resume-niti', 'resumeNiti');
+  Route::post('/stop-niti', 'stopNiti');
 });
