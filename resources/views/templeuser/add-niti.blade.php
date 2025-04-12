@@ -89,12 +89,12 @@
                         <div class="card-header">
                             <h4 class="card-title mb-1">NITI DETAILS</h4>
                         </div>
-    
+
                         <div class="row">
                             <!-- Language Selection -->
-                            <div class="col-md-2">
-                                <div class="card-body">
-                                    <div class="main-content-label mg-b-5">Language</div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="main-content-label">Language</label>
                                     <select class="form-control" id="language" name="language">
                                         <option value="">Select language...</option>
                                         <option value="English">English</option>
@@ -103,57 +103,88 @@
                                     </select>
                                 </div>
                             </div>
-    
+
                             <!-- Niti Name Input -->
                             <div class="col-md-3">
-                                <div class="card-body">
-                                    <div class="main-content-label mg-b-5">Niti Name</div>
-                                    <input type="text" class="form-control" id="niti_name" name="niti_name" placeholder="Enter Niti Name">
+                                <div class="form-group">
+                                    <label class="main-content-label">Niti Name</label>
+                                    <input type="text" class="form-control" id="niti_name" name="niti_name"
+                                        placeholder="Enter Niti Name">
                                 </div>
                             </div>
-                               
-    
-                            <div class="col-md-4" style="margin-top: 30px">
-                                <div class="form-group row">
-                                    <label class="custom-switch">
-                                        <span class="custom-switch-description tx-15  mg-b-5">Special Niti</span>
-                                        <input type="checkbox" name="niti_type" value="special" class="custom-switch-input" id="specialNiti" onchange="toggleNitiType('special')">
-                                        <span class="custom-switch-indicator custom-switch-indicator-xl custom-square"></span>
+
+                            <!-- Niti Type Checkboxes -->
+                            <div class="col-md-3">
+                                <label class="main-content-label d-block">Niti Type</label>
+                                <div class="d-flex gap-3 align-items-center mt-1">
+                                    <label class="custom-switch mb-0">
+                                        <span class="custom-switch-description">Special Niti</span>
+                                        <input type="checkbox" name="niti_type" value="special" class="custom-switch-input"
+                                            id="specialNiti" onchange="toggleNitiType('special')">
+                                        <span
+                                            class="custom-switch-indicator custom-switch-indicator-xl custom-square"></span>
                                     </label>
-                                    <label class="custom-switch">
-                                        <span class="custom-switch-description tx-15 me-2">Daily Niti</span>
-                                        <input type="checkbox" name="niti_type" value="daily" class="custom-switch-input" id="dailyNiti" onchange="toggleNitiType('daily')">
-                                        <span class="custom-switch-indicator custom-switch-indicator-xl custom-square"></span>
+                                    <label class="custom-switch mb-0">
+                                        <span class="custom-switch-description">Daily Niti</span>
+                                        <input type="checkbox" name="niti_type" value="daily" class="custom-switch-input"
+                                            id="dailyNiti" onchange="toggleNitiType('daily')">
+                                        <span
+                                            class="custom-switch-indicator custom-switch-indicator-xl custom-square"></span>
                                     </label>
                                 </div>
                             </div>
 
-                             <div class="col-md-3">
-                                <div class="card-body">
-                                    <div class="main-content-label mg-b-5">Date & Time</div>
+                            <!-- Niti Privacy -->
+                            <div class="col-md-3">
+                                <label class="main-content-label d-block">Niti Privacy</label>
+                                <div class="d-flex gap-3 align-items-center mt-1">
+                                    <label class="custom-switch mb-0">
+                                        <span class="custom-switch-description">Public</span>
+                                        <input type="checkbox" name="niti_privacy" value="public"
+                                            class="custom-switch-input" id="publicNiti" onchange="togglePrivacy('public')">
+                                        <span
+                                            class="custom-switch-indicator custom-switch-indicator-xl custom-square"></span>
+                                    </label>
+                                    <label class="custom-switch mb-0">
+                                        <span class="custom-switch-description">Private</span>
+                                        <input type="checkbox" name="niti_privacy" value="private"
+                                            class="custom-switch-input" id="privateNiti"
+                                            onchange="togglePrivacy('private')">
+                                        <span
+                                            class="custom-switch-indicator custom-switch-indicator-xl custom-square"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Date & Time -->
+                            <div class="col-md-3" id="dateTimeContainer">
+                                <div class="form-group">
+                                    <label class="main-content-label">Date & Time</label>
                                     <div class="input-group">
                                         <div class="input-group-text">
                                             <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                                         </div>
-                                        <input class="form-control" id="datetimepicker" name="date_time" type="text">
+                                        <input class="form-control" id="datetimepicker" name="date_time" type="text"
+                                            placeholder="YYYY-MM-DD HH:MM">
                                     </div>
                                 </div>
                             </div>
-                            
-                          
-                            <!-- Niti About Textarea -->
+
+
+                            <!-- Niti About -->
                             <div class="col-md-12">
-                                <div class="card-body">
-                                    <div class="main-content-label">Niti About</div>
-                                    <textarea class="form-control" id="niti_about" name="niti_about" placeholder="Enter Niti About"></textarea>
+                                <div class="form-group mt-3">
+                                    <label class="main-content-label">Niti About</label>
+                                    <textarea class="form-control" id="niti_about" name="niti_about" rows="3" placeholder="Enter Niti About"></textarea>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
-    
+
         <div class="row">
             <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
                 <div class="card">
@@ -165,11 +196,13 @@
                             <div class="row item-row align-items-center mb-3">
                                 <div class="col-md-4">
                                     <div class="main-content-label mg-b-5">Item Name</div>
-                                    <input type="text" class="form-control" name="item_name[]" placeholder="Enter Item Name">
+                                    <input type="text" class="form-control" name="item_name[]"
+                                        placeholder="Enter Item Name">
                                 </div>
                                 <div class="col-md-3">
                                     <div class="main-content-label mg-b-5">Quantity</div>
-                                    <input type="text" class="form-control" name="quantity[]" placeholder="Enter Quantity">
+                                    <input type="text" class="form-control" name="quantity[]"
+                                        placeholder="Enter Quantity">
                                 </div>
                                 <div class="col-md-3">
                                     <div class="main-content-label mg-b-5">Unit</div>
@@ -185,7 +218,8 @@
                                 </div>
                                 <div class="col-md-2 d-flex align-items-center mt-2">
                                     <button type="button" class="btn btn-success add-item me-1">Add Items</button>
-                                    <button type="button" class="btn btn-danger remove-item" style="display: none;">Remove</button>
+                                    <button type="button" class="btn btn-danger remove-item"
+                                        style="display: none;">Remove</button>
                                 </div>
                             </div>
                         </div>
@@ -193,7 +227,7 @@
                 </div>
             </div>
         </div>
-    
+
         <div class="row">
             <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
                 <div class="card">
@@ -204,10 +238,12 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <div class="main-content-label mg-b-5">SEBAYAT INVOLVED LIST</div>
-                                <select class="form-control select2" id="niti_sebayat" name="niti_sebayat[]" multiple="multiple">
+                                <select class="form-control select2" id="niti_sebayat" name="niti_sebayat[]"
+                                    multiple="multiple">
                                     <option value="">Select Sebak</option>
                                     @foreach ($sebayat_list as $sebayat)
-                                        <option value="{{ $sebayat->sebayat_name }}">{{ $sebayat->sebayat_name }}</option>
+                                        <option value="{{ $sebayat->sebayat_name }}">{{ $sebayat->sebayat_name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -216,7 +252,7 @@
                 </div>
             </div>
         </div>
-    
+
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -224,17 +260,18 @@
                         <div class="card-header">
                             <h4 class="card-title mb-1">NITI STEP</h4>
                         </div>
-    
+
                         <div class="step-container">
                             <div class="row step-item align-items-center">
                                 <div class="col-md-6">
                                     <div class="card-body">
                                         <div class="main-content-label mg-b-5">NITI STEP 1</div>
-                                        <input type="text" class="form-control" name="step_of_niti[]" placeholder="Enter Step Of Niti Name">
+                                        <input type="text" class="form-control" name="step_of_niti[]"
+                                            placeholder="Enter Step Of Niti Name">
                                     </div>
                                 </div>
 
-                                
+
                                 <div class="col-md-4">
                                     <div class="card-body">
                                         <div class="main-content-label mg-b-5">SEBA NAME</div>
@@ -250,7 +287,8 @@
 
                                 <div class="col-md-2 mt-3 d-flex justify-content-center">
                                     <button type="button" class="btn btn-success add-step me-1">Add Step</button>
-                                    <button type="button" class="btn btn-danger remove-step" style="display: none;">Remove</button>
+                                    <button type="button" class="btn btn-danger remove-step"
+                                        style="display: none;">Remove</button>
                                 </div>
                             </div>
                         </div>
@@ -258,7 +296,7 @@
                 </div>
             </div>
         </div>
-    
+
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -269,7 +307,7 @@
                 </div>
             </div>
         </div>
-    
+
         <div class="row">
             <div class="col-md-12 text-center">
                 <div class="card">
@@ -359,8 +397,8 @@
                     <select class="form-control select2" name="seba_name[]" multiple="multiple">
                         <option value="">Select Seba</option>
                         ${`@foreach ($manage_seba as $seba)
-                                        <option value="{{ $seba->seba_name }}">{{ $seba->seba_name }}</option>
-                                    @endforeach`}
+                                                        <option value="{{ $seba->seba_name }}">{{ $seba->seba_name }}</option>
+                                                    @endforeach`}
                     </select>
                 </div>
             </div>
@@ -443,13 +481,50 @@
         });
     </script>
 
-<script>
-    function toggleNitiType(selectedType) {
-        if (selectedType === 'special') {
-            document.getElementById('dailyNiti').checked = false;
-        } else if (selectedType === 'daily') {
-            document.getElementById('specialNiti').checked = false;
+    <script>
+        function toggleNitiType(selectedType) {
+            if (selectedType === 'special') {
+                document.getElementById('dailyNiti').checked = false;
+            } else if (selectedType === 'daily') {
+                document.getElementById('specialNiti').checked = false;
+            }
         }
-    }
-</script>
+    </script>
+
+    <script>
+        function togglePrivacy(selectedPrivacy) {
+            if (selectedPrivacy === 'public') {
+                document.getElementById('privateNiti').checked = false;
+            } else if (selectedPrivacy === 'private') {
+                document.getElementById('publicNiti').checked = false;
+            }
+        }
+    </script>
+
+    <script>
+        function toggleNitiType(selectedType) {
+            const specialCheckbox = document.getElementById('specialNiti');
+            const dailyCheckbox = document.getElementById('dailyNiti');
+            const dateTimeContainer = document.getElementById('dateTimeContainer');
+
+            if (selectedType === 'special') {
+                dailyCheckbox.checked = false;
+                dateTimeContainer.style.display = 'block';
+            }
+
+            if (selectedType === 'daily') {
+                specialCheckbox.checked = false;
+                dateTimeContainer.style.display = 'none';
+            }
+        }
+
+        // Run on load in case of page reload with old values
+        document.addEventListener('DOMContentLoaded', () => {
+            if (document.getElementById('dailyNiti').checked) {
+                document.getElementById('dateTimeContainer').style.display = 'none';
+            } else {
+                document.getElementById('dateTimeContainer').style.display = 'block';
+            }
+        });
+    </script>
 @endsection

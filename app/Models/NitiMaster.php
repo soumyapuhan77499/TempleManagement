@@ -17,6 +17,7 @@ class NitiMaster extends Model
         'niti_name',
         'date_time',
         'niti_type',
+        'niti_privacy',
         'niti_about',
         'niti_sebayat',
         'description',

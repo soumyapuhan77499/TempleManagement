@@ -20,6 +20,7 @@ class NitiController extends Controller
 
         $templeId = Auth::guard('temples')->user()->temple_id;
 
+
         $manage_seba = SebaMaster::where('status', 'active')->where('temple_id', $templeId)->get();
 
         $sebayat_list = SebayatMaster::where('status', 'active')->get();
@@ -31,7 +32,6 @@ class NitiController extends Controller
 
     public function saveNitiMaster(Request $request)
     {
-
         try {
             // Validate incoming data
             $request->validate([
@@ -43,8 +43,10 @@ class NitiController extends Controller
                 'niti_sebayat' => 'sometimes|array',
                 'niti_sebayat.*' => 'string',
                 'item_name' => 'sometimes|array',
+                'step_of_niti' => 'sometimes|array',
+                'seba_name' => 'sometimes|array',
             ]);
-            
+    
             // Generate a unique niti_id
             $niti_id = 'NITI' . rand(10000, 99999);
     
@@ -60,23 +62,28 @@ class NitiController extends Controller
             $niti->date_time = $request->input('date_time');
             $niti->niti_about = $request->input('niti_about');
             $niti->description = $request->input('description');
-            $niti->niti_type = $request->boolean('niti_type') ? 'special' : 'daily';
     
-            // Save sebayat names as a comma-separated list, only if provided
-            if ($request->has('niti_sebayat') && is_array($request->input('niti_sebayat')) && count($request->input('niti_sebayat')) > 0) {
-                $niti->niti_sebayat = implode(',', $request->input('niti_sebayat'));
+            // ✅ Correctly save niti_type
+            $niti->niti_type = $request->input('niti_type') === 'special' ? 'special' : 'daily';
+    
+            // ✅ Correctly save niti_privacy
+            $niti->niti_privacy = $request->input('niti_privacy') === 'private' ? 'private' : 'public';
+    
+            // ✅ Save sebayat list as CSV if present
+            if ($request->filled('niti_sebayat')) {
+                $niti->niti_sebayat = implode(',', $request->niti_sebayat);
             }
     
             $niti->save();
     
-            // Save items related to this Niti (item_name, quantity, unit)
-            if ($request->has('item_name') && is_array($request->input('item_name'))) {
+            // ✅ Save Niti Items
+            if ($request->filled('item_name')) {
                 $items = $request->input('item_name');
                 $quantities = $request->input('quantity');
                 $units = $request->input('unit');
     
                 foreach ($items as $index => $itemName) {
-                    if ($itemName) {
+                    if (!empty($itemName)) {
                         NitiItems::create([
                             'niti_id' => $niti_id,
                             'item_name' => $itemName,
@@ -87,34 +94,31 @@ class NitiController extends Controller
                 }
             }
     
-          // Check if the 'step_of_niti' exists and is an array
-
-          if ($request->has('step_of_niti') && is_array($request->input('step_of_niti'))) {
-            $steps = $request->input('step_of_niti');  // Get all the steps from the form
-            $sebas = $request->input('seba_name');     // Get the associated seba_name array
-            
-            foreach ($steps as $index => $stepName) {
-                if ($stepName) {
-                    // Ensure the index exists in $sebas and it's an array
-                        $sebaNamesString = implode(',', $sebas);
-                     
-                            
-                    // Save the NitiStep model
-                    NitiStep::create([
-                        'niti_id' => $niti_id,          // The Niti ID (ensure $niti_id is defined)
-                        'step_name' => $stepName,       // The step name
-                        'seba_name' => $sebaNamesString, // The comma-separated Seba names
-                    ]);
+            // ✅ Save Niti Steps with specific seba_name
+            if ($request->filled('step_of_niti')) {
+                $steps = $request->input('step_of_niti');
+                $sebas = $request->input('seba_name');
+    
+                foreach ($steps as $index => $stepName) {
+                    if (!empty($stepName)) {
+                        $stepSebas = $sebas[$index] ?? [];
+                        $sebaNamesString = is_array($stepSebas) ? implode(',', $stepSebas) : '';
+    
+                        NitiStep::create([
+                            'niti_id' => $niti_id,
+                            'step_name' => $stepName,
+                            'seba_name' => $sebaNamesString,
+                        ]);
+                    }
                 }
             }
-        }
-        
+    
             return redirect()->back()->with('success', 'Niti details saved successfully!');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => 'An error occurred while saving Niti details: ' . $e->getMessage()]);
         }
     }
-   
+    
     public function manageniti()
     {
         $templeId = Auth::guard('temples')->user()->temple_id;

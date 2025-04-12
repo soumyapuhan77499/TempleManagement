@@ -29,6 +29,7 @@ use App\Http\Controllers\Api\TempleCommitteeController;
 use App\Http\Controllers\Api\ReportHundiCollection;
 use App\Http\Controllers\Api\PanjiController;
 use App\Http\Controllers\Api\TempleNitiLoginController; // Import the TempleNitiLoginController
+use App\Http\Controllers\Api\TempleNitiController; // Import the TempleNitiController
 
 // website
 
@@ -261,4 +262,9 @@ Route::controller(TempleNitiLoginController::class)->group(function() {
   Route::post('admin/send-otp',  'sendOtp');
   Route::post('admin/verify-otp', 'verifyOtp');
   Route::post('admin/logout', 'logout')->middleware('auth:sanctum');
+});
+
+Route::controller(TempleNitiController::class)->group(function() {
+  Route::get('/manage-niti', 'manageNiti');
+  Route::post('/start-niti', 'startNiti');
 });
