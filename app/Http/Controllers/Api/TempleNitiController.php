@@ -18,13 +18,11 @@ class TempleNitiController extends Controller
     public function manageNiti(Request $request)
     {
         try {
-            $templeId = 'TEMPLE25402';
     
             $today = now()->toDateString();
     
             // Fetch Nitis with additional 'start_time' if started today
             $nitis = NitiMaster::where('status', 'active')
-                ->where('temple_id', $templeId)
                 ->where(function ($query) {
                     $query->where(function ($q) {
                         $q->where('niti_type', 'daily');
@@ -377,6 +375,39 @@ public function getSpecialNiti()
     }
 }
 
+public function storeSpecialNiti(Request $request)
+{
+    try {
+        // Validate only niti_name
+        $request->validate([
+            'niti_name' => 'required|string|max:255',
+        ]);
 
+        // Combine today's date with current time in IST
+        $dateTime = Carbon::now()->setTimezone('Asia/Kolkata')->format('Y-m-d H:i:s');
+
+        // Create special Niti
+        $niti = NitiMaster::create([
+            'niti_id'      => 'NITI' . rand(10000, 99999),
+            'niti_name'    => $request->niti_name,
+            'niti_type'    => 'special',
+            'date_time'    => $dateTime,
+            'niti_status'  => 'Upcoming', // or use 'Scheduled' as needed
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Special Niti created successfully.',
+            'data' => $niti,
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to create special Niti.',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
+}
 
 }

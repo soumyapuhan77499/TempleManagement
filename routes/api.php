@@ -271,6 +271,7 @@ Route::controller(TempleNitiController::class)->group(function () {
   Route::get('/manage-niti', 'manageNiti');
   Route::get('/completed-niti', 'completedNiti');
   Route::get('/special-niti', 'getSpecialNiti');
+  Route::post('/save-special-niti', 'storeSpecialNiti');
 
   // Protected routes (niti_admin must be authenticated)
   Route::middleware('auth:niti_admin')->group(function () {
