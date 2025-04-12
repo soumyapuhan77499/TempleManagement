@@ -10,43 +10,62 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\NitiManagement;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
+use Illuminate\Support\Facades\DB;
 
 class TempleNitiController extends Controller
 {
+
     public function manageNiti(Request $request)
-{
-    try {
-        $templeId = 'TEMPLE25402'; // You can make this dynamic using Auth if needed
-
-        $nitis = NitiMaster::where('status', 'active')
-        ->where('temple_id', $templeId)
-        ->where(function ($query) {
-            $query->where(function ($q) {
-                $q->where('niti_type', 'daily');
-            })->orWhere(function ($q) {
-                $q->where('niti_type', 'special')
-                  ->where('niti_status', 'Started');
-            });
-        })
-        ->get();
+    {
+        try {
+            $templeId = 'TEMPLE25402';
     
-        return response()->json([
-            'status' => true,
-            'message' => 'Niti list fetched successfully.',
-            'data' => $nitis
-        ], 200);
-
-    } catch (\Exception $e) {
-        Log::error('Error fetching Niti list: ' . $e->getMessage());
-
-        return response()->json([
-            'status' => false,
-            'message' => 'Something went wrong while fetching Niti data.',
-            'error' => $e->getMessage()
-        ], 500);
+            $today = now()->toDateString();
+    
+            // Fetch Nitis with additional 'start_time' if started today
+            $nitis = NitiMaster::where('status', 'active')
+                ->where('temple_id', $templeId)
+                ->where(function ($query) {
+                    $query->where(function ($q) {
+                        $q->where('niti_type', 'daily');
+                    })->orWhere(function ($q) {
+                        $q->where('niti_type', 'special')
+                            ->where('niti_status', 'Started');
+                    });
+                })
+                ->with(['todayStartTime' => function ($query) use ($today) {
+                    $query->where('niti_status', 'Started')
+                          ->whereDate('date', $today)
+                          ->select('niti_id', 'start_time');
+                }])
+                ->get()
+                ->map(function ($niti) {
+                    return [
+                        'niti_id'     => $niti->niti_id,
+                        'niti_name'   => $niti->niti_name,
+                        'niti_type'   => $niti->niti_type,
+                        'niti_status' => $niti->niti_status,
+                        'start_time'  => optional($niti->todayStartTime)->start_time,
+                    ];
+                });
+    
+            return response()->json([
+                'status' => true,
+                'message' => 'Niti list fetched successfully.',
+                'data' => $nitis
+            ], 200);
+    
+        } catch (\Exception $e) {
+            Log::error('Error fetching Niti list: ' . $e->getMessage());
+    
+            return response()->json([
+                'status' => false,
+                'message' => 'Something went wrong while fetching Niti data.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
-}
-
+    
 public function startNiti(Request $request)
 {
     try {
