@@ -88,8 +88,8 @@ public function startNiti(Request $request)
         $nitiManagement = new NitiManagement();
         $nitiManagement->niti_id = $request->niti_id;
         $nitiManagement->sebak_id = $user->sebak_id;
-        $nitiManagement->date = Carbon::now()->toDateString();
-        $nitiManagement->start_time = Carbon::now()->format('H:i:s');
+        $nitiManagement->date = Carbon::now()->setTimezone('Asia/Kolkata')->toDateString();
+        $nitiManagement->start_time = Carbon::now()->setTimezone('Asia/Kolkata')->format('H:i:s');
         $nitiManagement->niti_status = 'Started';
         $nitiManagement->save();
 
