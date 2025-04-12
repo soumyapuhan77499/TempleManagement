@@ -23,4 +23,10 @@ class NitiManagement extends Model
         'duration',
         'niti_status'
     ];
+
+    public function master()
+{
+    return $this->belongsTo(NitiMaster::class, 'niti_id', 'niti_id');
+}
+
 }

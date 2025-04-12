@@ -149,8 +149,10 @@ public function pauseNiti(Request $request)
         $pausedNiti = new NitiManagement();
         $pausedNiti->niti_id = $request->niti_id;
         $pausedNiti->sebak_id = $user->sebak_id;
-        $pausedNiti->date = Carbon::now()->toDateString();
-        $pausedNiti->pause_time = Carbon::now()->format('H:i:s');
+        $pausedNiti->start_time = $startedNiti->start_time; // Keep the start time from the started entry
+        $pausedNiti->date = Carbon::now()->setTimezone('Asia/Kolkata')->toDateString();
+        $pausedNiti->pause_time = Carbon::now()->setTimezone('Asia/Kolkata')->format('H:i:s');
+
         $pausedNiti->niti_status = 'Paused';
         $pausedNiti->save();
 
@@ -211,8 +213,10 @@ public function resumeNiti(Request $request)
         $resumedNiti = new NitiManagement();
         $resumedNiti->niti_id = $request->niti_id;
         $resumedNiti->sebak_id = $user->sebak_id;
-        $resumedNiti->date = Carbon::today()->toDateString();
-        $resumedNiti->resume_time = Carbon::now()->format('H:i:s');
+        $resumedNiti->start_time = $pausedNiti->start_time; // Keep the start time from the paused entry
+        $resumedNiti->pause_time = $pausedNiti->pause_time; // Keep the pause time from the paused entry
+        $resumedNiti->date = Carbon::now()->setTimezone('Asia/Kolkata')->toDateString();
+        $resumedNiti->resume_time = Carbon::now()->setTimezone('Asia/Kolkata')->format('H:i:s');
         $resumedNiti->niti_status = 'Resumed';
         $resumedNiti->save();
 
@@ -281,8 +285,11 @@ public function stopNiti(Request $request)
         $completedNiti = new NitiManagement();
         $completedNiti->niti_id = $request->niti_id;
         $completedNiti->sebak_id = $user->sebak_id;
-        $completedNiti->date = Carbon::today()->toDateString();
-        $completedNiti->end_time = $endDateTime->format('H:i:s');
+        $completedNiti->start_time = $activeNiti->start_time; // Keep the start time from the started entry
+        $completedNiti->pause_time = $activeNiti->pause_time; // Keep the pause time from the paused entry
+        $completedNiti->resume_time = $activeNiti->resume_time; // Keep the resume time from the resumed entry
+        $completedNiti->date = Carbon::now()->setTimezone('Asia/Kolkata')->toDateString();
+        $completedNiti->end_time = Carbon::now()->setTimezone('Asia/Kolkata')->format('H:i:s');
         $completedNiti->running_time = $formattedRunningTime;
         $completedNiti->duration = $formattedRunningTime;
         $completedNiti->niti_status = 'Completed';
@@ -307,5 +314,45 @@ public function stopNiti(Request $request)
         ], 500);
     }
 }
+
+
+public function completedNiti()
+{
+    try {
+        $today = now()->toDateString();
+
+        // Fetch completed Niti entries for today along with related Niti name
+        $completed = NitiManagement::with('master:niti_id,niti_name')
+            ->where('niti_status', 'Completed')
+            ->whereDate('date', $today)
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'niti_id'       => $item->niti_id,
+                    'niti_name'     => optional($item->master)->niti_name,
+                    'sebak_id'      => $item->sebak_id,
+                    'date'          => $item->date,
+                    'start_time'    => $item->start_time,
+                    'end_time'      => $item->end_time,
+                    'duration'      => $item->duration,
+                    'niti_status'   => $item->niti_status,
+                ];
+            });
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Completed Niti list for today fetched successfully.',
+            'data' => $completed,
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to fetch completed Niti data.',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
+}
+
 
 }
