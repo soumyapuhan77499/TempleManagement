@@ -28,6 +28,7 @@ use App\Http\Controllers\Api\TemplePrasadController;
 use App\Http\Controllers\Api\TempleCommitteeController;
 use App\Http\Controllers\Api\ReportHundiCollection;
 use App\Http\Controllers\Api\PanjiController;
+use App\Http\Controllers\Api\TempleNitiLoginController; // Import the TempleNitiLoginController
 
 // website
 
@@ -254,5 +255,10 @@ Route::controller(QuickServiceController::class)->group(function() {
   Route::get('/get-maha-prasad', 'getTemplePrasadList')->name('quickservice.getTemplePrasadList');
   Route::get('/get-panji', 'getPanji')->name('quickservice.getPanji');
   Route::get('/darshan-list','getDarshanListApi');
+});
 
+Route::controller(TempleNitiLoginController::class)->group(function() {
+  Route::post('admin/send-otp',  'sendOtp');
+  Route::post('admin/verify-otp', 'verifyOtp');
+  Route::post('admin/logout', 'logout')->middleware('auth:sanctum');
 });

@@ -9,7 +9,7 @@ class TempleDarshanManagement extends Model
 {
     use HasFactory;
 
-    protected $table = 'temple__darshan_management'; // Specify the table name
+    protected $table = 'temple__darshan_details'; // Specify the table name
    
     protected $fillable = [
         'temple_id',

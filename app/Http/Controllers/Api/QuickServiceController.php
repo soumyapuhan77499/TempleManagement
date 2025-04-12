@@ -297,6 +297,8 @@ public function getTemplePrasadList(Request $request)
         ], 500);
     }
 }
+
+
 public function getDarshan()
 {
     try {
