@@ -270,6 +270,7 @@ Route::controller(TempleNitiController::class)->group(function () {
   // Public or generic route (no auth)
   Route::get('/manage-niti', 'manageNiti');
   Route::get('/completed-niti', 'completedNiti');
+  Route::get('/special-niti', 'getSpecialNiti');
 
   // Protected routes (niti_admin must be authenticated)
   Route::middleware('auth:niti_admin')->group(function () {
@@ -278,7 +279,5 @@ Route::controller(TempleNitiController::class)->group(function () {
       Route::post('/resume-niti', 'resumeNiti');
       Route::post('/stop-niti', 'stopNiti');
   });
-
-
 
 });

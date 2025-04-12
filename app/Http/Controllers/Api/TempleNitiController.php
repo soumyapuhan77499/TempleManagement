@@ -355,4 +355,28 @@ public function completedNiti()
 }
 
 
+public function getSpecialNiti()
+{
+    try {
+        $specialNitis = NitiMaster::where('niti_type', 'special')
+            ->orderBy('date_time', 'desc')
+            ->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Special Niti list fetched successfully.',
+            'data' => $specialNitis,
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to fetch special Niti data.',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
+}
+
+
+
 }
