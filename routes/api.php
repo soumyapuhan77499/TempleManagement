@@ -57,7 +57,6 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::post('/update-temple-details', [TempleAboutController::class, 'updateTempleDetails']);
 });
 
-
 Route::middleware(['auth:sanctum'])->group(function () {
       Route::controller(TempleSocialMediaController::class)->group(function() {
         Route::get('/social-media', 'socialmedia');
@@ -264,7 +263,6 @@ Route::controller(TempleNitiLoginController::class)->group(function() {
   Route::post('admin/logout', 'logout')->middleware('auth:sanctum');
 });
 
-
 Route::controller(TempleNitiController::class)->group(function () {
 
   // Public or generic route (no auth)
@@ -280,5 +278,26 @@ Route::controller(TempleNitiController::class)->group(function () {
       Route::post('/resume-niti', 'resumeNiti');
       Route::post('/stop-niti', 'stopNiti');
   });
+
+});
+
+Route::controller(TempleDarshanController::class)->group(function () {
+
+  Route::get('/get-darshan', 'getDarshanListApi');
+  Route::middleware('auth:niti_admin')->post('/start-darshan', 'startDarshan');
+  Route::middleware('auth:niti_admin')->post('/end-darshan', 'endDarshan');
+  Route::get('/completed-darshan-today', 'getTodayCompletedDarshans');
+  Route::get('/special-darshans', 'getSpecialDarshans');
+
+
+});
+
+
+
+Route::controller(TemplePrasadController::class)->group(function () {
+
+  Route::get('/special-prasad','getSpecialPrasad');
+  Route::middleware('auth:niti_admin')->post('/start-prasad','startPrasad');
+  Route::get('/daily-special-started-prasad','getDailyAndStartedSpecialPrasad');
 
 });

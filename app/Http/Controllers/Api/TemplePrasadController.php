@@ -8,12 +8,14 @@ use App\Models\TemplePrasad;
 use App\Models\TemplePrasadItem;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
+use App\Models\PrasadManagement;
 
 class TemplePrasadController extends Controller
 {
     //
 
-    public function store(Request $request)
+public function store(Request $request)
 {
     $temple_id = Auth::guard('api')->user()->temple_id;
 
@@ -168,6 +170,106 @@ public function destroy($id)
         'data' => null,
         'status' => 200,
     ]);
+}
+
+public function getSpecialPrasad()
+{
+    try {
+        $prasads = TemplePrasad::where('prasad_type', 'special')
+            ->orderBy('date', 'desc')
+            ->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Special Prasad list fetched successfully.',
+            'data' => $prasads
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to fetch special prasad data.',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
+public function startPrasad(Request $request)
+{
+    try {
+        // Validate request
+        $request->validate([
+            'prasad_id' => 'required|integer|exists:temple__prasad_details,id',
+        ]);
+
+        // Get authenticated user (niti_admin)
+        $user = Auth::guard('niti_admin')->user();
+
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Unauthorized access.',
+            ], 401);
+        }
+
+        $now = Carbon::now()->setTimezone('Asia/Kolkata');
+
+        // Insert into prasad management table
+        $management = PrasadManagement::create([
+            'prasad_id'     => $request->prasad_id,
+            'sebak_id'      => $user->sebak_id,
+            'date'          => $now->toDateString(),
+            'start_time'    => $now->format('H:i:s'),
+            'prasad_status' => 'Started',
+        ]);
+
+        // Update prasad master table with status Started
+        TemplePrasad::where('id', $request->prasad_id)->update([
+            'prasad_status' => 'Started',
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Prasad started successfully.',
+            'data' => $management
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to start prasad.',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
+}
+
+public function getDailyAndStartedSpecialPrasad()
+{
+    try {
+        $today = Carbon::now()->setTimezone('Asia/Kolkata')->toDateString();
+
+        $prasads = TemplePrasad::where(function ($query) use ($today) {
+            $query->where('prasad_type', 'daily')
+                  ->orWhere(function ($q) use ($today) {
+                      $q->where('prasad_type', 'special')
+                        ->where('prasad_status', 'Started')
+                        ->whereDate('date', $today);
+                  });
+        })->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Filtered Prasad list fetched successfully.',
+            'data' => $prasads
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to fetch prasad list.',
+            'error' => $e->getMessage()
+        ], 500);
+    }
 }
 
 }

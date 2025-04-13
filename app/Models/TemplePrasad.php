@@ -16,8 +16,6 @@ class TemplePrasad extends Model
         'prasad_name',
         'prasad_type',
         'start_time',
-        'end_time',
-        'duration',
         'date',
         'prasad_price',
         'prasad_photo',
@@ -25,7 +23,9 @@ class TemplePrasad extends Model
         'description',
         'online_order',
         'pre_order',
-        'offline_order'
+        'offline_order',
+        'prasad_status'
     ];
     
+
 }

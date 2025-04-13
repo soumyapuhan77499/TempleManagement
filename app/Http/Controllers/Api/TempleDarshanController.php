@@ -5,6 +5,9 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TempleDarshan;
+use App\Models\TempleDarshanManagement;
+use App\Models\DarshanManagement;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
@@ -215,6 +218,201 @@ public function deleteTempleDarshan($id)
             'success' => 500,
              'message' => 'An error occurred while deleting the darshan: ' . $e->getMessage()
             ], 500);
+    }
+}
+
+public function getDarshanListApi()
+{
+    try {
+
+        $today = Carbon::today()->toDateString();
+        
+        $darshans = TempleDarshanManagement::where('status', 'active')
+            ->where(function ($query) use ($today) {
+                $query->where('darshan_type', 'daily')
+                      ->orWhere(function ($q) use ($today) {
+                          $q->where('darshan_type', 'special')
+                            ->where('darshan_status', 'Started')
+                            ->whereDate('date', $today);
+                      });
+            })
+            ->get();
+        
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Darshan list fetched successfully.',
+            'data' => $darshans,
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to fetch darshan list.',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
+}
+
+public function startDarshan(Request $request)
+{
+    try {
+        $request->validate([
+            'darshan_id' => 'required|string',
+        ]);
+
+        $user = Auth::guard('niti_admin')->user();
+
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Unauthorized access.',
+            ], 401);
+        }
+
+        $now = Carbon::now()->setTimezone('Asia/Kolkata');
+
+        // Step 1: Insert into DarshanManagement (activity log)
+        $darshanLog = DarshanManagement::create([
+            'darshan_id'     => $request->darshan_id,
+            'sebak_id'       => $user->sebak_id,
+            'date'           => $now->toDateString(),
+            'start_time'     => $now->format('H:i:s'),
+            'darshan_status' => 'Started',
+        ]);
+
+        // Step 2: Update TempleDarshanManagement (master table)
+        TempleDarshanManagement::where('id', $request->darshan_id)->update([
+            'darshan_status' => 'Started',
+            'date'           => $now->toDateString(),
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Darshan started successfully.',
+            'data' => $darshanLog,
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to start darshan.',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
+}
+
+public function endDarshan(Request $request)
+{
+    try {
+        // Validate input
+        $request->validate([
+            'darshan_id' => 'required|string',
+        ]);
+
+        // Get logged-in sebak
+        $user = Auth::guard('niti_admin')->user();
+
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Unauthorized access.',
+            ], 401);
+        }
+
+        $now = Carbon::now()->setTimezone('Asia/Kolkata');
+
+        // Find latest started darshan by this sebak
+        $activeDarshan = DarshanManagement::where('darshan_id', $request->darshan_id)
+            ->where('sebak_id', $user->sebak_id)
+            ->where('darshan_status', 'Started')
+            ->whereDate('date', $now->toDateString())
+            ->latest()
+            ->first();
+
+        if (!$activeDarshan) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No started darshan found for today by this sebak.',
+            ], 404);
+        }
+
+        // Calculate duration
+        $start = Carbon::parse($activeDarshan->date . ' ' . $activeDarshan->start_time);
+        $duration = $start->diff($now);
+        $formattedDuration = $duration->format('%H:%I:%S');
+
+        // ✅ Update Darshan log
+        $activeDarshan->update([
+            'end_time'       => $now->format('H:i:s'),
+            'duration'       => $formattedDuration,
+            'darshan_status' => 'Completed',
+        ]);
+
+        // ✅ Also update the main table temple__darshan_details
+        TempleDarshanManagement::where('id', $request->darshan_id)->update([
+            'darshan_status' => 'Completed',
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Darshan ended successfully.',
+            'data' => $activeDarshan,
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to end darshan.',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
+}
+
+public function getTodayCompletedDarshans()
+{
+    try {
+        $today = Carbon::now()->setTimezone('Asia/Kolkata')->toDateString();
+
+        $completedDarshans = DarshanManagement::where('darshan_status', 'Completed')
+            ->whereDate('date', $today)
+            ->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Completed Darshan list for today fetched successfully.',
+            'data' => $completedDarshans,
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to fetch completed Darshan data.',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
+}
+
+public function getSpecialDarshans()
+{
+    try {
+        $darshans = TempleDarshanManagement::where('darshan_type', 'special')
+            ->where('status', 'active')
+            ->orderBy('date', 'desc')
+            ->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Special Darshan list fetched successfully.',
+            'data' => $darshans,
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to fetch special darshan list.',
+            'error' => $e->getMessage(),
+        ], 500);
     }
 }
 }
