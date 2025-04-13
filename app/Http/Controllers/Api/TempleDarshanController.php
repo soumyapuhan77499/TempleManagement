@@ -305,12 +305,10 @@ public function startDarshan(Request $request)
 public function endDarshan(Request $request)
 {
     try {
-        // Validate input
         $request->validate([
             'darshan_id' => 'required|string',
         ]);
 
-        // Get logged-in sebak
         $user = Auth::guard('niti_admin')->user();
 
         if (!$user) {
@@ -322,42 +320,47 @@ public function endDarshan(Request $request)
 
         $now = Carbon::now()->setTimezone('Asia/Kolkata');
 
-        // Find latest started darshan by this sebak
-        $activeDarshan = DarshanManagement::where('darshan_id', $request->darshan_id)
+        // Find the last start time from earlier entry
+        $latestStart = DarshanManagement::where('darshan_id', $request->darshan_id)
             ->where('sebak_id', $user->sebak_id)
             ->where('darshan_status', 'Started')
             ->whereDate('date', $now->toDateString())
             ->latest()
             ->first();
 
-        if (!$activeDarshan) {
+        if (!$latestStart) {
             return response()->json([
                 'status' => false,
-                'message' => 'No started darshan found for today by this sebak.',
+                'message' => 'No active started darshan found for today by this sebak.',
             ], 404);
         }
 
         // Calculate duration
-        $start = Carbon::parse($activeDarshan->date . ' ' . $activeDarshan->start_time);
+        $start = Carbon::parse($latestStart->date . ' ' . $latestStart->start_time);
         $duration = $start->diff($now);
         $formattedDuration = $duration->format('%H:%I:%S');
 
-        // ✅ Update Darshan log
-        $activeDarshan->update([
+        // ✅ Insert new row as end entry
+        $endEntry = DarshanManagement::create([
+            'darshan_id'     => $request->darshan_id,
+            'sebak_id'       => $user->sebak_id,
+            'temple_id'      => $latestStart->temple_id ?? null,
+            'date'           => $now->toDateString(),
+            'start_time'     => $latestStart->start_time,
             'end_time'       => $now->format('H:i:s'),
             'duration'       => $formattedDuration,
             'darshan_status' => 'Completed',
         ]);
 
-        // ✅ Also update the main table temple__darshan_details
+        // ✅ Update main darshan table
         TempleDarshanManagement::where('id', $request->darshan_id)->update([
             'darshan_status' => 'Completed',
         ]);
 
         return response()->json([
             'status' => true,
-            'message' => 'Darshan ended successfully.',
-            'data' => $activeDarshan,
+            'message' => 'Darshan ended and recorded successfully.',
+            'data' => $endEntry,
         ], 200);
 
     } catch (\Exception $e) {
