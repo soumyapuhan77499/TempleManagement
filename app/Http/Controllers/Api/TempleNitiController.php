@@ -36,6 +36,7 @@ class TempleNitiController extends Controller
                           ->whereDate('date', $today)
                           ->select('niti_id', 'start_time');
                 }])
+                ->orderBy('date_time', 'asc') // Order by date_time ascending
                 ->get()
                 ->map(function ($niti) {
                     return [
@@ -110,7 +111,6 @@ public function startNiti(Request $request)
     }
 }
 
-
 public function pauseNiti(Request $request)
 {
     try {
@@ -173,7 +173,6 @@ public function pauseNiti(Request $request)
         ], 500);
     }
 }
-
 
 public function resumeNiti(Request $request)
 {
@@ -313,7 +312,6 @@ public function stopNiti(Request $request)
     }
 }
 
-
 public function completedNiti()
 {
     try {
@@ -352,7 +350,6 @@ public function completedNiti()
     }
 }
 
-
 public function getSpecialNiti()
 {
     try {
@@ -374,7 +371,6 @@ public function getSpecialNiti()
         ], 500);
     }
 }
-
 public function storeSpecialNiti(Request $request)
 {
     try {
@@ -383,16 +379,28 @@ public function storeSpecialNiti(Request $request)
             'niti_name' => 'required|string|max:255',
         ]);
 
+        // Check if a special niti with the same name already exists
+        $existingNiti = NitiMaster::where('niti_name', $request->niti_name)
+            ->where('niti_type', 'special')
+            ->first();
+
+        if ($existingNiti) {
+            return response()->json([
+                'status' => false,
+                'message' => 'This Niti name already exists. Skipping insertion.',
+            ], 200);
+        }
+
         // Combine today's date with current time in IST
         $dateTime = Carbon::now()->setTimezone('Asia/Kolkata')->format('Y-m-d H:i:s');
 
         // Create special Niti
         $niti = NitiMaster::create([
-            'niti_id'      => 'NITI' . rand(10000, 99999),
-            'niti_name'    => $request->niti_name,
-            'niti_type'    => 'special',
-            'date_time'    => $dateTime,
-            'niti_status'  => 'Started', // or use 'Scheduled' as needed
+            'niti_id'     => 'NITI' . rand(10000, 99999),
+            'niti_name'   => $request->niti_name,
+            'niti_type'   => 'special',
+            'date_time'   => $dateTime,
+            'niti_status' => 'Started', // or 'Scheduled' as needed
         ]);
 
         return response()->json([
