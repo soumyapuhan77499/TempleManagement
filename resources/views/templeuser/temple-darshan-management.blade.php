@@ -41,7 +41,7 @@
                                     <option value="normal">Normal</option>
                                 </select>
                             </div>
-                    
+
                             <!-- Date (shown only if "special" is selected) -->
                             <div class="col-md-4 mb-3" id="darshan_date_container">
                                 <label for="darshan_date" class="form-label">Darshan Date</label>

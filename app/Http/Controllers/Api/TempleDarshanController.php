@@ -229,7 +229,7 @@ public function getDarshanListApi()
         
         $darshans = TempleDarshanManagement::where('status', 'active')
             ->where(function ($query) use ($today) {
-                $query->where('darshan_type', 'daily')
+                $query->where('darshan_type', 'normal')
                       ->orWhere(function ($q) use ($today) {
                           $q->where('darshan_type', 'special')
                             ->where('darshan_status', 'Started')

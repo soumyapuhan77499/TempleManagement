@@ -249,7 +249,7 @@ public function getDailyAndStartedSpecialPrasad()
         $today = Carbon::now()->setTimezone('Asia/Kolkata')->toDateString();
 
         $prasads = TemplePrasad::where(function ($query) use ($today) {
-            $query->where('prasad_type', 'daily')
+            $query->where('prasad_type', 'normal')
                   ->orWhere(function ($q) use ($today) {
                       $q->where('prasad_type', 'special')
                         ->where('prasad_status', 'Started')
