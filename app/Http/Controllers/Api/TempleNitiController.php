@@ -379,18 +379,7 @@ public function storeSpecialNiti(Request $request)
             'niti_name' => 'required|string|max:255',
         ]);
 
-        // Check if a special niti with the same name already exists
-        $existingNiti = NitiMaster::where('niti_name', $request->niti_name)
-            ->where('niti_type', 'special')
-            ->first();
-
-        if ($existingNiti) {
-            return response()->json([
-                'status' => false,
-                'message' => 'This Niti name already exists. Skipping insertion.',
-            ], 200);
-        }
-
+       
         // Combine today's date with current time in IST
         $dateTime = Carbon::now()->setTimezone('Asia/Kolkata')->format('Y-m-d H:i:s');
 
