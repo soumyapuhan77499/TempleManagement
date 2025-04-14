@@ -36,7 +36,7 @@ class TempleNitiController extends Controller
                           ->whereDate('date', $today)
                           ->select('niti_id', 'start_time');
                 }])
-                ->orderBy('date_time', 'asc') // Order by date_time ascending
+                ->orderBy('date_time', 'desc') // Order by date_time ascending
                 ->get()
                 ->map(function ($niti) {
                     return [
