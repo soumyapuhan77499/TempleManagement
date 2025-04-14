@@ -215,12 +215,12 @@ public function resumeNiti(Request $request)
         $resumedNiti->pause_time = $pausedNiti->pause_time; // Keep the pause time from the paused entry
         $resumedNiti->date = Carbon::now()->setTimezone('Asia/Kolkata')->toDateString();
         $resumedNiti->resume_time = Carbon::now()->setTimezone('Asia/Kolkata')->format('H:i:s');
-        $resumedNiti->niti_status = 'Resumed';
+        $resumedNiti->niti_status = 'Started';
         $resumedNiti->save();
 
         // ✅ Update master table
         NitiMaster::where('niti_id', $request->niti_id)->update([
-            'niti_status' => 'Resumed'
+            'niti_status' => 'Started'
         ]);
 
         return response()->json([
@@ -392,7 +392,7 @@ public function storeSpecialNiti(Request $request)
             'niti_name'    => $request->niti_name,
             'niti_type'    => 'special',
             'date_time'    => $dateTime,
-            'niti_status'  => 'Upcoming', // or use 'Scheduled' as needed
+            'niti_status'  => 'Started', // or use 'Scheduled' as needed
         ]);
 
         return response()->json([
