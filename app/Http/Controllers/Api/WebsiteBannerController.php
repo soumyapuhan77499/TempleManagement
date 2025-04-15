@@ -40,7 +40,7 @@ class WebsiteBannerController extends Controller
                 // Get management record of today, ordered by start_time
                 $management = NitiManagement::where('niti_id', $niti->niti_id)
                     ->whereDate('date', $today)
-                    ->orderBy('start_time', 'asc') // <-- Order by start_time ascending
+                    ->orderBy('start_time', 'desc') // <-- Order by start_time ascending
                     ->first(); // pick the first one with earliest start time
             
                 return [
