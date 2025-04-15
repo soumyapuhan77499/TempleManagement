@@ -8,6 +8,7 @@ use App\Models\NitiMaster;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Models\NitiManagement;
+use App\Models\TempleSubNiti;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\DB;
@@ -27,15 +28,17 @@ public function manageNiti(Request $request)
                     $q->where('niti_type', 'daily');
                 })->orWhere(function ($q) {
                     $q->where('niti_type', 'special')
-                       ->where('niti_status', 'Started');
+                        ->where('niti_status', 'Started');
                 });
             })
-            ->with(['todayStartTime' => function ($query) use ($today) {
-                $query->where('niti_status', 'Started')
-                      ->whereDate('date', $today)
-                      ->select('niti_id', 'start_time');
-            }])
-            // Special Started on top, then by date_time ascending
+            ->with([
+                'todayStartTime' => function ($query) use ($today) {
+                    $query->where('niti_status', 'Started')
+                          ->whereDate('date', $today)
+                          ->select('niti_id', 'start_time');
+                },
+                'subNitis' // ✅ load sub niti
+            ])
             ->orderByRaw("CASE WHEN niti_type = 'special' AND niti_status = 'Started' THEN 0 ELSE 1 END")
             ->orderBy('date_time', 'asc')
             ->get()
@@ -46,8 +49,15 @@ public function manageNiti(Request $request)
                     'niti_type'   => $niti->niti_type,
                     'niti_status' => $niti->niti_status,
                     'start_time'  => optional($niti->todayStartTime)->start_time,
-                ];
+                    // ✅ Include Sub Niti names as array
+                    'sub_nitis'   => $niti->subNitis->map(function ($sub) {
+                        return [
+                            'id'   => $sub->id,
+                            'name' => $sub->sub_niti_name,
+                        ];
+                    }),                ];
             });
+        
         
         return response()->json([
             'status' => true,

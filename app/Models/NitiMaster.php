@@ -45,4 +45,10 @@ public function todayStartTime()
         ->whereDate('date', now()->toDateString());
 }
 
+public function subNitis()
+{
+    return $this->hasMany(TempleSubNiti::class, 'niti_id', 'niti_id');
+}
+
+
 }
