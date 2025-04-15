@@ -25,6 +25,14 @@ class WebsiteBannerController extends Controller
 
             $today = Carbon::now('Asia/Kolkata')->toDateString();
 
+            // Step 1: Get the latest started Niti today
+            $latestStarted = NitiManagement::where('niti_status', 'Started')
+                ->whereDate('date', $today)
+                ->orderBy('created_at', 'desc')
+                ->first();
+            $latestStartedId = $latestStarted->niti_id ?? null;
+            
+            // Step 2: Get all daily + special Nitis
             $nitis = NitiMaster::where(function ($query) {
                     $query->where('niti_type', 'daily')
                           ->where('status', 'active')
@@ -34,38 +42,43 @@ class WebsiteBannerController extends Controller
                     $query->where('niti_type', 'special')
                           ->whereIn('niti_status', ['Started', 'Completed']);
                 })
-                ->orderByRaw("CASE WHEN niti_type = 'special' THEN 0 ELSE 1 END")
                 ->orderBy('date_time', 'desc')
                 ->get();
-                
-                $result = $nitis->map(function ($niti) use ($today) {
-                    $management = NitiManagement::where('niti_id', $niti->niti_id)
-                        ->whereDate('date', $today)
-                        ->latest()
-                        ->first();
-                
-                    return [
-                        'niti_id'       => $niti->niti_id,
-                        'niti_name'     => $niti->niti_name,
-                        'niti_type'     => $niti->niti_type,
-                        'niti_status'   => $niti->niti_status,
-                        'date_time'     => $niti->date_time,
-                        'language'      => $niti->language,
-                        'niti_privacy'  => $niti->niti_privacy,
-                        'niti_about'    => $niti->niti_about,
-                        'niti_sebayat'  => $niti->niti_sebayat,
-                        'description'   => $niti->description,
-                
-                        // Management info
-                        'start_time'    => $management->start_time ?? null,
-                        'pause_time'    => $management->pause_time ?? null,
-                        'resume_time'   => $management->resume_time ?? null,
-                        'end_time'      => $management->end_time ?? null,
-                        'duration'      => $management->duration ?? null,
-                        'management_status' => $management->niti_status ?? null,
-                    ];
-                });
-                            
+            
+            // Step 3: Format each Niti + management info
+            $mapped = $nitis->map(function ($niti) use ($today) {
+                $management = NitiManagement::where('niti_id', $niti->niti_id)
+                    ->whereDate('date', $today)
+                    ->latest()
+                    ->first();
+            
+                return [
+                    'niti_id'       => $niti->niti_id,
+                    'niti_name'     => $niti->niti_name,
+                    'niti_type'     => $niti->niti_type,
+                    'niti_status'   => $niti->niti_status,
+                    'date_time'     => $niti->date_time,
+                    'language'      => $niti->language,
+                    'niti_privacy'  => $niti->niti_privacy,
+                    'niti_about'    => $niti->niti_about,
+                    'niti_sebayat'  => $niti->niti_sebayat,
+                    'description'   => $niti->description,
+            
+                    // Management info
+                    'start_time'    => $management->start_time ?? null,
+                    'pause_time'    => $management->pause_time ?? null,
+                    'resume_time'   => $management->resume_time ?? null,
+                    'end_time'      => $management->end_time ?? null,
+                    'duration'      => $management->duration ?? null,
+                    'management_status' => $management->niti_status ?? null,
+                ];
+            });
+            
+            // Step 4: Sort to show latest started niti_id on top
+            $result = $mapped->sortByDesc(function ($item) use ($latestStartedId) {
+                return $item['niti_id'] === $latestStartedId ? 1 : 0;
+            })->values(); // reset keys
+            
         
             $banners = TempleBanner::where('temple_id', $templeId)
             ->where('status', 'active')
