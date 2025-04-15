@@ -25,15 +25,23 @@ class WebsiteBannerController extends Controller
 
             $today = Carbon::now('Asia/Kolkata')->toDateString();
 
-            // Step 1: Get today's started Nitis in real-time execution order
-            $startedManagement = NitiManagement::whereDate('date', $today)
-                ->whereNotNull('start_time')
-                ->orderBy('start_time', 'asc')
+            $nitis = NitiMaster::where(function ($query) {
+                    $query->where('niti_type', 'daily')
+                          ->where('status', 'active')
+                          ->where('niti_privacy', 'public');
+                })
+                ->orWhere(function ($query) {
+                    $query->where('niti_type', 'special')
+                          ->whereIn('niti_status', ['Started', 'Completed']);
+                })
                 ->get();
             
-            // Step 2: Map to include NitiMaster data
-            $startedNitis = $startedManagement->map(function ($management) {
-                $niti = NitiMaster::where('niti_id', $management->niti_id)->first();
+            $result = $nitis->map(function ($niti) use ($today) {
+                // Get management record of today, ordered by start_time
+                $management = NitiManagement::where('niti_id', $niti->niti_id)
+                    ->whereDate('date', $today)
+                    ->orderBy('start_time', 'asc') // <-- Order by start_time ascending
+                    ->first(); // pick the first one with earliest start time
             
                 return [
                     'niti_id'       => $niti->niti_id,
@@ -47,51 +55,20 @@ class WebsiteBannerController extends Controller
                     'niti_sebayat'  => $niti->niti_sebayat,
                     'description'   => $niti->description,
             
-                    // Management info
-                    'start_time'    => $management->start_time,
-                    'pause_time'    => $management->pause_time,
-                    'resume_time'   => $management->resume_time,
-                    'end_time'      => $management->end_time,
-                    'duration'      => $management->duration,
-                    'management_status' => $management->niti_status,
+                    // Management info (optional)
+                    'start_time'    => $management->start_time ?? null,
+                    'pause_time'    => $management->pause_time ?? null,
+                    'resume_time'   => $management->resume_time ?? null,
+                    'end_time'      => $management->end_time ?? null,
+                    'duration'      => $management->duration ?? null,
+                    'management_status' => $management->niti_status ?? null,
                 ];
             });
             
-            // Step 3: Fetch unstarted daily Nitis (if you want to show them below)
-            $startedNitiIds = $startedManagement->pluck('niti_id')->toArray();
-            
-            $unstartedDailyNitis = NitiMaster::whereNotIn('niti_id', $startedNitiIds)
-                ->where('niti_type', 'daily')
-                ->where('status', 'active')
-                ->where('niti_privacy', 'public')
-                ->orderBy('date_time', 'asc') // Optional
-                ->get()
-                ->map(function ($niti) {
-                    return [
-                        'niti_id'       => $niti->niti_id,
-                        'niti_name'     => $niti->niti_name,
-                        'niti_type'     => $niti->niti_type,
-                        'niti_status'   => $niti->niti_status,
-                        'date_time'     => $niti->date_time,
-                        'language'      => $niti->language,
-                        'niti_privacy'  => $niti->niti_privacy,
-                        'niti_about'    => $niti->niti_about,
-                        'niti_sebayat'  => $niti->niti_sebayat,
-                        'description'   => $niti->description,
-            
-                        // No management data
-                        'start_time'    => null,
-                        'pause_time'    => null,
-                        'resume_time'   => null,
-                        'end_time'      => null,
-                        'duration'      => null,
-                        'management_status' => null,
-                    ];
-                });
-            
-            // Step 4: Merge started + unstarted (started appear first)
-            $result = $startedNitis->merge($unstartedDailyNitis)->values();
-            
+            // Sort final result by start_time ascending (nulls last)
+            $sortedResult = $result->sortBy(function ($item) {
+                return $item['start_time'] ?? '99:99:99'; // push nulls to bottom
+            })->values();
             
             
             $banners = TempleBanner::where('temple_id', $templeId)
@@ -112,7 +89,7 @@ class WebsiteBannerController extends Controller
                 'status' => true,
                 'message' => 'Temple website data fetched successfully.',
                 'data' => [
-                    'niti_master' => $result,
+                    'niti_master' => $sortedResult,
                     'banners' => $banners,
                     'nearby_temples' => $nearbyTemples,
                     'totalPreviousAmount' => $totalPreviousAmount,
