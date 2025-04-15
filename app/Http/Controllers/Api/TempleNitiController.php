@@ -371,40 +371,99 @@ public function getSpecialNiti()
         ], 500);
     }
 }
+
 public function storeSpecialNiti(Request $request)
 {
     try {
-        // Validate only niti_name
+        // Validate input
         $request->validate([
             'niti_name' => 'required|string|max:255',
+            'niti_id'   => 'nullable|string',
         ]);
 
-       
-        // Combine today's date with current time in IST
-        $dateTime = Carbon::now()->setTimezone('Asia/Kolkata')->format('Y-m-d H:i:s');
+        // Get current IST time
+        $now = Carbon::now()->setTimezone('Asia/Kolkata');
 
-        // Create special Niti
+        // Get current sebak (assuming logged in as 'niti_admin' guard)
+        $user = Auth::guard('niti_admin')->user();
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Unauthorized. Please login as Sebak.',
+            ], 401);
+        }
+
+        // If niti_id exists, update status and log management
+        if ($request->filled('niti_id')) {
+            $niti = NitiMaster::where('niti_id', $request->niti_id)->first();
+
+            if ($niti) {
+                $niti->update([
+                    'niti_status' => 'Started',
+                ]);
+
+                // Insert transaction into NitiManagement
+                NitiManagement::create([
+                    'niti_id'     => $niti->niti_id,
+                    'sebak_id'    => $user->sebak_id,
+                    'niti_status' => 'Started',
+                    'date'        => $now->toDateString(),
+                    'start_time'  => $now->format('H:i:s'),
+                ]);
+
+                return response()->json([
+                    'status'  => true,
+                    'message' => 'Special Niti updated and started.',
+                    'data'    => $niti,
+                ], 200);
+            }
+        }
+
+        // Check if the Niti name already exists
+        $existingNiti = NitiMaster::where('niti_name', $request->niti_name)
+            ->where('niti_type', 'special')
+            ->first();
+
+        if ($existingNiti) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'Niti name already exists. Please update instead.',
+            ], 409);
+        }
+
+        // Create new NitiMaster record
         $niti = NitiMaster::create([
             'niti_id'     => 'NITI' . rand(10000, 99999),
             'niti_name'   => $request->niti_name,
             'niti_type'   => 'special',
-            'date_time'   => $dateTime,
-            'niti_status' => 'Started', // or 'Scheduled' as needed
+            'niti_status' => 'Started',
+            'date_time'   => $now->format('Y-m-d H:i:s'),
+        ]);
+
+        // Insert into NitiManagement
+        NitiManagement::create([
+            'niti_id'     => $niti->niti_id,
+            'sebak_id'    => $user->sebak_id,
+            'niti_status' => 'Started',
+            'date'        => $now->toDateString(),
+            'start_time'  => $now->format('H:i:s'),
         ]);
 
         return response()->json([
-            'status' => true,
-            'message' => 'Special Niti created successfully.',
-            'data' => $niti,
+            'status'  => true,
+            'message' => 'Special Niti created and started.',
+            'data'    => $niti,
         ], 200);
 
     } catch (\Exception $e) {
         return response()->json([
-            'status' => false,
-            'message' => 'Failed to create special Niti.',
-            'error' => $e->getMessage(),
+            'status'  => false,
+            'message' => 'Failed to create/update special Niti.',
+            'error'   => $e->getMessage(),
         ], 500);
     }
 }
+
+
 
 }
