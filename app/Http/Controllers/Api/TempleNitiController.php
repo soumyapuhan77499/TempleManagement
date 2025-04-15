@@ -15,55 +15,55 @@ use Illuminate\Support\Facades\DB;
 class TempleNitiController extends Controller
 {
 
-    public function manageNiti(Request $request)
-    {
-        try {
-    
-            $today = now()->toDateString();
-    
-            // Fetch Nitis with additional 'start_time' if started today
-            $nitis = NitiMaster::where('status', 'active')
-                ->where(function ($query) {
-                    $query->where(function ($q) {
-                        $q->where('niti_type', 'daily');
-                    })->orWhere(function ($q) {
-                        $q->where('niti_type', 'special')
-                            ->where('niti_status', 'Started');
-                    });
-                })
-                ->with(['todayStartTime' => function ($query) use ($today) {
-                    $query->where('niti_status', 'Started')
-                          ->whereDate('date', $today)
-                          ->select('niti_id', 'start_time');
-                }])
-                ->orderBy('date_time', 'desc') // Order by date_time ascending
-                ->get()
-                ->map(function ($niti) {
-                    return [
-                        'niti_id'     => $niti->niti_id,
-                        'niti_name'   => $niti->niti_name,
-                        'niti_type'   => $niti->niti_type,
-                        'niti_status' => $niti->niti_status,
-                        'start_time'  => optional($niti->todayStartTime)->start_time,
-                    ];
+public function manageNiti(Request $request)
+{
+    try {
+
+        $today = now()->toDateString();
+
+        // Fetch Nitis with additional 'start_time' if started today
+        $nitis = NitiMaster::where('status', 'active')
+            ->where(function ($query) {
+                $query->where(function ($q) {
+                    $q->where('niti_type', 'daily');
+                })->orWhere(function ($q) {
+                    $q->where('niti_type', 'special')
+                        ->where('niti_status', 'Started');
                 });
-    
-            return response()->json([
-                'status' => true,
-                'message' => 'Niti list fetched successfully.',
-                'data' => $nitis
-            ], 200);
-    
-        } catch (\Exception $e) {
-            Log::error('Error fetching Niti list: ' . $e->getMessage());
-    
-            return response()->json([
-                'status' => false,
-                'message' => 'Something went wrong while fetching Niti data.',
-                'error' => $e->getMessage()
-            ], 500);
-        }
+            })
+            ->with(['todayStartTime' => function ($query) use ($today) {
+                $query->where('niti_status', 'Started')
+                        ->whereDate('date', $today)
+                        ->select('niti_id', 'start_time');
+            }])
+            ->orderBy('date_time', 'desc') // Order by date_time ascending
+            ->get()
+            ->map(function ($niti) {
+                return [
+                    'niti_id'     => $niti->niti_id,
+                    'niti_name'   => $niti->niti_name,
+                    'niti_type'   => $niti->niti_type,
+                    'niti_status' => $niti->niti_status,
+                    'start_time'  => optional($niti->todayStartTime)->start_time,
+                ];
+            });
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Niti list fetched successfully.',
+            'data' => $nitis
+        ], 200);
+
+    } catch (\Exception $e) {
+        Log::error('Error fetching Niti list: ' . $e->getMessage());
+
+        return response()->json([
+            'status' => false,
+            'message' => 'Something went wrong while fetching Niti data.',
+            'error' => $e->getMessage()
+        ], 500);
     }
+}
     
 public function startNiti(Request $request)
 {
@@ -236,6 +236,7 @@ public function resumeNiti(Request $request)
         ], 500);
     }
 }
+
 public function stopNiti(Request $request)
 {
     try {
@@ -256,7 +257,7 @@ public function stopNiti(Request $request)
         $activeNiti = NitiManagement::where('niti_id', $request->niti_id)
             ->where('sebak_id', $user->sebak_id)
             ->whereIn('niti_status', ['Started', 'Resumed'])
-            ->whereDate('date', Carbon::today())
+            ->whereDate('date', Carbon::today('Asia/Kolkata'))
             ->latest()
             ->first();
 
@@ -267,21 +268,32 @@ public function stopNiti(Request $request)
             ], 400);
         }
 
+        // Set timezone and timestamps
+        $tz = 'Asia/Kolkata';
         $startTime = $activeNiti->resume_time ?? $activeNiti->start_time;
-        $startDateTime = Carbon::parse($activeNiti->date . ' ' . $startTime);
-        $endDateTime = Carbon::now()->setTimezone('Asia/Kolkata'); // ✅ ensure timezone consistency
-        
-        // Duration calculation
+        $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $activeNiti->date . ' ' . $startTime, $tz);
+        $endDateTime = Carbon::now($tz);
+
+        // Calculate total difference in seconds
         $diffInSeconds = $startDateTime->diffInSeconds($endDateTime);
+
+        // Calculate running_time in "HH:MM:SS" format manually
         $hours = floor($diffInSeconds / 3600);
         $minutes = floor(($diffInSeconds % 3600) / 60);
-        
+        $seconds = $diffInSeconds % 60;
+        $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+
+        // Human-readable duration like "2 hr 5 min"
         $durationText = '';
         if ($hours > 0) {
             $durationText .= $hours . ' hr ';
         }
-        $durationText .= $minutes . ' min';
-        
+        if ($minutes > 0 || $hours > 0) {
+            $durationText .= $minutes . ' min';
+        } else {
+            $durationText .= $seconds . ' sec';
+        }
+
         // Save completed Niti entry
         $completedNiti = new NitiManagement();
         $completedNiti->niti_id = $request->niti_id;
@@ -290,14 +302,13 @@ public function stopNiti(Request $request)
         $completedNiti->pause_time = $activeNiti->pause_time;
         $completedNiti->resume_time = $activeNiti->resume_time;
         $completedNiti->date = $endDateTime->toDateString();
-        $completedNiti->end_time = $endDateTime->format('H:i:s'); // ✅ fixed format
-        $completedNiti->running_time = gmdate('H:i:s', $diffInSeconds);
+        $completedNiti->end_time = $endDateTime->format('H:i:s');
+        $completedNiti->running_time = $runningTime;
         $completedNiti->duration = $durationText;
         $completedNiti->niti_status = 'Completed';
         $completedNiti->save();
-        
 
-        // Update master table status
+        // Update master table
         NitiMaster::where('niti_id', $request->niti_id)->update([
             'niti_status' => 'Completed'
         ]);
