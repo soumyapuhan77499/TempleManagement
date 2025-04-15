@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Models\NitiManagement;
 use App\Models\TempleSubNiti;
+use App\Models\TempleSubNitiManagement;
+
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\DB;
@@ -337,7 +339,6 @@ public function stopNiti(Request $request)
     }
 }
 
-
 public function completedNiti()
 {
     try {
@@ -511,5 +512,66 @@ public function updateActiveNitiToUpcoming()
         ], 500);
     }
 }
+
+public function startSubNiti(Request $request)
+{
+    try {
+        $request->validate([
+            'sub_niti_id' => 'required|integer|exists:temple__sub_niti,id' // adjust table name if needed
+        ]);
+
+        // Get current authenticated sebak (assuming 'niti_admin' guard)
+        $user = Auth::guard('niti_admin')->user();
+
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Unauthorized. Sebak not logged in.'
+            ], 401);
+        }
+
+        // Get current date and time in IST
+        $now = Carbon::now('Asia/Kolkata');
+
+        // Optionally fetch sub_niti_name from your sub_niti master table (if required)
+        $subNiti = TempleSubNiti::where('id', $request->sub_niti_id)->first();
+
+        if (!$subNiti) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Sub Niti not found.'
+            ], 404);
+        }
+
+        // Save sub niti management entry
+        $record = TempleSubNitiManagement::create([
+            // 'temple_id'      => $user->temple_id ?? null,
+            'sebak_id'       => $user->sebak_id,
+            'niti_id'        => $subNiti->niti_id, // assuming this exists in the sub_niti table
+            'sub_niti_id'    => $subNiti->id,
+            'date'           => $now->toDateString(),
+            'start_time'     => $now->format('H:i:s'),
+            'status'    => 'Completed',
+        ]);
+
+        TempleSubNiti::where('id', $request->sub_niti_id)->update([
+            'status' => 'Completed'
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Sub Niti started successfully.',
+            'data' => $record
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to start Sub Niti.',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
 
 }

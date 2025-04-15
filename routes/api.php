@@ -278,6 +278,7 @@ Route::controller(TempleNitiController::class)->group(function () {
       Route::post('/pause-niti', 'pauseNiti');
       Route::post('/resume-niti', 'resumeNiti');
       Route::post('/stop-niti', 'stopNiti');
+      Route::post('/sub-niti/start', 'startSubNiti');
   });
 
 });

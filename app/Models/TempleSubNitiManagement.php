@@ -17,6 +17,8 @@ class TempleSubNitiManagement extends Model
         'niti_id',
         'sub_niti_id',
         'sub_niti_name',
+        'date',
+        'start_time',
         'status',
         'created_at',
         'updated_at'
