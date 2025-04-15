@@ -133,6 +133,36 @@
                             </div>
                         </div>
 
+                        <div class="sub-niti-container">
+                            @foreach ($subNitis as $index => $subNiti)
+                                <div class="row sub-niti-row align-items-center mb-3">
+                                    <div class="col-md-10">
+                                        <div class="main-content-label mg-b-5">Sub Niti Name</div>
+                                        <input type="text" class="form-control" name="sub_niti_name[]" value="{{ $subNiti->sub_niti_name }}" placeholder="Enter Sub Niti Name">
+                                    </div>
+                                    <div class="col-md-2 d-flex align-items-center mt-2">
+                                        <button type="button" class="btn btn-success add-sub-niti me-1">Add</button>
+                                        <button type="button" class="btn btn-danger remove-sub-niti" {{ $index == 0 ? 'style=display:none;' : '' }}>Remove</button>
+                                    </div>
+                                </div>
+                            @endforeach
+                        
+                            {{-- If no existing sub-niti, show one blank input --}}
+                            @if ($subNitis->isEmpty())
+                                <div class="row sub-niti-row align-items-center mb-3">
+                                    <div class="col-md-10">
+                                        <div class="main-content-label mg-b-5">Sub Niti Name</div>
+                                        <input type="text" class="form-control" name="sub_niti_name[]" placeholder="Enter Sub Niti Name">
+                                    </div>
+                                    <div class="col-md-2 d-flex align-items-center mt-2">
+                                        <button type="button" class="btn btn-success add-sub-niti me-1">Add</button>
+                                        <button type="button" class="btn btn-danger remove-sub-niti" style="display: none;">Remove</button>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                        
+
 
                         {{-- niti item --}}
                         <div class="row">

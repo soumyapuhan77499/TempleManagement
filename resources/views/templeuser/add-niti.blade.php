@@ -50,7 +50,7 @@
         <div class="justify-content-center mt-2">
             <ol class="breadcrumb d-flex justify-content-between align-items-center">
                 <li class="breadcrumb-item tx-15"><a href="{{ url('admin/manage-niti') }}"
-                        class="btn btn-warning text-dark">Manage Niti</a></li>
+                        class="btn btn-warning text-white">Manage Niti</a></li>
                 <li class="breadcrumb-item tx-15"><a href="javascript:void(0);">Dashboard</a></li>
                 <li class="breadcrumb-item active tx-15" aria-current="page">ADD NITI</li>
             </ol>
