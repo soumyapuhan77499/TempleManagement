@@ -253,47 +253,35 @@ public function stopNiti(Request $request)
             ], 401);
         }
 
+        $tz = 'Asia/Kolkata';
+
         // Get the latest active Niti
         $activeNiti = NitiManagement::where('niti_id', $request->niti_id)
             ->where('sebak_id', $user->sebak_id)
             ->whereIn('niti_status', ['Started', 'Resumed'])
-            ->whereDate('date', Carbon::today('Asia/Kolkata'))
+            ->whereDate('date', Carbon::today($tz))
             ->latest()
             ->first();
 
-        if (!$activeNiti || (!$activeNiti->start_time)) {
+        if (!$activeNiti || !$activeNiti->start_time) {
             return response()->json([
                 'status' => false,
                 'message' => 'No active Niti found to stop.'
             ], 400);
         }
 
-        $tz = 'Asia/Kolkata';
-        $startTime = $activeNiti->start_time;
-        $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $activeNiti->date . ' ' . $startTime, $tz);
+        // Calculate duration from start_time to current time (end_time)
+        $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $activeNiti->date . ' ' . $activeNiti->start_time, $tz);
         $endDateTime = Carbon::now($tz);
 
-        // Initial full duration from start to end
-        $fullDurationSeconds = $startDateTime->diffInSeconds($endDateTime);
+        $durationInSeconds = $startDateTime->diffInSeconds($endDateTime);
 
-        // Subtract pause/resume duration if both exist
-        if ($activeNiti->pause_time && $activeNiti->resume_time) {
-            $pauseDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $activeNiti->date . ' ' . $activeNiti->pause_time, $tz);
-            $resumeDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $activeNiti->date . ' ' . $activeNiti->resume_time, $tz);
+        $hours = floor($durationInSeconds / 3600);
+        $minutes = floor(($durationInSeconds % 3600) / 60);
+        $seconds = $durationInSeconds % 60;
 
-            if ($resumeDateTime->greaterThan($pauseDateTime)) {
-                $pausedSeconds = $pauseDateTime->diffInSeconds($resumeDateTime);
-                $fullDurationSeconds -= $pausedSeconds;
-            }
-        }
-
-        // Calculate HH:MM:SS format
-        $hours = floor($fullDurationSeconds / 3600);
-        $minutes = floor(($fullDurationSeconds % 3600) / 60);
-        $seconds = $fullDurationSeconds % 60;
         $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
 
-        // Human-readable duration
         $durationText = '';
         if ($hours > 0) {
             $durationText .= $hours . ' hr ';
@@ -314,7 +302,7 @@ public function stopNiti(Request $request)
         $completedNiti->date = $endDateTime->toDateString();
         $completedNiti->end_time = $endDateTime->format('H:i:s');
         $completedNiti->running_time = $runningTime;
-        $completedNiti->duration = $durationText;
+        $completedNiti->duration = trim($durationText);
         $completedNiti->niti_status = 'Completed';
         $completedNiti->save();
 
@@ -337,6 +325,7 @@ public function stopNiti(Request $request)
         ], 500);
     }
 }
+
 
 public function completedNiti()
 {
