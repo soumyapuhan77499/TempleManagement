@@ -19,24 +19,25 @@ public function manageNiti(Request $request)
 {
     try {
 
-        $today = now()->toDateString();
+        $today = Carbon::now('Asia/Kolkata')->toDateString();
 
-        // Fetch Nitis with additional 'start_time' if started today
         $nitis = NitiMaster::where('status', 'active')
             ->where(function ($query) {
                 $query->where(function ($q) {
                     $q->where('niti_type', 'daily');
                 })->orWhere(function ($q) {
                     $q->where('niti_type', 'special')
-                        ->where('niti_status', 'Started');
+                       ->where('niti_status', 'Started');
                 });
             })
             ->with(['todayStartTime' => function ($query) use ($today) {
                 $query->where('niti_status', 'Started')
-                        ->whereDate('date', $today)
-                        ->select('niti_id', 'start_time');
+                      ->whereDate('date', $today)
+                      ->select('niti_id', 'start_time');
             }])
-            ->orderBy('date_time', 'asc') // Order by date_time ascending
+            // Special Started on top, then by date_time ascending
+            ->orderByRaw("CASE WHEN niti_type = 'special' AND niti_status = 'Started' THEN 0 ELSE 1 END")
+            ->orderBy('date_time', 'asc')
             ->get()
             ->map(function ($niti) {
                 return [
@@ -47,7 +48,7 @@ public function manageNiti(Request $request)
                     'start_time'  => optional($niti->todayStartTime)->start_time,
                 ];
             });
-
+        
         return response()->json([
             'status' => true,
             'message' => 'Niti list fetched successfully.',
@@ -64,7 +65,7 @@ public function manageNiti(Request $request)
         ], 500);
     }
 }
-    
+
 public function startNiti(Request $request)
 {
     try {
