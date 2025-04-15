@@ -28,45 +28,44 @@ class WebsiteBannerController extends Controller
             $nitis = NitiMaster::where(function ($query) {
                     $query->where('niti_type', 'daily')
                           ->where('status', 'active')
-                          ->where('niti_privacy', 'public')
-                          ->orderBy('date_time', 'desc');
+                          ->where('niti_privacy', 'public');
                 })
                 ->orWhere(function ($query) {
                     $query->where('niti_type', 'special')
                           ->whereIn('niti_status', ['Started', 'Completed']);
                 })
+                ->orderByRaw("CASE WHEN niti_type = 'special' THEN 0 ELSE 1 END")
+                ->orderBy('date_time', 'desc')
                 ->get();
-            
-            $result = $nitis->map(function ($niti) use ($today) {
-                // Try to get today's management record, else null
-                $management = NitiManagement::where('niti_id', $niti->niti_id)
-                    ->whereDate('date', $today)
-                    ->latest()
-                    ->first();
-            
-                return [
-                    'niti_id'       => $niti->niti_id,
-                    'niti_name'     => $niti->niti_name,
-                    'niti_type'     => $niti->niti_type,
-                    'niti_status'   => $niti->niti_status,
-                    'date_time'     => $niti->date_time,
-                    'language'      => $niti->language,
-                    'niti_privacy'  => $niti->niti_privacy,
-                    'niti_about'    => $niti->niti_about,
-                    'niti_sebayat'  => $niti->niti_sebayat,
-                    'description'   => $niti->description,
-            
-                    // Management info (optional)
-                    'start_time'    => $management->start_time ?? null,
-                    'pause_time'    => $management->pause_time ?? null,
-                    'resume_time'   => $management->resume_time ?? null,
-                    'end_time'      => $management->end_time ?? null,
-                    'duration'      => $management->duration ?? null,
-                    'management_status' => $management->niti_status ?? null,
-                ];
-            });
-            
-          
+                
+                $result = $nitis->map(function ($niti) use ($today) {
+                    $management = NitiManagement::where('niti_id', $niti->niti_id)
+                        ->whereDate('date', $today)
+                        ->latest()
+                        ->first();
+                
+                    return [
+                        'niti_id'       => $niti->niti_id,
+                        'niti_name'     => $niti->niti_name,
+                        'niti_type'     => $niti->niti_type,
+                        'niti_status'   => $niti->niti_status,
+                        'date_time'     => $niti->date_time,
+                        'language'      => $niti->language,
+                        'niti_privacy'  => $niti->niti_privacy,
+                        'niti_about'    => $niti->niti_about,
+                        'niti_sebayat'  => $niti->niti_sebayat,
+                        'description'   => $niti->description,
+                
+                        // Management info
+                        'start_time'    => $management->start_time ?? null,
+                        'pause_time'    => $management->pause_time ?? null,
+                        'resume_time'   => $management->resume_time ?? null,
+                        'end_time'      => $management->end_time ?? null,
+                        'duration'      => $management->duration ?? null,
+                        'management_status' => $management->niti_status ?? null,
+                    ];
+                });
+                            
         
             $banners = TempleBanner::where('temple_id', $templeId)
             ->where('status', 'active')
