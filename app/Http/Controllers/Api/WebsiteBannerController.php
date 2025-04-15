@@ -29,7 +29,7 @@ class WebsiteBannerController extends Controller
                     $query->where('niti_type', 'daily')
                           ->where('status', 'active')
                           ->where('niti_privacy', 'public')
-                          ->orderBy('date_time', 'asc');
+                          ->orderBy('date_time', 'desc');
                 })
                 ->orWhere(function ($query) {
                     $query->where('niti_type', 'special')
