@@ -27,7 +27,8 @@ class WebsiteBannerController extends Controller
 
             $nitis = NitiMaster::where(function ($query) {
                     $query->where('niti_type', 'daily')
-                          ->where('status', 'active');
+                          ->where('status', 'active')
+                          ->orderBy('date_time', 'desc');
                 })
                 ->orWhere(function ($query) {
                     $query->where('niti_type', 'special')
