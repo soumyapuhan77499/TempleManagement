@@ -175,7 +175,7 @@
                             <div class="col-md-12">
                                 <div class="form-group mt-3">
                                     <label class="main-content-label">Niti About</label>
-                                    <textarea class="form-control" id="niti_about" name="niti_about" rows="3" placeholder="Enter Niti About"></textarea>
+                                    <textarea class="form-control" id="niti_about" name="niti_about" rows="2" placeholder="Enter Niti About"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -184,6 +184,33 @@
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-1">SUB NITI</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="sub-niti-container">
+                            <div class="row sub-niti-row align-items-center mb-3">
+                                <div class="col-md-10">
+                                    <div class="main-content-label mg-b-5">Sub Niti Name</div>
+                                    <input type="text" class="form-control" name="sub_niti_name[]"
+                                        placeholder="Enter Sub Niti Name">
+                                </div>
+                                <div class="col-md-2 d-flex align-items-center mt-2">
+                                    <button type="button" class="btn btn-success add-sub-niti me-1">Add Sub Niti</button>
+                                    <button type="button" class="btn btn-danger remove-sub-niti"
+                                        style="display: none;">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <div class="row">
             <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
@@ -297,6 +324,9 @@
             </div>
         </div>
 
+       
+
+
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -397,8 +427,8 @@
                     <select class="form-control select2" name="seba_name[]" multiple="multiple">
                         <option value="">Select Seba</option>
                         ${`@foreach ($manage_seba as $seba)
-                                                        <option value="{{ $seba->seba_name }}">{{ $seba->seba_name }}</option>
-                                                    @endforeach`}
+                                                            <option value="{{ $seba->seba_name }}">{{ $seba->seba_name }}</option>
+                                                        @endforeach`}
                     </select>
                 </div>
             </div>
@@ -524,6 +554,26 @@
                 document.getElementById('dateTimeContainer').style.display = 'none';
             } else {
                 document.getElementById('dateTimeContainer').style.display = 'block';
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('add-sub-niti')) {
+                const subNitiContainer = document.querySelector('.sub-niti-container');
+                const newSubNitiRow = document.querySelector('.sub-niti-row').cloneNode(true);
+
+                // Clear values for the cloned input fields
+                newSubNitiRow.querySelector('input').value = '';
+
+                // Update buttons
+                newSubNitiRow.querySelector('.add-sub-niti').style.display = 'none';
+                newSubNitiRow.querySelector('.remove-sub-niti').style.display = 'inline-block';
+
+                subNitiContainer.appendChild(newSubNitiRow);
+            } else if (event.target.classList.contains('remove-sub-niti')) {
+                event.target.closest('.sub-niti-row').remove();
             }
         });
     </script>

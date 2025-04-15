@@ -479,6 +479,26 @@ public function storeSpecialNiti(Request $request)
     }
 }
 
+public function updateActiveNitiToUpcoming()
+{
+    try {
+        // Update all Niti records with status 'active' to 'Upcoming'
+        $updatedCount = NitiMaster::where('status', 'active')
+            ->update(['niti_status' => 'Upcoming']);
 
+        return response()->json([
+            'status' => true,
+            'message' => 'All active Niti statuses updated to Upcoming.',
+            'updated_records' => $updatedCount
+        ], 200);
+        
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to update Niti statuses.',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
 
 }
