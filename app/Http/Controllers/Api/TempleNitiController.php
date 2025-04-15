@@ -236,11 +236,9 @@ public function resumeNiti(Request $request)
         ], 500);
     }
 }
-
 public function stopNiti(Request $request)
 {
     try {
-        // Validate request
         $request->validate([
             'niti_id' => 'required|string|exists:temple__niti_details,niti_id',
         ]);
@@ -254,7 +252,7 @@ public function stopNiti(Request $request)
             ], 401);
         }
 
-        // Get the latest started/resumed Niti for today for this user
+        // Get the latest active Niti
         $activeNiti = NitiManagement::where('niti_id', $request->niti_id)
             ->where('sebak_id', $user->sebak_id)
             ->whereIn('niti_status', ['Started', 'Resumed'])
@@ -262,37 +260,44 @@ public function stopNiti(Request $request)
             ->latest()
             ->first();
 
-        if (!$activeNiti || !$activeNiti->start_time && !$activeNiti->resume_time) {
+        if (!$activeNiti || (!$activeNiti->start_time && !$activeNiti->resume_time)) {
             return response()->json([
                 'status' => false,
                 'message' => 'No active Niti found to stop.'
             ], 400);
         }
 
-        // Determine the starting point (start_time or resume_time)
         $startTime = $activeNiti->resume_time ?? $activeNiti->start_time;
         $startDateTime = Carbon::parse($activeNiti->date . ' ' . $startTime);
         $endDateTime = Carbon::now();
 
-        // Calculate time difference
-        $runningTime = $startDateTime->diff($endDateTime);
-        $formattedRunningTime = $runningTime->format('%H:%I:%S');
+        // Calculate duration
+        $diffInSeconds = $startDateTime->diffInSeconds($endDateTime);
+        $hours = floor($diffInSeconds / 3600);
+        $minutes = floor(($diffInSeconds % 3600) / 60);
 
-        // Save new completed entry
+        // Format duration string like "1 hr 30 min"
+        $durationText = '';
+        if ($hours > 0) {
+            $durationText .= $hours . ' hr ';
+        }
+        $durationText .= $minutes . ' min';
+
+        // Save completed Niti entry
         $completedNiti = new NitiManagement();
         $completedNiti->niti_id = $request->niti_id;
         $completedNiti->sebak_id = $user->sebak_id;
-        $completedNiti->start_time = $activeNiti->start_time; // Keep the start time from the started entry
-        $completedNiti->pause_time = $activeNiti->pause_time; // Keep the pause time from the paused entry
-        $completedNiti->resume_time = $activeNiti->resume_time; // Keep the resume time from the resumed entry
-        $completedNiti->date = Carbon::now()->setTimezone('Asia/Kolkata')->toDateString();
-        $completedNiti->end_time = Carbon::now()->setTimezone('Asia/Kolkata')->format('H:i:s');
-        $completedNiti->running_time = $formattedRunningTime;
-        $completedNiti->duration = $formattedRunningTime;
+        $completedNiti->start_time = $activeNiti->start_time;
+        $completedNiti->pause_time = $activeNiti->pause_time;
+        $completedNiti->resume_time = $activeNiti->resume_time;
+        $completedNiti->date = $endDateTime->toDateString();
+        $completedNiti->end_time = $endDateTime->format('H:i:s');
+        $completedNiti->running_time = gmdate('H:i:s', $diffInSeconds); // optional standard format
+        $completedNiti->duration = $durationText;
         $completedNiti->niti_status = 'Completed';
         $completedNiti->save();
 
-        // Update NitiMaster
+        // Update master table status
         NitiMaster::where('niti_id', $request->niti_id)->update([
             'niti_status' => 'Completed'
         ]);
