@@ -25,15 +25,8 @@ class WebsiteBannerController extends Controller
 
             $today = Carbon::now('Asia/Kolkata')->toDateString();
 
-            // Step 1: Get the latest started Niti today
-            $latestStarted = NitiManagement::where('niti_status', 'Started')
-                ->whereDate('date', $today)
-                ->orderBy('created_at', 'desc')
-                ->first();
-            $latestStartedId = $latestStarted->niti_id ?? null;
-            
-            // Step 2: Get all daily + special Nitis
-            $nitis = NitiMaster::where(function ($query) {
+            // Step 1: Get all Nitis and today's management data
+            $allNitis = NitiMaster::where(function ($query) {
                     $query->where('niti_type', 'daily')
                           ->where('status', 'active')
                           ->where('niti_privacy', 'public');
@@ -42,11 +35,11 @@ class WebsiteBannerController extends Controller
                     $query->where('niti_type', 'special')
                           ->whereIn('niti_status', ['Started', 'Completed']);
                 })
-                ->orderBy('date_time', 'asc')
+                ->orderBy('date_time', 'desc')
                 ->get();
             
-            // Step 3: Format each Niti + management info
-            $mapped = $nitis->map(function ($niti) use ($today) {
+            // Step 2: Map with management data
+            $mapped = $allNitis->map(function ($niti) use ($today) {
                 $management = NitiManagement::where('niti_id', $niti->niti_id)
                     ->whereDate('date', $today)
                     ->latest()
@@ -74,10 +67,16 @@ class WebsiteBannerController extends Controller
                 ];
             });
             
-            // Step 4: Sort to show latest started niti_id on top
-            $result = $mapped->sortByDesc(function ($item) use ($latestStartedId) {
-                return $item['niti_id'] === $latestStartedId ? 1 : 0;
-            })->values(); // reset keys
+            // Step 3: Separate into buckets
+            $specialStarted = $mapped->filter(fn($item) => $item['niti_type'] === 'special' && $item['niti_status'] === 'Started');
+            $specialCompleted = $mapped->filter(fn($item) => $item['niti_type'] === 'special' && $item['niti_status'] === 'Completed');
+            $daily = $mapped->filter(fn($item) => $item['niti_type'] === 'daily');
+            
+            // Step 4: Merge in desired order
+            $result = $specialStarted
+                ->merge($specialCompleted)
+                ->merge($daily)
+                ->values(); // re-index the result
             
         
             $banners = TempleBanner::where('temple_id', $templeId)
