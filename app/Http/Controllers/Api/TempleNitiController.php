@@ -269,20 +269,19 @@ public function stopNiti(Request $request)
 
         $startTime = $activeNiti->resume_time ?? $activeNiti->start_time;
         $startDateTime = Carbon::parse($activeNiti->date . ' ' . $startTime);
-        $endDateTime = Carbon::now();
-
-        // Calculate duration
+        $endDateTime = Carbon::now()->setTimezone('Asia/Kolkata'); // ✅ ensure timezone consistency
+        
+        // Duration calculation
         $diffInSeconds = $startDateTime->diffInSeconds($endDateTime);
         $hours = floor($diffInSeconds / 3600);
         $minutes = floor(($diffInSeconds % 3600) / 60);
-
-        // Format duration string like "1 hr 30 min"
+        
         $durationText = '';
         if ($hours > 0) {
             $durationText .= $hours . ' hr ';
         }
         $durationText .= $minutes . ' min';
-
+        
         // Save completed Niti entry
         $completedNiti = new NitiManagement();
         $completedNiti->niti_id = $request->niti_id;
@@ -291,11 +290,12 @@ public function stopNiti(Request $request)
         $completedNiti->pause_time = $activeNiti->pause_time;
         $completedNiti->resume_time = $activeNiti->resume_time;
         $completedNiti->date = $endDateTime->toDateString();
-        $completedNiti->end_time = $endDateTime->format('H:i:s');
-        $completedNiti->running_time = gmdate('H:i:s', $diffInSeconds); // optional standard format
+        $completedNiti->end_time = $endDateTime->format('H:i:s'); // ✅ fixed format
+        $completedNiti->running_time = gmdate('H:i:s', $diffInSeconds);
         $completedNiti->duration = $durationText;
         $completedNiti->niti_status = 'Completed';
         $completedNiti->save();
+        
 
         // Update master table status
         NitiMaster::where('niti_id', $request->niti_id)->update([
