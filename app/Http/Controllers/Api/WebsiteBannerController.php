@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\NitiMaster;
+use App\Models\NitiManagement;
 use App\Models\SebaMaster;
 use App\Models\TempleBanner;
 use App\Models\NearByTemple;
