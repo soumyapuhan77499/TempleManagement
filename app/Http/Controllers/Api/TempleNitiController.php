@@ -261,29 +261,39 @@ public function stopNiti(Request $request)
             ->latest()
             ->first();
 
-        if (!$activeNiti || (!$activeNiti->start_time && !$activeNiti->resume_time)) {
+        if (!$activeNiti || (!$activeNiti->start_time)) {
             return response()->json([
                 'status' => false,
                 'message' => 'No active Niti found to stop.'
             ], 400);
         }
 
-        // Set timezone and timestamps
         $tz = 'Asia/Kolkata';
-        $startTime = $activeNiti->resume_time ?? $activeNiti->start_time;
+        $startTime = $activeNiti->start_time;
         $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $activeNiti->date . ' ' . $startTime, $tz);
         $endDateTime = Carbon::now($tz);
 
-        // Calculate total difference in seconds
-        $diffInSeconds = $startDateTime->diffInSeconds($endDateTime);
+        // Initial full duration from start to end
+        $fullDurationSeconds = $startDateTime->diffInSeconds($endDateTime);
 
-        // Calculate running_time in "HH:MM:SS" format manually
-        $hours = floor($diffInSeconds / 3600);
-        $minutes = floor(($diffInSeconds % 3600) / 60);
-        $seconds = $diffInSeconds % 60;
+        // Subtract pause/resume duration if both exist
+        if ($activeNiti->pause_time && $activeNiti->resume_time) {
+            $pauseDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $activeNiti->date . ' ' . $activeNiti->pause_time, $tz);
+            $resumeDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $activeNiti->date . ' ' . $activeNiti->resume_time, $tz);
+
+            if ($resumeDateTime->greaterThan($pauseDateTime)) {
+                $pausedSeconds = $pauseDateTime->diffInSeconds($resumeDateTime);
+                $fullDurationSeconds -= $pausedSeconds;
+            }
+        }
+
+        // Calculate HH:MM:SS format
+        $hours = floor($fullDurationSeconds / 3600);
+        $minutes = floor(($fullDurationSeconds % 3600) / 60);
+        $seconds = $fullDurationSeconds % 60;
         $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
 
-        // Human-readable duration like "2 hr 5 min"
+        // Human-readable duration
         $durationText = '';
         if ($hours > 0) {
             $durationText .= $hours . ' hr ';
