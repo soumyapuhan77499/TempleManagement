@@ -56,6 +56,8 @@ public function manageNiti(Request $request)
                         return [
                             'id'   => $sub->id,
                             'name' => $sub->sub_niti_name,
+                            'status' => $sub->status,
+
                         ];
                     }),                ];
             });
