@@ -35,7 +35,7 @@ class WebsiteBannerController extends Controller
                     $query->where('niti_type', 'special')
                           ->whereIn('niti_status', ['Started', 'Completed']);
                 })
-                ->orderBy('date_time', 'desc')
+                ->orderBy('date_time', 'asc')
                 ->get();
             
             // Step 2: Map with management data
