@@ -282,20 +282,14 @@ Route::controller(TempleNitiController::class)->group(function () {
 });
 
 Route::controller(TempleDarshanController::class)->group(function () {
-
   Route::get('/get-darshan', 'getDarshanListApi');
   Route::middleware('auth:niti_admin')->post('/start-darshan', 'startDarshan');
   Route::middleware('auth:niti_admin')->post('/end-darshan', 'endDarshan');
   Route::get('/completed-darshan-today', 'getTodayCompletedDarshans');
   Route::get('/special-darshans', 'getSpecialDarshans');
-
-
 });
 
-
-
 Route::controller(TemplePrasadController::class)->group(function () {
-
   Route::get('/special-prasad','getSpecialPrasad');
   Route::middleware('auth:niti_admin')->post('/start-prasad','startPrasad');
   Route::get('/daily-special-started-prasad','getDailyAndStartedSpecialPrasad');

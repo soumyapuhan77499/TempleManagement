@@ -20,30 +20,48 @@ class WebsiteBannerController extends Controller
             // Fetch all data
             $templeId = 'TEMPLE25402';
 
-            $previousDate = Carbon::yesterday()->toDateString(); // e.g., '2025-03-24'
+            $previousDate = Carbon::yesterday()->toDateString(); 
 
-            $nitiMaster = NitiMaster::with(['niti_items:id,niti_id,item_name,quantity,unit']) // fetch only necessary columns
-            ->where('status', 'active')
-            ->where('temple_id', $templeId)
-            ->get(['niti_id', 'niti_name', 'date_time', 'niti_type', 'niti_about', 'niti_sebayat', 'description']) // fetch only specific columns from NitiMaster
-            ->map(function ($niti) {
+            $today = Carbon::now('Asia/Kolkata')->toDateString();
+
+            $nitis = NitiMaster::where(function ($query) {
+                    $query->where('niti_type', 'daily')
+                          ->where('niti_status', 'active');
+                })
+                ->orWhere(function ($query) {
+                    $query->where('niti_type', 'special')
+                          ->whereIn('niti_status', ['Started', 'Completed']);
+                })
+                ->get();
+    
+            $result = $nitis->map(function ($niti) use ($today) {
+                // Fetch latest management record for this niti today
+                $management = NitiManagement::where('niti_id', $niti->niti_id)
+                    ->whereDate('date', $today)
+                    ->latest()
+                    ->first();
+    
                 return [
+                    'niti_id'       => $niti->niti_id,
                     'niti_name'     => $niti->niti_name,
-                    'date_time'     => $niti->date_time,
                     'niti_type'     => $niti->niti_type,
-                    'niti_about'    => $niti->niti_about,
-                    'niti_sebayat'  => $niti->niti_sebayat,
-                    'description'   => $niti->description,
                     'niti_status'   => $niti->niti_status,
-                    'items'         => $niti->niti_items->map(function ($item) {
-                        return [
-                            'item_name' => $item->item_name,
-                            'quantity'  => $item->quantity,
-                            'unit'      => $item->unit,
-                        ];
-                    }),
+                    'date_time'     => $niti->date_time,
+                    'language'      => $niti->language,
+                    'niti_privacy'  => $niti->niti_privacy,
+                    'niti_about'    => $niti->niti_about,
+                   
+    
+                    // Management data (nullable)
+                    'start_time'    => $management->start_time ?? null,
+                    'pause_time'    => $management->pause_time ?? null,
+                    'resume_time'   => $management->resume_time ?? null,
+                    'end_time'      => $management->end_time ?? null,
+                    'duration'      => $management->duration ?? null,
+                    'niti_status' => $management->niti_status ?? null,
                 ];
             });
+          
         
             $banners = TempleBanner::where('temple_id', $templeId)
             ->where('status', 'active')
@@ -63,7 +81,7 @@ class WebsiteBannerController extends Controller
                 'status' => true,
                 'message' => 'Temple website data fetched successfully.',
                 'data' => [
-                    'niti_master' => $nitiMaster,
+                    'niti_master' => $result,
                     'banners' => $banners,
                     'nearby_temples' => $nearbyTemples,
                     'totalPreviousAmount' => $totalPreviousAmount,
@@ -78,5 +96,5 @@ class WebsiteBannerController extends Controller
                 'error' => $e->getMessage()
             ], 500);
         }
-    }
+    } 
 }
