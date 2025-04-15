@@ -557,7 +557,6 @@ public function startSubNiti(Request $request)
         if ($existingRunning) {
             $existingRunning->update([
                 'status'   => 'Completed',
-                'end_time' => $now->format('H:i:s')
             ]);
         }
 
@@ -566,6 +565,7 @@ public function startSubNiti(Request $request)
             'sebak_id'       => $user->sebak_id,
             'niti_id'        => $subNiti->niti_id,
             'sub_niti_id'    => $subNiti->id,
+            'sub_niti_name'  => $subNiti->sub_niti_name,
             'date'           => $today,
             'start_time'     => $now->format('H:i:s'),
             'status'         => 'Running',

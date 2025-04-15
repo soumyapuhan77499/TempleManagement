@@ -42,6 +42,13 @@ class WebsiteBannerController extends Controller
                     ->whereDate('date', $today)
                     ->orderBy('start_time', 'desc') // <-- Order by start_time ascending
                     ->first(); // pick the first one with earliest start time
+
+                    $runningSubNiti = TempleSubNitiManagement::where('niti_id', $niti->niti_id)
+                    ->whereDate('date', $today)
+                    ->where('status', 'Running')
+                    ->orderBy('start_time', 'desc')
+                    ->first();
+            
             
                 return [
                     'niti_id'       => $niti->niti_id,
@@ -62,6 +69,14 @@ class WebsiteBannerController extends Controller
                     'end_time'      => $management->end_time ?? null,
                     'duration'      => $management->duration ?? null,
                     'management_status' => $management->niti_status ?? null,
+
+                    'sub_niti' => $runningSubNiti ? [
+                        'sub_niti_id'   => $runningSubNiti->sub_niti_id,
+                        'sub_niti_name' => $runningSubNiti->sub_niti_name,
+                        'status'        => $runningSubNiti->status,
+                        'start_time'    => $runningSubNiti->start_time,
+                        'date'          => $runningSubNiti->date
+                    ] : null,
                 ];
             });
             
