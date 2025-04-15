@@ -27,21 +27,21 @@ class WebsiteBannerController extends Controller
 
             $nitis = NitiMaster::where(function ($query) {
                     $query->where('niti_type', 'daily')
-                          ->where('niti_status', 'active');
+                          ->where('status', 'active');
                 })
                 ->orWhere(function ($query) {
                     $query->where('niti_type', 'special')
                           ->whereIn('niti_status', ['Started', 'Completed']);
                 })
                 ->get();
-    
+            
             $result = $nitis->map(function ($niti) use ($today) {
-                // Fetch latest management record for this niti today
+                // Try to get today's management record, else null
                 $management = NitiManagement::where('niti_id', $niti->niti_id)
                     ->whereDate('date', $today)
                     ->latest()
                     ->first();
-    
+            
                 return [
                     'niti_id'       => $niti->niti_id,
                     'niti_name'     => $niti->niti_name,
@@ -51,17 +51,19 @@ class WebsiteBannerController extends Controller
                     'language'      => $niti->language,
                     'niti_privacy'  => $niti->niti_privacy,
                     'niti_about'    => $niti->niti_about,
-                   
-    
-                    // Management data (nullable)
+                    'niti_sebayat'  => $niti->niti_sebayat,
+                    'description'   => $niti->description,
+            
+                    // Management info (optional)
                     'start_time'    => $management->start_time ?? null,
                     'pause_time'    => $management->pause_time ?? null,
                     'resume_time'   => $management->resume_time ?? null,
                     'end_time'      => $management->end_time ?? null,
                     'duration'      => $management->duration ?? null,
-                    'niti_status' => $management->niti_status ?? null,
+                    'management_status' => $management->niti_status ?? null,
                 ];
             });
+            
           
         
             $banners = TempleBanner::where('temple_id', $templeId)
