@@ -21,8 +21,25 @@ class TempleNitiController extends Controller
     {
         try {
             $today = Carbon::now('Asia/Kolkata')->toDateString();
-    
-            // ✅ Fetch Nitis with Sub Nitis
+
+            // ✅ Fetch Running Sub Nitis globally
+            $runningSubNitis = TempleSubNitiManagement::where('status', 'Running')
+                ->whereDate('date', $today)
+                ->whereIn('niti_id', function ($query) {
+                    $query->select('niti_id')
+                          ->from('temple__niti_details')
+                          ->whereIn('niti_status', ['Started', 'Paused']);
+                })
+                ->get([
+                    'sub_niti_id',
+                    'sub_niti_name',
+                    'niti_id',
+                    'start_time',
+                    'date',
+                    'status'
+                ]);
+            
+            // ✅ Fetch Nitis with relationships
             $nitis = NitiMaster::where('status', 'active')
                 ->where(function ($query) {
                     $query->where(function ($q) {
@@ -43,7 +60,10 @@ class TempleNitiController extends Controller
                 ->orderByRaw("CASE WHEN niti_type = 'special' AND niti_status = 'Started' THEN 0 ELSE 1 END")
                 ->orderBy('date_time', 'asc')
                 ->get()
-                ->map(function ($niti) {
+                ->map(function ($niti) use ($runningSubNitis, $today) {
+                    // 🔍 Match running sub-niti by niti_id
+                    $matchingRunningSubNiti = $runningSubNitis->where('niti_id', $niti->niti_id)->first();
+            
                     return [
                         'niti_id'     => $niti->niti_id,
                         'niti_name'   => $niti->niti_name,
@@ -57,35 +77,23 @@ class TempleNitiController extends Controller
                                 'status' => $sub->status,
                             ];
                         }),
+                        'running_niti' => $matchingRunningSubNiti ? [
+                            'sub_niti_id'   => $matchingRunningSubNiti->sub_niti_id,
+                            'sub_niti_name' => $matchingRunningSubNiti->sub_niti_name,
+                            'start_time'    => $matchingRunningSubNiti->start_time,
+                            'status'        => $matchingRunningSubNiti->status,
+                            'date'          => $matchingRunningSubNiti->date,
+                        ] : null
                     ];
                 });
-    
-            // ✅ Fetch Running Sub Nitis Today (cross-linked check)
-            $runningSubNitis = TempleSubNitiManagement::where('status', 'Running')
-                ->whereDate('date', $today)
-                ->whereIn('niti_id', function ($query) {
-                    $query->select('niti_id')
-                          ->from('temple__niti_details')
-                          ->whereIn('niti_status', ['Started', 'Paused']);
-                })
-                ->get([
-                    'sub_niti_id',
-                    'sub_niti_name',
-                    'niti_id',
-                    'start_time',
-                    'date',
-                    'status'
-                ]);
-    
-            // ✅ Final JSON Response
+            
+            // ✅ Final JSON response
             return response()->json([
                 'status' => true,
                 'message' => 'Niti list fetched successfully.',
-                'data' => [
-                    'nitis' => $nitis,
-                    'running_sub_nitis' => $runningSubNitis
-                ]
+                'data' => $nitis
             ], 200);
+            
     
         } catch (\Exception $e) {
             Log::error('Error fetching Niti list: ' . $e->getMessage());
