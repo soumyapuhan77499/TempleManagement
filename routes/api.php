@@ -271,7 +271,7 @@ Route::controller(TempleNitiController::class)->group(function () {
   Route::get('/special-niti', 'getSpecialNiti');
   Route::post('/save-special-niti', 'storeSpecialNiti');
   Route::post('/update-upcoming', 'updateActiveNitiToUpcoming');
-
+  Route::get('/sub-niti/running','getRunningSubNitis');
 
   // Protected routes (niti_admin must be authenticated)
   Route::middleware('auth:niti_admin')->group(function () {
@@ -281,7 +281,6 @@ Route::controller(TempleNitiController::class)->group(function () {
       Route::post('/stop-niti', 'stopNiti');
       // Route::post('/sub-niti/start', 'startSubNiti');
       Route::post('/sub-niti/add', 'addAndStartSubNiti');
-
   });
 
 });
@@ -300,3 +299,4 @@ Route::controller(TemplePrasadController::class)->group(function () {
   Route::get('/daily-special-started-prasad','getDailyAndStartedSpecialPrasad');
 
 });
+

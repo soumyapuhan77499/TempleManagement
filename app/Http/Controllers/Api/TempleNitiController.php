@@ -17,69 +17,87 @@ use Illuminate\Support\Facades\DB;
 
 class TempleNitiController extends Controller
 {
-
-public function manageNiti(Request $request)
-{
-    try {
-
-        $today = Carbon::now('Asia/Kolkata')->toDateString();
-
-        $nitis = NitiMaster::where('status', 'active')
-            ->where(function ($query) {
-                $query->where(function ($q) {
-                    $q->where('niti_type', 'daily');
-                })->orWhere(function ($q) {
-                    $q->where('niti_type', 'special')
-                        ->where('niti_status', 'Started');
+    public function manageNiti(Request $request)
+    {
+        try {
+            $today = Carbon::now('Asia/Kolkata')->toDateString();
+    
+            // ✅ Fetch Nitis with Sub Nitis
+            $nitis = NitiMaster::where('status', 'active')
+                ->where(function ($query) {
+                    $query->where(function ($q) {
+                        $q->where('niti_type', 'daily');
+                    })->orWhere(function ($q) {
+                        $q->where('niti_type', 'special')
+                            ->where('niti_status', 'Started');
+                    });
+                })
+                ->with([
+                    'todayStartTime' => function ($query) use ($today) {
+                        $query->where('niti_status', 'Started')
+                              ->whereDate('date', $today)
+                              ->select('niti_id', 'start_time');
+                    },
+                    'subNitis'
+                ])
+                ->orderByRaw("CASE WHEN niti_type = 'special' AND niti_status = 'Started' THEN 0 ELSE 1 END")
+                ->orderBy('date_time', 'asc')
+                ->get()
+                ->map(function ($niti) {
+                    return [
+                        'niti_id'     => $niti->niti_id,
+                        'niti_name'   => $niti->niti_name,
+                        'niti_type'   => $niti->niti_type,
+                        'niti_status' => $niti->niti_status,
+                        'start_time'  => optional($niti->todayStartTime)->start_time,
+                        'sub_nitis'   => $niti->subNitis->map(function ($sub) {
+                            return [
+                                'id'     => $sub->id,
+                                'name'   => $sub->sub_niti_name,
+                                'status' => $sub->status,
+                            ];
+                        }),
+                    ];
                 });
-            })
-            ->with([
-                'todayStartTime' => function ($query) use ($today) {
-                    $query->where('niti_status', 'Started')
-                          ->whereDate('date', $today)
-                          ->select('niti_id', 'start_time');
-                },
-                'subNitis' // ✅ load sub niti
-            ])
-            ->orderByRaw("CASE WHEN niti_type = 'special' AND niti_status = 'Started' THEN 0 ELSE 1 END")
-            ->orderBy('date_time', 'asc')
-            ->get()
-            ->map(function ($niti) {
-                return [
-                    'niti_id'     => $niti->niti_id,
-                    'niti_name'   => $niti->niti_name,
-                    'niti_type'   => $niti->niti_type,
-                    'niti_status' => $niti->niti_status,
-                    'start_time'  => optional($niti->todayStartTime)->start_time,
-                    // ✅ Include Sub Niti names as array
-                    'sub_nitis'   => $niti->subNitis->map(function ($sub) {
-                        return [
-                            'id'   => $sub->id,
-                            'name' => $sub->sub_niti_name,
-                            'status' => $sub->status,
-
-                        ];
-                    }),                ];
-            });
-        
-        
-        return response()->json([
-            'status' => true,
-            'message' => 'Niti list fetched successfully.',
-            'data' => $nitis
-        ], 200);
-
-    } catch (\Exception $e) {
-        Log::error('Error fetching Niti list: ' . $e->getMessage());
-
-        return response()->json([
-            'status' => false,
-            'message' => 'Something went wrong while fetching Niti data.',
-            'error' => $e->getMessage()
-        ], 500);
+    
+            // ✅ Fetch Running Sub Nitis Today (cross-linked check)
+            $runningSubNitis = TempleSubNitiManagement::where('status', 'Running')
+                ->whereDate('date', $today)
+                ->whereIn('niti_id', function ($query) {
+                    $query->select('niti_id')
+                          ->from('temple__niti_details')
+                          ->whereIn('niti_status', ['Started', 'Paused']);
+                })
+                ->get([
+                    'sub_niti_id',
+                    'sub_niti_name',
+                    'niti_id',
+                    'start_time',
+                    'date',
+                    'status'
+                ]);
+    
+            // ✅ Final JSON Response
+            return response()->json([
+                'status' => true,
+                'message' => 'Niti list fetched successfully.',
+                'data' => [
+                    'nitis' => $nitis,
+                    'running_sub_nitis' => $runningSubNitis
+                ]
+            ], 200);
+    
+        } catch (\Exception $e) {
+            Log::error('Error fetching Niti list: ' . $e->getMessage());
+    
+            return response()->json([
+                'status' => false,
+                'message' => 'Something went wrong while fetching Niti data.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
-}
-
+    
 public function startNiti(Request $request)
 {
     try {
@@ -615,7 +633,7 @@ public function addAndStartSubNiti(Request $request)
         }
 
         $now = Carbon::now('Asia/Kolkata');
-        
+
         $today = $now->toDateString();
 
         // ✅ Step 1: Check if another Sub Niti under same Niti is Running today

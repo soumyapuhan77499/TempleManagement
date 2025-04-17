@@ -23,4 +23,5 @@ class TempleDarshanManagement extends Model
         'darshan_status',
         'status'
     ];
+    
 }

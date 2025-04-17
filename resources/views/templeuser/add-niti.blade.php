@@ -211,7 +211,6 @@
             </div>
         </div>
 
-
         <div class="row">
             <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
                 <div class="card">
@@ -324,7 +323,40 @@
             </div>
         </div>
 
-       
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-1">CONNECT DARSHAN AND MAHAPRASAD</h4>
+                    </div>
+                    <div class="card-body">
+                      
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="main-content-label">Link Mahaprasad</label>
+                                <select class="form-control select2" name="connected_mahaprasad_id">
+                                    <option value="">Select Mahaprasad</option>
+                                    @foreach ($mahaprasads as $prasad)
+                                        <option value="{{ $prasad->id }}">{{ $prasad->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="main-content-label">Link Darshan</label>
+                                <select class="form-control select2" name="connected_darshan_id">
+                                    <option value="">Select Darshan</option>
+                                    @foreach ($darshans as $darshan)
+                                        <option value="{{ $darshan->id }}">{{ $darshan->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
         <div class="row">
@@ -427,8 +459,8 @@
                     <select class="form-control select2" name="seba_name[]" multiple="multiple">
                         <option value="">Select Seba</option>
                         ${`@foreach ($manage_seba as $seba)
-                                                            <option value="{{ $seba->seba_name }}">{{ $seba->seba_name }}</option>
-                                                        @endforeach`}
+                                                                <option value="{{ $seba->seba_name }}">{{ $seba->seba_name }}</option>
+                                                            @endforeach`}
                     </select>
                 </div>
             </div>
