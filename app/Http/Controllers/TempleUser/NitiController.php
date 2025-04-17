@@ -25,6 +25,9 @@ class NitiController extends Controller
     
         $manage_seba = SebaMaster::where('status', 'active')->where('temple_id', $templeId)->get();
         $sebayat_list = SebayatMaster::where('status', 'active')->get();
+
+        $daily_nitis = NitiMaster::where('status', 'active')->where('niti_type','daily')->get();
+
     
         // ✅ Fetch Mahaprasads and Darshans
         $mahaprasads = TemplePrasad::where('temple_id', $templeId)
@@ -35,7 +38,7 @@ class NitiController extends Controller
             ->where('status', 'active')
             ->get(['id', 'darshan_name as name']);
     
-        return view('templeuser.add-niti', compact('manage_seba', 'sebayat_list', 'mahaprasads', 'darshans'));
+        return view('templeuser.add-niti', compact('manage_seba', 'sebayat_list', 'mahaprasads', 'darshans','daily_nitis'));
     }
 
     public function saveNitiMaster(Request $request)
@@ -68,6 +71,7 @@ class NitiController extends Controller
             $niti->language = $request->input('language');
             $niti->niti_name = $request->input('niti_name');
             $niti->date_time = $request->input('date_time');
+            $niti->after_special_niti = $request->input('after_special_niti');
             $niti->niti_about = $request->input('niti_about');
             $niti->description = $request->input('description');
     
@@ -163,14 +167,12 @@ class NitiController extends Controller
         return view('templeuser.manage-niti-master', compact('manage_niti_master', 'manage_seba'));
     }
 
-
     public function updateNitiMaster(Request $request, $id)
     {
         try {
             $request->validate([
                 'niti_name' => 'required|string|max:255',
                 'description' => 'nullable|string',
-                'language' => 'required|string|in:English,Hindi,Odia',
             ]);
     
             $niti = NitiMaster::findOrFail($id);
@@ -178,6 +180,7 @@ class NitiController extends Controller
             $niti->language     = $request->input('language');
             $niti->niti_name    = $request->input('niti_name');
             $niti->date_time    = $request->input('date_time');
+            $niti->after_special_niti = $request->input('after_special_niti');
             $niti->niti_about   = $request->input('niti_about');
             $niti->description  = $request->input('description');
             $niti->niti_type    = $request->input('niti_type') === 'special' ? 'special' : 'daily';
@@ -245,18 +248,18 @@ class NitiController extends Controller
         }
     }
     
-public function deleteNitiMaster($id)
-{
-    // Find the Niti record
-    $niti = NitiMaster::findOrFail($id);
+    public function deleteNitiMaster($id)
+    {
+        // Find the Niti record
+        $niti = NitiMaster::findOrFail($id);
 
-    // Update the status to 'deleted'
-    $niti->status = 'deleted';
-    $niti->save();
+        // Update the status to 'deleted'
+        $niti->status = 'deleted';
+        $niti->save();
 
-    // Redirect with a success message
-    return redirect()->route('manageniti')->with('success', 'Niti deleted successfully!');
-}
+        // Redirect with a success message
+        return redirect()->route('manageniti')->with('success', 'Niti deleted successfully!');
+    }
 
 
 }

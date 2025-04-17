@@ -82,6 +82,7 @@
 
     <form action="{{ route('saveNitiMaster') }}" method="post" enctype="multipart/form-data">
         @csrf
+
         <div class="row">
             <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
                 <div class="card">
@@ -92,7 +93,7 @@
 
                         <div class="row">
                             <!-- Language Selection -->
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="main-content-label">Language</label>
                                     <select class="form-control" id="language" name="language">
@@ -105,7 +106,7 @@
                             </div>
 
                             <!-- Niti Name Input -->
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="main-content-label">Niti Name</label>
                                     <input type="text" class="form-control" id="niti_name" name="niti_name"
@@ -114,7 +115,7 @@
                             </div>
 
                             <!-- Niti Type Checkboxes -->
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <label class="main-content-label d-block">Niti Type</label>
                                 <div class="d-flex gap-3 align-items-center mt-1">
                                     <label class="custom-switch mb-0">
@@ -131,6 +132,13 @@
                                         <span
                                             class="custom-switch-indicator custom-switch-indicator-xl custom-square"></span>
                                     </label>
+                                    <label class="custom-switch mb-0">
+                                        <span class="custom-switch-description">Other Niti</span>
+                                        <input type="checkbox" name="niti_type" value="other" class="custom-switch-input"
+                                            id="otherNiti" onchange="toggleNitiType('other')">
+                                        <span
+                                            class="custom-switch-indicator custom-switch-indicator-xl custom-square"></span>
+                                    </label>
                                 </div>
                             </div>
 
@@ -141,31 +149,44 @@
                                     <label class="custom-switch mb-0">
                                         <span class="custom-switch-description">Public</span>
                                         <input type="checkbox" name="niti_privacy" value="public"
-                                            class="custom-switch-input" id="publicNiti" onchange="togglePrivacy('public')">
-                                        <span
-                                            class="custom-switch-indicator custom-switch-indicator-xl custom-square"></span>
+                                            class="custom-switch-input" id="publicNiti" onchange="togglePrivacy('public')" checked>
+                                        <span class="custom-switch-indicator custom-switch-indicator-xl custom-square"></span>
                                     </label>
                                     <label class="custom-switch mb-0">
                                         <span class="custom-switch-description">Private</span>
                                         <input type="checkbox" name="niti_privacy" value="private"
-                                            class="custom-switch-input" id="privateNiti"
-                                            onchange="togglePrivacy('private')">
-                                        <span
-                                            class="custom-switch-indicator custom-switch-indicator-xl custom-square"></span>
+                                            class="custom-switch-input" id="privateNiti" onchange="togglePrivacy('private')">
+                                        <span class="custom-switch-indicator custom-switch-indicator-xl custom-square"></span>
                                     </label>
                                 </div>
                             </div>
-
+                            
                             <!-- Date & Time -->
-                            <div class="col-md-3" id="dateTimeContainer">
-                                <div class="form-group">
-                                    <label class="main-content-label">Date & Time</label>
-                                    <div class="input-group">
-                                        <div class="input-group-text">
-                                            <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                            <div class="row" id="dateTimeContainer" style="display: none;">
+                                <!-- Date & Time -->
+                                <div class="col-md-6 col-lg-5">
+                                    <div class="form-group">
+                                        <label class="main-content-label">Date & Time</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                                            </span>
+                                            <input class="form-control" id="datetimepicker" name="date_time"
+                                                type="text" placeholder="YYYY-MM-DD HH:MM">
                                         </div>
-                                        <input class="form-control" id="datetimepicker" name="date_time" type="text"
-                                            placeholder="YYYY-MM-DD HH:MM">
+                                    </div>
+                                </div>
+
+                                <!-- Which Niti After Special Niti -->
+                                <div class="col-md-6 col-lg-5">
+                                    <div class="form-group">
+                                        <label class="main-content-label">Which Niti After Special Niti</label>
+                                        <select class="form-control select2" name="after_special_niti">
+                                            <option value="">Select Daily Niti</option>
+                                            @foreach ($daily_nitis as $niti)
+                                                <option value="{{ $niti->id }}">{{ $niti->niti_name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -340,7 +361,7 @@
                                     @endforeach
                                 </select>
                             </div>
-        
+
                             <div class="col-md-6">
                                 <label class="main-content-label">Link Darshan</label>
                                 <select class="form-control select2" name="connected_darshan_id">
@@ -355,7 +376,7 @@
                 </div>
             </div>
         </div>
-        
+
 
         <div class="row">
             <div class="col-md-12">
@@ -457,8 +478,8 @@
                     <select class="form-control select2" name="seba_name[]" multiple="multiple">
                         <option value="">Select Seba</option>
                         ${`@foreach ($manage_seba as $seba)
-                                                                <option value="{{ $seba->seba_name }}">{{ $seba->seba_name }}</option>
-                                                            @endforeach`}
+                                                                                    <option value="{{ $seba->seba_name }}">{{ $seba->seba_name }}</option>
+                                                                                @endforeach`}
                     </select>
                 </div>
             </div>
@@ -541,49 +562,65 @@
         });
     </script>
 
-    <script>
-        function toggleNitiType(selectedType) {
-            if (selectedType === 'special') {
-                document.getElementById('dailyNiti').checked = false;
-            } else if (selectedType === 'daily') {
-                document.getElementById('specialNiti').checked = false;
-            }
-        }
-    </script>
+<script>
+    function togglePrivacy(selectedPrivacy) {
+        const publicNiti = document.getElementById('publicNiti');
+        const privateNiti = document.getElementById('privateNiti');
 
-    <script>
-        function togglePrivacy(selectedPrivacy) {
-            if (selectedPrivacy === 'public') {
-                document.getElementById('privateNiti').checked = false;
-            } else if (selectedPrivacy === 'private') {
-                document.getElementById('publicNiti').checked = false;
-            }
+        if (selectedPrivacy === 'public') {
+            privateNiti.checked = false;
+        } else if (selectedPrivacy === 'private') {
+            publicNiti.checked = false;
         }
-    </script>
+    }
+
+    // Optional: Ensure only one is checked on load
+    document.addEventListener('DOMContentLoaded', () => {
+        const publicNiti = document.getElementById('publicNiti');
+        const privateNiti = document.getElementById('privateNiti');
+
+        if (publicNiti.checked) {
+            privateNiti.checked = false;
+        } else if (privateNiti.checked) {
+            publicNiti.checked = false;
+        }
+    });
+</script>
+
 
     <script>
         function toggleNitiType(selectedType) {
             const specialCheckbox = document.getElementById('specialNiti');
             const dailyCheckbox = document.getElementById('dailyNiti');
+            const otherCheckbox = document.getElementById('otherNiti');
             const dateTimeContainer = document.getElementById('dateTimeContainer');
 
+            // Uncheck other checkboxes
             if (selectedType === 'special') {
                 dailyCheckbox.checked = false;
-                dateTimeContainer.style.display = 'block';
-            }
-
-            if (selectedType === 'daily') {
+                otherCheckbox.checked = false;
+                dateTimeContainer.style.display = 'flex';
+            } else if (selectedType === 'daily') {
                 specialCheckbox.checked = false;
+                otherCheckbox.checked = false;
+                dateTimeContainer.style.display = 'none';
+            } else if (selectedType === 'other') {
+                specialCheckbox.checked = false;
+                dailyCheckbox.checked = false;
                 dateTimeContainer.style.display = 'none';
             }
         }
 
-        // Run on load in case of page reload with old values
         document.addEventListener('DOMContentLoaded', () => {
-            if (document.getElementById('dailyNiti').checked) {
-                document.getElementById('dateTimeContainer').style.display = 'none';
+            const isSpecial = document.getElementById('specialNiti')?.checked;
+            const isDaily = document.getElementById('dailyNiti')?.checked;
+            const isOther = document.getElementById('otherNiti')?.checked;
+            const dateTimeContainer = document.getElementById('dateTimeContainer');
+
+            if (isSpecial) {
+                dateTimeContainer.style.display = 'flex';
             } else {
-                document.getElementById('dateTimeContainer').style.display = 'block';
+                dateTimeContainer.style.display = 'none';
             }
         });
     </script>

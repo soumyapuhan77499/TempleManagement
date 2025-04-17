@@ -22,14 +22,14 @@ class TempleNitiController extends Controller
     {
         try {
             $today = Carbon::now('Asia/Kolkata')->toDateString();
-
-            // ✅ Fetch Running Sub Nitis globally
-            $runningSubNitis = TempleSubNitiManagement::where('status', ['Running', 'Completed'])
+    
+            // ✅ Fetch Running Sub Nitis
+            $runningSubNitis = TempleSubNitiManagement::whereIn('status', ['Running', 'Completed'])
                 ->whereDate('date', $today)
                 ->whereIn('niti_id', function ($query) {
                     $query->select('niti_id')
-                          ->from('temple__niti_details')
-                          ->whereIn('niti_status', ['Started', 'Paused']);
+                        ->from('temple__niti_details')
+                        ->whereIn('niti_status', ['Started', 'Paused']);
                 })
                 ->get([
                     'sub_niti_id',
@@ -39,8 +39,8 @@ class TempleNitiController extends Controller
                     'date',
                     'status'
                 ]);
-            
-            // ✅ Fetch Nitis with relationships
+    
+            // ✅ Fetch Nitis
             $nitis = NitiMaster::where('status', 'active')
                 ->where(function ($query) {
                     $query->where(function ($q) {
@@ -53,25 +53,30 @@ class TempleNitiController extends Controller
                 ->with([
                     'todayStartTime' => function ($query) use ($today) {
                         $query->where('niti_status', 'Started')
-                              ->whereDate('date', $today)
-                              ->select('niti_id', 'start_time');
+                            ->whereDate('date', $today)
+                            ->select('niti_id', 'start_time');
                     },
-                    'subNitis'
+                    'subNitis',
+                    'afterSpecial' // 👈 Load related daily Niti
                 ])
                 ->orderByRaw("CASE WHEN niti_type = 'special' AND niti_status = 'Started' THEN 0 ELSE 1 END")
                 ->orderBy('date_time', 'asc')
                 ->get()
-                ->map(function ($niti) use ($runningSubNitis, $today) {
-                    // 🔍 Match running sub-niti by niti_id
+                ->map(function ($niti) use ($runningSubNitis) {
                     $matchingRunningSubNiti = $runningSubNitis->where('niti_id', $niti->niti_id)->first();
-            
+    
                     return [
                         'niti_id'     => $niti->niti_id,
                         'niti_name'   => $niti->niti_name,
                         'niti_type'   => $niti->niti_type,
                         'niti_status' => $niti->niti_status,
                         'start_time'  => optional($niti->todayStartTime)->start_time,
-                       
+    
+                        // ✅ Only show the after_special_niti_name if this is a special Niti and the relation exists
+                        'after_special_niti_name' => ($niti->niti_type === 'special' && $niti->afterSpecial)
+                            ? $niti->afterSpecial->niti_name
+                            : null,
+    
                         'running_sub_niti' => $matchingRunningSubNiti ? [
                             'sub_niti_id'   => $matchingRunningSubNiti->sub_niti_id,
                             'sub_niti_name' => $matchingRunningSubNiti->sub_niti_name,
@@ -81,14 +86,12 @@ class TempleNitiController extends Controller
                         ] : null
                     ];
                 });
-            
-            // ✅ Final JSON response
+    
             return response()->json([
                 'status' => true,
                 'message' => 'Niti list fetched successfully.',
                 'data' => $nitis
             ], 200);
-            
     
         } catch (\Exception $e) {
             Log::error('Error fetching Niti list: ' . $e->getMessage());
@@ -100,7 +103,7 @@ class TempleNitiController extends Controller
             ], 500);
         }
     }
-
+    
     public function startNiti(Request $request)
     {
         try {

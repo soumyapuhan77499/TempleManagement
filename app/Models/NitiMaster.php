@@ -18,6 +18,7 @@ class NitiMaster extends Model
         'language',
         'niti_name',
         'date_time',
+        'after_special_niti',
         'niti_type',
         'niti_privacy',
         'niti_about',
@@ -52,6 +53,12 @@ public function subNitis()
 {
     return $this->hasMany(TempleSubNiti::class, 'niti_id', 'niti_id');
 }
+
+public function afterSpecial()
+{
+    return $this->belongsTo(NitiMaster::class, 'after_special_niti', 'niti_id');
+}
+
 
 
 }
