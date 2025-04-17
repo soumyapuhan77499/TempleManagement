@@ -330,7 +330,6 @@
                         <h4 class="card-title mb-1">CONNECT DARSHAN AND MAHAPRASAD</h4>
                     </div>
                     <div class="card-body">
-                      
                         <div class="row">
                             <div class="col-md-6">
                                 <label class="main-content-label">Link Mahaprasad</label>
@@ -341,7 +340,7 @@
                                     @endforeach
                                 </select>
                             </div>
-
+        
                             <div class="col-md-6">
                                 <label class="main-content-label">Link Darshan</label>
                                 <select class="form-control select2" name="connected_darshan_id">
@@ -352,12 +351,11 @@
                                 </select>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
-
+        
 
         <div class="row">
             <div class="col-md-12">

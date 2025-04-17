@@ -13,6 +13,7 @@ class NitiMaster extends Model
     protected $table = 'temple__niti_details';
 
     protected $fillable = [
+        'temple_id',
         'niti_id',
         'language',
         'niti_name',
@@ -22,6 +23,8 @@ class NitiMaster extends Model
         'niti_about',
         'niti_sebayat',
         'description',
+        'connected_mahaprasad_id',
+        'connected_darshan_id',
         'niti_status'
     ];
 

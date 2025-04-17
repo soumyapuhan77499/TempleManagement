@@ -5,7 +5,7 @@ namespace App\Http\Controllers\TempleUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TempleDarshan;
-use App\Models\TempleDarshanManagement;
+use App\Models\DarshanDetails;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
@@ -200,7 +200,7 @@ public function saveDarshanManagement(Request $request)
     $templeId = Auth::guard('temples')->user()->temple_id;
 
     try {
-        TempleDarshanManagement::create([
+        DarshanDetails::create([
             'temple_id'     => $templeId,
             'darshan_name'  => $request->darshan_name,
             'darshan_type'  => $request->darshan_type,
@@ -221,7 +221,7 @@ public function ManageDarshanManagement(){
 
     $templeId = Auth::guard('temples')->user()->temple_id;
 
-    $darshans = TempleDarshanManagement::where('status', 'active')->where('temple_id', $templeId)->get();
+    $darshans = DarshanDetails::where('status', 'active')->where('temple_id', $templeId)->get();
 
     return view('templeuser.manage-darshan-management', compact('darshans'));
     

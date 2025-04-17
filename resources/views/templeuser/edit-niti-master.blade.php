@@ -134,6 +134,7 @@
                         </div>
 
                         <div class="sub-niti-container">
+
                             @foreach ($subNitis as $index => $subNiti)
                                 <div class="row sub-niti-row align-items-center mb-3">
                                     <div class="col-md-10">
@@ -346,6 +347,50 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title mb-1">CONNECT DARSHAN AND MAHAPRASAD</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                        
+                                            <!-- Mahaprasad Dropdown -->
+                                            <div class="col-md-6">
+                                                <label class="main-content-label">Link Mahaprasad</label>
+                                                <select class="form-control select2" name="connected_mahaprasad_id">
+                                                    <option value="">Select Mahaprasad</option>
+                                                    @foreach ($mahaprasads as $prasad)
+                                                        <option value="{{ $prasad->id }}"
+                                                            {{ (old('connected_mahaprasad_id', $niti->connected_mahaprasad_id ?? '') == $prasad->id) ? 'selected' : '' }}>
+                                                            {{ $prasad->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                        
+                                            <!-- Darshan Dropdown -->
+                                            <div class="col-md-6">
+                                                <label class="main-content-label">Link Darshan</label>
+                                                <select class="form-control select2" name="connected_darshan_id">
+                                                    <option value="">Select Darshan</option>
+                                                    @foreach ($darshans as $darshan)
+                                                        <option value="{{ $darshan->id }}"
+                                                            {{ (old('connected_darshan_id', $niti->connected_darshan_id ?? '') == $darshan->id) ? 'selected' : '' }}>
+                                                            {{ $darshan->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
 
                         <div class="row">
                             <div class="col-md-12">

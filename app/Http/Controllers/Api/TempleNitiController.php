@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\NitiManagement;
 use App\Models\TempleSubNiti;
 use App\Models\TempleSubNitiManagement;
-
+use App\Models\DarshanManagement;
+use App\Models\PrasadManagement;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\DB;
@@ -23,7 +24,7 @@ class TempleNitiController extends Controller
             $today = Carbon::now('Asia/Kolkata')->toDateString();
 
             // ✅ Fetch Running Sub Nitis globally
-            $runningSubNitis = TempleSubNitiManagement::where('status', 'Running')
+            $runningSubNitis = TempleSubNitiManagement::where('status', ['Running', 'Completed'])
                 ->whereDate('date', $today)
                 ->whereIn('niti_id', function ($query) {
                     $query->select('niti_id')
@@ -99,52 +100,81 @@ class TempleNitiController extends Controller
             ], 500);
         }
     }
+
+    public function startNiti(Request $request)
+    {
+        try {
+            $request->validate([
+                'niti_id' => 'required|string|exists:temple__niti_details,niti_id',
+            ]);
+
+            $user = Auth::guard('niti_admin')->user();
+            if (!$user) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Unauthorized access.'
+                ], 401);
+            }
     
-public function startNiti(Request $request)
-{
-    try {
-        // Validate request
-        $request->validate([
-            'niti_id' => 'required|string|exists:temple__niti_details,niti_id',
-        ]);
-
-        // Authenticated user from sanctum guard 'niti_admin'
-        $user = Auth::guard('niti_admin')->user();
-
-        if (!$user) {
+            $now = Carbon::now('Asia/Kolkata');
+    
+            // Step 1: Start Niti
+            $nitiManagement = NitiManagement::create([
+                'niti_id'     => $request->niti_id,
+                'sebak_id'    => $user->sebak_id,
+                'date'        => $now->toDateString(),
+                'start_time'  => $now->format('H:i:s'),
+                'niti_status' => 'Started'
+            ]);
+    
+            // Update main Niti status
+            $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
+            $nitiMaster->update(['niti_status' => 'Started']);
+    
+            // Step 2: Start Interconnected Darshan (if exists)
+            $darshanLog = null;
+            if ($nitiMaster->connected_darshan_id) {
+                $darshanLog = DarshanManagement::create([
+                    'darshan_id'     => $nitiMaster->connected_darshan_id,
+                    'sebak_id'       => $user->sebak_id,
+                    'date'           => $now->toDateString(),
+                    'start_time'     => $now->format('H:i:s'),
+                    'darshan_status' => 'Started',
+                    'temple_id'      => $nitiMaster->temple_id ?? null,
+                ]);
+            }
+    
+            // Step 3: Start Interconnected Mahaprasad (if exists)
+            $prasadLog = null;
+            if ($nitiMaster->connected_mahaprasad_id) {
+                $prasadLog = PrasadManagement::create([
+                    'prasad_id'     => $nitiMaster->connected_mahaprasad_id,
+                    'sebak_id'      => $user->sebak_id,
+                    'date'          => $now->toDateString(),
+                    'start_time'    => $now->format('H:i:s'),
+                    'prasad_status' => 'Started',
+                    'temple_id'     => $nitiMaster->temple_id ?? null,
+                ]);
+            }
+    
+            return response()->json([
+                'status' => true,
+                'message' => 'Niti and related Darshan/Mahaprasad started successfully.',
+                'data' => [
+                    'niti_management'   => $nitiManagement,
+                    'darshan_management'=> $darshanLog,
+                    'prasad_management' => $prasadLog,
+                ]
+            ], 200);
+    
+        } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Unauthorized access.'
-            ], 401);
+                'message' => 'Failed to start Niti.',
+                'error' => $e->getMessage()
+            ], 500);
         }
-
-        // Create a new entry in temple__niti_management
-        $nitiManagement = new NitiManagement();
-        $nitiManagement->niti_id = $request->niti_id;
-        $nitiManagement->sebak_id = $user->sebak_id;
-        $nitiManagement->date = Carbon::now()->setTimezone('Asia/Kolkata')->toDateString();
-        $nitiManagement->start_time = Carbon::now()->setTimezone('Asia/Kolkata')->format('H:i:s');
-        $nitiManagement->niti_status = 'Started';
-        $nitiManagement->save();
-
-        NitiMaster::where('niti_id', $request->niti_id)->update([
-            'niti_status' => 'Started'
-        ]);
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Niti started successfully.',
-            'data' => $nitiManagement
-        ], 200);
-
-    } catch (\Exception $e) {
-        return response()->json([
-            'status' => false,
-            'message' => 'Failed to start Niti.',
-            'error' => $e->getMessage()
-        ], 500);
     }
-}
 
 public function pauseNiti(Request $request)
 {
