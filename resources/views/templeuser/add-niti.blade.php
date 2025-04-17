@@ -184,7 +184,7 @@
                                         <select class="form-control select2" name="after_special_niti">
                                             <option value="">Select Daily Niti</option>
                                             @foreach ($daily_nitis as $niti)
-                                                <option value="{{ $niti->id }}">{{ $niti->niti_name }}</option>
+                                                <option value="{{ $niti->niti_id }}">{{ $niti->niti_name }}</option>
                                             @endforeach
                                         </select>
                                     </div>

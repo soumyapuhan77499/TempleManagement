@@ -47,7 +47,7 @@ class TempleNitiController extends Controller
                         $q->where('niti_type', 'daily');
                     })->orWhere(function ($q) {
                         $q->where('niti_type', 'special')
-                            ->where('niti_status', 'Started');
+                            ->where('niti_status', 'Upcoming');
                     });
                 })
                 ->with([
