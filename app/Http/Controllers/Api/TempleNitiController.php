@@ -65,7 +65,7 @@ class TempleNitiController extends Controller
     
             // ✅ Loop through daily Nitis and inject related special Nitis after them
             foreach ($dailyNitis as $dailyNiti) {
-                $runningSubNiti = $runningSubNitis->where('niti_id', $dailyNiti->niti_id)->first();
+                $matchingRunningSubNitis = $runningSubNitis->where('niti_id', $dailyNiti->niti_id);
     
                 $finalNitiList[] = [
                     'niti_id'     => $dailyNiti->niti_id,
@@ -74,20 +74,22 @@ class TempleNitiController extends Controller
                     'niti_status' => $dailyNiti->niti_status,
                     'start_time'  => optional($dailyNiti->todayStartTime)->start_time,
                     'after_special_niti_name' => null,
-                    'running_sub_niti' => $runningSubNiti ? [
-                        'sub_niti_id'   => $runningSubNiti->sub_niti_id,
-                        'sub_niti_name' => $runningSubNiti->sub_niti_name,
-                        'start_time'    => $runningSubNiti->start_time,
-                        'status'        => $runningSubNiti->status,
-                        'date'          => $runningSubNiti->date,
-                    ] : null
+                    'running_sub_niti' => $matchingRunningSubNitis->map(function ($sub) {
+                        return [
+                            'sub_niti_id'   => $sub->sub_niti_id,
+                            'sub_niti_name' => $sub->sub_niti_name,
+                            'start_time'    => $sub->start_time,
+                            'status'        => $sub->status,
+                            'date'          => $sub->date,
+                        ];
+                    })->values()
                 ];
     
                 // ✅ Inject special Nitis meant to appear after this daily Niti
                 $specialNitis = $specialNitisGrouped->get($dailyNiti->niti_id, collect());
     
                 foreach ($specialNitis as $specialNiti) {
-                    $runningSpecialSubNiti = $runningSubNitis->where('niti_id', $specialNiti->niti_id)->first();
+                    $matchingSpecialRunningSubNitis = $runningSubNitis->where('niti_id', $specialNiti->niti_id);
     
                     $finalNitiList[] = [
                         'niti_id'     => $specialNiti->niti_id,
@@ -96,13 +98,15 @@ class TempleNitiController extends Controller
                         'niti_status' => $specialNiti->niti_status,
                         'start_time'  => optional($specialNiti->todayStartTime)->start_time,
                         'after_special_niti_name' => $dailyNiti->niti_name,
-                        'running_sub_niti' => $runningSpecialSubNiti ? [
-                            'sub_niti_id'   => $runningSpecialSubNiti->sub_niti_id,
-                            'sub_niti_name' => $runningSpecialSubNiti->sub_niti_name,
-                            'start_time'    => $runningSpecialSubNiti->start_time,
-                            'status'        => $runningSpecialSubNiti->status,
-                            'date'          => $runningSpecialSubNiti->date,
-                        ] : null
+                        'running_sub_niti' => $matchingSpecialRunningSubNitis->map(function ($sub) {
+                            return [
+                                'sub_niti_id'   => $sub->sub_niti_id,
+                                'sub_niti_name' => $sub->sub_niti_name,
+                                'start_time'    => $sub->start_time,
+                                'status'        => $sub->status,
+                                'date'          => $sub->date,
+                            ];
+                        })->values()
                     ];
                 }
             }
@@ -123,6 +127,7 @@ class TempleNitiController extends Controller
             ], 500);
         }
     }
+    
     
     public function startNiti(Request $request)
     {
