@@ -70,14 +70,8 @@ class TempleNitiController extends Controller
                         'niti_type'   => $niti->niti_type,
                         'niti_status' => $niti->niti_status,
                         'start_time'  => optional($niti->todayStartTime)->start_time,
-                        'sub_nitis'   => $niti->subNitis->map(function ($sub) {
-                            return [
-                                'id'     => $sub->id,
-                                'name'   => $sub->sub_niti_name,
-                                'status' => $sub->status,
-                            ];
-                        }),
-                        'running_niti' => $matchingRunningSubNiti ? [
+                       
+                        'running_sub_niti' => $matchingRunningSubNiti ? [
                             'sub_niti_id'   => $matchingRunningSubNiti->sub_niti_id,
                             'sub_niti_name' => $matchingRunningSubNiti->sub_niti_name,
                             'start_time'    => $matchingRunningSubNiti->start_time,
