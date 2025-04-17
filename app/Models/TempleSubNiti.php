@@ -18,4 +18,5 @@ class TempleSubNiti extends Model
         'created_at',
         'updated_at'
     ];
+
 }

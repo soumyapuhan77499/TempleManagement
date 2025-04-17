@@ -273,7 +273,7 @@ public function stopNiti(Request $request)
         // Get the latest active Niti
         $activeNiti = NitiManagement::where('niti_id', $request->niti_id)
             ->where('sebak_id', $user->sebak_id)
-            ->whereIn('niti_status', ['Started', 'Resumed'])
+            ->whereIn('niti_status', ['Started'])
             ->whereDate('date', Carbon::today($tz))
             ->latest()
             ->first();
@@ -597,6 +597,76 @@ public function startSubNiti(Request $request)
     }
 }
 
+public function addAndStartSubNiti(Request $request)
+{
+    try {
+        // Validate input
+        $request->validate([
+            'niti_id'        => 'required|string|exists:temple__niti_details,niti_id',
+            'sub_niti_name'  => 'required|string|max:255',
+        ]);
 
+        $user = Auth::guard('niti_admin')->user();
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Unauthorized.',
+            ], 401);
+        }
+
+        $now = Carbon::now('Asia/Kolkata');
+        
+        $today = $now->toDateString();
+
+        // ✅ Step 1: Check if another Sub Niti under same Niti is Running today
+        $existingRunning = TempleSubNitiManagement::where('niti_id', $request->niti_id)
+            ->whereDate('date', $today)
+            ->where('status', 'Running')
+            ->latest()
+            ->first();
+
+        if ($existingRunning) {
+            // ✅ Mark it as Completed with end_time
+            $existingRunning->update([
+                'status'   => 'Completed',
+            ]);
+        }
+
+        // ✅ Step 2: Save to temple__sub_niti
+        $subNiti = TempleSubNiti::create([
+            // 'temple_id'      => $user->temple_id ?? null,
+            'niti_id'        => $request->niti_id,
+            'sub_niti_name'  => $request->sub_niti_name,
+        ]);
+
+        // ✅ Step 3: Save to temple__sub_niti_management
+        $management = TempleSubNitiManagement::create([
+            // 'temple_id'       => $user->temple_id ?? null,
+            'sebak_id'        => $user->sebak_id,
+            'niti_id'         => $request->niti_id,
+            'sub_niti_id'     => $subNiti->id,
+            'sub_niti_name'   => $subNiti->sub_niti_name,
+            'date'            => $today,
+            'start_time'      => $now->format('H:i:s'),
+            'status'          => 'Running'
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Sub Niti added and started successfully.',
+            'data' => [
+                'sub_niti' => $subNiti,
+                'management' => $management
+            ]
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to add and start Sub Niti.',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
 
 }
