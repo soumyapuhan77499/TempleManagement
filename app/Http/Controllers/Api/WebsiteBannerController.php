@@ -26,7 +26,7 @@ class WebsiteBannerController extends Controller
             $previousDate = Carbon::yesterday()->toDateString();
     
             // ✅ Fetch Running Sub Nitis for Today
-            $runningSubNitis = TempleSubNitiManagement::whereIn('status', ['Running', 'Completed'])
+            $runningSubNitis = TempleSubNitiManagement::whereIn('status', 'Running')
                 ->whereDate('date', $today)
                 ->whereIn('niti_id', function ($query) {
                     $query->select('niti_id')
