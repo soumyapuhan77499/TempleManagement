@@ -338,7 +338,7 @@
                                                             <div class="col-md-12">
                                                                 <div class="form-group">
                                                                     <label for="description">Description</label>
-                                                                    <textarea class="form-control" id="description" name="description" rows="3" required>{{ $service->description }}</textarea>
+                                                                    <textarea class="form-control" id="description" name="description" rows="3">{{ $service->description }}</textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
