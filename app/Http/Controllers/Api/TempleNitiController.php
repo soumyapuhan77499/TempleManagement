@@ -804,7 +804,9 @@ public function updateSubNitiName(Request $request, $id)
         ]);
 
         // Find the record by ID
-        $subNiti = TempleSubNitiManagement::find($id);
+        $subNiti = TempleSubNitiManagement::where('sub_niti_id', $id)
+            ->where('status', '!=', 'Deleted')
+            ->first();
 
         if (!$subNiti) {
             return response()->json([
@@ -835,7 +837,10 @@ public function updateSubNitiName(Request $request, $id)
 public function softDeleteSubNiti($id)
 {
     try {
-        $subNiti = TempleSubNitiManagement::find($id);
+        
+        $subNiti = TempleSubNitiManagement::where('sub_niti_id', $id)
+        ->where('status', '!=', 'Deleted')
+        ->first();
 
         if (!$subNiti) {
             return response()->json([
