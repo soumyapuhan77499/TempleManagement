@@ -10,7 +10,9 @@ use App\Models\EmergencyContact;
 use App\Models\TemplePrasad;
 use App\Models\PanjiDetails;
 use App\Models\TempleDarshan;
-use App\Models\TempleDarshanManagement;
+use App\Models\DarshanDetails;
+use App\Models\DarshanManagement;
+use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -240,8 +242,6 @@ class QuickServiceController extends Controller
     }
 }
 
-    
-
 public function getTemplePrasadList(Request $request)
 {
     try {
@@ -336,22 +336,40 @@ public function getDarshan()
     }
 }
 
-
-
 public function getDarshanListApi()
 {
     try {
-        $templeId = 'TEMPLE25402'; // Static temple ID
+        $today = Carbon::now('Asia/Kolkata')->toDateString();
 
-        $darshans = TempleDarshanManagement::where('status', 'active')
-                        ->where('temple_id', $templeId)
-                        ->get();
+        // Step 1: Fetch all active darshans
+        $darshans = DarshanDetails::where('status', 'active')->get();
+
+        // Step 2: Append today’s management data (if available)
+        $darshanList = $darshans->map(function ($darshan) use ($today) {
+            $todayLog = DarshanManagement::where('darshan_id', $darshan->id)
+                ->whereDate('date', $today)
+                ->latest()
+                ->first();
+
+            return [
+                'darshan_id'     => $darshan->id,
+                'darshan_name'   => $darshan->darshan_name,
+                'darshan_type'   => $darshan->darshan_type,
+                'description'    => $darshan->description,
+                'darshan_status' => $todayLog->darshan_status ?? null,
+                'start_time'     => $todayLog->start_time ?? null,
+                'end_time'       => $todayLog->end_time ?? null,
+                'duration'       => $todayLog->duration ?? null,
+                'date'           => $todayLog->date ?? null,
+            ];
+        });
 
         return response()->json([
             'status' => true,
-            'message' => 'Darshan list fetched successfully',
-            'data' => $darshans,
+            'message' => 'Darshan list fetched successfully.',
+            'data' => $darshanList
         ], 200);
+
 
     } catch (\Exception $e) {
         return response()->json([
