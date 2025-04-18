@@ -5,7 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TempleDarshan;
-use App\Models\TempleDarshanManagement;
+use App\Models\DarshanDetails;
 use App\Models\DarshanManagement;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -224,25 +224,35 @@ public function deleteTempleDarshan($id)
 public function getDarshanListApi()
 {
     try {
+        $today = Carbon::now('Asia/Kolkata')->toDateString();
 
-        $today = Carbon::today()->toDateString();
-        
-        $darshans = TempleDarshanManagement::where('status', 'active')
-            ->where(function ($query) use ($today) {
-                $query->where('darshan_type', 'normal')
-                      ->orWhere(function ($q) use ($today) {
-                          $q->where('darshan_type', 'special')
-                            ->where('darshan_status', 'Started')
-                            ->whereDate('date', $today);
-                      });
-            })
-            ->get();
-        
+        // Step 1: Fetch all active darshans
+        $darshans = DarshanDetails::where('status', 'active')->get();
+
+        // Step 2: Append today’s management data (if available)
+        $darshanList = $darshans->map(function ($darshan) use ($today) {
+            $todayLog = DarshanManagement::where('darshan_id', $darshan->id)
+                ->whereDate('date', $today)
+                ->latest()
+                ->first();
+
+            return [
+                'darshan_id'     => $darshan->id,
+                'darshan_name'   => $darshan->darshan_name,
+                'darshan_type'   => $darshan->darshan_type,
+                'description'    => $darshan->description,
+                'darshan_status' => $todayLog->darshan_status ?? null,
+                'start_time'     => $todayLog->start_time ?? null,
+                'end_time'       => $todayLog->end_time ?? null,
+                'duration'       => $todayLog->duration ?? null,
+                'date'           => $todayLog->date ?? null,
+            ];
+        });
 
         return response()->json([
             'status' => true,
             'message' => 'Darshan list fetched successfully.',
-            'data' => $darshans,
+            'data' => $darshanList
         ], 200);
 
     } catch (\Exception $e) {
@@ -282,7 +292,7 @@ public function startDarshan(Request $request)
         ]);
 
         // Step 2: Update TempleDarshanManagement (master table)
-        TempleDarshanManagement::where('id', $request->darshan_id)->update([
+        DarshanDetails::where('id', $request->darshan_id)->update([
             'darshan_status' => 'Started',
             'date'           => $now->toDateString(),
         ]);
@@ -353,7 +363,7 @@ public function endDarshan(Request $request)
         ]);
 
         // ✅ Update main darshan table
-        TempleDarshanManagement::where('id', $request->darshan_id)->update([
+        DarshanDetails::where('id', $request->darshan_id)->update([
             'darshan_status' => 'Completed',
         ]);
 
@@ -399,7 +409,7 @@ public function getTodayCompletedDarshans()
 public function getSpecialDarshans()
 {
     try {
-        $darshans = TempleDarshanManagement::where('darshan_type', 'special')
+        $darshans = DarshanDetails::where('darshan_type', 'special')
             ->where('status', 'active')
             ->orderBy('date', 'desc')
             ->get();

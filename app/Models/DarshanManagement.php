@@ -9,6 +9,7 @@ class DarshanManagement extends Model
 {
     use HasFactory;
     
+    
     protected $table = 'temple__darshan_management';
 
     protected $fillable = [
