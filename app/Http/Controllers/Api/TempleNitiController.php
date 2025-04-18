@@ -182,8 +182,7 @@ public function startNiti(Request $request)
         $prasadLog = null;
         if ($nitiMaster->connected_mahaprasad_id) {
             // ✅ Check if a Mahaprasad for today is already Started
-            $existingPrasad = PrasadManagement::where('prasad_id', $nitiMaster->connected_mahaprasad_id)
-                ->where('date', $now->toDateString())
+            $existingPrasad = PrasadManagement::where('date', $now->toDateString())
                 ->where('prasad_status', 'Started')
                 ->latest()
                 ->first();
