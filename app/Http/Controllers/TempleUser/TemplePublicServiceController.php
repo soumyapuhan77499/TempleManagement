@@ -103,7 +103,6 @@ class TemplePublicServiceController extends Controller
             'service_type' => 'required|string',
             'service_name' => 'required|string',
             'google_map_link' => 'nullable|url',
-            'contact_no' => 'required|string',
             'whatsapp_no' => 'nullable|string',
             'email' => 'nullable|string',
             'opening_time' => 'nullable',
@@ -114,7 +113,6 @@ class TemplePublicServiceController extends Controller
             'district' => 'nullable|string',
             'state' => 'nullable|string',
             'country' => 'nullable|string',
-            'description' => 'required|string',
             'photo.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
     
