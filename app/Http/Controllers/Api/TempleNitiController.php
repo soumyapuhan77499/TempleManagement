@@ -49,17 +49,19 @@ class TempleNitiController extends Controller
     
             // ✅ Get all Special Nitis grouped by after_special_niti
             $specialNitisGrouped = NitiMaster::where('status', 'active')
-                ->where('niti_type', 'special')
-                ->with([
-                    'todayStartTime' => function ($query) use ($today) {
-                        $query->where('niti_status', 'Started')
-                            ->whereDate('date', $today)
-                            ->select('niti_id', 'start_time');
-                    },
-                    'subNitis'
-                ])
-                ->get()
-                ->groupBy('after_special_niti');
+            ->where('niti_type', 'special')
+            ->whereDate('date_time', $today) // ✅ Filter by today's date here
+            ->with([
+                'todayStartTime' => function ($query) use ($today) {
+                    $query->where('niti_status', 'Upcoming')
+                        ->whereDate('date', $today) // ✅ This is correct for related table (if separate date field exists)
+                        ->select('niti_id', 'start_time');
+                },
+                'subNitis'
+            ])
+            ->get()
+            ->groupBy('after_special_niti');
+        
     
             $finalNitiList = [];
     
