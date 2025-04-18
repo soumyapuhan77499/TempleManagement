@@ -243,33 +243,4 @@ public function startPrasad(Request $request)
     }
 }
 
-public function getDailyAndStartedSpecialPrasad()
-{
-    try {
-        $today = Carbon::now()->setTimezone('Asia/Kolkata')->toDateString();
-
-        $prasads = TemplePrasad::where(function ($query) use ($today) {
-            $query->where('prasad_type', 'normal')
-                  ->orWhere(function ($q) use ($today) {
-                      $q->where('prasad_type', 'special')
-                        ->where('prasad_status', 'Started')
-                        ->whereDate('date', $today);
-                  });
-        })->get();
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Filtered Prasad list fetched successfully.',
-            'data' => $prasads
-        ], 200);
-
-    } catch (\Exception $e) {
-        return response()->json([
-            'status' => false,
-            'message' => 'Failed to fetch prasad list.',
-            'error' => $e->getMessage()
-        ], 500);
-    }
-}
-
 }

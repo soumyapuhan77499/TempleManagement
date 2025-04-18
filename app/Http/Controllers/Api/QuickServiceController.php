@@ -12,6 +12,9 @@ use App\Models\PanjiDetails;
 use App\Models\TempleDarshan;
 use App\Models\DarshanDetails;
 use App\Models\DarshanManagement;
+use App\Models\PrasadManagement;
+use App\Models\TemplePrasadItem;
+use App\Models\TemplePrasadManagement;
 use Carbon\Carbon;
 
 use Illuminate\Http\Request;
@@ -242,41 +245,53 @@ class QuickServiceController extends Controller
     }
 }
 
-public function getTemplePrasadList(Request $request)
+public function getTemplePrasadList()
 {
     try {
-        $templeId = 'TEMPLE25402';
+        $today = Carbon::now('Asia/Kolkata')->toDateString();
 
-        if (!$templeId) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Temple ID is required.'
-            ], 400);
-        }
+        // Step 1: Get all Prasad master records
+        $prasads = TemplePrasad::get();
 
-        $prasadas = TemplePrasad::where('temple_id', $templeId)->get()->map(function ($prasad) {
-            // Prepend the full URL to the prasad photo path
-            $prasad->prasad_photo = url( $prasad->prasad_photo);
-            return $prasad;
+        // Step 2: Attach today's PrasadManagement data
+        $prasadList = $prasads->map(function ($prasad) use ($today) {
+            $todayLog = PrasadManagement::where('prasad_id', $prasad->id)
+                ->whereDate('date', $today)
+                ->latest()
+                ->first();
+
+            return [
+                'prasad_id'     => $prasad->id,
+                'prasad_name'   => $prasad->prasad_name,
+                'prasad_type'   => $prasad->prasad_type,
+                'prasad_photo'  => $prasad->prasad_photo,
+                'prasad_item'   => $prasad->prasad_item,
+                'description'   => $prasad->description,
+                'online_order'  => $prasad->online_order,
+                'pre_order'     => $prasad->pre_order,
+                'offline_order' => $prasad->offline_order,
+                'master_prasad_status' => $prasad->prasad_status,
+                'today_status'  => $todayLog->prasad_status ?? null,
+                'start_time'    => $todayLog->start_time ?? null,
+                'date'          => $todayLog->date ?? null,
+            ];
         });
 
         return response()->json([
             'status' => true,
-            'message' => 'Temple prasad list fetched successfully.',
-            'data' => $prasadas
+            'message' => 'Filtered Prasad list fetched successfully.',
+            'data' => $prasadList
         ], 200);
 
     } catch (\Exception $e) {
-
-        Log::error('Error fetching prasad list: ' . $e->getMessage());
-
         return response()->json([
             'status' => false,
-            'message' => 'Internal Server Error',
+            'message' => 'Failed to fetch prasad list.',
             'error' => $e->getMessage()
         ], 500);
     }
 }
+
 
     public function getPanji()
 {
