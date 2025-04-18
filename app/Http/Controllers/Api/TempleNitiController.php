@@ -459,17 +459,17 @@ public function completedNiti()
     }
 }
 
-public function getSpecialNiti()
+public function getOtherNiti()
 {
     try {
-        $specialNitis = NitiMaster::where('niti_type', 'special')
+        $otherNitis = NitiMaster::where('niti_type', 'other')
             ->orderBy('date_time', 'desc')
             ->get();
 
         return response()->json([
             'status' => true,
-            'message' => 'Special Niti list fetched successfully.',
-            'data' => $specialNitis,
+            'message' => 'Other Niti list fetched successfully.',
+            'data' => $otherNitis,
         ], 200);
 
     } catch (\Exception $e) {

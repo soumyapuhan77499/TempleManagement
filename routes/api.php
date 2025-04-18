@@ -268,7 +268,7 @@ Route::controller(TempleNitiController::class)->group(function () {
   // Public or generic route (no auth)
   Route::get('/manage-niti', 'manageNiti');
   Route::get('/completed-niti', 'completedNiti');
-  Route::get('/special-niti', 'getSpecialNiti');
+  Route::get('/other-niti', 'getOtherNiti');
   Route::post('/save-special-niti', 'storeSpecialNiti');
   Route::post('/update-upcoming', 'updateActiveNitiToUpcoming');
   Route::get('/sub-niti/running','getRunningSubNitis');

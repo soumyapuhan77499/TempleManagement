@@ -26,7 +26,7 @@ class WebsiteBannerController extends Controller
             $previousDate = Carbon::yesterday()->toDateString();
     
             // Fetch all running sub-nitis today (for all niti)
-            $subNitis = TempleSubNitiManagement::where('status', 'Running')
+            $subNitis = TempleSubNitiManagement::whereIn('status', ['Running', 'Completed'])
                 ->whereDate('date', $today)
                 ->whereIn('niti_id', function ($query) {
                     $query->select('niti_id')
@@ -62,7 +62,7 @@ class WebsiteBannerController extends Controller
                     ->first();
     
                 // Find matching sub-niti from pre-fetched list
-                $matchingSubNiti = $subNitis->where('niti_id', $niti->niti_id)->first();
+                $matchingSubNitis = $subNitis->where('niti_id', $niti->niti_id);
     
                 return [
                     'niti_id'       => $niti->niti_id,
@@ -81,13 +81,17 @@ class WebsiteBannerController extends Controller
                     'end_time'      => $management->end_time ?? null,
                     'duration'      => $management->duration ?? null,
                     'management_status' => $management->niti_status ?? null,
-                    'running_sub_niti' => $matchingSubNiti ? [
-                        'sub_niti_id'   => $matchingSubNiti->sub_niti_id,
-                        'sub_niti_name' => $matchingSubNiti->sub_niti_name,
-                        'start_time'    => $matchingSubNiti->start_time,
-                        'status'        => $matchingSubNiti->status,
-                        'date'          => $matchingSubNiti->date,
-                    ] : null,
+                    'running_sub_niti' => $matchingSubNitis->map(function ($sub) {
+                        return [
+                            'sub_niti_id'   => $sub->sub_niti_id,
+                            'sub_niti_name' => $sub->sub_niti_name,
+                            'start_time'    => $sub->start_time,
+                            'status'        => $sub->status,
+                            'date'          => $sub->date,
+                        ];
+                    })->values(),
+
+
                 ];
             });
     
