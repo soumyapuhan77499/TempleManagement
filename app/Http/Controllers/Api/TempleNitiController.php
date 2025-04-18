@@ -182,18 +182,23 @@ public function startNiti(Request $request)
         $prasadLog = null;
         if ($nitiMaster->connected_mahaprasad_id) {
             // ✅ Check if a Mahaprasad for today is already Started
-            $existingPrasad = PrasadManagement::where('date', $now->toDateString())
+            $existingPrasad = PrasadManagement::where('prasad_id', $nitiMaster->connected_mahaprasad_id)
+                ->where('date', $now->toDateString())
                 ->where('prasad_status', 'Started')
                 ->latest()
                 ->first();
-
+        
             if ($existingPrasad) {
                 // ✅ Mark the previous one as Completed
                 $existingPrasad->update([
                     'prasad_status' => 'Completed',
                 ]);
+        
+                // ✅ Also update master table to Completed
+                TemplePrasad::where('id', $existingPrasad->prasad_id)
+                    ->update(['prasad_status' => 'Completed']);
             }
-
+        
             // ✅ Start a new Mahaprasad record
             $prasadLog = PrasadManagement::create([
                 'prasad_id'     => $nitiMaster->connected_mahaprasad_id,
@@ -203,12 +208,12 @@ public function startNiti(Request $request)
                 'prasad_status' => 'Started',
                 'temple_id'     => $nitiMaster->temple_id ?? null,
             ]);
-
-            // ✅ Update master table status
+        
+            // ✅ Set current Mahaprasad as Started in master table
             TemplePrasad::where('id', $nitiMaster->connected_mahaprasad_id)
                 ->update(['prasad_status' => 'Started']);
         }
-
+        
         return response()->json([
             'status' => true,
             'message' => 'Niti and related Darshan/Mahaprasad started successfully.',
