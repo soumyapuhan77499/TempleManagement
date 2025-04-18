@@ -47,7 +47,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="service_name">Service Name</label>
-                                    <input type="name" class="form-control" id="service_name" name="service_name" required>
+                                    <input type="text" class="form-control" id="service_name" name="service_name" required>
                                 </div>
                             </div>
                             <div class="col-md-4">
