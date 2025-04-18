@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TempleNews extends Model
+class TempleHundi extends Model
 {
-    protected $table = 'temple__news';
+    use HasFactory;
+
+    protected $table = 'temple__hundi_notice';
 
     protected $fillable = [
-        'temple_id', 'notice_name', 'notice_date', 'notice_descp', 'status'
+        'temple_id', 'date', 'rupees', 'gold', 'silver'
     ];
-    
 }

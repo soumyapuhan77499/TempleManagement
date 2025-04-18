@@ -14,6 +14,7 @@ use App\Models\DarshanManagement;
 use App\Models\PrasadManagement;
 use App\Models\TemplePrasad;
 use App\Models\DarshanDetails;
+use App\Models\TempleNews;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\DB;
@@ -867,6 +868,110 @@ public function softDeleteSubNiti($id)
         return response()->json([
             'status' => false,
             'message' => 'Error soft deleting Sub Niti.',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
+public function storeByNoticeName(Request $request)
+{
+   
+    try {
+        $news = TempleNews::create([
+            'notice_name' => $request->notice_name
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Temple news created successfully.',
+            'data' => $news
+        ], 201);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Something went wrong!',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
+
+public function getLatestNotice()
+{
+    try {
+        $latestNotice = TempleNews::orderBy('created_at', 'desc')->first();
+
+        if (!$latestNotice) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No notice found.',
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Latest notice fetched successfully.',
+            'data' => $latestNotice
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to fetch latest notice.',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
+public function store(Request $request)
+{
+  
+    try {
+
+        $hundi = TempleHundi::create([
+            'date'      => $request->date,
+            'rupees'    => $request->rupees,
+            'gold'      => $request->gold,
+            'silver'    => $request->silver,
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Hundi collection saved successfully.',
+            'data' => $hundi
+        ], 201);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Something went wrong.',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
+public function index()
+{
+    try {
+        $hundiRecords = TempleHundi::orderBy('date', 'desc')->get();
+
+        if ($hundiRecords->isEmpty()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No hundi records found.',
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Hundi records fetched successfully.',
+            'data' => $hundiRecords
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to fetch hundi records.',
             'error' => $e->getMessage()
         ], 500);
     }

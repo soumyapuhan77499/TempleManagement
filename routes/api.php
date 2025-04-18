@@ -283,9 +283,12 @@ Route::controller(TempleNitiController::class)->group(function () {
       Route::post('/sub-niti/add', 'addAndStartSubNiti');
       Route::post('/update-sub-niti-name/{id}', 'updateSubNitiName');
       Route::delete('/delete-sub-niti/{id}','softDeleteSubNiti');
-
-
   });
+
+  Route::post('/save-temple-news', 'storeByNoticeName');
+  Route::get('/latest-temple-notice','getLatestNotice');
+  Route::post('/save-hundi-collection', 'store');
+  Route::get('/get-hundi-collections', 'index');
 
 });
 
