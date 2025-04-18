@@ -271,7 +271,7 @@ public function getTemplePrasadList()
                 'pre_order'     => $prasad->pre_order,
                 'offline_order' => $prasad->offline_order,
                 'master_prasad_status' => $prasad->prasad_status,
-                'today_status'  => $todayLog->prasad_status ?? null,
+                'today_status'  => $prasad->prasad_status ?? null,
                 'start_time'    => $todayLog->start_time ?? null,
                 'date'          => $todayLog->date ?? null,
             ];
@@ -371,7 +371,7 @@ public function getDarshanListApi()
                 'darshan_name'   => $darshan->darshan_name,
                 'darshan_type'   => $darshan->darshan_type,
                 'description'    => $darshan->description,
-                'darshan_status' => $todayLog->darshan_status ?? null,
+                'darshan_status' => $darshan->darshan_status ?? null,
                 'start_time'     => $todayLog->start_time ?? null,
                 'end_time'       => $todayLog->end_time ?? null,
                 'duration'       => $todayLog->duration ?? null,
