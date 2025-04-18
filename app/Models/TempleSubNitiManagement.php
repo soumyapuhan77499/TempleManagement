@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TempleSubNitiManagement extends Model
 {
+    
     use HasFactory;
 
     protected $table = 'temple__sub_niti_management';

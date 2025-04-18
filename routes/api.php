@@ -281,6 +281,10 @@ Route::controller(TempleNitiController::class)->group(function () {
       Route::post('/stop-niti', 'stopNiti');
       // Route::post('/sub-niti/start', 'startSubNiti');
       Route::post('/sub-niti/add', 'addAndStartSubNiti');
+      Route::post('/update-sub-niti-name/{id}', 'updateSubNitiName');
+      Route::delete('/delete-sub-niti/{id}','softDeleteSubNiti');
+
+
   });
 
 });

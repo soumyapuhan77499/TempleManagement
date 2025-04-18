@@ -29,10 +29,13 @@ class WebsiteBannerController extends Controller
         $activeNitiIds = NitiMaster::whereIn('niti_status', ['Started', 'Paused'])->pluck('niti_id');
 
         // ✅ Fetch Running & Completed Sub Nitis for Today
-        $runningSubNitis = TempleSubNitiManagement::whereIn('status', ['Running', 'Completed'])
-            ->whereDate('date', $today)
-            ->whereIn('niti_id', $activeNitiIds)
-            ->get();
+        $runningSubNitis = TempleSubNitiManagement::where(function ($query) {
+            $query->where('status', 'Running')
+                  ->orWhere('status', '!=', 'Deleted');
+        })
+        ->whereDate('date', $today)
+        ->whereIn('niti_id', $activeNitiIds)
+        ->get();
 
         // ✅ Fetch Daily Nitis (active + public), no date condition
         $dailyNitis = NitiMaster::where('status', 'active')

@@ -12,6 +12,8 @@ use App\Models\TempleSubNiti;
 use App\Models\TempleSubNitiManagement;
 use App\Models\DarshanManagement;
 use App\Models\PrasadManagement;
+use App\Models\TemplePrasad;
+use App\Models\DarshanDetails;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\DB;
@@ -24,14 +26,14 @@ public function manageNiti(Request $request)
         $today = Carbon::now('Asia/Kolkata')->toDateString();
 
         // ✅ Fetch Running Sub Nitis
-        $runningSubNitis = TempleSubNitiManagement::whereIn('status', ['Running', 'Completed'])
-            ->whereDate('date', $today)
-            ->whereIn('niti_id', function ($query) {
-                $query->select('niti_id')
-                        ->from('temple__niti_details')
-                        ->whereIn('niti_status', ['Started', 'Paused']);
-            })
-            ->get();
+        $runningSubNitis = TempleSubNitiManagement::where('status', '!=', 'Deleted')
+        ->whereDate('date', $today)
+        ->whereIn('niti_id', function ($query) {
+            $query->select('niti_id')
+                  ->from('temple__niti_details')
+                  ->whereIn('niti_status', ['Started', 'Paused']);
+        })
+        ->get();
 
         // ✅ Get all Daily Nitis
         $dailyNitis = NitiMaster::where('status', 'active')
@@ -171,11 +173,28 @@ public function startNiti(Request $request)
                 'darshan_status' => 'Started',
                 'temple_id'      => $nitiMaster->temple_id ?? null,
             ]);
+
+            DarshanDetails::where('id', $nitiMaster->connected_darshan_id)
+                ->update(['darshan_status' => 'Started']);
         }
 
         // Step 3: Start Interconnected Mahaprasad (if exists)
         $prasadLog = null;
         if ($nitiMaster->connected_mahaprasad_id) {
+            // ✅ Check if a Mahaprasad for today is already Started
+            $existingPrasad = PrasadManagement::where('date', $now->toDateString())
+                ->where('prasad_status', 'Started')
+                ->latest()
+                ->first();
+
+            if ($existingPrasad) {
+                // ✅ Mark the previous one as Completed
+                $existingPrasad->update([
+                    'prasad_status' => 'Completed',
+                ]);
+            }
+
+            // ✅ Start a new Mahaprasad record
             $prasadLog = PrasadManagement::create([
                 'prasad_id'     => $nitiMaster->connected_mahaprasad_id,
                 'sebak_id'      => $user->sebak_id,
@@ -184,15 +203,19 @@ public function startNiti(Request $request)
                 'prasad_status' => 'Started',
                 'temple_id'     => $nitiMaster->temple_id ?? null,
             ]);
+
+            // ✅ Update master table status
+            TemplePrasad::where('id', $nitiMaster->connected_mahaprasad_id)
+                ->update(['prasad_status' => 'Started']);
         }
 
         return response()->json([
             'status' => true,
             'message' => 'Niti and related Darshan/Mahaprasad started successfully.',
             'data' => [
-                'niti_management'   => $nitiManagement,
-                'darshan_management'=> $darshanLog,
-                'prasad_management' => $prasadLog,
+                'niti_management'    => $nitiManagement,
+                'darshan_management' => $darshanLog,
+                'prasad_management'  => $prasadLog,
             ]
         ], 200);
 
@@ -348,12 +371,13 @@ public function stopNiti(Request $request)
         }
 
         $tz = 'Asia/Kolkata';
+        $now = Carbon::now($tz);
 
         // Get the latest active Niti
         $activeNiti = NitiManagement::where('niti_id', $request->niti_id)
             ->where('sebak_id', $user->sebak_id)
-            ->whereIn('niti_status', ['Started'])
-            ->whereDate('date', Carbon::today($tz))
+            ->where('niti_status', 'Started')
+            ->whereDate('date', $now->toDateString())
             ->latest()
             ->first();
 
@@ -364,27 +388,16 @@ public function stopNiti(Request $request)
             ], 400);
         }
 
-        // Calculate duration from start_time to current time (end_time)
+        // Calculate duration
         $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $activeNiti->date . ' ' . $activeNiti->start_time, $tz);
-        $endDateTime = Carbon::now($tz);
-
-        $durationInSeconds = $startDateTime->diffInSeconds($endDateTime);
+        $durationInSeconds = $startDateTime->diffInSeconds($now);
 
         $hours = floor($durationInSeconds / 3600);
         $minutes = floor(($durationInSeconds % 3600) / 60);
         $seconds = $durationInSeconds % 60;
 
         $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
-
-        $durationText = '';
-        if ($hours > 0) {
-            $durationText .= $hours . ' hr ';
-        }
-        if ($minutes > 0 || $hours > 0) {
-            $durationText .= $minutes . ' min';
-        } else {
-            $durationText .= $seconds . ' sec';
-        }
+        $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
 
         // Save completed Niti entry
         $completedNiti = new NitiManagement();
@@ -393,22 +406,56 @@ public function stopNiti(Request $request)
         $completedNiti->start_time = $activeNiti->start_time;
         $completedNiti->pause_time = $activeNiti->pause_time;
         $completedNiti->resume_time = $activeNiti->resume_time;
-        $completedNiti->date = $endDateTime->toDateString();
-        $completedNiti->end_time = $endDateTime->format('H:i:s');
+        $completedNiti->date = $now->toDateString();
+        $completedNiti->end_time = $now->format('H:i:s');
         $completedNiti->running_time = $runningTime;
         $completedNiti->duration = trim($durationText);
         $completedNiti->niti_status = 'Completed';
         $completedNiti->save();
 
-        // Update master table
-        NitiMaster::where('niti_id', $request->niti_id)->update([
-            'niti_status' => 'Completed'
-        ]);
+        // Update Niti master status
+        $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
+        $nitiMaster->update(['niti_status' => 'Completed']);
+
+        // ✅ If interconnected Darshan exists, stop it
+        $darshanCompleted = null;
+        if ($nitiMaster->connected_darshan_id) {
+            $activeDarshan = DarshanManagement::where('darshan_id', $nitiMaster->connected_darshan_id)
+                ->where('sebak_id', $user->sebak_id)
+                ->where('darshan_status', 'Started')
+                ->whereDate('date', $now->toDateString())
+                ->latest()
+                ->first();
+
+            if ($activeDarshan) {
+                $darshanStart = Carbon::parse($activeDarshan->date . ' ' . $activeDarshan->start_time);
+                $darshanDuration = $darshanStart->diff($now)->format('%H:%I:%S');
+
+                $darshanCompleted = DarshanManagement::create([
+                    'darshan_id'     => $nitiMaster->connected_darshan_id,
+                    'sebak_id'       => $user->sebak_id,
+                    'temple_id'      => $activeDarshan->temple_id ?? null,
+                    'date'           => $now->toDateString(),
+                    'start_time'     => $activeDarshan->start_time,
+                    'end_time'       => $now->format('H:i:s'),
+                    'duration'       => $darshanDuration,
+                    'darshan_status' => 'Completed',
+                ]);
+
+                // Update main Darshan status
+                DarshanDetails::where('id', $nitiMaster->connected_darshan_id)->update([
+                    'darshan_status' => 'Completed'
+                ]);
+            }
+        }
 
         return response()->json([
             'status' => true,
-            'message' => 'Niti stopped and completed successfully.',
-            'data' => $completedNiti
+            'message' => 'Niti (and Darshan if linked) stopped successfully.',
+            'data' => [
+                'niti'    => $completedNiti,
+                'darshan'=> $darshanCompleted
+            ]
         ], 200);
 
     } catch (\Exception $e) {
@@ -743,6 +790,74 @@ public function addAndStartSubNiti(Request $request)
         return response()->json([
             'status' => false,
             'message' => 'Failed to add and start Sub Niti.',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
+public function updateSubNitiName(Request $request, $id)
+{
+    try {
+        // Validate request
+        $request->validate([
+            'sub_niti_name' => 'required|string|max:255',
+        ]);
+
+        // Find the record by ID
+        $subNiti = TempleSubNitiManagement::find($id);
+
+        if (!$subNiti) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Sub Niti record not found.'
+            ], 404);
+        }
+
+        // Update the sub_niti_name
+        $subNiti->sub_niti_name = $request->sub_niti_name;
+        $subNiti->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Sub Niti name updated successfully.',
+            'data' => $subNiti
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Error updating Sub Niti name.',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
+public function softDeleteSubNiti($id)
+{
+    try {
+        $subNiti = TempleSubNitiManagement::find($id);
+
+        if (!$subNiti) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Sub Niti record not found.'
+            ], 404);
+        }
+
+        // Update the status to "Deleted"
+        $subNiti->status = 'Deleted';
+        $subNiti->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Sub Niti soft-deleted successfully.',
+            'data' => $subNiti
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Error soft deleting Sub Niti.',
             'error' => $e->getMessage()
         ], 500);
     }
