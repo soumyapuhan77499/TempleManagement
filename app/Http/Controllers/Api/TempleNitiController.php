@@ -195,7 +195,7 @@ public function startNiti(Request $request)
                 ]);
         
                 // ✅ Also update master table to Completed
-                TemplePrasad::where('id', $existingPrasad->prasad_id)
+                TemplePrasad::where('prasad_status', 'Started')
                     ->update(['prasad_status' => 'Completed']);
             }
         
