@@ -953,7 +953,7 @@ public function store(Request $request)
             'status' => true,
             'message' => 'Hundi collection saved successfully.',
             'data' => $hundi
-        ], 201);
+        ], 200);
     } catch (\Exception $e) {
         return response()->json([
             'status' => false,
