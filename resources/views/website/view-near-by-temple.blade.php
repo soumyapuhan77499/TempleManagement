@@ -3,18 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Niti Timeline</title>
+    <title>Nearby Temple</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <style>
-
         body {
             margin: 0;
             font-family: 'Segoe UI', sans-serif;
-            background: #f7f7f7;
+            background: #fefefe;
         }
 
         .header-area {
@@ -28,23 +24,20 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
         .logo img {
             height: 60px;
-            width: 70px;
+            width: auto;
         }
 
         .nav-menu {
             display: flex;
             align-items: center;
-            gap: 40px;
-            margin-right: 30px;
+            gap: 30px;
         }
 
         .nav-menu a {
@@ -61,29 +54,10 @@
 
         .live-badges {
             background: red;
-            color: white !important;
+            color: white;
             padding: 2px 10px;
             border-radius: 10px;
             margin-left: 5px;
-        }
-
-        .hamburger-menu {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-        }
-
-        .hamburger-menu span {
-            width: 20px;
-            height: 2px;
-            background: purple;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
         }
 
         .hero {
@@ -134,43 +108,157 @@
             color: #f5f5f5;
         }
 
-       
+        .temple-section {
+            display: flex;
+            max-width: 1100px;
+            margin: 60px auto;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .temple-left,
+        .temple-right {
+            flex: 1;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .temple-left img,
+        .temple-right img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .temple-left h3,
+        .temple-right h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+            color: #b31e25;
+        }
+
+        .temple-left p,
+        .temple-right p {
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+
+        .temple-right ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .temple-right ul li {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .temple-right ul li i {
+            margin-right: 10px;
+            color: #b31e25;
+        }
+
+        .btn-details {
+            padding: 10px 20px;
+            background: #b31e25;
+            color: #fff;
+            border-radius: 4px;
+            text-decoration: none;
+            width: fit-content;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .timeline-footer {
+            text-align: center;
+            font-size: 13px;
+            color: #aaa;
+            margin: 30px 0;
+        }
+
+        @media screen and (max-width: 768px) {
+            .temple-section {
+                flex-direction: column;
+            }
+
+            .temple-left,
+            .temple-right {
+                padding: 30px 20px;
+            }
+        }
     </style>
 </head>
 
 <body>
-
     <header class="header-area">
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <img src="{{ asset('website/logo.png') }}" alt="logo">
-                </div>
-                <nav class="nav-menu">
-                    <a href="#">Nitis</a>
-                    <span class="separator">SM <a href="#" class="live-badges"><i class="fa fa-bolt"></i>
-                            Live</a></span>
-                    <a href="#">Services</a>
-                    <a href="#">Nearby Temples</a>
-                    <a href="#">Conveniences</a>
-                    <a href="#">Temple Information</a>
-                </nav>
+        <div class="header-content">
+            <div class="logo">
+                <img src="{{ asset('website/logo.png') }}" alt="logo">
             </div>
+            <nav class="nav-menu">
+                <a href="#">Nitis</a>
+                <span class="separator">SM <a href="#" class="live-badges"><i class="fa fa-bolt"></i> Live</a></span>
+                <a href="#">Services</a>
+                <a href="#">Nearby Temples</a>
+                <a href="#">Conveniences</a>
+                <a href="#">Temple Information</a>
+            </nav>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <div class="hero">
+    <section class="hero">
         <img class="hero-bg" src="{{ asset('website/parking.jpeg') }}" alt="Mandir Background" />
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1>Near By Temple</h1>
-            <p>Rituals & their importance – live updates</p>
+            <h1>Nearby Temples</h1>
+            <p>Discover sacred places close to your journey.</p>
         </div>
+    </section>
+
+    <section class="temple-section">
+        <div class="temple-left">
+            <img src="{{ asset('website/59.jpg') }}" alt="Temple Photo">
+        </div>
+        <div class="temple-right">
+            <h3><i class="fa fa-eye"></i> Darshan</h3>
+            <p>Experience spiritual tranquility through peaceful darshan, guided by tradition and culture.</p>
+            <h3><i class="fa fa-utensils"></i> Mahaprasad</h3>
+            <p>Enjoy the divine offering of Mahaprasad, prepared with sanctity and served with devotion.</p>
+            <ul>
+                <li><i class="fa fa-map-marker-alt"></i> 2.5 KM from Jagannath Temple</li>
+                <li><i class="fa fa-clock"></i> Open from 5 AM to 9 PM</li>
+                <li><i class="fa fa-phone"></i> Contact: +91-9876543210</li>
+            </ul>
+            <a href="#" class="btn-details">FIND OUT MORE</a>
+        </div>
+    </section>
+
+    <section class="temple-section">
+        <div class="temple-left">
+            <div class="temple-content">
+                <h3><i class="fa fa-eye" style="color: #b31e25;"></i> Darshan</h3>
+                <p>Spacious temple with traditional architecture and serene surroundings for meditation and prayer.</p>
+                <h3><i class="fa fa-utensils" style="color: #b31e25;"></i> Mahaprasad</h3>
+                <p>Delicious prasad prepared freshly every day in a sacred kitchen with community participation.</p>
+                
+              
+            </div>
+        </div>
+        <div class="temple-right">
+            <img src="{{ asset('website/1000.jpg') }}" alt="Temple Photo">
+        </div>
+    </section>
+    
+
+    <div class="timeline-footer">
+        © {{ date('Y') }} Temple Management System. All rights reserved.
     </div>
-
-
-
 </body>
-
 </html>

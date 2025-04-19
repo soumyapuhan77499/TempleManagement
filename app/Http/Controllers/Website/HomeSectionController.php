@@ -175,5 +175,12 @@ public function mandirDarshan()
     return view('website.temple-darshan-list', compact('darshans'));
 }
 
+public function viewNearByTemple($id)
+{
+    $temple = NearByTemple::findOrFail($id);
+    return view('website.view-near-by-temple', compact('temple'));
+}
+
+
 
 }

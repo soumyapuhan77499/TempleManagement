@@ -79,7 +79,7 @@
             </div>
         </div>
     </div>
-{{-- 
+    {{-- 
     <section class="shree-mandir-section  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
 
         <div class="section-container">
@@ -196,35 +196,35 @@
                 </div>
 
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="shreeKhetra">
-                    <img src="{{ asset('website/sankha.png') }}"  style="border-radius: 50%;height: 80px;width: 120px">
+                    <img src="{{ asset('website/sankha.png') }}" style="border-radius: 50%;height: 80px;width: 120px">
                     <p class="text-gray-500 mt-3">Shree Khetra</p>
                 </div>
 
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="nijoga">
-                    <img src="{{ asset('website/nijoga.png') }}"  style="border-radius: 50%;height: 80px;width: 80px">
+                    <img src="{{ asset('website/nijoga.png') }}" style="border-radius: 50%;height: 80px;width: 80px">
                     <p class="text-gray-500 mt-3">36 Nijoga</p>
                 </div>
 
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="festivals">
-                    <img src="{{ asset('website/dipa.png') }}"  style="border-radius: 50%;height: 80px;width: 80px">
+                    <img src="{{ asset('website/dipa.png') }}" style="border-radius: 50%;height: 80px;width: 80px">
                     <p class="text-gray-500 mt-3">Festivals</p>
                 </div>
-               
+
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="besha">
-                    <img src="{{ asset('website/besha1.png') }}"  style="border-radius: 50%;height: 80px;width: 80px">
+                    <img src="{{ asset('website/besha1.png') }}" style="border-radius: 50%;height: 80px;width: 80px">
                     <p class="text-gray-500 mt-3">Besha</p>
                 </div>
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="darshan">
-                    <img src="{{ asset('website/darshan34.png') }}"  style="border-radius: 50%;height: 80px;width: 80px">
+                    <img src="{{ asset('website/darshan34.png') }}" style="border-radius: 50%;height: 80px;width: 80px">
                     <p class="text-gray-500 mt-3">Darshan</p>
                 </div>
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="prasad">
-                    <img src="{{ asset('website/mp.png') }}"  style="border-radius: 50%;height: 80px;width: 80px">
+                    <img src="{{ asset('website/mp.png') }}" style="border-radius: 50%;height: 80px;width: 80px">
                     <p class="text-gray-500 mt-3">Maha Prasad</p>
                 </div>
 
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="mathaAshram">
-                    <img src="{{ asset('website/ashram.png') }}"  style="border-radius: 50%;height: 80px;width: 80px">
+                    <img src="{{ asset('website/ashram.png') }}" style="border-radius: 50%;height: 80px;width: 80px">
                     <p class="text-gray-500 mt-3">Matha & Ashram</p>
                 </div>
             </div>
@@ -272,7 +272,8 @@
         </div>
 
         <!-- Services Layout -->
-        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-start"  style="max-width: 1290px !important;">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-start"
+            style="max-width: 1290px !important;">
             <!-- Left Featured Card (Fixed height: 450px) -->
             <div class="p-8 flex flex-col justify-between transition-all duration-500 hover:scale-105 h-[455px]"
                 style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
@@ -305,16 +306,19 @@
                 </a>
 
                 <!-- Panji -->
-                <div class="bg-white border-l-4 border-[#db4d30] px-5 py-4 flex items-center gap-5 h-[150px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300"
-                    style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
-                    <img src="{{ asset('website/panji765.png') }}" alt="Panji" class="w-16 h-16">
-                    <div>
-                        <h3 class="text-lg font-semibold text-[#db4d30]">Panji</h3>
-                        <p class="text-sm text-gray-600">Explore traditional records and sacred schedules maintained over
-                            centuries.</p>
+                <a href="{{ route('view.panji.details') }}">
+                    <div class="bg-white border-l-4 border-[#db4d30] px-5 py-4 flex items-center gap-5 h-[150px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300"
+                        style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
+                        <img src="{{ asset('website/panji765.png') }}" alt="Panji" class="w-16 h-16">
+                        <div>
+                            <h3 class="text-lg font-semibold text-[#db4d30]">Panji</h3>
+                            <p class="text-sm text-gray-600">
+                                Explore traditional records and sacred schedules maintained over centuries.
+                            </p>
+                        </div>
                     </div>
-                </div>
-
+                </a>
+                
                 <!-- Offering -->
                 <div class="bg-white border-l-4 border-[#db4d30]  px-5 py-4 flex items-center gap-5 h-[150px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300"
                     style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
@@ -440,10 +444,13 @@
                         $photos = json_decode($temple->photo, true);
                         $firstPhoto = isset($photos[0]) ? $photos[0] : null;
                     @endphp
+
                     @if ($firstPhoto)
                         <div class="swiper-slide rounded-xl overflow-hidden shadow-lg">
-                            <img src="{{ asset($firstPhoto) }}" alt="{{ $temple->temple_name }}"
-                                class="w-full h-full object-cover">
+                            <a href="{{ url('view-near-by-temple/' . $temple->id) }}">
+                                <img src="{{ asset($firstPhoto) }}" alt="{{ $temple->temple_name }}"
+                                    class="w-full h-full object-cover hover:scale-105 transition duration-300">
+                            </a>
                         </div>
                     @endif
                 @endforeach
@@ -489,8 +496,8 @@
 
             <div class="conv">
                 <div class="convenience-item">
-                    <img src="{{ asset('website/map.png') }}" alt="Shree Jagannatha Dham">    
-                            </div>
+                    <img src="{{ asset('website/map.png') }}" alt="Shree Jagannatha Dham">
+                </div>
                 <p>Route Map</p>
             </div>
 
@@ -503,21 +510,21 @@
 
             <div class="conv">
                 <div class="convenience-item">
-                    <img src="{{ asset('website/lost.png') }}" alt="Shree Jagannatha Dham">    
+                    <img src="{{ asset('website/lost.png') }}" alt="Shree Jagannatha Dham">
                 </div>
                 <p>Lost & Found</p>
             </div>
 
             <div class="conv">
                 <div class="convenience-item">
-                    <img src="{{ asset('website/latin.png') }}" alt="Shree Jagannatha Dham">    
+                    <img src="{{ asset('website/latin.png') }}" alt="Shree Jagannatha Dham">
                 </div>
                 <p>Toilet</p>
             </div>
 
             <div class="conv">
                 <div class="convenience-item">
-                    <img src="{{ asset('website/sea.png') }}" alt="Shree Jagannatha Dham">    
+                    <img src="{{ asset('website/sea.png') }}" alt="Shree Jagannatha Dham">
                 </div>
                 <p>Beaches</p>
             </div>
@@ -572,17 +579,17 @@
                             <i class="fas fa-spa text-green-600 mt-1 w-5 h-5"></i>
                             <p class="text-gray-800">Gruha Devi & Basantika Mrunmayee Devi nka Saptami Puja Arambha</p>
                         </div>
-                        
+
                         <div class="flex items-start gap-3">
                             <i class="fas fa-fire text-red-500 mt-1 w-5 h-5"></i>
                             <p class="text-gray-800">Pithe Astami Puja</p>
                         </div>
-                        
+
                         <div class="flex items-start gap-3">
                             <i class="fas fa-clock text-blue-600 mt-1 w-5 h-5"></i>
                             <p class="text-gray-800">Tithi: 4th Apr Friday, Chaitra, Mina day 22</p>
                         </div>
-                        
+
 
                         <hr class="border-dashed border-gray-300 my-4">
 
@@ -615,12 +622,12 @@
                                 <i class="fas fa-star text-purple-600 w-5 h-5 mt-1"></i>
                                 <p class="text-gray-800">Tithi: <span class="font-medium">Saptami upto 08:12 PM</span></p>
                             </div>
-                           
+
                             <div class="flex items-start gap-2">
                                 <i class="fas fa-smile text-green-600 w-5 h-5 mt-1"></i>
                                 <p class="text-gray-800">Yoga: <span class="font-medium">Shobhana upto 09:45 PM</span></p>
                             </div>
-                            
+
                             <div class="flex items-start gap-2">
                                 <i class="fas fa-sun-plant-wilt text-yellow-500 w-5 h-5 mt-1"></i>
                                 <p class="text-gray-800">Sunsign: <span class="font-medium">Meena</span></p>
@@ -631,11 +638,7 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
-
-
                 <!-- Events Section -->
                 <div class="bg-white p-6 rounded-xl border border-gray-300">
                     <div class="flex items-center gap-2 mb-4 md:hidden">
@@ -649,7 +652,6 @@
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     </section>
 
