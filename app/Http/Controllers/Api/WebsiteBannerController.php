@@ -25,10 +25,8 @@ class WebsiteBannerController extends Controller
         $today = Carbon::now('Asia/Kolkata')->toDateString();
         $previousDate = Carbon::yesterday()->toDateString();
 
-        // ✅ Fetch all active/paused Niti IDs for filtering sub-nitis
         $activeNitiIds = NitiMaster::whereIn('niti_status', ['Started', 'Paused'])->pluck('niti_id');
 
-        // ✅ Fetch Running & Completed Sub Nitis for Today
         $runningSubNitis = TempleSubNitiManagement::where(function ($query) {
             $query->where('status', 'Running')
                   ->orWhere('status', '!=', 'Deleted');
@@ -37,14 +35,12 @@ class WebsiteBannerController extends Controller
         ->whereIn('niti_id', $activeNitiIds)
         ->get();
 
-        // ✅ Fetch Daily Nitis (active + public), no date condition
         $dailyNitis = NitiMaster::where('status', 'active')
             ->where('niti_type', 'daily')
             ->where('niti_privacy', 'public')
             ->orderBy('date_time', 'asc')
             ->get();
 
-        // ✅ Fetch today's Special Nitis grouped by after_special_niti
         $specialNitisGrouped = NitiMaster::where('status', 'active')
             ->where('niti_type', 'special')
             ->whereDate('date_time', $today)
@@ -52,13 +48,17 @@ class WebsiteBannerController extends Controller
             ->get()
             ->groupBy('after_special_niti');
 
-        // ✅ Final List
         $mergedNitiList = [];
 
         foreach ($dailyNitis as $dailyNiti) {
             $matchingRunningSubNitis = $runningSubNitis->where('niti_id', $dailyNiti->niti_id);
 
-            // Push Daily Niti
+            // ✅ Get latest entry for this Niti, even if it's not ended yet
+            $dailyManagement = NitiManagement::where('niti_id', $dailyNiti->niti_id)
+                ->whereDate('date', $today)
+                ->latest('created_at')
+                ->first();
+
             $mergedNitiList[] = [
                 'niti_id'       => $dailyNiti->niti_id,
                 'niti_name'     => $dailyNiti->niti_name,
@@ -70,12 +70,12 @@ class WebsiteBannerController extends Controller
                 'niti_about'    => $dailyNiti->niti_about,
                 'niti_sebayat'  => $dailyNiti->niti_sebayat,
                 'description'   => $dailyNiti->description,
-                'start_time'    => null,
-                'pause_time'    => null,
-                'resume_time'   => null,
-                'end_time'      => null,
-                'duration'      => null,
-                'management_status' => null,
+                'start_time'    => $dailyManagement->start_time ?? null,
+                'pause_time'    => $dailyManagement->pause_time ?? null,
+                'resume_time'   => $dailyManagement->resume_time ?? null,
+                'end_time'      => $dailyManagement->end_time ?? null,
+                'duration'      => $dailyManagement->duration ?? null,
+                'management_status' => $dailyManagement->niti_status ?? null,
                 'after_special_niti_name' => null,
                 'running_sub_niti' => $matchingRunningSubNitis->map(function ($sub) {
                     return [
@@ -88,13 +88,13 @@ class WebsiteBannerController extends Controller
                 })->values(),
             ];
 
-            // Append Special Nitis after this daily
+            // Special Nitis after this Daily
             $specialsAfter = $specialNitisGrouped->get($dailyNiti->niti_id, collect());
 
             foreach ($specialsAfter as $specialNiti) {
-                $management = NitiManagement::where('niti_id', $specialNiti->niti_id)
+                $specialManagement = NitiManagement::where('niti_id', $specialNiti->niti_id)
                     ->whereDate('date', $today)
-                    ->orderBy('start_time', 'desc')
+                    ->latest('created_at')
                     ->first();
 
                 $specialRunningSubNitis = $runningSubNitis->where('niti_id', $specialNiti->niti_id);
@@ -110,12 +110,12 @@ class WebsiteBannerController extends Controller
                     'niti_about'    => $specialNiti->niti_about,
                     'niti_sebayat'  => $specialNiti->niti_sebayat,
                     'description'   => $specialNiti->description,
-                    'start_time'    => $management->start_time ?? null,
-                    'pause_time'    => $management->pause_time ?? null,
-                    'resume_time'   => $management->resume_time ?? null,
-                    'end_time'      => $management->end_time ?? null,
-                    'duration'      => $management->duration ?? null,
-                    'management_status' => $management->niti_status ?? null,
+                    'start_time'    => $specialManagement->start_time ?? null,
+                    'pause_time'    => $specialManagement->pause_time ?? null,
+                    'resume_time'   => $specialManagement->resume_time ?? null,
+                    'end_time'      => $specialManagement->end_time ?? null,
+                    'duration'      => $specialManagement->duration ?? null,
+                    'management_status' => $specialManagement->niti_status ?? null,
                     'after_special_niti_name' => $dailyNiti->niti_name,
                     'running_sub_niti' => $specialRunningSubNitis->map(function ($sub) {
                         return [
@@ -144,7 +144,6 @@ class WebsiteBannerController extends Controller
             ->whereDate('hundi_open_date', $previousDate)
             ->sum('collection_amount');
 
-        // ✅ Final response
         return response()->json([
             'status' => true,
             'message' => 'Temple website data fetched successfully.',

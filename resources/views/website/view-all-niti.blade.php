@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Niti Timeline</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <style>
-      body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: #f7f7f7;
-}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
-.header-area {
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: #f7f7f7;
+        }
+
+        .header-area {
             background: white;
             padding: 10px 0;
             border-bottom: 1px solid #ddd;
@@ -125,177 +129,217 @@
         }
 
         .hero-content p {
-            font-size: 20px;
+            font-size: 17px;
             color: #f5f5f5;
         }
 
-.timeline {
-    max-width: 1000px;
-    margin: 50px auto;
-    position: relative;
-    padding: 0 20px;
-}
+        .timeline {
+            max-width: 1100px;
+            margin: 60px auto;
+            position: relative;
+            padding: 0 20px;
+        }
 
-.timeline::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background: #ddd;
-    transform: translateX(-50%);
-    z-index: 0;
-}
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background: linear-gradient(to bottom, #db4d30, #ffc107, #28a745);
+            transform: translateX(-50%);
+            z-index: 0;
+            border-radius: 3px;
+        }
 
-.timeline-item {
-    position: relative;
-    width: 50%;
-    padding: 30px 40px;
-    box-sizing: border-box;
-    z-index: 1;
-}
+        .timeline-item {
+            position: relative;
+            width: 50%;
+            padding: 30px 45px;
+            box-sizing: border-box;
+            z-index: 1;
+        }
 
-.timeline-item.left {
-    left: 0;
-}
+        .timeline-item.left {
+            left: 0;
+        }
 
-.timeline-item.right {
-    left: 50%;
-}
+        .timeline-item.right {
+            left: 50%;
+        }
 
-.timeline-item::after {
-    content: '';
-    position: absolute;
-    top: 40px;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: #ccc;
-    border: 4px solid white;
-    z-index: 2;
-    left: calc(100% - 10px);
-    transform: translateX(-50%);
-}
+        .timeline-item::after {
+            content: '\f111';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 40px;
+            font-size: 18px;
+            color: #ccc;
+            z-index: 2;
+            left: calc(100% - 12px);
+            transform: translateX(-50%);
+        }
 
-.timeline-item.right::after {
-    left: 0;
-    transform: translateX(-50%);
-}
+        .timeline-item.right::after {
+            left: 0;
+            transform: translateX(-50%);
+        }
 
-.card {
-    background: #fff;
-    padding: 20px 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-    border-left: 6px solid #ccc;
-    position: relative;
-    transition: 0.3s ease;
-}
+        .card {
+            background: #fff;
+            padding: 25px 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: all 0.3s ease;
+            border-left: 8px solid #ccc;
+        }
 
-.card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
-}
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
 
-.card h3 {
-    margin: 0 0 10px;
-    color: #db4d30;
-    font-size: 20px;
-}
+        .card h3 {
+            margin: 0 0 12px;
+            color: #db4d30;
+            font-size: 22px;
+        }
 
-.card p {
-    margin: 6px 0;
-    font-size: 14px;
-    color: #555;
-    line-height: 1.6;
-}
+        .card p {
+            margin: 8px 0;
+            font-size: 15px;
+            color: #333;
+        }
 
-.card ul {
-    padding-left: 20px;
-    margin-top: 5px;
-}
+        .card ul li {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 4px;
+        }
 
-.card ul li {
-    font-size: 13px;
-    margin-bottom: 4px;
-    color: #444;
-}
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
 
-/* Badge Styles */
-.badge {
+        .badge::before {
+            content: '\f0f3';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+        }
+
+        .badge.Started {
+            background-color: #fff3cd;
+            color: #ff9800;
+        }
+
+        .badge.Completed {
+            background-color: #e0f7e9;
+            color: #28a745;
+        }
+
+        .badge.Upcoming {
+            background-color: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .Started .card {
+            border-left-color: #ff9800;
+        }
+
+        .Completed .card {
+            border-left-color: #28a745;
+        }
+
+        .Upcoming .card {
+            border-left-color: #1d4ed8;
+        }
+
+        .Started::after {
+            color: #ff9800;
+        }
+
+        .Completed::after {
+            color: #28a745;
+        }
+
+        .Upcoming::after {
+            color: #1d4ed8;
+        }
+
+        .niti-times i {
+    width: 17px;
     display: inline-block;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    text-align: center;
+    margin-right: 8px;
+    font-size: 14px;
+    transition: transform 0.2s ease-in-out, color 0.3s ease;
 }
 
-.badge.running {
-    background-color: #d4edda;
-    color: #28a745;
+.niti-times i.text-success {
+    color: #28a745; /* green */
 }
 
-.badge.completed {
-    background-color: #e9d8fd;
-    color: #6f42c1;
+.niti-times i.text-danger {
+    color: #dc3545; /* red */
 }
 
-.badge.pending {
-    background-color: #fff3cd;
-    color: #856404;
+.niti-times i.text-warning {
+    color: #ffc107; /* yellow/orange */
 }
 
-/* Colored Borders */
-.running .card {
-    border-left-color: #28a745;
-}
-.completed .card {
-    border-left-color: #6f42c1;
-}
-.pending .card {
-    border-left-color: #ffc107;
+.niti-times i.text-primary {
+    color: #007bff; /* blue */
 }
 
-/* Timeline Dots Color */
-.running::after {
-    background-color: #28a745;
-}
-.completed::after {
-    background-color: #6f42c1;
-}
-.pending::after {
-    background-color: #ffc107;
+.niti-times i.text-purple {
+    color: #6f42c1; /* purple */
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .timeline::before {
-        left: 10px;
-    }
-
-    .timeline-item,
-    .timeline-item.right {
-        width: 100%;
-        left: 0;
-        padding: 30px 25px;
-    }
-
-    .timeline-item::after,
-    .timeline-item.right::after {
-        left: 10px;
-    }
-
-    .card {
-        padding: 20px;
-    }
+.niti-times p:hover i {
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
 }
 
+
+
+        < !-- Your timeline blade content here -->
+        /* Responsive */
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 10px;
+            }
+
+            .timeline-item,
+            .timeline-item.right {
+                width: 100%;
+                left: 0;
+                padding: 30px 25px;
+            }
+
+            .timeline-item::after,
+            .timeline-item.right::after {
+                left: 10px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
     </style>
 </head>
+
 <body>
 
     <header class="header-area">
@@ -306,7 +350,8 @@
                 </div>
                 <nav class="nav-menu">
                     <a href="#">Nitis</a>
-                    <span class="separator">SM <a href="#" class="live-badges"><i class="fa fa-bolt"></i> Live</a></span>
+                    <span class="separator">SM <a href="#" class="live-badges"><i class="fa fa-bolt"></i>
+                            Live</a></span>
                     <a href="#">Services</a>
                     <a href="#">Nearby Temples</a>
                     <a href="#">Conveniences</a>
@@ -326,62 +371,92 @@
         </div>
     </div>
 
-    <!-- Niti Timeline Section -->
+    @php
+        use Carbon\Carbon;
+    @endphp
+
     <div class="timeline">
-        @foreach ($nitis as $index => $niti)
-                    @php
-                        $now = \Carbon\Carbon::now();
-                        $start = \Carbon\Carbon::parse($niti['date_time']);
-                        $end = isset($niti['end_time'])
-                            ? \Carbon\Carbon::parse($niti['end_time'])
-                            : $start->copy()->addMinutes($niti['duration'] ?? 60);
-                        $status = $now->between($start, $end) ? 'running' : ($now->gt($end) ? 'completed' : 'pending');
-                        $side = $index % 2 === 0 ? 'left' : 'right';
-                    @endphp
+        @foreach ($mergedNitiList as $index => $niti)
+            @php
+                $now = now('Asia/Kolkata');
+                $start = $niti['start_time'] ?? null;
+                $end = $niti['end_time'] ?? null;
+                $pause = $niti['pause_time'] ?? null;
+                $resume = $niti['resume_time'] ?? null;
+                $duration = $niti['duration'] ?? null;
+                $status = $niti['niti_status'];
+                $side = $index % 2 === 0 ? 'left' : 'right';
+            @endphp
+
+            <div class="timeline-item {{ $side }} {{ $status }}">
+                <div class="card timeline-content">
+                    <span class="badge {{ $status }}">{{ ucfirst($status) }}</span>
+                    <h3>{{ $niti['niti_name'] }}</h3>
 
 
-                    <div class="timeline-item {{ $side }} {{ $status }}">
-                        <div class="card timeline-content">
-                            <span class="badge {{ $status }}">{{ ucfirst($status) }}</span>
-                            <h3>{{ $niti['niti_name'] }}</h3>
-                            <p><strong>Type:</strong> {{ $niti['niti_type'] }}</p>
-                            <p><strong>Start Time:</strong>
-                                {{ \Carbon\Carbon::parse($niti['date_time'])->format('h:i A') }}</p>
+                    @if ($start || $end || $pause || $resume || $duration)
+                    <div class="niti-times">
 
-                            @if ($niti['duration'])
-                                <p><strong>Duration:</strong> {{ $niti['duration'] }} mins</p>
-                            @endif
-
-                            @if (!empty($niti['management_status']))
-                                <p><strong>Management Status:</strong> {{ $niti['management_status'] }}</p>
-                            @endif
-
-                            @if (!empty($niti['after_special_niti_name']))
-                                <p><strong>After Niti:</strong> {{ $niti['after_special_niti_name'] }}</p>
-                            @endif
-
-                            @if (!empty($niti['description']))
-                                <p>{{ $niti['description'] }}</p>
-                            @endif
-
-                            @if (!empty($niti['running_sub_niti']) && count($niti['running_sub_niti']))
-                                <div>
-                                    <strong>Sub Nitis:</strong>
-                                    <ul style="padding-left: 20px; margin-top: 5px;">
-                                        @foreach ($niti['running_sub_niti'] as $sub)
-                                            <li>
-                                                {{ $sub['sub_niti_name'] }} –
-                                                {{ \Carbon\Carbon::parse($sub['start_time'])->format('h:i A') ?? '—' }}
-                                                ({{ $sub['status'] }})
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
-                        </div>
+                        @if ($start)
+                            <p>
+                                <i class="fas fa-play-circle text-success"></i>
+                                <strong>Start Time:</strong> {{ Carbon::parse($start)->format('h:i A') }}
+                            </p>
+                        @endif
+                
+                        @if ($end)
+                            <p>
+                                <i class="fas fa-stop-circle text-danger"></i>
+                                <strong>End Time:</strong> {{ Carbon::parse($end)->format('h:i A') }}
+                            </p>
+                        @endif
+                
+                        @if ($pause)
+                            <p>
+                                <i class="fas fa-pause-circle text-warning"></i>
+                                <strong>Pause Time:</strong> {{ Carbon::parse($pause)->format('h:i A') }}
+                            </p>
+                        @endif
+                
+                        @if ($resume)
+                            <p>
+                                <i class="fas fa-play text-primary"></i>
+                                <strong>Resume Time:</strong> {{ Carbon::parse($resume)->format('h:i A') }}
+                            </p>
+                        @endif
+                
+                        @if ($duration)
+                            <p>
+                                <i class="fas fa-clock text-purple"></i>
+                                <strong>Duration:</strong> {{ $duration }}
+                            </p>
+                        @endif
                     </div>
-                @endforeach
+                @endif
+                
+
+
+                    @if (!empty($niti['description']))
+                        <p>{{ $niti['description'] }}</p>
+                    @endif
+
+                    @if (!empty($niti['running_sub_niti']) && count($niti['running_sub_niti']) > 0)
+                        <div>
+                            <strong>Sub Nitis:</strong>
+                            <ul style="padding-left: 20px;">
+                                @foreach ($niti['running_sub_niti'] as $sub)
+                                    <li>{{ $sub['sub_niti_name'] }} ({{ $sub['status'] ?? 'Pending' }})</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        @endforeach
     </div>
 
+
+
 </body>
+
 </html>

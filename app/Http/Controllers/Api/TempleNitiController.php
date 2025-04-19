@@ -36,6 +36,7 @@ public function manageNiti(Request $request)
                   ->from('temple__niti_details')
                   ->whereIn('niti_status', ['Started', 'Paused']);
         })
+
         ->get();
 
         // ✅ Get all Daily Nitis
@@ -67,7 +68,6 @@ public function manageNiti(Request $request)
         ->get()
         ->groupBy('after_special_niti');
     
-
         $finalNitiList = [];
 
         // ✅ Loop through daily Nitis and inject related special Nitis after them

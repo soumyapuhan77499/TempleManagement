@@ -79,7 +79,7 @@
             </div>
         </div>
     </div>
-
+{{-- 
     <section class="shree-mandir-section  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
 
         <div class="section-container">
@@ -173,6 +173,91 @@
 
             <!-- Radio Section -->
 
+        </div>
+    </section> --}}
+
+    <div class="max-w-6xl mx-auto text-center">
+
+        <div class="flex justify-center items-center gap-5 mt-12">
+            <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
+            <h2 class="text-2xl text-[#db4d30] flex items-center font-sans">
+                Temple Information
+            </h2>
+            <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="flex justify-center items-center gap-6 mt-5 mb-12">
+            <div id="navContainer" class="flex gap-5 overflow-x-auto no-scrollbar">
+                <div class="tab-item text-center min-w-[100px] cursor-pointer active-tab" data-tab="aboutTemple">
+                    <img src="{{ asset('website/inf1.png') }}" class="mx-auto w-20 h-20" style="border-radius: 50%">
+                    <p class="text-red-600 font-semibold mt-3">About Temple</p>
+                    <div class="h-1 bg-red-500 w-full mt-1"></div>
+                </div>
+
+                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="shreeKhetra">
+                    <img src="{{ asset('website/sankha.png') }}"  style="border-radius: 50%;height: 80px;width: 120px">
+                    <p class="text-gray-500 mt-3">Shree Khetra</p>
+                </div>
+
+                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="nijoga">
+                    <img src="{{ asset('website/nijoga.png') }}"  style="border-radius: 50%;height: 80px;width: 80px">
+                    <p class="text-gray-500 mt-3">36 Nijoga</p>
+                </div>
+
+                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="festivals">
+                    <img src="{{ asset('website/dipa.png') }}"  style="border-radius: 50%;height: 80px;width: 80px">
+                    <p class="text-gray-500 mt-3">Festivals</p>
+                </div>
+               
+                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="besha">
+                    <img src="{{ asset('website/besha1.png') }}"  style="border-radius: 50%;height: 80px;width: 80px">
+                    <p class="text-gray-500 mt-3">Besha</p>
+                </div>
+                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="darshan">
+                    <img src="{{ asset('website/darshan34.png') }}"  style="border-radius: 50%;height: 80px;width: 80px">
+                    <p class="text-gray-500 mt-3">Darshan</p>
+                </div>
+                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="prasad">
+                    <img src="{{ asset('website/mp.png') }}"  style="border-radius: 50%;height: 80px;width: 80px">
+                    <p class="text-gray-500 mt-3">Maha Prasad</p>
+                </div>
+
+                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="mathaAshram">
+                    <img src="{{ asset('website/ashram.png') }}"  style="border-radius: 50%;height: 80px;width: 80px">
+                    <p class="text-gray-500 mt-3">Matha & Ashram</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="dynamicContent" class="bg-100">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <!-- Image -->
+                <div id="contentImageContainer" class="mt-12" style="height: 350px; width: 450px;">
+                    <img id="contentImage" src="{{ asset($photos->temple_images[0] ?? 'website/12.jpg') }}"
+                        alt="Temple Image" class="rounded-xl shadow-lg object-cover w-full h-full" />
+                </div>
+
+                <!-- Text Content -->
+                <div style="margin-left: -100px">
+                    <h2 id="contentTitle" class="text-xl font-semi-bold">
+
+                    </h2>
+                    <h3 id="contentSubtitle" class="text-md text-gray-600 mt-2">
+
+                    </h3>
+                    <p id="contentDescription" class="text-gray-500 mt-4 leading-relaxed">
+
+                    </p>
+
+                    <button
+                        class="mt-6 px-6 py-2 bg-red-100 text-red-600 rounded-lg shadow-md hover:bg-red-200 transition">
+                        Read More
+                    </button>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -565,91 +650,6 @@
                 </div>
             </div>
         </div>
-        </div>
-    </section>
-
-    <div class="max-w-6xl mx-auto text-center">
-
-        <div class="flex justify-center items-center gap-5 mt-12">
-            <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
-            <h2 class="text-2xl text-[#db4d30] flex items-center font-sans">
-                Temple Information
-            </h2>
-            <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
-        </div>
-
-        <!-- Navigation Tabs -->
-        <div class="flex justify-center items-center gap-6 mt-5 mb-12">
-            <div id="navContainer" class="flex gap-5 overflow-x-auto no-scrollbar">
-                <div class="tab-item text-center min-w-[100px] cursor-pointer active-tab" data-tab="aboutTemple">
-                    <img src="{{ asset('website/inf1.png') }}" class="mx-auto w-20 h-20" style="border-radius: 50%">
-                    <p class="text-red-600 font-semibold mt-3">About Temple</p>
-                    <div class="h-1 bg-red-500 w-full mt-1"></div>
-                </div>
-
-                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="shreeKhetra">
-                    <img src="{{ asset('website/sankha.png') }}"  style="border-radius: 50%;height: 80px;width: 120px">
-                    <p class="text-gray-500 mt-3">Shree Khetra</p>
-                </div>
-
-                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="nijoga">
-                    <img src="{{ asset('website/nijoga.png') }}"  style="border-radius: 50%;height: 80px;width: 80px">
-                    <p class="text-gray-500 mt-3">36 Nijoga</p>
-                </div>
-
-                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="festivals">
-                    <img src="{{ asset('website/dipa.png') }}"  style="border-radius: 50%;height: 80px;width: 80px">
-                    <p class="text-gray-500 mt-3">Festivals</p>
-                </div>
-               
-                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="besha">
-                    <img src="{{ asset('website/besha1.png') }}"  style="border-radius: 50%;height: 80px;width: 80px">
-                    <p class="text-gray-500 mt-3">Besha</p>
-                </div>
-                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="darshan">
-                    <img src="{{ asset('website/darshan34.png') }}"  style="border-radius: 50%;height: 80px;width: 80px">
-                    <p class="text-gray-500 mt-3">Darshan</p>
-                </div>
-                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="prasad">
-                    <img src="{{ asset('website/mp.png') }}"  style="border-radius: 50%;height: 80px;width: 80px">
-                    <p class="text-gray-500 mt-3">Maha Prasad</p>
-                </div>
-
-                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="mathaAshram">
-                    <img src="{{ asset('website/ashram.png') }}"  style="border-radius: 50%;height: 80px;width: 80px">
-                    <p class="text-gray-500 mt-3">Matha & Ashram</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <section id="dynamicContent" class="bg-100">
-        <div class="max-w-6xl mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <!-- Image -->
-                <div id="contentImageContainer" class="mt-12" style="height: 350px; width: 450px;">
-                    <img id="contentImage" src="{{ asset($photos->temple_images[0] ?? 'website/12.jpg') }}"
-                        alt="Temple Image" class="rounded-xl shadow-lg object-cover w-full h-full" />
-                </div>
-
-                <!-- Text Content -->
-                <div style="margin-left: -100px">
-                    <h2 id="contentTitle" class="text-xl font-semi-bold">
-
-                    </h2>
-                    <h3 id="contentSubtitle" class="text-md text-gray-600 mt-2">
-
-                    </h3>
-                    <p id="contentDescription" class="text-gray-500 mt-4 leading-relaxed">
-
-                    </p>
-
-                    <button
-                        class="mt-6 px-6 py-2 bg-red-100 text-red-600 rounded-lg shadow-md hover:bg-red-200 transition">
-                        Read More
-                    </button>
-                </div>
-            </div>
         </div>
     </section>
 
