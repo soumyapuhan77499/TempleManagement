@@ -306,4 +306,3 @@ Route::controller(TemplePrasadController::class)->group(function () {
   Route::get('/daily-special-started-prasad','getDailyAndStartedSpecialPrasad');
 
 });
-

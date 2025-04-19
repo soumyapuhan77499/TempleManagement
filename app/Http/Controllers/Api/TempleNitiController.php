@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\DB;
 
 class TempleNitiController extends Controller
 {
+
 public function manageNiti(Request $request)
 {
     try {
@@ -627,20 +628,32 @@ public function storeOtherNiti(Request $request)
 public function updateActiveNitiToUpcoming()
 {
     try {
-        // Update all Niti records with status 'active' to 'Upcoming'
-        $updatedCount = NitiMaster::where('status', 'active')
+        // Step 1: Update all Niti records with status 'active' to 'Upcoming'
+        $nitiUpdatedCount = NitiMaster::where('status', 'active')
             ->update(['niti_status' => 'Upcoming']);
+
+        // Step 2: Update all Darshan records where status is 'active' to darshan_status = 'Upcoming'
+        $darshanUpdatedCount = DarshanDetails::where('status', 'active')
+            ->update(['darshan_status' => 'Upcoming']);
+
+        // Step 3: Update all Prasad records where prasad_status is 'active' to 'Upcoming'
+        $prasadUpdatedCount = TemplePrasad::where('prasad_status', 'active')
+            ->update(['prasad_status' => 'Upcoming']);
 
         return response()->json([
             'status' => true,
-            'message' => 'All active Niti statuses updated to Upcoming.',
-            'updated_records' => $updatedCount
+            'message' => 'All statuses updated to Upcoming.',
+            'updated_records' => [
+                'niti' => $nitiUpdatedCount,
+                'darshan' => $darshanUpdatedCount,
+                'prasad' => $prasadUpdatedCount,
+            ]
         ], 200);
-        
+
     } catch (\Exception $e) {
         return response()->json([
             'status' => false,
-            'message' => 'Failed to update Niti statuses.',
+            'message' => 'Failed to update statuses.',
             'error' => $e->getMessage()
         ], 500);
     }
@@ -895,7 +908,6 @@ public function storeByNoticeName(Request $request)
         ], 500);
     }
 }
-
 
 public function getLatestNotice()
 {
