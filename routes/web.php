@@ -538,6 +538,10 @@ Route::get('/view-panji-details', function () {
     return view('website.view-panji-details');
 })->name('view.panji.details');
 
+Route::get('/view-festival-details', function () {
+    return view('website.view-festival-details');
+})->name('view.festival.details');
+
 
 Route::controller(QuickServiceController::class)->group(function() {
     Route::get('/maha-prasad','prasadTimeline')->name('prasad.timeline');
