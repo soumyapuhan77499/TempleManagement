@@ -14,6 +14,7 @@ use App\Models\DarshanManagement;
 use App\Models\PrasadManagement;
 use App\Models\TemplePrasad;
 use App\Models\DarshanDetails;
+use App\Models\TempleHundi;
 use App\Models\TempleNews;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
@@ -898,7 +899,7 @@ public function storeByNoticeName(Request $request)
             'status' => true,
             'message' => 'Temple news created successfully.',
             'data' => $news
-        ], 201);
+        ], 200);
 
     } catch (\Exception $e) {
         return response()->json([
