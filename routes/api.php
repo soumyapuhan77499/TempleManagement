@@ -289,6 +289,10 @@ Route::controller(TempleNitiController::class)->group(function () {
   Route::get('/latest-temple-notice','getLatestNotice');
   Route::post('/save-hundi-collection', 'store');
   Route::get('/get-hundi-collections', 'index');
+  Route::post('/notice/update-name', 'updateNoticeName');
+  Route::post('/hundi/update',  'updateHundiCollection');
+
+
 
 });
 

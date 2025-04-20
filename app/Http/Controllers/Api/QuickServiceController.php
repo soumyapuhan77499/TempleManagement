@@ -292,11 +292,16 @@ public function getTemplePrasadList()
     }
 }
 
-
-    public function getPanji()
+public function getPanji(Request $request)
 {
     try {
-        $events = PanjiDetails::where('status', 'active')->get();
+        $request->validate([
+            'date' => 'required|date'
+        ]);
+
+        $events = PanjiDetails::where('status', 'active')
+            ->whereDate('date', $request->date)
+            ->get();
 
         return response()->json([
             'status' => true,
@@ -309,6 +314,7 @@ public function getTemplePrasadList()
         return response()->json([
             'status' => false,
             'message' => 'Something went wrong while fetching Panji details.',
+            'error' => $e->getMessage()
         ], 500);
     }
 }

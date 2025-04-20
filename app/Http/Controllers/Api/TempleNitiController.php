@@ -41,6 +41,7 @@ public function manageNiti(Request $request)
 
         // ✅ Get all Daily Nitis
         $dailyNitis = NitiMaster::where('status', 'active')
+            ->where('language', 'English')
             ->where('niti_type', 'daily')
             ->orderBy('date_time', 'asc')
             ->with([
@@ -56,6 +57,7 @@ public function manageNiti(Request $request)
         // ✅ Get all Special Nitis grouped by after_special_niti
         $specialNitisGrouped = NitiMaster::where('status', 'active')
         ->where('niti_type', 'special')
+        ->where('language', 'English')
         ->whereDate('date_time', $today) // ✅ Filter by today's date here
         ->with([
             'todayStartTime' => function ($query) use ($today) {
@@ -986,6 +988,68 @@ public function index()
             'status' => false,
             'message' => 'Failed to fetch hundi records.',
             'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
+public function updateNoticeName(Request $request)
+{
+    $request->validate([
+        'id' => 'required|exists:temple__news,id',
+        'notice_name' => 'required|string|max:255',
+    ]);
+
+    try {
+        $news = TempleNews::findOrFail($request->id);
+        $news->notice_name = $request->notice_name;
+        $news->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Notice name updated successfully.',
+            'data' => $news
+        ],200);
+
+        
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to update notice name.',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
+public function updateHundiCollection(Request $request)
+{
+    $request->validate([
+        'id'     => 'required|exists:temple__hundi_notice,id',
+        'date'   => 'required|date',
+        'rupees' => 'nullable|numeric',
+        'gold'   => 'nullable|numeric',
+        'silver' => 'nullable|numeric',
+    ]);
+
+    try {
+        $hundi = TempleHundi::findOrFail($request->id);
+
+        $hundi->update([
+            'date'   => $request->date,
+            'rupees' => $request->rupees,
+            'gold'   => $request->gold,
+            'silver' => $request->silver,
+        ]);
+
+        return response()->json([
+            'status'  => true,
+            'message' => 'Hundi collection updated successfully.',
+            'data'    => $hundi
+        ], 200);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status'  => false,
+            'message' => 'Failed to update hundi collection.',
+            'error'   => $e->getMessage()
         ], 500);
     }
 }
