@@ -45,8 +45,7 @@ public function puriWebsite()
 
         // ✅ Get next special Niti based on after_special_niti
         if ($startedNiti) {
-            $nextSpecialNiti = NitiMaster::where('after_special_niti', $startedNiti->niti_id)
-                ->where('status', 'active')
+            $nextSpecialNiti = NitiMaster::where('status', 'active')
                 ->where('niti_privacy', 'public')
                 ->where('language', 'English')
                 ->orderBy('date_time', 'asc')
