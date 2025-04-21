@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Darshan Timeline</title>
@@ -10,7 +11,7 @@
         body {
             margin: 0;
             font-family: 'Segoe UI', sans-serif;
-            background: #f2f2f2;
+            background: #f9f9f9;
         }
 
         .header-area {
@@ -24,11 +25,9 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
         .logo img {
@@ -39,8 +38,7 @@
         .nav-menu {
             display: flex;
             align-items: center;
-            gap: 40px;
-            margin-right: 30px;
+            gap: 30px;
         }
 
         .nav-menu a {
@@ -61,25 +59,6 @@
             padding: 2px 10px;
             border-radius: 10px;
             margin-left: 5px;
-        }
-
-        .hamburger-menu {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-        }
-
-        .hamburger-menu span {
-            width: 20px;
-            height: 2px;
-            background: purple;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
         }
 
         .hero {
@@ -123,17 +102,19 @@
             font-weight: 700;
             margin-bottom: 10px;
             color: #fff;
+            text-shadow: 1px 2px 5px rgba(0, 0, 0, 0.6);
         }
 
         .hero-content p {
             font-size: 20px;
             color: #f5f5f5;
         }
-        
+
         .timeline {
-            max-width: 800px;
-            margin: 50px auto;
+            max-width: 900px;
+            margin: 60px auto;
             position: relative;
+            padding: 0 15px;
         }
 
         .timeline::before {
@@ -143,42 +124,28 @@
             top: 0;
             bottom: 0;
             width: 4px;
-            background: #ddd;
+            background: linear-gradient(to bottom, #ff5722, #ffc107);
             transform: translateX(-50%);
+            animation: pulse-line 3s ease infinite;
+        }
+
+        @keyframes pulse-line {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
         }
 
         .timeline-item {
             position: relative;
             width: 50%;
-            padding: 30px 40px;
-            box-sizing: border-box;
+            padding: 30px;
         }
-
-        .timeline-item .card {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            border-left: 6px solid #ccc;
-        }
-
-        .darshan-img-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 15px;
-            width: 100%;
-            height: 130px;
-        }
-
-        .darshan-img-wrapper img {
-            width: 200px;
-            height: 130px;
-            border-radius: 10px;
-            object-fit: cover;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
 
         .timeline-item.left {
             left: 0;
@@ -191,76 +158,122 @@
         .timeline-item::after {
             content: '';
             position: absolute;
-            top: 40px;
-            width: 20px;
-            height: 20px;
+            top: 30px;
+            width: 16px;
+            height: 16px;
             border-radius: 50%;
-            background: #ccc;
-            border: 4px solid white;
-            left: calc(100% - 10px);
-            transform: translateX(-50%);
+            background: white;
+            border: 4px solid #ff5722;
+            z-index: 5;
+            animation: glow-pulse 2s infinite ease-in-out;
         }
 
         .timeline-item.right::after {
             left: 0;
         }
 
-        .timeline-content h3 {
-            margin: 0 0 5px;
-            color: #db4d30;
+        .timeline-item.left::after {
+            right: 0;
         }
 
-        .timeline-content p {
-            margin: 5px 0;
+        @keyframes glow-pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 87, 34, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 12px rgba(255, 87, 34, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 87, 34, 0);
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-left: 6px solid #ccc;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .darshan-img-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 130px;
+            margin-bottom: 15px;
+        }
+
+        .darshan-img-wrapper img {
+            width: 150px;
+            height: 100%;
+            border-radius: 15px;
+            object-fit: cover;
+        }
+
+        .card h3 {
+            color: #db4d30;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .card p {
             font-size: 14px;
-            color: #555;
+            color: #444;
+            margin: 5px 0;
         }
 
         .badge {
             display: inline-block;
-            padding: 5px 10px;
+            padding: 4px 12px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: bold;
             margin-bottom: 10px;
         }
 
-        /* Status colors */
-        .running .card {
+        .timeline-item.Started .card {
             border-left-color: #28a745;
         }
 
-        .completed .card {
+        .timeline-item.Completed .card {
             border-left-color: #6f42c1;
         }
 
-        .pending .card {
+        .timeline-item.Upcoming .card {
             border-left-color: #ffc107;
         }
 
-        .running::after {
+        .timeline-item.Started::after {
             background-color: #28a745;
         }
 
-        .completed::after {
+        .timeline-item.Completed::after {
             background-color: #6f42c1;
         }
 
-        .pending::after {
+        .timeline-item.Upcoming::after {
             background-color: #ffc107;
         }
 
-        .badge.running {
+        .badge.Started {
             background-color: #d4edda;
             color: #28a745;
         }
 
-        .badge.completed {
+        .badge.Completed {
             background-color: #e9d8fd;
             color: #6f42c1;
         }
 
-        .badge.pending {
+        .badge.Upcoming {
             background-color: #fff3cd;
             color: #856404;
         }
@@ -271,7 +284,8 @@
             }
 
             .timeline-item,
-            .timeline-item.right {
+            .timeline-item.right,
+            .timeline-item.left {
                 left: 0;
                 width: 100%;
                 padding-left: 30px;
@@ -279,17 +293,17 @@
             }
 
             .timeline-item::after,
-            .timeline-item.right::after {
+            .timeline-item.right::after,
+            .timeline-item.left::after {
                 left: 10px;
+                right: auto;
+                transform: none;
             }
         }
     </style>
 </head>
 
 <body>
-
-   
-
     <header class="header-area" data-aos="fade-down">
         <div class="container">
             <div class="header-content">
@@ -301,7 +315,8 @@
                 <!-- Navigation Menu -->
                 <nav class="nav-menu">
                     <a href="#">Nitis</a>
-                    <span class="separator">SM <a href="#" class="live-badges"><i class="fa fa-bolt"></i> Live</a></span>
+                    <span class="separator">SM <a href="#" class="live-badges"><i class="fa fa-bolt"></i>
+                            Live</a></span>
                     <a href="#">Services</a>
                     <a href="#">Nearby Temples</a>
                     <a href="#">Conveniences</a>
@@ -327,40 +342,46 @@
     </div>
 
     <div class="timeline">
-        @foreach ($darshans as $index => $darshan)
+        @foreach ($darshanList as $index => $darshan)
             @php
-                $now = \Carbon\Carbon::now();
-                $start = \Carbon\Carbon::createFromFormat('H:i', $darshan->darshan_start_time);
-                $end = \Carbon\Carbon::createFromFormat('H:i', $darshan->darshan_end_time);
-
-                if ($now->between($start, $end)) {
-                    $status = 'running';
-                } elseif ($now->gt($end)) {
-                    $status = 'completed';
-                } else {
-                    $status = 'pending';
-                }
-
                 $side = $index % 2 === 0 ? 'left' : 'right';
+                $status = $darshan->today_status ?? 'Not Available';
             @endphp
-
+    
             <div class="timeline-item {{ $side }} {{ $status }}">
                 <div class="card timeline-content">
                     <span class="badge {{ $status }}">{{ ucfirst($status) }}</span>
-
+    
                     @if ($darshan->darshan_image)
                         <div class="darshan-img-wrapper">
                             <img src="{{ asset($darshan->darshan_image) }}" alt="{{ $darshan->darshan_name }}">
                         </div>
                     @endif
-
+    
                     <h3>{{ $darshan->darshan_name }}</h3>
+    
                     <p><strong>Day:</strong> {{ $darshan->darshan_day }}</p>
+    
                     <p><strong>Time:</strong>
-                        {{ \Carbon\Carbon::createFromFormat('H:i', $darshan->darshan_start_time)->format('h:i A') }} -
-                        {{ \Carbon\Carbon::createFromFormat('H:i', $darshan->darshan_end_time)->format('h:i A') }}
+                        {{ $darshan->start_time ? \Carbon\Carbon::parse($darshan->start_time)->format('h:i A') : 'N/A' }}
+                        -
+                        {{ $darshan->end_time ? \Carbon\Carbon::parse($darshan->end_time)->format('h:i A') : 'N/A' }}
                     </p>
-                    <p><strong>Duration:</strong> {{ $darshan->darshan_duration }}</p>
+    
+                    <p><strong>Duration:</strong> {{ $darshan->duration ?? 'N/A' }}</p>
+    
+                    <p><strong>Status:</strong>
+                        @if ($status == 'Started')
+                            <span style="color:#28a745;"><i class="fa fa-play-circle"></i> Started</span>
+                        @elseif($status == 'Upcoming')
+                            <span style="color:#ffc107;"><i class="fa fa-clock"></i> Upcoming</span>
+                        @elseif($status == 'Completed')
+                            <span style="color:#6f42c1;"><i class="fa fa-check-circle"></i> Completed</span>
+                        @else
+                            <span style="color:#999;">Not Available</span>
+                        @endif
+                    </p>
+    
                     @if ($darshan->description)
                         <p>{{ $darshan->description }}</p>
                     @endif
@@ -368,7 +389,7 @@
             </div>
         @endforeach
     </div>
-
+    
 </body>
 
 </html>

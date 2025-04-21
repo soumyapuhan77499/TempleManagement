@@ -525,7 +525,6 @@ Route::controller(HomeSectionController::class)->group(function() {
     Route::get('/view-all-niti','viewAllNiti')->name('all.niti');
     Route::get('/mandir-tv', 'mandirTv')->name('tv.layout');
     Route::get('/mandir-radio', 'mandirRadio')->name('radio.layout');
-    Route::get('/darshan-timeline', 'mandirDarshan')->name('darshan.timeline');
     Route::get('view-near-by-temple/{id}', 'viewNearByTemple')->name('nearby-temple.view');
 });
 
@@ -538,6 +537,7 @@ Route::get('/view-festival-details', function () {
 })->name('view.festival.details');
 
 Route::controller(QuickServiceController::class)->group(function() {
+    Route::get('/darshan-timeline', 'getDarshanList')->name('darshan.timeline');
     Route::get('/maha-prasad','prasadTimeline')->name('prasad.timeline');
     Route::get('/parking-list', 'parkingList')->name('parking.list');
     Route::get('/bhaktanibas-list', 'bhaktanibasList')->name('bhaktanibas.list');

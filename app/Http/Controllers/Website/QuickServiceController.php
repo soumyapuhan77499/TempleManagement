@@ -5,19 +5,48 @@ namespace App\Http\Controllers\Website;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TemplePrasad;
+use App\Models\PrasadManagement;
 use App\Models\Parking;
+use App\Models\DarshanDetails;
+use App\Models\DarshanManagement;
 use App\Models\Accomodation;
 use App\Models\PublicServices;
+use Carbon\Carbon;
 
 class QuickServiceController extends Controller
 {
-
-public function prasadTimeline()
-{
-    $templeId = 'TEMPLE25402';
-    $prasads = TemplePrasad::where('temple_id', $templeId)->orderBy('prasad_time')->get();
-    return view('website.temple-prasad-list', compact('prasads'));
-}
+    public function prasadTimeline()
+    {
+        $today = Carbon::now('Asia/Kolkata')->toDateString();
+    
+        $prasads = TemplePrasad::get();
+    
+        // Map Prasad with today's management data
+        $prasadList = $prasads->map(function ($prasad) use ($today) {
+            $todayLog = PrasadManagement::where('prasad_id', $prasad->id)
+                ->whereDate('date', $today)
+                ->latest()
+                ->first();
+    
+            return (object)[
+                'prasad_id'     => $prasad->id,
+                'prasad_name'   => $prasad->prasad_name,
+                'prasad_type'   => $prasad->prasad_type,
+                'prasad_photo'  => $prasad->prasad_photo,
+                'prasad_item'   => $prasad->prasad_item,
+                'description'   => $prasad->description,
+                'online_order'  => $prasad->online_order,
+                'pre_order'     => $prasad->pre_order,
+                'offline_order' => $prasad->offline_order,
+                'master_status' => $prasad->prasad_status,
+                'start_time'    => $todayLog->start_time ?? null,
+                'date'          => $todayLog->date ?? null,
+                'today_status'  => $prasad->prasad_status ?? null, // could be 'Started', 'Completed', etc.
+            ];
+        });
+    
+        return view('website.temple-prasad-list', compact('prasadList'));
+    }
 
 public function parkingList()
 {
@@ -51,4 +80,35 @@ public function lockerShoeList()
 
     return view('website.locker-shoe-list', compact('services'));
 }
+
+public function getDarshanList()
+{
+    $today = \Carbon\Carbon::now('Asia/Kolkata')->toDateString();
+
+    $darshans = DarshanDetails::where('status', 'active')->get();
+
+    $darshanList = $darshans->map(function ($darshan) use ($today) {
+        $todayLog = DarshanManagement::where('darshan_id', $darshan->id)
+            ->whereDate('date', $today)
+            ->latest()
+            ->first();
+
+        return (object) [
+            'darshan_id'     => $darshan->id,
+            'darshan_name'   => $darshan->darshan_name,
+            'darshan_day'    => $darshan->darshan_day ?? 'N/A',
+            'darshan_image'  => $darshan->darshan_image ?? null,
+            'description'    => $darshan->description,
+            'start_time'     => $todayLog?->start_time,
+            'end_time'       => $todayLog?->end_time,
+            'duration'       => $todayLog?->duration,
+            'date'           => $todayLog?->date,
+            'today_status'   => $todayLog?->darshan_status ?? 'Not Available',
+        ];
+    });
+
+    return view('website.temple-darshan-list', compact('darshanList'));
+}
+
+
 }
