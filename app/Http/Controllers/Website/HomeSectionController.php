@@ -31,7 +31,7 @@ public function puriWebsite()
     $today = Carbon::now('Asia/Kolkata')->toDateString();
 
     $startedNitiManagement = NitiManagement::whereDate('date', $today)
-        ->where('niti_status', 'Started')
+        ->where('niti_status', ['Started', 'Completed'])
         ->orderBy('start_time', 'asc')
         ->first();
 
