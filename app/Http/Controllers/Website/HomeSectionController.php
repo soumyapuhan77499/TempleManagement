@@ -30,64 +30,47 @@ public function puriWebsite()
 
     $today = Carbon::now('Asia/Kolkata')->toDateString();
 
+    // ✅ Step 1: Get only STARTED Niti (not Completed)
     $startedNitiManagement = NitiManagement::whereDate('date', $today)
         ->where('niti_status', 'Started')
         ->orderBy('start_time', 'asc')
         ->first();
 
     $startedNiti = null;
-    $nextSpecialNiti = null;
+    $nextUpcomingNiti = null;
     $nitis = collect();
 
     if ($startedNitiManagement) {
-        // ✅ If Started Niti exists, get its master
-        $startedNiti = NitiMaster::where('niti_id', $startedNitiManagement->niti_id)->first();
-
-        // ✅ Get next special Niti based on after_special_niti
-        if ($startedNiti) {
-            $nextSpecialNiti = NitiMaster::where('status', 'active')
-                ->where('niti_privacy', 'public')
-                ->where('language', 'English')
-                ->where('niti_status', 'Upcoming')
-                ->where('date_time', '>', $startedNiti->date_time) // only after current Started/Completed Niti
-                ->orderBy('date_time', 'asc')
-                ->first();
-        }
-        
-
-        $nitis = collect([$startedNiti, $nextSpecialNiti])->filter();
-    } else {
-        // ✅ No started Niti today, fallback: find today's special Niti
-        $todaySpecialNiti = NitiMaster::where('niti_type', 'special')
+        // ✅ Get NitiMaster record of started one
+        $startedNiti = NitiMaster::where('niti_id', $startedNitiManagement->niti_id)
             ->where('status', 'active')
             ->where('niti_privacy', 'public')
             ->where('language', 'English')
-            ->whereDate('date_time', $today)
-            ->orderBy('date_time', 'asc')
             ->first();
 
-        if ($todaySpecialNiti) {
-            $afterNiti = NitiMaster::where('after_special_niti', $todaySpecialNiti->niti_id)
-                ->where('niti_type', 'special')
-                ->where('status', 'active')
+        if ($startedNiti) {
+            // ✅ Get next UPCOMING Niti based on date_time
+            $nextUpcomingNiti = NitiMaster::where('status', 'active')
                 ->where('niti_privacy', 'public')
                 ->where('language', 'English')
-                ->whereDate('date_time', $today)
+                ->where('niti_status', 'Upcoming')
+                ->where('date_time', '>', $startedNiti->date_time)
                 ->orderBy('date_time', 'asc')
                 ->first();
-
-            $nitis = collect([$todaySpecialNiti, $afterNiti])->filter();
-        } else {
-            // ✅ No special Niti for today either: just return first 2 from NitiMaster
-            $nitis = NitiMaster::where('status', 'active')
-                ->where('niti_privacy', 'public')
-                ->orderBy('date_time', 'asc')
-                ->where('language', 'English')
-                ->take(2)
-                ->get();
         }
-    }
 
+        $nitis = collect([$startedNiti, $nextUpcomingNiti])->filter();
+    } else {
+        // ✅ Fallback: show first 2 UPCOMING Nitis from master
+        $nitis = NitiMaster::where('status', 'active')
+            ->where('niti_privacy', 'public')
+            ->where('language', 'English')
+            ->where('niti_status', 'Upcoming')
+            ->orderBy('date_time', 'asc')
+            ->take(2)
+            ->get();
+    }
+    
     return view('website.index3', [
         'nitis' => $nitis,
         'latestWebVideo' => TempleBanner::where('banner_type', 'web')->whereNotNull('banner_video')->latest()->first(),
