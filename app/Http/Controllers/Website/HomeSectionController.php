@@ -42,6 +42,7 @@ public function puriWebsite()
         'prasad' => TemplePrasad::where('temple_id', $templeId)->first(),
     ]);
 }
+
 public function viewAllNiti()
 {
     $today = now('Asia/Kolkata')->toDateString();
@@ -54,6 +55,7 @@ public function viewAllNiti()
     // ✅ Fetch Daily Nitis (active + public)
     $dailyNitis = NitiMaster::where('status', 'active')
         ->where('niti_type', 'daily')
+        ->where('language', 'English')
         ->where('niti_privacy', 'public')
         ->orderBy('date_time', 'asc')
         ->get();
@@ -61,6 +63,7 @@ public function viewAllNiti()
     // ✅ Fetch Special Nitis (active + public + today) grouped by their position
     $specialNitis = NitiMaster::where('status', 'active')
         ->where('niti_type', 'special')
+        ->where('language', 'English')
         ->where('niti_privacy', 'public')
         ->whereDate('date_time', $today)
         ->get()

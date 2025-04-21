@@ -319,7 +319,6 @@ public function getPanji(Request $request)
     }
 }
 
-
 public function getDarshan()
 {
     try {

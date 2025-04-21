@@ -530,8 +530,6 @@ Route::controller(HomeSectionController::class)->group(function() {
     Route::get('/mandir-radio', 'mandirRadio')->name('radio.layout');
     Route::get('/darshan-timeline', 'mandirDarshan')->name('darshan.timeline');
     Route::get('view-near-by-temple/{id}', 'viewNearByTemple')->name('nearby-temple.view');
-
-   
 });
 
 Route::get('/view-panji-details', function () {
@@ -542,7 +540,6 @@ Route::get('/view-festival-details', function () {
     return view('website.view-festival-details');
 })->name('view.festival.details');
 
-
 Route::controller(QuickServiceController::class)->group(function() {
     Route::get('/maha-prasad','prasadTimeline')->name('prasad.timeline');
     Route::get('/parking-list', 'parkingList')->name('parking.list');
@@ -550,4 +547,3 @@ Route::controller(QuickServiceController::class)->group(function() {
     Route::get('/locker-shoe-list', 'lockerShoeList')->name('lockershoe.list');
 
 });
-
