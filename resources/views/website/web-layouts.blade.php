@@ -418,6 +418,22 @@
         });
     </script>
 
+<script>
+    document.querySelectorAll('.tab-item').forEach(tab => {
+        tab.addEventListener('mouseenter', () => {
+            document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active-tab'));
+            tab.classList.add('active-tab');
+        });
+
+        tab.addEventListener('mouseleave', () => {
+            document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active-tab'));
+            const defaultTab = document.querySelector('[data-tab="aboutTemple"]'); // your default tab
+            defaultTab.classList.add('active-tab');
+        });
+    });
+</script>
+
+
     <script>
         lucide.createIcons();
     </script>

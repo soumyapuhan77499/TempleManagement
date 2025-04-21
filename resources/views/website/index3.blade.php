@@ -332,7 +332,7 @@
 
                 <!-- Offering -->
                 <a href="{{ route('view.festival.details') }}">
-                    <div class="bg-white border-l-4 border-[#db4d30]  px-5 py-4 flex items-center gap-5 h-[150px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300"
+                    <div class="bg-white border-l-4 border-[#db4d30]  px-5 py-4 flex items-center gap-5 h-[140px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300"
                         style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
                         <img src="{{ asset('website/festival21.png') }}" alt="Offering" class="w-16 h-16 ">
                         <div>
