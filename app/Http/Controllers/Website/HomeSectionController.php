@@ -48,9 +48,12 @@ public function puriWebsite()
             $nextSpecialNiti = NitiMaster::where('status', 'active')
                 ->where('niti_privacy', 'public')
                 ->where('language', 'English')
+                ->where('niti_status', 'Upcoming')
+                ->where('date_time', '>', $startedNiti->date_time) // only after current Started/Completed Niti
                 ->orderBy('date_time', 'asc')
                 ->first();
         }
+        
 
         $nitis = collect([$startedNiti, $nextSpecialNiti])->filter();
     } else {
