@@ -16,7 +16,8 @@
         </div>
         <div class="justify-content-center mt-2">
             <ol class="breadcrumb d-flex justify-content-between align-items-center">
-                <a href="{{ route('templeuser.darshanManagement') }}" class="breadcrumb-item tx-15 btn btn-warning">Add Darshan</a>
+                <a href="{{ route('templeuser.darshanManagement') }}" class="breadcrumb-item tx-15 btn btn-warning">Add
+                    Darshan</a>
                 <li class="breadcrumb-item tx-15"><a href="javascript:void(0);">Dashboard</a></li>
             </ol>
         </div>
@@ -28,44 +29,124 @@
             <div class="card custom-card overflow-hidden">
                 <div class="card-body">
                     <div class="table-responsive export-table">
-                        <table id="file-datatable" class="table table-bordered text-nowrap key-buttons border-bottom">
-                            <thead>
+                        <table id="file-datatable" class="table table-bordered table-striped text-nowrap border-bottom">
+                            <thead class="table-light">
                                 <tr>
-                                    <th class="border-bottom-0">SlNo</th>
-                                    <th class="border-bottom-0">Darshan Type</th>
-                                    <th class="border-bottom-0">Darshan Name</th>
-                                    <th class="border-bottom-0">Date</th>
-                                    <th class="border-bottom-0">Start Time</th>
-                                    <th class="border-bottom-0">End Time</th>
-                                    <th class="border-bottom-0">Duration</th>
-                                    <th class="border-bottom-0">Description</th>
-                                    <th class="border-bottom-0">Action</th>
+                                    <th>Sl No</th>
+                                    <th>Type</th>
+                                    <th>Name</th>
+                                    <th>Date</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                    <th>Duration</th>
+                                    <th>Description</th>
+                                    <th class="text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($darshans as $darshan)
+                                @forelse ($darshans as $darshan)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $darshan->darshan_type }}</td>
+                                        <td>{{ ucfirst($darshan->darshan_type) }}</td>
                                         <td>{{ $darshan->darshan_name }}</td>
-                                        <td>{{ $darshan->date }}</td>
-                                        <td>{{ $darshan->start_time }}</td>
-                                        <td>{{ $darshan->end_time }}</td>
-                                        <td>{{ $darshan->duration }}</td>
+                                        <td>{{ $darshan->date ? \Carbon\Carbon::parse($darshan->date)->format('jS M, Y') : 'N/A' }}
+                                        </td>
+                                        <td>{{ $darshan->start_time ? \Carbon\Carbon::parse($darshan->start_time)->format('h:i A') : 'N/A' }}
+                                        </td>
+                                        <td>{{ $darshan->end_time ? \Carbon\Carbon::parse($darshan->end_time)->format('h:i A') : 'N/A' }}
+                                        </td>
+                                        <td>{{ $darshan->duration ?? 'N/A' }}</td>
                                         <td>{{ $darshan->description }}</td>
-                                        <td>
-                                            <a href="{{ route('templeuser.editDarshanManagement', $darshan->id) }}" class="btn btn-primary">Edit</a>
-                                            <form id="delete-form-{{ $darshan->id }}" action="{{ route('templeuser.deleteDarshanManagement', $darshan->id) }}" method="POST" style="display: none;">
-                                                @csrf
-                                                @method('DELETE')
-                                            </form>
-                                            <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $darshan->id }})">Delete</button>
+                                        <td class="text-center">
+                                            <!-- Edit Button -->
+                                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#editDarshanModal{{ $darshan->id }}">
+                                                Edit
+                                            </button>
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="editDarshanModal{{ $darshan->id }}" tabindex="-1"
+                                                aria-labelledby="editDarshanModalLabel{{ $darshan->id }}"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <form method="POST"
+                                                        action="{{ route('templeuser.updateDarshanManagement', $darshan->id) }}">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Edit Darshan</h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+
+                                                            <div class="modal-body row">
+                                                                <div class="col-md-6 mb-3">
+                                                                    <label class="form-label">Darshan Name</label>
+                                                                    <input type="text" class="form-control"
+                                                                        name="darshan_name"
+                                                                        value="{{ $darshan->darshan_name }}" required>
+                                                                </div>
+                                                                <div class="col-md-6 mb-3">
+                                                                    <label class="form-label">Darshan Type</label>
+                                                                    <select class="form-control" name="darshan_type"
+                                                                        required>
+                                                                        <option value="normal"
+                                                                            {{ $darshan->darshan_type == 'normal' ? 'selected' : '' }}>
+                                                                            Normal</option>
+                                                                        <option value="special"
+                                                                            {{ $darshan->darshan_type == 'special' ? 'selected' : '' }}>
+                                                                            Special</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-6 mb-3">
+                                                                    <label class="form-label">Date</label>
+                                                                    <input type="date" class="form-control"
+                                                                        name="date" value="{{ $darshan->date }}">
+                                                                </div>
+                                                                <div class="col-md-6 mb-3">
+                                                                    <label class="form-label">Start Time</label>
+                                                                    <input type="time" class="form-control"
+                                                                        name="start_time"
+                                                                        value="{{ $darshan->start_time }}">
+                                                                </div>
+                                                                <div class="col-md-6 mb-3">
+                                                                    <label class="form-label">End Time</label>
+                                                                    <input type="time" class="form-control"
+                                                                        name="end_time" value="{{ $darshan->end_time }}">
+                                                                </div>
+                                                                <div class="col-md-6 mb-3">
+                                                                    <label class="form-label">Duration</label>
+                                                                    <input type="text" class="form-control"
+                                                                        name="duration" value="{{ $darshan->duration }}">
+                                                                </div>
+                                                                <div class="col-12 mb-3">
+                                                                    <label class="form-label">Description</label>
+                                                                    <textarea class="form-control" name="description">{{ $darshan->description }}</textarea>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="modal-footer">
+                                                                <button type="submit" class="btn btn-success">Update
+                                                                    Darshan</button>
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+
                                         </td>
                                     </tr>
-                                
-                                @endforeach
+                                @empty
+                                    <tr>
+                                        <td colspan="9" class="text-center text-muted">No darshan entries found.</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
+
                     </div>
                 </div>
             </div>
@@ -111,10 +192,10 @@
             });
         }
     </script>
-    
-<script>
+
+    <script>
         // Hide success/error message after 3 seconds
-        setTimeout(function(){
+        setTimeout(function() {
             document.getElementById('Message').style.display = 'none';
         }, 3000);
     </script>

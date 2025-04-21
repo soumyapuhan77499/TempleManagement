@@ -209,16 +209,48 @@ public function saveDarshanManagement(Request $request)
         Log::error('Darshan Save Error: ' . $e->getMessage());
         return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage())->withInput();
     }
+
 }
 
-public function ManageDarshanManagement(){
-
+public function ManageDarshanManagement() {
     $templeId = Auth::guard('temples')->user()->temple_id;
-
-    $darshans = DarshanDetails::where('status', 'active')->where('temple_id', $templeId)->get();
+    $darshans = DarshanDetails::where('status', 'active')
+        ->where('temple_id', $templeId)
+        ->orderByDesc('id')
+        ->get();
 
     return view('templeuser.manage-darshan-management', compact('darshans'));
-    
 }
+
+public function updateDarshanManagement(Request $request, $id)
+{
+    $request->validate([
+        'darshan_name' => 'required|string|max:255',
+        'darshan_type' => 'required|in:special,normal',
+        'date'         => 'nullable|date',
+        'start_time'   => 'nullable|date_format:H:i',
+        'end_time'     => 'nullable|date_format:H:i|after_or_equal:start_time',
+        'duration'     => 'nullable|string|max:50',
+        'description'  => 'nullable|string',
+    ]);
+
+    try {
+        $darshan = DarshanDetails::findOrFail($id);
+        $darshan->update([
+            'darshan_name' => $request->darshan_name,
+            'darshan_type' => $request->darshan_type,
+            'date'         => $request->date,
+            'start_time'   => $request->start_time,
+            'end_time'     => $request->end_time,
+            'duration'     => $request->duration,
+            'description'  => $request->description,
+        ]);
+
+        return redirect()->back()->with('success', 'Darshan updated successfully!');
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Update failed: ' . $e->getMessage());
+    }
+}
+
 
 }
