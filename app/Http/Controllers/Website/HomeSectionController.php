@@ -28,9 +28,67 @@ public function puriWebsite()
 {
     $templeId = 'TEMPLE25402';
 
+    $today = Carbon::now('Asia/Kolkata')->toDateString();
+
+    $startedNitiManagement = NitiManagement::whereDate('date', $today)
+        ->where('niti_status', 'Started')
+        ->orderBy('start_time', 'asc')
+        ->first();
+
+    $startedNiti = null;
+    $nextSpecialNiti = null;
+    $nitis = collect();
+
+    if ($startedNitiManagement) {
+        // ✅ If Started Niti exists, get its master
+        $startedNiti = NitiMaster::where('niti_id', $startedNitiManagement->niti_id)->first();
+
+        // ✅ Get next special Niti based on after_special_niti
+        if ($startedNiti) {
+            $nextSpecialNiti = NitiMaster::where('after_special_niti', $startedNiti->niti_id)
+                ->where('status', 'active')
+                ->where('niti_privacy', 'public')
+                ->where('language', 'English')
+                ->orderBy('date_time', 'asc')
+                ->first();
+        }
+
+        $nitis = collect([$startedNiti, $nextSpecialNiti])->filter();
+    } else {
+        // ✅ No started Niti today, fallback: find today's special Niti
+        $todaySpecialNiti = NitiMaster::where('niti_type', 'special')
+            ->where('status', 'active')
+            ->where('niti_privacy', 'public')
+            ->where('language', 'English')
+            ->whereDate('date_time', $today)
+            ->orderBy('date_time', 'asc')
+            ->first();
+
+        if ($todaySpecialNiti) {
+            $afterNiti = NitiMaster::where('after_special_niti', $todaySpecialNiti->niti_id)
+                ->where('niti_type', 'special')
+                ->where('status', 'active')
+                ->where('niti_privacy', 'public')
+                ->where('language', 'English')
+                ->whereDate('date_time', $today)
+                ->orderBy('date_time', 'asc')
+                ->first();
+
+            $nitis = collect([$todaySpecialNiti, $afterNiti])->filter();
+        } else {
+            // ✅ No special Niti for today either: just return first 2 from NitiMaster
+            $nitis = NitiMaster::where('status', 'active')
+                ->where('niti_privacy', 'public')
+                ->orderBy('date_time', 'asc')
+                ->where('language', 'English')
+                ->take(2)
+                ->get();
+        }
+    }
+
     return view('website.index3', [
+        'nitis' => $nitis,
         'latestWebVideo' => TempleBanner::where('banner_type', 'web')->whereNotNull('banner_video')->latest()->first(),
-        'nitis' => NitiMaster::orderBy('date_time', 'asc')->take(2)->get(),
         'nearbyTemples' => NearByTemple::whereNotNull('photo')->get(),
         'aboutTemple' => TempleAboutDetail::where('temple_id', $templeId)->first(),
         'photos' => TemplePhotosVideos::where('temple_id', $templeId)->first(),
@@ -79,7 +137,6 @@ public function viewAllNiti()
         ->whereNotNull('end_time') // ✅ ensures we only get a completed session
         ->latest('end_time')       // sort by end time, in case multiple ended today
         ->first();
-    
 
         // 🔄 Get running sub Nitis of this daily Niti
         $matchingRunningSubNitis = $runningSubNitis->where('niti_id', $dailyNiti->niti_id);

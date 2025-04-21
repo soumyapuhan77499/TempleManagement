@@ -149,18 +149,22 @@
                                     <label class="custom-switch mb-0">
                                         <span class="custom-switch-description">Public</span>
                                         <input type="checkbox" name="niti_privacy" value="public"
-                                            class="custom-switch-input" id="publicNiti" onchange="togglePrivacy('public')" checked>
-                                        <span class="custom-switch-indicator custom-switch-indicator-xl custom-square"></span>
+                                            class="custom-switch-input" id="publicNiti" onchange="togglePrivacy('public')"
+                                            checked>
+                                        <span
+                                            class="custom-switch-indicator custom-switch-indicator-xl custom-square"></span>
                                     </label>
                                     <label class="custom-switch mb-0">
                                         <span class="custom-switch-description">Private</span>
                                         <input type="checkbox" name="niti_privacy" value="private"
-                                            class="custom-switch-input" id="privateNiti" onchange="togglePrivacy('private')">
-                                        <span class="custom-switch-indicator custom-switch-indicator-xl custom-square"></span>
+                                            class="custom-switch-input" id="privateNiti"
+                                            onchange="togglePrivacy('private')">
+                                        <span
+                                            class="custom-switch-indicator custom-switch-indicator-xl custom-square"></span>
                                     </label>
                                 </div>
                             </div>
-                            
+
                             <!-- Date & Time -->
                             <div class="row" id="dateTimeContainer" style="display: none;">
                                 <!-- Date & Time -->
@@ -478,8 +482,8 @@
                     <select class="form-control select2" name="seba_name[]" multiple="multiple">
                         <option value="">Select Seba</option>
                         ${`@foreach ($manage_seba as $seba)
-                                                                                    <option value="{{ $seba->seba_name }}">{{ $seba->seba_name }}</option>
-                                                                                @endforeach`}
+                                                                                        <option value="{{ $seba->seba_name }}">{{ $seba->seba_name }}</option>
+                                                                                    @endforeach`}
                     </select>
                 </div>
             </div>
@@ -562,31 +566,30 @@
         });
     </script>
 
-<script>
-    function togglePrivacy(selectedPrivacy) {
-        const publicNiti = document.getElementById('publicNiti');
-        const privateNiti = document.getElementById('privateNiti');
+    <script>
+        function togglePrivacy(selectedPrivacy) {
+            const publicNiti = document.getElementById('publicNiti');
+            const privateNiti = document.getElementById('privateNiti');
 
-        if (selectedPrivacy === 'public') {
-            privateNiti.checked = false;
-        } else if (selectedPrivacy === 'private') {
-            publicNiti.checked = false;
+            if (selectedPrivacy === 'public') {
+                privateNiti.checked = false;
+            } else if (selectedPrivacy === 'private') {
+                publicNiti.checked = false;
+            }
         }
-    }
 
-    // Optional: Ensure only one is checked on load
-    document.addEventListener('DOMContentLoaded', () => {
-        const publicNiti = document.getElementById('publicNiti');
-        const privateNiti = document.getElementById('privateNiti');
+        // Optional: Ensure only one is checked on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const publicNiti = document.getElementById('publicNiti');
+            const privateNiti = document.getElementById('privateNiti');
 
-        if (publicNiti.checked) {
-            privateNiti.checked = false;
-        } else if (privateNiti.checked) {
-            publicNiti.checked = false;
-        }
-    });
-</script>
-
+            if (publicNiti.checked) {
+                privateNiti.checked = false;
+            } else if (privateNiti.checked) {
+                publicNiti.checked = false;
+            }
+        });
+    </script>
 
     <script>
         function toggleNitiType(selectedType) {
@@ -644,4 +647,6 @@
             }
         });
     </script>
+
+    
 @endsection

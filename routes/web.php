@@ -371,8 +371,6 @@ Route::prefix('templeuser')->middleware('templeauth')->group(function () {
     });
 });
 
-## temple niti route
-
     Route::controller(NitiController::class)->group(function(){
         Route::get('admin/add-niti','addniti')->name('templeuser.add-niti');
         Route::get('admin/manage-niti','manageniti')->name('manageniti');
@@ -380,7 +378,6 @@ Route::prefix('templeuser')->middleware('templeauth')->group(function () {
         Route::delete('admin/delete-niti-master/{id}', 'deleteNitiMaster')->name('deletNitiMaster');
         Route::get('admin/edit-niti-master/{id}','editNitiMaster')->name('editNitiMaster');
         Route::put('admin/update-niti-master/{id}', 'updateNitiMaster')->name('updateNitiMaster');
-    
     });
 
     Route::controller(PanjiController::class)->group(function(){

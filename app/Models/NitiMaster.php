@@ -60,5 +60,16 @@ public function afterSpecial()
 }
 
 
+public function linkedDarshan()
+{
+    return $this->belongsTo(DarshanDetails::class, 'connected_darshan_id');
+}
+
+public function linkedMahaprasad()
+{
+    return $this->belongsTo(TemplePrasad::class, 'connected_mahaprasad_id');
+}
+
+
 
 }

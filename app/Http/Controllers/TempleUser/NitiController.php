@@ -11,6 +11,8 @@ use App\Models\NitiItems;
 use App\Models\TempleSubNiti;
 use App\Models\SebayatMaster;
 use App\Models\TemplePrasad;
+use App\Models\Darshan;
+use App\Models\NitiManagement;
 use App\Models\DarshanDetails;
 
 
@@ -167,86 +169,103 @@ class NitiController extends Controller
         return view('templeuser.manage-niti-master', compact('manage_niti_master', 'manage_seba'));
     }
 
-    public function updateNitiMaster(Request $request, $id)
-    {
-        try {
-            $request->validate([
-                'niti_name' => 'required|string|max:255',
-                'description' => 'nullable|string',
-            ]);
-    
-            $niti = NitiMaster::findOrFail($id);
-    
-            $niti->language     = $request->input('language');
-            $niti->niti_name    = $request->input('niti_name');
-            $niti->date_time    = $request->input('date_time');
-            $niti->after_special_niti = $request->input('after_special_niti');
-            $niti->niti_about   = $request->input('niti_about');
-            $niti->description  = $request->input('description');
-            $niti->niti_type    = $request->input('niti_type') === 'special' ? 'special' : 'daily';
-    
-            $niti->connected_mahaprasad_id = $request->input('connected_mahaprasad_id');
-            $niti->connected_darshan_id    = $request->input('connected_darshan_id');
-    
-            if ($request->has('niti_sebayat') && is_array($request->input('niti_sebayat'))) {
-                $niti->niti_sebayat = implode(',', $request->input('niti_sebayat'));
-            }
-    
-            $niti->save();
-    
-            // ✅ Update Niti Items
-            NitiItems::where('niti_id', $niti->id)->delete();
-            if ($request->filled('item_name')) {
-                foreach ($request->input('item_name') as $index => $itemName) {
-                    if (!empty($itemName)) {
-                        NitiItems::create([
-                            'niti_id'   => $niti->id,
-                            'item_name' => $itemName,
-                            'quantity'  => $request->input('quantity')[$index] ?? null,
-                            'unit'      => $request->input('unit')[$index] ?? null,
-                        ]);
-                    }
-                }
-            }
-    
-            // ✅ Update Niti Steps
-            NitiStep::where('niti_id', $niti->id)->delete();
-            if ($request->filled('step_of_niti')) {
-                foreach ($request->input('step_of_niti') as $index => $stepName) {
-                    if (!empty($stepName)) {
-                        $sebaNames = isset($request->input('seba_name')[$index]) ? implode(',', (array)$request->input('seba_name')[$index]) : '';
-                        NitiStep::create([
-                            'niti_id'   => $niti->id,
-                            'step_name' => $stepName,
-                            'seba_name' => $sebaNames,
-                        ]);
-                    }
-                }
-            }
-    
-            // ✅ Update Sub Niti
-            TempleSubNiti::where('niti_id', $niti->niti_id)->delete();
-            if ($request->filled('sub_niti_name')) {
-                $templeId = Auth::guard('temples')->user()->temple_id;
-                foreach ($request->input('sub_niti_name') as $subName) {
-                    if (!empty($subName)) {
-                        TempleSubNiti::create([
-                            'temple_id'     => $templeId,
-                            'niti_id'       => $niti->niti_id,
-                            'sub_niti_name' => $subName,
-                        ]);
-                    }
-                }
-            }
-    
-            return redirect()->route('manageniti')->with('success', 'Niti updated successfully!');
-    
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return redirect()->route('manageniti')->with('error', 'Niti not found.');
-        } catch (\Exception $e) {
-            return redirect()->route('manageniti')->with('error', 'An error occurred while updating the Niti: ' . $e->getMessage());
-        }
+    public function editNitiMaster($id)
+{
+    $niti = NitiMaster::with([
+        'steps',
+        'niti_items',
+        'subNitis',
+        'afterSpecial'
+    ])->where('niti_id', $id)->firstOrFail();
+
+    $daily_nitis = NitiMaster::where('status', 'active')->get();
+    $sebayat_list = SebaMaster::all();
+    $manage_seba = SebaMaster::all();
+   
+    $mahaprasads = TemplePrasad::where('status', 'active')
+    ->get(['id', 'prasad_name as name']);
+
+$darshans = DarshanDetails::where('status', 'active')
+    ->get(['id', 'darshan_name as name']);
+
+    $subNitis = TempleSubNiti::where('niti_id', $niti->niti_id)->get(); // or []
+
+    // fallback in case $subNitis is empty
+    if ($subNitis->isEmpty()) {
+        $subNitis = collect(); // makes sure it's a Collection, not null
     }
+        $nitiItems = $niti->niti_items ?? collect();
+    $nitiSteps = $niti->steps ?? collect();
+    $selectedSebayats = json_decode($niti->niti_sebayat ?? '[]', true);
+
+    return view('templeuser.edit-niti-master', compact(
+        'niti',
+        'daily_nitis',
+        'sebayat_list',
+        'manage_seba',
+        'mahaprasads',
+        'darshans',
+        'subNitis',
+        'nitiItems',
+        'nitiSteps',
+        'selectedSebayats'
+    ));
+}
+public function updateNitiMaster(Request $request, $id)
+{
+    try {
+        $request->validate([
+            'language'           => 'nullable|string|max:50',
+            'niti_name'          => 'required|string|max:255',
+            'date_time'          => 'nullable|date',
+            'niti_about'         => 'nullable|string',
+            'description'        => 'nullable|string',
+            'niti_type'          => 'nullable|string|in:special,daily',
+            'niti_privacy'       => 'nullable|string|in:public,private',
+            'after_special_niti' => 'nullable|string',
+        ]);
+
+        $niti = NitiMaster::findOrFail($id);
+
+        $niti->language     = $request->input('language');
+        $niti->niti_name    = $request->input('niti_name');
+        $niti->date_time    = $request->input('date_time');
+        $niti->after_special_niti = $request->input('after_special_niti');
+        $niti->niti_about   = $request->input('niti_about');
+        $niti->description  = $request->input('description');
+        $niti->niti_type    = $request->input('niti_type'); // special OR daily
+        $niti->niti_privacy = $request->input('niti_privacy', 'public');
+
+        $niti->connected_mahaprasad_id = $request->input('connected_mahaprasad_id');
+        $niti->connected_darshan_id    = $request->input('connected_darshan_id');
+
+        $niti->save();
+
+        // ✅ Update Sub Niti
+        TempleSubNiti::where('niti_id', $niti->niti_id)->delete();
+
+        if ($request->filled('sub_niti_name')) {
+            $templeId = Auth::guard('temples')->user()->temple_id;
+
+            foreach ($request->input('sub_niti_name') as $subName) {
+                if (!empty($subName)) {
+                    TempleSubNiti::create([
+                        'temple_id'     => $templeId,
+                        'niti_id'       => $niti->niti_id,
+                        'sub_niti_name' => $subName,
+                    ]);
+                }
+            }
+        }
+
+        return redirect()->route('manageniti')->with('success', 'Niti updated successfully!');
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        return redirect()->route('manageniti')->with('error', 'Niti not found.');
+    } catch (\Exception $e) {
+        return redirect()->route('manageniti')->with('error', 'Error while updating Niti: ' . $e->getMessage());
+    }
+}
+
     
     public function deleteNitiMaster($id)
     {

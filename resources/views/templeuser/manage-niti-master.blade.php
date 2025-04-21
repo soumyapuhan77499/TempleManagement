@@ -50,6 +50,7 @@
                                     <th class="border-bottom-0">Time</th>
                                     <th class="border-bottom-0">Type</th>
                                     <th class="border-bottom-0">Niti About</th>
+                                    <th class="border-bottom-0">Details</th>
                                     <th class="border-bottom-0">Sebayat</th>
                                     <th class="border-bottom-0">Steps</th> <!-- New column for steps -->
                                     <th class="border-bottom-0">Items</th> <!-- New column for items -->
@@ -66,6 +67,20 @@
                                         <td>{{ $niti->date_time }}</td>
                                         <td>{{ $niti->niti_type }}</td>
                                         <td>{{ $niti->niti_about }}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-info"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#nitiDetailModal"
+                                            data-id="{{ $niti->id }}"
+                                            data-name="{{ $niti->niti_name }}"
+                                            data-subnitis='@json($niti->subNitis)'
+                                            data-mahaprasad="{{ $niti->linkedMahaprasad->name ?? 'Not Linked' }}"
+                                            data-darshan="{{ $niti->linkedDarshan->name ?? 'Not Linked' }}"
+                                            data-description="{{ $niti->description }}">
+                                        <i class="fa fa-eye"></i> View
+                                    </button>
+                                    
+                                        </td>
                         
                                         <!-- Sebayat Modal Trigger -->
                                         <td>
@@ -229,6 +244,35 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+<div class="modal fade" id="nitiDetailModal" tabindex="-1" aria-labelledby="nitiDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="nitiDetailModalLabel">Niti Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h5><strong>Niti Name:</strong> <span id="modalNitiName"></span></h5>
+  
+          <hr>
+          <h6><strong>Sub Nitis:</strong></h6>
+          <ul id="modalSubNitis"></ul>
+  
+          <h6><strong>Linked Mahaprasad:</strong></h6>
+          <p id="modalMahaprasad"></p>
+  
+          <h6><strong>Linked Darshan:</strong></h6>
+          <p id="modalDarshan"></p>
+  
+          <h6><strong>Description:</strong></h6>
+          <p id="modalDescription"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
     <!-- End Row -->
 @endsection
 
@@ -276,4 +320,38 @@
             document.getElementById('Message').style.display = 'none';
         }, 3000);
     </script>
+    <script>
+        const modal = document.getElementById('nitiDetailModal');
+    
+        modal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+    
+            const name = button.getAttribute('data-name');
+            const mahaprasad = button.getAttribute('data-mahaprasad');
+            const darshan = button.getAttribute('data-darshan');
+            const description = button.getAttribute('data-description');
+            const subNitis = JSON.parse(button.getAttribute('data-subnitis'));
+    
+            document.getElementById('modalNitiName').textContent = name;
+            document.getElementById('modalMahaprasad').textContent = mahaprasad;
+            document.getElementById('modalDarshan').textContent = darshan;
+            document.getElementById('modalDescription').textContent = description;
+    
+            const subNitiList = document.getElementById('modalSubNitis');
+            subNitiList.innerHTML = ''; // Clear existing
+    
+            if (subNitis.length > 0) {
+                subNitis.forEach(sub => {
+                    const li = document.createElement('li');
+                    li.textContent = sub.sub_niti_name;
+                    subNitiList.appendChild(li);
+                });
+            } else {
+                const li = document.createElement('li');
+                li.textContent = 'No sub nitis found.';
+                subNitiList.appendChild(li);
+            }
+        });
+    </script>
+    
 @endsection

@@ -2,6 +2,13 @@
 
 @section('styles')
     <link href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
+    <style>
+        #specialNitiFields {
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+    </style>
+    
 @endsection
 
 @section('content')
@@ -44,374 +51,205 @@
                     <form action="{{ isset($niti) ? route('updateNitiMaster', $niti->id) : route('saveNitiMaster') }}"
                         method="post" enctype="multipart/form-data">
                         @csrf
-                        @method('PUT')
+                        @if (isset($niti))
+                            @method('PUT')
+                        @endif
 
                         <div class="row">
-                            <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
-                                <div class="card">
+                            <div class="col-12">
+                                <div class="card mb-3">
                                     <div class="card-header">
                                         <h4 class="card-title mb-1">NITI DETAILS</h4>
                                     </div>
-
-                                    <div class="row">
-                                        <!-- Language Selection -->
-                                        <div class="col-md-2">
-                                            <div class="card-body">
-                                                <div class="main-content-label mg-b-5">Language</div>
-                                                <select class="form-control" id="language" name="language">
+                                    <div class="card-body">
+                                        <div class="row g-3">
+                                            <!-- Language -->
+                                            <div class="col-md-2">
+                                                <label class="form-label">Language</label>
+                                                <select class="form-control" name="language">
                                                     <option value="">Select language...</option>
-                                                    <option value="English"
-                                                        {{ old('language', $niti->language) == 'English' ? 'selected' : '' }}>
-                                                        English</option>
-                                                    <option value="Hindi"
-                                                        {{ old('language', $niti->language) == 'Hindi' ? 'selected' : '' }}>
-                                                        Hindi</option>
-                                                    <option value="Odia"
-                                                        {{ old('language', $niti->language) == 'Odia' ? 'selected' : '' }}>
-                                                        Odia</option>
+                                                    @foreach (['English', 'Hindi', 'Odia'] as $lang)
+                                                        <option value="{{ $lang }}"
+                                                            {{ old('language', $niti->language ?? '') == $lang ? 'selected' : '' }}>
+                                                            {{ $lang }}
+                                                        </option>
+                                                    @endforeach
                                                 </select>
                                             </div>
-                                        </div>
-
-                                        <!-- Niti Name Input -->
-                                        <div class="col-md-3">
-                                            <div class="card-body">
-                                                <div class="main-content-label mg-b-5">Niti Name</div>
-                                                <input type="text" class="form-control" id="niti_name" name="niti_name"
-                                                    value="{{ old('niti_name', $niti->niti_name) }}"
+                        
+                                            <!-- Niti Name -->
+                                            <div class="col-md-3">
+                                                <label class="form-label">Niti Name</label>
+                                                <input type="text" class="form-control" name="niti_name"
+                                                    value="{{ old('niti_name', $niti->niti_name ?? '') }}"
                                                     placeholder="Enter Niti Name">
                                             </div>
-                                        </div>
-
-                                        <!-- Niti Type Checkbox -->
-                                        <div class="col-md-4" style="margin-top: 30px">
-                                            <div class="form-group row">
-                                                <label class="custom-switch">
-                                                    <span class="custom-switch-description tx-15  mg-b-5">Special
-                                                        Niti</span>
-                                                    <input type="checkbox" name="niti_type[]" value="special"
-                                                        class="custom-switch-input" id="specialNiti"
-                                                        {{ in_array('special_niti', old('niti_type', explode(',', $niti->niti_type))) ? 'checked' : '' }}>
-                                                    <span
-                                                        class="custom-switch-indicator custom-switch-indicator-xl custom-square"></span>
-                                                </label>
-                                                
-                                                <label class="custom-switch">
-                                                    <span class="custom-switch-description tx-15 me-2">Daily Niti</span>
-                                                    <input type="checkbox" name="niti_type[]" value="daily"
-                                                        class="custom-switch-input" id="dailyNiti"
-                                                        {{ in_array('daily_niti', old('niti_type', explode(',', $niti->niti_type))) ? 'checked' : '' }}>
-                                                    <span
-                                                        class="custom-switch-indicator custom-switch-indicator-xl custom-square"></span>
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <!-- Date & Time -->
-                                        <div class="col-md-3">
-                                            <div class="card-body">
-                                                <div class="main-content-label mg-b-5">Date & Time</div>
-                                                <div class="input-group">
-                                                    <div class="input-group-text">
-                                                        <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
-                                                    </div>
-                                                    <input class="form-control" id="datetimepicker" name="date_time"
-                                                        type="text" value="{{ old('date_time', $niti->date_time) }}">
+                        
+                                            <!-- Niti Type -->
+                                            <div class="col-md-4 d-flex align-items-end gap-4">
+                                                @php $type = old('niti_type', $niti->niti_type ?? '') @endphp
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" name="niti_type"
+                                                        value="special" id="nitiTypeSpecial"
+                                                        {{ $type == 'special' ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="nitiTypeSpecial">Special Niti</label>
+                                                </div>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" name="niti_type"
+                                                        value="daily" id="nitiTypeDaily"
+                                                        {{ $type == 'daily' ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="nitiTypeDaily">Daily Niti</label>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <!-- Niti About Textarea -->
-                                        <div class="col-md-12">
-                                            <div class="card-body">
-                                                <div class="main-content-label">Niti About</div>
-                                                <textarea class="form-control" id="niti_about" name="niti_about" placeholder="Enter Niti About">{{ old('niti_about', $niti->niti_about) }}</textarea>
+                        
+                                            <!-- Privacy -->
+                                            <div class="col-md-3 d-flex align-items-end gap-4">
+                                                @php $privacy = old('niti_privacy', $niti->niti_privacy ?? 'public') @endphp
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" name="niti_privacy"
+                                                        value="public" id="publicNiti"
+                                                        {{ $privacy == 'public' ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="publicNiti">Public</label>
+                                                </div>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" name="niti_privacy"
+                                                        value="private" id="privateNiti"
+                                                        {{ $privacy == 'private' ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="privateNiti">Private</label>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="sub-niti-container">
-
-                            @foreach ($subNitis as $index => $subNiti)
-                                <div class="row sub-niti-row align-items-center mb-3">
-                                    <div class="col-md-10">
-                                        <div class="main-content-label mg-b-5">Sub Niti Name</div>
-                                        <input type="text" class="form-control" name="sub_niti_name[]" value="{{ $subNiti->sub_niti_name }}" placeholder="Enter Sub Niti Name">
-                                    </div>
-                                    <div class="col-md-2 d-flex align-items-center mt-2">
-                                        <button type="button" class="btn btn-success add-sub-niti me-1">Add</button>
-                                        <button type="button" class="btn btn-danger remove-sub-niti" {{ $index == 0 ? 'style=display:none;' : '' }}>Remove</button>
-                                    </div>
-                                </div>
-                            @endforeach
                         
-                            {{-- If no existing sub-niti, show one blank input --}}
-                            @if ($subNitis->isEmpty())
-                                <div class="row sub-niti-row align-items-center mb-3">
-                                    <div class="col-md-10">
-                                        <div class="main-content-label mg-b-5">Sub Niti Name</div>
-                                        <input type="text" class="form-control" name="sub_niti_name[]" placeholder="Enter Sub Niti Name">
-                                    </div>
-                                    <div class="col-md-2 d-flex align-items-center mt-2">
-                                        <button type="button" class="btn btn-success add-sub-niti me-1">Add</button>
-                                        <button type="button" class="btn btn-danger remove-sub-niti" style="display: none;">Remove</button>
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
+                                            <!-- Special Niti Fields -->
+                                            <div class="col-12" id="specialNitiFields" style="display: none;">
+                                                <div class="row g-3">
+                                                    <!-- Date & Time -->
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Date & Time</label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-text"><i class="typcn typcn-calendar-outline"></i></span>
+                                                            <input type="text" class="form-control" name="date_time"
+                                                                value="{{ old('date_time', $niti->date_time ?? '') }}">
+                                                        </div>
+                                                    </div>
                         
-
-
-                        {{-- niti item --}}
-                        <div class="row">
-                            <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4 class="card-title mb-1">NITI ITEMS</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="item-container">
-                                            @foreach ($nitiItems as $nitiItem)
-                                                <div class="row item-row align-items-center mb-3">
-                                                    <div class="col-md-4">
-                                                        <div class="main-content-label mg-b-5">Item Name</div>
-                                                        <input type="text" class="form-control" name="item_name[]"
-                                                            value="{{ old('item_name', $nitiItem->item_name) }}"
-                                                            placeholder="Enter Item Name">
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="main-content-label mg-b-5">Quantity</div>
-                                                        <input type="text" class="form-control" name="quantity[]"
-                                                            value="{{ old('quantity', $nitiItem->quantity) }}"
-                                                            placeholder="Enter Quantity">
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="main-content-label mg-b-5">Unit</div>
-                                                        <select class="form-control" name="unit[]">
-                                                            <option value="">Select Unit</option>
-                                                            <option value="kg"
-                                                                {{ $nitiItem->unit == 'kg' ? 'selected' : '' }}>Kilogram
-                                                                (kg)</option>
-                                                            <option value="mg"
-                                                                {{ $nitiItem->unit == 'mg' ? 'selected' : '' }}>Milligram
-                                                                (mg)</option>
-                                                            <option value="g"
-                                                                {{ $nitiItem->unit == 'g' ? 'selected' : '' }}>Gram (g)
-                                                            </option>
-                                                            <option value="ltr"
-                                                                {{ $nitiItem->unit == 'ltr' ? 'selected' : '' }}>Liter
-                                                                (ltr)</option>
-                                                            <option value="ml"
-                                                                {{ $nitiItem->unit == 'ml' ? 'selected' : '' }}>Milliliter
-                                                                (ml)</option>
-                                                            <option value="pcs"
-                                                                {{ $nitiItem->unit == 'pcs' ? 'selected' : '' }}>Pieces
-                                                                (pcs)</option>
+                                                    <!-- After Special Niti -->
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Which Niti After Special Niti</label>
+                                                        <select class="form-control select2" name="after_special_niti">
+                                                            <option value="">Select Daily Niti</option>
+                                                            @foreach ($daily_nitis as $nitiOption)
+                                                                <option value="{{ $nitiOption->niti_id }}"
+                                                                    {{ old('after_special_niti', $niti->after_special_niti ?? '') == $nitiOption->niti_id ? 'selected' : '' }}>
+                                                                    {{ $nitiOption->niti_name }}
+                                                                </option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
-                                                    <div class="col-md-2 d-flex align-items-center mt-2">
-                                                        <button type="button" class="btn btn-success add-item me-1">Add
-                                                            Items</button>
-                                                        <button type="button" class="btn btn-danger remove-item"
-                                                            style="display: none;">Remove</button>
-                                                    </div>
                                                 </div>
+                                            </div>
+                        
+                                            <!-- About -->
+                                            <div class="col-12">
+                                                <label class="form-label">Niti About</label>
+                                                <textarea class="form-control" name="niti_about" rows="2"
+                                                    placeholder="Enter Niti About">{{ old('niti_about', $niti->niti_about ?? '') }}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sub Niti -->
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h4 class="card-title mb-1">SUB NITI</h4>
+                            </div>
+                            <div class="card-body sub-niti-container">
+                                @forelse ($subNitis as $index => $subNiti)
+                                    <div class="row sub-niti-row align-items-center mb-3">
+                                        <div class="col-md-10">
+                                            <label class="form-label">Sub Niti Name</label>
+                                            <input type="text" class="form-control" name="sub_niti_name[]"
+                                                value="{{ $subNiti->sub_niti_name }}">
+                                        </div>
+                                        <div class="col-md-2 mt-4 d-flex align-items-center">
+                                            <button type="button" class="btn btn-success add-sub-niti me-2">Add</button>
+                                            <button type="button" class="btn btn-danger remove-sub-niti"
+                                                {{ $index == 0 ? 'style=display:none;' : '' }}>Remove</button>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div class="row sub-niti-row align-items-center mb-3">
+                                        <div class="col-md-10">
+                                            <label class="form-label">Sub Niti Name</label>
+                                            <input type="text" class="form-control" name="sub_niti_name[]"
+                                                placeholder="Enter Sub Niti Name">
+                                        </div>
+                                        <div class="col-md-2 mt-4 d-flex align-items-center">
+                                            <button type="button" class="btn btn-success add-sub-niti me-2">Add</button>
+                                            <button type="button" class="btn btn-danger remove-sub-niti" style="{{ $loop->first && count($subNitis) <= 1 ? 'display:none;' : '' }}">Remove</button>
+                                            
+                                        </div>
+                                    </div>
+                                @endforelse
+                            </div>
+                        </div>
+
+                        <!-- Connect Darshan & Mahaprasad -->
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h4 class="card-title mb-1">CONNECT DARSHAN AND MAHAPRASAD</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Link Mahaprasad</label>
+                                        <select class="form-control select2" name="connected_mahaprasad_id">
+                                            <option value="">Select Mahaprasad</option>
+                                            @foreach ($mahaprasads as $prasad)
+                                                <option value="{{ $prasad->id }}"
+                                                    {{ old('connected_mahaprasad_id', $niti->connected_mahaprasad_id ?? '') == $prasad->id ? 'selected' : '' }}>
+                                                    {{ $prasad->name }}
+                                                </option>
                                             @endforeach
-                                        </div>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label">Link Darshan</label>
+                                        <select class="form-control select2" name="connected_darshan_id">
+                                            <option value="">Select Darshan</option>
+                                            @foreach ($darshans as $darshan)
+                                                <option value="{{ $darshan->id }}"
+                                                    {{ old('connected_darshan_id', $niti->connected_darshan_id ?? '') == $darshan->id ? 'selected' : '' }}>
+                                                    {{ $darshan->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4 class="card-title mb-1">NITI SEBAYAT</h4>
-                                    </div>
-                                    <div class="card-body pt-0">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <div class="main-content-label mg-b-5">SEBAYAT INVOLVED LIST</div>
-                                                <select class="form-control select2" id="niti_sebayat" name="niti_sebayat[]" multiple="multiple">
-                                                    <option value="">Select Sebak</option>
-                                                    @foreach ($sebayat_list as $sebayat)
-                                                        <option value="{{ $sebayat->sebayat_name }}"
-                                                            {{ in_array($sebayat->sebayat_name, old('niti_sebayat', $selectedSebayats ?? [])) ? 'selected' : '' }}>
-                                                            {{ $sebayat->sebayat_name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="card-header">
-                                            <h4 class="card-title mb-1">NITI STEP</h4>
-                                        </div>
-
-                                        <div class="step-container">
-                                            @if (isset($nitiSteps) && count($nitiSteps) > 0)
-                                                @foreach ($nitiSteps as $index => $step)
-                                                    <div class="row step-item align-items-center mb-3">
-                                                        <div class="col-md-6">
-                                                            <div class="card-body">
-                                                                <div class="main-content-label mg-b-5">NITI STEP
-                                                                    {{ $index + 1 }}</div>
-                                                                <input type="text" class="form-control"
-                                                                    name="step_of_niti[]" value="{{ $step->step_name }}"
-                                                                    placeholder="Enter Step Of Niti Name">
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-4">
-                                                            <div class="card-body">
-                                                                <div class="main-content-label mg-b-5">SEBA NAME</div>
-                                                                <select class="form-control select2" name="seba_name[{{ $index }}][]" multiple="multiple">
-                                                                    <option value="">Select Seba</option>
-                                                                    @foreach ($manage_seba as $seba)
-                                                                        <option value="{{ $seba->seba_name }}"
-                                                                            @if (in_array($seba->seba_name, $step->seba_name))
-                                                                                selected
-                                                                            @endif>
-                                                                            {{ $seba->seba_name }}
-                                                                        </option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    
-                                                        
-
-                                                        <div class="col-md-2 mt-3 d-flex justify-content-center">
-                                                            @if ($index == count($nitiSteps) - 1)
-                                                                <button type="button"
-                                                                    class="btn btn-success add-step me-1">Add Step</button>
-                                                            @else
-                                                                <button type="button"
-                                                                    class="btn btn-danger remove-step">Remove</button>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                            @else
-                                                <!-- Default Step if no existing steps are present -->
-                                                <div class="row step-item align-items-center mb-3">
-                                                    <div class="col-md-6">
-                                                        <div class="card-body">
-                                                            <div class="main-content-label mg-b-5">NITI STEP 1</div>
-                                                            <input type="text" class="form-control"
-                                                                name="step_of_niti[]"
-                                                                placeholder="Enter Step Of Niti Name">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-4">
-                                                        <div class="card-body">
-                                                            <div class="main-content-label mg-b-5">SEBA NAME</div>
-                                                            <select class="form-control select2" name="seba_name[{{ $index }}][]" multiple="multiple">
-                                                                <option value="">Select Seba</option>
-                                                                @foreach ($manage_seba as $seba)
-                                                                    <option value="{{ $seba->seba_name }}"
-                                                                        @if (in_array($seba->seba_name, $step->seba_name))
-                                                                            selected
-                                                                        @endif>
-                                                                        {{ $seba->seba_name }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <div class="col-md-2 mt-3 d-flex justify-content-center">
-                                                        <button type="button" class="btn btn-success add-step me-1">Add
-                                                            Step</button>
-                                                        <button type="button" class="btn btn-danger remove-step"
-                                                            style="display: none;">Remove</button>
-                                                    </div>
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
+                        <!-- Description -->
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control" name="description" placeholder="Enter Niti Description">{{ old('description', $niti_master->description ?? '') }}</textarea>
                             </div>
                         </div>
 
+                        <!-- Submit -->
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4 class="card-title mb-1">CONNECT DARSHAN AND MAHAPRASAD</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                        
-                                            <!-- Mahaprasad Dropdown -->
-                                            <div class="col-md-6">
-                                                <label class="main-content-label">Link Mahaprasad</label>
-                                                <select class="form-control select2" name="connected_mahaprasad_id">
-                                                    <option value="">Select Mahaprasad</option>
-                                                    @foreach ($mahaprasads as $prasad)
-                                                        <option value="{{ $prasad->id }}"
-                                                            {{ (old('connected_mahaprasad_id', $niti->connected_mahaprasad_id ?? '') == $prasad->id) ? 'selected' : '' }}>
-                                                            {{ $prasad->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                        
-                                            <!-- Darshan Dropdown -->
-                                            <div class="col-md-6">
-                                                <label class="main-content-label">Link Darshan</label>
-                                                <select class="form-control select2" name="connected_darshan_id">
-                                                    <option value="">Select Darshan</option>
-                                                    @foreach ($darshans as $darshan)
-                                                        <option value="{{ $darshan->id }}"
-                                                            {{ (old('connected_darshan_id', $niti->connected_darshan_id ?? '') == $darshan->id) ? 'selected' : '' }}>
-                                                            {{ $darshan->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                        
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="main-content-label">Description</div>
-                                        <textarea class="form-control" id="description" name="description" placeholder="Enter Niti Description">{{ old('description', $niti_master->description ?? '') }}</textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group" style="padding-top: 27px">
-                                    <input type="submit" class="btn btn-primary"
-                                        value="{{ isset($niti_master) ? 'Update' : 'Submit' }}">
-                                </div>
+                            <div class="col-md-12 text-center mb-3">
+                                <button type="submit" class="btn btn-primary px-4">
+                                    {{ isset($niti) ? 'Update Niti' : 'Save Niti' }}
+                                </button>
                             </div>
                         </div>
                     </form>
+
 
                 </div>
             </div>
@@ -422,132 +260,76 @@
 @section('scripts')
     <script src="{{ asset('assets/js/form-layouts.js') }}"></script>
     <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            $('.select2').select2();
-        });
+  
 
-        setTimeout(function() {
-            $('#Message').fadeOut('slow');
-        }, 3000);
-    </script>
+<script>
+    function toggleSpecialNitiFields() {
+        const specialCheckbox = document.querySelector('input[name="niti_type"][value="special"]');
+        const specialFields = document.getElementById('specialNitiFields');
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Handle Add Step
-            document.querySelector('.add-step').addEventListener('click', function() {
-                const lastStep = document.querySelector('.step-item:last-child');
-                const newStep = lastStep.cloneNode(true); // Clone the last row
+        if (specialCheckbox.checked) {
+            specialFields.style.display = 'flex';
+        } else {
+            specialFields.style.display = 'none';
+        }
+    }
 
-                const inputs = newStep.querySelectorAll('input, select');
-                inputs.forEach(input => {
-                    input.value = ''; // Clear the value
-                    if (input.tagName === 'SELECT') {
-                        $(input).val(null).trigger('change'); // For Select2 (if used)
-                    }
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkboxes = document.querySelectorAll('input[name="niti_type"]');
+
+        checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener('change', function () {
+                // Uncheck the other checkbox
+                checkboxes.forEach((cb) => {
+                    if (cb !== this) cb.checked = false;
                 });
 
-                const removeButton = newStep.querySelector('.remove-step');
-                removeButton.style.display = 'inline-block';
-
-                // Add the cloned row to the container
-                document.querySelector('.step-container').appendChild(newStep);
-            });
-
-            // Handle Remove Step
-            document.querySelector('.step-container').addEventListener('click', function(event) {
-                if (event.target.classList.contains('remove-step')) {
-                    const stepRow = event.target.closest('.step-item');
-                    stepRow.remove();
-                }
+                // Handle visibility of special fields
+                toggleSpecialNitiFields();
             });
         });
-    </script>
-    <script>
-        let stepCount = 1; // Initialize the step counter
 
-        document.addEventListener('click', function(event) {
-            if (event.target.classList.contains('add-step')) {
-                stepCount++;
-                const stepContainer = document.querySelector('.step-container');
-                const newStep = document.createElement('div');
-                newStep.classList.add('row', 'step-item', 'align-items-center');
+        toggleSpecialNitiFields(); // Initial check on page load
+    });
+</script>
 
-                // Template literal for dynamic HTML
-                newStep.innerHTML = `
-            <div class="col-md-6">
-                <div class="card-body">
-                    <div class="main-content-label mg-b-5">NITI STEP ${stepCount}</div>
-                    <input type="text" class="form-control" name="step_of_niti[]" placeholder="Enter Step Of Niti Name">
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card-body">
-                    <div class="main-content-label mg-b-5">SEBA NAME</div>
-                    <select class="form-control select2" name="seba_name[]" multiple="multiple">
-                        <option value="">Select Seba</option>
-                        ${`@foreach ($manage_seba as $seba)
-                                        <option value="{{ $seba->seba_name }}">{{ $seba->seba_name }}</option>
-                                    @endforeach`}
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-2 mt-3 d-flex justify-content-center">
-                <button type="button" class="btn btn-success add-step me-1">Add Step</button>
-                <button type="button" class="btn btn-danger remove-step">Remove</button>
-            </div>
-        `;
+<script>
+    document.addEventListener('click', function (event) {
+        if (event.target.classList.contains('add-sub-niti')) {
+            const container = document.querySelector('.sub-niti-container');
+            const lastRow = container.querySelector('.sub-niti-row:last-of-type');
+            const newRow = lastRow.cloneNode(true);
 
-                stepContainer.appendChild(newStep);
+            // Clear the input value
+            newRow.querySelector('input').value = '';
 
-                // Initialize Select2 for the newly added dropdown
-                $(newStep).find('.select2').select2();
+            // Remove add button from old rows
+            container.querySelectorAll('.add-sub-niti').forEach(btn => btn.style.display = 'none');
 
-                updateButtons();
-            } else if (event.target.classList.contains('remove-step')) {
-                event.target.closest('.step-item').remove();
-                stepCount--;
-                updateButtons();
-            }
-        });
+            // Show remove button in the cloned row
+            newRow.querySelector('.remove-sub-niti').style.display = 'inline-block';
 
-        // Call this once on page load to initialize any existing select elements
-        $(document).ready(function() {
-            $('.select2').select2();
-        });
+            // Add button only to the last (new) row
+            newRow.querySelector('.add-sub-niti').style.display = 'inline-block';
 
-        function updateButtons() {
-            const steps = document.querySelectorAll('.step-item');
-            steps.forEach((step, index) => {
-                const addBtn = step.querySelector('.add-step');
-                const removeBtn = step.querySelector('.remove-step');
-                addBtn.style.display = index === steps.length - 1 ? 'inline-block' : 'none';
-                removeBtn.style.display = steps.length > 1 ? 'inline-block' : 'none';
-            });
+            container.appendChild(newRow);
         }
 
-        // Call updateButtons initially to handle existing steps
-        updateButtons();
-    </script>
+        if (event.target.classList.contains('remove-sub-niti')) {
+            const row = event.target.closest('.sub-niti-row');
+            row.remove();
 
-    <script>
-        document.addEventListener('click', function(event) {
-            if (event.target.classList.contains('add-item')) {
-                const itemContainer = document.querySelector('.item-container');
-                const newItemRow = document.querySelector('.item-row').cloneNode(true);
-
-                // Clear values for the cloned input fields
-                newItemRow.querySelectorAll('input').forEach(input => input.value = '');
-                newItemRow.querySelector('select').selectedIndex = 0;
-
-                // Update buttons
-                newItemRow.querySelector('.add-item').style.display = 'none';
-                newItemRow.querySelector('.remove-item').style.display = 'inline-block';
-
-                itemContainer.appendChild(newItemRow);
-            } else if (event.target.classList.contains('remove-item')) {
-                event.target.closest('.item-row').remove();
+            // Ensure only the last row shows the add button
+            const allRows = document.querySelectorAll('.sub-niti-row');
+            if (allRows.length) {
+                allRows.forEach((r, i) => {
+                    r.querySelector('.add-sub-niti').style.display = i === allRows.length - 1 ? 'inline-block' : 'none';
+                    r.querySelector('.remove-sub-niti').style.display = allRows.length === 1 ? 'none' : 'inline-block';
+                });
             }
-        });
-    </script>
+        }
+    });
+</script>
+
+
 @endsection
