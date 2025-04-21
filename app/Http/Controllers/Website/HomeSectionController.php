@@ -44,6 +44,7 @@ public function puriWebsite()
         // ✅ Get NitiMaster record of started one
         $startedNiti = NitiMaster::where('niti_id', $startedNitiManagement->niti_id)
             ->where('status', 'active')
+            ->where('niti_status', 'Started')
             ->where('niti_privacy', 'public')
             ->where('language', 'English')
             ->first();
@@ -70,7 +71,7 @@ public function puriWebsite()
             ->take(2)
             ->get();
     }
-    
+
     return view('website.index3', [
         'nitis' => $nitis,
         'latestWebVideo' => TempleBanner::where('banner_type', 'web')->whereNotNull('banner_video')->latest()->first(),
