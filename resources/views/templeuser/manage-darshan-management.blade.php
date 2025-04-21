@@ -43,6 +43,7 @@
                                     <th class="text-center">Actions</th>
                                 </tr>
                             </thead>
+
                             <tbody>
                                 @forelse ($darshans as $darshan)
                                     <tr>
@@ -199,4 +200,5 @@
             document.getElementById('Message').style.display = 'none';
         }, 3000);
     </script>
+    
 @endsection
