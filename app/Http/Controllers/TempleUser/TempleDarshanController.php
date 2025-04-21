@@ -8,11 +8,13 @@ use App\Models\TempleDarshan;
 use App\Models\DarshanDetails;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
-
 
 class TempleDarshanController extends Controller
 {
+
     public function templeDarshan(){
         
         $weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -188,18 +190,9 @@ public function darshanManagement()
 
 public function saveDarshanManagement(Request $request)
 {
-    $request->validate([
-        'darshan_name' => 'required|string|max:255',
-        'darshan_type' => 'required|in:special,normal',
-        'darshan_date' => 'required|date',
-        'start_time' => 'required',
-        'end_time' => 'required',
-        'duration' => 'required|string|max:50',
-    ]);
-
-    $templeId = Auth::guard('temples')->user()->temple_id;
-
     try {
+        $templeId = Auth::guard('temples')->user()->temple_id;
+
         DarshanDetails::create([
             'temple_id'     => $templeId,
             'darshan_name'  => $request->darshan_name,
@@ -213,7 +206,8 @@ public function saveDarshanManagement(Request $request)
 
         return redirect()->back()->with('success', 'Darshan saved successfully!');
     } catch (\Exception $e) {
-        return redirect()->back()->with('error', 'Something went wrong. Please try again.');
+        Log::error('Darshan Save Error: ' . $e->getMessage());
+        return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage())->withInput();
     }
 }
 
