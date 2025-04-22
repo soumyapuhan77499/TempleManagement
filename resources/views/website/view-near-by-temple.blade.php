@@ -15,59 +15,78 @@
             background: #fefefe;
         }
 
-        /* Tabs */
+        /* Tabs Container */
         .tab-buttons {
             display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 25px;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-            justify-content: space-between;
+            border-bottom: 2px solid #e0e0e0;
+            gap: 30px;
+            margin-bottom: 30px;
+            padding: 0 0 10px;
+            position: relative;
+            overflow-x: auto;
         }
 
+        /* Hide default scrollbar on horizontal scroll */
+        .tab-buttons::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-buttons {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Tab Buttons */
         .tab-buttons button {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 16px;
-            font-size: 14px;
-            font-weight: 600;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            cursor: pointer;
-            color: #444;
-            transition: all 0.3s ease;
-        }
-
-        .tab-buttons button i {
-            color: #b31e25;
+            background: none;
+            border: none;
             font-size: 15px;
+            font-weight: 600;
+            color: #555;
+            padding: 8px 0;
+            position: relative;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            white-space: nowrap;
         }
 
         .tab-buttons button:hover {
-            background-color: #fff;
-            box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+            color: #b31e25;
         }
 
+        /* Active Tab Highlight */
         .tab-buttons button.active {
-            background-color: #fff;
-            border-color: #b31e25;
             color: #b31e25;
         }
 
-        .tab-buttons button.active i {
-            color: #b31e25;
+        .tab-buttons button.active::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 100%;
+            height: 3px;
+            background-color: #b31e25;
+            border-radius: 2px;
+            transition: all 0.3s ease-in-out;
         }
 
+        /* Icon Support */
+        .tab-buttons button i {
+            margin-right: 6px;
+            font-size: 14px;
+            color: #b31e25;
+            vertical-align: middle;
+        }
+
+        /* Tab Content */
         .tab-content {
             display: none;
+            animation: fadeIn 0.3s ease-in-out;
         }
 
         .tab-content.active {
             display: block;
-            animation: fadeIn 0.3s ease-in-out;
         }
 
         @keyframes fadeIn {
@@ -273,10 +292,18 @@
             <h2 class="text-2xl font-bold text-[#b31e25] mb-4">{{ $temple->name }}</h2>
 
             <div class="tab-buttons">
-                <button class="tab-link active" onclick="showTab(event, 'details')">Temple Details</button>
-                <button class="tab-link" onclick="showTab(event, 'history')">History</button>
-                <button class="tab-link " onclick="showTab(event, 'address')">Address</button>
-                <button class="tab-link" onclick="showTab(event, 'gallery')">Photo Gallery</button>
+                <button class="tab-link active" onclick="showTab(event, 'details')">
+                    <i class="fa fa-info-circle"></i> Temple Details
+                </button>
+                <button class="tab-link" onclick="showTab(event, 'history')">
+                    <i class="fa fa-book"></i> History
+                </button>
+                <button class="tab-link" onclick="showTab(event, 'address')">
+                    <i class="fa fa-map-marker-alt"></i> Address
+                </button>
+                <button class="tab-link" onclick="showTab(event, 'gallery')">
+                    <i class="fa fa-images"></i> Photo Gallery
+                </button>
             </div>
 
             <div id="address" class="tab-content active">
