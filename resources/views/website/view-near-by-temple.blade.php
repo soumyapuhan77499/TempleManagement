@@ -263,6 +263,27 @@
             color: #aaa;
             margin: 30px 0;
         }
+
+        .map-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #b31e25;
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin-top: 5px;
+        }
+
+        .map-button:hover {
+            background-color: #991b1b;
+            text-decoration: none;
+            color: #fff;
+        }
     </style>
 
 </head>
@@ -316,9 +337,14 @@
                             {{ $temple->state }}</li>
                     @endif
                     @if ($temple->google_map_link)
-                        <li><strong>Map:</strong> <a href="{{ $temple->google_map_link }}" target="_blank">View on
-                                Google Map</a></li>
+                        <li>
+                            <strong>Map:</strong><br>
+                            <a href="{{ $temple->google_map_link }}" target="_blank" class="map-button">
+                                <i class="fa fa-map-marked-alt"></i> View on Google Map
+                            </a>
+                        </li>
                     @endif
+
                 </ul>
             </div>
 
