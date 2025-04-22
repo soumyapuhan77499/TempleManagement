@@ -327,7 +327,7 @@
                 </button>
             </div>
 
-            <div id="address" class="tab-content active">
+            <div id="address" class="tab-content">
                 <ul class="info-list">
                     @if ($temple->distance_from_temple)
                         <li><strong>Distance:</strong> {{ $temple->distance_from_temple }}</li>
@@ -354,7 +354,7 @@
 
             </div>
 
-            <div id="details" class="tab-content">
+            <div id="details" class="tab-content active">
                 <ul class="info-list">
                     @if ($temple->estd_date)
                         <li><strong>Established:</strong> {{ $temple->estd_date }}</li>
