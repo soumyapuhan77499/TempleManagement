@@ -275,12 +275,13 @@
 
     <section class="services-section py-10 ">
         <!-- Section Title -->
-        <div class="text-center mb-14">
-            <div class="flex justify-center items-center gap-4">
-                <img src="{{ asset('website/left.png') }}" alt="Left Decor" class="w-36 h-5 animate-pulse">
-                <h2 class="section-titles">Quick Services</h2>
-                <img src="{{ asset('website/right.png') }}" alt="Right Decor" class="w-36 h-5 animate-pulse">
-            </div>
+    
+        <div class="flex justify-center items-center gap-5 mt-12">
+            <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
+            <h2 class="text-2xl text-[#db4d30] flex items-center font-sans">
+                Quick Services
+            </h2>
+            <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
         </div>
 
         <!-- Services Layout -->
