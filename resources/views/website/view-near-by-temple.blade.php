@@ -273,10 +273,9 @@
             <h2 class="text-2xl font-bold text-[#b31e25] mb-4">{{ $temple->name }}</h2>
 
             <div class="tab-buttons">
-                <button class="tab-link" onclick="showTab(event, 'details')">Temple Details</button>
+                <button class="tab-link active" onclick="showTab(event, 'details')">Temple Details</button>
                 <button class="tab-link" onclick="showTab(event, 'history')">History</button>
-                <button class="tab-link active" onclick="showTab(event, 'address')">Address</button>
-                <button class="tab-link" onclick="showTab(event, 'description')">Description</button>
+                <button class="tab-link " onclick="showTab(event, 'address')">Address</button>
                 <button class="tab-link" onclick="showTab(event, 'gallery')">Photo Gallery</button>
             </div>
 
@@ -296,12 +295,11 @@
                 </ul>
             </div>
 
-            <div id="description" class="tab-content">
-                <p>{{ $temple->description ?? 'No description available.' }}</p>
-            </div>
 
             <div id="history" class="tab-content">
                 <p>{{ $temple->history ?? 'No historical data available.' }}</p>
+                <p>{{ $temple->description ?? 'No description available.' }}</p>
+
             </div>
 
             <div id="details" class="tab-content">
