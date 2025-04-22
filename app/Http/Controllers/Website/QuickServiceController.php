@@ -11,42 +11,44 @@ use App\Models\DarshanDetails;
 use App\Models\DarshanManagement;
 use App\Models\Accomodation;
 use App\Models\PublicServices;
+use App\Models\NearByTemple;
 use Carbon\Carbon;
 
 class QuickServiceController extends Controller
 {
-    public function prasadTimeline()
-    {
-        $today = Carbon::now('Asia/Kolkata')->toDateString();
-    
-        $prasads = TemplePrasad::get();
-    
-        // Map Prasad with today's management data
-        $prasadList = $prasads->map(function ($prasad) use ($today) {
-            $todayLog = PrasadManagement::where('prasad_id', $prasad->id)
-                ->whereDate('date', $today)
-                ->latest()
-                ->first();
-    
-            return (object)[
-                'prasad_id'     => $prasad->id,
-                'prasad_name'   => $prasad->prasad_name,
-                'prasad_type'   => $prasad->prasad_type,
-                'prasad_photo'  => $prasad->prasad_photo,
-                'prasad_item'   => $prasad->prasad_item,
-                'description'   => $prasad->description,
-                'online_order'  => $prasad->online_order,
-                'pre_order'     => $prasad->pre_order,
-                'offline_order' => $prasad->offline_order,
-                'master_status' => $prasad->prasad_status,
-                'start_time'    => $todayLog->start_time ?? null,
-                'date'          => $todayLog->date ?? null,
-                'today_status'  => $prasad->prasad_status ?? null, // could be 'Started', 'Completed', etc.
-            ];
-        });
-    
-        return view('website.temple-prasad-list', compact('prasadList'));
-    }
+
+public function prasadTimeline()
+{
+    $today = Carbon::now('Asia/Kolkata')->toDateString();
+
+    $prasads = TemplePrasad::get();
+
+    // Map Prasad with today's management data
+    $prasadList = $prasads->map(function ($prasad) use ($today) {
+        $todayLog = PrasadManagement::where('prasad_id', $prasad->id)
+            ->whereDate('date', $today)
+            ->latest()
+            ->first();
+
+        return (object)[
+            'prasad_id'     => $prasad->id,
+            'prasad_name'   => $prasad->prasad_name,
+            'prasad_type'   => $prasad->prasad_type,
+            'prasad_photo'  => $prasad->prasad_photo,
+            'prasad_item'   => $prasad->prasad_item,
+            'description'   => $prasad->description,
+            'online_order'  => $prasad->online_order,
+            'pre_order'     => $prasad->pre_order,
+            'offline_order' => $prasad->offline_order,
+            'master_status' => $prasad->prasad_status,
+            'start_time'    => $todayLog->start_time ?? null,
+            'date'          => $todayLog->date ?? null,
+            'today_status'  => $prasad->prasad_status ?? null, // could be 'Started', 'Completed', etc.
+        ];
+    });
+
+    return view('website.temple-prasad-list', compact('prasadList'));
+}
 
 public function parkingList()
 {
@@ -109,6 +111,14 @@ public function getDarshanList()
 
     return view('website.temple-darshan-list', compact('darshanList'));
 }
+
+public function viewNearByTemple($id)
+{
+    $temple = NearByTemple::findOrFail($id);
+
+    return view('website.view-near-by-temple', compact('temple'));
+}
+
 
 
 }

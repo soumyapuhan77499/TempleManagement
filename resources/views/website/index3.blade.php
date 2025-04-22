@@ -309,7 +309,7 @@
                 <a href="{{ route('prasad.timeline') }}"
                     class="bg-white border-l-4 border-[#db4d30]  px-5 py-4 flex items-center gap-5 h-[150px]  hover:translate-x-1 duration-300"
                     style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
-                    <img src="{{ asset('website/prasad879.png') }}" alt="Maha Prasad" style="height: 70px;width:70px">
+                    <img src="{{ asset('website/prasad.png') }}" alt="Maha Prasad" style="height: 70px;width:70px">
                     <div>
                         <h3 class="text-lg font-semibold text-[#db4d30]">Mahaprasad</h3>
                         <p class="text-sm text-gray-600">Savor the sacred offering blessed by the divine presence.</p>
@@ -458,18 +458,21 @@
                         $photos = json_decode($temple->photo, true);
                         $firstPhoto = isset($photos[0]) ? $photos[0] : null;
                     @endphp
-
+            
                     @if ($firstPhoto)
-                        <div class="swiper-slide rounded-xl overflow-hidden shadow-lg">
-                            <a href="{{ url('view-near-by-temple/' . $temple->id) }}">
-                                <img src="{{ asset($firstPhoto) }}" alt="{{ $temple->temple_name }}"
-                                    class="w-full h-full object-cover hover:scale-105 transition duration-300">
+                        <div class="swiper-slide rounded-xl overflow-hidden shadow-lg bg-white">
+                            <a href="{{ url('view-near-by-temple/' . $temple->id) }}" class="block">
+                                <img src="{{ asset($firstPhoto) }}" alt="{{ $temple->name }}"
+                                     class="w-full h-48 object-cover hover:scale-105 transition duration-300">
+                                <div class="p-3 text-center bg-white">
+                                    <h3 class="text-base font-semibold text-[#db4d30]">{{ $temple->name }}</h3>
+                                </div>
                             </a>
                         </div>
                     @endif
                 @endforeach
             </div>
-
+            
             <!-- Navigation buttons -->
             <div class="swiper-button-next text-orange-500"></div>
             <div class="swiper-button-prev text-orange-500"></div>

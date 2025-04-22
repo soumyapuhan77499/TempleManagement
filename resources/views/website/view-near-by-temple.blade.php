@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Nearby Temple</title>
+    <title>{{ $temple->name }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -31,7 +31,6 @@
 
         .logo img {
             height: 60px;
-            width: auto;
         }
 
         .nav-menu {
@@ -110,12 +109,12 @@
 
         .temple-section {
             display: flex;
-            max-width: 1100px;
+            max-width: 1250px;
             margin: 60px auto;
             background: #fff;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgb(213, 213, 213);
         }
 
         .temple-left,
@@ -204,7 +203,8 @@
             </div>
             <nav class="nav-menu">
                 <a href="#">Nitis</a>
-                <span class="separator">SM <a href="#" class="live-badges"><i class="fa fa-bolt"></i> Live</a></span>
+                <span class="separator">SM <a href="#" class="live-badges"><i class="fa fa-bolt"></i>
+                        Live</a></span>
                 <a href="#">Services</a>
                 <a href="#">Nearby Temples</a>
                 <a href="#">Conveniences</a>
@@ -217,48 +217,73 @@
         <img class="hero-bg" src="{{ asset('website/parking.jpeg') }}" alt="Mandir Background" />
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1>Nearby Temples</h1>
+            <h1>{{ $temple->name }}</h1>
             <p>Discover sacred places close to your journey.</p>
         </div>
     </section>
 
-    <section class="temple-section">
-        <div class="temple-left">
-            <img src="{{ asset('website/59.jpg') }}" alt="Temple Photo">
-        </div>
-        <div class="temple-right">
-            <h3><i class="fa fa-eye"></i> Darshan</h3>
-            <p>Experience spiritual tranquility through peaceful darshan, guided by tradition and culture.</p>
-            <h3><i class="fa fa-utensils"></i> Mahaprasad</h3>
-            <p>Enjoy the divine offering of Mahaprasad, prepared with sanctity and served with devotion.</p>
-            <ul>
-                <li><i class="fa fa-map-marker-alt"></i> 2.5 KM from Jagannath Temple</li>
-                <li><i class="fa fa-clock"></i> Open from 5 AM to 9 PM</li>
-                <li><i class="fa fa-phone"></i> Contact: +91-9876543210</li>
-            </ul>
-            <a href="#" class="btn-details">FIND OUT MORE</a>
-        </div>
-    </section>
+    @php
+        $photos = json_decode($temple->photo, true);
+        $firstPhoto = $photos[0] ?? 'website/default-temple.jpg';
+    @endphp
 
     <section class="temple-section">
         <div class="temple-left">
-            <div class="temple-content">
-                <h3><i class="fa fa-eye" style="color: #b31e25;"></i> Darshan</h3>
-                <p>Spacious temple with traditional architecture and serene surroundings for meditation and prayer.</p>
-                <h3><i class="fa fa-utensils" style="color: #b31e25;"></i> Mahaprasad</h3>
-                <p>Delicious prasad prepared freshly every day in a sacred kitchen with community participation.</p>
-                
-              
-            </div>
+            <img src="{{ asset($firstPhoto) }}" alt="{{ $temple->name }}">
         </div>
         <div class="temple-right">
-            <img src="{{ asset('website/1000.jpg') }}" alt="Temple Photo">
+            <h3><i class="fa fa-eye"></i> Temple Overview</h3>
+            <p>{{ $temple->description ?? 'No description available.' }}</p>
+
+            <h3><i class="fa fa-map-marker-alt"></i> Location</h3>
+            <ul>
+                @if ($temple->distance_from_temple)
+                    <li><i class="fa fa-road"></i> {{ $temple->distance_from_temple }} from Jagannath Temple</li>
+                @endif
+                @if ($temple->city_village)
+                    <li><i class="fa fa-location-dot"></i> {{ $temple->city_village }}, {{ $temple->district }},
+                        {{ $temple->state }}</li>
+                @endif
+                @if ($temple->contact_no)
+                    <li><i class="fa fa-phone"></i> Contact: {{ $temple->contact_no }}</li>
+                @endif
+                @if ($temple->whatsapp_no)
+                    <li><i class="fab fa-whatsapp"></i> WhatsApp: {{ $temple->whatsapp_no }}</li>
+                @endif
+                @if ($temple->google_map_link)
+                    <li><i class="fa fa-map"></i>
+                        <a href="{{ $temple->google_map_link }}" target="_blank">View on Map</a>
+                    </li>
+                @endif
+            </ul>
+
+            <a href="{{ url()->previous() }}" class="btn-details">← Back</a>
         </div>
     </section>
-    
+
+    @php
+        $secondPhoto = $photos[1] ?? null;
+    @endphp
+
+    @if ($secondPhoto && ($temple->history || $temple->description))
+        <section class="temple-section">
+            <div class="temple-left">
+                <h3><i class="fa fa-book-open"></i> History</h3>
+                <p>{{ $temple->history ?? 'No historical data available.' }}</p>
+
+                <h3><i class="fa fa-align-left"></i> Description</h3>
+                <p>{{ $temple->description ?? 'No description provided.' }}</p>
+            </div>
+            <div class="temple-right">
+                <img src="{{ asset($secondPhoto) }}" alt="Temple Image">
+            </div>
+        </section>
+    @endif
+
 
     <div class="timeline-footer">
         © {{ date('Y') }} Temple Management System. All rights reserved.
     </div>
 </body>
+
 </html>
