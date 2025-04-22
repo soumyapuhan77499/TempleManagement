@@ -55,8 +55,8 @@
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/summernote-content.css') }}">
     <!-- Responsive CSS -->
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/responsive.css') }}">
-<!-- Bootstrap 5 CSS CDN -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap 5 CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
@@ -77,8 +77,6 @@
 </head>
 
 <body>
-
-
     <!-- Content -->
     @yield('content')
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
@@ -418,21 +416,20 @@
         });
     </script>
 
-<script>
-    document.querySelectorAll('.tab-item').forEach(tab => {
-        tab.addEventListener('mouseenter', () => {
-            document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active-tab'));
-            tab.classList.add('active-tab');
-        });
+    <script>
+        document.querySelectorAll('.tab-item').forEach(tab => {
+            tab.addEventListener('mouseenter', () => {
+                document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active-tab'));
+                tab.classList.add('active-tab');
+            });
 
-        tab.addEventListener('mouseleave', () => {
-            document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active-tab'));
-            const defaultTab = document.querySelector('[data-tab="aboutTemple"]'); // your default tab
-            defaultTab.classList.add('active-tab');
+            tab.addEventListener('mouseleave', () => {
+                document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active-tab'));
+                const defaultTab = document.querySelector('[data-tab="aboutTemple"]'); // your default tab
+                defaultTab.classList.add('active-tab');
+            });
         });
-    });
-</script>
-
+    </script>
 
     <script>
         lucide.createIcons();

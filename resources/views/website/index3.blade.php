@@ -1,6 +1,7 @@
 @extends('website.web-layouts')
 
 @section('content')
+
     <section class="banner-sections">
         <!-- Video Banner -->
         @if ($latestWebVideo && $latestWebVideo->banner_video)

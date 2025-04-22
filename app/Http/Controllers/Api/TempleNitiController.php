@@ -36,12 +36,11 @@ public function manageNiti(Request $request)
                   ->from('temple__niti_details')
                   ->whereIn('niti_status', ['Started', 'Paused']);
         })
-
         ->get();
 
         // ✅ Get all Daily Nitis
         $dailyNitis = NitiMaster::where('status', 'active')
-            ->where('language', 'English')
+            ->where('language', 'Odia')
             ->where('niti_type', 'daily')
             ->orderBy('date_time', 'asc')
             ->with([
@@ -57,7 +56,7 @@ public function manageNiti(Request $request)
         // ✅ Get all Special Nitis grouped by after_special_niti
         $specialNitisGrouped = NitiMaster::where('status', 'active')
         ->where('niti_type', 'special')
-        ->where('language', 'English')
+        ->where('language', 'Odia')
         ->whereDate('date_time', $today) // ✅ Filter by today's date here
         ->with([
             'todayStartTime' => function ($query) use ($today) {
