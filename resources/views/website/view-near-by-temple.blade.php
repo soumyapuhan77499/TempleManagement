@@ -338,7 +338,6 @@
                     @endif
                     @if ($temple->google_map_link)
                         <li>
-                            <strong>Map:</strong><br>
                             <a href="{{ $temple->google_map_link }}" target="_blank" class="map-button">
                                 <i class="fa fa-map-marked-alt"></i> View on Google Map
                             </a>
