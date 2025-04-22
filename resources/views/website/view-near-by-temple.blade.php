@@ -15,7 +15,161 @@
             background: #fefefe;
         }
 
+        /* Tabs */
+        .tab-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            justify-content: space-between;
+        }
 
+        .tab-buttons button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #444;
+            transition: all 0.3s ease;
+        }
+
+        .tab-buttons button i {
+            color: #b31e25;
+            font-size: 15px;
+        }
+
+        .tab-buttons button:hover {
+            background-color: #fff;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .tab-buttons button.active {
+            background-color: #fff;
+            border-color: #b31e25;
+            color: #b31e25;
+        }
+
+        .tab-buttons button.active i {
+            color: #b31e25;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Set a fixed height for the temple section */
+        .temple-section-tabs {
+            display: flex;
+            max-width: 1250px;
+            height: 500px;
+            /* Fixed height for consistency */
+            margin: 60px auto;
+            background: #fff;
+            border-radius: 12px;
+            border: 1px solid rgb(213, 213, 213);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .temple-image {
+            width: 45%;
+            height: 100%;
+            background: #f5f5f5;
+            overflow: hidden;
+        }
+
+        .temple-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0;
+        }
+
+
+        .temple-tabs {
+            width: 55%;
+            padding: 30px;
+            height: 100%;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+
+        @media screen and (max-width: 768px) {
+            .temple-section-tabs {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .temple-image,
+            .temple-tabs {
+                width: 100%;
+                height: auto;
+            }
+
+            .temple-tabs {
+                max-height: unset;
+                overflow-y: unset;
+            }
+        }
+
+        /* Info list */
+        .info-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-list li {
+            margin-bottom: 10px;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .info-list li strong {
+            color: #b31e25;
+        }
+
+        /* Gallery grid */
+        .tab-content .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        .tab-content .gallery-grid img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 6px;
+            background: #f8f8f8;
+            border: 1px solid #ddd;
+        }
+
+        /* Footer and extras */
         .temple-section {
             display: flex;
             max-width: 1250px;
@@ -90,24 +244,13 @@
             color: #aaa;
             margin: 30px 0;
         }
-
-        @media screen and (max-width: 768px) {
-            .temple-section {
-                flex-direction: column;
-            }
-
-            .temple-left,
-            .temple-right {
-                padding: 30px 20px;
-            }
-        }
     </style>
+
 </head>
 
 <body>
-    
+
     @include('partials.header-puri-dham')
-  
 
     <section class="hero">
         <img class="hero-bg" src="{{ asset('website/parking.jpeg') }}" alt="Mandir Background" />
@@ -117,69 +260,118 @@
             <p>Discover sacred places close to your journey.</p>
         </div>
     </section>
-
     @php
         $photos = json_decode($temple->photo, true);
         $firstPhoto = $photos[0] ?? 'website/default-temple.jpg';
     @endphp
 
-    <section class="temple-section">
-        <div class="temple-left">
+    <section class="temple-section-tabs">
+        <div class="temple-image">
             <img src="{{ asset($firstPhoto) }}" alt="{{ $temple->name }}">
         </div>
-        <div class="temple-right">
-            <h3><i class="fa fa-eye"></i> Temple Overview</h3>
-            <p>{{ $temple->description ?? 'No description available.' }}</p>
+        <div class="temple-tabs">
+            <h2 class="text-2xl font-bold text-[#b31e25] mb-4">{{ $temple->name }}</h2>
 
-            <h3><i class="fa fa-map-marker-alt"></i> Location</h3>
-            <ul>
-                @if ($temple->distance_from_temple)
-                    <li><i class="fa fa-road"></i> {{ $temple->distance_from_temple }} from Jagannath Temple</li>
-                @endif
-                @if ($temple->city_village)
-                    <li><i class="fa fa-location-dot"></i> {{ $temple->city_village }}, {{ $temple->district }},
-                        {{ $temple->state }}</li>
-                @endif
-                @if ($temple->contact_no)
-                    <li><i class="fa fa-phone"></i> Contact: {{ $temple->contact_no }}</li>
-                @endif
-                @if ($temple->whatsapp_no)
-                    <li><i class="fab fa-whatsapp"></i> WhatsApp: {{ $temple->whatsapp_no }}</li>
-                @endif
-                @if ($temple->google_map_link)
-                    <li><i class="fa fa-map"></i>
-                        <a href="{{ $temple->google_map_link }}" target="_blank">View on Map</a>
-                    </li>
-                @endif
-            </ul>
+            <div class="tab-buttons">
+                <button class="tab-link" onclick="showTab(event, 'details')">Temple Details</button>
+                <button class="tab-link" onclick="showTab(event, 'history')">History</button>
+                <button class="tab-link active" onclick="showTab(event, 'address')">Address</button>
+                <button class="tab-link" onclick="showTab(event, 'description')">Description</button>
+                <button class="tab-link" onclick="showTab(event, 'gallery')">Photo Gallery</button>
+            </div>
 
-            <a href="{{ url()->previous() }}" class="btn-details">← Back</a>
+            <div id="address" class="tab-content active">
+                <ul class="info-list">
+                    @if ($temple->distance_from_temple)
+                        <li><strong>Distance:</strong> {{ $temple->distance_from_temple }}</li>
+                    @endif
+                    @if ($temple->city_village || $temple->district || $temple->state)
+                        <li><strong>Location:</strong> {{ $temple->city_village }}, {{ $temple->district }},
+                            {{ $temple->state }}</li>
+                    @endif
+                    @if ($temple->google_map_link)
+                        <li><strong>Map:</strong> <a href="{{ $temple->google_map_link }}" target="_blank">View on
+                                Google Map</a></li>
+                    @endif
+                </ul>
+            </div>
+
+            <div id="description" class="tab-content">
+                <p>{{ $temple->description ?? 'No description available.' }}</p>
+            </div>
+
+            <div id="history" class="tab-content">
+                <p>{{ $temple->history ?? 'No historical data available.' }}</p>
+            </div>
+
+            <div id="details" class="tab-content">
+                <ul class="info-list">
+                    @if ($temple->estd_date)
+                        <li><strong>Established:</strong> {{ $temple->estd_date }}</li>
+                    @endif
+                    @if ($temple->estd_by)
+                        <li><strong>Established By:</strong> {{ $temple->estd_by }}</li>
+                    @endif
+                    @if ($temple->committee_name)
+                        <li><strong>Committee:</strong> {{ $temple->committee_name }}</li>
+                    @endif
+                    @if ($temple->contact_no)
+                        <li><strong>Contact:</strong> {{ $temple->contact_no }}</li>
+                    @endif
+                    @if ($temple->whatsapp_no)
+                        <li><strong>WhatsApp:</strong> {{ $temple->whatsapp_no }}</li>
+                    @endif
+                    @if ($temple->email)
+                        <li><strong>Email:</strong> {{ $temple->email }}</li>
+                    @endif
+                    @if ($temple->priest_name)
+                        <li><strong>Priest:</strong> {{ $temple->priest_name }}</li>
+                    @endif
+                    @if ($temple->priest_contact_no)
+                        <li><strong>Priest Contact:</strong> {{ $temple->priest_contact_no }}</li>
+                    @endif
+                </ul>
+            </div>
+
+            <div id="gallery" class="tab-content">
+                @php
+                    $photos = json_decode($temple->photo, true);
+                @endphp
+
+                @if (!empty($photos))
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;">
+                        @foreach ($photos as $photo)
+                            <div
+                                style="border-radius: 8px; overflow: hidden; border: 1px solid #ddd; background: #fafafa;">
+                                <img src="{{ asset($photo) }}" alt="Temple Photo"
+                                    style="width: 100%; height: 180px; object-fit: cover;">
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <p>No photos available.</p>
+                @endif
+            </div>
         </div>
     </section>
-
-    @php
-        $secondPhoto = $photos[1] ?? null;
-    @endphp
-
-    @if ($secondPhoto && ($temple->history || $temple->description))
-        <section class="temple-section">
-            <div class="temple-left">
-                <h3><i class="fa fa-book-open"></i> History</h3>
-                <p>{{ $temple->history ?? 'No historical data available.' }}</p>
-
-                <h3><i class="fa fa-align-left"></i> Description</h3>
-                <p>{{ $temple->description ?? 'No description provided.' }}</p>
-            </div>
-            <div class="temple-right">
-                <img src="{{ asset($secondPhoto) }}" alt="Temple Image">
-            </div>
-        </section>
-    @endif
 
 
     <div class="timeline-footer">
         © {{ date('Y') }} Temple Management System. All rights reserved.
     </div>
+
+    <script>
+        function showTab(evt, tabId) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tab-link');
+
+            tabs.forEach(tab => tab.classList.remove('active'));
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+    </script>
 </body>
 
 </html>
