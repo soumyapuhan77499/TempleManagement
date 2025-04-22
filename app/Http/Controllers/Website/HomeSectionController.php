@@ -32,7 +32,7 @@ public function puriWebsite()
 
     // ✅ Step 1: Get only STARTED Niti (not Completed)
     $startedNitiManagement = NitiManagement::whereDate('date', $today)
-        ->where('niti_status', 'Started')
+        ->where('niti_status', ['Started','Paused'])
         ->orderBy('start_time', 'asc')
         ->first();
 
@@ -44,7 +44,7 @@ public function puriWebsite()
         // ✅ Get NitiMaster record of started one
         $startedNiti = NitiMaster::where('niti_id', $startedNitiManagement->niti_id)
             ->where('status', 'active')
-            ->where('niti_status', 'Started')
+            ->where('niti_status',  ['Started','Paused'])
             ->where('niti_privacy', 'public')
             ->where('language', 'English')
             ->first();
