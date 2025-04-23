@@ -65,6 +65,7 @@ public function manageNiti(Request $request)
         $specialNitisGrouped = NitiMaster::where('status', 'active')
             ->where('niti_type', 'special')
             ->where('language', 'Odia')
+            ->whereDate('date_time', $today) // ✅ Filter by today's date here
             ->with([
                 'todayStartTime' => function ($query) use ($latestDayId) {
                     $query->where('niti_status', 'Upcoming')
@@ -73,9 +74,9 @@ public function manageNiti(Request $request)
                 },
                 'subNitis'
             ])
-            ->whereHas('todayStartTime', function ($query) use ($latestDayId) {
-                $query->where('day_id', $latestDayId);
-            })
+            // ->whereHas('todayStartTime', function ($query) use ($latestDayId) {
+            //     $query->where('day_id', $latestDayId);
+            // })
             ->get()
             ->groupBy('after_special_niti');
 
