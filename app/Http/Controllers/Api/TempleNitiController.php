@@ -76,9 +76,7 @@ public function manageNiti(Request $request)
                 },
                 'subNitis'
             ])
-            // ->whereHas('todayStartTime', function ($query) use ($latestDayId) {
-            //     $query->where('day_id', $latestDayId);
-            // })
+            
             ->get()
             ->groupBy('after_special_niti');
 
@@ -86,10 +84,7 @@ public function manageNiti(Request $request)
         $otherNitis = NitiMaster::where('status', 'active')
             ->where('niti_type', 'other')
             ->where('niti_status', 'Started')
-            ->with(['subNitis'])
-            ->whereHas('todayStartTime', function ($query) use ($latestDayId) {
-                $query->where('day_id', $latestDayId);
-            })
+            ->where('day_id', $latestDayId)
             ->get();
 
         $finalNitiList = [];
