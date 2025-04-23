@@ -302,7 +302,7 @@ public function pauseNiti(Request $request)
 
            // ✅ Fetch NitiMaster and its day_id
            $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
-           
+
            if (!$nitiMaster) {
                return response()->json([
                    'status' => false,
@@ -577,7 +577,7 @@ public function stopNiti(Request $request)
 public function completedNiti()
 {
     try {
-        $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
+        $nitiMaster = NitiMaster::where('status', 'active')->first();
 
         if (!$nitiMaster || !$nitiMaster->day_id) {
             return response()->json([
