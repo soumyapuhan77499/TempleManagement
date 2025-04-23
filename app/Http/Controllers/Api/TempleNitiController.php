@@ -26,6 +26,8 @@ class TempleNitiController extends Controller
 public function manageNiti(Request $request)
 {
     try {
+        $today = Carbon::now('Asia/Kolkata')->toDateString();
+
         // Get latest active day_id from any active Niti (or generate logic separately)
         $latestDayId = NitiMaster::where('status', 'active')->latest('id')->value('day_id');
 
