@@ -13,6 +13,7 @@ class DarshanDetails extends Model
    
     protected $fillable = [
         'temple_id',
+        'day_id',
         'darshan_name',
         'darshan_type',
         'date',

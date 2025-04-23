@@ -15,6 +15,7 @@ class TempleSubNitiManagement extends Model
     protected $fillable = [
         'temple_id',
         'sebak_id',
+        'day_id',
         'niti_id',
         'sub_niti_id',
         'sub_niti_name',
