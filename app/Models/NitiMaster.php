@@ -45,6 +45,7 @@ class NitiMaster extends Model
 public function todayStartTime()
 {
     return $this->hasOne(NitiManagement::class, 'niti_id', 'niti_id')
+        ->where('niti_type', 'other')
         ->where('niti_status', 'Started')
         ->whereDate('date', now()->toDateString());
 }

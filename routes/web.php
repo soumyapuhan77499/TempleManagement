@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-## Home Controller
-
 ## Temple user Controller
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\MenuController;
