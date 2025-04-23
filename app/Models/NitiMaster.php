@@ -41,12 +41,11 @@ class NitiMaster extends Model
         // Ensuring the correct foreign key is used for `niti_items`
         return $this->hasMany(NitiItems::class, 'niti_id', 'niti_id');
     }
-
-
-public function todayStartTime()
+    
+public function todayStartCompleteTime()
 {
     return $this->hasOne(NitiManagement::class, 'niti_id', 'niti_id')
-        ->where('niti_status', 'Started')
+        ->where('niti_status', ['Started', 'Completed'])
         ->whereDate('date', now()->toDateString());
 }
 

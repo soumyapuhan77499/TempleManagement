@@ -59,7 +59,7 @@ class WebsiteBannerController extends Controller
                 ->where('niti_type', 'other')
                 ->where('niti_status', 'Started')
                 ->with(['subNitis'])
-                ->whereHas('todayStartTime')
+                ->whereHas('todayStartCompleteTime')
                 ->get();
 
             $mergedNitiList = [];
