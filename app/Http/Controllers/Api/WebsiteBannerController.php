@@ -59,11 +59,9 @@ class WebsiteBannerController extends Controller
                 ->where('niti_type', 'other')
                 ->where('niti_status', 'Started')
                 ->with(['subNitis'])
-                ->whereHas('todayStartTime', function ($query) use ($latestDayId) {
-                    $query->where('day_id', $latestDayId);
-                })
+                ->whereHas('todayStartTime')
                 ->get();
-    
+
             $mergedNitiList = [];
     
             foreach ($otherNitis as $otherNiti) {
