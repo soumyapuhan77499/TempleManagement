@@ -625,6 +625,8 @@ public function storeOtherNiti(Request $request)
             'niti_id'     => 'NITI' . rand(10000, 99999),
             'niti_name'   => $request->niti_name,
             'niti_type'   => 'other',
+            'language'   => 'Odia',
+            'niti_privacy'   => 'public',
             'niti_status' => 'Started',
             'date_time'   => $now->format('Y-m-d H:i:s'),
         ]);
