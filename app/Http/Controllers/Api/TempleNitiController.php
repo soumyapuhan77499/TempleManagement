@@ -75,10 +75,10 @@ public function manageNiti(Request $request)
           $otherNitis = NitiMaster::where('status', 'active')
           ->where('language', 'Odia')
           ->where('niti_type', 'other')
+          ->where('niti_status', 'Started')
           ->with(['subNitis'])
           ->whereHas('todayStartTime', function ($query) use ($today) {
-              $query->where('niti_status', 'Started')
-                    ->whereDate('date', $today);
+              $query->whereDate('date', $today);
           })
           ->get();
 
