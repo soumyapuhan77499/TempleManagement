@@ -69,7 +69,6 @@ public function manageNiti(Request $request)
         ->get()
         ->groupBy('after_special_niti');
     
-        $finalNitiList = [];
 
           // ✅ Other Nitis (based on management table status)
           $otherNitis = NitiMaster::where('status', 'active')
@@ -82,9 +81,10 @@ public function manageNiti(Request $request)
           })
           ->get();
 
+          $finalNitiList = [];
+
         // ✅ Add "Other" Nitis with today's started entry
         foreach ($otherNitis as $otherNiti) {
-            $matchingRunningSubNitis = $runningSubNitis->where('niti_id', $otherNiti->niti_id);
 
             $finalNitiList[] = [
                 'niti_id'     => $otherNiti->niti_id,
@@ -92,15 +92,6 @@ public function manageNiti(Request $request)
                 'niti_type'   => $otherNiti->niti_type,
                 'niti_status' => 'Started',
                 'start_time'  => optional($otherNiti->todayStartTime)->start_time,
-                'running_sub_niti' => $matchingRunningSubNitis->map(function ($sub) {
-                    return [
-                        'sub_niti_id'   => $sub->sub_niti_id,
-                        'sub_niti_name' => $sub->sub_niti_name,
-                        'start_time'    => $sub->start_time,
-                        'status'        => $sub->status,
-                        'date'          => $sub->date,
-                    ];
-                })->values()
             ];
         }
 

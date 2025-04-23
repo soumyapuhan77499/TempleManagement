@@ -50,7 +50,28 @@ class WebsiteBannerController extends Controller
             ->get()
             ->groupBy('after_special_niti');
 
+             // ✅ Other Nitis (based on management table status)
+          $otherNitis = NitiMaster::where('status', 'active')
+            ->where('niti_type', 'other')
+            ->where('niti_status', 'Started')
+            ->with(['subNitis'])
+            ->whereHas('todayStartTime', function ($query) use ($today) {
+                $query->whereDate('date', $today);
+            })
+            ->get();
+
         $mergedNitiList = [];
+
+        foreach ($otherNitis as $otherNiti) {
+
+            $mergedNitiList[] = [
+                'niti_id'     => $otherNiti->niti_id,
+                'niti_name'   => $otherNiti->niti_name,
+                'niti_type'   => $otherNiti->niti_type,
+                'niti_status' => 'Started',
+                'start_time'  => optional($otherNiti->todayStartTime)->start_time,
+            ];
+        }
 
         foreach ($dailyNitis as $dailyNiti) {
             $matchingRunningSubNitis = $runningSubNitis->where('niti_id', $dailyNiti->niti_id);
