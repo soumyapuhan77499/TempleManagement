@@ -73,7 +73,7 @@ public function manageNiti(Request $request)
 
           // ✅ Other Nitis (based on management table status)
           $otherNitis = NitiMaster::where('status', 'active')
-          ->where('language', 'Odia')
+        //   ->where('language', 'Odia')
           ->where('niti_type', 'other')
           ->where('niti_status', 'Started')
           ->with(['subNitis'])
