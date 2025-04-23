@@ -22,118 +22,91 @@ use Illuminate\Support\Facades\DB;
 
 class TempleNitiController extends Controller
 {
-    
-    public function manageNiti(Request $request)
-    {
-        try {
-            $today = Carbon::now('Asia/Kolkata')->toDateString();
-    
-            // ✅ Fetch Running Sub Nitis
-            $runningSubNitis = TempleSubNitiManagement::where('status', '!=', 'Deleted')
-                ->whereDate('date', $today)
-                ->whereIn('niti_id', function ($query) {
-                    $query->select('niti_id')
-                        ->from('temple__niti_details')
-                        ->whereIn('niti_status', ['Started', 'Paused']);
-                })
-                ->get();
-    
-            // ✅ Daily Nitis
-            $dailyNitis = NitiMaster::where('status', 'active')
-                ->where('language', 'Odia')
-                ->where('niti_type', 'daily')
-                ->orderBy('date_time', 'asc')
-                ->with([
-                    'todayStartTime',
-                    'subNitis'
-                ])
-                ->get();
-    
-            // ✅ Special Nitis grouped
-            $specialNitisGrouped = NitiMaster::where('status', 'active')
-                ->where('niti_type', 'special')
-                ->where('language', 'Odia')
-                ->whereDate('date_time', $today)
-                ->with([
-                    'todayStartTime',
-                    'subNitis'
-                ])
-                ->get()
-                ->groupBy('after_special_niti');
-    
-            // ✅ Other Nitis (based on management table status)
-            $otherNitis = NitiMaster::where('status', 'active')
-                ->where('language', 'Odia')
-                ->where('niti_type', 'other')
-                ->with(['subNitis'])
-                ->whereHas('todayStartTime', function ($query) use ($today) {
+
+public function manageNiti(Request $request)
+{
+    try {
+        $today = Carbon::now('Asia/Kolkata')->toDateString();
+
+        // ✅ Fetch Running Sub Nitis
+        $runningSubNitis = TempleSubNitiManagement::where('status', '!=', 'Deleted')
+        ->whereDate('date', $today)
+        ->whereIn('niti_id', function ($query) {
+            $query->select('niti_id')
+                  ->from('temple__niti_details')
+                  ->whereIn('niti_status', ['Started', 'Paused']);
+        })
+        ->get();
+
+        // ✅ Get all Daily Nitis
+        $dailyNitis = NitiMaster::where('status', 'active')
+            ->where('language', 'Odia')
+            ->where('niti_type', 'daily')
+            ->orderBy('date_time', 'asc')
+            ->with([
+                'todayStartTime' => function ($query) use ($today) {
                     $query->where('niti_status', 'Started')
-                          ->whereDate('date', $today);
-                })
-                ->get();
+                        ->whereDate('date', $today)
+                        ->select('niti_id', 'start_time');
+                },
+                'subNitis'
+            ])
+            ->get();
+
+        // ✅ Get all Special Nitis grouped by after_special_niti
+        $specialNitisGrouped = NitiMaster::where('status', 'active')
+        ->where('niti_type', 'special')
+        ->where('language', 'Odia')
+        ->whereDate('date_time', $today) // ✅ Filter by today's date here
+        ->with([
+            'todayStartTime' => function ($query) use ($today) {
+                $query->where('niti_status', 'Upcoming')
+                    ->whereDate('date', $today) // ✅ This is correct for related table (if separate date field exists)
+                    ->select('niti_id', 'start_time');
+            },
+            'subNitis'
+        ])
+        ->get()
+        ->groupBy('after_special_niti');
     
-            $finalNitiList = [];
-    
-            // ✅ Process Daily Nitis
-            foreach ($dailyNitis as $dailyNiti) {
-                $matchingRunningSubNitis = $runningSubNitis->where('niti_id', $dailyNiti->niti_id);
-    
-                $finalNitiList[] = [
-                    'niti_id'     => $dailyNiti->niti_id,
-                    'niti_name'   => $dailyNiti->niti_name,
-                    'niti_type'   => $dailyNiti->niti_type,
-                    'niti_status' => $dailyNiti->niti_status,
-                    'start_time'  => optional($dailyNiti->todayStartTime)->start_time,
-                    'after_special_niti_name' => null,
-                    'running_sub_niti' => $matchingRunningSubNitis->map(function ($sub) {
-                        return [
-                            'sub_niti_id'   => $sub->sub_niti_id,
-                            'sub_niti_name' => $sub->sub_niti_name,
-                            'start_time'    => $sub->start_time,
-                            'status'        => $sub->status,
-                            'date'          => $sub->date,
-                        ];
-                    })->values()
-                ];
-    
-                // ✅ Inject Special Nitis
-                $specialNitis = $specialNitisGrouped->get($dailyNiti->niti_id, collect());
-    
-                foreach ($specialNitis as $specialNiti) {
-                    $matchingSpecialRunningSubNitis = $runningSubNitis->where('niti_id', $specialNiti->niti_id);
-    
-                    $finalNitiList[] = [
-                        'niti_id'     => $specialNiti->niti_id,
-                        'niti_name'   => $specialNiti->niti_name,
-                        'niti_type'   => $specialNiti->niti_type,
-                        'niti_status' => $specialNiti->niti_status,
-                        'start_time'  => optional($specialNiti->todayStartTime)->start_time,
-                        'after_special_niti_name' => $dailyNiti->niti_name,
-                        'running_sub_niti' => $matchingSpecialRunningSubNitis->map(function ($sub) {
-                            return [
-                                'sub_niti_id'   => $sub->sub_niti_id,
-                                'sub_niti_name' => $sub->sub_niti_name,
-                                'start_time'    => $sub->start_time,
-                                'status'        => $sub->status,
-                                'date'          => $sub->date,
-                            ];
-                        })->values()
+        $finalNitiList = [];
+
+        // ✅ Loop through daily Nitis and inject related special Nitis after them
+        foreach ($dailyNitis as $dailyNiti) {
+            $matchingRunningSubNitis = $runningSubNitis->where('niti_id', $dailyNiti->niti_id);
+
+            $finalNitiList[] = [
+                'niti_id'     => $dailyNiti->niti_id,
+                'niti_name'   => $dailyNiti->niti_name,
+                'niti_type'   => $dailyNiti->niti_type,
+                'niti_status' => $dailyNiti->niti_status,
+                'start_time'  => optional($dailyNiti->todayStartTime)->start_time,
+                'after_special_niti_name' => null,
+                'running_sub_niti' => $matchingRunningSubNitis->map(function ($sub) {
+                    return [
+                        'sub_niti_id'   => $sub->sub_niti_id,
+                        'sub_niti_name' => $sub->sub_niti_name,
+                        'start_time'    => $sub->start_time,
+                        'status'        => $sub->status,
+                        'date'          => $sub->date,
                     ];
-                }
-            }
-    
-            // ✅ Add "Other" Nitis with today's started entry
-            foreach ($otherNitis as $otherNiti) {
-                $matchingRunningSubNitis = $runningSubNitis->where('niti_id', $otherNiti->niti_id);
-    
+                })->values()
+            ];
+
+            // ✅ Inject special Nitis meant to appear after this daily Niti
+            $specialNitis = $specialNitisGrouped->get($dailyNiti->niti_id, collect());
+
+            foreach ($specialNitis as $specialNiti) {
+                $matchingSpecialRunningSubNitis = $runningSubNitis->where('niti_id', $specialNiti->niti_id);
+
                 $finalNitiList[] = [
-                    'niti_id'     => $otherNiti->niti_id,
-                    'niti_name'   => $otherNiti->niti_name,
-                    'niti_type'   => $otherNiti->niti_type,
-                    'niti_status' => 'Started',
-                    'start_time'  => optional($otherNiti->todayStartTime)->start_time,
-                    'after_special_niti_name' => null,
-                    'running_sub_niti' => $matchingRunningSubNitis->map(function ($sub) {
+                    'niti_id'     => $specialNiti->niti_id,
+                    'niti_name'   => $specialNiti->niti_name,
+                    'niti_type'   => $specialNiti->niti_type,
+                    'niti_status' => $specialNiti->niti_status,
+                    'start_time'  => optional($specialNiti->todayStartTime)->start_time,
+                    'after_special_niti_name' => $dailyNiti->niti_name,
+                    'running_sub_niti' => $matchingSpecialRunningSubNitis->map(function ($sub) {
                         return [
                             'sub_niti_id'   => $sub->sub_niti_id,
                             'sub_niti_name' => $sub->sub_niti_name,
@@ -144,24 +117,25 @@ class TempleNitiController extends Controller
                     })->values()
                 ];
             }
-    
-            return response()->json([
-                'status' => true,
-                'message' => 'Niti list (daily + special + other started) compiled successfully.',
-                'data' => $finalNitiList
-            ], 200);
-    
-        } catch (\Exception $e) {
-            Log::error('Error fetching Niti list: ' . $e->getMessage());
-    
-            return response()->json([
-                'status' => false,
-                'message' => 'Something went wrong while fetching Niti data.',
-                'error' => $e->getMessage()
-            ], 500);
         }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Niti list ordered with special Nitis inserted after respective daily Nitis.',
+            'data' => $finalNitiList
+        ], 200);
+
+    } catch (\Exception $e) {
+        Log::error('Error fetching Niti list: ' . $e->getMessage());
+
+        return response()->json([
+            'status' => false,
+            'message' => 'Something went wrong while fetching Niti data.',
+            'error' => $e->getMessage()
+        ], 500);
     }
-    
+}
+
 public function startNiti(Request $request)
 {
     try {
