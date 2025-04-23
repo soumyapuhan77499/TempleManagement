@@ -82,10 +82,13 @@ public function manageNiti(Request $request)
 
         // ✅ Other Nitis (based on management table status)
         $otherNitis = NitiMaster::where('status', 'active')
-            ->where('niti_type', 'other')
-            ->where('niti_status', 'Started')
-            ->where('day_id', $latestDayId)
-            ->get();
+        ->where('niti_type', 'other')
+        ->where('niti_status', 'Started')
+        ->with(['subNitis'])
+        ->whereHas('todayStartTime', function ($query) use ($latestDayId) {
+            $query->where('day_id', $latestDayId);
+        })
+        ->get();
 
         $finalNitiList = [];
 
@@ -832,7 +835,7 @@ public function startSubNiti(Request $request)
         }
 
         // ✅ Get day_id from parent Niti
-        $nitiMaster = NitiMaster::where('niti_id', $subNiti->niti_id)->first();
+        $nitiMaster = NitiMaster::where('status', 'active')->first();
 
         if (!$nitiMaster || !$nitiMaster->day_id) {
             return response()->json([
@@ -913,7 +916,7 @@ public function addAndStartSubNiti(Request $request)
         $today = $now->toDateString();
 
         // ✅ Get Niti and day_id
-        $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
+        $nitiMaster = NitiMaster::where('status','active')->first();
 
         if (!$nitiMaster || !$nitiMaster->day_id) {
             return response()->json([
