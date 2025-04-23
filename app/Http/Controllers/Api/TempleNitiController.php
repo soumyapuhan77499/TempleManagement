@@ -300,6 +300,18 @@ public function pauseNiti(Request $request)
             ], 401);
         }
 
+           // ✅ Fetch NitiMaster and its day_id
+           $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
+           
+           if (!$nitiMaster) {
+               return response()->json([
+                   'status' => false,
+                   'message' => 'Niti not found.'
+               ], 404);
+           }
+   
+           $dayId = $nitiMaster->day_id ?? null;
+
         // ✅ Get today's date in IST
         $today = Carbon::now('Asia/Kolkata')->toDateString();
 
@@ -319,6 +331,7 @@ public function pauseNiti(Request $request)
 
         // ✅ Try to get the day_id from the started entry or from NitiMaster
         $dayId = $startedNiti->day_id;
+
         if (!$dayId) {
             $dayId = optional(NitiMaster::where('niti_id', $request->niti_id)->first())->day_id;
         }
