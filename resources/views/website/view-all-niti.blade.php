@@ -169,6 +169,13 @@
     }
 }
 
+.sub-nitis {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #ddd;
+}
+
+
     </style>
     
 </head>
@@ -240,16 +247,20 @@
                     </div>
                 @endif
 
-                @if (!empty($niti['running_sub_niti']))
-                    <div>
-                        <strong>Sub Nitis:</strong>
-                        <ul style="padding-left: 20px;">
-                            @foreach ($niti['running_sub_niti'] as $sub)
+                @if (!empty($niti['running_sub_niti']) && count($niti['running_sub_niti']) > 0)
+                <div class="sub-nitis">
+                    <strong>Sub Nitis:</strong>
+                    <ul style="padding-left: 20px;">
+                        @foreach ($niti['running_sub_niti'] as $sub)
+                            @if (!empty($sub['sub_niti_name']))
                                 <li>{{ $sub['sub_niti_name'] }} ({{ $sub['status'] ?? 'Pending' }})</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+                            @endif
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            
+            
             </div>
         </div>
     @endforeach
