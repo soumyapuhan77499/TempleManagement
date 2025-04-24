@@ -237,57 +237,54 @@
     <script>
         const tabData = {
             aboutTemple: {
-                title: "About Temple",
+                title: "Lord Supreme",
                 subtitle: @json(strip_tags($aboutTemple->temple_about ?? 'No about content available')),
                 description: @json(strip_tags($aboutTemple->temple_history ?? 'No history available')),
-                image: "website/ss.jpg"
+                image: "website/temple_info/sup.png"
             },
 
             shreeKhetra: {
-                title: "Shree Khetra",
+                title: "Through The Ages",
                 subtitle: "The Holy Land of Lord Jagannath",
                 description: "Shree Kshetra, also known as Puri, is one of the holiest pilgrimage sites in India and one of the sacred Char Dham (four divine abodes) established by Adi Shankaracharya. It is the eternal home of Lord Jagannath, the Lord of the Universe, along with his siblings Balabhadra and Subhadra.",
-                image: "website/sankha.png"
+                image: "website/temple_info/age.png"
             },
 
-            mathaAshram: {
-                title: "Matha & Ashram",
+            tradition: {
+                title: "Living Tradition",
                 subtitle: @json($matha->matha_name ?? 'No matha info'),
                 description: @json($matha->description ?? 'No description available'),
-                image: "website/ashram.png"
+                image: "website/temple_info/tradition.png"
             },
 
             festivals: {
                 title: "Festivals",
                 subtitle: @json($festival->festival_name ?? 'No festivals'),
                 description: @json($festival->description ?? 'No description available'),
-                image: "website/dipa.png"
+                image: "website/temple_info/festival.jpeg"
             },
 
-            nijoga: {
-                title: "36 Nijoga",
+            ratha: {
+                title: "Ratha Yatra",
                 subtitle: @json($nijoga->nijoga_name ?? 'No nijoga data'),
                 description: @json($nijoga->description ?? 'No description available'),
-                image: "website/nijoga.png"
+                image: "website/temple_info/ratha.png"
             },
-            besha: {
-                title: "Besha",
+
+           services: {
+                title: "Visitor Services",
                 subtitle: @json($besha->besha_name ?? 'No besha available'),
                 description: @json($besha->description ?? 'No description available'),
-                image: "website/besha.jpg"
+                image: "website/temple_info/devt.png"
             },
-            darshan: {
-                title: "Darshan Facility",
+
+            management: {
+                title: "Management",
                 subtitle: @json($darshan->darshan_name ?? 'No darshan info'),
                 description: @json($darshan->description ?? 'No description available'),
-                image: "website/dsn.png"
+                image: "website/temple_info/management.jpg"
             },
-            prasad: {
-                title: "Maha Prasad",
-                subtitle: @json($prasad->prasad_name ?? 'No prasad info'),
-                description: @json($prasad->description ?? 'No description available'),
-                image: "website/mp.png"
-            }
+           
         };
     </script>
 
