@@ -202,7 +202,7 @@
         <div class="flex justify-center items-center gap-6 mt-5 mb-12">
             <div id="navContainer" class="flex gap-5 overflow-x-auto no-scrollbar">
                 <div class="tab-item text-center min-w-[100px] cursor-pointer active-tab" data-tab="aboutTemple">
-                    <img src="{{ asset('website/temple_info/supreme.jpeg') }}" class="mx-auto w-20 h-20" style="border-radius: 50%">
+                    <img src="{{ asset('website/temple_info/supreme.jpeg') }}" class="mx-auto w-25 h-25" style="border-radius: 50%">
                     <p class="text-red-600 font-semibold mt-3">Lord Supreme</p>
                     <div class="h-1 bg-red-500 w-full mt-1"></div>
                 </div>
