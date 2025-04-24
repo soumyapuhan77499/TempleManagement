@@ -653,6 +653,7 @@ public function storeOtherNiti(Request $request)
             'niti_id'   => 'nullable|string',
         ]);
 
+        $now = Carbon::now()->setTimezone('Asia/Kolkata');
         $user = Auth::guard('niti_admin')->user();
 
         if (!$user) {
