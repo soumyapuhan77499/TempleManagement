@@ -189,6 +189,13 @@
     color: #fff;
 }
 
+.Started .niti-title .underline {
+            width: 60px;
+            height: 4px;
+            background-color: #f0ebeb;
+            margin-top: 4px;
+        }
+
 .Started .niti-title h3 {
     color: #ffae35;
 }
