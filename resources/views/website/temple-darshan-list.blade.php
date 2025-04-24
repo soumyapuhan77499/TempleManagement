@@ -191,8 +191,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 60px;
-            width: 80px;
+            height: 150px;
+            width: 100%;
             margin-bottom: 15px;
         }
 
@@ -250,7 +250,7 @@
     
                     @if ($darshan->darshan_name)
                         <div class="darshan-img-wrapper" style="margin-bottom: 10px;">
-                            <img src="{{ asset('website/prasad.png') }}" alt="{{ $darshan->darshan_name }}" style="width: 100%; max-width: 300px; border-radius: 10px;">
+                            <img src="{{ asset('website/darshan.png') }}" alt="{{ $darshan->darshan_name }}" style="width: 100%; max-width: 300px; border-radius: 10px;">
                         </div>
                     @endif
     
