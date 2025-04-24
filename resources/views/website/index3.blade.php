@@ -213,30 +213,27 @@
                 </div>
 
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="nijoga">
-                    <img src="{{ asset('website/temple_info/tradition.jpeg') }}" style="border-radius: 50%;height: 80px;width: 80px">
+                    <img src="{{ asset('website/temple_info/tradition.jpeg') }}"  class="mx-auto w-20 h-20" style="border-radius: 50%">
                     <p class="text-gray-500 mt-3">Living Tradition</p>
                 </div>
 
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="festivals">
-                    <img src="{{ asset('website/temple_info/festival.jpeg') }}" style="border-radius: 50%;height: 80px;width: 80px">
+                    <img src="{{ asset('website/temple_info/festival.jpeg') }}"  class="mx-auto w-20 h-20" style="border-radius: 50%">
                     <p class="text-gray-500 mt-3">Festivals</p>
                 </div>
 
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="besha">
-                    <img src="{{ asset('website/temple_info/ratha.jpeg') }}" style="border-radius: 50%;height: 80px;width: 80px">
+                    <img src="{{ asset('website/temple_info/ratha.jpeg') }}"  class="mx-auto w-20 h-20" style="border-radius: 50%">
                     <p class="text-gray-500 mt-3">Ratha Yatra</p>
                 </div>
+
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="darshan">
-                    <img src="{{ asset('website/temple_info/darashan.jpg') }}" style="border-radius: 50%;height: 80px;width: 80px">
+                    <img src="{{ asset('website/temple_info/darashan.jpg') }}"  class="mx-auto w-20 h-20" style="border-radius: 50%">
                     <p class="text-gray-500 mt-3">Visitor Services</p>
                 </div>
-                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="prasad">
-                    <img src="{{ asset('website/mp.png') }}" style="border-radius: 50%;height: 80px;width: 80px">
-                    <p class="text-gray-500 mt-3">Maha Prasad</p>
-                </div>
-
+              
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="mathaAshram">
-                    <img src="{{ asset('website/temple_info/management.jpg') }}" style="border-radius: 50%;height: 80px;width: 80px">
+                    <img src="{{ asset('website/temple_info/management.jpg') }}"  class="mx-auto w-20 h-20" style="border-radius: 50%">
                     <p class="text-gray-500 mt-3">Management</p>
                 </div>
             </div>
