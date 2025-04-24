@@ -12,6 +12,7 @@ class TemplePrasad extends Model
     protected $table = 'temple__prasad_details';
     
     protected $fillable = [
+        'language',
         'temple_id',
         'day_id',
         'prasad_name',

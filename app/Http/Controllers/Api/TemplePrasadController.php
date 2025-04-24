@@ -260,7 +260,7 @@ public function getPrasadApi()
         $dayId = $nitiMaster->day_id;
 
         // Step 2: Get all active Prasad
-        $prasad = TemplePrasad::where('status', 'active')->get();
+        $prasad = TemplePrasad::where('status', 'active')->where('language','Odia')->get();
 
         // Step 3: For each prasad, fetch today's management entry by day_id
         $prasadList = $prasad->map(function ($prasadItem) use ($dayId) {
