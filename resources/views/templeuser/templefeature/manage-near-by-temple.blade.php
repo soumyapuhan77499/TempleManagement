@@ -148,7 +148,6 @@
                                                             <p><strong>District:</strong> {{ $nearbytemple->district }}</p>
                                                             <p><strong>State:</strong> {{ $nearbytemple->state ?? 'N/A' }}</p>
                                                             <p><strong>Country:</strong> {{ $nearbytemple->country ?? 'N/A' }}</p>
-                                                            
                                                         </div>
                                                         
                                                         <div class="modal-footer">

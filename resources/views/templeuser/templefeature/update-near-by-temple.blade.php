@@ -191,9 +191,6 @@
                             </div>
 
                           
-                    
-                        
-                            
                             <div class="col-md-12 form-group">
                                 <label for="description">Description</label>
                                 <textarea class="form-control" id="description" name="description">{{ old('description', $temple->description) }}</textarea>
@@ -204,7 +201,6 @@
                         <button type="submit" class="btn btn-success mt-3">Update</button>
                     </form>
                     
-
                 </div>
             </div>
         </div>

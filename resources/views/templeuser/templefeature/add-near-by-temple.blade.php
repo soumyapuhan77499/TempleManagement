@@ -61,7 +61,7 @@
                             </div>
 
                             <div class="col-md-3">
-                                <label for="map_photo">Photo</label>
+                                <label for="map_photo">Map Photo</label>
                                 <input type="file" class="form-control" id="map_photo" name="map_photo">
                             </div>
 

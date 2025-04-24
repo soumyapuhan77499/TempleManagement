@@ -64,7 +64,6 @@ class QuickServiceController extends Controller
         }
     }
     
-
     public function getAccomodationList(Request $request)
     {
         try {
@@ -162,7 +161,6 @@ class QuickServiceController extends Controller
         }
     }
     
-
     public function getEmergencyContacts(Request $request)
     {
         try {
@@ -197,109 +195,109 @@ class QuickServiceController extends Controller
     }
 
     public function getPublicServiceList(Request $request)
-{
-    try {
-        $templeId = 'TEMPLE25402';
+    {
+        try {
+            $templeId = 'TEMPLE25402';
 
-        if (!$templeId) {
+            if (!$templeId) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Temple ID is required.'
+                ], 400);
+            }
+
+            $services = PublicServices::where('temple_id', $templeId)
+                ->where('status', 'active')
+                ->get()
+                ->map(function ($service) {
+                    $photoArray = json_decode($service->photo, true);
+
+                    if ($service->service_type === 'beach') {
+                        // Return full URL for each photo in array
+                        $service->photo = array_map(function ($path) {
+                            return 'http://temple.mandirparikrama.com/' . ltrim($path, '/');
+                        }, $photoArray ?? []);
+                    } else {
+                        // Return only the first image as a string
+                        $service->photo = isset($photoArray[0])
+                            ? 'http://temple.mandirparikrama.com/' . ltrim($photoArray[0], '/')
+                            : null;
+                    }
+
+                    return $service;
+                });
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Public services fetched successfully.',
+                'data' => $services
+            ], 200);
+
+        } catch (\Exception $e) {
+            Log::error('Error fetching public services: ' . $e->getMessage());
+
             return response()->json([
                 'status' => false,
-                'message' => 'Temple ID is required.'
-            ], 400);
+                'message' => 'Internal Server Error',
+                'error' => $e->getMessage()
+            ], 500);
         }
+    }
 
-        $services = PublicServices::where('temple_id', $templeId)
-            ->where('status', 'active')
-            ->get()
-            ->map(function ($service) {
-                $photoArray = json_decode($service->photo, true);
+    public function getTemplePrasadList()
+    {
+        try {
+    $nitiMaster = NitiMaster::where('status', 'active')->latest()->first();
 
-                if ($service->service_type === 'beach') {
-                    // Return full URL for each photo in array
-                    $service->photo = array_map(function ($path) {
-                        return 'http://temple.mandirparikrama.com/' . ltrim($path, '/');
-                    }, $photoArray ?? []);
-                } else {
-                    // Return only the first image as a string
-                    $service->photo = isset($photoArray[0])
-                        ? 'http://temple.mandirparikrama.com/' . ltrim($photoArray[0], '/')
-                        : null;
-                }
+    if (!$nitiMaster || !$nitiMaster->day_id) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Niti not found or day_id missing.'
+        ], 404);
+    }
 
-                return $service;
+    $dayId = $nitiMaster->day_id;
+            // Step 1: Get all Prasad master records
+            $prasads = TemplePrasad::where('language','Odia')->get();
+
+            // Step 2: Attach today's PrasadManagement data
+            $prasadList = $prasads->map(function ($prasad) use ($dayId) {
+                $todayLog = PrasadManagement::where('prasad_id', $prasad->id)
+                ->where('day_id', $dayId)
+                    ->latest()
+                    ->first();
+
+                return [
+                    'prasad_id'     => $prasad->id,
+                    'prasad_name'   => $prasad->prasad_name,
+                    'prasad_type'   => $prasad->prasad_type,
+                    'prasad_photo'  => $prasad->prasad_photo,
+                    'prasad_item'   => $prasad->prasad_item,
+                    'description'   => $prasad->description,
+                    'online_order'  => $prasad->online_order,
+                    'pre_order'     => $prasad->pre_order,
+                    'offline_order' => $prasad->offline_order,
+                    'master_prasad_status' => $prasad->prasad_status,
+                    'today_status'  => $prasad->prasad_status ?? null,
+                    'start_time'    => $todayLog->start_time ?? null,
+                    'date'          => $todayLog->date ?? null,
+                ];
             });
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Public services fetched successfully.',
-            'data' => $services
-        ], 200);
+            return response()->json([
+                'status' => true,
+                'message' => 'Filtered Prasad list fetched successfully.',
+                'data' => $prasadList
+            ], 200);
 
-    } catch (\Exception $e) {
-        Log::error('Error fetching public services: ' . $e->getMessage());
-
-        return response()->json([
-            'status' => false,
-            'message' => 'Internal Server Error',
-            'error' => $e->getMessage()
-        ], 500);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to fetch prasad list.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
-}
-
-public function getTemplePrasadList()
-{
-    try {
-  $nitiMaster = NitiMaster::where('status', 'active')->latest()->first();
-
-  if (!$nitiMaster || !$nitiMaster->day_id) {
-      return response()->json([
-          'status' => false,
-          'message' => 'Niti not found or day_id missing.'
-      ], 404);
-  }
-
-  $dayId = $nitiMaster->day_id;
-        // Step 1: Get all Prasad master records
-        $prasads = TemplePrasad::where('language','Odia')->get();
-
-        // Step 2: Attach today's PrasadManagement data
-        $prasadList = $prasads->map(function ($prasad) use ($dayId) {
-            $todayLog = PrasadManagement::where('prasad_id', $prasad->id)
-            ->where('day_id', $dayId)
-                ->latest()
-                ->first();
-
-            return [
-                'prasad_id'     => $prasad->id,
-                'prasad_name'   => $prasad->prasad_name,
-                'prasad_type'   => $prasad->prasad_type,
-                'prasad_photo'  => $prasad->prasad_photo,
-                'prasad_item'   => $prasad->prasad_item,
-                'description'   => $prasad->description,
-                'online_order'  => $prasad->online_order,
-                'pre_order'     => $prasad->pre_order,
-                'offline_order' => $prasad->offline_order,
-                'master_prasad_status' => $prasad->prasad_status,
-                'today_status'  => $prasad->prasad_status ?? null,
-                'start_time'    => $todayLog->start_time ?? null,
-                'date'          => $todayLog->date ?? null,
-            ];
-        });
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Filtered Prasad list fetched successfully.',
-            'data' => $prasadList
-        ], 200);
-
-    } catch (\Exception $e) {
-        return response()->json([
-            'status' => false,
-            'message' => 'Failed to fetch prasad list.',
-            'error' => $e->getMessage()
-        ], 500);
-    }
-}
 
 public function getPanji(Request $request)
 {
@@ -418,6 +416,5 @@ public function getDarshanListApi()
         ], 500);
     }
 }
-
 
 }
