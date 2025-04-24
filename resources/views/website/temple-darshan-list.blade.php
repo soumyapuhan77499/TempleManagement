@@ -192,6 +192,7 @@
             justify-content: center;
             align-items: center;
             height: 150px;
+            max-width: 80px;
             width: 100%;
             margin-bottom: 15px;
         }
