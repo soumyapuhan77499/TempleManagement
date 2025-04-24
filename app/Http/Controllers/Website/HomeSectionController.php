@@ -46,14 +46,14 @@ public function puriWebsite()
             ->where('status', 'active')
             ->where('niti_status',  ['Started','Paused'])
             ->where('niti_privacy', 'public')
-            ->where('language', 'English')
+            ->where('language', 'Odia')
             ->first();
 
         if ($startedNiti) {
             // ✅ Get next UPCOMING Niti based on date_time
             $nextUpcomingNiti = NitiMaster::where('status', 'active')
                 ->where('niti_privacy', 'public')
-                ->where('language', 'English')
+                ->where('language', 'Odia')
                 ->where('niti_status', 'Upcoming')
                 ->where('date_time', '>', $startedNiti->date_time)
                 ->orderBy('date_time', 'asc')
@@ -65,7 +65,7 @@ public function puriWebsite()
         // ✅ Fallback: show first 2 UPCOMING Nitis from master
         $nitis = NitiMaster::where('status', 'active')
             ->where('niti_privacy', 'public')
-            ->where('language', 'English')
+            ->where('language', 'Odia')
             ->where('niti_status', 'Upcoming')
             ->orderBy('date_time', 'asc')
             ->take(2)
