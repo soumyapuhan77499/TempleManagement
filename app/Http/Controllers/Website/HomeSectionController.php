@@ -89,45 +89,50 @@ public function puriWebsite()
 
 public function viewAllNiti()
 {
-    $today = now('Asia/Kolkata')->toDateString();
+    // ✅ Get latest active day_id
+    $latestDayId = NitiMaster::where('status', 'active')->latest('id')->value('day_id');
 
-    // ✅ Fetch Running or Completed Sub Nitis for today
+    if (!$latestDayId) {
+        return response()->json([
+            'status' => false,
+            'message' => 'No active Niti found to determine day_id.'
+        ], 404);
+    }
+
+    // ✅ Fetch Running or Completed Sub Nitis under this day_id
     $runningSubNitis = TempleSubNitiManagement::whereIn('status', ['Running', 'Completed'])
-        ->whereDate('date', $today)
+        ->where('day_id', $latestDayId)
         ->get();
 
-    // ✅ Fetch Daily Nitis (active + public)
+    // ✅ Fetch Daily Nitis (active + public + this day_id)
     $dailyNitis = NitiMaster::where('status', 'active')
         ->where('niti_type', 'daily')
         ->where('language', 'Odia')
         ->where('niti_privacy', 'public')
+        ->where('day_id', $latestDayId)
         ->orderBy('date_time', 'asc')
         ->get();
 
-    // ✅ Fetch Special Nitis (active + public + today) grouped by their position
+    // ✅ Fetch Special Nitis (active + public + this day_id) grouped by their position
     $specialNitis = NitiMaster::where('status', 'active')
         ->where('niti_type', 'special')
         ->where('language', 'Odia')
         ->where('niti_privacy', 'public')
-        ->whereDate('date_time', $today)
+        ->where('day_id', $latestDayId)
         ->get()
         ->groupBy('after_special_niti');
 
-    // ✅ Final Merged List
     $mergedNitiList = [];
 
     foreach ($dailyNitis as $dailyNiti) {
-        // 🔄 Get management details for the current daily Niti
         $dailyManagement = NitiManagement::where('niti_id', $dailyNiti->niti_id)
-        ->whereDate('date', $today)
-        ->whereNotNull('end_time') // ✅ ensures we only get a completed session
-        ->latest('end_time')       // sort by end time, in case multiple ended today
-        ->first();
+            ->where('day_id', $latestDayId)
+            ->whereNotNull('end_time')
+            ->latest('end_time')
+            ->first();
 
-        // 🔄 Get running sub Nitis of this daily Niti
         $matchingRunningSubNitis = $runningSubNitis->where('niti_id', $dailyNiti->niti_id);
 
-        // ✅ Append Daily Niti
         $mergedNitiList[] = [
             'niti_id'       => $dailyNiti->niti_id,
             'niti_name'     => $dailyNiti->niti_name,
@@ -157,12 +162,11 @@ public function viewAllNiti()
             })->values(),
         ];
 
-        // 🔄 Append Special Nitis after this Daily Niti (if any)
         $specialsAfter = $specialNitis->get($dailyNiti->niti_id, collect());
 
         foreach ($specialsAfter as $specialNiti) {
             $specialManagement = NitiManagement::where('niti_id', $specialNiti->niti_id)
-                ->whereDate('date', $today)
+                ->where('day_id', $latestDayId)
                 ->latest('start_time')
                 ->first();
 
