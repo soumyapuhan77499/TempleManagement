@@ -120,7 +120,7 @@
 
         .niti-title .underline {
             width: 60px;
-            height: px;
+            height: 4px;
             background-color: #b0aeae;
             margin-top: 4px;
         }
