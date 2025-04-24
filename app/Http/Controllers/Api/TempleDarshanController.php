@@ -240,7 +240,7 @@ public function getDarshanListApi()
         $darshans = DarshanDetails::where('status', 'active')->get();
 
         // Step 2: Append today’s management data (if available)
-        $darshanList = $darshans->map(function ($darshan) use ($today) {
+        $darshanList = $darshans->map(function ($darshan) use ($dayId) {
             $todayLog = DarshanManagement::where('darshan_id', $darshan->id)
                 ->where('day_id', $dayId)
                 ->latest()
