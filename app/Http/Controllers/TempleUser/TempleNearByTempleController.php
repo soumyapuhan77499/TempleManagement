@@ -132,7 +132,6 @@ class TempleNearByTempleController extends Controller
     return view('templeuser.templefeature.update-near-by-temple', compact('temple', 'countries', 'states'));
 }
 
-
 public function deletNearByTemple($id)
 {
     try {
@@ -180,6 +179,15 @@ public function updateNearByTemple(Request $request, $id)
             }
         }
 
+        $coverPhotoPath = $request->hasFile('cover_photo')
+        ? $uploadImage($request->file('cover_photo'), 'cover')
+        : null;
+
+    $mapPhotoPath = $request->hasFile('map_photo')
+        ? $uploadImage($request->file('map_photo'), 'map')
+        : null;
+
+
         // Update temple data
         $temple->update([
             'name' => $request->name,
@@ -187,6 +195,8 @@ public function updateNearByTemple(Request $request, $id)
             'estd_date' => $request->estd_date,
             'estd_by' => $request->estd_by,
             'photo' => json_encode($photoPaths), // Store images as JSON
+            'cover_photo' => $coverPhotoPath,
+            'map_photo' => $mapPhotoPath,
             'committee_name' => $request->committee_name,
             'contact_no' => $request->contact_no,
             'whatsapp_no' => $request->whatsapp_no,

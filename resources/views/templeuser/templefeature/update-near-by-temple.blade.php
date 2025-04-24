@@ -90,8 +90,29 @@
                                     </div>
                                 @endif
                             </div>
+
+                            <div class="col-md-3">
+                                <label for="cover_photo">Cover Photo</label>
+                                <input type="file" class="form-control" id="cover_photo" name="cover_photo">
+                                
+                                @if(isset($nearbyTemple) && $nearbyTemple->cover_photo)
+                                    <div class="mt-2">
+                                        <img src="{{ asset($nearbyTemple->cover_photo) }}" alt="Cover Photo" width="100">
+                                    </div>
+                                @endif
+                            </div>
                             
-                    
+                            <div class="col-md-3">
+                                <label for="map_photo">Map Photo</label>
+                                <input type="file" class="form-control" id="map_photo" name="map_photo">
+                                
+                                @if(isset($nearbyTemple) && $nearbyTemple->map_photo)
+                                    <div class="mt-2">
+                                        <img src="{{ asset($nearbyTemple->map_photo) }}" alt="Map Photo" width="100">
+                                    </div>
+                                @endif
+                            </div>
+                            
                             <div class="col-md-3 form-group">
                                 <label for="google_map_link">Google Map Link</label>
                                 <input type="url" class="form-control" id="google_map_link" name="google_map_link" value="{{ old('google_map_link', $temple->google_map_link) }}">
