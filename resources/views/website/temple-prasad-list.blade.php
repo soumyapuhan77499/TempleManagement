@@ -224,7 +224,6 @@
 <body>
     @include('partials.header-puri-dham')
 
-
     <!-- Hero Section -->
     <div class="hero">
         <img class="hero-bg" src="{{ asset('website/parking.jpeg') }}" alt="Mandir Background" />
