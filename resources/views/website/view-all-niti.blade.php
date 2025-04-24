@@ -18,142 +18,115 @@
             padding: 0;
         }
 
-        .timeline-content {
-    position: relative;
-    background: #fff;
-    border-radius: 12px;
-    padding: 24px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-}
-
-.timeline-content.left::before,
-.timeline-content.right::before {
-    content: "";
-    position: absolute;
-    top: 20px;
-    width: 0;
-    height: 0;
-    border: 10px solid transparent;
-}
-
-.timeline-content.left::before {
-    left: -20px;
-    border-right-color: #fff;
-}
-
-.timeline-content.right::before {
-    right: -20px;
-    border-left-color: #fff;
-}
-
-.card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.niti-title {
-    max-width: 60%;
-}
-
-.niti-title h3 {
-    font-size: 20px;
-    font-weight: 600;
-    color: #db4d30;
-    margin: 0;
-}
-
-.niti-title .underline {
-    width: 50px;
-    height: 2px;
-    background-color: #db4d30;
-    margin-top: 4px;
-}
-
-.status-block {
-    text-align: right;
-    flex-grow: 1;
-}
-
-.status-block .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 14px;
-    border-radius: 30px;
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    white-space: nowrap;
-}
-
-.status-block .badge.Completed {
-    background-color: #fef3ec;
-    color: #db4d30;
-}
-
-.status-block .badge.Started {
-    background-color: #db4d30;
-    color: #fff;
-}
-
-.status-block .badge.Upcoming {
-    background-color: #f5f5f5;
-    color: #db4d30;
-}
-
-.niti-times {
-    font-size: 14px;
-    color: #333;
-}
-
-.niti-times p {
-    margin: 2px 0;
-    font-weight: 500;
-}
-
-.niti-times p strong {
-    margin-right: 4px;
-    color: #666;
-}
-
-@media (max-width: 768px) {
-    .card-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .status-block {
-        text-align: left;
-        width: 100%;
-    }
-}
-
-
-        .card {
-            background: #fff;
-            padding: 25px 30px;
-            border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        .timeline {
+            max-width: 1000px;
+            margin: 60px auto;
             position: relative;
-            transition: all 0.3s ease;
+            padding: 0 20px;
         }
 
-        .card h3 {
-            margin: 0 0 12px;
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background: linear-gradient(to bottom, #db4d30, #f59e0b, #1d4ed8);
+            transform: translateX(-50%);
+            border-radius: 3px;
+        }
+
+        .timeline-item {
+            position: relative;
+            width: 50%;
+            padding: 30px 40px;
+            box-sizing: border-box;
+        }
+
+        .timeline-item.left {
+            left: 0;
+        }
+
+        .timeline-item.right {
+            left: 50%;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            top: 40px;
+            width: 14px;
+            height: 14px;
+            background-color: #fff;
+            border: 4px solid #db4d30;
+            border-radius: 50%;
+            left: calc(100% - 14px);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item.right::after {
+            left: 0;
+            transform: translateX(-50%);
+        }
+
+        .timeline-content {
+            position: relative;
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        .timeline-content.left::before,
+        .timeline-content.right::before {
+            content: "";
+            position: absolute;
+            top: 20px;
+            width: 0;
+            height: 0;
+            border: 10px solid transparent;
+        }
+
+        .timeline-content.left::before {
+            left: -20px;
+            border-right-color: #fff;
+        }
+
+        .timeline-content.right::before {
+            right: -20px;
+            border-left-color: #fff;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .niti-title {
+            flex: 1;
+        }
+
+        .niti-title h3 {
             font-size: 20px;
             font-weight: 600;
             color: #db4d30;
+            margin: 0;
         }
 
-        .card p {
-            margin: 8px 0;
-            font-size: 15px;
-            color: #333;
+        .niti-title .underline {
+            width: 60px;
+            height: 2px;
+            background-color: #db4d30;
+            margin-top: 4px;
+        }
+
+        .status-block {
+            text-align: right;
+            white-space: nowrap;
         }
 
         .badge {
@@ -169,18 +142,14 @@
             letter-spacing: 0.6px;
         }
 
-        .badge i {
-            font-size: 14px;
-        }
-
         .badge.Completed {
             background-color: #fef3ec;
             color: #db4d30;
         }
 
         .badge.Started {
-            background-color: #fef3ec;
-            color: #2e5b02;
+            background-color: #db4d30;
+            color: #fff;
         }
 
         .badge.Upcoming {
@@ -188,43 +157,19 @@
             color: #db4d30;
         }
 
-        .Completed .card {
-            background: #fffaf3;
-            border-left: 6px solid #db4d30;
-        }
-
-        .Started .card {
-            background: #db4d30;
-            color: #ffae35;
-            border-left: 6px solid #fff;
-        }
-
-        .Started .card h3 {
-            color: #ffae35;
-        }
-
-        .Started .card p,
-        .Started .niti-times i {
-            color: #fff;
-        }
-
-        .Upcoming .card {
-            background: #ffffff;
-            border-left: 6px solid #db4d30;
-        }
-
-        .niti-times i {
-            width: 17px;
-            display: inline-block;
-            text-align: center;
-            margin-right: 8px;
+        .niti-times {
             font-size: 14px;
-            color: #999;
         }
 
-        .niti-times p:hover i {
-            transform: scale(1.2);
-            filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
+        .niti-times p {
+            margin: 2px 0;
+            font-weight: 500;
+            color: #444;
+        }
+
+        .niti-times p strong {
+            margin-right: 4px;
+            color: #666;
         }
 
         @media (max-width: 768px) {
@@ -236,7 +181,7 @@
             .timeline-item.right {
                 width: 100%;
                 left: 0;
-                padding: 30px 25px;
+                padding: 20px;
             }
 
             .timeline-item::after,
@@ -244,8 +189,14 @@
                 left: 10px;
             }
 
-            .card {
-                padding: 20px;
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .status-block {
+                text-align: left;
+                width: 100%;
             }
         }
     </style>
@@ -270,39 +221,36 @@
         use Carbon\Carbon;
     @endphp
 
-
 <div class="timeline">
     @foreach ($mergedNitiList as $index => $niti)
         @php
-                $side = $index % 2 === 0 ? 'left' : 'right'; // ✅ This defines $side
-
             $start = $niti['start_time'] ?? null;
             $end = $niti['end_time'] ?? null;
             $status = $niti['niti_status'];
             $side = $index % 2 === 0 ? 'left' : 'right';
 
-       
             $icon = match ($status) {
                 'Completed' => 'fa-check-circle',
                 'Started' => 'fa-sun',
                 'Upcoming' => 'fa-bell',
             };
 
-            $statusClass = $status; // Matches CSS class names
+            $statusClass = $status;
         @endphp
 
         <div class="timeline-item {{ $side }} {{ $statusClass }}">
-            <div class="card timeline-content {{ $side }}">
+            <div class="timeline-content {{ $side }}">
                 <div class="card-header">
                     <div class="niti-title">
                         <h3>{{ $niti['niti_name'] }}</h3>
                         <div class="underline"></div>
                     </div>
+
                     <div class="status-block">
                         <span class="badge {{ $statusClass }}">
                             <i class="fas {{ $icon }}"></i> {{ $status === 'Started' ? 'Going On' : $status }}
                         </span>
-            
+
                         <div class="niti-times">
                             @if ($status === 'Started' && $start)
                                 <p><strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}</p>
@@ -323,10 +271,10 @@
                     </div>
                 </div>
             </div>
-            
         </div>
     @endforeach
 </div>
+
 
 </body>
 
