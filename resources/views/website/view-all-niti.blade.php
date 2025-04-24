@@ -245,18 +245,21 @@
                     <h3>{{ $niti['niti_name'] }}</h3>
 
                     <div class="niti-times">
-                        @if ($status === 'Started' && $start)
+                        @if ($status === 'Started')
                             <p><i class="fas fa-play-circle {{ $iconColor }}"></i>
-                                <strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}
+                                <strong>Started:</strong>
+                                {{ $start ? \Carbon\Carbon::parse($start)->format('h:i a') : 'Not Recorded' }}
                             </p>
                         @endif
-
-                        @if ($status === 'Completed' && $end)
+                    
+                        @if ($status === 'Completed')
                             <p><i class="fas fa-stop-circle text-danger"></i>
-                                <strong>Completed:</strong> {{ \Carbon\Carbon::parse($end)->format('h:i a') }}
+                                <strong>Completed:</strong>
+                                {{ $end ? \Carbon\Carbon::parse($end)->format('h:i a') : 'Not Recorded' }}
                             </p>
                         @endif
                     </div>
+                    
 
                     @if (!empty($niti['running_sub_niti']) && count($niti['running_sub_niti']) > 0)
                         <div class="sub-nitis">
