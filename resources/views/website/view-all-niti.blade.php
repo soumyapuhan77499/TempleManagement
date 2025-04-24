@@ -118,7 +118,7 @@
         }
 
         .badge.Started {
-            background-color: #fff3e5;
+            background-color: #3b352f;
             color: #fff;
         }
 
