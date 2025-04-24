@@ -218,8 +218,6 @@
                 padding: 20px;
             }
         }
-
-       
     </style>
 </head>
 
@@ -265,12 +263,18 @@
                                     style="width: 100%; max-width: 300px; border-radius: 10px;">
                             </div>
                         @endif
+                        
+                        <div>
+                            <h3 class="niti-name">{{ $darshan->darshan_name }}</h3>
+                            <span class="badge {{ $statusClass }}">
+                                <i class="fas {{ $icon }}"></i>
+                                {{ $status === 'Started' ? 'Going On' : $status }}
+                            </span>
+                        </div>
 
-                        <h3 class="niti-name">{{ $darshan->darshan_name }}</h3>
-                        <span class="badge {{ $statusClass }}">
-                            <i class="fas {{ $icon }}"></i> {{ $status === 'Started' ? 'Going On' : $status }}
-                        </span>
                     </div>
+
+
 
 
 
