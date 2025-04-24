@@ -275,7 +275,6 @@ public function getDarshanListApi()
     }
 }
 
-
 public function startDarshan(Request $request)
 {
     try {

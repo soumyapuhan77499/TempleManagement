@@ -150,6 +150,8 @@ public function manageNiti(Request $request)
             }
         }
 
+        $uniqueNitiList = collect($finalNitiList)->unique('niti_name')->values();
+
         return response()->json([
             'status' => true,
             'message' => 'Niti list compiled using day_id.',
