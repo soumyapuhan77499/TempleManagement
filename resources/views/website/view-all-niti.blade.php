@@ -73,31 +73,27 @@
             transform: translateX(-50%);
         }
 
-        .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
-}
+        .card {
+            background: #fff;
+            padding: 25px 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            position: relative;
+            transition: all 0.3s ease;
+        }
 
-.niti-name {
-    font-size: 20px;
-    font-weight: 600;
-    color: #db4d30;
-    margin: 0;
-}
+        .card h3 {
+            margin: 0 0 12px;
+            font-size: 20px;
+            font-weight: 600;
+            color: #db4d30;
+        }
 
-.right-align {
-    text-align: right;
-    margin: 0;
-    font-size: 15px;
-    color: inherit;
-}
-
-.card p strong {
-    font-weight: 600;
-}
+        .card p {
+            margin: 8px 0;
+            font-size: 15px;
+            color: #333;
+        }
 
         .badge {
             display: inline-flex;
@@ -214,57 +210,61 @@
     @endphp
 
 
-<div class="timeline">
-    @foreach ($mergedNitiList as $index => $niti)
-        @php
-            $start = $niti['start_time'] ?? null;
-            $end = $niti['end_time'] ?? null;
-            $status = $niti['niti_status'];
-            $side = $index % 2 === 0 ? 'left' : 'right';
+    <div class="timeline">
+        @foreach ($mergedNitiList as $index => $niti)
+            @php
+                $start = $niti['start_time'] ?? null;
+                $end = $niti['end_time'] ?? null;
+                $status = $niti['niti_status'];
+                $side = $index % 2 === 0 ? 'left' : 'right';
 
-       
-            $icon = match ($status) {
-                'Completed' => 'fa-check-circle',
-                'Started' => 'fa-sun',
-                'Upcoming' => 'fa-bell',
-            };
+                $icon = match ($status) {
+                    'Completed' => 'fa-check-circle',
+                    'Started' => 'fa-sun',
+                    'Upcoming' => 'fa-bell',
+                };
 
-            $statusClass = $status; // Matches CSS class names
-        @endphp
+                $statusClass = $status; // Matches CSS class names
+            @endphp
 
-        <div class="timeline-item {{ $side }} {{ $statusClass }}">
-            <div class="card timeline-content">
-                <div class="card-header">
-                    <h3 class="niti-name">{{ $niti['niti_name'] }}</h3>
+            <div class="timeline-item {{ $side }} {{ $statusClass }}">
+                <div class="card timeline-content">
                     <span class="badge {{ $statusClass }}">
-                        <i class="fas {{ $icon }}"></i> {{ $status === 'Started' ? 'Going On' : $status }}
+                        <i class="fas {{ $icon }}"></i> {{ $status }}
                     </span>
-                </div>
-            
-                <div class="niti-times">
-                    @if ($status === 'Started' && $start)
-                        <p class="right-align"><strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}</p>
-                    @endif
-            
-                    @if ($status === 'Completed')
-                        @if ($start)
-                            <p class="right-align"><strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}</p>
+
+                    <h3>{{ $niti['niti_name'] }}</h3>
+
+                    <div class="niti-times">
+                        @if ($status === 'Started' && $start)
+                            <p><i class="fas fa-play-circle"></i>
+                                <strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}
+                            </p>
                         @endif
-                        @if ($end)
-                            <p class="right-align"><strong>Completed:</strong> {{ \Carbon\Carbon::parse($end)->format('h:i a') }}</p>
+
+                        @if ($status === 'Completed' && $start)
+                            @if ($start)
+                                <p class="right-align"><i class="fas fa-play-circle"></i><strong>Started:</strong>
+                                    {{ \Carbon\Carbon::parse($start)->format('h:i a') }}</p>
+                            @endif
+                            @if ($end)
+                                <p class="right-align"><i class="fas fa-play-circle"></i><strong>Completed:</strong>
+                                    {{ \Carbon\Carbon::parse($end)->format('h:i a') }}</p>
+                            @endif
                         @endif
-                    @endif
-            
-                    @if ($status === 'Upcoming')
-                        <p class="right-align"><strong>Starts:</strong> {{ \Carbon\Carbon::parse($niti['date_time'])->format('h:i a') }}</p>
-                        <p class="right-align"><strong>Completes:</strong> 06:30 am</p>
-                    @endif
+
+                        @if ($status === 'Completed' && $end)
+                            <p><i class="fas fa-stop-circle"></i>
+                                <strong>Completes:</strong> {{ \Carbon\Carbon::parse($end)->format('h:i a') }}
+                            </p>
+                        @endif
+
+
+                    </div>
                 </div>
             </div>
-            
-        </div>
-    @endforeach
-</div>
+        @endforeach
+    </div>
 
 </body>
 
