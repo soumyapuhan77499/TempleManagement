@@ -179,53 +179,53 @@
         }
 
         /* Completed Niti */
-.Completed .timeline-content {
-    background: #fff7e9;
-}
+        .Completed .timeline-content {
+            background: #fff7e9;
+        }
 
-/* Started Niti */
-.Started .timeline-content {
-    background: #db4d30;
-    color: #fff;
-}
+        /* Started Niti */
+        .Started .timeline-content {
+            background: #db4d30;
+            color: #fff;
+        }
 
-.Started .niti-title .underline {
+        .Started .niti-title .underline {
             width: 80px;
             height: 3px;
             background-color: #f0ebeb;
             margin-top: 4px;
         }
 
-.Started .niti-title h3 {
-    color: #ffae35;
-}
+        .Started .niti-title h3 {
+            color: #ffae35;
+        }
 
-.Started .niti-times p,
-.Started .niti-times strong {
-    color: #fff;
-}
+        .Started .niti-times p,
+        .Started .niti-times strong {
+            color: #fff;
+        }
 
-/* Upcoming Niti */
-.Upcoming .timeline-content {
-    background: #ffffff;
-}
+        /* Upcoming Niti */
+        .Upcoming .timeline-content {
+            background: #ffffff;
+        }
 
-/* Shared styles */
-.niti-times i {
-    width: 17px;
-    display: inline-block;
-    text-align: center;
-    margin-right: 8px;
-    font-size: 14px;
-    color: #999;
-}
+        /* Shared styles */
+        .niti-times i {
+            width: 17px;
+            display: inline-block;
+            text-align: center;
+            margin-right: 8px;
+            font-size: 14px;
+            color: #999;
+        }
 
-.niti-title .underline {
-    width: 60px;
-    height: 2px;
-    background-color: #db4d30;
-    margin-top: 4px;
-}
+        .niti-title .underline {
+            width: 60px;
+            height: 2px;
+            background-color: #db4d30;
+            margin-top: 4px;
+        }
 
         @media (max-width: 768px) {
             .timeline::before {
@@ -275,55 +275,59 @@
     @php
         use Carbon\Carbon;
     @endphp
-<div class="timeline">
-    @foreach ($mergedNitiList as $index => $niti)
-        @php
-            $start = $niti['start_time'] ?? null;
-            $end = $niti['end_time'] ?? null;
-            $status = $niti['niti_status'];
-            $side = $index % 2 === 0 ? 'left' : 'right';
+    <div class="timeline">
+        @foreach ($mergedNitiList as $index => $niti)
+            @php
+                $start = $niti['start_time'] ?? null;
+                $end = $niti['end_time'] ?? null;
+                $status = $niti['niti_status'];
+                $side = $index % 2 === 0 ? 'left' : 'right';
 
-            $icon = match ($status) {
-                'Completed' => 'fa-check-circle',
-                'Started' => 'fa-sun',
-                'Upcoming' => 'fa-bell',
-            };
+                $icon = match ($status) {
+                    'Completed' => 'fa-check-circle',
+                    'Started' => 'fa-sun',
+                    'Upcoming' => 'fa-bell',
+                };
 
-            $statusClass = $status;
-        @endphp
+                $statusClass = $status;
+            @endphp
 
-        <div class="timeline-item {{ $side }} {{ $statusClass }}">
-            <div class="timeline-content {{ $side }}">
-                <div class="card-header">
-                    <div class="niti-title">
-                        <h3>{{ $niti['niti_name'] }}</h3>
-                        <div class="underline"></div>
-                    </div>
+            <div class="timeline-item {{ $side }} {{ $statusClass }}">
+                <div class="timeline-content {{ $side }}">
+                    <div class="card-header">
+                        <div class="niti-title">
+                            <h3>{{ $niti['niti_name'] }}</h3>
+                            <div class="underline"></div>
+                        </div>
 
-                    <div class="status-block">
-                        <span class="badge {{ $statusClass }}">
-                            <i class="fas {{ $icon }}"></i> {{ $status === 'Started' ? 'Going On' : $status }}
-                        </span>
+                        <div class="status-block">
+                            <span class="badge {{ $statusClass }}">
+                                <i class="fas {{ $icon }}"></i>
+                                {{ $status === 'Started' ? 'Going On' : $status }}
+                            </span>
 
-                        <div class="niti-times">
-                            @if ($status === 'Started' && $start)
-                                <p><strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}</p>
-                            @endif
-                            @if ($status === 'Completed')
-                                @if ($start)
-                                    <p><strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}</p>
+                            <div class="niti-times">
+                                @if ($status === 'Started' && $start)
+                                    <p><strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}
+                                    </p>
                                 @endif
-                                @if ($end)
-                                    <p><strong>Completes:</strong> {{ \Carbon\Carbon::parse($end)->format('h:i a') }}</p>
+                                @if ($status === 'Completed')
+                                    @if ($start)
+                                        <p><strong>Started:</strong>
+                                            {{ \Carbon\Carbon::parse($start)->format('h:i a') }}</p>
+                                    @endif
+                                    @if ($end)
+                                        <p><strong>Completes:</strong>
+                                            {{ \Carbon\Carbon::parse($end)->format('h:i a') }}</p>
+                                    @endif
                                 @endif
-                            @endif
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    @endforeach
-</div>
+        @endforeach
+    </div>
 
 
 
