@@ -256,17 +256,10 @@
                                 <p><strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}</p>
                             @endif
                             @if ($status === 'Completed')
-                                @if ($start)
                                     <p><strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}</p>
-                                @endif
-                                @if ($end)
                                     <p><strong>Completes:</strong> {{ \Carbon\Carbon::parse($end)->format('h:i a') }}</p>
-                                @endif
                             @endif
-                            @if ($status === 'Upcoming')
-                                <p><strong>Starts:</strong> {{ \Carbon\Carbon::parse($niti['date_time'])->format('h:i a') }}</p>
-                                <p><strong>Completes:</strong> 06:30 am</p>
-                            @endif
+                           
                         </div>
                     </div>
                 </div>
