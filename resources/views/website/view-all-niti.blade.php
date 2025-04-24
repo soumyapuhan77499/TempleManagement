@@ -218,9 +218,7 @@
             $status = $niti['niti_status'];
             $side = $index % 2 === 0 ? 'left' : 'right';
 
-        if ($status === 'Started') {
-            $status = 'On Going';
-        }
+       
             $icon = match ($status) {
                 'Completed' => 'fa-check-circle',
                 'Started' => 'fa-sun',
