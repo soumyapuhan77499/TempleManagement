@@ -99,12 +99,13 @@
             margin-right: 10px;
         }
 
-        .card-header .niti-name {
+        .card-header .darshan-name {
             flex-grow: 1;
             font-size: 18px;
             font-weight: bold;
             margin: 0;
             color: #db4d30;
+            margin-left: 30px;
         }
 
         .card-header .badge {
@@ -268,7 +269,7 @@
                                 <i class="fas {{ $icon }}"></i>
                                 {{ $status === 'Started' ? 'Going On' : $status }}
                             </span>
-                            <h3 class="niti-name">{{ $darshan->darshan_name }}</h3>
+                            <h3 class="darshan-name">{{ $darshan->darshan_name }}</h3>
 
                         </div>
 
