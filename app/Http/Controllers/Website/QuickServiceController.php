@@ -32,7 +32,7 @@ public function prasadTimeline()
     $prasads = TemplePrasad::get();
 
     // Map Prasad with today's management data
-    $prasadList = $prasads->map(function ($prasad) use ($today) {
+    $prasadList = $prasads->map(function ($prasad) use ($latestDayId) {
         $todayLog = PrasadManagement::where('prasad_id', $prasad->id)
         ->where('day_id', $latestDayId)
             ->latest()
@@ -105,7 +105,7 @@ public function getDarshanList()
 
     $darshans = DarshanDetails::where('status', 'active')->get();
 
-    $darshanList = $darshans->map(function ($darshan) use ($today) {
+    $darshanList = $darshans->map(function ($darshan) use ($latestDayId) {
         $todayLog = DarshanManagement::where('darshan_id', $darshan->id)
         ->where('day_id', $latestDayId)
             ->latest()
