@@ -56,7 +56,7 @@
                             </div>
 
                             <div class="col-md-3">
-                                <label for="photo">Photo</label>
+                                <label for="photo">Photo (Multiple)</label>
                                 <input type="file" class="form-control" id="photo" name="photo[]" multiple>
                             </div>
 
