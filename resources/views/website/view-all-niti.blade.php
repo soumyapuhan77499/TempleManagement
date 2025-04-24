@@ -55,7 +55,7 @@
         .timeline-item::after {
             content: '';
             position: absolute;
-            top: 40px;
+            top: 80px;
             width: 14px;
             height: 14px;
             background-color: #fff;
