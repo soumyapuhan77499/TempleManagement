@@ -653,7 +653,6 @@ public function storeOtherNiti(Request $request)
             'niti_id'   => 'nullable|string',
         ]);
 
-        $now = Carbon::now()->setTimezone('Asia/Kolkata');
         $user = Auth::guard('niti_admin')->user();
 
         if (!$user) {
@@ -664,7 +663,7 @@ public function storeOtherNiti(Request $request)
         }
 
         // Generate today's day_id if not already stored
-        $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
+        $nitiMaster = NitiMaster::where('status','active')->first();
 
         if (!$nitiMaster || !$nitiMaster->day_id) {
             return response()->json([

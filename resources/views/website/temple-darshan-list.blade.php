@@ -105,7 +105,7 @@
             font-weight: bold;
             margin: 0;
             color: #db4d30;
-            margin-left: 30px;
+            margin-left: 20px;
         }
 
         .card-header .badge {
