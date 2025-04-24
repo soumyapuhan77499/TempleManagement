@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TemplePrasad;
 use App\Models\PrasadManagement;
+use App\Models\NitiMaster;
 use App\Models\Parking;
 use App\Models\DarshanDetails;
 use App\Models\DarshanManagement;
