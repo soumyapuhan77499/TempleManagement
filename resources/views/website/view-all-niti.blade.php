@@ -11,6 +11,13 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
         .timeline {
             max-width: 1100px;
             margin: 60px auto;
@@ -34,7 +41,7 @@
         .timeline-item {
             position: relative;
             width: 50%;
-            padding: 30px 45px;
+            padding: 30px 40px;
             box-sizing: border-box;
             z-index: 1;
         }
@@ -70,19 +77,16 @@
             background: #fff;
             padding: 25px 30px;
             border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
             position: relative;
             transition: all 0.3s ease;
         }
 
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-        }
-
         .card h3 {
             margin: 0 0 12px;
-            font-size: 22px;
+            font-size: 20px;
+            font-weight: 600;
+            color: #db4d30;
         }
 
         .card p {
@@ -99,7 +103,7 @@
             border-radius: 30px;
             font-size: 13px;
             font-weight: 600;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             text-transform: uppercase;
             letter-spacing: 0.6px;
         }
@@ -108,51 +112,46 @@
             font-size: 14px;
         }
 
-        /* Badge and Card Color Themes */
         .badge.Completed {
             background-color: #fef3ec;
             color: #db4d30;
         }
 
-        .badge.GoingOn {
-            background-color: #fef6e7;
-            color: #e07c00;
+        .badge.Started {
+            background-color: #fff3e5;
+            color: #fff;
         }
 
         .badge.Upcoming {
             background-color: #f5f5f5;
-            color: #777;
-        }
-
-        .Completed .card {
-            border-left: 8px solid #db4d30;
-        }
-
-        .GoingOn .card {
-            border-left: 8px solid #f59e0b;
-        }
-
-        .Upcoming .card {
-            border-left: 8px solid #d1d5db;
-        }
-
-        .badge.Started {
-            background-color: #fff3f0;
             color: #db4d30;
         }
 
-        .badge.Upcoming {
-            background-color: #f5f5f5;
-            color: #555;
+        .Completed .card {
+            background: #fffaf3;
+            border-left: 6px solid #db4d30;
         }
 
-        .badge.Completed {
-            background-color: #e9f7ec;
-            color: #2e7d32;
+        .Started .card {
+            background: #db4d30;
+            color: #fff;
+            border-left: 6px solid #fff;
         }
 
+        .Started .card h3 {
+            color: #fff;
+        }
 
-        /* Time icons */
+        .Started .card p,
+        .Started .niti-times i {
+            color: #fff;
+        }
+
+        .Upcoming .card {
+            background: #ffffff;
+            border-left: 6px solid #db4d30;
+        }
+
         .niti-times i {
             width: 17px;
             display: inline-block;
@@ -188,12 +187,6 @@
                 padding: 20px;
             }
         }
-
-        .sub-nitis {
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px dashed #ddd;
-        }
     </style>
 
 </head>
@@ -217,71 +210,63 @@
     @endphp
 
 
-    <div class="timeline">
-        @foreach ($mergedNitiList as $index => $niti)
-            @php
-                $start = $niti['start_time'] ?? null;
-                $end = $niti['end_time'] ?? null;
-                $status = $niti['niti_status'];
-                $side = $index % 2 === 0 ? 'left' : 'right';
+<div class="timeline">
+    @foreach ($mergedNitiList as $index => $niti)
+        @php
+            $start = $niti['start_time'] ?? null;
+            $end = $niti['end_time'] ?? null;
+            $status = $niti['niti_status'];
+            $side = $index % 2 === 0 ? 'left' : 'right';
 
-                $icon = match ($status) {
-                    'Completed' => 'fa-check-circle',
-                    'Started' => 'fa-play-circle',
-                    'Upcoming' => 'fa-bell',
-                };
+            $icon = match ($status) {
+                'Completed' => 'fa-check-circle',
+                'Started' => 'fa-sun',
+                'Upcoming' => 'fa-bell',
+            };
 
-                $cardBgStyle = match ($status) {
-                    'Started' => 'background-color: #db4d30; color: #fff;',
-                    'Completed' => 'background-color: #fff7e9; color: #db4d30;',
-                    default => '',
-                };
+            $statusClass = $status; // Matches CSS class names
+        @endphp
 
-                $iconColor = $status === 'Started' ? 'text-white' : '';
-            @endphp
+        <div class="timeline-item {{ $side }} {{ $statusClass }}">
+            <div class="card timeline-content">
+                <span class="badge {{ $statusClass }}">
+                    <i class="fas {{ $icon }}"></i> {{ $status }}
+                </span>
 
-            <div class="timeline-item {{ $side }} {{ $status }}">
-                <div class="card timeline-content" style="{{ $cardBgStyle }}">
-                    <span class="badge {{ $status }}">
-                        <i class="fas {{ $icon }}"></i> {{ $status }}
-                    </span>
+                <h3>{{ $niti['niti_name'] }}</h3>
 
-                    <h3>{{ $niti['niti_name'] }}</h3>
+                <div class="niti-times">
+                    @if ($status === 'Started' && $start)
+                        <p><i class="fas fa-play-circle"></i>
+                            <strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}
+                        </p>
+                    @endif
 
-                    <div class="niti-times">
-                        @if ($status === 'Started')
-                            <p><i class="fas fa-play-circle {{ $iconColor }}"></i>
-                                <strong>Started:</strong>
-                                {{ $start ? \Carbon\Carbon::parse($start)->format('h:i a') : 'Not Recorded' }}
-                            </p>
-                        @endif
+                    @if ($status === 'Completed' && $start)
+                        <p><i class="fas fa-play-circle"></i>
+                            <strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}
+                        </p>
+                    @endif
 
-                        @if ($status === 'Completed')
-                            <p><i class="fas fa-stop-circle text-danger"></i>
-                                <strong>Completed:</strong>
-                                {{ $end ? \Carbon\Carbon::parse($end)->format('h:i a') : 'Not Recorded' }}
-                            </p>
-                        @endif
-                    </div>
+                    @if ($status === 'Completed' && $end)
+                        <p><i class="fas fa-stop-circle"></i>
+                            <strong>Completes:</strong> {{ \Carbon\Carbon::parse($end)->format('h:i a') }}
+                        </p>
+                    @endif
+
+                    @if ($status === 'Upcoming')
+                        <p><i class="fas fa-clock"></i>
+                            <strong>Starts:</strong> {{ \Carbon\Carbon::parse($niti['date_time'])->format('h:i a') }}
+                        </p>
+                        <p><i class="fas fa-clock"></i>
+                            <strong>Completes:</strong> 06:30 am
+                        </p>
+                    @endif
                 </div>
             </div>
-
-            @if (!empty($niti['running_sub_niti']) && count($niti['running_sub_niti']) > 0)
-                <div class="sub-nitis">
-                    <strong>Sub Nitis:</strong>
-                    <ul style="padding-left: 20px;">
-                        @foreach ($niti['running_sub_niti'] as $sub)
-                            @if (!empty($sub['sub_niti_name']))
-                                <li>{{ $sub['sub_niti_name'] }} ({{ $sub['status'] ?? 'Pending' }})</li>
-                            @endif
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-    </div>
-    </div>
+        </div>
     @endforeach
-    </div>
+</div>
 
 </body>
 
