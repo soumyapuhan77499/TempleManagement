@@ -246,6 +246,8 @@
                     @if ($status === 'Completed' && $start)
                         <p><i class="fas fa-play-circle"></i>
                             <strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}
+                            <strong>Ended:</strong> {{ \Carbon\Carbon::parse($end)->format('h:i a') }}
+
                         </p>
                     @endif
 
