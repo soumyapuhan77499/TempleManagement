@@ -145,17 +145,21 @@
         .badge.Completed {
             background-color: #fef3ec;
             color: #db4d30;
-            font-size: 16px;
+            font-size: 17px;
         }
 
         .badge.Started {
             background-color: #db4d30;
             color: #fff;
+            font-size: 16px;
+
         }
 
         .badge.Upcoming {
             background-color: #f5f5f5;
             color: #db4d30;
+            font-size: 16px;
+
         }
 
         .niti-times p:hover i {
