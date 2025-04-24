@@ -227,7 +227,7 @@
                     <p class="text-gray-500 mt-3">Ratha Yatra</p>
                 </div>
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="darshan">
-                    <img src="{{ asset('website/temple_info/darshan.jpg') }}" style="border-radius: 50%;height: 80px;width: 80px">
+                    <img src="{{ asset('website/temple_info/darashan.jpg') }}" style="border-radius: 50%;height: 80px;width: 80px">
                     <p class="text-gray-500 mt-3">Visitor Services</p>
                 </div>
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="prasad">
