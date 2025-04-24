@@ -139,7 +139,7 @@
         }
 
         .Started .card h3 {
-            color: #fff;
+            color: #ffae35;
         }
 
         .Started .card p,
