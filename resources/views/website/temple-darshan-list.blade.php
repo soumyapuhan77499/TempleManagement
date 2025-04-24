@@ -219,22 +219,7 @@
             }
         }
 
-        .darshan-img-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 150px;
-            max-width: 80px;
-            width: 100%;
-            margin-bottom: 15px;
-        }
-
-        .darshan-img-wrapper img {
-            width: 80px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
+       
     </style>
 </head>
 
