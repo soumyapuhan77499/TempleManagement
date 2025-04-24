@@ -316,14 +316,11 @@
                                     </p>
                                 @endif
                                 @if ($status === 'Completed')
-                                    @if ($start)
                                         <p><strong>Started:</strong>
                                             {{ \Carbon\Carbon::parse($start)->format('h:i a') }}</p>
-                                    @endif
-                                    @if ($end)
+                                 
                                         <p><strong>Completes:</strong>
                                             {{ \Carbon\Carbon::parse($end)->format('h:i a') }}</p>
-                                    @endif
                                 @endif
                             </div>
                         </div>
