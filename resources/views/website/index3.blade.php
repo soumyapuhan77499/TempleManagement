@@ -202,33 +202,33 @@
         <div class="flex justify-center items-center gap-6 mt-5 mb-12">
             <div id="navContainer" class="flex gap-5 overflow-x-auto no-scrollbar">
                 <div class="tab-item text-center min-w-[100px] cursor-pointer active-tab" data-tab="aboutTemple">
-                    <img src="{{ asset('website/temple_info/sup.jpeg') }}" class="mx-auto w-20 h-20" style="border-radius: 50%">
+                    <img src="{{ asset('website/temple_info/lord.png') }}" class="mx-auto w-20 h-20" style="border-radius: 50%">
                     <p class="text-red-600 font-semibold mt-3">Lord Supreme</p>
                     <div class="h-1 bg-red-500 w-full mt-1"></div>
                 </div>
 
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="shreeKhetra">
-                    <img src="{{ asset('website/temple_info/age.jpg') }}" class="mx-auto w-20 h-20"  style="border-radius: 50%">
+                    <img src="{{ asset('website/temple_info/age.png') }}" class="mx-auto w-20 h-20"  style="border-radius: 50%">
                     <p class="text-gray-500 mt-3">Through The Ages</p>
                 </div>
 
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="nijoga">
-                    <img src="{{ asset('website/temple_info/tradition.jpeg') }}"  class="mx-auto w-20 h-20" style="border-radius: 50%">
+                    <img src="{{ asset('website/temple_info/trad.png') }}"  class="mx-auto w-20 h-20" style="border-radius: 50%">
                     <p class="text-gray-500 mt-3">Living Tradition</p>
                 </div>
 
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="festivals">
-                    <img src="{{ asset('website/temple_info/festival.jpeg') }}"  class="mx-auto w-20 h-20" style="border-radius: 50%">
+                    <img src="{{ asset('website/temple_info/festival.png') }}"  class="mx-auto w-20 h-20" style="border-radius: 50%">
                     <p class="text-gray-500 mt-3">Festivals</p>
                 </div>
 
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="besha">
-                    <img src="{{ asset('website/temple_info/ratha.jpeg') }}"  class="mx-auto w-20 h-20" style="border-radius: 50%">
+                    <img src="{{ asset('website/temple_info/rathayatra.png') }}"  class="mx-auto w-20 h-20" style="border-radius: 50%">
                     <p class="text-gray-500 mt-3">Ratha Yatra</p>
                 </div>
 
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="darshan">
-                    <img src="{{ asset('website/temple_info/darashan.jpg') }}"  class="mx-auto w-20 h-20" style="border-radius: 50%">
+                    <img src="{{ asset('website/temple_info/devotee.png') }}"  class="mx-auto w-20 h-20" style="border-radius: 50%">
                     <p class="text-gray-500 mt-3">Visitor Services</p>
                 </div>
               
