@@ -247,9 +247,9 @@
                         </span>
                     </div>
     
-                    @if ($darshan->darshan_image)
+                    @if ($darshan->darshan_name)
                         <div class="darshan-img-wrapper" style="margin-bottom: 10px;">
-                            <img src="{{ asset($darshan->darshan_image) }}" alt="{{ $darshan->darshan_name }}" style="width: 100%; max-width: 300px; border-radius: 10px;">
+                            <img src="{{ asset('website/prasad.png') }}" alt="{{ $darshan->darshan_name }}" style="width: 100%; max-width: 300px; border-radius: 10px;">
                         </div>
                     @endif
     

@@ -226,6 +226,62 @@
         </div>
     </div>
 
+    <div class="timeline">
+        @foreach ($prasadList as $index => $prasad)
+            @php
+                $start = $prasad->start_time;
+                $end = $prasad->end_time;
+                $status = $prasad->today_status;
+                $side = $index % 2 === 0 ? 'left' : 'right';
+    
+                $icon = match ($status) {
+                    'Completed' => 'fa-check-circle',
+                    'Started' => 'fa-sun',
+                    'Upcoming' => 'fa-bell',
+                    default => 'fa-clock'
+                };
+    
+                $statusClass = $status; // For CSS
+            @endphp
+    
+            <div class="timeline-item {{ $side }} {{ $statusClass }}">
+                <div class="card timeline-content">
+    
+                    <div class="card-header">
+                        <h3 class="niti-name">{{ $darshan->darshan_name }}</h3>
+                        <span class="badge {{ $statusClass }}">
+                            <i class="fas {{ $icon }}"></i> {{ $status === 'Started' ? 'Going On' : $status }}
+                        </span>
+                    </div>
+    
+                    @if ($darshan->darshan_image)
+                        <div class="darshan-img-wrapper" style="margin-bottom: 10px;">
+                            <img src="{{ asset($darshan->darshan_image) }}" alt="{{ $darshan->darshan_name }}" style="width: 100%; max-width: 300px; border-radius: 10px;">
+                        </div>
+                    @endif
+    
+                    <div class="darshan-times">
+                        @if ($status === 'Started' && $start)
+                            <p class="right-align"><strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}</p>
+                        @endif
+    
+                        @if ($status === 'Completed')
+                            @if ($start)
+                                <p class="right-align"><strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}</p>
+                            @endif
+                            @if ($end)
+                                <p class="right-align"><strong>Completed:</strong> {{ \Carbon\Carbon::parse($end)->format('h:i a') }}</p>
+                            @endif
+                        @endif
+    
+                        @if ($status === 'Upcoming')
+                            <p class="right-align"><strong>Starts:</strong> Not yet started</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
 
     <div class="timeline">
         @foreach ($prasadList as $index => $prasad)
