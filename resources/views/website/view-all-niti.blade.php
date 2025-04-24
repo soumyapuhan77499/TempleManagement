@@ -134,7 +134,7 @@
 
         .Started .card {
             background: #db4d30;
-            color: #fff;
+            color: #ffae35;
             border-left: 6px solid #fff;
         }
 
@@ -254,10 +254,7 @@
                         </p>
                     @endif
 
-                    @if ($status === 'Upcoming')
-                        <p><i class="fas fa-clock"></i> </p>
-                        
-                    @endif
+                   
                 </div>
             </div>
         </div>
