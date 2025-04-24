@@ -191,14 +191,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 130px;
+            height: 60px;
+            width: 80px;
             margin-bottom: 15px;
         }
 
         .darshan-img-wrapper img {
-            width: 150px;
-            height: 100%;
-            border-radius: 15px;
+            width: 80px;
+            height: 60px;
+            border-radius: 50%;
             object-fit: cover;
         }
 
