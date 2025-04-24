@@ -267,8 +267,6 @@
         @endforeach
     </div>
 
-
-
 </body>
 
 </html>

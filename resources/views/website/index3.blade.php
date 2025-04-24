@@ -202,33 +202,33 @@
         <div class="flex justify-center items-center gap-6 mt-5 mb-12">
             <div id="navContainer" class="flex gap-5 overflow-x-auto no-scrollbar">
                 <div class="tab-item text-center min-w-[100px] cursor-pointer active-tab" data-tab="aboutTemple">
-                    <img src="{{ asset('website/inf1.png') }}" class="mx-auto w-20 h-20" style="border-radius: 50%">
-                    <p class="text-red-600 font-semibold mt-3">About Temple</p>
+                    <img src="{{ asset('website/temple_info/supreme.jpeg') }}" class="mx-auto w-20 h-20" style="border-radius: 50%">
+                    <p class="text-red-600 font-semibold mt-3">Lord Supreme</p>
                     <div class="h-1 bg-red-500 w-full mt-1"></div>
                 </div>
 
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="shreeKhetra">
-                    <img src="{{ asset('website/sankha.png') }}" style="border-radius: 50%;height: 80px;width: 120px">
-                    <p class="text-gray-500 mt-3">Shree Khetra</p>
+                    <img src="{{ asset('website/temple_info/age.jpg') }}" style="border-radius: 50%;height: 80px;width: 120px">
+                    <p class="text-gray-500 mt-3">Through The Ages</p>
                 </div>
 
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="nijoga">
-                    <img src="{{ asset('website/nijoga.png') }}" style="border-radius: 50%;height: 80px;width: 80px">
-                    <p class="text-gray-500 mt-3">36 Nijoga</p>
+                    <img src="{{ asset('website/temple_info/tradition.jpeg') }}" style="border-radius: 50%;height: 80px;width: 80px">
+                    <p class="text-gray-500 mt-3">Living Tradition</p>
                 </div>
 
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="festivals">
-                    <img src="{{ asset('website/dipa.png') }}" style="border-radius: 50%;height: 80px;width: 80px">
+                    <img src="{{ asset('website/temple_info/festival.jpeg') }}" style="border-radius: 50%;height: 80px;width: 80px">
                     <p class="text-gray-500 mt-3">Festivals</p>
                 </div>
 
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="besha">
-                    <img src="{{ asset('website/besha1.png') }}" style="border-radius: 50%;height: 80px;width: 80px">
-                    <p class="text-gray-500 mt-3">Besha</p>
+                    <img src="{{ asset('website/temple_info/ratha.jpeg') }}" style="border-radius: 50%;height: 80px;width: 80px">
+                    <p class="text-gray-500 mt-3">Ratha Yatra</p>
                 </div>
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="darshan">
-                    <img src="{{ asset('website/darshan34.png') }}" style="border-radius: 50%;height: 80px;width: 80px">
-                    <p class="text-gray-500 mt-3">Darshan</p>
+                    <img src="{{ asset('website/temple_info/darshan.jpg') }}" style="border-radius: 50%;height: 80px;width: 80px">
+                    <p class="text-gray-500 mt-3">Visitor Services</p>
                 </div>
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="prasad">
                     <img src="{{ asset('website/mp.png') }}" style="border-radius: 50%;height: 80px;width: 80px">
@@ -236,8 +236,8 @@
                 </div>
 
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="mathaAshram">
-                    <img src="{{ asset('website/ashram.png') }}" style="border-radius: 50%;height: 80px;width: 80px">
-                    <p class="text-gray-500 mt-3">Matha & Ashram</p>
+                    <img src="{{ asset('website/temple_info/management.jpg') }}" style="border-radius: 50%;height: 80px;width: 80px">
+                    <p class="text-gray-500 mt-3">Management</p>
                 </div>
             </div>
         </div>
