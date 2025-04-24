@@ -49,6 +49,14 @@ public function todayStartTime()
         ->whereDate('date', now()->toDateString());
 }
 
+
+public function todayStartCompleteTime()
+{
+    return $this->hasOne(NitiManagement::class, 'niti_id', 'niti_id')
+        ->where('niti_status', ['Started', 'Completed'])
+        ->whereDate('date', now()->toDateString());
+}
+
 public function subNitis()
 {
     return $this->hasMany(TempleSubNiti::class, 'niti_id', 'niti_id');

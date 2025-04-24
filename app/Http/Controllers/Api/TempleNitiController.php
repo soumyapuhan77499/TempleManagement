@@ -76,7 +76,6 @@ public function manageNiti(Request $request)
                 },
                 'subNitis'
             ])
-            
             ->get()
             ->groupBy('after_special_niti');
 
@@ -167,7 +166,7 @@ public function manageNiti(Request $request)
         ], 500);
     }
 }
-    
+
 public function startNiti(Request $request)
 {
     try {
@@ -805,6 +804,7 @@ public function updateActiveNitiToUpcoming()
         ], 500);
     }
 }
+
 public function startSubNiti(Request $request)
 {
     try {
@@ -896,6 +896,7 @@ public function startSubNiti(Request $request)
         ], 500);
     }
 }
+
 public function addAndStartSubNiti(Request $request)
 {
     try {
@@ -975,7 +976,6 @@ public function addAndStartSubNiti(Request $request)
         ], 500);
     }
 }
-
 
 public function updateSubNitiName(Request $request, $id)
 {
