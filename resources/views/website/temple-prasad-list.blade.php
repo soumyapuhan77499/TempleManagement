@@ -239,7 +239,6 @@
         @foreach ($prasadList as $index => $prasad)
             @php
                 $start = $prasad->start_time;
-                $end = $prasad->end_time;
                 $status = $prasad->today_status;
                 $side = $index % 2 === 0 ? 'left' : 'right';
 
