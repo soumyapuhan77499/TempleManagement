@@ -86,7 +86,6 @@ public function puriWebsite()
         'prasad' => TemplePrasad::where('temple_id', $templeId)->first(),
     ]);
 }
-
 public function viewAllNiti()
 {
     // ✅ Get latest active day_id
@@ -99,12 +98,12 @@ public function viewAllNiti()
         ], 404);
     }
 
-    // ✅ Fetch Running or Completed Sub Nitis under this day_id
+    // ✅ Fetch Running or Completed Sub Nitis for this day_id
     $runningSubNitis = TempleSubNitiManagement::whereIn('status', ['Running', 'Completed'])
         ->where('day_id', $latestDayId)
         ->get();
 
-    // ✅ Fetch Daily Nitis (active + public + this day_id)
+    // ✅ Fetch Daily Nitis (active + public)
     $dailyNitis = NitiMaster::where('status', 'active')
         ->where('niti_type', 'daily')
         ->where('language', 'Odia')
@@ -113,7 +112,7 @@ public function viewAllNiti()
         ->orderBy('date_time', 'asc')
         ->get();
 
-    // ✅ Fetch Special Nitis (active + public + this day_id) grouped by their position
+    // ✅ Fetch Special Nitis (active + public + today) grouped by their position
     $specialNitis = NitiMaster::where('status', 'active')
         ->where('niti_type', 'special')
         ->where('language', 'Odia')
@@ -122,13 +121,14 @@ public function viewAllNiti()
         ->get()
         ->groupBy('after_special_niti');
 
+    // ✅ Final Merged List
     $mergedNitiList = [];
 
     foreach ($dailyNitis as $dailyNiti) {
+        // ✅ Get latest management record (even if not completed yet)
         $dailyManagement = NitiManagement::where('niti_id', $dailyNiti->niti_id)
             ->where('day_id', $latestDayId)
-            ->whereNotNull('end_time')
-            ->latest('end_time')
+            ->latest('start_time')
             ->first();
 
         $matchingRunningSubNitis = $runningSubNitis->where('niti_id', $dailyNiti->niti_id);
@@ -162,6 +162,7 @@ public function viewAllNiti()
             })->values(),
         ];
 
+        // ✅ Attach special nitis (if any) after current daily niti
         $specialsAfter = $specialNitis->get($dailyNiti->niti_id, collect());
 
         foreach ($specialsAfter as $specialNiti) {
@@ -205,6 +206,7 @@ public function viewAllNiti()
 
     return view('website.view-all-niti', compact('mergedNitiList'));
 }
+
 
 public function mandirTv(){
     return view('website.tv-layout');

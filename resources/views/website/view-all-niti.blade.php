@@ -222,17 +222,21 @@
             @php
                 $start = $niti['start_time'] ?? null;
                 $end = $niti['end_time'] ?? null;
-                $status = $niti['niti_status']; // Already capitalized as 'Started', 'Completed', etc.
+                $status = $niti['niti_status'];
                 $side = $index % 2 === 0 ? 'left' : 'right';
 
-                // Icon and style for each status
                 $icon = match ($status) {
                     'Completed' => 'fa-check-circle',
                     'Started' => 'fa-play-circle',
                     'Upcoming' => 'fa-bell',
                 };
 
-                $cardBgStyle = $status === 'Started' ? 'background-color: #db4d30; color: #fff;' : '';
+                $cardBgStyle = match ($status) {
+                    'Started' => 'background-color: #db4d30; color: #fff;',
+                    'Completed' => 'background-color: #fff7e9; color: #db4d30;',
+                    default => '',
+                };
+
                 $iconColor = $status === 'Started' ? 'text-white' : '';
             @endphp
 
@@ -251,7 +255,7 @@
                                 {{ $start ? \Carbon\Carbon::parse($start)->format('h:i a') : 'Not Recorded' }}
                             </p>
                         @endif
-                    
+
                         @if ($status === 'Completed')
                             <p><i class="fas fa-stop-circle text-danger"></i>
                                 <strong>Completed:</strong>
@@ -259,23 +263,24 @@
                             </p>
                         @endif
                     </div>
-                    
-
-                    @if (!empty($niti['running_sub_niti']) && count($niti['running_sub_niti']) > 0)
-                        <div class="sub-nitis">
-                            <strong>Sub Nitis:</strong>
-                            <ul style="padding-left: 20px;">
-                                @foreach ($niti['running_sub_niti'] as $sub)
-                                    @if (!empty($sub['sub_niti_name']))
-                                        <li>{{ $sub['sub_niti_name'] }} ({{ $sub['status'] ?? 'Pending' }})</li>
-                                    @endif
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
                 </div>
             </div>
-        @endforeach
+
+            @if (!empty($niti['running_sub_niti']) && count($niti['running_sub_niti']) > 0)
+                <div class="sub-nitis">
+                    <strong>Sub Nitis:</strong>
+                    <ul style="padding-left: 20px;">
+                        @foreach ($niti['running_sub_niti'] as $sub)
+                            @if (!empty($sub['sub_niti_name']))
+                                <li>{{ $sub['sub_niti_name'] }} ({{ $sub['status'] ?? 'Pending' }})</li>
+                            @endif
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+    </div>
+    </div>
+    @endforeach
     </div>
 
 </body>
