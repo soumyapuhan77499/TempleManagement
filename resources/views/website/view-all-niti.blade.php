@@ -158,40 +158,6 @@
             color: #db4d30;
         }
 
-        .Completed .card {
-            background: #fffaf3;
-            border-left: 6px solid #db4d30;
-        }
-
-        .Started .card {
-            background: #db4d30;
-            color: #ffae35;
-            border-left: 6px solid #fff;
-        }
-
-        .Started .card h3 {
-            color: #ffae35;
-        }
-
-        .Started .card p,
-        .Started .niti-times i {
-            color: #fff;
-        }
-
-        .Upcoming .card {
-            background: #ffffff;
-            border-left: 6px solid #db4d30;
-        }
-
-        .niti-times i {
-            width: 17px;
-            display: inline-block;
-            text-align: center;
-            margin-right: 8px;
-            font-size: 14px;
-            color: #999;
-        }
-
         .niti-times p:hover i {
             transform: scale(1.2);
             filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
@@ -211,6 +177,51 @@
             margin-right: 4px;
             color: #666;
         }
+
+        /* Completed Niti */
+.Completed .timeline-content {
+    background: #fff7e9;
+    border-left: 6px solid #db4d30;
+}
+
+/* Started Niti */
+.Started .timeline-content {
+    background: #db4d30;
+    color: #fff;
+    border-left: 6px solid #fff;
+}
+
+.Started .niti-title h3 {
+    color: #ffae35;
+}
+
+.Started .niti-times p,
+.Started .niti-times strong {
+    color: #fff;
+}
+
+/* Upcoming Niti */
+.Upcoming .timeline-content {
+    background: #ffffff;
+    border-left: 6px solid #db4d30;
+}
+
+/* Shared styles */
+.niti-times i {
+    width: 17px;
+    display: inline-block;
+    text-align: center;
+    margin-right: 8px;
+    font-size: 14px;
+    color: #999;
+}
+
+.niti-title .underline {
+    width: 60px;
+    height: 2px;
+    background-color: #db4d30;
+    margin-top: 4px;
+}
 
         @media (max-width: 768px) {
             .timeline::before {
