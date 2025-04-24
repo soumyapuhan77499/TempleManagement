@@ -73,27 +73,31 @@
             transform: translateX(-50%);
         }
 
-        .card {
-            background: #fff;
-            padding: 25px 30px;
-            border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-            position: relative;
-            transition: all 0.3s ease;
-        }
+        .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
 
-        .card h3 {
-            margin: 0 0 12px;
-            font-size: 20px;
-            font-weight: 600;
-            color: #db4d30;
-        }
+.niti-name {
+    font-size: 20px;
+    font-weight: 600;
+    color: #db4d30;
+    margin: 0;
+}
 
-        .card p {
-            margin: 8px 0;
-            font-size: 15px;
-            color: #333;
-        }
+.right-align {
+    text-align: right;
+    margin: 0;
+    font-size: 15px;
+    color: inherit;
+}
+
+.card p strong {
+    font-weight: 600;
+}
 
         .badge {
             display: inline-flex;
@@ -230,36 +234,34 @@
 
         <div class="timeline-item {{ $side }} {{ $statusClass }}">
             <div class="card timeline-content">
-                <span class="badge {{ $statusClass }}">
-                    <i class="fas {{ $icon }}"></i> {{ $status }}
-                </span>
-
-                <h3>{{ $niti['niti_name'] }}</h3>
-
+                <div class="card-header">
+                    <h3 class="niti-name">{{ $niti['niti_name'] }}</h3>
+                    <span class="badge {{ $statusClass }}">
+                        <i class="fas {{ $icon }}"></i> {{ $status === 'Started' ? 'Going On' : $status }}
+                    </span>
+                </div>
+            
                 <div class="niti-times">
                     @if ($status === 'Started' && $start)
-                        <p><i class="fas fa-play-circle"></i>
-                            <strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}
-                        </p>
+                        <p class="right-align"><strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}</p>
                     @endif
-
-                    @if ($status === 'Completed' && $start)
-                        <p><i class="fas fa-play-circle"></i>
-                            <strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}
-                            <strong>Ended:</strong> {{ \Carbon\Carbon::parse($end)->format('h:i a') }}
-
-                        </p>
+            
+                    @if ($status === 'Completed')
+                        @if ($start)
+                            <p class="right-align"><strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}</p>
+                        @endif
+                        @if ($end)
+                            <p class="right-align"><strong>Completed:</strong> {{ \Carbon\Carbon::parse($end)->format('h:i a') }}</p>
+                        @endif
                     @endif
-
-                    @if ($status === 'Completed' && $end)
-                        <p><i class="fas fa-stop-circle"></i>
-                            <strong>Completes:</strong> {{ \Carbon\Carbon::parse($end)->format('h:i a') }}
-                        </p>
+            
+                    @if ($status === 'Upcoming')
+                        <p class="right-align"><strong>Starts:</strong> {{ \Carbon\Carbon::parse($niti['date_time'])->format('h:i a') }}</p>
+                        <p class="right-align"><strong>Completes:</strong> 06:30 am</p>
                     @endif
-
-                   
                 </div>
             </div>
+            
         </div>
     @endforeach
 </div>
