@@ -145,6 +145,7 @@
         .badge.Completed {
             background-color: #fef3ec;
             color: #db4d30;
+            font-size: 16px;
         }
 
         .badge.Started {
