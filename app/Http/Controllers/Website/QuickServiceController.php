@@ -19,14 +19,21 @@ class QuickServiceController extends Controller
 
 public function prasadTimeline()
 {
-    $today = Carbon::now('Asia/Kolkata')->toDateString();
+    $latestDayId = NitiMaster::where('status', 'active')->latest('id')->value('day_id');
+
+    if (!$latestDayId) {
+        return response()->json([
+            'status' => false,
+            'message' => 'No active Niti found to determine day_id.'
+        ], 404);
+    }
 
     $prasads = TemplePrasad::get();
 
     // Map Prasad with today's management data
     $prasadList = $prasads->map(function ($prasad) use ($today) {
         $todayLog = PrasadManagement::where('prasad_id', $prasad->id)
-            ->whereDate('date', $today)
+        ->where('day_id', $latestDayId)
             ->latest()
             ->first();
 
@@ -85,13 +92,21 @@ public function lockerShoeList()
 
 public function getDarshanList()
 {
-    $today = \Carbon\Carbon::now('Asia/Kolkata')->toDateString();
+    $latestDayId = NitiMaster::where('status', 'active')->latest('id')->value('day_id');
+
+    if (!$latestDayId) {
+        return response()->json([
+            'status' => false,
+            'message' => 'No active Niti found to determine day_id.'
+        ], 404);
+    }
+
 
     $darshans = DarshanDetails::where('status', 'active')->get();
 
     $darshanList = $darshans->map(function ($darshan) use ($today) {
         $todayLog = DarshanManagement::where('darshan_id', $darshan->id)
-            ->whereDate('date', $today)
+        ->where('day_id', $latestDayId)
             ->latest()
             ->first();
 

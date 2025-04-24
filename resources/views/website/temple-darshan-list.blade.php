@@ -11,17 +11,17 @@
     <style>
         
         body {
+            font-family: Arial, sans-serif;
+            background: #fff;
             margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: #f9f9f9;
+            padding: 0;
         }
 
-       
         .timeline {
-            max-width: 900px;
+            max-width: 1100px;
             margin: 60px auto;
             position: relative;
-            padding: 0 15px;
+            padding: 0 20px;
         }
 
         .timeline::before {
@@ -30,28 +30,19 @@
             left: 50%;
             top: 0;
             bottom: 0;
-            width: 4px;
-            background: linear-gradient(to bottom, #ff5722, #ffc107);
+            width: 6px;
+            background: linear-gradient(to bottom, #db4d30, #f59e0b, #1d4ed8);
             transform: translateX(-50%);
-            animation: pulse-line 3s ease infinite;
-        }
-
-        @keyframes pulse-line {
-
-            0%,
-            100% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
+            z-index: 0;
+            border-radius: 3px;
         }
 
         .timeline-item {
             position: relative;
             width: 50%;
-            padding: 30px;
+            padding: 30px 40px;
+            box-sizing: border-box;
+            z-index: 1;
         }
 
         .timeline-item.left {
@@ -65,49 +56,135 @@
         .timeline-item::after {
             content: '';
             position: absolute;
-            top: 30px;
-            width: 16px;
-            height: 16px;
+            top: 40px;
+            width: 14px;
+            height: 14px;
+            background-color: #fff;
+            border: 4px solid #db4d30;
             border-radius: 50%;
-            background: white;
-            border: 4px solid #ff5722;
-            z-index: 5;
-            animation: glow-pulse 2s infinite ease-in-out;
+            z-index: 2;
+            left: calc(100% - 14px);
+            transform: translateX(-50%);
         }
 
         .timeline-item.right::after {
             left: 0;
-        }
-
-        .timeline-item.left::after {
-            right: 0;
-        }
-
-        @keyframes glow-pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(255, 87, 34, 0.7);
-            }
-
-            70% {
-                box-shadow: 0 0 0 12px rgba(255, 87, 34, 0);
-            }
-
-            100% {
-                box-shadow: 0 0 0 0 rgba(255, 87, 34, 0);
-            }
+            transform: translateX(-50%);
         }
 
         .card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            border-left: 6px solid #ccc;
-            transition: transform 0.3s ease;
+            background: #fff;
+            padding: 25px 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            position: relative;
+            transition: all 0.3s ease;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
+        .card h3 {
+            margin: 0 0 12px;
+            font-size: 20px;
+            font-weight: 600;
+            color: #db4d30;
+        }
+
+        .card p {
+            margin: 8px 0;
+            font-size: 15px;
+            color: #333;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+
+        .badge i {
+            font-size: 14px;
+        }
+
+        .badge.Completed {
+            background-color: #fef3ec;
+            color: #db4d30;
+        }
+
+        .badge.Started {
+            background-color: #fef3ec;
+            color: #2e5b02;
+        }
+
+        .badge.Upcoming {
+            background-color: #f5f5f5;
+            color: #db4d30;
+        }
+
+        .Completed .card {
+            background: #fffaf3;
+            border-left: 6px solid #db4d30;
+        }
+
+        .Started .card {
+            background: #db4d30;
+            color: #ffae35;
+            border-left: 6px solid #fff;
+        }
+
+        .Started .card h3 {
+            color: #ffae35;
+        }
+
+        .Started .card p,
+        .Started .darshan-times i {
+            color: #fff;
+        }
+
+        .Upcoming .card {
+            background: #ffffff;
+            border-left: 6px solid #db4d30;
+        }
+
+        .darshan-times i {
+            width: 17px;
+            display: inline-block;
+            text-align: center;
+            margin-right: 8px;
+            font-size: 14px;
+            color: #999;
+        }
+
+        .darshan-times p:hover i {
+            transform: scale(1.2);
+            filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
+        }
+
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 10px;
+            }
+
+            .timeline-item,
+            .timeline-item.right {
+                width: 100%;
+                left: 0;
+                padding: 30px 25px;
+            }
+
+            .timeline-item::after,
+            .timeline-item.right::after {
+                left: 10px;
+            }
+
+            .card {
+                padding: 20px;
+            }
         }
 
         .darshan-img-wrapper {
@@ -125,88 +202,7 @@
             object-fit: cover;
         }
 
-        .card h3 {
-            color: #db4d30;
-            text-align: center;
-            margin-bottom: 8px;
-        }
-
-        .card p {
-            font-size: 14px;
-            color: #444;
-            margin: 5px 0;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .timeline-item.Started .card {
-            border-left-color: #28a745;
-        }
-
-        .timeline-item.Completed .card {
-            border-left-color: #6f42c1;
-        }
-
-        .timeline-item.Upcoming .card {
-            border-left-color: #ffc107;
-        }
-
-        .timeline-item.Started::after {
-            background-color: #28a745;
-        }
-
-        .timeline-item.Completed::after {
-            background-color: #6f42c1;
-        }
-
-        .timeline-item.Upcoming::after {
-            background-color: #ffc107;
-        }
-
-        .badge.Started {
-            background-color: #d4edda;
-            color: #28a745;
-        }
-
-        .badge.Completed {
-            background-color: #e9d8fd;
-            color: #6f42c1;
-        }
-
-        .badge.Upcoming {
-            background-color: #fff3cd;
-            color: #856404;
-        }
-
-        @media (max-width: 768px) {
-            .timeline::before {
-                left: 10px;
-            }
-
-            .timeline-item,
-            .timeline-item.right,
-            .timeline-item.left {
-                left: 0;
-                width: 100%;
-                padding-left: 30px;
-                padding-right: 15px;
-            }
-
-            .timeline-item::after,
-            .timeline-item.right::after,
-            .timeline-item.left::after {
-                left: 10px;
-                right: auto;
-                transform: none;
-            }
-        }
+       
     </style>
 </head>
 
@@ -223,54 +219,69 @@
         </div>
     </div>
 
-    <div class="timeline">
-        @foreach ($darshanList as $index => $darshan)
-            @php
-                $side = $index % 2 === 0 ? 'left' : 'right';
-                $status = $darshan->today_status ?? 'Not Available';
-            @endphp
     
-            <div class="timeline-item {{ $side }} {{ $status }}">
-                <div class="card timeline-content">
-                    <span class="badge {{ $status }}">{{ ucfirst($status) }}</span>
-    
-                    @if ($darshan->darshan_image)
-                        <div class="darshan-img-wrapper">
-                            <img src="{{ asset($darshan->darshan_image) }}" alt="{{ $darshan->darshan_name }}">
-                        </div>
-                    @endif
-    
-                    <h3>{{ $darshan->darshan_name }}</h3>
-    
-                    <p><strong>Day:</strong> {{ $darshan->darshan_day }}</p>
-    
-                    <p><strong>Time:</strong>
-                        {{ $darshan->start_time ? \Carbon\Carbon::parse($darshan->start_time)->format('h:i A') : 'N/A' }}
-                        -
-                        {{ $darshan->end_time ? \Carbon\Carbon::parse($darshan->end_time)->format('h:i A') : 'N/A' }}
-                    </p>
-    
-                    <p><strong>Duration:</strong> {{ $darshan->duration ?? 'N/A' }}</p>
-    
-                    <p><strong>Status:</strong>
-                        @if ($status == 'Started')
-                            <span style="color:#28a745;"><i class="fa fa-play-circle"></i> Started</span>
-                        @elseif($status == 'Upcoming')
-                            <span style="color:#ffc107;"><i class="fa fa-clock"></i> Upcoming</span>
-                        @elseif($status == 'Completed')
-                            <span style="color:#6f42c1;"><i class="fa fa-check-circle"></i> Completed</span>
-                        @else
-                            <span style="color:#999;">Not Available</span>
+<div class="timeline">
+    @foreach ($darshanList as $index => $darshan)
+    @php
+            $start = $darshan['start_time'] ?? null;
+            $end = $darshan['end_time'] ?? null;
+            $status = $darshan['niti_status'];
+            $side = $index % 2 === 0 ? 'left' : 'right';
+
+       
+            $icon = match ($status) {
+                'Completed' => 'fa-check-circle',
+                'Started' => 'fa-sun',
+                'Upcoming' => 'fa-bell',
+            };
+
+            $statusClass = $status; // Matches CSS class names
+        @endphp
+
+        <div class="timeline-item {{ $side }} {{ $statusClass }}">
+            <div class="card timeline-content">
+                <span class="badge {{ $statusClass }}">
+                    <i class="fas {{ $icon }}"></i> {{ $status }}
+                </span>
+
+              
+                        @if ($darshan->darshan_image)
+                            <div class="darshan-img-wrapper">
+                                <img src="{{ asset($darshan->darshan_image) }}" alt="{{ $darshan->darshan_name }}">
+                            </div>
                         @endif
-                    </p>
-    
-                    @if ($darshan->description)
-                        <p>{{ $darshan->description }}</p>
+        
+
+                <div class="darshan-times">
+                    @if ($status === 'Started' && $start)
+                        <p><i class="fas fa-play-circle"></i>
+                            <strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}
+                        </p>
                     @endif
+
+                    @if ($status === 'Completed' && $start)
+                        <p><i class="fas fa-play-circle"></i>
+                            <strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}
+                        </p>
+
+                        <p><i class="fas fa-pause-circle"></i>
+                            <strong>Ended:</strong> {{ \Carbon\Carbon::parse($end)->format('h:i a') }}
+                        </p>
+                    @endif
+
+                    @if ($status === 'Completed' && $end)
+                        <p><i class="fas fa-stop-circle"></i>
+                            <strong>Completes:</strong> {{ \Carbon\Carbon::parse($end)->format('h:i a') }}
+                        </p>
+                    @endif
+
+                   
                 </div>
             </div>
-        @endforeach
-    </div>
+        </div>
+    @endforeach
+</div>
+
     
 </body>
 
