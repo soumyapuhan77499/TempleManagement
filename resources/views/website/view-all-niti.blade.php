@@ -139,7 +139,6 @@
             font-size: 13px;
             font-weight: 600;
             margin-bottom: 10px;
-            text-transform: uppercase;
             letter-spacing: 0.6px;
         }
 
