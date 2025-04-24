@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\Parking;
 use App\Models\Accomodation;
+use App\Models\NitiMaster;
 use App\Models\CommuteMode;
 use App\Models\PublicServices;
 use App\Models\EmergencyContact;
