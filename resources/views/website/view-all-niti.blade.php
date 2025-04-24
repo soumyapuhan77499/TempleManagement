@@ -255,12 +255,8 @@
                     @endif
 
                     @if ($status === 'Upcoming')
-                        <p><i class="fas fa-clock"></i>
-                            <strong>Starts:</strong> {{ \Carbon\Carbon::parse($niti['date_time'])->format('h:i a') }}
-                        </p>
-                        <p><i class="fas fa-clock"></i>
-                            <strong>Completes:</strong> 06:30 am
-                        </p>
+                        <p><i class="fas fa-clock"></i> </p>
+                        
                     @endif
                 </div>
             </div>
