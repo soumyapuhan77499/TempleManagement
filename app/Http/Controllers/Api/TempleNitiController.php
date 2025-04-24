@@ -80,8 +80,7 @@ public function manageNiti(Request $request)
             ->groupBy('after_special_niti');
 
         // ✅ Other Nitis (based on management table status)
-        $otherNitis = NitiMaster::where('status', 'active')
-        ->where('niti_type', 'other')
+        $otherNitis = NitiMaster::where('niti_type', 'other')
         ->where('niti_status', 'Started')
         ->with(['subNitis'])
         ->whereHas('todayStartTime', function ($query) use ($latestDayId) {
