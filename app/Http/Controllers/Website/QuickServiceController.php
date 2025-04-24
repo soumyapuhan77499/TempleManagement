@@ -90,7 +90,6 @@ public function lockerShoeList()
 
     return view('website.locker-shoe-list', compact('services'));
 }
-
 public function getDarshanList()
 {
     $latestDayId = NitiMaster::where('status', 'active')->latest('id')->value('day_id');
@@ -102,13 +101,12 @@ public function getDarshanList()
         ], 404);
     }
 
-
     $darshans = DarshanDetails::where('status', 'active')->get();
 
     $darshanList = $darshans->map(function ($darshan) use ($latestDayId) {
         $todayLog = DarshanManagement::where('darshan_id', $darshan->id)
-        ->where('day_id', $latestDayId)
-            ->latest()
+            ->where('day_id', $latestDayId)
+            ->latest('start_time')
             ->first();
 
         return (object) [
@@ -121,7 +119,7 @@ public function getDarshanList()
             'end_time'       => $todayLog?->end_time,
             'duration'       => $todayLog?->duration,
             'date'           => $todayLog?->date,
-            'today_status'   => $todayLog?->darshan_status ?? 'Not Available',
+            'today_status'   => $todayLog?->darshan_status ?? 'Upcoming',
         ];
     });
 

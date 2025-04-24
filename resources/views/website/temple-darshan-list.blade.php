@@ -219,69 +219,63 @@
         </div>
     </div>
 
+    <div class="timeline">
+        @foreach ($darshanList as $index => $darshan)
+            @php
+                $start = $darshan->start_time;
+                $end = $darshan->end_time;
+                $status = $darshan->today_status;
+                $side = $index % 2 === 0 ? 'left' : 'right';
     
-<div class="timeline">
-    @foreach ($darshanList as $index => $darshan)
-    @php
-            $start = $darshan['start_time'] ?? null;
-            $end = $darshan['end_time'] ?? null;
-            $status = $darshan['niti_status'];
-            $side = $index % 2 === 0 ? 'left' : 'right';
-
-       
-            $icon = match ($status) {
-                'Completed' => 'fa-check-circle',
-                'Started' => 'fa-sun',
-                'Upcoming' => 'fa-bell',
-            };
-
-            $statusClass = $status; // Matches CSS class names
-        @endphp
-
-        <div class="timeline-item {{ $side }} {{ $statusClass }}">
-            <div class="card timeline-content">
-                <span class="badge {{ $statusClass }}">
-                    <i class="fas {{ $icon }}"></i> {{ $status }}
-                </span>
-
-              
-                        @if ($darshan->darshan_image)
-                            <div class="darshan-img-wrapper">
-                                <img src="{{ asset($darshan->darshan_image) }}" alt="{{ $darshan->darshan_name }}">
-                            </div>
+                $icon = match ($status) {
+                    'Completed' => 'fa-check-circle',
+                    'Started' => 'fa-sun',
+                    'Upcoming' => 'fa-bell',
+                    default => 'fa-clock'
+                };
+    
+                $statusClass = $status; // For CSS
+            @endphp
+    
+            <div class="timeline-item {{ $side }} {{ $statusClass }}">
+                <div class="card timeline-content">
+    
+                    <div class="card-header">
+                        <h3 class="niti-name">{{ $darshan->darshan_name }}</h3>
+                        <span class="badge {{ $statusClass }}">
+                            <i class="fas {{ $icon }}"></i> {{ $status === 'Started' ? 'Going On' : $status }}
+                        </span>
+                    </div>
+    
+                    @if ($darshan->darshan_image)
+                        <div class="darshan-img-wrapper" style="margin-bottom: 10px;">
+                            <img src="{{ asset($darshan->darshan_image) }}" alt="{{ $darshan->darshan_name }}" style="width: 100%; max-width: 300px; border-radius: 10px;">
+                        </div>
+                    @endif
+    
+                    <div class="darshan-times">
+                        @if ($status === 'Started' && $start)
+                            <p class="right-align"><strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}</p>
                         @endif
-        
-
-                <div class="darshan-times">
-                    @if ($status === 'Started' && $start)
-                        <p><i class="fas fa-play-circle"></i>
-                            <strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}
-                        </p>
-                    @endif
-
-                    @if ($status === 'Completed' && $start)
-                        <p><i class="fas fa-play-circle"></i>
-                            <strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}
-                        </p>
-
-                        <p><i class="fas fa-pause-circle"></i>
-                            <strong>Ended:</strong> {{ \Carbon\Carbon::parse($end)->format('h:i a') }}
-                        </p>
-                    @endif
-
-                    @if ($status === 'Completed' && $end)
-                        <p><i class="fas fa-stop-circle"></i>
-                            <strong>Completes:</strong> {{ \Carbon\Carbon::parse($end)->format('h:i a') }}
-                        </p>
-                    @endif
-
-                   
+    
+                        @if ($status === 'Completed')
+                            @if ($start)
+                                <p class="right-align"><strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}</p>
+                            @endif
+                            @if ($end)
+                                <p class="right-align"><strong>Completed:</strong> {{ \Carbon\Carbon::parse($end)->format('h:i a') }}</p>
+                            @endif
+                        @endif
+    
+                        @if ($status === 'Upcoming')
+                            <p class="right-align"><strong>Starts:</strong> Not yet started</p>
+                            <p class="right-align"><strong>Completes:</strong> --:--</p>
+                        @endif
+                    </div>
                 </div>
             </div>
-        </div>
-    @endforeach
-</div>
-
+        @endforeach
+    </div>
     
 </body>
 
