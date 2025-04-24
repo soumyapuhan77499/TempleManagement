@@ -208,7 +208,7 @@
                 </div>
 
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="shreeKhetra">
-                    <img src="{{ asset('website/temple_info/age.jpg') }}" style="border-radius: 50%;height: 80px;width: 120px">
+                    <img src="{{ asset('website/temple_info/age.jpg') }}" class="mx-auto w-20 h-20"  style="border-radius: 50%">
                     <p class="text-gray-500 mt-3">Through The Ages</p>
                 </div>
 
