@@ -269,7 +269,6 @@
     
                         @if ($status === 'Upcoming')
                             <p class="right-align"><strong>Starts:</strong> Not yet started</p>
-                            <p class="right-align"><strong>Completes:</strong> --:--</p>
                         @endif
                     </div>
                 </div>

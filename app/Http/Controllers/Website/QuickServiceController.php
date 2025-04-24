@@ -29,7 +29,7 @@ public function prasadTimeline()
         ], 404);
     }
 
-    $prasads = TemplePrasad::get();
+    $prasads = TemplePrasad::where('language', 'Odia')->get();
 
     // Map Prasad with today's management data
     $prasadList = $prasads->map(function ($prasad) use ($latestDayId) {
@@ -101,7 +101,7 @@ public function getDarshanList()
         ], 404);
     }
 
-    $darshans = DarshanDetails::where('status', 'active')->get();
+    $darshans = DarshanDetails::where('status', 'active')->where('language', 'Odia')->get();
 
     $darshanList = $darshans->map(function ($darshan) use ($latestDayId) {
         $todayLog = DarshanManagement::where('darshan_id', $darshan->id)
