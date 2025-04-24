@@ -19,5 +19,6 @@ class PrasadManagement extends Model
         'start_time',
         'prasad_status'
     ];
+    
 
 }

@@ -243,4 +243,55 @@ public function startPrasad(Request $request)
     }
 }
 
+public function getPrasadApi()
+{
+    try {
+        // Step 1: Get latest day_id from active Niti
+        $nitiMaster = NitiMaster::where('status', 'active')->latest()->first();
+
+        if (!$nitiMaster || !$nitiMaster->day_id) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Niti not found or day_id missing.'
+            ], 404);
+        }
+
+        $dayId = $nitiMaster->day_id;
+
+        // Step 2: Get all active Prasad
+        $prasad = TemplePrasad::where('status', 'active')->get();
+
+        // Step 3: For each prasad, fetch today's management entry by day_id
+        $prasadList = $prasad->map(function ($prasadItem) use ($dayId) {
+            $todayLog = PrasadManagement::where('prasad_id', $prasadItem->id)
+                ->where('day_id', $dayId)
+                ->latest()
+                ->first();
+
+            return [
+                'prasad_id'      => $prasadItem->id,
+                'prasad_name'    => $prasadItem->prasad_name,
+                'prasad_type'    => $prasadItem->prasad_type,
+                'prasad_status'  => $todayLog->prasad_status ?? null,
+                'start_time'     => $todayLog->start_time ?? null,
+                'date'           => $todayLog->date ?? null,
+            ];
+        });
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Filtered Prasad list fetched successfully.',
+            'data' => $prasadList
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to fetch prasad list.',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
+
 }

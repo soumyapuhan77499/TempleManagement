@@ -307,6 +307,6 @@ Route::controller(TempleDarshanController::class)->group(function () {
 Route::controller(TemplePrasadController::class)->group(function () {
   Route::get('/special-prasad','getSpecialPrasad');
   Route::middleware('auth:niti_admin')->post('/start-prasad','startPrasad');
-  Route::get('/daily-special-started-prasad','getDailyAndStartedSpecialPrasad');
+  Route::get('/daily-special-started-prasad','getPrasadApi');
 
 });

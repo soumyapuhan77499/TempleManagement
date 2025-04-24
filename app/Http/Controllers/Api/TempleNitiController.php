@@ -681,6 +681,8 @@ public function storeOtherNiti(Request $request)
                 $niti->update([
                     'niti_status' => 'Started',
                     'day_id'      => $dayId,
+                    'date'        => $now->toDateString(),
+                    'start_time'  => $now->format('H:i:s'),
                 ]);
 
                 NitiManagement::create([
