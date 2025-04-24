@@ -190,8 +190,8 @@
 }
 
 .Started .niti-title .underline {
-            width: 60px;
-            height: 4px;
+            width: 80px;
+            height: 3px;
             background-color: #f0ebeb;
             margin-top: 4px;
         }
