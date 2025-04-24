@@ -207,32 +207,32 @@
                     <div class="h-1 bg-red-500 w-full mt-1"></div>
                 </div>
 
-                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="shreeKhetra">
+                <div class="tab-item text-center min-w-[100px] cursor-pointer active-tab" data-tab="shreeKhetra">
                     <img src="{{ asset('website/temple_info/age.png') }}" class="mx-auto w-20 h-20"  style="border-radius: 50%">
                     <p class="text-gray-500 mt-3">Through The Ages</p>
                 </div>
 
-                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="nijoga">
+                <div class="tab-item text-center min-w-[100px] cursor-pointer active-tab" data-tab="nijoga">
                     <img src="{{ asset('website/temple_info/trad.png') }}"  class="mx-auto w-20 h-20" style="border-radius: 50%">
                     <p class="text-gray-500 mt-3">Living Tradition</p>
                 </div>
 
-                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="festivals">
+                <div class="tab-item text-center min-w-[100px] cursor-pointer active-tab" data-tab="festivals">
                     <img src="{{ asset('website/temple_info/festival.png') }}"  class="mx-auto w-20 h-20" style="border-radius: 50%">
                     <p class="text-gray-500 mt-3">Festivals</p>
                 </div>
 
-                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="besha">
+                <div class="tab-item text-center min-w-[100px] cursor-pointer active-tab" data-tab="besha">
                     <img src="{{ asset('website/temple_info/rathayatra.png') }}"  class="mx-auto w-20 h-20" style="border-radius: 50%">
                     <p class="text-gray-500 mt-3">Ratha Yatra</p>
                 </div>
 
-                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="darshan">
+                <div class="tab-item text-center min-w-[100px] cursor-pointer active-tab" data-tab="darshan">
                     <img src="{{ asset('website/temple_info/devotee.png') }}"  class="mx-auto w-20 h-20" style="border-radius: 50%">
                     <p class="text-gray-500 mt-3">Visitor Services</p>
                 </div>
               
-                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="mathaAshram">
+                <div class="tab-item text-center min-w-[100px] cursor-pointer active-tab" data-tab="mathaAshram">
                     <img src="{{ asset('website/temple_info/management.jpg') }}"  class="mx-auto w-20 h-20" style="border-radius: 50%">
                     <p class="text-gray-500 mt-3">Management</p>
                 </div>
