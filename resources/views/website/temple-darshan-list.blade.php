@@ -83,7 +83,6 @@
         .card-header {
             display: flex;
             align-items: center;
-            justify-content: space-between;
             gap: 15px;
             flex-wrap: wrap;
         }
@@ -263,13 +262,14 @@
                                     style="width: 100%; max-width: 300px; border-radius: 10px;">
                             </div>
                         @endif
-                        
+
                         <div>
-                            <h3 class="niti-name">{{ $darshan->darshan_name }}</h3>
                             <span class="badge {{ $statusClass }}">
                                 <i class="fas {{ $icon }}"></i>
                                 {{ $status === 'Started' ? 'Going On' : $status }}
                             </span>
+                            <h3 class="niti-name">{{ $darshan->darshan_name }}</h3>
+
                         </div>
 
                     </div>
