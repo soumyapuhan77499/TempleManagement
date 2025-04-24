@@ -112,15 +112,15 @@
         }
 
         .niti-title h3 {
-            font-size: 20px;
+            font-size: 26px;
             font-weight: 600;
-            color: #db4d30;
+            color: #989897;
             margin: 0;
         }
 
         .niti-title .underline {
             width: 60px;
-            height: 2px;
+            height: 3px;
             background-color: #db4d30;
             margin-top: 4px;
         }
