@@ -11,6 +11,7 @@ class TempleDarshan extends Model
     protected $table = 'temple__darshan_time';
 
     protected $fillable = [
+        'language',
         'temple_id',
         'darshan_day',
         'darshan_name',

@@ -248,15 +248,23 @@ class QuickServiceController extends Controller
 public function getTemplePrasadList()
 {
     try {
-        $today = Carbon::now('Asia/Kolkata')->toDateString();
+  $nitiMaster = NitiMaster::where('status', 'active')->latest()->first();
 
+  if (!$nitiMaster || !$nitiMaster->day_id) {
+      return response()->json([
+          'status' => false,
+          'message' => 'Niti not found or day_id missing.'
+      ], 404);
+  }
+
+  $dayId = $nitiMaster->day_id;
         // Step 1: Get all Prasad master records
-        $prasads = TemplePrasad::get();
+        $prasads = TemplePrasad::where('language','Odia')->get();
 
         // Step 2: Attach today's PrasadManagement data
-        $prasadList = $prasads->map(function ($prasad) use ($today) {
+        $prasadList = $prasads->map(function ($prasad) use ($dayId) {
             $todayLog = PrasadManagement::where('prasad_id', $prasad->id)
-                ->whereDate('date', $today)
+            ->where('day_id', $dayId)
                 ->latest()
                 ->first();
 
@@ -359,16 +367,26 @@ public function getDarshan()
 public function getDarshanListApi()
 {
     try {
-        $today = Carbon::now('Asia/Kolkata')->toDateString();
+
+        $nitiMaster = NitiMaster::where('status', 'active')->latest()->first();
+
+        if (!$nitiMaster || !$nitiMaster->day_id) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Niti not found or day_id missing.'
+            ], 404);
+        }
+
+        $dayId = $nitiMaster->day_id;
 
         // Step 1: Fetch all active darshans
-        $darshans = DarshanDetails::where('status', 'active')->get();
+        $darshans = DarshanDetails::where('status', 'active')->where('language','Odia')->get();
 
         // Step 2: Append today’s management data (if available)
-        $darshanList = $darshans->map(function ($darshan) use ($today) {
+        $darshanList = $darshans->map(function ($darshan) use ($dayId) {
             $todayLog = DarshanManagement::where('darshan_id', $darshan->id)
-                ->whereDate('date', $today)
-                ->latest()
+            ->where('day_id', $dayId)
+            ->latest()
                 ->first();
 
             return [
