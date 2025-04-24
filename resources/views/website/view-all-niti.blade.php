@@ -114,14 +114,14 @@
         .niti-title h3 {
             font-size: 26px;
             font-weight: 600;
-            color: #989897;
+            color: #db4d30;
             margin: 0;
         }
 
         .niti-title .underline {
             width: 60px;
-            height: 3px;
-            background-color: #db4d30;
+            height: px;
+            background-color: #b0aeae;
             margin-top: 4px;
         }
 
