@@ -628,6 +628,7 @@ public function getOtherNiti()
     try {
         $otherNitis = NitiMaster::where('niti_type', 'other')
             ->orderBy('date_time', 'desc')
+            ->where('status', 'other')
             ->get();
 
         return response()->json([
