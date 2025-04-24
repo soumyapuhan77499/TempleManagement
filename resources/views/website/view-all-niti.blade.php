@@ -181,14 +181,12 @@
         /* Completed Niti */
 .Completed .timeline-content {
     background: #fff7e9;
-    border-left: 6px solid #db4d30;
 }
 
 /* Started Niti */
 .Started .timeline-content {
     background: #db4d30;
     color: #fff;
-    border-left: 6px solid #fff;
 }
 
 .Started .niti-title h3 {
@@ -203,7 +201,6 @@
 /* Upcoming Niti */
 .Upcoming .timeline-content {
     background: #ffffff;
-    border-left: 6px solid #db4d30;
 }
 
 /* Shared styles */
@@ -271,7 +268,6 @@
     @php
         use Carbon\Carbon;
     @endphp
-
 <div class="timeline">
     @foreach ($mergedNitiList as $index => $niti)
         @php
@@ -307,10 +303,13 @@
                                 <p><strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}</p>
                             @endif
                             @if ($status === 'Completed')
+                                @if ($start)
                                     <p><strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}</p>
+                                @endif
+                                @if ($end)
                                     <p><strong>Completes:</strong> {{ \Carbon\Carbon::parse($end)->format('h:i a') }}</p>
+                                @endif
                             @endif
-                           
                         </div>
                     </div>
                 </div>
@@ -318,6 +317,7 @@
         </div>
     @endforeach
 </div>
+
 
 
 </body>
