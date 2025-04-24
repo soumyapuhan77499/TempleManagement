@@ -210,61 +210,58 @@
     @endphp
 
 
-    <div class="timeline">
-        @foreach ($mergedNitiList as $index => $niti)
-            @php
-                $start = $niti['start_time'] ?? null;
-                $end = $niti['end_time'] ?? null;
-                $status = $niti['niti_status'];
-                $side = $index % 2 === 0 ? 'left' : 'right';
+<div class="timeline">
+    @foreach ($mergedNitiList as $index => $niti)
+        @php
+            $start = $niti['start_time'] ?? null;
+            $end = $niti['end_time'] ?? null;
+            $status = $niti['niti_status'];
+            $side = $index % 2 === 0 ? 'left' : 'right';
 
-                $icon = match ($status) {
-                    'Completed' => 'fa-check-circle',
-                    'Started' => 'fa-sun',
-                    'Upcoming' => 'fa-bell',
-                };
+       
+            $icon = match ($status) {
+                'Completed' => 'fa-check-circle',
+                'Started' => 'fa-sun',
+                'Upcoming' => 'fa-bell',
+            };
 
-                $statusClass = $status; // Matches CSS class names
-            @endphp
+            $statusClass = $status; // Matches CSS class names
+        @endphp
 
-            <div class="timeline-item {{ $side }} {{ $statusClass }}">
-                <div class="card timeline-content">
-                    <span class="badge {{ $statusClass }}">
-                        <i class="fas {{ $icon }}"></i> {{ $status }}
-                    </span>
+        <div class="timeline-item {{ $side }} {{ $statusClass }}">
+            <div class="card timeline-content">
+                <span class="badge {{ $statusClass }}">
+                    <i class="fas {{ $icon }}"></i> {{ $status }}
+                </span>
 
-                    <h3>{{ $niti['niti_name'] }}</h3>
+                <h3>{{ $niti['niti_name'] }}</h3>
 
-                    <div class="niti-times">
-                        @if ($status === 'Started' && $start)
-                            <p><i class="fas fa-play-circle"></i>
-                                <strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}
-                            </p>
-                        @endif
+                <div class="niti-times">
+                    @if ($status === 'Started' && $start)
+                        <p><i class="fas fa-play-circle"></i>
+                            <strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}
+                        </p>
+                    @endif
 
-                        @if ($status === 'Completed' && $start)
-                            @if ($start)
-                                <p class="right-align"><i class="fas fa-play-circle"></i><strong>Started:</strong>
-                                    {{ \Carbon\Carbon::parse($start)->format('h:i a') }}</p>
-                            @endif
-                            @if ($end)
-                                <p class="right-align"><i class="fas fa-play-circle"></i><strong>Completed:</strong>
-                                    {{ \Carbon\Carbon::parse($end)->format('h:i a') }}</p>
-                            @endif
-                        @endif
+                    @if ($status === 'Completed' && $start)
+                        <p><i class="fas fa-play-circle"></i>
+                            <strong>Started:</strong> {{ \Carbon\Carbon::parse($start)->format('h:i a') }}
+                            <strong>Ended:</strong> {{ \Carbon\Carbon::parse($end)->format('h:i a') }}
+                        </p>
+                    @endif
 
-                        @if ($status === 'Completed' && $end)
-                            <p><i class="fas fa-stop-circle"></i>
-                                <strong>Completes:</strong> {{ \Carbon\Carbon::parse($end)->format('h:i a') }}
-                            </p>
-                        @endif
+                    @if ($status === 'Completed' && $end)
+                        <p><i class="fas fa-stop-circle"></i>
+                            <strong>Completes:</strong> {{ \Carbon\Carbon::parse($end)->format('h:i a') }}
+                        </p>
+                    @endif
 
-
-                    </div>
+                   
                 </div>
             </div>
-        @endforeach
-    </div>
+        </div>
+    @endforeach
+</div>
 
 </body>
 
