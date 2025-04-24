@@ -225,8 +225,8 @@ public function deleteTempleDarshan($id)
 public function getDarshanListApi()
 {
     try {
-
-        $nitiMaster = NitiMaster::where('status', 'active')->first();
+        // Step 1: Fetch latest day_id from active Niti
+        $nitiMaster = NitiMaster::where('status', 'active')->latest()->first();
 
         if (!$nitiMaster || !$nitiMaster->day_id) {
             return response()->json([
@@ -236,10 +236,11 @@ public function getDarshanListApi()
         }
 
         $dayId = $nitiMaster->day_id;
-        // Step 1: Fetch all active darshans
+
+        // Step 2: Fetch all active Darshans
         $darshans = DarshanDetails::where('status', 'active')->get();
 
-        // Step 2: Append today’s management data (if available)
+        // Step 3: Append related DarshanManagement data using day_id
         $darshanList = $darshans->map(function ($darshan) use ($dayId) {
             $todayLog = DarshanManagement::where('darshan_id', $darshan->id)
                 ->where('day_id', $dayId)
@@ -273,6 +274,7 @@ public function getDarshanListApi()
         ], 500);
     }
 }
+
 
 public function startDarshan(Request $request)
 {
