@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\TempleDarshan;
 use App\Models\DarshanDetails;
 use App\Models\DarshanManagement;
+use App\Models\NitiMaster;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
