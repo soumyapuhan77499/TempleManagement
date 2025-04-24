@@ -118,8 +118,8 @@
         }
 
         .badge.Started {
-            background-color: #3b352f;
-            color: #fff;
+            background-color: #fef3ec;
+            color: #2e5b02;
         }
 
         .badge.Upcoming {
