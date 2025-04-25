@@ -78,8 +78,9 @@
                     
                     <p style="color: rgb(139, 137, 137)">
                         <ion-icon name="calendar-outline" style="margin: 6px; color: #ff0011; font-size: 16px;"></ion-icon>
-                        {{ \Carbon\Carbon::parse($niti->date_time)->format('jS M') }}
+                        {{ \Carbon\Carbon::now()->format('jS M') }}
                     </p>
+                    
                 </div>
             </div>
         @endforeach
