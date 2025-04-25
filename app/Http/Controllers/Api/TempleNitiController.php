@@ -833,7 +833,7 @@ public function updateActiveNitiToUpcoming()
             ]);
 
         // Step 4: Update TemplePrasad
-        $prasadUpdatedCount = TemplePrasad::where('prasad_status', 'active')
+        $prasadUpdatedCount = TemplePrasad::where('status', 'active')
             ->update([
                 'prasad_status' => 'Upcoming',
                 'day_id' => $dayId
