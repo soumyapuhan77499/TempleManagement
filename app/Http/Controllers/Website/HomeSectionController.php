@@ -82,7 +82,7 @@ public function puriWebsite()
             ->where('niti_type', 'daily')
             ->with('subNitis')
             ->orderBy('date_time', 'asc')
-            ->limit(1)
+            ->limit(2)
             ->get();
     }
     
