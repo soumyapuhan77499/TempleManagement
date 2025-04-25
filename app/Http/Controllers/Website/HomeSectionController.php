@@ -37,52 +37,57 @@ public function puriWebsite()
         ], 404);
     }
     
-    // Get 1 Started Niti (if any)
-    $startedNiti = NitiMaster::where('status', 'active')
+    // Step 1: Get all active Nitis ordered by date_time (or serial)
+    $allNitis = NitiMaster::where('status', 'active')
         ->where('language', 'Odia')
-        ->whereHas('todayStartTime', function ($query) use ($latestDayId) {
-            $query->where('niti_status', 'Started')
-                  ->where('day_id', $latestDayId);
-        })
+        ->where('niti_type', 'daily') // adjust this if needed
         ->with([
             'todayStartTime' => function ($query) use ($latestDayId) {
-                $query->where('niti_status', 'Started')
-                      ->where('day_id', $latestDayId)
-                      ->select('niti_id', 'start_time');
+                $query->where('day_id', $latestDayId)
+                      ->select('niti_id', 'niti_status', 'start_time');
             },
             'subNitis'
         ])
         ->orderBy('date_time', 'asc')
-        ->limit(1)
         ->get();
     
-    // Now, get Upcoming Nitis (1 if Started exists, else 2)
-    $upcomingLimit = $startedNiti->isEmpty() ? 2 : 1;
+    // Step 2: Find the last started Niti
+    $currentIndex = null;
     
-    $upcomingNitis = NitiMaster::where('status', 'active')
-        ->where('language', 'Odia')
-        ->whereHas('todayStartTime', function ($query) use ($latestDayId) {
-            $query->where('niti_status', 'Upcoming')
-                  ->where('day_id', $latestDayId);
-        })
-        ->with([
-            'todayStartTime' => function ($query) use ($latestDayId) {
-                $query->where('niti_status', 'Upcoming')
-                      ->where('day_id', $latestDayId)
-                      ->select('niti_id', 'start_time');
-            },
-            'subNitis'
-        ])
-        ->orderBy('date_time', 'asc')
-        ->limit($upcomingLimit)
-        ->get();
+    foreach ($allNitis as $index => $niti) {
+        if (
+            optional($niti->todayStartTime)->niti_status === 'Started'
+        ) {
+            $currentIndex = $index;
+        }
+    }
     
-    // Merge results
-    $finalNitiList = $startedNiti->merge($upcomingNitis)->values();
+    // Step 3: Pick current started and next upcoming
+    $finalNitiList = collect();
     
+    if ($currentIndex !== null) {
+        // Add the currently started Niti
+        $finalNitiList->push($allNitis[$currentIndex]);
+    
+        // Add the next one if it exists
+        if (isset($allNitis[$currentIndex + 1])) {
+            $finalNitiList->push($allNitis[$currentIndex + 1]);
+        }
+    } else {
+        // If nothing is started, show first 2 upcoming
+        foreach ($allNitis as $niti) {
+            if (
+                optional($niti->todayStartTime)->niti_status === 'Upcoming'
+            ) {
+                $finalNitiList->push($niti);
+                if ($finalNitiList->count() >= 2) break;
+            }
+        }
+    }
+   
  
     return view('website.index3', [
-        'nitis' => $finalNitiList,
+        'nitis' => $finalNitiList->values(),
         'latestWebVideo' => TempleBanner::where('banner_type', 'web')->whereNotNull('banner_video')->latest()->first(),
         'nearbyTemples' => NearByTemple::whereNotNull('photo')->get(),
         'aboutTemple' => TempleAboutDetail::where('temple_id', $templeId)->first(),
