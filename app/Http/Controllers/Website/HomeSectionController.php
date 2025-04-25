@@ -30,65 +30,57 @@ public function puriWebsite()
 
     $latestDayId = NitiMaster::where('status', 'active')->latest('id')->value('day_id');
 
-        if (!$latestDayId) {
-            return response()->json([
-                'status' => false,
-                'message' => 'No active Niti found to determine day_id.'
-            ], 404);
-        }
-
-        // ✅ Fetch Running Sub Nitis by day_id
-        $runningSubNitis = TempleSubNitiManagement::where('status', '!=', 'Deleted')
-            ->where('day_id', $latestDayId)
-            ->whereIn('niti_id', function ($query) {
-                $query->select('niti_id')
-                    ->from('temple__niti_details')
-                    ->whereIn('niti_status', ['Started', 'Paused']);
-            })
-            ->get();
-
-        // ✅ Get all Daily Nitis
-        $dailyNitis = NitiMaster::where('status', 'active')
-            ->where('language', 'Odia')
-            ->where('niti_type', 'daily')
-            ->orderBy('date_time', 'asc')
-            ->with([
-                'todayStartTime' => function ($query) use ($latestDayId) {
-                    $query->where('niti_status', 'Started')
-                        ->where('day_id', $latestDayId)
-                        ->select('niti_id', 'start_time');
-                },
-                'subNitis'
-            ])
-            ->get();
-
-        // ✅ Get all Special Nitis grouped by after_special_niti
-        $specialNitisGrouped = NitiMaster::where('status', 'active')
-            ->where('niti_type', 'special')
-            ->where('language', 'Odia')
-            ->whereDate('date_time', $today) // ✅ Filter by today's date here
-            ->with([
-                'todayStartTime' => function ($query) use ($latestDayId) {
-                    $query->where('niti_status', 'Upcoming')
-                        ->where('day_id', $latestDayId)
-                        ->select('niti_id', 'start_time');
-                },
-                'subNitis'
-            ])
-            ->get()
-            ->groupBy('after_special_niti');
-
-        // ✅ Other Nitis (based on management table status)
-        $otherNitis = NitiMaster::where('niti_type', 'other')
-        ->where('niti_status', 'Started')
-        ->with(['subNitis'])
+    if (!$latestDayId) {
+        return response()->json([
+            'status' => false,
+            'message' => 'No active Niti found to determine day_id.'
+        ], 404);
+    }
+    
+    // Get 1 Started Niti (if any)
+    $startedNiti = NitiMaster::where('status', 'active')
+        ->where('language', 'Odia')
         ->whereHas('todayStartTime', function ($query) use ($latestDayId) {
-            $query->where('day_id', $latestDayId);
+            $query->where('niti_status', 'Started')
+                  ->where('day_id', $latestDayId);
         })
+        ->with([
+            'todayStartTime' => function ($query) use ($latestDayId) {
+                $query->where('niti_status', 'Started')
+                      ->where('day_id', $latestDayId)
+                      ->select('niti_id', 'start_time');
+            },
+            'subNitis'
+        ])
+        ->orderBy('date_time', 'asc')
+        ->limit(1)
         ->get();
-
-        $finalNitiList = [];
-        
+    
+    // Now, get Upcoming Nitis (1 if Started exists, else 2)
+    $upcomingLimit = $startedNiti->isEmpty() ? 2 : 1;
+    
+    $upcomingNitis = NitiMaster::where('status', 'active')
+        ->where('language', 'Odia')
+        ->whereHas('todayStartTime', function ($query) use ($latestDayId) {
+            $query->where('niti_status', 'Upcoming')
+                  ->where('day_id', $latestDayId);
+        })
+        ->with([
+            'todayStartTime' => function ($query) use ($latestDayId) {
+                $query->where('niti_status', 'Upcoming')
+                      ->where('day_id', $latestDayId)
+                      ->select('niti_id', 'start_time');
+            },
+            'subNitis'
+        ])
+        ->orderBy('date_time', 'asc')
+        ->limit($upcomingLimit)
+        ->get();
+    
+    // Merge results
+    $finalNitiList = $startedNiti->merge($upcomingNitis)->values();
+    
+ 
     return view('website.index3', [
         'nitis' => $finalNitiList,
         'latestWebVideo' => TempleBanner::where('banner_type', 'web')->whereNotNull('banner_video')->latest()->first(),
