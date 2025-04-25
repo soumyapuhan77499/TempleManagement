@@ -202,6 +202,18 @@ public function startNiti(Request $request)
                 'status' => false,
                 'message' => 'No day_id found for the Niti. Please check setup or update day_id first.'
             ], 422);
+                }
+        // Check if the same Niti is already started by any user for this day
+        $alreadyStarted = NitiManagement::where('niti_id', $request->niti_id)
+            ->where('day_id', $dayId)
+            ->where('niti_status', 'Started')
+            ->exists();
+
+        if ($alreadyStarted) {
+            return response()->json([
+                'status' => false,
+                'message' => 'This Niti has already been started by another user.'
+            ], 409); // 409 Conflict
         }
 
         // ✅ Step 1: Start Niti
@@ -344,6 +356,19 @@ public function pauseNiti(Request $request)
             ], 422);
         }
 
+        // ✅ Check if the Niti is already paused   
+        $alreadyPaused = NitiManagement::where('niti_id', $request->niti_id)
+            ->where('niti_status', 'Paused')
+            ->where('day_id', $dayId)
+            ->exists();
+
+        if ($alreadyPaused) {
+            return response()->json([
+                'status' => false,
+                'message' => 'This Niti is already paused.'
+            ], 409); // 409 Conflict
+        }
+
         // ✅ Create new paused log entry
         $pausedNiti = new NitiManagement();
         $pausedNiti->niti_id     = $request->niti_id;
@@ -413,6 +438,19 @@ public function resumeNiti(Request $request)
                 'status' => false,
                 'message' => 'No paused Niti found for current day_id.'
             ], 400);
+        }
+
+        // ✅ Check if the Niti is already resumed
+        $alreadyResumed = NitiManagement::where('niti_id', $request->niti_id)
+            ->where('niti_status', 'Started')
+            ->where('day_id', $dayId)
+            ->exists();
+
+        if ($alreadyResumed) {
+            return response()->json([
+                'status' => false,
+                'message' => 'This Niti is already resumed.'
+            ], 409); // 409 Conflict
         }
 
         $now = Carbon::now('Asia/Kolkata');
@@ -492,6 +530,19 @@ public function stopNiti(Request $request)
                 'status' => false,
                 'message' => 'No active Niti found to stop.'
             ], 400);
+        }
+
+        // ✅ Check if the Niti is already stopped
+        $alreadyStopped = NitiManagement::where('niti_id', $request->niti_id)
+            ->where('niti_status', 'Completed')
+            ->where('day_id', $dayId)
+            ->exists();
+
+        if ($alreadyStopped) {
+            return response()->json([
+                'status' => false,
+                'message' => 'This Niti is already stopped.'
+            ], 409); // 409 Conflict
         }
 
         // ✅ Calculate duration
