@@ -13,6 +13,7 @@ class DarshanManagement extends Model
     protected $table = 'temple__darshan_management';
 
     protected $fillable = [
+        'day_id',
         'temple_id',
         'darshan_id',
         'sebak_id',

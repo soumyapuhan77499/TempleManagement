@@ -12,6 +12,7 @@ class PrasadManagement extends Model
     protected $table = 'temple__prasad_management';
 
     protected $fillable = [
+        'day_id',
         'temple_id',
         'prasad_id',
         'sebak_id',

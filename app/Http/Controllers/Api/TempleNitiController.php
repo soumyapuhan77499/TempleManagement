@@ -187,7 +187,8 @@ public function startNiti(Request $request)
         $now = Carbon::now('Asia/Kolkata');
 
         // ✅ Fetch NitiMaster and its day_id
-        $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
+        $nitiMaster = NitiMaster::where('status', 'active')->get();
+        
         if (!$nitiMaster) {
             return response()->json([
                 'status' => false,
@@ -314,7 +315,7 @@ public function pauseNiti(Request $request)
         }
 
            // ✅ Fetch NitiMaster and its day_id
-           $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
+           $nitiMaster = NitiMaster::where('status', 'active')->first();
 
            if (!$nitiMaster) {
                return response()->json([
@@ -418,7 +419,10 @@ public function resumeNiti(Request $request)
         }
 
         // ✅ Get day_id from master
-        $dayId = NitiMaster::where('niti_id', $request->niti_id)->value('day_id');
+        $nitiMaster = NitiMaster::where('status', 'active')->first();
+
+        $dayId = $startedNiti->day_id;
+
         if (!$dayId) {
             return response()->json([
                 'status' => false,
@@ -504,10 +508,12 @@ public function stopNiti(Request $request)
         }
 
         $tz = 'Asia/Kolkata';
+
         $now = Carbon::now($tz);
 
         // ✅ Get day_id from NitiMaster
-        $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
+        $nitiMaster = NitiMaster::where('status', 'active')->first();
+
         if (!$nitiMaster || !$nitiMaster->day_id) {
             return response()->json([
                 'status' => false,
