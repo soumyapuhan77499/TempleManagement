@@ -53,7 +53,8 @@ public function todayStartCompleteTime()
 {
     return $this->hasOne(NitiManagement::class, 'niti_id', 'niti_id')
         ->where('niti_status', ['Started', 'Completed'])
-        ->whereDate('date', now()->toDateString());
+        ->latest('start_time'); // or 'created_at' if start_time is not present
+
 }
 
 public function subNitis()

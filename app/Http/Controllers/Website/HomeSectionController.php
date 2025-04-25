@@ -28,52 +28,70 @@ public function puriWebsite()
 {
     $templeId = 'TEMPLE25402';
 
-    $today = Carbon::now('Asia/Kolkata')->toDateString();
+    $latestDayId = NitiMaster::where('status', 'active')->latest('id')->value('day_id');
 
-    // ✅ Step 1: Get only STARTED Niti (not Completed)
-    $startedNitiManagement = NitiManagement::whereDate('date', $today)
-        ->where('niti_status', ['Started','Paused'])
-        ->orderBy('start_time', 'asc')
-        ->first();
-
-    $startedNiti = null;
-    $nextUpcomingNiti = null;
-    $nitis = collect();
-
-    if ($startedNitiManagement) {
-        // ✅ Get NitiMaster record of started one
-        $startedNiti = NitiMaster::where('niti_id', $startedNitiManagement->niti_id)
-            ->where('status', 'active')
-            ->where('niti_status',  ['Started','Paused'])
-            ->where('niti_privacy', 'public')
+    if (!$latestDayId) {
+        return response()->json([
+            'status' => false,
+            'message' => 'No active Niti found to determine day_id.'
+        ], 404);
+    }
+    
+    // Get Started Niti (limit to 1)
+    $startedNiti = NitiMaster::where('status', 'active')
+        ->where('language', 'Odia')
+        ->whereHas('todayStartTime', function ($query) use ($latestDayId) {
+            $query->where('niti_status', 'Started')
+                  ->where('day_id', $latestDayId);
+        })
+        ->with([
+            'todayStartTime' => function ($query) use ($latestDayId) {
+                $query->where('niti_status', 'Started')
+                      ->where('day_id', $latestDayId)
+                      ->select('niti_id', 'start_time');
+            },
+            'subNitis'
+        ])
+        ->orderBy('date_time', 'asc')
+        ->limit(1)
+        ->get();
+    
+    // Get Upcoming Niti (limit to 1)
+    $upcomingNiti = NitiMaster::where('status', 'active')
+        ->where('language', 'Odia')
+        ->whereHas('todayStartTime', function ($query) use ($latestDayId) {
+            $query->where('niti_status', 'Upcoming')
+                  ->where('day_id', $latestDayId);
+        })
+        ->with([
+            'todayStartTime' => function ($query) use ($latestDayId) {
+                $query->where('niti_status', 'Upcoming')
+                      ->where('day_id', $latestDayId)
+                      ->select('niti_id', 'start_time');
+            },
+            'subNitis'
+        ])
+        ->orderBy('date_time', 'asc')
+        ->limit(1)
+        ->get();
+    
+    // Fallback: If no "Upcoming" Niti in management table, get from NitiMaster
+    if ($upcomingNiti->isEmpty()) {
+        $upcomingNiti = NitiMaster::where('status', 'active')
             ->where('language', 'Odia')
-            ->first();
-
-        if ($startedNiti) {
-            // ✅ Get next UPCOMING Niti based on date_time
-            $nextUpcomingNiti = NitiMaster::where('status', 'active')
-                ->where('niti_privacy', 'public')
-                ->where('language', 'Odia')
-                ->where('niti_status', 'Upcoming')
-                ->where('date_time', '>', $startedNiti->date_time)
-                ->orderBy('date_time', 'asc')
-                ->first();
-        }
-
-        $nitis = collect([$startedNiti, $nextUpcomingNiti])->filter();
-    } else {
-        // ✅ Fallback: show first 2 UPCOMING Nitis from master
-        $nitis = NitiMaster::where('status', 'active')
-            ->where('niti_privacy', 'public')
-            ->where('language', 'Odia')
-            ->where('niti_status', 'Upcoming')
+            ->where('niti_type', 'daily')
+            ->whereDate('date_time', $today)
+            ->with('subNitis')
             ->orderBy('date_time', 'asc')
-            ->take(2)
+            ->limit(1)
             ->get();
     }
+    
+    // Merge Started + Upcoming (at most 2 items)
+    $finalNitiList = $startedNiti->merge($upcomingNiti);
 
     return view('website.index3', [
-        'nitis' => $nitis,
+        'nitis' => $finalNitiList,
         'latestWebVideo' => TempleBanner::where('banner_type', 'web')->whereNotNull('banner_video')->latest()->first(),
         'nearbyTemples' => NearByTemple::whereNotNull('photo')->get(),
         'aboutTemple' => TempleAboutDetail::where('temple_id', $templeId)->first(),
