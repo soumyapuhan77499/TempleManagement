@@ -524,7 +524,7 @@ Route::controller(HomeSectionController::class)->group(function() {
     Route::get('/mandir-tv', 'mandirTv')->name('tv.layout');
     Route::get('/mandir-radio', 'mandirRadio')->name('radio.layout');
     Route::get('view-near-by-temple/{id}', 'viewNearByTemple')->name('nearby-temple.view');
-    Route::get('/privacy-policy', 'privacyPolicy')->name('privacy.policy');
+    Route::get('puri-website/privacy-policy', 'privacyPolicy')->name('privacy.policy');
 
 });
 
