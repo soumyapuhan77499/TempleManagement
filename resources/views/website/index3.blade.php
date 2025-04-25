@@ -702,7 +702,7 @@
         </div>
 
         <div class="timeline-footer">
-            © {{ date('Y') }} Temple Management System. All rights reserved.
+            © {{ date('Y') }} Temple Management System. All rights reserved. <a style="color: red" href="http://temple.mandirparikrama.com/puri-website/privacy-policy">privacy policy</a>
         </div>
     </section>
 @endsection

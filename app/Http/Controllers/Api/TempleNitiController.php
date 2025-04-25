@@ -580,7 +580,6 @@ public function stopNiti(Request $request)
         $darshanCompleted = null;
         if ($nitiMaster->connected_darshan_id) {
             $activeDarshan = DarshanManagement::where('darshan_id', $nitiMaster->connected_darshan_id)
-                ->where('sebak_id', $user->sebak_id)
                 ->where('darshan_status', 'Started')
                 ->where('day_id', $dayId)
                 ->latest()
