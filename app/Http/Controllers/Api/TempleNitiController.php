@@ -508,12 +508,10 @@ public function stopNiti(Request $request)
         }
 
         $tz = 'Asia/Kolkata';
-
         $now = Carbon::now($tz);
 
         // ✅ Get day_id from NitiMaster
-        $nitiMaster = NitiMaster::where('status', 'active')->first();
-
+        $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
         if (!$nitiMaster || !$nitiMaster->day_id) {
             return response()->json([
                 'status' => false,
@@ -536,19 +534,6 @@ public function stopNiti(Request $request)
                 'status' => false,
                 'message' => 'No active Niti found to stop.'
             ], 400);
-        }
-
-        // ✅ Check if the Niti is already stopped
-        $alreadyStopped = NitiManagement::where('niti_id', $request->niti_id)
-            ->where('niti_status', 'Completed')
-            ->where('day_id', $dayId)
-            ->exists();
-
-        if ($alreadyStopped) {
-            return response()->json([
-                'status' => false,
-                'message' => 'This Niti is already stopped.'
-            ], 409); // 409 Conflict
         }
 
         // ✅ Calculate duration
@@ -586,6 +571,7 @@ public function stopNiti(Request $request)
         $darshanCompleted = null;
         if ($nitiMaster->connected_darshan_id) {
             $activeDarshan = DarshanManagement::where('darshan_id', $nitiMaster->connected_darshan_id)
+                ->where('sebak_id', $user->sebak_id)
                 ->where('darshan_status', 'Started')
                 ->where('day_id', $dayId)
                 ->latest()
@@ -630,6 +616,7 @@ public function stopNiti(Request $request)
         ], 500);
     }
 }
+
 
 public function completedNiti()
 {
