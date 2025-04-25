@@ -65,12 +65,17 @@
                 <div class="niti-icons">
                     <p style="color: rgb(139, 137, 137)">
                         <ion-icon name="time-outline" style="margin: 6px; color: #ff0011; font-size: 16px;"></ion-icon>
-                        @if ($niti->niti_status === 'Upcoming')
+                        @php
+                            $startTime = optional($niti->todayStartTime)->start_time;
+                        @endphp
+                    
+                        @if ($niti->niti_status === 'Upcoming' || !$startTime)
                             Not Started
                         @else
-                            {{ \Carbon\Carbon::parse($niti->start_time)->format('h:i A') }}
+                            {{ \Carbon\Carbon::parse($startTime)->format('h:i A') }}
                         @endif
                     </p>
+                    
                     <p style="color: rgb(139, 137, 137)">
                         <ion-icon name="calendar-outline" style="margin: 6px; color: #ff0011; font-size: 16px;"></ion-icon>
                         {{ \Carbon\Carbon::parse($niti->date_time)->format('jS M') }}
