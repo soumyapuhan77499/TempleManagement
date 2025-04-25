@@ -24,6 +24,9 @@ use Carbon\Carbon;
 class HomeSectionController extends Controller
 {
 
+
+
+
 public function puriWebsite()
 {
     $templeId = 'TEMPLE25402';
@@ -247,6 +250,8 @@ public function viewNearByTemple($id)
     return view('website.view-near-by-temple', compact('temple'));
 }
 
-
+public function privacyPolicy(){
+    return view('website.temple-privacy-police');
+}
 
 }
