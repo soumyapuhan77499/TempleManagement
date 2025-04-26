@@ -251,7 +251,7 @@
                     
                 ]
             },
-
+            
             throughAges: {
                 title: "Through The Ages",
                 description: "Legendary origin of Puri and the shrine of Purushottama has been described vividly in Brahma Purana, Narada Purana and Utkal Khanda (Purushottama Mahatmya) of Skanda Purana. Among these three Puranas the description of Skanda Purana is more elaborate. As per the Purana, King Indradymana was ruling over the Malava Country in Satya Yuga (the age of Truth). Indradymna was a great devotee of Vishnu. Once he came to know about Purushottama, on the shore of the South Sea from his family priests and pilgrims. He was informed that, on the Nilachala (blue hill), image of Vasudeva made of blue sapphire was being worshipped by the Sabaras (a tribal clan). The King in consultation with the family prist, deputed Vidyapati (the brother of the priest) to locate the site. Vidyapati, after travelling a long distance, reached the place and met Viswabasu, the chief of the Sabaras. Though unwilling at the outset",
@@ -272,48 +272,48 @@
             },
 
 
-           tradition: {
+            tradition: {
                 title: "Living Tradition",
-                description: "The daily and periodical rituals observed and performed in His service and worship since time immemorial, bear the dignity and grandeur which a supreme person is entitled to.
-                The ritual system of the temple is very elaborate and complex involving a multitude of functionaries
-                .The rituals of Lord Shree Jagannatha can broadly be divided into three categories i.e.the daily,
-                the occasional(periodical) and the festive.In Shree Jagannatha temple,
-                these rituals assure the term“ Niti”.The fixed nitis that are observed daily are a matter of routine
-                .Each Sevaka or Servitor of the temple has his specific role to play in
-                these nitis with terms and times already specified.The various nitis,
-                that are observed daily in the temple commence at about 5 am and
-                continue till late night.
-                ",
+                description: "Traditions kept alive through generations",
                 image: "website/temple_info/tradition.png",
                 buttons: [{
                         name: "Daily Rituals",
                         url: "/daily-rituals"
                     },
                     {
-                        name: "Periodical Rituals",
-                        url: "/daily-rituals"
-                    },
-                    {
-                        name: "Sevaks",
-                        url: "/daily-rituals"
-                    },
-                    {
-                        name: "Bhesas",
+                        name: "Festivals",
                         url: "/festivals"
                     }
                 ]
             },
-
-
+            
             festivals: {
                 title: "Festivals",
-                description: "Colorful festivals celebrated year-round",
+                description: "Old Sanskrit texts, right from Brahma and Skanda Purana onwards, contain prescription about the observance of twelve festivals in the temple of Jagannatha throughout the year. These twelve festivals, popularly called ‘dvadasa yatras’.
+                These twelve festivals are(1) Snana(bathing),
+                (2) Ratha(moving by chariot),
+                (3) Sayana(sleeping),
+                (4) Uttarayana,
+                (5) Daksinayana,
+                (6) Parsva Parivartana(changing of sides),
+                (7) Utthapana(awakening),
+                (8) Pravarana(covering the body),
+                (9) Pusyabhiseka(coronation),
+                (10) Dola(swinging),
+                (11) Damanaka Bhanjana(breaking of Damanaka plant) and(12) Aksaya Trtiya(Chandan yatra)
+                .Besides that anther festival namely‘ Neeladri Mahodaya’ known as froyadasha yatra of the temple
+                .There is a popular saying“ Thirteen festivals are there in twelve months”.
+                ",
                 image: "website/temple_info/festival.jpeg",
                 buttons: [{
-                    name: "Car Festival",
+                    name: "Major Festivals",
+                    url: "/car-festival"
+                }, {
+                    name: "Other Festivals",
                     url: "/car-festival"
                 }]
             },
+
             ratha: {
                 title: "Ratha Yatra",
                 description: "The grand Ratha Yatra of Jagannath",
