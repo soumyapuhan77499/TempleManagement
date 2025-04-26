@@ -64,6 +64,7 @@ class NitiController extends Controller
             // ✅ Check if the niti_order already exists for the same temple
             $existingNiti = NitiMaster::where('temple_id', $templeId)
                                       ->where('niti_order', $request->input('niti_order'))
+                                      ->where('language', $request->input('language'))
                                       ->first();
     
             if ($existingNiti) {

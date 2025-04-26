@@ -205,13 +205,12 @@
         <!-- Navigation Tabs -->
         <div class="flex justify-center items-center gap-6 mt-5 mb-12">
             <div id="navContainer" class="flex gap-5 overflow-x-auto no-scrollbar">
-                <div class="tab-item text-center min-w-[100px] cursor-pointer active-tab" data-tab="aboutTemple">
+                <div class="tab-item text-center min-w-[100px] cursor-pointer active-tab" data-tab="lordSupreme">
                     <img src="{{ asset('website/temple_info/sup.png') }}" class="mx-auto w-20 h-20" style="border-radius: 50%">
                     <p class="text-gray-500 mt-3">Lord Supreme</p>
-                    <div class="h-1 bg-red-500 w-full mt-1"></div>
                 </div>
 
-                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="shreeKhetra">
+                <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="throughAges">
                     <img src="{{ asset('website/temple_info/age.png') }}" class="mx-auto w-20 h-20"  style="border-radius: 50%">
                     <p class="text-gray-500 mt-3">Through The Ages</p>
                 </div>
@@ -244,35 +243,29 @@
         </div>
     </div>
 
-    <section id="dynamicContent" class="bg-100">
-        <div class="max-w-6xl mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <!-- Image -->
-                <div id="contentImageContainer" class="mt-12" style="height: 350px; width: 450px;">
-                    <img id="contentImage" src="{{ asset($photos->temple_images[0] ?? 'website/12.jpg') }}"
-                        alt="Temple Image" class="rounded-xl shadow-lg object-cover w-full h-full" />
-                </div>
+   <section id="dynamicContent" class="bg-100">
+    <div class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <!-- Image -->
+            <div id="contentImageContainer" class="mt-12" style="height: 350px; width: 450px;">
+                <img id="contentImage"
+                     src="{{ asset('website/temple_info/sup.png') }}" 
+                     alt="Temple Image"
+                     class="rounded-xl shadow-lg object-cover w-full h-full" />
+            </div>
 
-                <!-- Text Content -->
-                <div style="margin-left: -100px">
-                    <h2 id="contentTitle" class="text-xl font-semi-bold">
+            <!-- Text Content -->
+            <div style="margin-left: -100px">
+                <h2 id="contentTitle" class="text-xl font-semi-bold"></h2>
+                <p id="contentDescription" class="text-gray-500 mt-4 leading-relaxed"></p>
 
-                    </h2>
-                    <h3 id="contentSubtitle" class="text-md text-gray-600 mt-2">
-
-                    </h3>
-                    <p id="contentDescription" class="text-gray-500 mt-4 leading-relaxed">
-
-                    </p>
-
-                    <button
-                        class="mt-6 px-6 py-2 bg-red-100 text-red-600 rounded-lg shadow-md hover:bg-red-200 transition">
-                        Read More
-                    </button>
-                </div>
+                <!-- ✅ New: Button area -->
+                <div id="buttonContainer" class="mt-6 flex flex-wrap gap-3"></div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
 
     <section class="services-section py-10 ">
         <!-- Section Title -->

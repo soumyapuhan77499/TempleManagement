@@ -236,85 +236,193 @@
 
     <script>
         const tabData = {
-            aboutTemple: {
+            lordSupreme: {
                 title: "Lord Supreme",
-                subtitle: @json(strip_tags($aboutTemple->temple_about ?? 'No about content available')),
-                description: @json(strip_tags($aboutTemple->temple_history ?? 'No history available')),
-                image: "website/temple_info/sup.png"
+                description: "Lord Jagannatha, as His very name signifies, is the Lord of the Universe (Jagat = Universe; Natha = Lord). He is also popularly known as Mahaprabhu (Maha = Great; Prabhu = Lord). The sacred scriptures of Sanatana Vaidika Dharma (popularly known as Hinduism) also refer to Him as Purushottama, The Supreme Divine Being (Purusha = Divine Being; Uttama = Supreme). The glory of Lord Jagannatha has been narrated in innumerable scriptures – from the Vedas (the earliest scriptures of mankind) to the Puranas and later literary compositions in Sanskrit and Odia languages. These scriptures leave no doubt that Lord Jagannatha is the One Omnipotent, Omnipresent and Omniscient Supreme God referred to as Paramatma (Supreme Self).",
+                image: "website/temple_info/sup.png",
+                buttons: [{
+                        name: "Mahaprabhu Shree Jagannatha",
+                        url: "/about-jagannath"
+                    },
+                    {
+                        name: "Shreekshetra",
+                        url: "/temple-story"
+                    },
+                    
+                ]
             },
 
-            shreeKhetra: {
+            throughAges: {
                 title: "Through The Ages",
-                subtitle: "The Holy Land of Lord Jagannath",
-                description: "Shree Kshetra, also known as Puri, is one of the holiest pilgrimage sites in India and one of the sacred Char Dham (four divine abodes) established by Adi Shankaracharya. It is the eternal home of Lord Jagannath, the Lord of the Universe, along with his siblings Balabhadra and Subhadra.",
-                image: "website/temple_info/age.png"
+                description: "Legendary origin of Puri and the shrine of Purushottama has been described vividly in Brahma Purana, Narada Purana and Utkal Khanda (Purushottama Mahatmya) of Skanda Purana. Among these three Puranas the description of Skanda Purana is more elaborate. As per the Purana, King Indradymana was ruling over the Malava Country in Satya Yuga (the age of Truth). Indradymna was a great devotee of Vishnu. Once he came to know about Purushottama, on the shore of the South Sea from his family priests and pilgrims. He was informed that, on the Nilachala (blue hill), image of Vasudeva made of blue sapphire was being worshipped by the Sabaras (a tribal clan). The King in consultation with the family prist, deputed Vidyapati (the brother of the priest) to locate the site. Vidyapati, after travelling a long distance, reached the place and met Viswabasu, the chief of the Sabaras. Though unwilling at the outset",
+                image: "website/temple_info/age.png",
+                buttons: [{
+                        name: "Ancient Period",
+                        url: "/ancient-times"
+                    },
+                    {
+                        name: "Medieval Period",
+                        url: "/ancient-times"
+                    },
+                    {
+                        name: "Mordern Period",
+                        url: "/modern-era"
+                    }
+                ]
             },
 
-            tradition: {
+
+           tradition: {
                 title: "Living Tradition",
-                subtitle: @json($matha->matha_name ?? 'No matha info'),
-                description: @json($matha->description ?? 'No description available'),
-                image: "website/temple_info/tradition.png"
+                description: "The daily and periodical rituals observed and performed in His service and worship since time immemorial, bear the dignity and grandeur which a supreme person is entitled to.
+                The ritual system of the temple is very elaborate and complex involving a multitude of functionaries
+                .The rituals of Lord Shree Jagannatha can broadly be divided into three categories i.e.the daily,
+                the occasional(periodical) and the festive.In Shree Jagannatha temple,
+                these rituals assure the term“ Niti”.The fixed nitis that are observed daily are a matter of routine
+                .Each Sevaka or Servitor of the temple has his specific role to play in
+                these nitis with terms and times already specified.The various nitis,
+                that are observed daily in the temple commence at about 5 am and
+                continue till late night.
+                ",
+                image: "website/temple_info/tradition.png",
+                buttons: [{
+                        name: "Daily Rituals",
+                        url: "/daily-rituals"
+                    },
+                    {
+                        name: "Periodical Rituals",
+                        url: "/daily-rituals"
+                    },
+                    {
+                        name: "Sevaks",
+                        url: "/daily-rituals"
+                    },
+                    {
+                        name: "Bhesas",
+                        url: "/festivals"
+                    }
+                ]
             },
+
 
             festivals: {
                 title: "Festivals",
-                subtitle: @json($festival->festival_name ?? 'No festivals'),
-                description: @json($festival->description ?? 'No description available'),
-                image: "website/temple_info/festival.jpeg"
+                description: "Colorful festivals celebrated year-round",
+                image: "website/temple_info/festival.jpeg",
+                buttons: [{
+                    name: "Car Festival",
+                    url: "/car-festival"
+                }]
             },
-
             ratha: {
                 title: "Ratha Yatra",
-                subtitle: @json($nijoga->nijoga_name ?? 'No nijoga data'),
-                description: @json($nijoga->description ?? 'No description available'),
-                image: "website/temple_info/ratha.png"
+                description: "The grand Ratha Yatra of Jagannath",
+                image: "website/temple_info/ratha.png",
+                buttons: [{
+                    name: "View Ratha Yatra",
+                    url: "/ratha-yatra"
+                }]
             },
-
-           services: {
+            services: {
                 title: "Visitor Services",
-                subtitle: @json($besha->besha_name ?? 'No besha available'),
-                description: @json($besha->description ?? 'No description available'),
-                image: "website/temple_info/devt.png"
+                description: "Services available for devotees and tourists",
+                image: "website/temple_info/devt.png",
+                buttons: [{
+                        name: "Accommodation",
+                        url: "/accommodation"
+                    },
+                    {
+                        name: "Guided Tours",
+                        url: "/guided-tours"
+                    }
+                ]
             },
-
             management: {
                 title: "Management",
-                subtitle: @json($darshan->darshan_name ?? 'No darshan info'),
-                description: @json($darshan->description ?? 'No description available'),
-                image: "website/temple_info/management.jpg"
-            },
-           
+                description: "The temple management and their services",
+                image: "website/temple_info/management.jpg",
+                buttons: [{
+                    name: "Meet Management",
+                    url: "/management-team"
+                }]
+            }
         };
     </script>
 
     <script>
-        document.querySelectorAll(".tab-item").forEach(tab => {
-            tab.addEventListener("click", function() {
-                const selectedTab = this.getAttribute("data-tab");
-                const data = tabData[selectedTab];
+        function loadTabContent(tabKey) {
+            const tabInfo = tabData[tabKey];
 
-                if (!data) return;
+            // Update image
+            document.getElementById('contentImage').src = "{{ asset('') }}" + tabInfo.image;
 
-                document.getElementById("contentTitle").innerText = data.title;
-                document.getElementById("contentSubtitle").innerText = data.subtitle;
-                document.getElementById("contentDescription").innerText = data.description;
-                document.getElementById("contentImage").src = data.image;
+            // Update title and description
+            document.getElementById('contentTitle').textContent = tabInfo.title;
+            document.getElementById('contentDescription').textContent = tabInfo.description;
 
-                document.querySelectorAll(".tab-item").forEach(t => {
-                    t.classList.remove("active-tab");
-                    t.classList.add("inactive-tab");
-                    t.querySelector("p").classList.replace("text-red-600", "text-gray-500");
-                    t.querySelector("div")?.remove();
+            // Clear old buttons
+            const buttonContainer = document.getElementById('buttonContainer');
+            buttonContainer.innerHTML = '';
+
+            // Add new buttons
+            tabInfo.buttons.forEach(button => {
+                const btn = document.createElement('a');
+                btn.href = button.url;
+                btn.textContent = button.name;
+                btn.className =
+                    'bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300';
+                buttonContainer.appendChild(btn);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTabContent('lordSupreme'); // Load default Lord Supreme tab content
+
+            // Set default active tab underline
+            const defaultTab = document.querySelector('.tab-item[data-tab="lordSupreme"]');
+            if (defaultTab) {
+                defaultTab.classList.add('active-tab');
+                defaultTab.classList.remove('inactive-tab');
+                defaultTab.querySelector('p').classList.replace('text-gray-500', 'text-red-600');
+
+                const underline = document.createElement('div');
+                underline.classList.add('h-1', 'bg-red-500', 'w-full', 'mt-1');
+                defaultTab.appendChild(underline);
+            }
+        });
+
+        // Tab click handler
+        document.querySelectorAll('.tab-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // First reset all tabs
+                document.querySelectorAll('.tab-item').forEach(t => {
+                    t.classList.remove('active-tab');
+                    t.classList.add('inactive-tab');
+                    const titleText = t.querySelector('p');
+                    if (titleText) {
+                        titleText.classList.replace('text-red-600', 'text-gray-500');
+                    }
+                    const underline = t.querySelector('div.h-1.bg-red-500');
+                    if (underline) {
+                        underline.remove();
+                    }
                 });
 
-                this.classList.add("active-tab");
-                this.classList.remove("inactive-tab");
-                this.querySelector("p").classList.replace("text-gray-500", "text-red-600");
+                // Activate clicked tab
+                this.classList.add('active-tab');
+                this.classList.remove('inactive-tab');
+                const clickedTitleText = this.querySelector('p');
+                if (clickedTitleText) {
+                    clickedTitleText.classList.replace('text-gray-500', 'text-red-600');
+                }
 
-                const underline = document.createElement("div");
-                underline.classList.add("h-1", "bg-red-500", "w-full", "mt-1");
+                const underline = document.createElement('div');
+                underline.classList.add('h-1', 'bg-red-500', 'w-full', 'mt-1');
                 this.appendChild(underline);
+
+                // Load tab content
+                const tabKey = this.getAttribute('data-tab');
+                loadTabContent(tabKey);
             });
         });
     </script>
