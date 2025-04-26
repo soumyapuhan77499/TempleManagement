@@ -46,37 +46,36 @@ class NitiMaster extends Model
     {
         return $this->hasOne(NitiManagement::class, 'niti_id', 'niti_id')
             ->where('niti_status', 'Started')
-            ->latest('start_time'); // or 'created_at' if start_time is not present
+            ->latest('start_time'); 
     }
 
-public function todayStartCompleteTime()
-{
-    return $this->hasOne(NitiManagement::class, 'niti_id', 'niti_id')
-        ->where('niti_status', ['Started', 'Completed'])
-        ->latest('start_time'); // or 'created_at' if start_time is not present
+    public function todayStartCompleteTime()
+    {
+        return $this->hasOne(NitiManagement::class, 'niti_id', 'niti_id')
+            ->where('niti_status', ['Started', 'Completed'])
+            ->latest('start_time'); 
+    }
 
-}
+    public function subNitis()
+    {
+        return $this->hasMany(TempleSubNiti::class, 'niti_id', 'niti_id');
+    }
 
-public function subNitis()
-{
-    return $this->hasMany(TempleSubNiti::class, 'niti_id', 'niti_id');
-}
-
-public function afterSpecial()
-{
-    return $this->belongsTo(NitiMaster::class, 'after_special_niti', 'niti_id');
-}
+    public function afterSpecial()
+    {
+        return $this->belongsTo(NitiMaster::class, 'after_special_niti', 'niti_id');
+    }
 
 
-public function linkedDarshan()
-{
-    return $this->belongsTo(DarshanDetails::class, 'connected_darshan_id');
-}
+    public function linkedDarshan()
+    {
+        return $this->belongsTo(DarshanDetails::class, 'connected_darshan_id');
+    }
 
-public function linkedMahaprasad()
-{
-    return $this->belongsTo(TemplePrasad::class, 'connected_mahaprasad_id');
-}
+    public function linkedMahaprasad()
+    {
+        return $this->belongsTo(TemplePrasad::class, 'connected_mahaprasad_id');
+    }
 
 
 

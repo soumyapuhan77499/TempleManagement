@@ -22,6 +22,7 @@ class WebsiteBannerController extends Controller
     {
         try {
             $templeId = 'TEMPLE25402';
+
             $latestDayId = NitiMaster::where('status', 'active')->latest('id')->value('day_id');
     
             if (!$latestDayId) {
@@ -73,7 +74,7 @@ class WebsiteBannerController extends Controller
                     'start_time'  => optional($otherNiti->todayStartTime)->start_time,
                 ];
             }
-    
+            
             foreach ($dailyNitis as $dailyNiti) {
                 $matchingRunningSubNitis = $runningSubNitis->where('niti_id', $dailyNiti->niti_id);
     

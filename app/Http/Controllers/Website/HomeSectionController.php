@@ -24,9 +24,6 @@ use Carbon\Carbon;
 class HomeSectionController extends Controller
 {
 
-
-
-
 public function puriWebsite()
 {
     $templeId = 'TEMPLE25402';
@@ -103,6 +100,7 @@ public function puriWebsite()
         'prasad' => TemplePrasad::where('temple_id', $templeId)->first(),
     ]);
 }
+
 public function viewAllNiti()
 {
     // ✅ Get latest active day_id
