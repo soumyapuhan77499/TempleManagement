@@ -53,18 +53,25 @@ class NitiController extends Controller
                 'date_time' => 'required|date',
                 'niti_about' => 'nullable|string',
                 'description' => 'nullable|string',
-                'niti_sebayat' => 'sometimes|array',
-                'niti_sebayat.*' => 'string',
-                'item_name' => 'sometimes|array',
-                'step_of_niti' => 'sometimes|array',
+                'niti_type' => 'required|string',   // ✅ Ensure this if you're checking niti_type
+                'niti_privacy' => 'required|string',// ✅ Ensure this if you're checking niti_privacy
                 'seba_name' => 'sometimes|array',
             ]);
     
-            // Generate a unique niti_id
-            $niti_id = 'NITI' . rand(10000, 99999);
-    
             // Get temple ID from authenticated user
             $templeId = Auth::guard('temples')->user()->temple_id;
+    
+            // ✅ Check if the niti_order already exists for the same temple
+            $existingNiti = NitiMaster::where('temple_id', $templeId)
+                                      ->where('niti_order', $request->input('niti_order'))
+                                      ->first();
+    
+            if ($existingNiti) {
+                return redirect()->back()->withErrors(['niti_order' => 'The selected Niti Order is already assigned. Please choose a different order.']);
+            }
+    
+            // Generate a unique niti_id
+            $niti_id = 'NITI' . rand(10000, 99999);
     
             // Save main Niti data
             $niti = new NitiMaster();
@@ -73,68 +80,23 @@ class NitiController extends Controller
             $niti->language = $request->input('language');
             $niti->niti_name = $request->input('niti_name');
             $niti->date_time = $request->input('date_time');
+            $niti->niti_order = $request->input('niti_order');
             $niti->after_special_niti = $request->input('after_special_niti');
             $niti->niti_about = $request->input('niti_about');
             $niti->description = $request->input('description');
     
-            // ✅ Correctly save niti_type
+            // Save niti_type and niti_privacy
             $niti->niti_type = $request->input('niti_type') === 'special' ? 'special' : 'daily';
-    
-            // ✅ Correctly save niti_privacy
             $niti->niti_privacy = $request->input('niti_privacy') === 'private' ? 'private' : 'public';
-
+    
             $niti->connected_mahaprasad_id = $request->input('connected_mahaprasad_id');
             $niti->connected_darshan_id = $request->input('connected_darshan_id');
-
     
-            // ✅ Save sebayat list as CSV if present
-            if ($request->filled('niti_sebayat')) {
-                $niti->niti_sebayat = implode(',', $request->niti_sebayat);
-            }
+            $niti->save(); // ✅ Don't forget to save the NitiMaster record first!
     
-            $niti->save();
-    
-            // ✅ Save Niti Items
-            if ($request->filled('item_name')) {
-                $items = $request->input('item_name');
-                $quantities = $request->input('quantity');
-                $units = $request->input('unit');
-    
-                foreach ($items as $index => $itemName) {
-                    if (!empty($itemName)) {
-                        NitiItems::create([
-                            'niti_id' => $niti_id,
-                            'item_name' => $itemName,
-                            'quantity' => $quantities[$index] ?? null,
-                            'unit' => $units[$index] ?? null,
-                        ]);
-                    }
-                }
-            }
-    
-            // ✅ Save Niti Steps with specific seba_name
-            if ($request->filled('step_of_niti')) {
-                $steps = $request->input('step_of_niti');
-                $sebas = $request->input('seba_name');
-    
-                foreach ($steps as $index => $stepName) {
-                    if (!empty($stepName)) {
-                        $stepSebas = $sebas[$index] ?? [];
-                        $sebaNamesString = is_array($stepSebas) ? implode(',', $stepSebas) : '';
-    
-                        NitiStep::create([
-                            'niti_id' => $niti_id,
-                            'step_name' => $stepName,
-                            'seba_name' => $sebaNamesString,
-                        ]);
-                    }
-                }
-            }
-
-            // ✅ Save Sub Niti
+            // ✅ Save Sub Niti if present
             if ($request->filled('sub_niti_name')) {
                 $subNitiNames = $request->input('sub_niti_name');
-
                 foreach ($subNitiNames as $subNitiName) {
                     if (!empty($subNitiName)) {
                         TempleSubNiti::create([
@@ -145,13 +107,13 @@ class NitiController extends Controller
                     }
                 }
             }
-
     
             return redirect()->back()->with('success', 'Niti details saved successfully!');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => 'An error occurred while saving Niti details: ' . $e->getMessage()]);
         }
     }
+    
     
     public function manageniti()
     {
@@ -160,6 +122,7 @@ class NitiController extends Controller
         // Fetch NitiMaster with related steps and items
         $manage_niti_master = NitiMaster::with(['steps', 'niti_items'])
                                 ->where('status', 'active')
+                                ->orderBy('niti_order', 'asc')
                                 ->where('temple_id', $templeId)
                                 ->get();
     
@@ -232,6 +195,7 @@ public function updateNitiMaster(Request $request, $id)
         $niti->date_time    = $request->input('date_time');
         $niti->after_special_niti = $request->input('after_special_niti');
         $niti->niti_about   = $request->input('niti_about');
+        $niti->niti_order = $request->input('niti_order');
         $niti->description  = $request->input('description');
         $niti->niti_type    = $request->input('niti_type'); // special OR daily
         $niti->niti_privacy = $request->input('niti_privacy', 'public');

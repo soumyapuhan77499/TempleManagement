@@ -46,7 +46,7 @@ class WebsiteBannerController extends Controller
                 ->where('niti_type', 'daily')
                 ->where('language', 'Odia')
                 ->where('niti_privacy', 'public')
-                ->orderBy('date_time', 'asc')
+                ->orderBy('niti_order', 'asc')
                 ->get();
     
             $specialNitisGrouped = NitiMaster::where('status', 'active')

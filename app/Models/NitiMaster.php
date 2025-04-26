@@ -18,6 +18,7 @@ class NitiMaster extends Model
         'day_id',
         'language',
         'niti_name',
+        'niti_order',
         'date_time',
         'after_special_niti',
         'niti_type',
@@ -65,7 +66,6 @@ class NitiMaster extends Model
     {
         return $this->belongsTo(NitiMaster::class, 'after_special_niti', 'niti_id');
     }
-
 
     public function linkedDarshan()
     {

@@ -243,7 +243,7 @@ body {
 .tab-buttons:hover,
 .active-tabs {
     color: #db4d30;
-    background: linear-gradient(45deg, #FFA726, #F06292);
+    background: #fff;
     font-weight: bold;
 }
 

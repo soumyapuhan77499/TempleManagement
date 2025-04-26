@@ -52,7 +52,7 @@ public function manageNiti(Request $request)
         $dailyNitis = NitiMaster::where('status', 'active')
             ->where('language', 'Odia')
             ->where('niti_type', 'daily')
-            ->orderBy('date_time', 'asc')
+            ->orderBy('niti_order', 'asc')
             ->with([
                 'todayStartTime' => function ($query) use ($latestDayId) {
                     $query->where('niti_status', 'Started')

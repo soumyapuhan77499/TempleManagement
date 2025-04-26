@@ -48,7 +48,7 @@ public function puriWebsite()
             },
             'subNitis'
         ])
-        ->orderBy('date_time', 'asc')
+        ->orderBy('niti_order', 'asc')
         ->get();
     
     // Step 2: Find the last started Niti
@@ -124,7 +124,7 @@ public function viewAllNiti()
         ->where('language', 'Odia')
         ->where('niti_privacy', 'public')
         ->where('day_id', $latestDayId)
-        ->orderBy('date_time', 'asc')
+        ->orderBy('niti_order', 'asc')
         ->get();
 
     // ✅ Fetch Special Nitis (active + public + today) grouped by their position

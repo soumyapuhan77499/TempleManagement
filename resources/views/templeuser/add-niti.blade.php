@@ -165,6 +165,14 @@
                                 </div>
                             </div>
 
+                            <!-- Niti Order Input -->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="main-content-label">Niti Order</label>
+                                    <input type="text" step="0.01" class="form-control" id="niti_order" name="niti_order" placeholder="Enter Niti Order">
+                                </div>
+                            </div>
+
                             <!-- Date & Time -->
                             <div class="row" id="dateTimeContainer" style="display: none;">
                                 <!-- Date & Time -->
@@ -236,7 +244,7 @@
             </div>
         </div>
 
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
                 <div class="card">
                     <div class="card-header">
@@ -346,7 +354,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div class="row">
             <div class="col-md-12">

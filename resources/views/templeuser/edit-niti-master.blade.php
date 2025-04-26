@@ -118,7 +118,14 @@
                                                     <label class="form-check-label" for="privateNiti">Private</label>
                                                 </div>
                                             </div>
-                        
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="main-content-label">Niti Order</label>
+                                                    <input type="number" class="form-control" id="niti_order" name="niti_order"  value="{{ old('niti_order', $niti->niti_order ?? '') }}" placeholder="Enter Niti Order">
+                                                </div>
+                                            </div>
+                
                                             <!-- Special Niti Fields -->
                                             <div class="col-12" id="specialNitiFields" style="display: none;">
                                                 <div class="row g-3">
