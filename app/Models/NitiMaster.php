@@ -15,6 +15,7 @@ class NitiMaster extends Model
     protected $fillable = [
         'temple_id',
         'niti_id',
+        'niti_order',
         'day_id',
         'language',
         'niti_name',

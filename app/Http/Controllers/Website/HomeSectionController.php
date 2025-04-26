@@ -222,7 +222,6 @@ public function viewAllNiti()
     return view('website.view-all-niti', compact('mergedNitiList'));
 }
 
-
 public function mandirTv(){
     return view('website.tv-layout');
 }
