@@ -158,9 +158,7 @@ public function deletNearByTemple($id)
                 'estd_date' => 'nullable|date',
                 'contact_no' => 'nullable|string|max:15',
                 'email' => 'nullable|email|max:255',
-                'country' => 'required',
-                'state' => 'required',
-                'district' => 'required|string',
+               
                 'pincode' => 'nullable|string|max:10',
                 'city_village' => 'nullable|string|max:255',
                 'description' => 'nullable|string',
