@@ -144,84 +144,90 @@ public function deletNearByTemple($id)
         return redirect()->back()->with('error', 'Something went wrong! ' . $e->getMessage());
     }
 }
+    public function updateNearByTemple(Request $request, $id)
+    {
+        try {
+            // Find temple or throw an exception
+            $nearbyTemple = NearByTemple::findOrFail($id);
 
+            // Validate request data
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'photo.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'google_map_link' => 'nullable|url',
+                'estd_date' => 'nullable|date',
+                'contact_no' => 'nullable|string|max:15',
+                'email' => 'nullable|email|max:255',
+                'country' => 'required',
+                'state' => 'required',
+                'district' => 'required|string',
+                'pincode' => 'nullable|string|max:10',
+                'city_village' => 'nullable|string|max:255',
+                'description' => 'nullable|string',
+                'history' => 'nullable|string',
+            ]);
 
-public function updateNearByTemple(Request $request, $id)
-{
-    try {
-        // Find temple or throw an exception
-        $temple = NearByTemple::findOrFail($id);
-
-        // Validate request data
-        $request->validate([
-            'temple_name' => 'required|string|max:255',
-            'photo.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'google_map_link' => 'nullable|url',
-            'estd_date' => 'nullable|date',
-            'contact_no' => 'required|string|max:15',
-            'email' => 'nullable|email|max:255',
-            'area_type' => 'required|string',
-            'country' => 'required',
-            'state' => 'required',
-            'district' => 'required|string',
-            'pincode' => 'nullable|string|max:10',
-            'city_village' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
-        ]);
-
-        // Handle file uploads
-        $photoPaths = [];
-        if ($request->hasFile('photo')) {
-            foreach ($request->file('photo') as $file) {
-                $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('assets/uploads/temple_photo'), $filename);
-                $photoPaths[] = 'assets/uploads/temple_photo/' . $filename;
+            // Handle file uploads
+            $photoPaths = $nearbyTemple->photo ? json_decode($nearbyTemple->photo, true) : [];
+            if ($request->hasFile('photo')) {
+                foreach ($request->file('photo') as $file) {
+                    $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path('assets/uploads/temple_photo'), $filename);
+                    $photoPaths[] = 'assets/uploads/temple_photo/' . $filename;
+                }
             }
+
+            $coverPhotoPath = $nearbyTemple->cover_photo;
+            if ($request->hasFile('cover_photo')) {
+                $file = $request->file('cover_photo');
+                $filename = 'cover_' . time() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('assets/uploads/temple_photo'), $filename);
+                $coverPhotoPath = 'assets/uploads/temple_photo/' . $filename;
+            }
+
+            $mapPhotoPath = $nearbyTemple->map_photo;
+            if ($request->hasFile('map_photo')) {
+                $file = $request->file('map_photo');
+                $filename = 'map_' . time() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('assets/uploads/temple_photo'), $filename);
+                $mapPhotoPath = 'assets/uploads/temple_photo/' . $filename;
+            }
+
+            // Update temple data
+            $nearbyTemple->update([
+                'name' => $request->name,
+                'place_type' => $request->place_type,
+                'google_map_link' => $request->google_map_link,
+                'estd_date' => $request->estd_date,
+                'estd_by' => $request->estd_by,
+                'photo' => json_encode($photoPaths),
+                'cover_photo' => $coverPhotoPath,
+                'map_photo' => $mapPhotoPath,
+                'committee_name' => $request->committee_name,
+                'contact_no' => $request->contact_no,
+                'whatsapp_no' => $request->whatsapp_no,
+                'email' => $request->email,
+                'priest_name' => $request->priest_name,
+                'priest_contact_no' => $request->priest_contact_no,
+                'distance_from_temple' => $request->distance_from_temple,
+                'landmark' => $request->landmark,
+                'pincode' => $request->pincode,
+                'city_village' => $request->city_village,
+                'district' => $request->district,
+                'state' => $request->state,
+                'country' => $request->country,
+                'history' => $request->history,
+                'description' => $request->description,
+            ]);
+
+            return redirect()->route('manageNearByTemple')->with('success', 'Temple details updated successfully!');
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return redirect()->back()->with('error', 'Temple not found!');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
         }
-
-        $coverPhotoPath = $request->hasFile('cover_photo')
-        ? $uploadImage($request->file('cover_photo'), 'cover')
-        : null;
-
-    $mapPhotoPath = $request->hasFile('map_photo')
-        ? $uploadImage($request->file('map_photo'), 'map')
-        : null;
-
-
-        // Update temple data
-        $temple->update([
-            'name' => $request->name,
-            'google_map_link' => $request->google_map_link,
-            'estd_date' => $request->estd_date,
-            'estd_by' => $request->estd_by,
-            'photo' => json_encode($photoPaths), // Store images as JSON
-            'cover_photo' => $coverPhotoPath,
-            'map_photo' => $mapPhotoPath,
-            'committee_name' => $request->committee_name,
-            'contact_no' => $request->contact_no,
-            'whatsapp_no' => $request->whatsapp_no,
-            'email' => $request->email,
-            'priest_name' => $request->priest_name,
-            'priest_contact_no' => $request->priest_contact_no,
-            'type' => $request->area_type,
-            'country' => $request->country,
-            'state' => $request->state,
-            'district' => $request->district,
-            'landmark' => $request->landmark,
-            'pincode' => $request->pincode,
-            'city_village' => $request->city_village,
-            'description' => $request->description,
-        ]);
-
-        return redirect()->route('manageNearByTemple')->with('success', 'Temple details updated successfully!');
-    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-        return redirect()->back()->with('error', 'Temple not found!');
-    } catch (\Illuminate\Validation\ValidationException $e) {
-        return redirect()->back()->withErrors($e->errors())->withInput();
-    } catch (\Exception $e) {
-        return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
     }
-}
-
 
 }
