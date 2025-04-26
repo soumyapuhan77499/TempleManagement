@@ -125,11 +125,11 @@ class TempleNearByTempleController extends Controller
     
     public function editNearByTemple($id)
 {
-    $temple = NearByTemple::with(['countryData', 'stateData'])->findOrFail($id);
+    $nearbyTemple = NearByTemple::with(['countryData', 'stateData'])->findOrFail($id);
     $countries = CountryList::all();
-    $states = StateList::where('country_id', $temple->country)->get();
+    $states = StateList::where('country_id', $nearbyTemple->country)->get();
 
-    return view('templeuser.templefeature.update-near-by-temple', compact('temple', 'countries', 'states'));
+    return view('templeuser.templefeature.update-near-by-temple', compact('nearbyTemple', 'countries', 'states'));
 }
 
 public function deletNearByTemple($id)
