@@ -238,7 +238,7 @@
         const tabData = {
             lordSupreme: {
                 title: "Lord Supreme",
-                description: "Lord Jagannatha, as His very name signifies, is the Lord of the Universe (Jagat = Universe; Natha = Lord). He is also popularly known as Mahaprabhu (Maha = Great; Prabhu = Lord). The sacred scriptures of Sanatana Vaidika Dharma (popularly known as Hinduism) also refer to Him as Purushottama, The Supreme Divine Being (Purusha = Divine Being; Uttama = Supreme). The glory of Lord Jagannatha has been narrated in innumerable scriptures – from the Vedas (the earliest scriptures of mankind) to the Puranas and later literary compositions in Sanskrit and Odia languages. These scriptures leave no doubt that Lord Jagannatha is the One Omnipotent, Omnipresent and Omniscient Supreme God referred to as Paramatma (Supreme Self).",
+                description: "Lord Jagannatha, as His very name signifies, is the Lord of the Universe (Jagat = Universe; Natha = Lord). He is also popularly known as Mahaprabhu (Maha = Great; Prabhu = Lord). The sacred scriptures of Sanatana Vaidika Dharma (popularly known as Hinduism) also refer to Him as Purushottama, The Supreme Divine Being (Purusha = Divine Being; Uttama = Supreme). The glory of Lord Jagannatha has been narrated in innumerable scriptures – from the Vedas (the earliest scriptures of mankind) to the Puranas and later literary compositions in Sanskrit and Odia languages.",
                 image: "website/temple_info/sup.png",
                 buttons: [{
                         name: "Mahaprabhu Shree Jagannatha",
@@ -248,13 +248,22 @@
                         name: "Shreekshetra",
                         url: "/temple-story"
                     },
-                    
+                    {
+                        name: "Shreemandira",
+                        url: "/temple-story"
+                    },
+                    {
+                        name: "Matha Ashrama",
+                        url: "/temple-story"
+                    }
+
+
                 ]
             },
-            
+
             throughAges: {
                 title: "Through The Ages",
-                description: "Legendary origin of Puri and the shrine of Purushottama has been described vividly in Brahma Purana, Narada Purana and Utkal Khanda (Purushottama Mahatmya) of Skanda Purana. Among these three Puranas the description of Skanda Purana is more elaborate. As per the Purana, King Indradymana was ruling over the Malava Country in Satya Yuga (the age of Truth). Indradymna was a great devotee of Vishnu. Once he came to know about Purushottama, on the shore of the South Sea from his family priests and pilgrims. He was informed that, on the Nilachala (blue hill), image of Vasudeva made of blue sapphire was being worshipped by the Sabaras (a tribal clan). The King in consultation with the family prist, deputed Vidyapati (the brother of the priest) to locate the site. Vidyapati, after travelling a long distance, reached the place and met Viswabasu, the chief of the Sabaras. Though unwilling at the outset",
+                description: "Legendary origin of Puri and the shrine of Purushottama has been described vividly in Brahma Purana, Narada Purana and Utkal Khanda (Purushottama Mahatmya) of Skanda Purana. Among these three Puranas the description of Skanda Purana is more elaborate. As per the Purana, King Indradymana was ruling over the Malava Country in Satya Yuga (the age of Truth). Indradymna was a great devotee of Vishnu. Once he came to know about Purushottama, on the shore of the South Sea from his family priests and pilgrims. He was informed that, on the Nilachala (blue hill), image of Vasudeva made of blue sapphire was being worshipped by the Sabaras (a tribal clan). The King in consultation with the family prist, deputed Vidyapati (the brother of the priest) to locate the site. ",
                 image: "website/temple_info/age.png",
                 buttons: [{
                         name: "Ancient Period",
@@ -274,77 +283,88 @@
 
             tradition: {
                 title: "Living Tradition",
-                description: "Traditions kept alive through generations",
+                description: `The daily and periodical rituals observed and performed in His service and worship since time immemorial, bear the dignity and grandeur which a supreme person is entitled to.
+                The ritual system of the temple is very elaborate and complex involving a multitude of functionaries.
+                The rituals of Lord Shree Jagannatha can broadly be divided into three categories i.e. the daily, the occasional (periodical) and the festive.
+                In Shree Jagannatha temple, these rituals assure the term "Niti".
+                The fixed nitis that are observed daily are a matter of routine.
+                Each Sevaka or Servitor of the temple has his specific role to play in these nitis with terms and times already specified.
+                The various nitis, that are observed daily in the temple commence at about 5 am and continue till late night.`,
                 image: "website/temple_info/tradition.png",
                 buttons: [{
                         name: "Daily Rituals",
                         url: "/daily-rituals"
                     },
                     {
-                        name: "Festivals",
+                        name: "Periodical Rituals",
+                        url: "/daily-rituals"
+                    },
+                    {
+                        name: "Sevaks",
+                        url: "/daily-rituals"
+                    },
+                    {
+                        name: "Bhesas",
                         url: "/festivals"
                     }
                 ]
-            },
-            
-            festivals: {
-                title: "Festivals",
-                description: "Old Sanskrit texts, right from Brahma and Skanda Purana onwards, contain prescription about the observance of twelve festivals in the temple of Jagannatha throughout the year. These twelve festivals, popularly called ‘dvadasa yatras’.
-                These twelve festivals are(1) Snana(bathing),
-                (2) Ratha(moving by chariot),
-                (3) Sayana(sleeping),
-                (4) Uttarayana,
-                (5) Daksinayana,
-                (6) Parsva Parivartana(changing of sides),
-                (7) Utthapana(awakening),
-                (8) Pravarana(covering the body),
-                (9) Pusyabhiseka(coronation),
-                (10) Dola(swinging),
-                (11) Damanaka Bhanjana(breaking of Damanaka plant) and(12) Aksaya Trtiya(Chandan yatra)
-                .Besides that anther festival namely‘ Neeladri Mahodaya’ known as froyadasha yatra of the temple
-                .There is a popular saying“ Thirteen festivals are there in twelve months”.
-                ",
-                image: "website/temple_info/festival.jpeg",
-                buttons: [{
-                    name: "Major Festivals",
-                    url: "/car-festival"
-                }, {
-                    name: "Other Festivals",
-                    url: "/car-festival"
-                }]
+
             },
 
-            ratha: {
-                title: "Ratha Yatra",
-                description: "The grand Ratha Yatra of Jagannath",
-                image: "website/temple_info/ratha.png",
-                buttons: [{
-                    name: "View Ratha Yatra",
-                    url: "/ratha-yatra"
-                }]
-            },
-            services: {
-                title: "Visitor Services",
-                description: "Services available for devotees and tourists",
-                image: "website/temple_info/devt.png",
-                buttons: [{
-                        name: "Accommodation",
-                        url: "/accommodation"
-                    },
-                    {
-                        name: "Guided Tours",
-                        url: "/guided-tours"
-                    }
-                ]
-            },
+        festivals: {
+            title: "Festivals",
+            description: `Old Sanskrit texts, right from Brahma and Skanda Purana onwards, contain prescription about the observance of twelve festivals in the temple of Jagannatha throughout the year. These twelve festivals, popularly called ‘dvadasa yatras’.
+            These twelve festivals are:
+            (1) Snana (bathing),
+            (2) Ratha (moving by chariot),
+            (3) Sayana (sleeping),
+            (4) Uttarayana,
+            (5) Daksinayana,
+            (6) Parsva Parivartana (changing of sides),
+            (7) Utthapana (awakening),
+            (8) Pravarana (covering the body),
+            (9) Pusyabhiseka (coronation),
+            (10) Dola (swinging),
+            (11) Damanaka Bhanjana (breaking of Damanaka plant) and
+            (12) Aksaya Trtiya (Chandan yatra).
+            Besides that another festival namely ‘Neeladri Mahodaya’ known as froyadasha yatra of the temple.
+            There is a popular saying: “Thirteen festivals are there in twelve months”.`,
+            image: "website/temple_info/festival.jpeg",
+            buttons: [
+                { name: "Major Festivals", url: "/car-festival" },
+                { name: "Other Festivals", url: "/car-festival" }
+            ]
+        },
+
+        ratha: {
+            title: "Ratha Yatra",
+            description: `As per description in the Skanda Purana, among the twelve Yatras of Shree Jagannatha, Ratha Yatra or Shree Gundicha Yatra is considered the most famous one.
+            According to ‘Bamadev Samhita’, those who can witness the four deities on the Simhasana (the sacred seat) of Gundicha Temple for a week, they along with their ancestors would get a place in the heavenly abode i.e. Baikuntha for all time to come.
+            As per this text, those who can hear about this great festival also get the desired result.
+            Besides this, those who study the rituals of the divine festival and make others aware of the same can also get a place in His holy abode.`,
+            image: "website/temple_info/ratha.png",
+            buttons: [
+                { name: "Read More", url: "/ratha-yatra" }
+            ]
+        },
+
+        services: {
+            title: "Visitor Services",
+            description: `Darshan of Shree Jagannatha Mahaprabhu is available almost throughout the day i.e. from early in the morning till late night excepting some festive occasions.
+            Generally, Temple opens and darshan starts at around 5.30 A.M.
+            After offering of the perpetual lamp (Mangal Arati), devotees are allowed entry up to Jagamohan (Bhitar Kaatha) of the temple and darshan from this point is available till completion of “Besha” (approximately up to 7.30 / 8 A.M.).
+            Darshan of Shree Jagannatha Mahaprabhu is not available for 1 hr 15 minutes after completion of Besha (approximately from 8 A.M. to 9.15 A.M.) for performance of Gopal Ballava Puja.`,
+            image: "website/temple_info/devt.png",
+            buttons: [
+                { name: "Darshan Facilities", url: "/accommodation" },
+                { name: "Accommodations", url: "/guided-tours" },
+                { name: "Online Donation", url: "/accommodation" }
+            ]
+        },
             management: {
                 title: "Management",
-                description: "The temple management and their services",
+                description: "The affairs of Shree Jagannatha Temple at Puri were looked after with great devotion and care by the successive Hindu ruling dynasties of Odisha for whom Shree Jagannatha Mahaprabhu had come to be regarded as the State deity. The famous Ganga Monarch Chodaganga Deva, after constructing the present temple in the 12th century A.D, made new endowments and laid the foundation of a sound administration for managing the affairs of the Temple. Madala Panji, the chronicle of Shree Jagannatha Temple, Puri, eulogistically records the extensive endowments in land and fabulous gifts of gold made by Anangabhima Deva (III). He is also credited with organising the Chhatisa Nijog or as many as thirty six genres of temple servitors and instituting numerous bhogas and yatras (festivals).",
                 image: "website/temple_info/management.jpg",
-                buttons: [{
-                    name: "Meet Management",
-                    url: "/management-team"
-                }]
             }
         };
     </script>
@@ -370,7 +390,7 @@
                 btn.href = button.url;
                 btn.textContent = button.name;
                 btn.className =
-                    'bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300';
+                    'bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-2 rounded transition duration-300';
                 buttonContainer.appendChild(btn);
             });
         }
