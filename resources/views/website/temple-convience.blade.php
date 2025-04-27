@@ -83,7 +83,7 @@
                 <tr class="table-row hover:bg-pink-100 transition duration-300">
                     <td class="py-4 px-6">
                         @if($service->photo)
-                            <img src="{{ asset('uploads/public_services/' . $service->photo) }}" alt="{{ $service->service_name }}" class="w-20 h-20 object-cover rounded-md shadow-md">
+                            <img src="{{ asset($service->photo) }}" alt="{{ $service->service_name }}" class="w-20 h-20 object-cover rounded-md shadow-md">
                         @else
                             <span class="text-gray-400 italic">No Image</span>
                         @endif
@@ -98,22 +98,26 @@
                             <span class="text-gray-400 italic">No Link</span>
                         @endif
                     </td>
-                    <td class="py-4 px-6">{{ Str::limit($service->description, 50) }}</td>
+                    <td class="py-4 px-6">
+                        {{ Str::limit($service->description, 50) }}
+                        @if(strlen($service->description) > 50)
+                            <button onclick="openDescModal({{ $service->id }})" class="text-pink-500 underline text-sm ml-2 hover:text-orange-500">Read More</button>
+                        @endif
+                    </td>
                     <td class="py-4 px-6">
                         <button onclick="openModal({{ $service->id }})" class="bg-gradient-to-r from-pink-500 to-orange-400 text-white px-4 py-2 rounded-md hover:scale-105 transition">
                             View Full Info
                         </button>
                     </td>
                 </tr>
-
-                <!-- Modal -->
+            
+                <!-- Service Full Info Modal -->
                 <div id="modal-{{ $service->id }}" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div class="bg-white rounded-lg shadow-lg p-8 w-96 relative">
                         <button onclick="closeModal({{ $service->id }})" class="absolute top-2 right-2 text-gray-600 hover:text-red-600">
                             <i class="fas fa-times"></i>
                         </button>
                         <h2 class="text-2xl font-bold mb-4 text-center text-pink-500">{{ $service->service_name }}</h2>
-
                         <div class="space-y-2 text-gray-700 text-sm">
                             <p><i class="fas fa-phone-alt text-orange-400"></i> <strong>Contact:</strong> {{ $service->contact_no ?? 'N/A' }}</p>
                             <p><i class="fab fa-whatsapp text-green-500"></i> <strong>WhatsApp:</strong> {{ $service->whatsapp_no ?? 'N/A' }}</p>
@@ -128,18 +132,30 @@
                         </div>
                     </div>
                 </div>
-
+            
+                <!-- Description Full Modal -->
+                <div id="desc-modal-{{ $service->id }}" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div class="bg-white rounded-lg shadow-lg p-8 w-96 relative">
+                        <button onclick="closeDescModal({{ $service->id }})" class="absolute top-2 right-2 text-gray-600 hover:text-red-600">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <h2 class="text-2xl font-bold mb-4 text-center text-orange-500">Description</h2>
+                        <p class="text-gray-700 text-sm">{{ $service->description }}</p>
+                    </div>
+                </div>
+            
                 @empty
                 <tr>
                     <td colspan="5" class="text-center py-6 text-lg text-red-500">No Services Found.</td>
                 </tr>
                 @endforelse
             </tbody>
+            
         </table>
     </div>
 </div>
 
-<!-- Modal Script -->
+
 <script>
     function openModal(id) {
         document.getElementById('modal-' + id).classList.remove('hidden');
@@ -147,7 +163,15 @@
     function closeModal(id) {
         document.getElementById('modal-' + id).classList.add('hidden');
     }
+
+    function openDescModal(id) {
+        document.getElementById('desc-modal-' + id).classList.remove('hidden');
+    }
+    function closeDescModal(id) {
+        document.getElementById('desc-modal-' + id).classList.add('hidden');
+    }
 </script>
+
 
 </body>
 
