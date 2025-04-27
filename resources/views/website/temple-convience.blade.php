@@ -59,6 +59,61 @@
             position: relative;
             z-index: 10;
         }
+
+        @media (max-width: 768px) {
+        .container {
+            width: 100%;
+            padding: 20px;
+        }
+
+        table.min-w-full {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        table.min-w-full thead {
+            display: none; /* Hide header for smaller devices */
+        }
+
+        table.min-w-full tbody, 
+        table.min-w-full tr, 
+        table.min-w-full td {
+            display: block;
+            width: 100%;
+        }
+
+        table.min-w-full tr {
+            margin-bottom: 15px;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            background: #fff;
+            padding: 15px;
+        }
+
+        table.min-w-full td {
+            text-align: left;
+            padding: 10px 10px;
+            position: relative;
+        }
+
+        table.min-w-full td::before {
+            content: attr(data-label);
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-weight: bold;
+            color: #f06292;
+            font-size: 14px;
+            text-transform: capitalize;
+        }
+
+        table.min-w-full td img {
+            width: 100px;
+            height: 100px;
+        }
+    }
     </style>
 </head>
 
