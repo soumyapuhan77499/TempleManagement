@@ -1,18 +1,26 @@
-/* General Styles */
+/* Reset all margins and paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
     background: #f9f9f9;
+    overflow-x: hidden; /* Prevents horizontal scrolling */
 }
 
 /* Header Area */
 .header-area {
-    background: white;
+    background: #fff;
     padding: 10px 0;
     border-bottom: 1px solid #ddd;
     height: 70px;
+    width: 100%;
     position: relative;
-    z-index: 100;
+    z-index: 1000;
 }
 
 .header-content {
@@ -20,13 +28,15 @@ body {
     align-items: center;
     justify-content: space-between;
     max-width: 1300px;
+    width: 100%;
     margin: 0 auto;
     padding: 0 20px;
 }
 
+/* Logo */
 .logo img {
     height: 60px;
-    width: 70px;
+    width: auto;
 }
 
 /* Desktop Navigation */
@@ -56,7 +66,7 @@ body {
     margin-left: 5px;
 }
 
-/* Hamburger Icon - Hidden on Desktop */
+/* Hamburger Icon */
 .hamburger-icon {
     display: none;
     flex-direction: column;
@@ -64,7 +74,6 @@ body {
     width: 25px;
     height: 20px;
     cursor: pointer;
-    margin-right: 20px;
 }
 
 .hamburger-icon span {
@@ -74,7 +83,7 @@ body {
     border-radius: 3px;
 }
 
-/* Mobile Menu */
+/* Mobile Navigation */
 .mobile-nav {
     position: fixed;
     top: 0;
@@ -84,13 +93,12 @@ body {
     background: #ffffff;
     box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
     padding: 30px 20px;
-    transition: right 0.3s ease-in-out;
-    z-index: 999;
+    transition: right 0.4s ease;
+    z-index: 9999;
 }
 
 .mobile-nav ul {
     list-style: none;
-    padding: 0;
 }
 
 .mobile-nav ul li {
@@ -113,7 +121,7 @@ body {
     cursor: pointer;
 }
 
-/* Show Hamburger and Mobile Nav on Small Screens */
+/* Responsive */
 @media (max-width: 991px) {
     .nav-menu {
         display: none;
@@ -136,6 +144,7 @@ body {
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    width: 100%;
 }
 
 .hero-bg {
