@@ -41,7 +41,6 @@ class TempleNearByTempleController extends Controller
                 'history' => 'nullable|string',
                 'distance_from_temple' => 'nullable|string|max:255',
                 'landmark' => 'nullable|string|max:255',
-                'pincode' => 'nullable|digits:6',
                 'city_village' => 'nullable|string|max:255',
                 'district' => 'nullable|string|max:255',
                 'state' => 'nullable|string|max:255',

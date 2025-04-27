@@ -406,23 +406,24 @@
         </a>
 
         <!-- Online Donations -->
-        <div class="service-cards">
+        <div class="service-cards" onclick="openDonationModal()">
             <div class="card-top">
                 <div class="card-text">
                     <div class="card-title">Online Donations</div>
                     <div class="card-desc" style="font-weight: 500;">Donate Now</div>
                 </div>
-                <div class="arrow-icon" style="font-size: 25px;"><i class="fa-solid fa-arrow-right"
-                        style="color: #e9372b;"></i></div>
+                <div class="arrow-icon" style="font-size: 25px;">
+                    <i class="fa-solid fa-arrow-right" style="color: #e9372b;"></i>
+                </div>
             </div>
             <div class="card-bottom">
-                <div class="card-icons" style="font-size: 40px; color: #22c5ee;"><img
-                        src="{{ asset('website/donation.png') }}" alt="Maha Prasad" style="height: 40px; width: 40px;">
+                <div class="card-icons" style="font-size: 40px; color: #22c5ee;">
+                    <img src="{{ asset('website/donation.png') }}" alt="Maha Prasad" style="height: 40px; width: 40px;">
                 </div>
                 <div class="footer-bar bar-cyan"></div>
             </div>
         </div>
-
+        
         <!-- Hundi Collection -->
         <div class="service-cards">
             <div class="card-top">

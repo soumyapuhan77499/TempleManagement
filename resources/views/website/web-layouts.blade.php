@@ -247,7 +247,7 @@
             document.getElementById('emergencyModal').classList.add('hidden');
         }
     </script>
-    
+
     {{-- Special Abled Person --}}
     <script>
         function openSpecialModal() {
@@ -363,14 +363,14 @@
                 title: "Lord Supreme",
                 description: "Lord Jagannatha, as His very name signifies, is the Lord of the Universe (Jagat = Universe; Natha = Lord). He is also popularly known as Mahaprabhu (Maha = Great; Prabhu = Lord). The sacred scriptures of Sanatana Vaidika Dharma (popularly known as Hinduism) also refer to Him as Purushottama, The Supreme Divine Being (Purusha = Divine Being; Uttama = Supreme). The glory of Lord Jagannatha has been narrated in innumerable scriptures – from the Vedas (the earliest scriptures of mankind) to the Puranas and later literary compositions in Sanskrit and Odia languages.",
                 image: "website/temple_info/sup.png",
-               
+
             },
 
             throughAges: {
                 title: "Through The Ages",
                 description: "Legendary origin of Puri and the shrine of Purushottama has been described vividly in Brahma Purana, Narada Purana and Utkal Khanda (Purushottama Mahatmya) of Skanda Purana. Among these three Puranas the description of Skanda Purana is more elaborate. As per the Purana, King Indradymana was ruling over the Malava Country in Satya Yuga (the age of Truth). Indradymna was a great devotee of Vishnu. Once he came to know about Purushottama, on the shore of the South Sea from his family priests and pilgrims. He was informed that, on the Nilachala (blue hill), image of Vasudeva made of blue sapphire was being worshipped by the Sabaras (a tribal clan). The King in consultation with the family prist, deputed Vidyapati (the brother of the priest) to locate the site. ",
                 image: "website/temple_info/age.png",
-               
+
             },
 
 
@@ -384,7 +384,7 @@
                 Each Sevaka or Servitor of the temple has his specific role to play in these nitis with terms and times already specified.
                 The various nitis, that are observed daily in the temple commence at about 5 am and continue till late night.`,
                 image: "website/temple_info/tradition.png",
-               
+
 
             },
 
@@ -407,7 +407,7 @@
             Besides that another festival namely ‘Neeladri Mahodaya’ known as froyadasha yatra of the temple.
             There is a popular saying: “Thirteen festivals are there in twelve months”.`,
                 image: "website/temple_info/festival.jpeg",
-               
+
             },
 
             ratha: {
@@ -417,7 +417,7 @@
             As per this text, those who can hear about this great festival also get the desired result.
             Besides this, those who study the rituals of the divine festival and make others aware of the same can also get a place in His holy abode.`,
                 image: "website/temple_info/ratha.png",
-               
+
             },
 
             services: {
@@ -427,7 +427,7 @@
             After offering of the perpetual lamp (Mangal Arati), devotees are allowed entry up to Jagamohan (Bhitar Kaatha) of the temple and darshan from this point is available till completion of “Besha” (approximately up to 7.30 / 8 A.M.).
             Darshan of Shree Jagannatha Mahaprabhu is not available for 1 hr 15 minutes after completion of Besha (approximately from 8 A.M. to 9.15 A.M.) for performance of Gopal Ballava Puja.`,
                 image: "website/temple_info/devt.png",
-              
+
             },
             management: {
                 title: "Management",
@@ -437,96 +437,97 @@
         };
     </script>
 
-<script>
-    function loadTabContent(tabKey) {
-        const tabInfo = tabData[tabKey];
+    <script>
+        function loadTabContent(tabKey) {
+            const tabInfo = tabData[tabKey];
 
-        // Update image
-        document.getElementById('contentImage').src = "{{ asset('') }}" + tabInfo.image;
+            // Update image
+            document.getElementById('contentImage').src = "{{ asset('') }}" + tabInfo.image;
 
-        // Update title and description
-        document.getElementById('contentTitle').textContent = tabInfo.title;
-        document.getElementById('contentDescription').textContent = tabInfo.description;
+            // Update title and description
+            document.getElementById('contentTitle').textContent = tabInfo.title;
+            document.getElementById('contentDescription').textContent = tabInfo.description;
 
-        // Clear old buttons
-        const buttonContainer = document.getElementById('buttonContainer');
-        buttonContainer.innerHTML = '';
+            // Clear old buttons
+            const buttonContainer = document.getElementById('buttonContainer');
+            buttonContainer.innerHTML = '';
 
-        // Add new buttons
-        tabInfo.buttons.forEach(button => {
-            const btn = document.createElement('a');
-            btn.href = button.url;
-            btn.textContent = button.name;
-            btn.className = 'bg-gradient-to-r from-orange-400 to-pink-400 hover:from-orange-500 hover:to-pink-500 text-white font-bold py-2 px-2 rounded transition duration-300';
-            buttonContainer.appendChild(btn);
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        loadTabContent('lordSupreme'); // Load default content
-
-        // Set default active tab underline
-        const defaultTab = document.querySelector('.tab-item[data-tab="lordSupreme"]');
-        if (defaultTab) {
-            defaultTab.classList.add('active-tab');
-            defaultTab.classList.remove('inactive-tab');
-
-            const titleText = defaultTab.querySelector('p');
-            if (titleText) {
-                titleText.style.background = "linear-gradient(90deg, #FFA726, #F06292)";
-                titleText.style.webkitBackgroundClip = "text";
-                titleText.style.webkitTextFillColor = "transparent";
-            }
-
-            const underline = document.createElement('div');
-            underline.classList.add('h-1', 'w-full', 'mt-1');
-            underline.style.background = "linear-gradient(90deg, #FFA726, #F06292)";
-            underline.style.borderRadius = "4px";
-            defaultTab.appendChild(underline);
-        }
-    });
-
-    // Tab click handler
-    document.querySelectorAll('.tab-item').forEach(item => {
-        item.addEventListener('click', function() {
-            // Reset all tabs
-            document.querySelectorAll('.tab-item').forEach(t => {
-                t.classList.remove('active-tab');
-                t.classList.add('inactive-tab');
-                const titleText = t.querySelector('p');
-                if (titleText) {
-                    titleText.style.background = "none";
-                    titleText.style.webkitTextFillColor = "#6B7280"; // text-gray-500 color
-                }
-                const underline = t.querySelector('div.h-1');
-                if (underline) {
-                    underline.remove();
-                }
+            // Add new buttons
+            tabInfo.buttons.forEach(button => {
+                const btn = document.createElement('a');
+                btn.href = button.url;
+                btn.textContent = button.name;
+                btn.className =
+                    'bg-gradient-to-r from-orange-400 to-pink-400 hover:from-orange-500 hover:to-pink-500 text-white font-bold py-2 px-2 rounded transition duration-300';
+                buttonContainer.appendChild(btn);
             });
+        }
 
-            // Activate clicked tab
-            this.classList.add('active-tab');
-            this.classList.remove('inactive-tab');
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTabContent('lordSupreme'); // Load default content
 
-            const clickedTitleText = this.querySelector('p');
-            if (clickedTitleText) {
-                clickedTitleText.style.background = "linear-gradient(90deg, #FFA726, #F06292)";
-                clickedTitleText.style.webkitBackgroundClip = "text";
-                clickedTitleText.style.webkitTextFillColor = "transparent";
+            // Set default active tab underline
+            const defaultTab = document.querySelector('.tab-item[data-tab="lordSupreme"]');
+            if (defaultTab) {
+                defaultTab.classList.add('active-tab');
+                defaultTab.classList.remove('inactive-tab');
+
+                const titleText = defaultTab.querySelector('p');
+                if (titleText) {
+                    titleText.style.background = "linear-gradient(90deg, #FFA726, #F06292)";
+                    titleText.style.webkitBackgroundClip = "text";
+                    titleText.style.webkitTextFillColor = "transparent";
+                }
+
+                const underline = document.createElement('div');
+                underline.classList.add('h-1', 'w-full', 'mt-1');
+                underline.style.background = "linear-gradient(90deg, #FFA726, #F06292)";
+                underline.style.borderRadius = "4px";
+                defaultTab.appendChild(underline);
             }
-
-            const underline = document.createElement('div');
-            underline.classList.add('h-1', 'w-full', 'mt-1');
-            underline.style.background = "linear-gradient(90deg, #FFA726, #F06292)";
-            underline.style.borderRadius = "4px";
-            this.appendChild(underline);
-
-            // Load tab content
-            const tabKey = this.getAttribute('data-tab');
-            loadTabContent(tabKey);
         });
-    });
-</script>
+
+        // Tab click handler
+        document.querySelectorAll('.tab-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Reset all tabs
+                document.querySelectorAll('.tab-item').forEach(t => {
+                    t.classList.remove('active-tab');
+                    t.classList.add('inactive-tab');
+                    const titleText = t.querySelector('p');
+                    if (titleText) {
+                        titleText.style.background = "none";
+                        titleText.style.webkitTextFillColor = "#6B7280"; // text-gray-500 color
+                    }
+                    const underline = t.querySelector('div.h-1');
+                    if (underline) {
+                        underline.remove();
+                    }
+                });
+
+                // Activate clicked tab
+                this.classList.add('active-tab');
+                this.classList.remove('inactive-tab');
+
+                const clickedTitleText = this.querySelector('p');
+                if (clickedTitleText) {
+                    clickedTitleText.style.background = "linear-gradient(90deg, #FFA726, #F06292)";
+                    clickedTitleText.style.webkitBackgroundClip = "text";
+                    clickedTitleText.style.webkitTextFillColor = "transparent";
+                }
+
+                const underline = document.createElement('div');
+                underline.classList.add('h-1', 'w-full', 'mt-1');
+                underline.style.background = "linear-gradient(90deg, #FFA726, #F06292)";
+                underline.style.borderRadius = "4px";
+                this.appendChild(underline);
+
+                // Load tab content
+                const tabKey = this.getAttribute('data-tab');
+                loadTabContent(tabKey);
+            });
+        });
+    </script>
 
     <script>
         function toggleMobileNav() {
