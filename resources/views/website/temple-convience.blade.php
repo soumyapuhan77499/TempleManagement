@@ -47,8 +47,8 @@
             <table class="min-w-full">
                 <thead class="table-header">
                     <tr>
-                        <th class="py-3 px-6 text-left">Service Name <i class="fas fa-concierge-bell"></i></th>
                         <th class="py-3 px-6 text-left">Photo <i class="fas fa-image"></i></th>
+                        <th class="py-3 px-6 text-left">Service Name <i class="fas fa-concierge-bell"></i></th>
                         <th class="py-3 px-6 text-left">Contact No <i class="fas fa-phone"></i></th>
                         <th class="py-3 px-6 text-left">Opening Time <i class="fas fa-clock"></i></th>
                         <th class="py-3 px-6 text-left">Closing Time <i class="fas fa-clock"></i></th>
@@ -62,7 +62,9 @@
                         <td class="py-4 px-6">{{ $service->service_name }}</td>
                         <td class="py-4 px-6">
                             @if($service->photo)
+                           
                                 <img src="{{ asset('uploads/public_services/' . $service->photo) }}" alt="{{ $service->service_name }}" class="w-16 h-16 object-cover rounded-md shadow-md">
+
                             @else
                                 <span class="text-gray-400 italic">No Image</span>
                             @endif
