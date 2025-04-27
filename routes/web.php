@@ -536,9 +536,6 @@ Route::post('/get-panji-details', function (Illuminate\Http\Request $request) {
     return response()->json($panji);
 })->name('get.panji.details');
 
-Route::get('/view-panji-details', function () {
-    return view('website.view-panji-details');
-})->name('view.panji.details');
 
 Route::get('/view-festival-details', function () {
     return view('website.view-festival-details');
@@ -552,4 +549,6 @@ Route::controller(QuickServiceController::class)->group(function() {
     Route::get('/locker-shoe-list', 'lockerShoeList')->name('lockershoe.list');
     Route::get('/view-near-by-temple/{id}','viewNearByTemple')->name('viewNearByTemple');
     Route::get('/services/{service_type}',  'showByServiceType')->name('services.byType');
+    Route::get('/view-panji-details', 'viewPanji')->name('view.panji.details');
+
 });

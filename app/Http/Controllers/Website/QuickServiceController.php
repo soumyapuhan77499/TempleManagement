@@ -143,6 +143,14 @@ public function showByServiceType($service_type)
     return view('website.temple-convience', compact('services', 'service_type'));
 }
 
+public function viewPanji()
+{
+    $todayDate = Carbon::today()->toDateString();
+
+    $todayPanji = PanjiDetails::where('date', $todayDate)->where('status', 'active')->first();
+
+    return view('website.view-panji-details', compact('todayPanji'));  
+} 
 
 
 }

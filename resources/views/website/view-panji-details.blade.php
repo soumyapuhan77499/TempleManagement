@@ -45,6 +45,7 @@
 
 
     <section class="hero">
+        
         <img class="hero-bg" src="{{ asset('website/parking.jpeg') }}" alt="Mandir Background" />
         <div class="hero-overlay"></div>
         <div class="hero-content">
@@ -54,93 +55,108 @@
             </p>
         </div>
     </section>
-    <section class="py-10 bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
-        <div class="max-w-7xl mx-auto px-4">
-            <!-- Header row -->
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-                <div class="flex items-center gap-3">
-                    <h2 class="text-2xl font-bold text-[#db4d30]">Panji Calendar</h2>
-                    <img src="{{ asset('website/right.png') }}" class="h-5 w-28" alt="Decor">
+    <section class="bg-100 p-10  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
+        <div class="max-w-6xl mx-auto">
+            <!-- Header -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0">
+                <div class="image-panji flex items-center gap-2">
+                    <p class="text-2xl text-[#db4d30] flex items-center font-sans">
+                        Panji Calendar
+                    </p>
+                    <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-28 h-5">
                 </div>
-                <div class="hidden md:flex items-center gap-3">
-                    <h2 class="text-2xl font-bold text-[#db4d30]">Events</h2>
-                    <img src="{{ asset('website/right.png') }}" class="h-5 w-28" alt="Decor">
+                <!-- Desktop-only: Events Header stays here on larger screens -->
+                <div class="image-event flex items-center gap-2 hidden md:flex">
+                    <p class="text-2xl text-[#db4d30] flex items-center font-sans">
+                        Events
+                    </p>
+                    <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-28 h-5">
                 </div>
+
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Calendar Card -->
-                <div class="bg-white shadow p-6 rounded-xl border border-yellow-300">
-                    <h3 class="text-md font-semibold text-red-500 mb-3">Select Date</h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <!-- Calendar Section -->
+                <div class="bg-white p-6 rounded-xl border border-yellow-300">
+                    <h3 class="text-md font-semibold text-red-500 mb-2">Select date</h3>
                     <div id="calendar"></div>
 
-                    <div class="flex justify-center items-center gap-4 mt-10 mb-4">
-                        <img src="{{ asset('website/left.png') }}" class="h-4 w-24" alt="Decor">
-                        <h3 class="text-md font-bold uppercase tracking-wider text-[#db4d30]">Today Occasion</h3>
-                        <img src="{{ asset('website/right.png') }}" class="h-4 w-24" alt="Decor">
+
+                    <!-- Today Occasion Header -->
+                    <div class="flex justify-center items-center gap-5 mt-12">
+                        <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-25 h-4">
+                        <h2 class="text-md text-[#db4d30] font-bold font-sans tracking-wide uppercase">Today Occasion</h2>
+                        <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-25 h-4">
                     </div>
 
-                    <div class="space-y-3 text-sm text-gray-700">
-                        <div class="flex items-start gap-3"><i class="fas fa-spa text-green-600"></i>
-                            <p>Gruha Devi & Basantika Mrunmayee Devi nka Saptami Puja Arambha</p>
-                        </div>
-                        <div class="flex items-start gap-3"><i class="fas fa-fire text-red-500"></i>
-                            <p>Pithe Astami Puja</p>
-                        </div>
-                        <div class="flex items-start gap-3"><i class="fas fa-clock text-blue-600"></i>
-                            <p>Tithi: 4th Apr Friday, Chaitra, Mina day 22</p>
-                        </div>
+                    <!-- Today Occasion List -->
+                    <div class="mt-6 space-y-4 font-[Inter,sans-serif] text-sm md:text-base" id="panjiContent">
+                        @if ($todayPanji)
+                            <div class="flex items-start gap-3">
+                                <i class="fas fa-calendar-day text-green-600 mt-1 w-5 h-5"></i>
+                                <p class="text-gray-800">{{ $todayPanji->event_name ?? 'No Event' }}</p>
+                            </div>
 
-                        <hr class="my-4 border-dashed border-gray-300">
+                            <div class="flex items-start gap-3">
+                                <i class="fas fa-star text-purple-600 mt-1 w-5 h-5"></i>
+                                <p class="text-gray-800">Tithi: <span
+                                        class="font-medium">{{ $todayPanji->tithi ?? '-' }}</span></p>
+                            </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <div class="flex items-start gap-2"><i class="fas fa-sun text-orange-400"></i>
-                                <p>Sunrise: <strong>05:38 AM</strong></p>
+                            <div class="flex items-start gap-3">
+                                <i class="fas fa-smile text-yellow-500 mt-1 w-5 h-5"></i>
+                                <p class="text-gray-800">Yoga: <span
+                                        class="font-medium">{{ $todayPanji->yoga ?? '-' }}</span></p>
                             </div>
-                            <div class="flex items-start gap-2"><i class="fas fa-moon text-indigo-500"></i>
-                                <p>Moonrise: <strong>10:26 AM</strong></p>
+
+                            <div class="flex items-start gap-3">
+                                <i class="fas fa-adjust text-blue-600 mt-1 w-5 h-5"></i>
+                                <p class="text-gray-800">Paksha: <span
+                                        class="font-medium">{{ $todayPanji->pakshya ?? '-' }}</span></p>
                             </div>
-                            <div class="flex items-start gap-2"><i class="fas fa-sun text-red-500"></i>
-                                <p>Sunset: <strong>06:02 PM</strong></p>
+
+                            <div class="flex items-start gap-3">
+                                <i class="fas fa-clock text-red-400 mt-1 w-5 h-5"></i>
+                                <p class="text-gray-800">Sunrise: <span
+                                        class="font-medium">{{ $todayPanji->sun_rise ?? '-' }}</span></p>
                             </div>
-                            <div class="flex items-start gap-2"><i class="fas fa-moon text-blue-600"></i>
-                                <p>Moonset: <strong>12:30 AM, Apr 05</strong></p>
+
+                            <div class="flex items-start gap-3">
+                                <i class="fas fa-moon text-indigo-600 mt-1 w-5 h-5"></i>
+                                <p class="text-gray-800">Sunset: <span
+                                        class="font-medium">{{ $todayPanji->sun_set ?? '-' }}</span></p>
                             </div>
-                            <div class="flex items-start gap-2"><i class="fas fa-calendar-week text-teal-600"></i>
-                                <p>Weekday: <strong>Shukrawara</strong></p>
-                            </div>
-                            <div class="flex items-start gap-2"><i class="fas fa-adjust text-yellow-500"></i>
-                                <p>Paksha: <strong>Shukla Paksha</strong></p>
-                            </div>
-                            <div class="flex items-start gap-2"><i class="fas fa-star text-purple-600"></i>
-                                <p>Tithi: <strong>Saptami upto 08:12 PM</strong></p>
-                            </div>
-                            <div class="flex items-start gap-2"><i class="fas fa-smile text-green-600"></i>
-                                <p>Yoga: <strong>Shobhana upto 09:45 PM</strong></p>
-                            </div>
-                            <div class="flex items-start gap-2"><i class="fas fa-sun-plant-wilt text-yellow-500"></i>
-                                <p>Sunsign: <strong>Meena</strong></p>
-                            </div>
-                            <div class="flex items-start gap-2"><i class="fas fa-moon-stars text-indigo-600"></i>
-                                <p>Moonsign: <strong>Mithuna</strong></p>
-                            </div>
-                        </div>
+
+                            @if ($todayPanji->description)
+                                <hr class="border-dashed border-gray-300 my-4">
+                                <div class="flex items-start gap-3">
+                                    <i class="fas fa-info-circle text-gray-600 mt-1 w-5 h-5"></i>
+                                    <p class="text-gray-800">{{ $todayPanji->description }}</p>
+                                </div>
+                            @endif
+                        @else
+                            <p class="text-center text-gray-500">No Panji Details Available for Today.</p>
+                        @endif
                     </div>
+
                 </div>
-
                 <!-- Events Section -->
-                <div class="bg-white shadow p-6 rounded-xl border border-gray-300">
-                    <div class="md:hidden flex items-center gap-2 mb-4">
-                        <h3 class="text-xl font-semibold text-[#db4d30]">Events</h3>
-                        <img src="{{ asset('website/right.png') }}" alt="Events Decor" class="h-5 w-28">
+                <div class="bg-white p-6 rounded-xl border border-gray-300">
+                    <div class="flex items-center gap-2 mb-4 md:hidden">
+                        <p class="text-xl font-semibold text-[#db4d30] font-sans">
+                            Events
+                        </p>
+                        <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-28 h-5">
                     </div>
                     <div id="events">
-                        <img src="{{ asset('website/astami.png') }}" class="rounded-lg w-full">
+                        <img src="{{ asset('website/astami.png') }}">
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
 
     <!-- Calendar Script -->
     <script>
@@ -152,64 +168,139 @@
                 const today = new Date();
                 const firstDay = new Date(year, month, 1);
                 const lastDay = new Date(year, month + 1, 0);
-                const startDay = firstDay.getDay();
                 const daysInMonth = lastDay.getDate();
+                const startDay = firstDay.getDay();
 
-                let html = `<div class='flex justify-between items-center mb-3'>
-                <button id='prevMonth' class='text-gray-600'>&larr;</button>
-                <h4 class='font-bold text-lg'>${firstDay.toLocaleString('default', { month: 'long' })} ${year}</h4>
-                <button id='nextMonth' class='text-gray-600'>&rarr;</button>
+                let html = `
+            <div class="flex justify-between items-center mb-4">
+                <button id="prevMonth" class="text-gray-600">◀</button>
+                <h2 class="text-lg font-bold">${firstDay.toLocaleString('default', { month: 'long' })} ${year}</h2>
+                <button id="nextMonth" class="text-gray-600">▶</button>
             </div>
-            <div class='grid grid-cols-7 text-center font-semibold text-gray-500'>
-                <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
-            </div><div class='grid grid-cols-7 gap-2 text-center mt-2'>`;
+            <div class="grid grid-cols-7 gap-2 text-center text-gray-500 font-semibold">
+                <div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div>
+            </div>
+            <div class="grid grid-cols-7 gap-2 mt-2 text-center">
+        `;
 
-                for (let i = 0; i < startDay; i++) html += `<div></div>`;
+                for (let i = 0; i < startDay; i++) {
+                    html += `<div></div>`; // Empty slots for previous month
+                }
+
                 for (let day = 1; day <= daysInMonth; day++) {
                     const isToday = today.getDate() === day && today.getMonth() === month && today.getFullYear() ===
                         year;
-                    html +=
-                        `<div class='p-2 rounded-full cursor-pointer ${isToday ? "bg-red-500 text-white" : "hover:bg-gray-200"}' data-day='${day}'>${day}</div>`;
+                    html += `
+                    <div class="p-2 rounded-full cursor-pointer ${isToday ? "bg-red-500 text-white" : "hover:bg-gray-200"}" data-day="${day}">
+                        ${day}
+                    </div>
+                `;
                 }
+
                 html += `</div>`;
-
                 calendarContainer.innerHTML = html;
-                document.getElementById("prevMonth").onclick = () => updateCalendar(year, month - 1);
-                document.getElementById("nextMonth").onclick = () => updateCalendar(year, month + 1);
 
-                document.querySelectorAll("#calendar div[data-day]").forEach(el => {
-                    el.addEventListener("click", function() {
-                        document.querySelectorAll("#calendar div[data-day]").forEach(day => day
+                document.getElementById("prevMonth").addEventListener("click", () => updateCalendar(year, month -
+                    1));
+                document.getElementById("nextMonth").addEventListener("click", () => updateCalendar(year, month +
+                    1));
+
+                document.querySelectorAll("#calendar div[data-day]").forEach(dayEl => {
+                    dayEl.addEventListener("click", function() {
+                        // Reset background
+                        document.querySelectorAll("#calendar div[data-day]").forEach(el => el
                             .classList.remove("bg-red-500", "text-white"));
                         this.classList.add("bg-red-500", "text-white");
-                        updateEvents(this.dataset.day, month + 1, year);
+
+                        const selectedDay = this.getAttribute("data-day");
+                        const selectedDate = formatDate(year, month + 1,
+                        selectedDay); // month+1 because JS month starts from 0
+                        loadPanjiDetails(selectedDate); // 👈 load panji event on date click
                     });
                 });
             }
 
-            function updateEvents(day, month, year) {
-                const types = ["Sankranti", "Amavasya", "Pournami"];
-                const eventsHtml = types.map(e =>
-                    `<div class='text-center text-sm'><img src='website/11.jpg' class='mx-auto w-10 h-10'><p>${e}</p></div>`
-                    ).join('');
-                eventsContainer.innerHTML = `<div class='grid grid-cols-3 gap-4'>${eventsHtml}</div>`;
-            }
-
             function updateCalendar(year, month) {
                 if (month < 0) {
-                    year--;
+                    year -= 1;
                     month = 11;
                 } else if (month > 11) {
-                    year++;
+                    year += 1;
                     month = 0;
                 }
                 generateCalendar(year, month);
+            }
+
+            function formatDate(year, month, day) {
+                // Format as YYYY-MM-DD (pad zeroes)
+                const m = month < 10 ? '0' + month : month;
+                const d = day < 10 ? '0' + day : day;
+                return `${year}-${m}-${d}`;
+            }
+
+            // Ajax Load Panji Details
+            function loadPanjiDetails(selectedDate) {
+                fetch('{{ route('get.panji.details') }}', {
+                        method: "POST",
+                        headers: {
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            date: selectedDate
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        const panjiContent = document.getElementById('panjiContent');
+                        if (data) {
+                            panjiContent.innerHTML = `
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-calendar-day text-green-600 mt-1 w-5 h-5"></i>
+                            <p class="text-gray-800">${data.event_name ?? 'No Event'}</p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-star text-purple-600 mt-1 w-5 h-5"></i>
+                            <p class="text-gray-800">Tithi: <span class="font-medium">${data.tithi ?? '-'}</span></p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-smile text-yellow-500 mt-1 w-5 h-5"></i>
+                            <p class="text-gray-800">Yoga: <span class="font-medium">${data.yoga ?? '-'}</span></p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-adjust text-blue-600 mt-1 w-5 h-5"></i>
+                            <p class="text-gray-800">Paksha: <span class="font-medium">${data.pakshya ?? '-'}</span></p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-clock text-red-400 mt-1 w-5 h-5"></i>
+                            <p class="text-gray-800">Sunrise: <span class="font-medium">${data.sun_rise ?? '-'}</span></p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-moon text-indigo-600 mt-1 w-5 h-5"></i>
+                            <p class="text-gray-800">Sunset: <span class="font-medium">${data.sun_set ?? '-'}</span></p>
+                        </div>
+                        ${data.description ? `
+                            <hr class="border-dashed border-gray-300 my-4">
+                            <div class="flex items-start gap-3">
+                                <i class="fas fa-info-circle text-gray-600 mt-1 w-5 h-5"></i>
+                                <p class="text-gray-800">${data.description}</p>
+                            </div>` : ''}
+                    `;
+                        } else {
+                            panjiContent.innerHTML =
+                                `<p class="text-center text-gray-500">No Panji Details Available for selected date.</p>`;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching Panji details:', error);
+                    });
             }
 
             const now = new Date();
             generateCalendar(now.getFullYear(), now.getMonth());
         });
     </script>
+
 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

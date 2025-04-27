@@ -313,7 +313,7 @@
         });
     </script>
 
-{{-- temple information --}}
+    {{-- temple information --}}
     <script>
         const tabData = {
             lordSupreme: {
@@ -493,7 +493,7 @@
         }
     </script>
 
-{{-- temple world wide --}}
+    {{-- temple world wide --}}
     <script>
         function showContent(tab, element) {
             // Remove active class from all buttons
@@ -626,19 +626,20 @@
             document.getElementById('hundiModal').classList.add('hidden');
         }
     </script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const calendarContainer = document.getElementById("calendar");
-        const eventsContainer = document.getElementById("events");
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const calendarContainer = document.getElementById("calendar");
+            const eventsContainer = document.getElementById("events");
 
-        function generateCalendar(year, month) {
-            const today = new Date();
-            const firstDay = new Date(year, month, 1);
-            const lastDay = new Date(year, month + 1, 0);
-            const daysInMonth = lastDay.getDate();
-            const startDay = firstDay.getDay();
+            function generateCalendar(year, month) {
+                const today = new Date();
+                const firstDay = new Date(year, month, 1);
+                const lastDay = new Date(year, month + 1, 0);
+                const daysInMonth = lastDay.getDate();
+                const startDay = firstDay.getDay();
 
-            let html = `
+                let html = `
             <div class="flex justify-between items-center mb-4">
                 <button id="prevMonth" class="text-gray-600">◀</button>
                 <h2 class="text-lg font-bold">${firstDay.toLocaleString('default', { month: 'long' })} ${year}</h2>
@@ -650,71 +651,78 @@
             <div class="grid grid-cols-7 gap-2 mt-2 text-center">
         `;
 
-            for (let i = 0; i < startDay; i++) {
-                html += `<div></div>`; // Empty slots for previous month
-            }
+                for (let i = 0; i < startDay; i++) {
+                    html += `<div></div>`; // Empty slots for previous month
+                }
 
-            for (let day = 1; day <= daysInMonth; day++) {
-                const isToday = today.getDate() === day && today.getMonth() === month && today.getFullYear() === year;
-                html += `
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const isToday = today.getDate() === day && today.getMonth() === month && today.getFullYear() ===
+                        year;
+                    html += `
                     <div class="p-2 rounded-full cursor-pointer ${isToday ? "bg-red-500 text-white" : "hover:bg-gray-200"}" data-day="${day}">
                         ${day}
                     </div>
                 `;
-            }
+                }
 
-            html += `</div>`;
-            calendarContainer.innerHTML = html;
+                html += `</div>`;
+                calendarContainer.innerHTML = html;
 
-            document.getElementById("prevMonth").addEventListener("click", () => updateCalendar(year, month - 1));
-            document.getElementById("nextMonth").addEventListener("click", () => updateCalendar(year, month + 1));
+                document.getElementById("prevMonth").addEventListener("click", () => updateCalendar(year, month -
+                    1));
+                document.getElementById("nextMonth").addEventListener("click", () => updateCalendar(year, month +
+                    1));
 
-            document.querySelectorAll("#calendar div[data-day]").forEach(dayEl => {
-                dayEl.addEventListener("click", function() {
-                    // Reset background
-                    document.querySelectorAll("#calendar div[data-day]").forEach(el => el.classList.remove("bg-red-500", "text-white"));
-                    this.classList.add("bg-red-500", "text-white");
+                document.querySelectorAll("#calendar div[data-day]").forEach(dayEl => {
+                    dayEl.addEventListener("click", function() {
+                        // Reset background
+                        document.querySelectorAll("#calendar div[data-day]").forEach(el => el
+                            .classList.remove("bg-red-500", "text-white"));
+                        this.classList.add("bg-red-500", "text-white");
 
-                    const selectedDay = this.getAttribute("data-day");
-                    const selectedDate = formatDate(year, month + 1, selectedDay); // month+1 because JS month starts from 0
-                    loadPanjiDetails(selectedDate); // 👈 load panji event on date click
+                        const selectedDay = this.getAttribute("data-day");
+                        const selectedDate = formatDate(year, month + 1,
+                        selectedDay); // month+1 because JS month starts from 0
+                        loadPanjiDetails(selectedDate); // 👈 load panji event on date click
+                    });
                 });
-            });
-        }
-
-        function updateCalendar(year, month) {
-            if (month < 0) {
-                year -= 1;
-                month = 11;
-            } else if (month > 11) {
-                year += 1;
-                month = 0;
             }
-            generateCalendar(year, month);
-        }
 
-        function formatDate(year, month, day) {
-            // Format as YYYY-MM-DD (pad zeroes)
-            const m = month < 10 ? '0' + month : month;
-            const d = day < 10 ? '0' + day : day;
-            return `${year}-${m}-${d}`;
-        }
+            function updateCalendar(year, month) {
+                if (month < 0) {
+                    year -= 1;
+                    month = 11;
+                } else if (month > 11) {
+                    year += 1;
+                    month = 0;
+                }
+                generateCalendar(year, month);
+            }
 
-        // Ajax Load Panji Details
-        function loadPanjiDetails(selectedDate) {
-            fetch('{{ route("get.panji.details") }}', {
-                method: "POST",
-                headers: {
-                    'X-CSRF-TOKEN': "{{ csrf_token() }}",
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ date: selectedDate })
-            })
-            .then(response => response.json())
-            .then(data => {
-                const panjiContent = document.getElementById('panjiContent');
-                if (data) {
-                    panjiContent.innerHTML = `
+            function formatDate(year, month, day) {
+                // Format as YYYY-MM-DD (pad zeroes)
+                const m = month < 10 ? '0' + month : month;
+                const d = day < 10 ? '0' + day : day;
+                return `${year}-${m}-${d}`;
+            }
+
+            // Ajax Load Panji Details
+            function loadPanjiDetails(selectedDate) {
+                fetch('{{ route('get.panji.details') }}', {
+                        method: "POST",
+                        headers: {
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            date: selectedDate
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        const panjiContent = document.getElementById('panjiContent');
+                        if (data) {
+                            panjiContent.innerHTML = `
                         <div class="flex items-start gap-3">
                             <i class="fas fa-calendar-day text-green-600 mt-1 w-5 h-5"></i>
                             <p class="text-gray-800">${data.event_name ?? 'No Event'}</p>
@@ -740,25 +748,26 @@
                             <p class="text-gray-800">Sunset: <span class="font-medium">${data.sun_set ?? '-'}</span></p>
                         </div>
                         ${data.description ? `
-                        <hr class="border-dashed border-gray-300 my-4">
-                        <div class="flex items-start gap-3">
-                            <i class="fas fa-info-circle text-gray-600 mt-1 w-5 h-5"></i>
-                            <p class="text-gray-800">${data.description}</p>
-                        </div>` : ''}
+                            <hr class="border-dashed border-gray-300 my-4">
+                            <div class="flex items-start gap-3">
+                                <i class="fas fa-info-circle text-gray-600 mt-1 w-5 h-5"></i>
+                                <p class="text-gray-800">${data.description}</p>
+                            </div>` : ''}
                     `;
-                } else {
-                    panjiContent.innerHTML = `<p class="text-center text-gray-500">No Panji Details Available for selected date.</p>`;
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching Panji details:', error);
-            });
-        }
+                        } else {
+                            panjiContent.innerHTML =
+                                `<p class="text-center text-gray-500">No Panji Details Available for selected date.</p>`;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching Panji details:', error);
+                    });
+            }
 
-        const now = new Date();
-        generateCalendar(now.getFullYear(), now.getMonth());
-    });
-</script>
+            const now = new Date();
+            generateCalendar(now.getFullYear(), now.getMonth());
+        });
+    </script>
 
 
 </body>
