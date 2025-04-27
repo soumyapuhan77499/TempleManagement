@@ -425,25 +425,29 @@
         </div>
         
         <!-- Hundi Collection -->
-        <div class="service-cards">
+        <div class="service-cards" onclick="openHundiModal()">
             <div class="card-top">
                 <div class="card-text">
                     <div class="card-title">Hundi Collection</div>
                     <div class="card-desc">
-                        3rd Apr, 2025<br />
-                        <span style="color:#e75230; font-weight:600;">₹4,67,973/-</span>
+                        {{ \Carbon\Carbon::today()->format('jS M, Y') }}<br />
+                        <span style="color:#e75230; font-weight:600;">
+                            ₹{{ number_format($hundi->rupees ?? 0, 2) }}/-
+                        </span>
                     </div>
                 </div>
-                <div class="arrow-icon" style="font-size: 25px;margin-left: 20px"><i class="fa-solid fa-arrow-right"
-                        style="color: #e9372b;"></i></div>
+                <div class="arrow-icon" style="font-size: 25px;margin-left: 20px">
+                    <i class="fa-solid fa-arrow-right" style="color: #e9372b;"></i>
+                </div>
             </div>
             <div class="card-bottom">
-                <div class="card-icons" style="font-size: 40px; color: #6bbf84;"><img
-                        src="{{ asset('website/hundic.png') }}" alt="Maha Prasad" style="height: 40px; width: 40px;">
+                <div class="card-icons" style="font-size: 40px; color: #6bbf84;">
+                    <img src="{{ asset('website/hundic.png') }}" alt="Hundi Collection" style="height: 40px; width: 40px;">
                 </div>
                 <div class="footer-bar bar-green"></div>
             </div>
         </div>
+        
 
     </section>
 

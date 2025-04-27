@@ -84,7 +84,11 @@ public function puriWebsite()
             }
         }
     }
-   
+
+    $yesterday = Carbon::yesterday()->toDateString(); // 1 day ago
+    $hundi = TempleHundi::where('temple_id', $templeId)
+        ->where('date', $yesterday)
+        ->first();
  
     return view('website.index3', [
         'nitis' => $finalNitiList->values(),
@@ -98,6 +102,8 @@ public function puriWebsite()
         'besha' => TempleBesha::whereNotNull('besha_name')->first(),
         'darshan' => TempleDarshan::where('temple_id', $templeId)->first(),
         'prasad' => TemplePrasad::where('temple_id', $templeId)->first(),
+        'hundi' => $hundi // <-- Send hundi data to blade
+
     ]);
 }
 

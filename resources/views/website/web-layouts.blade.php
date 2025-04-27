@@ -195,6 +195,27 @@
         </div>
     </div>
 
+    <!-- Hundi Collection Modal -->
+    <div id="hundiModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-lg p-8 w-96 relative text-center">
+            <button onclick="closeHundiModal()"
+                class="absolute top-2 right-2 text-gray-600 hover:text-red-600 text-xl">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <h2 class="text-2xl font-bold mb-6 text-[#db4d30]">Hundi Collection Details</h2>
+
+            @if ($hundi)
+                <div class="space-y-4 text-gray-700 text-md">
+                    <p><strong>Rupees Collected:</strong> ₹{{ number_format($hundi->rupees, 2) }}</p>
+                    <p><strong>Gold Collected:</strong> {{ $hundi->gold ?? 0 }} gm</p>
+                    <p><strong>Silver Collected:</strong> {{ $hundi->silver ?? 0 }} gm</p>
+                </div>
+            @else
+                <p class="text-gray-500 italic">No Hundi collection data available for today.</p>
+            @endif
+        </div>
+    </div>
 
 
     <!-- Content -->
@@ -676,6 +697,17 @@
     <script>
         lucide.createIcons();
     </script>
+
+    <script>
+        function openHundiModal() {
+            document.getElementById('hundiModal').classList.remove('hidden');
+        }
+
+        function closeHundiModal() {
+            document.getElementById('hundiModal').classList.add('hidden');
+        }
+    </script>
+
 
 </body>
 
