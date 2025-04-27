@@ -525,8 +525,16 @@ Route::controller(HomeSectionController::class)->group(function() {
     Route::get('/mandir-radio', 'mandirRadio')->name('radio.layout');
     Route::get('view-near-by-temple/{id}', 'viewNearByTemple')->name('nearby-temple.view');
     Route::get('puri-website/privacy-policy', 'privacyPolicy')->name('privacy.policy');
-
 });
+
+
+Route::post('/get-panji-details', function (Illuminate\Http\Request $request) {
+    $date = $request->input('date');
+
+    $panji = \App\Models\PanjiDetails::where('date', $date)->where('status', 'active')->first();
+
+    return response()->json($panji);
+})->name('get.panji.details');
 
 Route::get('/view-panji-details', function () {
     return view('website.view-panji-details');

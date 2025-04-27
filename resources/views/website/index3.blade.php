@@ -423,7 +423,7 @@
                 <div class="footer-bar bar-cyan"></div>
             </div>
         </div>
-        
+
         <!-- Hundi Collection -->
         <div class="service-cards" onclick="openHundiModal()">
             <div class="card-top">
@@ -442,12 +442,13 @@
             </div>
             <div class="card-bottom">
                 <div class="card-icons" style="font-size: 40px; color: #6bbf84;">
-                    <img src="{{ asset('website/hundic.png') }}" alt="Hundi Collection" style="height: 40px; width: 40px;">
+                    <img src="{{ asset('website/hundic.png') }}" alt="Hundi Collection"
+                        style="height: 40px; width: 40px;">
                 </div>
                 <div class="footer-bar bar-green"></div>
             </div>
         </div>
-        
+
 
     </section>
 
@@ -514,14 +515,14 @@
                 <p>Emergency</p>
             </div>
 
-            
+
             <div class="conv">
                 <div class="convenience-item cursor-pointer" onclick="openSpecialModal()">
                     <i class="fas fa-wheelchair"></i>
                 </div>
                 <p>Special Abled Person</p>
             </div>
-            
+
             <div class="conv">
                 <a href="{{ route('services.byType', 'ratha_yatra_mela') }}">
                     <div class="convenience-item">
@@ -606,70 +607,56 @@
                     </div>
 
                     <!-- Today Occasion List -->
-                    <div class="mt-6 space-y-4 font-[Inter,sans-serif] text-sm md:text-base">
-                        <div class="flex items-start gap-3">
-                            <i class="fas fa-spa text-green-600 mt-1 w-5 h-5"></i>
-                            <p class="text-gray-800">Gruha Devi & Basantika Mrunmayee Devi nka Saptami Puja Arambha</p>
-                        </div>
-
-                        <div class="flex items-start gap-3">
-                            <i class="fas fa-fire text-red-500 mt-1 w-5 h-5"></i>
-                            <p class="text-gray-800">Pithe Astami Puja</p>
-                        </div>
-
-                        <div class="flex items-start gap-3">
-                            <i class="fas fa-clock text-blue-600 mt-1 w-5 h-5"></i>
-                            <p class="text-gray-800">Tithi: 4th Apr Friday, Chaitra, Mina day 22</p>
-                        </div>
-
-
-                        <hr class="border-dashed border-gray-300 my-4">
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
-                            <div class="flex items-start gap-2">
-                                <i class="fas fa-sun text-orange-400 w-5 h-5 mt-1"></i>
-                                <p class="text-gray-800">Sunrise: <span class="font-medium">05:38 AM</span></p>
-                            </div>
-                            <div class="flex items-start gap-2">
-                                <i class="fas fa-moon text-indigo-500 w-5 h-5 mt-1"></i>
-                                <p class="text-gray-800">Moonrise: <span class="font-medium">10:26 AM</span></p>
-                            </div>
-                            <div class="flex items-start gap-2">
-                                <i class="fas fa-sun text-red-500 w-5 h-5 mt-1"></i>
-                                <p class="text-gray-800">Sunset: <span class="font-medium">06:02 PM</span></p>
-                            </div>
-                            <div class="flex items-start gap-2">
-                                <i class="fas fa-moon text-blue-600 w-5 h-5 mt-1"></i>
-                                <p class="text-gray-800">Moonset: <span class="font-medium">12:30 AM, Apr 05</span></p>
-                            </div>
-                            <div class="flex items-start gap-2">
-                                <i class="fas fa-calendar-week text-teal-600 w-5 h-5 mt-1"></i>
-                                <p class="text-gray-800">Weekday: <span class="font-medium">Shukrawara</span></p>
-                            </div>
-                            <div class="flex items-start gap-2">
-                                <i class="fas fa-adjust text-yellow-500 w-5 h-5 mt-1"></i>
-                                <p class="text-gray-800">Paksha: <span class="font-medium">Shukla Paksha</span></p>
-                            </div>
-                            <div class="flex items-start gap-2">
-                                <i class="fas fa-star text-purple-600 w-5 h-5 mt-1"></i>
-                                <p class="text-gray-800">Tithi: <span class="font-medium">Saptami upto 08:12 PM</span></p>
+                    <!-- Today Occasion List -->
+                    <div class="mt-6 space-y-4 font-[Inter,sans-serif] text-sm md:text-base" id="panjiContent">
+                        @if ($todayPanji)
+                            <div class="flex items-start gap-3">
+                                <i class="fas fa-calendar-day text-green-600 mt-1 w-5 h-5"></i>
+                                <p class="text-gray-800">{{ $todayPanji->event_name ?? 'No Event' }}</p>
                             </div>
 
-                            <div class="flex items-start gap-2">
-                                <i class="fas fa-smile text-green-600 w-5 h-5 mt-1"></i>
-                                <p class="text-gray-800">Yoga: <span class="font-medium">Shobhana upto 09:45 PM</span></p>
+                            <div class="flex items-start gap-3">
+                                <i class="fas fa-star text-purple-600 mt-1 w-5 h-5"></i>
+                                <p class="text-gray-800">Tithi: <span
+                                        class="font-medium">{{ $todayPanji->tithi ?? '-' }}</span></p>
                             </div>
 
-                            <div class="flex items-start gap-2">
-                                <i class="fas fa-sun-plant-wilt text-yellow-500 w-5 h-5 mt-1"></i>
-                                <p class="text-gray-800">Sunsign: <span class="font-medium">Meena</span></p>
+                            <div class="flex items-start gap-3">
+                                <i class="fas fa-smile text-yellow-500 mt-1 w-5 h-5"></i>
+                                <p class="text-gray-800">Yoga: <span
+                                        class="font-medium">{{ $todayPanji->yoga ?? '-' }}</span></p>
                             </div>
-                            <div class="flex items-start gap-2">
-                                <i class="fas fa-moon-stars text-indigo-600 w-5 h-5 mt-1"></i>
-                                <p class="text-gray-800">Moonsign: <span class="font-medium">Mithuna</span></p>
+
+                            <div class="flex items-start gap-3">
+                                <i class="fas fa-adjust text-blue-600 mt-1 w-5 h-5"></i>
+                                <p class="text-gray-800">Paksha: <span
+                                        class="font-medium">{{ $todayPanji->pakshya ?? '-' }}</span></p>
                             </div>
-                        </div>
+
+                            <div class="flex items-start gap-3">
+                                <i class="fas fa-clock text-red-400 mt-1 w-5 h-5"></i>
+                                <p class="text-gray-800">Sunrise: <span
+                                        class="font-medium">{{ $todayPanji->sun_rise ?? '-' }}</span></p>
+                            </div>
+
+                            <div class="flex items-start gap-3">
+                                <i class="fas fa-moon text-indigo-600 mt-1 w-5 h-5"></i>
+                                <p class="text-gray-800">Sunset: <span
+                                        class="font-medium">{{ $todayPanji->sun_set ?? '-' }}</span></p>
+                            </div>
+
+                            @if ($todayPanji->description)
+                                <hr class="border-dashed border-gray-300 my-4">
+                                <div class="flex items-start gap-3">
+                                    <i class="fas fa-info-circle text-gray-600 mt-1 w-5 h-5"></i>
+                                    <p class="text-gray-800">{{ $todayPanji->description }}</p>
+                                </div>
+                            @endif
+                        @else
+                            <p class="text-center text-gray-500">No Panji Details Available for Today.</p>
+                        @endif
                     </div>
+
                 </div>
                 <!-- Events Section -->
                 <div class="bg-white p-6 rounded-xl border border-gray-300">
@@ -687,8 +674,7 @@
         </div>
     </section>
 
-    <section class="bg-100 p-2 relative bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100"
-        >
+    <section class="bg-100 p-2 relative bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
         <div class="max-w-6xl mx-auto text-center relative">
             <!-- Tabs -->
             <div class="absolute top-14 right-0 flex space-x-3 p-3 rounded-lg">

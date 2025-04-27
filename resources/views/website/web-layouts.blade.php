@@ -398,6 +398,7 @@
         });
     </script>
 
+{{-- temple information --}}
     <script>
         const tabData = {
             lordSupreme: {
@@ -577,6 +578,7 @@
         }
     </script>
 
+{{-- temple world wide --}}
     <script>
         function showContent(tab, element) {
             // Remove active class from all buttons
@@ -611,6 +613,7 @@
         }
     </script>
 
+    {{-- banner video --}}
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const video = document.getElementById("bannerVideo");
@@ -664,6 +667,7 @@
         });
     </script>
 
+    {{-- temple information --}}
     <script>
         document.querySelectorAll('.tab-item').forEach(tab => {
             tab.addEventListener('mouseenter', () => {
@@ -679,6 +683,7 @@
         });
     </script>
 
+    {{-- donation modal --}}
     <script>
         function openDonationModal() {
             document.getElementById('donationModal').classList.remove('hidden');
@@ -693,7 +698,6 @@
         }
     </script>
 
-
     <script>
         lucide.createIcons();
     </script>
@@ -707,6 +711,62 @@
             document.getElementById('hundiModal').classList.add('hidden');
         }
     </script>
+
+<script>
+    function loadPanjiDetails(selectedDate) {
+        fetch('{{ route("get.panji.details") }}', {
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ date: selectedDate })
+        })
+        .then(response => response.json())
+        .then(data => {
+            const panjiContent = document.getElementById('panjiContent');
+            if (data) {
+                panjiContent.innerHTML = `
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-calendar-day text-green-600 mt-1 w-5 h-5"></i>
+                        <p class="text-gray-800">${data.event_name ?? 'No Event'}</p>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-star text-purple-600 mt-1 w-5 h-5"></i>
+                        <p class="text-gray-800">Tithi: <span class="font-medium">${data.tithi ?? '-'}</span></p>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-smile text-yellow-500 mt-1 w-5 h-5"></i>
+                        <p class="text-gray-800">Yoga: <span class="font-medium">${data.yoga ?? '-'}</span></p>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-adjust text-blue-600 mt-1 w-5 h-5"></i>
+                        <p class="text-gray-800">Paksha: <span class="font-medium">${data.pakshya ?? '-'}</span></p>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-clock text-red-400 mt-1 w-5 h-5"></i>
+                        <p class="text-gray-800">Sunrise: <span class="font-medium">${data.sun_rise ?? '-'}</span></p>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-moon text-indigo-600 mt-1 w-5 h-5"></i>
+                        <p class="text-gray-800">Sunset: <span class="font-medium">${data.sun_set ?? '-'}</span></p>
+                    </div>
+                    ${data.description ? `
+                    <hr class="border-dashed border-gray-300 my-4">
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-info-circle text-gray-600 mt-1 w-5 h-5"></i>
+                        <p class="text-gray-800">${data.description}</p>
+                    </div>` : ''}
+                `;
+            } else {
+                panjiContent.innerHTML = `<p class="text-center text-gray-500">No Panji Details Available for selected date.</p>`;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching Panji details:', error);
+        });
+    }
+</script>
 
 
 </body>
