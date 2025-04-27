@@ -87,7 +87,7 @@ class WebsiteBannerController extends Controller
                 $mergedNitiList[] = [
                     'niti_id'       => $dailyNiti->niti_id,
                     'niti_name'     => $dailyNiti->niti_name,
-                    'odia_niti_name'     => $dailyNiti->odia_niti_name,
+                    'odia_niti_name' => $dailyNiti->odia_niti_name ?? $dailyNiti->niti_name,
                     'niti_type'     => $dailyNiti->niti_type,
                     'niti_status'   => $dailyNiti->niti_status,
                     'date_time'     => $dailyNiti->date_time,

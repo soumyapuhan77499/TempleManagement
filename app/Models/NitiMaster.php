@@ -20,7 +20,6 @@ class NitiMaster extends Model
         'language',
         'niti_name',
         'odia_niti_name',
-        'niti_order',
         'date_time',
         'after_special_niti',
         'niti_type',
