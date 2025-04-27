@@ -59,16 +59,14 @@
                 <tbody>
                     @forelse($services as $service)
                     <tr class="table-row hover:bg-pink-100 transition duration-300">
-                        <td class="py-4 px-6">{{ $service->service_name }}</td>
                         <td class="py-4 px-6">
                             @if($service->photo)
-                           
                                 <img src="{{ asset('uploads/public_services/' . $service->photo) }}" alt="{{ $service->service_name }}" class="w-16 h-16 object-cover rounded-md shadow-md">
-
                             @else
                                 <span class="text-gray-400 italic">No Image</span>
                             @endif
                         </td>
+                        <td class="py-4 px-6">{{ $service->service_name }}</td>
                         <td class="py-4 px-6">{{ $service->contact_no }}</td>
                         <td class="py-4 px-6">{{ $service->opening_time }}</td>
                         <td class="py-4 px-6">{{ $service->closing_time }}</td>
