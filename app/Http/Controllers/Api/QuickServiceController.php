@@ -270,6 +270,7 @@ class QuickServiceController extends Controller
                 return [
                     'prasad_id'     => $prasad->id,
                     'prasad_name'   => $prasad->prasad_name,
+                    'english_prasad_name'   => $prasad->english_prasad_name,
                     'prasad_type'   => $prasad->prasad_type,
                     'prasad_photo'  => $prasad->prasad_photo,
                     'prasad_item'   => $prasad->prasad_item,
@@ -391,6 +392,7 @@ public function getDarshanListApi()
             return [
                 'darshan_id'     => $darshan->id,
                 'darshan_name'   => $darshan->darshan_name,
+                'english_darshan_name'   => $darshan->english_darshan_name,
                 'darshan_type'   => $darshan->darshan_type,
                 'description'    => $darshan->description,
                 'darshan_status' => $darshan->darshan_status ?? null,
