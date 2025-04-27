@@ -510,14 +510,12 @@
             </div>
             
             <div class="conv">
-                <a href="{{ route('services.byType', 'handicap') }}">
-                    <div class="convenience-item">
-                        <i class="fas fa-wheelchair"></i>
-                    </div>
-                    <p>Handicap</p>
-                </a>
+                <div class="convenience-item cursor-pointer" onclick="openSpecialModal()">
+                    <i class="fas fa-wheelchair"></i>
+                </div>
+                <p>Special Abled Person</p>
             </div>
-
+            
             <div class="conv">
                 <a href="{{ route('services.byType', 'ratha_yatra_mela') }}">
                     <div class="convenience-item">

@@ -153,6 +153,30 @@
         </div>
     </div>
 
+    <!-- Special Abled Person Modal -->
+    <div id="specialModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-2xl relative">
+            <button onclick="closeSpecialModal()" class="absolute top-3 right-3 text-gray-600 hover:text-red-600">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+            <div class="text-center">
+                <i class="fas fa-wheelchair text-pink-500 text-5xl mb-4"></i>
+                <h2 class="text-2xl font-bold mb-4 text-pink-500">Special Abled Person Services</h2>
+                <p class="text-gray-700 leading-relaxed text-md">
+                    Free service of Battery operated vehicles are available from <strong>Jagannatha Ballav Parking place
+                        (Market square)</strong> to Temple main gate / North gate for carrying senior citizens and
+                    physically challenged people.<br><br>
+                    Wheel chair and Ramp facilities are available at <strong>North gate</strong>.<br><br>
+                    For availing wheelchair, one can contact Temple Supervisor / Assistant Supervisor at <strong>06752 –
+                        252527</strong>.<br><br>
+                    <span class="text-red-500 font-semibold">Note:</span> Wheelchairs are available only for
+                    differently abled devotees.
+                </p>
+            </div>
+        </div>
+    </div>
+
+
     <!-- Content -->
     @yield('content')
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
@@ -212,8 +236,8 @@
             },
         });
     </script>
-    
-{{-- Emergency contact --}}
+
+    {{-- Emergency contact --}}
     <script>
         function openEmergencyModal() {
             document.getElementById('emergencyModal').classList.remove('hidden');
@@ -223,6 +247,18 @@
             document.getElementById('emergencyModal').classList.add('hidden');
         }
     </script>
+    
+    {{-- Special Abled Person --}}
+    <script>
+        function openSpecialModal() {
+            document.getElementById('specialModal').classList.remove('hidden');
+        }
+
+        function closeSpecialModal() {
+            document.getElementById('specialModal').classList.add('hidden');
+        }
+    </script>
+
 
     <script src="https://unpkg.com/lucide@latest"></script>
 
