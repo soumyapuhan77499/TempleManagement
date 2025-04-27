@@ -91,7 +91,7 @@
                     <td class="py-4 px-6 font-semibold">{{ $service->service_name }}</td>
                     <td class="py-4 px-6">
                         @if($service->google_map_link)
-                            <a href="{{ $service->google_map_link }}" target="_blank" class="inline-block bg-gradient-to-r from-orange-400 to-pink-500 text-white px-3 py-1 rounded-md text-sm hover:scale-105 transition">
+                            <a href="{{ $service->google_map_link }}" target="_blank" class="px-3 py-1 rounded-md text-sm hover:scale-105 transition" style="background: linear-gradient(90deg, #FFA726, #F06292); color: white;">
                                 View Map
                             </a>
                         @else
