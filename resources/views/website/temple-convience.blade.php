@@ -130,7 +130,7 @@
                             </td>
                             <td class="py-4 px-6">
                                 <button onclick="openModal({{ $service->id }})"
-                                    class="text-white px-4 py-2 rounded-md hover:scale-105 transition"
+                                    class="text-white px-3 py-1 rounded-md hover:scale-105 transition"
                                     style="background: linear-gradient(90deg, #f9ce62, #f1769f);padding: 10px;">
                                     View Full Info
                                 </button>
