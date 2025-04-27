@@ -23,25 +23,36 @@
     </div>
 </header>
 
-<!-- Mobile Nav -->
-<nav id="mobileNav" class="mobile-nav">
-    <div class="nav-close" onclick="closeMobileMenu()"><i class="fa fa-times"></i></div>
-    <ul>
-        <li><a href="#">Nitis</a></li>
-        <li><a href="#">SM <span class="live-badges"><i class="fa fa-bolt"></i> Live</span></a></li>
-        <li><a href="#">Services</a></li>
-        <li><a href="#">Nearby Temples</a></li>
-        <li><a href="#">Conveniences</a></li>
-        <li><a href="#">Temple Information</a></li>
-    </ul>
-</nav>
+<!-- Mobile Nav Wrapper -->
+<div id="mobileNavWrapper" class="mobile-nav-wrapper">
+    <!-- Mobile Nav -->
+    <nav id="mobileNav" class="mobile-nav">
+        
+        <!-- CLOSE BUTTON -->
+        <div class="nav-close" onclick="closeMobileMenu()">
+            <i class="fas fa-times"></i> <!-- This is the Close "X" icon -->
+        </div>
+
+        <ul>
+            <li><a href="#">Nitis</a></li>
+            <li><a href="#">SM <span class="live-badges"><i class="fa fa-bolt"></i> Live</span></a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Nearby Temples</a></li>
+            <li><a href="#">Conveniences</a></li>
+            <li><a href="#">Temple Information</a></li>
+        </ul>
+    </nav>
+</div>
 
 <script>
-     function openMobileMenu() {
+    function openMobileMenu() {
+        document.getElementById('mobileNavWrapper').classList.add('active');
         document.getElementById('mobileNav').classList.add('active');
     }
 
     function closeMobileMenu() {
+        document.getElementById('mobileNavWrapper').classList.remove('active');
         document.getElementById('mobileNav').classList.remove('active');
     }
 </script>
+
