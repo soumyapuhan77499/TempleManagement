@@ -498,7 +498,7 @@
                     <div class="convenience-item">
                         <img src="{{ asset('website/wtr.png') }}" alt="Water">
                     </div>
-                    <p>Water</p>
+                    <p>Drinking Water</p>
                 </a>
             </div>
 
@@ -508,7 +508,7 @@
                 </div>
                 <p>Emergency</p>
             </div>
-            
+
             
             <div class="conv">
                 <div class="convenience-item cursor-pointer" onclick="openSpecialModal()">
@@ -562,9 +562,7 @@
                     <p>Life Guards</p>
                 </a>
             </div>
-
         </div>
-
     </section>
 
     <section class="bg-100 p-10  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
