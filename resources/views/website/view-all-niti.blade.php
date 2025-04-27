@@ -268,7 +268,7 @@
 
     <!-- Hero Section -->
     <div class="hero">
-        <img class="hero-bg" src="{{ asset('website/parking.jpeg') }}" alt="Mandir Background" />
+        <img class="hero-bg" src="{{ asset('website/besha1.png') }}" alt="Mandir Background" />
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1>Complete List Of Nitis</h1>
