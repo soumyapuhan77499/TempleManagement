@@ -13,6 +13,7 @@ use App\Models\DarshanManagement;
 use App\Models\Accomodation;
 use App\Models\PublicServices;
 use App\Models\NearByTemple;
+use App\Models\PanjiDetails;
 use Carbon\Carbon;
 
 class QuickServiceController extends Controller
