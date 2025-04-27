@@ -36,84 +36,63 @@
             background-color: #fff7f0;
         }
 
-        .hero {
-            position: relative;
-            height: 250px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
-        }
-
-        .hero-bg {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: brightness(0.6);
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 10;
-        }
+      
 
         @media (max-width: 768px) {
-        .container {
-            width: 100%;
-            padding: 20px;
-        }
+            .container {
+                width: 100%;
+                padding: 20px;
+            }
 
-        table.min-w-full {
-            display: block;
-            width: 100%;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
+            table.min-w-full {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
 
-        table.min-w-full thead {
-            display: none; /* Hide header for smaller devices */
-        }
+            table.min-w-full thead {
+                display: none;
+                /* Hide header for smaller devices */
+            }
 
-        table.min-w-full tbody, 
-        table.min-w-full tr, 
-        table.min-w-full td {
-            display: block;
-            width: 100%;
-        }
+            table.min-w-full tbody,
+            table.min-w-full tr,
+            table.min-w-full td {
+                display: block;
+                width: 100%;
+            }
 
-        table.min-w-full tr {
-            margin-bottom: 15px;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            background: #fff;
-            padding: 15px;
-        }
+            table.min-w-full tr {
+                margin-bottom: 15px;
+                border: 1px solid #e5e7eb;
+                border-radius: 10px;
+                background: #fff;
+                padding: 15px;
+            }
 
-        table.min-w-full td {
-            text-align: left;
-            padding: 10px 10px;
-            position: relative;
-        }
+            table.min-w-full td {
+                text-align: left;
+                padding: 10px 10px;
+                position: relative;
+            }
 
-        table.min-w-full td::before {
-            content: attr(data-label);
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            font-weight: bold;
-            color: #f06292;
-            font-size: 14px;
-            text-transform: capitalize;
-        }
+            table.min-w-full td::before {
+                content: attr(data-label);
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                font-weight: bold;
+                color: #f06292;
+                font-size: 14px;
+                text-transform: capitalize;
+            }
 
-        table.min-w-full td img {
-            width: 100px;
-            height: 100px;
+            table.min-w-full td img {
+                width: 100px;
+                height: 100px;
+            }
         }
-    }
     </style>
 </head>
 
@@ -124,11 +103,15 @@
     <!-- Hero Section -->
     <div class="hero">
         <img class="hero-bg" src="{{ asset('website/parking.jpeg') }}" alt="Mandir Background" />
+        <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1 class="text-4xl font-bold">{{ ucfirst(str_replace('_', ' ', $service_type)) }}</h1>
-            <p class="text-lg mt-2">Explore all available services here</p>
+            <div class="hero-left">
+                <h1 class="text-4xl font-bold">{{ ucfirst(str_replace('_', ' ', $service_type)) }}</h1>
+                <p class="text-lg mt-2">Explore all available services here</p>
+            </div>
         </div>
     </div>
+
 
     <!-- Table Section -->
     <div class="container mx-auto">
@@ -301,7 +284,7 @@
         }
     </script>
 
-    
+
 
 
 </body>
