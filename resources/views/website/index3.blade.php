@@ -607,7 +607,6 @@
                     </div>
 
                     <!-- Today Occasion List -->
-                    <!-- Today Occasion List -->
                     <div class="mt-6 space-y-4 font-[Inter,sans-serif] text-sm md:text-base" id="panjiContent">
                         @if ($todayPanji)
                             <div class="flex items-start gap-3">
