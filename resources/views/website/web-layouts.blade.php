@@ -77,6 +77,82 @@
 </head>
 
 <body>
+    <!-- Emergency Modal -->
+    <div id="emergencyModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-2xl relative">
+            <button onclick="closeEmergencyModal()" class="absolute top-3 right-3 text-gray-600 hover:text-red-600">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+            <h2 class="text-2xl font-bold mb-6 text-center text-pink-500">Emergency Helpline Numbers</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="flex items-center gap-4">
+                    <i class="fas fa-shield-alt text-blue-500 text-2xl"></i>
+                    <div>
+                        <p class="font-semibold">Police</p>
+                        <p class="text-gray-600 text-sm">100</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <i class="fas fa-ambulance text-red-500 text-2xl"></i>
+                    <div>
+                        <p class="font-semibold">Ambulance</p>
+                        <p class="text-gray-600 text-sm">108</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <i class="fas fa-fire-extinguisher text-orange-500 text-2xl"></i>
+                    <div>
+                        <p class="font-semibold">Fire Service</p>
+                        <p class="text-gray-600 text-sm">101</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <i class="fas fa-user-shield text-green-500 text-2xl"></i>
+                    <div>
+                        <p class="font-semibold">Elder Person Helpline</p>
+                        <p class="text-gray-600 text-sm">1090</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <i class="fas fa-child text-yellow-500 text-2xl"></i>
+                    <div>
+                        <p class="font-semibold">Child Helpline</p>
+                        <p class="text-gray-600 text-sm">1098</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <i class="fas fa-female text-pink-500 text-2xl"></i>
+                    <div>
+                        <p class="font-semibold">Women Helpline</p>
+                        <p class="text-gray-600 text-sm">1091</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <i class="fas fa-life-ring text-blue-400 text-2xl"></i>
+                    <div>
+                        <p class="font-semibold">Life Guard</p>
+                        <p class="text-gray-600 text-sm">8260777771</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <i class="fas fa-road text-gray-500 text-2xl"></i>
+                    <div>
+                        <p class="font-semibold">National Highway Helpline</p>
+                        <p class="text-gray-600 text-sm">1033</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Content -->
     @yield('content')
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
@@ -135,6 +211,17 @@
                 prevEl: ".swiper-button-prev",
             },
         });
+    </script>
+    
+{{-- Emergency contact --}}
+    <script>
+        function openEmergencyModal() {
+            document.getElementById('emergencyModal').classList.remove('hidden');
+        }
+
+        function closeEmergencyModal() {
+            document.getElementById('emergencyModal').classList.add('hidden');
+        }
     </script>
 
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -311,9 +398,9 @@
 
             },
 
-        festivals: {
-            title: "Festivals",
-            description: `Old Sanskrit texts, right from Brahma and Skanda Purana onwards, contain prescription about the observance of twelve festivals in the temple of Jagannatha throughout the year. These twelve festivals, popularly called ‘dvadasa yatras’.
+            festivals: {
+                title: "Festivals",
+                description: `Old Sanskrit texts, right from Brahma and Skanda Purana onwards, contain prescription about the observance of twelve festivals in the temple of Jagannatha throughout the year. These twelve festivals, popularly called ‘dvadasa yatras’.
             These twelve festivals are:
             (1) Snana (bathing),
             (2) Ratha (moving by chariot),
@@ -329,38 +416,52 @@
             (12) Aksaya Trtiya (Chandan yatra).
             Besides that another festival namely ‘Neeladri Mahodaya’ known as froyadasha yatra of the temple.
             There is a popular saying: “Thirteen festivals are there in twelve months”.`,
-            image: "website/temple_info/festival.jpeg",
-            buttons: [
-                { name: "Major Festivals", url: "/car-festival" },
-                { name: "Other Festivals", url: "/car-festival" }
-            ]
-        },
+                image: "website/temple_info/festival.jpeg",
+                buttons: [{
+                        name: "Major Festivals",
+                        url: "/car-festival"
+                    },
+                    {
+                        name: "Other Festivals",
+                        url: "/car-festival"
+                    }
+                ]
+            },
 
-        ratha: {
-            title: "Ratha Yatra",
-            description: `As per description in the Skanda Purana, among the twelve Yatras of Shree Jagannatha, Ratha Yatra or Shree Gundicha Yatra is considered the most famous one.
+            ratha: {
+                title: "Ratha Yatra",
+                description: `As per description in the Skanda Purana, among the twelve Yatras of Shree Jagannatha, Ratha Yatra or Shree Gundicha Yatra is considered the most famous one.
             According to ‘Bamadev Samhita’, those who can witness the four deities on the Simhasana (the sacred seat) of Gundicha Temple for a week, they along with their ancestors would get a place in the heavenly abode i.e. Baikuntha for all time to come.
             As per this text, those who can hear about this great festival also get the desired result.
             Besides this, those who study the rituals of the divine festival and make others aware of the same can also get a place in His holy abode.`,
-            image: "website/temple_info/ratha.png",
-            buttons: [
-                { name: "Read More", url: "/ratha-yatra" }
-            ]
-        },
+                image: "website/temple_info/ratha.png",
+                buttons: [{
+                    name: "Read More",
+                    url: "/ratha-yatra"
+                }]
+            },
 
-        services: {
-            title: "Visitor Services",
-            description: `Darshan of Shree Jagannatha Mahaprabhu is available almost throughout the day i.e. from early in the morning till late night excepting some festive occasions.
+            services: {
+                title: "Visitor Services",
+                description: `Darshan of Shree Jagannatha Mahaprabhu is available almost throughout the day i.e. from early in the morning till late night excepting some festive occasions.
             Generally, Temple opens and darshan starts at around 5.30 A.M.
             After offering of the perpetual lamp (Mangal Arati), devotees are allowed entry up to Jagamohan (Bhitar Kaatha) of the temple and darshan from this point is available till completion of “Besha” (approximately up to 7.30 / 8 A.M.).
             Darshan of Shree Jagannatha Mahaprabhu is not available for 1 hr 15 minutes after completion of Besha (approximately from 8 A.M. to 9.15 A.M.) for performance of Gopal Ballava Puja.`,
-            image: "website/temple_info/devt.png",
-            buttons: [
-                { name: "Darshan Facilities", url: "/accommodation" },
-                { name: "Accommodations", url: "/guided-tours" },
-                { name: "Online Donation", url: "/accommodation" }
-            ]
-        },
+                image: "website/temple_info/devt.png",
+                buttons: [{
+                        name: "Darshan Facilities",
+                        url: "/accommodation"
+                    },
+                    {
+                        name: "Accommodations",
+                        url: "/guided-tours"
+                    },
+                    {
+                        name: "Online Donation",
+                        url: "/accommodation"
+                    }
+                ]
+            },
             management: {
                 title: "Management",
                 description: "The affairs of Shree Jagannatha Temple at Puri were looked after with great devotion and care by the successive Hindu ruling dynasties of Odisha for whom Shree Jagannatha Mahaprabhu had come to be regarded as the State deity. The famous Ganga Monarch Chodaganga Deva, after constructing the present temple in the 12th century A.D, made new endowments and laid the foundation of a sound administration for managing the affairs of the Temple. Madala Panji, the chronicle of Shree Jagannatha Temple, Puri, eulogistically records the extensive endowments in land and fabulous gifts of gold made by Anangabhima Deva (III). He is also credited with organising the Chhatisa Nijog or as many as thirty six genres of temple servitors and instituting numerous bhogas and yatras (festivals).",

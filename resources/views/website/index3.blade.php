@@ -1,7 +1,6 @@
 @extends('website.web-layouts')
 
 @section('content')
-
     <section class="banner-sections">
         <!-- Video Banner -->
         @if ($latestWebVideo && $latestWebVideo->banner_video)
@@ -52,39 +51,41 @@
     <div class="niti-cards-scroll">
         <div class="niti-cards">
             @foreach ($nitis as $niti)
-            <div class="niti-card {{ $loop->first ? 'active' : '' }}">
-                <div class="niti-content">
-                    <h3 style="font-size: 22px; padding-bottom:5px;">{{ $niti->niti_name }}</h3>
-        
-                    <p style="padding-top: 5px; font-weight: bold; 
+                <div class="niti-card {{ $loop->first ? 'active' : '' }}">
+                    <div class="niti-content">
+                        <h3 style="font-size: 22px; padding-bottom:5px;">{{ $niti->niti_name }}</h3>
+
+                        <p
+                            style="padding-top: 5px; font-weight: bold; 
                         color: {{ $niti->niti_status == 'Started' ? '#28a745' : '#333' }};">
-                        {{ $niti->niti_status }}
-                    </p>
+                            {{ $niti->niti_status }}
+                        </p>
+                    </div>
+
+                    <div class="niti-icons">
+                        <p style="color: rgb(139, 137, 137)">
+                            <ion-icon name="time-outline" style="margin: 6px; color: #ff0011; font-size: 16px;"></ion-icon>
+                            @php
+                                $startTime = optional($niti->todayStartTime)->start_time;
+                            @endphp
+
+                            @if ($niti->niti_status === 'Upcoming' || !$startTime)
+                                Not Started
+                            @else
+                                {{ \Carbon\Carbon::parse($startTime)->format('h:i A') }}
+                            @endif
+                        </p>
+
+                        <p style="color: rgb(139, 137, 137)">
+                            <ion-icon name="calendar-outline"
+                                style="margin: 6px; color: #ff0011; font-size: 16px;"></ion-icon>
+                            {{ \Carbon\Carbon::now()->format('jS M') }}
+                        </p>
+
+                    </div>
                 </div>
-        
-                <div class="niti-icons">
-                    <p style="color: rgb(139, 137, 137)">
-                        <ion-icon name="time-outline" style="margin: 6px; color: #ff0011; font-size: 16px;"></ion-icon>
-                        @php
-                            $startTime = optional($niti->todayStartTime)->start_time;
-                        @endphp
-                    
-                        @if ($niti->niti_status === 'Upcoming' || !$startTime)
-                            Not Started
-                        @else
-                            {{ \Carbon\Carbon::parse($startTime)->format('h:i A') }}
-                        @endif
-                    </p>
-                    
-                    <p style="color: rgb(139, 137, 137)">
-                        <ion-icon name="calendar-outline" style="margin: 6px; color: #ff0011; font-size: 16px;"></ion-icon>
-                        {{ \Carbon\Carbon::now()->format('jS M') }}
-                    </p>
-                    
-                </div>
-            </div>
-        @endforeach
-        
+            @endforeach
+
 
             <!-- View All Niti Card -->
             <div class="niti-card">
@@ -206,66 +207,70 @@
         <div class="flex justify-center items-center gap-6 mt-5 mb-12">
             <div id="navContainer" class="flex gap-5 overflow-x-auto no-scrollbar">
                 <div class="tab-item text-center min-w-[100px] cursor-pointer active-tab" data-tab="lordSupreme">
-                    <img src="{{ asset('website/temple_info/sup.png') }}" class="mx-auto w-20 h-20" style="border-radius: 50%">
+                    <img src="{{ asset('website/temple_info/sup.png') }}" class="mx-auto w-20 h-20"
+                        style="border-radius: 50%">
                     <p class="text-gray-500 mt-3">Lord Supreme</p>
                 </div>
 
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="throughAges">
-                    <img src="{{ asset('website/temple_info/age.png') }}" class="mx-auto w-20 h-20"  style="border-radius: 50%">
+                    <img src="{{ asset('website/temple_info/age.png') }}" class="mx-auto w-20 h-20"
+                        style="border-radius: 50%">
                     <p class="text-gray-500 mt-3">Through The Ages</p>
                 </div>
 
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="tradition">
-                    <img src="{{ asset('website/temple_info/tradition.png') }}"  class="mx-auto w-20 h-20" style="border-radius: 50%">
+                    <img src="{{ asset('website/temple_info/tradition.png') }}" class="mx-auto w-20 h-20"
+                        style="border-radius: 50%">
                     <p class="text-gray-500 mt-3">Living Tradition</p>
                 </div>
 
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="festivals">
-                    <img src="{{ asset('website/temple_info/festival.jpeg') }}"  class="mx-auto w-20 h-20" style="border-radius: 50%">
+                    <img src="{{ asset('website/temple_info/festival.jpeg') }}" class="mx-auto w-20 h-20"
+                        style="border-radius: 50%">
                     <p class="text-gray-500 mt-3">Festivals</p>
                 </div>
 
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="ratha">
-                    <img src="{{ asset('website/temple_info/ratha.png') }}"  class="mx-auto w-20 h-20" style="border-radius: 50%">
+                    <img src="{{ asset('website/temple_info/ratha.png') }}" class="mx-auto w-20 h-20"
+                        style="border-radius: 50%">
                     <p class="text-gray-500 mt-3">Ratha Yatra</p>
                 </div>
 
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="services">
-                    <img src="{{ asset('website/temple_info/devt.png') }}"  class="mx-auto w-20 h-20" style="border-radius: 50%">
+                    <img src="{{ asset('website/temple_info/devt.png') }}" class="mx-auto w-20 h-20"
+                        style="border-radius: 50%">
                     <p class="text-gray-500 mt-3">Visitor Services</p>
                 </div>
-              
+
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="management">
-                    <img src="{{ asset('website/temple_info/management.jpg') }}"  class="mx-auto w-20 h-20" style="border-radius: 50%">
+                    <img src="{{ asset('website/temple_info/management.jpg') }}" class="mx-auto w-20 h-20"
+                        style="border-radius: 50%">
                     <p class="text-gray-500 mt-3">Management</p>
                 </div>
             </div>
         </div>
     </div>
 
-   <section id="dynamicContent" class="bg-100">
-    <div class="max-w-6xl mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <!-- Image -->
-            <div id="contentImageContainer" class="mt-12" style="height: 350px; width: 450px;">
-                <img id="contentImage"
-                     src="{{ asset('website/temple_info/sup.png') }}" 
-                     alt="Temple Image"
-                     class="rounded-xl shadow-lg object-cover w-full h-full" />
-            </div>
+    <section id="dynamicContent" class="bg-100">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <!-- Image -->
+                <div id="contentImageContainer" class="mt-12" style="height: 350px; width: 450px;">
+                    <img id="contentImage" src="{{ asset('website/temple_info/sup.png') }}" alt="Temple Image"
+                        class="rounded-xl shadow-lg object-cover w-full h-full" />
+                </div>
 
-            <!-- Text Content -->
-            <div style="margin-left: -100px">
-                <h2 id="contentTitle" class="text-xl font-semi-bold"></h2>
-                <p id="contentDescription" class="text-gray-500 mt-4 leading-relaxed"></p>
+                <!-- Text Content -->
+                <div style="margin-left: -100px">
+                    <h2 id="contentTitle" class="text-xl font-semi-bold"></h2>
+                    <p id="contentDescription" class="text-gray-500 mt-4 leading-relaxed"></p>
 
-                <!-- ✅ New: Button area -->
-                <div id="buttonContainer" class="mt-6 flex flex-wrap gap-3"></div>
+                    <!-- ✅ New: Button area -->
+                    <div id="buttonContainer" class="mt-6 flex flex-wrap gap-3"></div>
+                </div>
             </div>
         </div>
-    </div>
-</section>
-
+    </section>
 
     <section class="services-section py-10 ">
         <!-- Section Title -->
@@ -455,12 +460,12 @@
                         $photos = json_decode($temple->photo, true);
                         $firstPhoto = isset($photos[0]) ? $photos[0] : null;
                     @endphp
-            
+
                     @if ($firstPhoto)
                         <div class="swiper-slide rounded-xl overflow-hidden shadow-lg bg-white">
                             <a href="{{ url('view-near-by-temple/' . $temple->id) }}" class="block">
                                 <img src="{{ asset($firstPhoto) }}" alt="{{ $temple->name }}"
-                                     class="w-full h-48 object-cover hover:scale-105 transition duration-300">
+                                    class="w-full h-48 object-cover hover:scale-105 transition duration-300">
                                 <div class="p-3 text-center bg-white">
                                     <h3 class="text-base font-semibold text-[#db4d30]">{{ $temple->name }}</h3>
                                 </div>
@@ -469,7 +474,7 @@
                     @endif
                 @endforeach
             </div>
-            
+
             <!-- Navigation buttons -->
             <div class="swiper-button-next text-orange-500"></div>
             <div class="swiper-button-prev text-orange-500"></div>
@@ -496,16 +501,14 @@
                     <p>Water</p>
                 </a>
             </div>
-        
+
             <div class="conv">
-                <a href="{{ route('services.byType', 'emergency') }}">
-                    <div class="convenience-item">
-                        <img src="{{ asset('website/ph.png') }}" alt="Emergency">
-                    </div>
-                    <p>Emergency</p>
-                </a>
+                <div class="convenience-item cursor-pointer" onclick="openEmergencyModal()">
+                    <img src="{{ asset('website/ph.png') }}" alt="Emergency">
+                </div>
+                <p>Emergency</p>
             </div>
-        
+            
             <div class="conv">
                 <a href="{{ route('services.byType', 'handicap') }}">
                     <div class="convenience-item">
@@ -514,7 +517,7 @@
                     <p>Handicap</p>
                 </a>
             </div>
-        
+
             <div class="conv">
                 <a href="{{ route('services.byType', 'ratha_yatra_mela') }}">
                     <div class="convenience-item">
@@ -523,8 +526,8 @@
                     <p>Route Map</p>
                 </a>
             </div>
-        
-           
+
+
             <div class="conv">
                 <a href="{{ route('services.byType', 'lost_and_found_booth') }}">
                     <div class="convenience-item">
@@ -533,7 +536,7 @@
                     <p>Lost & Found</p>
                 </a>
             </div>
-        
+
             <div class="conv">
                 <a href="{{ route('services.byType', 'toilet') }}">
                     <div class="convenience-item">
@@ -542,7 +545,7 @@
                     <p>Toilet</p>
                 </a>
             </div>
-        
+
             <div class="conv">
                 <a href="{{ route('services.byType', 'beach') }}">
                     <div class="convenience-item">
@@ -551,7 +554,7 @@
                     <p>Beaches</p>
                 </a>
             </div>
-        
+
             <div class="conv">
                 <a href="{{ route('services.byType', 'life_guard_booth') }}">
                     <div class="convenience-item">
@@ -560,9 +563,9 @@
                     <p>Life Guards</p>
                 </a>
             </div>
-        
+
         </div>
-        
+
     </section>
 
     <section class="bg-100 p-10  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
@@ -708,7 +711,8 @@
         </div>
 
         <div class="timeline-footer">
-            © {{ date('Y') }} Temple Management System. All rights reserved. <a style="color: red" href="http://temple.mandirparikrama.com/puri-website/privacy-policy">privacy policy</a>
+            © {{ date('Y') }} Temple Management System. All rights reserved. <a style="color: red"
+                href="http://temple.mandirparikrama.com/puri-website/privacy-policy">privacy policy</a>
         </div>
     </section>
 @endsection
