@@ -19,8 +19,8 @@
         }
 
         .container {
-            width: 900px;
-            margin: 0 auto;
+            width: 1300px;
+            padding-top: 70px;
         }
 
         .table-header {
@@ -130,7 +130,8 @@
                             </td>
                             <td class="py-4 px-6">
                                 <button onclick="openModal({{ $service->id }})"
-                                    class="text-white px-4 py-2 rounded-md hover:scale-105 transition" style="background: linear-gradient(90deg, #f9ce62, #f1769f);padding: 12px;">
+                                    class="text-white px-4 py-2 rounded-md hover:scale-105 transition"
+                                    style="background: linear-gradient(90deg, #f9ce62, #f1769f);padding: 12px;">
                                     View Full Info
                                 </button>
                             </td>
@@ -160,7 +161,8 @@
                                     <p><i class="fas fa-map-pin text-red-400"></i> <strong>Pincode:</strong>
                                         {{ $service->pincode ?? 'N/A' }}</p>
                                     <p><i class="fas fa-map-marker-alt text-pink-400"></i>
-                                        <strong>City/Village:</strong> {{ $service->city_village ?? 'N/A' }}</p>
+                                        <strong>City/Village:</strong> {{ $service->city_village ?? 'N/A' }}
+                                    </p>
                                     <p><i class="fas fa-city text-indigo-400"></i> <strong>District:</strong>
                                         {{ $service->district ?? 'N/A' }}</p>
                                     <p><i class="fas fa-flag text-green-400"></i> <strong>State:</strong>
@@ -234,14 +236,15 @@
             document.getElementById('desc-modal-' + id).classList.add('hidden');
         }
     </script>
-<script>
-    function openPhotoModal(id) {
-        document.getElementById('photo-modal-' + id).classList.remove('hidden');
-    }
-    function closePhotoModal(id) {
-        document.getElementById('photo-modal-' + id).classList.add('hidden');
-    }
-</script>
+    <script>
+        function openPhotoModal(id) {
+            document.getElementById('photo-modal-' + id).classList.remove('hidden');
+        }
+
+        function closePhotoModal(id) {
+            document.getElementById('photo-modal-' + id).classList.add('hidden');
+        }
+    </script>
 
 
 </body>
