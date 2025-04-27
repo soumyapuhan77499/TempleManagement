@@ -107,9 +107,9 @@
                                 @if ($service->google_map_link)
                                     <a href="{{ $service->google_map_link }}" target="_blank"
                                         class="px-3 py-1 rounded-md text-sm hover:scale-105 transition"
-                                        style="background: linear-gradient(90deg, #62f9f9, #F06292); color: white;padding: 15px;">
+                                        style="background: linear-gradient(90deg, #62f9f9, #F06292); color: white;padding: 12px;">
                                         <i class="fas fa-map-marker-alt"></i>
-                                        View Map
+                                        Directions
                                     </a>
                                 @else
                                     <span class="text-gray-400 italic">No Link</span>
@@ -125,7 +125,7 @@
                             </td>
                             <td class="py-4 px-6">
                                 <button onclick="openModal({{ $service->id }})"
-                                    class="text-white px-4 py-2 rounded-md hover:scale-105 transition" style="background: linear-gradient(90deg, #62f9f9, #F06292);padding: 15px;">
+                                    class="text-white px-4 py-2 rounded-md hover:scale-105 transition" style="background: linear-gradient(90deg, #f9ce62, #f1769f);padding: 12px;">
                                     View Full Info
                                 </button>
                             </td>
