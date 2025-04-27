@@ -18,6 +18,11 @@
             font-family: 'Poppins', sans-serif;
         }
 
+        .container {
+            width: 900px;
+            margin: 0 auto;
+        }
+
         .table-header {
             background: linear-gradient(90deg, #FFA726, #F06292);
             color: white;
@@ -71,7 +76,7 @@
     </div>
 
     <!-- Table Section -->
-    <div class="container mx-auto p-8">
+    <div class="container mx-auto">
         <div class="overflow-x-auto rounded-lg shadow-lg bg-white">
             <table class="min-w-full">
                 <thead class="table-header">
