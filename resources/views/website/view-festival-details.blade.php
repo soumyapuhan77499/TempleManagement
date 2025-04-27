@@ -14,7 +14,7 @@
     @include('partials.header-puri-dham')
 
     <section class="hero">
-        <img class="hero-bg" src="{{ asset('website/parking.jpeg') }}" alt="Mandir Background" />
+        <img class="hero-bg" src="{{ asset('website/fest.jpg') }}" alt="Mandir Background" />
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1>Temple Festival</h1>
