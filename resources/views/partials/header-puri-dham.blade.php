@@ -37,7 +37,6 @@
 </nav>
 
 <script>
-    
      function openMobileMenu() {
         document.getElementById('mobileNav').classList.add('active');
     }
