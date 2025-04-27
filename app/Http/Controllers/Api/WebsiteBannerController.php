@@ -69,6 +69,7 @@ class WebsiteBannerController extends Controller
                 $mergedNitiList[] = [
                     'niti_id'     => $otherNiti->niti_id,
                     'niti_name'   => $otherNiti->niti_name,
+                    'odia_niti_name'     => $otherNiti->odia_niti_name,
                     'niti_type'   => $otherNiti->niti_type,
                     'niti_status' => 'Started',
                     'start_time'  => optional($otherNiti->todayStartTime)->start_time,
@@ -86,6 +87,7 @@ class WebsiteBannerController extends Controller
                 $mergedNitiList[] = [
                     'niti_id'       => $dailyNiti->niti_id,
                     'niti_name'     => $dailyNiti->niti_name,
+                    'odia_niti_name'     => $dailyNiti->odia_niti_name,
                     'niti_type'     => $dailyNiti->niti_type,
                     'niti_status'   => $dailyNiti->niti_status,
                     'date_time'     => $dailyNiti->date_time,
@@ -125,6 +127,7 @@ class WebsiteBannerController extends Controller
                     $mergedNitiList[] = [
                         'niti_id'       => $specialNiti->niti_id,
                         'niti_name'     => $specialNiti->niti_name,
+                        'odia_niti_name'     => $specialNiti->odia_niti_name,
                         'niti_type'     => $specialNiti->niti_type,
                         'niti_status'   => $specialNiti->niti_status,
                         'date_time'     => $specialNiti->date_time,
