@@ -14,6 +14,7 @@
         body {
             min-height: 100vh;
             font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #FFA726, #F06292);
         }
         .table-header {
             background: linear-gradient(90deg, #FFA726, #F06292);
@@ -25,7 +26,27 @@
         .table-row:nth-child(odd) {
             background-color: #fff7f0;
         }
-       
+        .hero {
+            position: relative;
+            height: 250px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+        .hero-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.6);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 10;
+        }
     </style>
 </head>
 
@@ -52,7 +73,7 @@
                         <th class="py-3 px-6 text-left">Contact No <i class="fas fa-phone"></i></th>
                         <th class="py-3 px-6 text-left">Opening Time <i class="fas fa-clock"></i></th>
                         <th class="py-3 px-6 text-left">Closing Time <i class="fas fa-clock"></i></th>
-                        <th class="py-3 px-6 text-left">City <i class="fas fa-city"></i></th>
+                        <th class="py-3 px-6 text-left">Location <i class="fas fa-map-marker-alt"></i></th>
                         <th class="py-3 px-6 text-left">Description <i class="fas fa-info-circle"></i></th>
                     </tr>
                 </thead>
@@ -61,17 +82,25 @@
                     <tr class="table-row hover:bg-pink-100 transition duration-300">
                         <td class="py-4 px-6">
                             @if($service->photo)
-                                <img src="{{ asset('uploads/public_services/' . $service->photo) }}" alt="{{ $service->service_name }}" class="w-16 h-16 object-cover rounded-md shadow-md">
+                                <img src="{{ asset('uploads/public_services/' . $service->photo) }}" alt="{{ $service->service_name }}" class="w-20 h-20 object-cover rounded-md shadow-md">
                             @else
                                 <span class="text-gray-400 italic">No Image</span>
                             @endif
                         </td>
-                        <td class="py-4 px-6">{{ $service->service_name }}</td>
-                        <td class="py-4 px-6">{{ $service->contact_no }}</td>
-                        <td class="py-4 px-6">{{ $service->opening_time }}</td>
-                        <td class="py-4 px-6">{{ $service->closing_time }}</td>
-                        <td class="py-4 px-6">{{ $service->city_village }}</td>
-                        <td class="py-4 px-6">{{ $service->description }}</td>
+                        <td class="py-4 px-6 font-semibold">{{ $service->service_name }}</td>
+                        <td class="py-4 px-6">{{ $service->contact_no ?? 'N/A' }}</td>
+                        <td class="py-4 px-6">{{ $service->opening_time ?? 'N/A' }}</td>
+                        <td class="py-4 px-6">{{ $service->closing_time ?? 'N/A' }}</td>
+                        <td class="py-4 px-6">
+                            @if($service->google_map_link)
+                                <a href="{{ $service->google_map_link }}" target="_blank" class="inline-block bg-gradient-to-r from-orange-400 to-pink-500 text-white px-4 py-2 rounded-md text-sm hover:scale-105 transition">
+                                    View Map
+                                </a>
+                            @else
+                                <span class="text-gray-400 italic">No Link</span>
+                            @endif
+                        </td>
+                        <td class="py-4 px-6">{{ Str::limit($service->description, 60) }}</td>
                     </tr>
                     @empty
                     <tr>
