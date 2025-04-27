@@ -82,12 +82,18 @@
                 @forelse($services as $service)
                 <tr class="table-row hover:bg-pink-100 transition duration-300">
                     <td class="py-4 px-6">
-                        @if($service->photo)
-                            <img src="{{ asset($service->photo) }}" alt="{{ $service->service_name }}" class="w-20 h-20 object-cover rounded-md shadow-md">
+                        @php
+                            $photos = json_decode($service->photo, true);
+                            $firstPhoto = $photos[0] ?? null;
+                        @endphp
+                    
+                        @if($firstPhoto)
+                            <img src="{{ asset($firstPhoto) }}" alt="{{ $service->service_name }}" class="w-20 h-20 object-cover rounded-md shadow-md">
                         @else
                             <span class="text-gray-400 italic">No Image</span>
                         @endif
                     </td>
+                    
                     <td class="py-4 px-6 font-semibold">{{ $service->service_name }}</td>
                     <td class="py-4 px-6">
                         @if($service->google_map_link)
