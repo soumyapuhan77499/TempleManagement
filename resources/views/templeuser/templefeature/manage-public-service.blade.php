@@ -165,6 +165,10 @@
                                                                         <option value="locker"
                                                                             {{ $service->service_type == 'locker' ? 'selected' : '' }}>
                                                                             Locker</option>
+
+                                                                            <option value="toilet"
+                                                                            {{ $service->service_type == 'toilet' ? 'selected' : '' }}>
+                                                                            Toilet</option>
                                                                         <option value="shoe_stand"
                                                                             {{ $service->service_type == 'shoe_stand' ? 'selected' : '' }}>
                                                                             Shoe Stand</option>
