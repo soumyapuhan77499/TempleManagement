@@ -13,7 +13,7 @@
     @includeIf('partials.web-header')
 
     <div class="hero">
-        <img class="hero-bg" src="{{ asset('website/parking.jpeg') }}" alt="Visitor Parking Background" />
+        <img class="hero-bg" src="{{ asset('website/parkings.jpg') }}" alt="Visitor Parking Background" />
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <div class="hero-left">

@@ -226,7 +226,7 @@
 
     <!-- Hero Section -->
     <div class="hero">
-        <img class="hero-bg" src="{{ asset('website/parking.jpeg') }}" alt="Mandir Background" />
+        <img class="hero-bg" src="{{ asset('website/prsd.jpg') }}" alt="Mandir Background" />
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1>Maha Prasad Timeline</h1>
