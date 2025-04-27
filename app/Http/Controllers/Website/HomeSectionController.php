@@ -18,6 +18,7 @@ use App\Models\NijogaMaster;
 use App\Models\TempleBesha;
 use App\Models\TempleDarshan;
 use App\Models\TemplePrasad;
+use App\Models\TempleHundi;
 use Carbon\Carbon;
 
 
