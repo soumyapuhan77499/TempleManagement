@@ -683,7 +683,7 @@
     </section>
 
     <section class="bg-100 p-2 relative bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100"
-        style="margin-top: 50px">
+        >
         <div class="max-w-6xl mx-auto text-center relative">
             <!-- Tabs -->
             <div class="absolute top-14 right-0 flex space-x-3 p-3 rounded-lg">

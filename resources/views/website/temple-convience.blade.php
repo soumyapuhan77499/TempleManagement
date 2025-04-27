@@ -122,7 +122,7 @@
                         <th class="py-3 px-6 text-left">Photo <i class="fas fa-image"></i></th>
                         <th class="py-3 px-6 text-left">Service Name <i class="fas fa-concierge-bell"></i></th>
                         <th class="py-3 px-6 text-left">Location <i class="fas fa-map-marker-alt"></i></th>
-                        <th class="py-3 px-6 text-left">Description <i class="fas fa-info-circle"></i></th>
+                        {{-- <th class="py-3 px-6 text-left">Description <i class="fas fa-info-circle"></i></th> --}}
                         <th class="py-3 px-6 text-left">Full Information <i class="fas fa-tools"></i></th>
                     </tr>
                 </thead>
@@ -158,14 +158,14 @@
                                     <span class="text-gray-400 italic">No Link</span>
                                 @endif
                             </td>
-                            <td class="py-4 px-6">
+                            {{-- <td class="py-4 px-6">
                                 {{ Str::limit($service->description, 50) }}
                                 @if (strlen($service->description) > 50)
                                     <button onclick="openDescModal({{ $service->id }})"
                                         class="text-pink-500 underline text-sm ml-2 hover:text-orange-500">Read
                                         More</button>
                                 @endif
-                            </td>
+                            </td> --}}
                             <td class="py-4 px-6">
                                 <button onclick="openModal({{ $service->id }})"
                                     class="text-white px-3 py-1 rounded-md hover:scale-105 transition"
@@ -186,14 +186,14 @@
                                 <h2 class="text-2xl font-bold mb-4 text-center text-pink-500">
                                     {{ $service->service_name }}</h2>
                                 <div class="space-y-2 text-gray-700 text-sm">
-                                    <p><i class="fas fa-phone-alt text-orange-400"></i> <strong>Contact:</strong>
+                                    {{-- <p><i class="fas fa-phone-alt text-orange-400"></i> <strong>Contact:</strong>
                                         {{ $service->contact_no ?? 'N/A' }}</p>
                                     <p><i class="fab fa-whatsapp text-green-500"></i> <strong>WhatsApp:</strong>
                                         {{ $service->whatsapp_no ?? 'N/A' }}</p>
                                     <p><i class="fas fa-clock text-blue-400"></i> <strong>Opening:</strong>
                                         {{ $service->opening_time ?? 'N/A' }}</p>
                                     <p><i class="fas fa-clock text-blue-400"></i> <strong>Closing:</strong>
-                                        {{ $service->closing_time ?? 'N/A' }}</p>
+                                        {{ $service->closing_time ?? 'N/A' }}</p> --}}
                                     <p><i class="fas fa-landmark text-purple-400"></i> <strong>Landmark:</strong>
                                         {{ $service->landmark ?? 'N/A' }}</p>
                                     <p><i class="fas fa-map-pin text-red-400"></i> <strong>Pincode:</strong>

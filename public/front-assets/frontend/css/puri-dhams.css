@@ -137,7 +137,8 @@ body {
     }
 
     .tab-item:hover img {
-        border-color: #db4d30; /* red border on hover */
+        border-color: linear-gradient(45deg, #FFA726, #F06292); /* red border on hover */
+
     }
 
     .active-tab img {
