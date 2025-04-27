@@ -22,7 +22,7 @@
         </div>
     </div>
 </header>
-
+{{-- 
 <!-- Mobile Nav Wrapper -->
 <div id="mobileNavWrapper" class="mobile-nav-wrapper">
     <!-- Mobile Nav -->
@@ -55,4 +55,4 @@
         document.getElementById('mobileNav').classList.remove('active');
     }
 </script>
-
+ --}}
