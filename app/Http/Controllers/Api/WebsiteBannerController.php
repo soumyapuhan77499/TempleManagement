@@ -44,14 +44,14 @@ class WebsiteBannerController extends Controller
     
             $dailyNitis = NitiMaster::where('status', 'active')
                 ->where('niti_type', 'daily')
-                ->where('language', 'English')
+                ->where('language', 'Odia')
                 ->where('niti_privacy', 'public')
                 ->orderBy('niti_order', 'asc')
                 ->get();
     
             $specialNitisGrouped = NitiMaster::where('status', 'active')
                 ->where('niti_type', 'special')
-                ->where('language', 'English')
+                ->where('language', 'Odia')
                 ->where('niti_privacy', 'public')
                 ->get()
                 ->groupBy('after_special_niti');
@@ -69,7 +69,7 @@ class WebsiteBannerController extends Controller
                 $mergedNitiList[] = [
                     'niti_id'     => $otherNiti->niti_id,
                     'niti_name'   => $otherNiti->niti_name,
-                    'odia_niti_name'     => $otherNiti->odia_niti_name,
+                    'english_niti_name'   => $otherNiti->english_niti_name,
                     'niti_type'   => $otherNiti->niti_type,
                     'niti_status' => 'Started',
                     'start_time'  => optional($otherNiti->todayStartTime)->start_time,
@@ -87,7 +87,7 @@ class WebsiteBannerController extends Controller
                 $mergedNitiList[] = [
                     'niti_id'       => $dailyNiti->niti_id,
                     'niti_name'     => $dailyNiti->niti_name,
-                    'odia_niti_name' => $dailyNiti->odia_niti_name,
+                    'english_niti_name'     => $dailyNiti->english_niti_name,
                     'niti_type'     => $dailyNiti->niti_type,
                     'niti_status'   => $dailyNiti->niti_status,
                     'date_time'     => $dailyNiti->date_time,
@@ -96,7 +96,6 @@ class WebsiteBannerController extends Controller
                     'niti_about'    => $dailyNiti->niti_about,
                     'niti_sebayat'  => $dailyNiti->niti_sebayat,
                     'description'   => $dailyNiti->description,
-                    'odia_description'   => $dailyNiti->odia_description,
                     'start_time'    => $dailyManagement->start_time ?? null,
                     'pause_time'    => $dailyManagement->pause_time ?? null,
                     'resume_time'   => $dailyManagement->resume_time ?? null,
@@ -128,7 +127,7 @@ class WebsiteBannerController extends Controller
                     $mergedNitiList[] = [
                         'niti_id'       => $specialNiti->niti_id,
                         'niti_name'     => $specialNiti->niti_name,
-                        'odia_niti_name'     => $specialNiti->odia_niti_name,
+                        'english_niti_name'     => $specialNiti->english_niti_name,
                         'niti_type'     => $specialNiti->niti_type,
                         'niti_status'   => $specialNiti->niti_status,
                         'date_time'     => $specialNiti->date_time,
@@ -137,7 +136,6 @@ class WebsiteBannerController extends Controller
                         'niti_about'    => $specialNiti->niti_about,
                         'niti_sebayat'  => $specialNiti->niti_sebayat,
                         'description'   => $specialNiti->description,
-                        'odia_description'   => $specialNiti->odia_description,
                         'start_time'    => $specialManagement->start_time ?? null,
                         'pause_time'    => $specialManagement->pause_time ?? null,
                         'resume_time'   => $specialManagement->resume_time ?? null,

@@ -19,7 +19,7 @@ class NitiMaster extends Model
         'day_id',
         'language',
         'niti_name',
-        'odia_niti_name',
+        'english_niti_name',
         'date_time',
         'after_special_niti',
         'niti_type',
@@ -27,7 +27,7 @@ class NitiMaster extends Model
         'niti_about',
         'niti_sebayat',
         'description',
-        'odia_description',
+        'english_description',
         'connected_mahaprasad_id',
         'connected_darshan_id',
         'niti_status'
