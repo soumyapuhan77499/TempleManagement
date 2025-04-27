@@ -176,6 +176,26 @@
         </div>
     </div>
 
+    <!-- Donation Warning Modal -->
+    <div id="donationModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-lg p-8 w-96 relative text-center">
+            <h2 class="text-xl font-bold mb-4 text-red-600">Important!</h2>
+            <p class="text-gray-700 mb-6">You are navigating to Shree Mandira official Donation Platform.</p>
+
+            <div class="flex justify-center gap-5">
+                <button onclick="confirmDonation()"
+                    class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition">
+                    Confirm
+                </button>
+                <button onclick="closeDonationModal()"
+                    class="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500 transition">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+
 
     <!-- Content -->
     @yield('content')
@@ -637,6 +657,21 @@
             });
         });
     </script>
+
+    <script>
+        function openDonationModal() {
+            document.getElementById('donationModal').classList.remove('hidden');
+        }
+
+        function closeDonationModal() {
+            document.getElementById('donationModal').classList.add('hidden');
+        }
+
+        function confirmDonation() {
+            window.location.href = "https://www.shreejagannatha.in/donation/";
+        }
+    </script>
+
 
     <script>
         lucide.createIcons();
