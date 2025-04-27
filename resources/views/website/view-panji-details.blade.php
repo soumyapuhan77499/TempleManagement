@@ -50,8 +50,7 @@
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1>Panji Details</h1>
-            <p> This is the detailed view of the Panji where you can explore historic and sacred schedules maintained
-                for centuries.
+            <p>Day To Day Panji Information</p>
             </p>
         </div>
     </section>

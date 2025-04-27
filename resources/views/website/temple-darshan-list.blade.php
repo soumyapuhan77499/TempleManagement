@@ -229,8 +229,8 @@
         <img class="hero-bg" src="{{ asset('website/darshans.jpg') }}" alt="Mandir Background" />
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1>Temple Darshan Timeline</h1>
-            <p>Discover sacred timings and rituals visually</p>
+            <h1>Tentative Darshan Timing</h1>
+            <p>Know The Darshan Status</p>
         </div>
     </div>
 

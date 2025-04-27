@@ -271,8 +271,8 @@
         <img class="hero-bg" src="{{ asset('website/besha1.png') }}" alt="Mandir Background" />
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1>Complete List Of Nitis</h1>
-            <p>Rituals & their importance – live updates</p>
+            <h1>Daily List Of Nitis</h1>
+            <p>Live Update On The Daily Ritual</p>
         </div>
     </div>
 

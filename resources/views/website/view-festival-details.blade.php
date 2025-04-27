@@ -18,7 +18,7 @@
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1>Temple Festival</h1>
-            <p>Discover sacred places close to your journey.</p>
+            <p>Complete List Of Festival In The Temple</p>
         </div>
     </section>
 
@@ -28,38 +28,93 @@
             <div class="overflow-x-auto">
                 <table class="min-w-full bg-white shadow-md rounded-xl overflow-hidden">
                     <thead class="bg-gradient-to-r from-orange-200 to-yellow-300 text-gray-800 text-left">
-                        <tr>
-                            <th class="py-3 px-4 text-sm font-semibold">Festival Name</th>
-                            <th class="py-3 px-4 text-sm font-semibold">Date</th>
-                            <th class="py-3 px-4 text-sm font-semibold">Day</th>
-                        </tr>
+                      <tr>
+                        <th class="py-3 px-4 text-sm font-semibold">Festival Name</th>
+                        <th class="py-3 px-4 text-sm font-semibold">Date</th>
+                        <th class="py-3 px-4 text-sm font-semibold">Day</th>
+                      </tr>
                     </thead>
                     <tbody class="text-gray-700">
-                        <!-- Add rows dynamically or statically here -->
-                        <tr class="border-t">
-                            <td class="py-3 px-4">Mahabishuba Sankranti, Hanuman Jayanti, RabanaBadha Prastab</td>
-                            <td class="py-3 px-4">14/04/2025</td>
-                            <td class="py-3 px-4">Monday</td>
-                        </tr>
-                        <tr class="bg-gray-50">
-                            <td class="py-3 px-4">SriMandirare Ramabhiseka</td>
-                            <td class="py-3 px-4">22/04/2025</td>
-                            <td class="py-3 px-4">Tuesday</td>
-                        </tr>
-                        <tr>
-                            <td class="py-3 px-4">SriMandirare Rukmani Amabassya</td>
-                            <td class="py-3 px-4">27/04/2025</td>
-                            <td class="py-3 px-4">Sunday</td>
-                        </tr>
-                        <tr class="bg-gray-50">
-                            <td class="py-3 px-4">SriMandirare AkhyaTrutiya, Chandan Yatra Arambha</td>
-                            <td class="py-3 px-4">30/04/2025</td>
-                            <td class="py-3 px-4">Wednesday</td>
-                        </tr>
-                        <!-- Continue listing all festivals -->
-                        <!-- You can use a loop in Blade to render them from a database -->
+                      <!-- Existing rows -->
+                      <tr>
+                        <td class="py-3 px-4">SriMandirare Dolo Purnima & Rajadhiraj Besha</td>
+                        <td class="py-3 px-4">03/03/2026</td>
+                        <td class="py-3 px-4">Tuesday</td>
+                      </tr>
+                      <tr class="bg-gray-50">
+                        <td class="py-3 px-4">SriMandirare Holi Uttsaba, Chandan Anukula</td>
+                        <td class="py-3 px-4">04/03/2026</td>
+                        <td class="py-3 px-4">Wednesday</td>
+                      </tr>
+                      <tr>
+                        <td class="py-3 px-4">SriMandirare Papa Mochini Ekadashi & Mina Sankranti</td>
+                        <td class="py-3 px-4">15/03/2026</td>
+                        <td class="py-3 px-4">Sunday</td>
+                      </tr>
+                      <tr class="bg-gray-50">
+                        <td class="py-3 px-4">SriMandirare Badi Nrusingha Bije</td>
+                        <td class="py-3 px-4">22/03/2026</td>
+                        <td class="py-3 px-4">Sunday</td>
+                      </tr>
+                      <tr>
+                        <td class="py-3 px-4">SriMandirare Jeuta Bhoga & Ashokastami</td>
+                        <td class="py-3 px-4">26/03/2026</td>
+                        <td class="py-3 px-4">Thursday</td>
+                      </tr>
+                      <tr class="bg-gray-50">
+                        <td class="py-3 px-4">SriMandirare SriRamanabami</td>
+                        <td class="py-3 px-4">27/03/2026</td>
+                        <td class="py-3 px-4">Friday</td>
+                      </tr>
+                      <tr>
+                        <td class="py-3 px-4">SriMandirare Jangyarakhya</td>
+                        <td class="py-3 px-4">28/03/2026</td>
+                        <td class="py-3 px-4">Saturday</td>
+                      </tr>
+                      <tr class="bg-gray-50">
+                        <td class="py-3 px-4">SriMandirare Sita Bibaha & Kamada Ekadashi</td>
+                        <td class="py-3 px-4">29/03/2026</td>
+                        <td class="py-3 px-4">Sunday</td>
+                      </tr>
+                      <tr>
+                        <td class="py-3 px-4">SriMandirare Kandarp Adhibasa, Banabasa</td>
+                        <td class="py-3 px-4">30/03/2026</td>
+                        <td class="py-3 px-4">Monday</td>
+                      </tr>
+                      <tr class="bg-gray-50">
+                        <td class="py-3 px-4">SriMandirare Dayanachori & Ananga Troyadashi</td>
+                        <td class="py-3 px-4">31/03/2026</td>
+                        <td class="py-3 px-4">Tuesday</td>
+                      </tr>
+                      <tr>
+                        <td class="py-3 px-4">SriMandirare Damanaka Chaturdashi, Dayana Bedha, Mayamruga & Sita Chori</td>
+                        <td class="py-3 px-4">01/04/2026</td>
+                        <td class="py-3 px-4">Wednesday</td>
+                      </tr>
+                      <tr class="bg-gray-50">
+                        <td class="py-3 px-4">SriMandirare Lanka Podi</td>
+                        <td class="py-3 px-4">03/04/2026</td>
+                        <td class="py-3 px-4">Friday</td>
+                      </tr>
+                      <tr>
+                        <td class="py-3 px-4">SriMandirare Setu Bandha</td>
+                        <td class="py-3 px-4">04/04/2026</td>
+                        <td class="py-3 px-4">Saturday</td>
+                      </tr>
+                      <tr class="bg-gray-50">
+                        <td class="py-3 px-4">SriMandirare Rabana Badha</td>
+                        <td class="py-3 px-4">05/04/2026</td>
+                        <td class="py-3 px-4">Sunday</td>
+                      </tr>
+                      <tr>
+                        <td class="py-3 px-4">SriMandirare Ramabhiseka</td>
+                        <td class="py-3 px-4">12/04/2026</td>
+                        <td class="py-3 px-4">Sunday</td>
+                      </tr>
                     </tbody>
-                </table>
+                  </table>
+                  
+                  
             </div>
         </div>
     </section>
