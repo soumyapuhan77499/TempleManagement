@@ -16,7 +16,6 @@
         body {
             min-height: 100vh;
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #FFA726, #F06292);
         }
         .table-header {
             background: linear-gradient(90deg, #FFA726, #F06292);
