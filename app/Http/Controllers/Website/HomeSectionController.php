@@ -19,6 +19,7 @@ use App\Models\TempleBesha;
 use App\Models\TempleDarshan;
 use App\Models\TemplePrasad;
 use App\Models\TempleHundi;
+use App\Models\PanjiDetails;
 use Carbon\Carbon;
 
 
