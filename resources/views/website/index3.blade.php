@@ -487,69 +487,82 @@
         </div>
 
         <div class="convenience-container">
-            <div class="conv">
-                <div class="convenience-item active">
-                    <img src="{{ asset('website/wtr.png') }}" alt="Shree Jagannatha Dham">
-                </div>
-                <p>Water</p>
-            </div>
 
             <div class="conv">
-                <div class="convenience-item">
-                    <img src="{{ asset('website/ph.png') }}" alt="Shree Jagannatha Dham">
-                </div>
-                <p>Emergency</p>
+                <a href="{{ route('services.byType', 'drinking_water') }}">
+                    <div class="convenience-item">
+                        <img src="{{ asset('website/wtr.png') }}" alt="Water">
+                    </div>
+                    <p>Water</p>
+                </a>
             </div>
-
+        
             <div class="conv">
-                <div class="convenience-item">
-                    <i class="fas fa-wheelchair"></i>
-                </div>
-                <p>Handicap</p>
+                <a href="{{ route('services.byType', 'emergency') }}">
+                    <div class="convenience-item">
+                        <img src="{{ asset('website/ph.png') }}" alt="Emergency">
+                    </div>
+                    <p>Emergency</p>
+                </a>
             </div>
-
+        
             <div class="conv">
-                <div class="convenience-item">
-                    <img src="{{ asset('website/map.png') }}" alt="Shree Jagannatha Dham">
-                </div>
-                <p>Route Map</p>
+                <a href="{{ route('services.byType', 'handicap') }}">
+                    <div class="convenience-item">
+                        <i class="fas fa-wheelchair"></i>
+                    </div>
+                    <p>Handicap</p>
+                </a>
             </div>
-
+        
             <div class="conv">
-                <div class="convenience-item">
-                    <i class="fas fa-utensils"></i>
-                </div>
-                <p>Free Food</p>
+                <a href="{{ route('services.byType', 'ratha_yatra_mela') }}">
+                    <div class="convenience-item">
+                        <img src="{{ asset('website/map.png') }}" alt="Route Map">
+                    </div>
+                    <p>Route Map</p>
+                </a>
             </div>
-
+        
+           
             <div class="conv">
-                <div class="convenience-item">
-                    <img src="{{ asset('website/lost.png') }}" alt="Shree Jagannatha Dham">
-                </div>
-                <p>Lost & Found</p>
+                <a href="{{ route('services.byType', 'lost_and_found_booth') }}">
+                    <div class="convenience-item">
+                        <img src="{{ asset('website/lost.png') }}" alt="Lost and Found">
+                    </div>
+                    <p>Lost & Found</p>
+                </a>
             </div>
-
+        
             <div class="conv">
-                <div class="convenience-item">
-                    <img src="{{ asset('website/latin.png') }}" alt="Shree Jagannatha Dham">
-                </div>
-                <p>Toilet</p>
+                <a href="{{ route('services.byType', 'toilet') }}">
+                    <div class="convenience-item">
+                        <img src="{{ asset('website/latin.png') }}" alt="Toilet">
+                    </div>
+                    <p>Toilet</p>
+                </a>
             </div>
-
+        
             <div class="conv">
-                <div class="convenience-item">
-                    <img src="{{ asset('website/sea.png') }}" alt="Shree Jagannatha Dham">
-                </div>
-                <p>Beaches</p>
+                <a href="{{ route('services.byType', 'beach') }}">
+                    <div class="convenience-item">
+                        <img src="{{ asset('website/sea.png') }}" alt="Beach">
+                    </div>
+                    <p>Beaches</p>
+                </a>
             </div>
-
+        
             <div class="conv">
-                <div class="convenience-item">
-                    <i class="fas fa-life-ring"></i>
-                </div>
-                <p>Life Guards</p>
+                <a href="{{ route('services.byType', 'life_guard_booth') }}">
+                    <div class="convenience-item">
+                        <i class="fas fa-life-ring"></i>
+                    </div>
+                    <p>Life Guards</p>
+                </a>
             </div>
+        
         </div>
+        
     </section>
 
     <section class="bg-100 p-10  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">

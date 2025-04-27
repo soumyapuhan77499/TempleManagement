@@ -133,6 +133,16 @@ public function viewNearByTemple($id)
     return view('website.view-near-by-temple', compact('temple'));
 }
 
+public function showByServiceType($service_type)
+{
+    // Fetch services matching the clicked type
+    $services = PublicServices::where('service_type', $service_type)
+                ->where('status', 'active') // Only active services
+                ->get();
+
+    return view('website.temple-convience', compact('services', 'service_type'));
+}
+
 
 
 }

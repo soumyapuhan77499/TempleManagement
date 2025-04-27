@@ -543,4 +543,5 @@ Route::controller(QuickServiceController::class)->group(function() {
     Route::get('/bhaktanibas-list', 'bhaktanibasList')->name('bhaktanibas.list');
     Route::get('/locker-shoe-list', 'lockerShoeList')->name('lockershoe.list');
     Route::get('/view-near-by-temple/{id}','viewNearByTemple')->name('viewNearByTemple');
+    Route::get('/services/{service_type}',  'showByServiceType')->name('services.byType');
 });
