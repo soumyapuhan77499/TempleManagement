@@ -1,21 +1,25 @@
+/* General Styles */
 body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
     background: #f9f9f9;
 }
 
+/* Header Area */
 .header-area {
     background: white;
     padding: 10px 0;
     border-bottom: 1px solid #ddd;
     height: 70px;
+    position: relative;
+    z-index: 100;
 }
 
 .header-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -25,6 +29,7 @@ body {
     width: 70px;
 }
 
+/* Desktop Navigation */
 .nav-menu {
     display: flex;
     align-items: center;
@@ -51,6 +56,79 @@ body {
     margin-left: 5px;
 }
 
+/* Hamburger Icon - Hidden on Desktop */
+.hamburger-icon {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25px;
+    height: 20px;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.hamburger-icon span {
+    display: block;
+    height: 3px;
+    background: #4d6189;
+    border-radius: 3px;
+}
+
+/* Mobile Menu */
+.mobile-nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 260px;
+    height: 100%;
+    background: #ffffff;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
+    padding: 30px 20px;
+    transition: right 0.3s ease-in-out;
+    z-index: 999;
+}
+
+.mobile-nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+.mobile-nav ul li {
+    margin-bottom: 20px;
+}
+
+.mobile-nav ul li a {
+    color: #4d6189;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.nav-close {
+    font-size: 24px;
+    color: #333;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+}
+
+/* Show Hamburger and Mobile Nav on Small Screens */
+@media (max-width: 991px) {
+    .nav-menu {
+        display: none;
+    }
+
+    .hamburger-icon {
+        display: flex;
+    }
+
+    .mobile-nav.active {
+        right: 0;
+    }
+}
+
+/* Hero Section */
 .hero {
     position: relative;
     height: 320px;
