@@ -299,33 +299,43 @@ class QuickServiceController extends Controller
             ], 500);
         }
     }
-
-public function getPanji(Request $request)
-{
-    try {
-        $request->validate([
-            'date' => 'required|date'
-        ]);
-
-        $events = PanjiDetails::where('status', 'active')
-            ->whereDate('date', $request->date)
-            ->get();
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Panji details fetched successfully.',
-            'data' => $events,
-        ], 200);
-    } catch (\Exception $e) {
-        Log::error('Error fetching Panji details: ' . $e->getMessage());
-
-        return response()->json([
-            'status' => false,
-            'message' => 'Something went wrong while fetching Panji details.',
-            'error' => $e->getMessage()
-        ], 500);
+    public function getPanji(Request $request)
+    {
+        try {
+            $request->validate([
+                'date' => 'required|date'
+            ]);
+    
+            // Fetch English data
+            $englishEvents = PanjiDetails::where('status', 'active')
+                ->where('language', 'English')
+                ->whereDate('date', $request->date)
+                ->get();
+    
+            // Fetch Odia data
+            $odiaEvents = PanjiDetails::where('status', 'active')
+                ->where('language', 'Odia')
+                ->whereDate('date', $request->date)
+                ->get();
+    
+            return response()->json([
+                'status' => true,
+                'message' => 'Panji details fetched successfully.',
+                'data' => [
+                    'English' => $englishEvents,
+                    'Odia' => $odiaEvents,
+                ],
+            ], 200);
+        } catch (\Exception $e) {
+            Log::error('Error fetching Panji details: ' . $e->getMessage());
+    
+            return response()->json([
+                'status' => false,
+                'message' => 'Something went wrong while fetching Panji details.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
-}
 
 public function getDarshan()
 {
