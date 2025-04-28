@@ -1098,55 +1098,6 @@ public function softDeleteSubNiti($id)
     }
 }
 
-public function storeByNoticeName(Request $request)
-{
-   
-    try {
-        $news = TempleNews::create([
-            'notice_name' => $request->notice_name
-        ]);
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Temple news created successfully.',
-            'data' => $news
-        ], 200);
-
-    } catch (\Exception $e) {
-        return response()->json([
-            'status' => false,
-            'message' => 'Something went wrong!',
-            'error' => $e->getMessage()
-        ], 500);
-    }
-}
-
-public function getLatestNotice()
-{
-    try {
-        $latestNotice = TempleNews::orderBy('created_at', 'desc')->get();
-
-        if (!$latestNotice) {
-            return response()->json([
-                'status' => false,
-                'message' => 'No notice found.',
-            ], 404);
-        }
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Latest notice fetched successfully.',
-            'data' => $latestNotice
-        ], 200);
-
-    } catch (\Exception $e) {
-        return response()->json([
-            'status' => false,
-            'message' => 'Failed to fetch latest notice.',
-            'error' => $e->getMessage()
-        ], 500);
-    }
-}
 
 public function store(Request $request)
 {
@@ -1201,6 +1152,58 @@ public function index()
     }
 }
 
+
+public function storeByNoticeName(Request $request)
+{
+   
+    try {
+        $news = TempleNews::create([
+            'notice_name' => $request->notice_name,
+            'notice_date' => $request->notice_date
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Temple news created successfully.',
+            'data' => $news
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Something went wrong!',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
+public function getLatestNotice()
+{
+    try {
+        $latestNotice = TempleNews::orderBy('created_at', 'desc')->get();
+
+        if (!$latestNotice) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No notice found.',
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Latest notice fetched successfully.',
+            'data' => $latestNotice
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to fetch latest notice.',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
 public function updateNoticeName(Request $request)
 {
     $request->validate([
@@ -1211,6 +1214,8 @@ public function updateNoticeName(Request $request)
     try {
         $news = TempleNews::findOrFail($request->id);
         $news->notice_name = $request->notice_name;
+        $news->notice_date = $request->notice_date;
+
         $news->save();
 
         return response()->json([
@@ -1259,6 +1264,33 @@ public function updateHundiCollection(Request $request)
             'status'  => false,
             'message' => 'Failed to update hundi collection.',
             'error'   => $e->getMessage()
+        ], 500);
+    }
+}
+
+public function deleteNotice($id)
+{
+    try {
+        $notice = TempleNews::find($id);
+
+        if (!$notice) {
+            return response()->json([
+                'message' => 'Notice not found.'
+            ], 404);
+        }
+
+        $notice->status = 'deleted'; // Or whatever value you use for "deleted" status
+        $notice->save();
+
+        return response()->json([
+            'message' => 'Notice deleted successfully.'
+        ], 200);
+
+    } catch (\Exception $e) {
+        Log::error('Error deleting notice: ' . $e->getMessage());
+
+        return response()->json([
+            'message' => 'An error occurred while deleting the notice.'
         ], 500);
     }
 }

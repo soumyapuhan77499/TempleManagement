@@ -76,7 +76,7 @@
             border-radius: 12px;
             padding: 24px;
             border: 1px solid rgb(213, 213, 213);
-            height: 120px;
+            height: 130px;
         }
 
         .timeline-content.left::before,

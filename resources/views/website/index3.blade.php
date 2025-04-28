@@ -96,6 +96,7 @@
             </div>
         </div>
     </div>
+    
     {{-- 
     <section class="shree-mandir-section  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
 
