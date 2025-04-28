@@ -1180,7 +1180,7 @@ public function storeByNoticeName(Request $request)
 public function getLatestNotice()
 {
     try {
-        $latestNotice = TempleNews::orderBy('created_at', 'desc')->get();
+        $latestNotice = TempleNews::orderBy('created_at', 'desc')->where('status','active')->get();
 
         if (!$latestNotice) {
             return response()->json([
