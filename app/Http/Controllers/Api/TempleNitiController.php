@@ -1283,8 +1283,11 @@ public function deleteNotice($id)
         $notice->save();
 
         return response()->json([
-            'message' => 'Notice deleted successfully.'
+            'status' => true,
+            'message' => 'Notice deleted successfully.',
+            'data' => $notice
         ], 200);
+
 
     } catch (\Exception $e) {
         Log::error('Error deleting notice: ' . $e->getMessage());
