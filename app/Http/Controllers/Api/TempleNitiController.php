@@ -1098,7 +1098,6 @@ public function softDeleteSubNiti($id)
     }
 }
 
-
 public function store(Request $request)
 {
   
@@ -1152,14 +1151,14 @@ public function index()
     }
 }
 
-
 public function storeByNoticeName(Request $request)
 {
    
     try {
         $news = TempleNews::create([
             'notice_name' => $request->notice_name,
-            'notice_date' => $request->notice_date
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
         ]);
 
         return response()->json([
@@ -1214,7 +1213,8 @@ public function updateNoticeName(Request $request)
     try {
         $news = TempleNews::findOrFail($request->id);
         $news->notice_name = $request->notice_name;
-        $news->notice_date = $request->notice_date;
+        $news->start_date = $request->start_date;
+        $news->end_date = $request->end_date;
 
         $news->save();
 

@@ -527,7 +527,6 @@ Route::controller(HomeSectionController::class)->group(function() {
     Route::get('puri-website/privacy-policy', 'privacyPolicy')->name('privacy.policy');
 });
 
-
 Route::post('/get-panji-details', function (Illuminate\Http\Request $request) {
     $date = $request->input('date');
 
@@ -535,7 +534,6 @@ Route::post('/get-panji-details', function (Illuminate\Http\Request $request) {
 
     return response()->json($panji);
 })->name('get.panji.details');
-
 
 Route::get('/view-festival-details', function () {
     return view('website.view-festival-details');

@@ -124,7 +124,7 @@ class TempleNitiLoginController extends Controller
                         'message' => 'OTP verified successfully.',
                         'user' => $temple,
                         'token' => $token,
-                        'token_type' => 'Bearer'
+                        'token_type' => 'Bearer',
                     ], 200);
                 } else {
                     return response()->json(['message' => 'Mobile number not found.'], 404);
