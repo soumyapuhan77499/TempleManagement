@@ -194,7 +194,7 @@
         </div>
     </section> --}}
 
-    <div class="max-w-6xl mx-auto text-center">
+    {{-- <div class="max-w-6xl mx-auto text-center">
 
         <div class="flex justify-center items-center gap-5 mt-12">
             <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
@@ -271,7 +271,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     <section class="services-section py-10 ">
         <!-- Section Title -->
@@ -674,7 +674,7 @@
         </div>
     </section>
 
-    <section class="bg-100 p-2 relative bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
+    {{-- <section class="bg-100 p-2 relative bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
         <div class="max-w-6xl mx-auto text-center relative">
             <!-- Tabs -->
             <div class="absolute top-14 right-0 flex space-x-3 p-3 rounded-lg">
@@ -702,9 +702,9 @@
             © {{ date('Y') }} Temple Management System. All rights reserved. <a style="color: red"
                 href="http://temple.mandirparikrama.com/puri-website/privacy-policy">privacy policy</a>
         </div> --}}
-    </section>
+    </section> --}}
 
-    <footer class="footer">
+    <footer class="footer" style="margin-top: 50px">
         <div class="footer-container">
           <div class="footer-logo-section">
             <img src="{{ asset('website/logo.png') }}" alt="logo" class="footer-logo" />
