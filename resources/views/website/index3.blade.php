@@ -698,10 +698,10 @@
 
         </div>
 
-        <div class="timeline-footer">
+        {{-- <div class="timeline-footer">
             © {{ date('Y') }} Temple Management System. All rights reserved. <a style="color: red"
                 href="http://temple.mandirparikrama.com/puri-website/privacy-policy">privacy policy</a>
-        </div>
+        </div> --}}
     </section>
 
     <footer class="footer">
@@ -753,23 +753,25 @@
                 <li><a href="#">Link Name</a></li>
                 <li><a href="#">Link Name</a></li>
                 <li><a href="#">Link Name</a></li>
-                <li><a href="#">Link Name</a></li>
+                <li><a style="color: red" href="http://temple.mandirparikrama.com/puri-website/privacy-policy">privacy policy</a></li>
               </ul>
             </div>
           </div>
       
-          <div class="footer-media">
-            <div class="media-box">
-              <img src="tv-icon.svg" alt="TV" />
-              <span>TV</span>
-            </div>
-            <div class="media-box">
-              <img src="radio-icon.svg" alt="Radio" />
-              <span>Radio</span>
+          <div class="footer-bottom">
+            <div class="footer-bottom-container">
+              <a href="https://play.google.com/store" target="_blank" class="app-button">
+                <img src="playstore-icon.svg" alt="Play Store" />
+                <span>Google Play</span>
+              </a>
+              <a href="https://www.apple.com/app-store/" target="_blank" class="app-button">
+                <img src="appstore-icon.svg" alt="App Store" />
+                <span>App Store</span>
+              </a>
             </div>
           </div>
+          
         </div>
       </footer>
-      
-
+    
 @endsection

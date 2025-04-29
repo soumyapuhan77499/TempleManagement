@@ -76,6 +76,42 @@
     <style>
         
     /* FOOTER */
+    .footer-bottom {
+  background-color: #fcb436; /* The yellow-orange from the image */
+  padding: 30px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-bottom-container {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.app-button {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.app-button:hover {
+  transform: scale(1.05);
+}
+
+.app-button img {
+  width: 30px;
+  height: 30px;
+  margin-right: 12px;
+}
+
     .footer {
         background-color: #6e0f00;
         padding: 40px 60px;
@@ -98,11 +134,8 @@
       }
       
       .footer-logo {
-        background-color: #fd6685;
-        border-radius: 30px;
-        padding: 5px 15px;
-        display: inline-block;
-        height: 48px;
+        height: 60px;
+        width: 100px;
       }
       
       .footer-title h2 {
