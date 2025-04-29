@@ -761,11 +761,9 @@
           <div class="footer-bottom">
             <div class="footer-bottom-container">
               <a href="https://play.google.com/store" target="_blank" class="app-button">
-                <img src="playstore-icon.svg" alt="Play Store" />
                 <span>Google Play</span>
               </a>
               <a href="https://www.apple.com/app-store/" target="_blank" class="app-button">
-                <img src="appstore-icon.svg" alt="App Store" />
                 <span>App Store</span>
               </a>
             </div>
