@@ -701,10 +701,10 @@
         {{-- <div class="timeline-footer">
             © {{ date('Y') }} Temple Management System. All rights reserved. <a style="color: red"
                 href="http://temple.mandirparikrama.com/puri-website/privacy-policy">privacy policy</a>
-        </div> --}}
-    </section> --}}
+        </div></section> --}}
+    
 
-    <footer class="footer" style="margin-top: 50px">
+    <footer class="footer">
         <div class="footer-container">
           <div class="footer-logo-section">
             <img src="{{ asset('website/logo.png') }}" alt="logo" class="footer-logo" />
