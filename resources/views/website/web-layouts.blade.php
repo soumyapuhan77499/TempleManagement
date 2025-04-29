@@ -101,7 +101,7 @@
 }
 
 .footer-logo {
-  height: 60px;
+  height: 80px;
   width: 100px;
   margin-bottom: 10px;
 }
@@ -182,7 +182,6 @@
 
 /* Bottom Orange Section */
 .footer-bottom {
-  background-color: #fcb436;
   padding: 30px 0;
   display: flex;
   justify-content: center;
