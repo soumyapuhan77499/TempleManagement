@@ -444,11 +444,12 @@ public function resumeNiti(Request $request)
             ], 400);
         }
 
-        // ✅ Check if the Niti is already resumed
+        // ✅ Check if the Niti is already resumed AFTER the paused entry
         $alreadyResumed = NitiManagement::where('niti_id', $request->niti_id)
-            ->where('niti_status', 'Started')
-            ->where('day_id', $dayId)
-            ->exists();
+        ->where('niti_status', 'Started')
+        ->where('day_id', $dayId)
+        ->where('created_at', '>', $pausedNiti->created_at)
+        ->exists();
 
         if ($alreadyResumed) {
             return response()->json([
