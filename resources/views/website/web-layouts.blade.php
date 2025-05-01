@@ -73,148 +73,7 @@
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/temple-slider.css') }}">
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/convience.css') }}">
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/calendar.css') }}">
-    <style>
-        
-    /* FOOTER */
-   /* Main Footer Styling */
-.footer {
-  background-color: #6e0f00;
-  padding: 40px 60px;
-  color: white;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.footer-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 40px;
-}
-
-/* Logo & Title Section */
-.footer-logo-section {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  max-width: 220px;
-}
-
-.footer-logo {
-  height: 80px;
-  width: 100px;
-  margin-bottom: 10px;
-}
-
-.footer-title h2 {
-  margin: 2px 0;
-  font-size: 24px;
-  line-height: 1.2;
-  font-weight: 600;
-}
-
-/* Link Columns */
-.footer-links {
-  display: flex;
-  gap: 60px;
-  flex: 1;
-  justify-content: center;
-}
-
-.footer-links h3 {
-  font-size: 18px;
-  margin-bottom: 10px;
-  border-bottom: 2px solid white;
-  display: inline-block;
-}
-
-.footer-links ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.footer-links li {
-  margin-bottom: 8px;
-}
-
-.footer-links a {
-  color: white;
-  text-decoration: none;
-  font-size: 14px;
-}
-
-.footer-links a:hover {
-  text-decoration: underline;
-}
-
-/* App Download Section */
-.footer-media {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  align-items: flex-start;
-}
-
-.app-button {
-  display: flex;
-  align-items: center;
-  background-color: white;
-  color: black;
-  padding: 10px 20px;
-  border-radius: 12px;
-  text-decoration: none;
-  font-weight: 600;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
-  width: max-content;
-}
-
-.app-button:hover {
-  transform: scale(1.05);
-}
-
-.app-button img {
-  width: 30px;
-  height: 30px;
-  margin-right: 12px;
-}
-
-/* Bottom Orange Section */
-.footer-bottom {
-  padding: 30px 0;
-  display: flex;
-  justify-content: center;
-}
-
-.footer-bottom-container {
-  display: flex;
-  gap: 30px;
-  align-items: center;
-}
-
-/* Responsive Tweaks */
-@media (max-width: 768px) {
-  .footer-container {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 30px;
-  }
-
-  .footer-links {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 30px;
-  }
-
-  .footer-bottom-container {
-    flex-direction: column;
-    gap: 20px;
-  }
-}
-
-
-    </style>
+    <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/footer.css') }}">
 
 </head>
 
@@ -359,7 +218,6 @@
         </div>
     </div>
 
-
     <!-- Content -->
     @yield('content')
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
@@ -441,7 +299,6 @@
             document.getElementById('specialModal').classList.add('hidden');
         }
     </script>
-
 
     <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -768,7 +625,7 @@
             document.getElementById('hundiModal').classList.add('hidden');
         }
     </script>
-    
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const calendarContainer = document.getElementById("calendar");
@@ -824,7 +681,7 @@
 
                         const selectedDay = this.getAttribute("data-day");
                         const selectedDate = formatDate(year, month + 1,
-                        selectedDay); // month+1 because JS month starts from 0
+                            selectedDay); // month+1 because JS month starts from 0
                         loadPanjiDetails(selectedDate); // 👈 load panji event on date click
                     });
                 });
@@ -890,11 +747,11 @@
                             <p class="text-gray-800">Sunset: <span class="font-medium">${data.sun_set ?? '-'}</span></p>
                         </div>
                         ${data.description ? `
-                            <hr class="border-dashed border-gray-300 my-4">
-                            <div class="flex items-start gap-3">
-                                <i class="fas fa-info-circle text-gray-600 mt-1 w-5 h-5"></i>
-                                <p class="text-gray-800">${data.description}</p>
-                            </div>` : ''}
+                                <hr class="border-dashed border-gray-300 my-4">
+                                <div class="flex items-start gap-3">
+                                    <i class="fas fa-info-circle text-gray-600 mt-1 w-5 h-5"></i>
+                                    <p class="text-gray-800">${data.description}</p>
+                                </div>` : ''}
                     `;
                         } else {
                             panjiContent.innerHTML =
@@ -911,8 +768,6 @@
         });
     </script>
 
-
 </body>
-
 
 </html>

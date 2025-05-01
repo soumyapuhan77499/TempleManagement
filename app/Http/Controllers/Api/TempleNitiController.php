@@ -618,7 +618,6 @@ public function stopNiti(Request $request)
     }
 }
 
-
 public function completedNiti()
 {
     try {
