@@ -421,7 +421,7 @@ public function resumeNiti(Request $request)
         // ✅ Get day_id from master
         $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
 
-        $dayId = $startedNiti->day_id;
+        $dayId = $nitiMaster->day_id;
 
         if (!$dayId) {
             return response()->json([
