@@ -19,7 +19,6 @@ use App\Models\TempleNews;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\DB;
-use App\Helpers\TransliterationHelper;
 
 class TempleNitiController extends Controller
 {
@@ -764,20 +763,16 @@ public function storeOtherNiti(Request $request)
         }
 
         // Create new Niti
-        $odiaName = $request->niti_name;
-        $englishName = TransliterationHelper::transliterateOdiaToEnglish($odiaName);
-
-            $niti = NitiMaster::create([
-                'niti_id'            => 'NITI' . rand(10000, 99999),
-                'niti_name'          => $odiaName,
-                'english_niti_name'  => $englishName,
-                'niti_type'          => 'other',
-                'language'           => 'Odia',
-                'niti_privacy'       => 'public',
-                'niti_status'        => 'Started',
-                'date_time'          => $now->format('Y-m-d H:i:s'),
-                'day_id'             => $dayId,
-            ]);
+        $niti = NitiMaster::create([
+            'niti_id'        => 'NITI' . rand(10000, 99999),
+            'niti_name'      => $request->niti_name,
+            'english_niti_name'      => $request->niti_name,
+            'niti_type'      => 'other',
+            'niti_privacy'   => 'public',
+            'niti_status'    => 'Started',
+            'date_time'      => $now->format('Y-m-d H:i:s'),
+            'day_id'         => $dayId,
+        ]);
 
         // Log to management
         NitiManagement::create([
