@@ -751,6 +751,7 @@ public function storeOtherNiti(Request $request)
         // Prevent duplicate names for "other" type
         $existingNiti = NitiMaster::where('niti_name', $request->niti_name)
             ->where('niti_type', 'other')
+            ->where('status', ['active', 'other'])
             ->first();
 
         if ($existingNiti) {
@@ -761,16 +762,20 @@ public function storeOtherNiti(Request $request)
         }
 
         // Create new Niti
-        $niti = NitiMaster::create([
-            'niti_id'        => 'NITI' . rand(10000, 99999),
-            'niti_name'      => $request->niti_name,
-            'niti_type'      => 'other',
-            'language'       => 'Odia',
-            'niti_privacy'   => 'public',
-            'niti_status'    => 'Started',
-            'date_time'      => $now->format('Y-m-d H:i:s'),
-            'day_id'         => $dayId,
-        ]);
+        $odiaName = $request->niti_name;
+            $englishName = transliterateOdiaToEnglish($odiaName);
+
+            $niti = NitiMaster::create([
+                'niti_id'            => 'NITI' . rand(10000, 99999),
+                'niti_name'          => $odiaName,
+                'english_niti_name'  => $englishName,
+                'niti_type'          => 'other',
+                'language'           => 'Odia',
+                'niti_privacy'       => 'public',
+                'niti_status'        => 'Started',
+                'date_time'          => $now->format('Y-m-d H:i:s'),
+                'day_id'             => $dayId,
+            ]);
 
         // Log to management
         NitiManagement::create([
@@ -795,6 +800,24 @@ public function storeOtherNiti(Request $request)
             'error'   => $e->getMessage(),
         ], 500);
     }
+}
+
+function transliterateOdiaToEnglish($text) {
+    $map = [
+        'ଅ' => 'a', 'ଆ' => 'aa', 'ଇ' => 'i', 'ଈ' => 'ii',
+        'ଉ' => 'u', 'ଊ' => 'uu', 'ଋ' => 'ri', 'ଏ' => 'e', 'ଐ' => 'ai',
+        'ଓ' => 'o', 'ଔ' => 'au',
+        'କ' => 'ka', 'ଖ' => 'kha', 'ଗ' => 'ga', 'ଘ' => 'gha', 'ଙ' => 'nga',
+        'ଚ' => 'cha', 'ଛ' => 'chha', 'ଜ' => 'ja', 'ଝ' => 'jha', 'ଞ' => 'nya',
+        'ଟ' => 'ta', 'ଠ' => 'tha', 'ଡ' => 'da', 'ଢ' => 'dha', 'ଣ' => 'na',
+        'ତ' => 'ta', 'ଥ' => 'tha', 'ଦ' => 'da', 'ଧ' => 'dha', 'ନ' => 'na',
+        'ପ' => 'pa', 'ଫ' => 'pha', 'ବ' => 'ba', 'ଭ' => 'bha', 'ମ' => 'ma',
+        'ଯ' => 'ya', 'ର' => 'ra', 'ଲ' => 'la', 'ଳ' => 'la', 'ଵ' => 'va',
+        'ଶ' => 'sha', 'ଷ' => 'sha', 'ସ' => 'sa', 'ହ' => 'ha',
+        'ଂ' => 'm', 'ଃ' => 'h', 'ଁ' => 'n',
+    ];
+
+    return strtr($text, $map);
 }
 
 public function updateActiveNitiToUpcoming()
