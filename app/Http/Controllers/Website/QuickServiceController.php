@@ -153,5 +153,10 @@ public function viewPanji()
     return view('website.view-panji-details', compact('todayPanji'));  
 } 
 
+public function serviceEmergerncy(){
+
+    return view('website.emergency-contact');
+    
+}
 
 }
