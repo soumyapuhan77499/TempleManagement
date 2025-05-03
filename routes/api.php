@@ -272,6 +272,7 @@ Route::controller(TempleNitiController::class)->group(function () {
   Route::post('/save-other-niti', 'storeOtherNiti');
   Route::post('/update-upcoming', 'updateActiveNitiToUpcoming');
   Route::get('/sub-niti/running','getRunningSubNitis');
+  Route::post('/store-other-niti', 'storeTextOtherNiti');
 
   // Protected routes (niti_admin must be authenticated)
   Route::middleware('auth:niti_admin')->group(function () {
@@ -283,6 +284,8 @@ Route::controller(TempleNitiController::class)->group(function () {
       Route::post('/sub-niti/add', 'addAndStartSubNiti');
       Route::post('/update-sub-niti-name/{id}', 'updateSubNitiName');
       Route::delete('/delete-sub-niti/{id}','softDeleteSubNiti');
+      Route::post('/start-other-niti', 'startOtherNiti');
+      Route::post('/stop-other-niti', 'stopOtherNiti');
   });
 
   Route::post('/save-temple-news', 'storeByNoticeName');

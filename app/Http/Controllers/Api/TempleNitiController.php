@@ -1300,4 +1300,144 @@ public function deleteNotice($id)
     }
 }
 
+public function startOtherNiti(Request $request)
+{
+
+    $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
+
+    if (!$nitiMaster) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Niti not found.'
+        ], 404);
+    }
+
+    $dayId = $nitiMaster->day_id ?? null;
+
+       // ✅ Get authenticated user
+       $user = Auth::guard('niti_admin')->user();
+       if (!$user) {
+           return response()->json([
+               'status' => false,
+               'message' => 'Unauthorized access.'
+           ], 401);
+       }
+
+    $now = Carbon::now();
+
+    $niti = NitiManagement::create([
+        'niti_id'     => $request->niti_id,
+        'sebak_id'    => $user->sebak_id,
+        'day_id'      => $dayId,
+        'niti_status' => 'Started',
+        'date'        => $now->toDateString(),
+        'start_time'  => $now->format('H:i:s'),
+    ]);
+
+    $nitiMaster->update(['niti_status' => 'Started']);
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Niti started successfully.',
+        'data' => $niti
+    ]);
+}
+
+public function stopOtherNiti(Request $request)
+{
+    $request->validate([
+        'niti_id' => 'required|exists:temple__niti_details,niti_id',
+    ]);
+
+    $user = Auth::guard('niti_admin')->user();
+    if (!$user) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Unauthorized access.'
+        ], 401);
+    }
+
+    $now = Carbon::now();
+
+    // ✅ Retrieve the NitiMaster
+    $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
+    $dayId = $nitiMaster->day_id ?? null;
+
+    // ✅ Find the active started Niti
+    $activeNiti = NitiManagement::where('niti_id', $request->niti_id)
+        ->where('day_id', $dayId)
+        ->where('sebak_id', $user->sebak_id)
+        ->where('niti_status', 'Started')
+        ->latest('start_time')
+        ->first();
+
+    $duration = null;
+
+    if ($activeNiti) {
+        $startTime = Carbon::parse($activeNiti->start_time);
+        $duration = $startTime->diffInMinutes($now);
+    }
+
+    // ✅ Create new NitiManagement record with 'Completed' status
+    $niti = NitiManagement::create([
+        'niti_id'     => $request->niti_id,
+        'sebak_id'    => $user->sebak_id,
+        'day_id'      => $dayId,
+        'niti_status' => 'Completed',
+        'date'        => $now->toDateString(),
+        'end_time'    => $now->format('H:i:s'),
+        'duration'    => $duration,
+    ]);
+
+    // ✅ Update NitiMaster
+    $nitiMaster->update([
+        'niti_status' => 'Completed'
+    ]);
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Niti marked as completed.',
+        'data' => $niti
+    ]);
+}
+
+public function storeTextOtherNiti(Request $request)
+{
+    $request->validate([
+        'niti_name' => 'required|string|max:255',
+        'day_id'    => 'required|integer',
+    ]);
+
+    $user = Auth::guard('niti_admin')->user();
+    if (!$user) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Unauthorized access.'
+        ], 401);
+    }
+
+       // ✅ Retrieve the NitiMaster
+       $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
+       $dayId = $nitiMaster->day_id ?? null;
+
+    $now = Carbon::now();
+
+    $niti = NitiMaster::create([
+        'niti_id'             => 'NITI' . rand(10000, 99999),
+        'niti_name'           => $request->niti_name,
+        'english_niti_name'   => $request->niti_name,
+        'niti_type'           => 'other',
+        'niti_privacy'        => 'public',
+        'niti_status'         => 'Upcoming',
+        'date_time'           => $now->format('Y-m-d H:i:s'),
+        'day_id'              => $dayId,
+    ]);
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Other Niti stored successfully.',
+        'data' => $niti
+    ]);
+}
+
 }
