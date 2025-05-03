@@ -14,6 +14,8 @@ use App\Models\Accomodation;
 use App\Models\PublicServices;
 use App\Models\NearByTemple;
 use App\Models\PanjiDetails;
+use App\Models\TempleHundi;
+
 use Carbon\Carbon;
 
 class QuickServiceController extends Controller
@@ -74,6 +76,7 @@ public function bhaktanibasList(){
 
     $bhaktaNibas = Accomodation::where('temple_id', $templeId)
         ->where('accomodation_type', 'bhakta_niwas')
+        ->where('language', 'English')
         ->get();
 
     return view('website.bhaktanibas-list', compact('bhaktaNibas'));
@@ -91,6 +94,7 @@ public function lockerShoeList()
 
     return view('website.locker-shoe-list', compact('services'));
 }
+
 public function getDarshanList()
 {
     $latestDayId = NitiMaster::where('status', 'active')->latest('id')->value('day_id');
@@ -157,6 +161,28 @@ public function serviceEmergerncy(){
 
     return view('website.emergency-contact');
     
+}
+
+public function serviceAbled()
+{
+    return view('website.service-abled');
+}
+
+public function onlineDonation()
+{
+    return view('website.online-donation');
+
+}
+
+public function hundiCollection()
+{
+    $yesterday = Carbon::yesterday()->toDateString(); // 1 day ago
+
+    $hundi = TempleHundi::where('date', $yesterday)
+    ->first();
+
+    return view('website.hundi-collection' , compact('hundi'));
+
 }
 
 }

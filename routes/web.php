@@ -45,7 +45,6 @@ use App\Http\Controllers\TempleUser\PanjiController;
 use App\Http\Controllers\TempleUser\SebakController;
 use App\Http\Controllers\TempleUser\DeityController;
 
-
 // temple feature
 use App\Http\Controllers\TempleUser\TempleParkingController;
 use App\Http\Controllers\TempleUser\TempleMathaController;
@@ -547,6 +546,9 @@ Route::controller(QuickServiceController::class)->group(function() {
     Route::get('/locker-shoe-list', 'lockerShoeList')->name('lockershoe.list');
     Route::get('/view-near-by-temple/{id}','viewNearByTemple')->name('viewNearByTemple');
     Route::get('/services/{service_type}',  'showByServiceType')->name('services.byType');
+    Route::get('/services-emergency',  'serviceEmergerncy')->name('services.emergency');
+    Route::get('/services-abled',  'serviceAbled')->name('services.abled_person');
     Route::get('/view-panji-details', 'viewPanji')->name('view.panji.details');
-
+    Route::get('/online-donation', 'onlineDonation')->name('online.donation');
+    Route::get('/hundi-collection', 'hundiCollection')->name('hundi.collection');
 });
