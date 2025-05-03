@@ -95,7 +95,6 @@ public function manageNiti(Request $request)
         ->get(['id', 'niti_notice', 'status'])
         ->first();
     
-
         $finalNitiList = [];
 
         // ✅ Add "Other" Nitis
