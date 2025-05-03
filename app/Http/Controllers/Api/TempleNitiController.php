@@ -98,6 +98,7 @@ public function manageNiti(Request $request)
                 'niti_type'   => $otherNiti->niti_type,
                 'niti_status' => 'Started',
                 'start_time'  => optional($otherNiti->todayStartTime)->start_time,
+                'status'      => $otherNiti->status
             ];
         }
 
@@ -1431,5 +1432,7 @@ public function storeTextOtherNiti(Request $request)
         ]);
 
 }
+
+
 
 }

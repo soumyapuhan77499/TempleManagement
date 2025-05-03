@@ -10,7 +10,7 @@ class TempleNews extends Model
     protected $table = 'temple__news';
 
     protected $fillable = [
-        'temple_id', 'notice_name', 'start_date', 'end_date', 'notice_descp', 'status'
+        'type','temple_id', 'notice_name','niti_notice', 'start_date', 'end_date', 'notice_descp', 'status'
     ];
     
 }
