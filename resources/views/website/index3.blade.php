@@ -7,7 +7,7 @@
             <div class="banner-video">
                 <video id="bannerVideo" autoplay loop playsinline muted preload="metadata"
                     poster="{{ asset('storage/' . $latestWebVideo->banner_image ?? 'website/d.png') }}">
-                    <source src="{{ asset('storage/' . $latestWebVideo->banner_video) }}" type="video/mp4">
+                    <source src="{{ asset('website/banner.mp4') }}" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             </div>
@@ -96,7 +96,7 @@
             </div>
         </div>
     </div>
-    
+
     {{-- 
     <section class="shree-mandir-section  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
 
@@ -207,49 +207,59 @@
         <!-- Navigation Tabs -->
         <div class="flex justify-center items-center gap-6 mt-5 mb-12">
             <div id="navContainer" class="flex gap-5 overflow-x-auto no-scrollbar">
+                
                 <div class="tab-item text-center min-w-[100px] cursor-pointer active-tab" data-tab="lordSupreme">
-                    <img src="{{ asset('website/temple_info/sup.png') }}" class="mx-auto w-20 h-20"
-                        style="border-radius: 50%">
+                    <div class="image-wrapper mx-auto w-20 h-20 p-1 rounded-full bg-transparent duration-300">
+                        <img src="{{ asset('website/temple_info/sup.png') }}" class="w-full h-full object-cover rounded-full" />
+                    </div>
                     <p class="text-gray-500 mt-3">Lord Supreme</p>
                 </div>
-
+        
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="throughAges">
-                    <img src="{{ asset('website/temple_info/age.png') }}" class="mx-auto w-20 h-20"
-                        style="border-radius: 50%">
+                    <div class="image-wrapper mx-auto w-20 h-20 p-1 rounded-full bg-transparent transition-all duration-300">
+                        <img src="{{ asset('website/temple_info/age.png') }}" class="w-full h-full object-cover rounded-full" />
+                    </div>
                     <p class="text-gray-500 mt-3">Through The Ages</p>
                 </div>
-
+        
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="tradition">
-                    <img src="{{ asset('website/temple_info/tradition.png') }}" class="mx-auto w-20 h-20"
-                        style="border-radius: 50%">
+                    <div class="image-wrapper mx-auto w-20 h-20 p-1 rounded-full bg-transparent transition-all duration-300">
+                        <img src="{{ asset('website/temple_info/tradition.png') }}" class="w-full h-full object-cover rounded-full" />
+                    </div>
                     <p class="text-gray-500 mt-3">Living Tradition</p>
                 </div>
-
+        
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="festivals">
-                    <img src="{{ asset('website/temple_info/festival.jpeg') }}" class="mx-auto w-20 h-20"
-                        style="border-radius: 50%">
+                    <div class="image-wrapper mx-auto w-20 h-20 p-1 rounded-full bg-transparent transition-all duration-300">
+                        <img src="{{ asset('website/temple_info/festival.jpeg') }}" class="w-full h-full object-cover rounded-full" />
+                    </div>
                     <p class="text-gray-500 mt-3">Festivals</p>
                 </div>
-
+        
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="ratha">
-                    <img src="{{ asset('website/temple_info/ratha.png') }}" class="mx-auto w-20 h-20"
-                        style="border-radius: 50%">
+                    <div class="image-wrapper mx-auto w-20 h-20 p-1 rounded-full bg-transparent transition-all duration-300">
+                        <img src="{{ asset('website/temple_info/ratha.png') }}" class="w-full h-full object-cover rounded-full" />
+                    </div>
                     <p class="text-gray-500 mt-3">Ratha Yatra</p>
                 </div>
-
+        
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="services">
-                    <img src="{{ asset('website/temple_info/devt.png') }}" class="mx-auto w-20 h-20"
-                        style="border-radius: 50%">
+                    <div class="image-wrapper mx-auto w-20 h-20 p-1 rounded-full bg-transparent transition-all duration-300">
+                        <img src="{{ asset('website/temple_info/devt.png') }}" class="w-full h-full object-cover rounded-full" />
+                    </div>
                     <p class="text-gray-500 mt-3">Visitor Services</p>
                 </div>
-
+        
                 <div class="tab-item text-center min-w-[100px] cursor-pointer inactive-tab" data-tab="management">
-                    <img src="{{ asset('website/temple_info/management.jpg') }}" class="mx-auto w-20 h-20"
-                        style="border-radius: 50%">
+                    <div class="image-wrapper mx-auto w-20 h-20 p-1 rounded-full bg-transparent transition-all duration-300">
+                        <img src="{{ asset('website/temple_info/management.jpg') }}" class="w-full h-full object-cover rounded-full" />
+                    </div>
                     <p class="text-gray-500 mt-3">Management</p>
                 </div>
+        
             </div>
         </div>
+        
     </div>
 
     <section id="dynamicContent" class="bg-100">
@@ -407,7 +417,7 @@
         </a>
 
         <!-- Online Donations -->
-        <div class="service-cards" onclick="openDonationModal()">
+        <a href="{{ route('online.donation') }}" class="service-cards" style="text-decoration: none;">
             <div class="card-top">
                 <div class="card-text">
                     <div class="card-title">Online Donations</div>
@@ -423,10 +433,10 @@
                 </div>
                 <div class="footer-bar bar-cyan"></div>
             </div>
-        </div>
+        </a>
 
         <!-- Hundi Collection -->
-        <div class="service-cards" onclick="openHundiModal()">
+        <a href="{{ route('hundi.collection') }}" class="service-cards" style="text-decoration: none;">
             <div class="card-top">
                 <div class="card-text">
                     <div class="card-title">Hundi Collection</div>
@@ -448,8 +458,7 @@
                 </div>
                 <div class="footer-bar bar-green"></div>
             </div>
-        </div>
-
+        </a>
 
     </section>
 
@@ -510,18 +519,21 @@
             </div>
 
             <div class="conv">
-                <div class="convenience-item cursor-pointer" onclick="openEmergencyModal()">
-                    <img src="{{ asset('website/ph.png') }}" alt="Emergency">
-                </div>
-                <p>Emergency</p>
+                <a href="{{ route('services.emergency') }}">
+                    <div class="convenience-item">
+                        <img src="{{ asset('website/ph.png') }}" alt="Emergency">
+                    </div>
+                    <p>Emergency</p>
+                </a>
             </div>
 
-
             <div class="conv">
-                <div class="convenience-item cursor-pointer" onclick="openSpecialModal()">
-                    <i class="fas fa-wheelchair"></i>
-                </div>
-                <p>Special Abled Person</p>
+                <a href="{{ route('services.abled_person') }}">
+                    <div class="convenience-item">
+                        <i class="fas fa-wheelchair"></i>
+                    </div>
+                    <p>Special Abled Person</p>
+                </a>
             </div>
 
             <div class="conv">
@@ -532,7 +544,6 @@
                     <p>Route Map</p>
                 </a>
             </div>
-
 
             <div class="conv">
                 <a href="{{ route('services.byType', 'lost_and_found_booth') }}">
@@ -598,7 +609,6 @@
                 <div class="bg-white p-6 rounded-xl border border-yellow-300">
                     <h3 class="text-md font-semibold text-red-500 mb-2">Select date</h3>
                     <div id="calendar"></div>
-
 
                     <!-- Today Occasion Header -->
                     <div class="flex justify-center items-center gap-5 mt-12">
@@ -696,13 +706,14 @@
                     class="w-[600px] h-[800px] object-contain rounded-xl shadow-md" />
             </div>
 
-        </div>
+        </div> --}}
 
-        {{-- <div class="timeline-footer">
+    {{-- <div class="timeline-footer">
             © {{ date('Y') }} Temple Management System. All rights reserved. <a style="color: red"
                 href="http://temple.mandirparikrama.com/puri-website/privacy-policy">privacy policy</a>
-        </div></section> --}}
+        </div> --}}
+    {{-- </section> --}}
 
-        @include('partials.website-footer')
+    @include('partials.website-footer')
 
 @endsection
