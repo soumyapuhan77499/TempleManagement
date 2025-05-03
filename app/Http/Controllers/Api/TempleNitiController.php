@@ -1405,7 +1405,6 @@ public function storeTextOtherNiti(Request $request)
 {
     $request->validate([
         'niti_name' => 'required|string|max:255',
-        'day_id'    => 'required|integer',
     ]);
 
     $user = Auth::guard('niti_admin')->user();
