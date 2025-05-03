@@ -1366,7 +1366,6 @@ public function stopOtherNiti(Request $request)
     // ✅ Find the active started Niti
     $activeNiti = NitiManagement::where('niti_id', $request->niti_id)
         ->where('day_id', $dayId)
-        ->where('sebak_id', $user->sebak_id)
         ->where('niti_status', 'Started')
         ->latest('start_time')
         ->first();
