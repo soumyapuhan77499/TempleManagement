@@ -291,6 +291,7 @@
                     'Completed' => 'fa-check-circle',
                     'Started' => 'fa-sun',
                     'Upcoming' => 'fa-bell',
+                    default => 'fa-question-circle', // fallback for unknown status
                 };
 
                 $statusClass = $status;
@@ -316,11 +317,11 @@
                                     </p>
                                 @endif
                                 @if ($status === 'Completed')
-                                        <p><strong>Started:</strong>
-                                            {{ \Carbon\Carbon::parse($start)->format('h:i a') }}</p>
-                                 
-                                        <p><strong>Completes:</strong>
-                                            {{ \Carbon\Carbon::parse($end)->format('h:i a') }}</p>
+                                    <p><strong>Started:</strong>
+                                        {{ \Carbon\Carbon::parse($start)->format('h:i a') }}</p>
+
+                                    <p><strong>Completes:</strong>
+                                        {{ \Carbon\Carbon::parse($end)->format('h:i a') }}</p>
                                 @endif
                             </div>
                         </div>
