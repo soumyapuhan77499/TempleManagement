@@ -82,6 +82,7 @@ public function manageNiti(Request $request)
         // ✅ Other Nitis (based on management table status)
         $otherNitis = NitiMaster::where('niti_type', 'other')
         ->where('niti_status', 'Started')
+        ->where('status', ['active', 'other'])
         ->with(['subNitis'])
         ->whereHas('todayStartTime', function ($query) use ($latestDayId) {
             $query->where('day_id', $latestDayId);
