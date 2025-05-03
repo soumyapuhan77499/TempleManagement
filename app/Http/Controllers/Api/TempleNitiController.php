@@ -92,7 +92,8 @@ public function manageNiti(Request $request)
         ->where('type','information')
         ->where('status','active')
         ->orderBy('created_at', 'desc')
-        ->get(['id', 'niti_notice', 'status']);
+        ->get(['id', 'niti_notice', 'status'])
+        ->first();
     
 
         $finalNitiList = [];
@@ -1309,105 +1310,62 @@ public function deleteNotice($id)
     }
 }
 
-public function startOtherNiti(Request $request)
+public function deleteOtherNiti($id)
 {
+    $niti = NitiMaster::where('niti_id', $id)
+        ->where('niti_type', 'other')
+        ->first();
 
-    $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
-
-    if (!$nitiMaster) {
+    if (!$niti) {
         return response()->json([
-            'status' => false,
-            'message' => 'Niti not found.'
+            'message' => 'Niti not found or not of type "other".',
         ], 404);
     }
 
-    $dayId = $nitiMaster->day_id ?? null;
-
-       // ✅ Get authenticated user
-       $user = Auth::guard('niti_admin')->user();
-       if (!$user) {
-           return response()->json([
-               'status' => false,
-               'message' => 'Unauthorized access.'
-           ], 401);
-       }
-
-    $now = Carbon::now();
-
-    $niti = NitiManagement::create([
-        'niti_id'     => $request->niti_id,
-        'sebak_id'    => $user->sebak_id,
-        'day_id'      => $dayId,
-        'niti_status' => 'Started',
-        'date'        => $now->toDateString(),
-        'start_time'  => $now->format('H:i:s'),
-    ]);
-
-    $nitiMaster->update(['niti_status' => 'Started']);
+    $niti->status = 'deleted';
+    $niti->save();
 
     return response()->json([
         'status' => true,
-        'message' => 'Niti started successfully.',
+        'message' => 'Niti status updated to Deleted.',
         'data' => $niti
-    ]);
+    ], 200);
 }
 
-public function stopOtherNiti(Request $request)
+public function latestApk()
 {
-    $request->validate([
-        'niti_id' => 'required|exists:temple__niti_details,niti_id',
-    ]);
+    try {
+        $apk = Apk::where('status', 'active')
+                  ->orderByDesc('id')
+                  ->first();
 
-    $user = Auth::guard('niti_admin')->user();
-    if (!$user) {
+        if (!$apk) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No active APK found.',
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Latest APK fetched successfully.',
+            'data' => [
+                'id' => $apk->id,
+                'version' => $apk->version,
+                'apk_file' => url($apk->apk_file), // full URL
+                'status' => $apk->status,
+                'created_at' => $apk->created_at,
+                'updated_at' => $apk->updated_at,
+            ]
+        ], 200);
+
+    } catch (\Exception $e) {
         return response()->json([
             'status' => false,
-            'message' => 'Unauthorized access.'
-        ], 401);
+            'message' => 'Server error.',
+            'error' => $e->getMessage()
+        ], 500);
     }
-
-    $now = Carbon::now();
-
-    // ✅ Retrieve the NitiMaster
-    $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
-
-    $dayId = $nitiMaster->day_id ?? null;
-
-    // ✅ Find the active started Niti
-    $activeNiti = NitiManagement::where('niti_id', $request->niti_id)
-        ->where('day_id', $dayId)
-        ->where('niti_status', 'Started')
-        ->latest('start_time')
-        ->first();
-
-    $duration = null;
-
-    if ($activeNiti) {
-        $startTime = Carbon::parse($activeNiti->start_time);
-        $duration = $startTime->diffInMinutes($now);
-    }
-
-    // ✅ Create new NitiManagement record with 'Completed' status
-    $niti = NitiManagement::create([
-        'niti_id'     => $request->niti_id,
-        'sebak_id'    => $user->sebak_id,
-        'day_id'      => $dayId,
-        'niti_status' => 'Completed',
-        'date'        => $now->toDateString(),
-        'end_time'    => $now->format('H:i:s'),
-        'duration'    => $duration,
-    ]);
-
-    // ✅ Update NitiMaster
-    $nitiMaster->update([
-        'niti_status' => 'Completed'
-    ]);
-
-    return response()->json([
-        'status' => true,
-        'message' => 'Niti marked as completed.',
-        'data' => $niti
-    ]);
 }
 
 public function storeTextOtherNiti(Request $request)
