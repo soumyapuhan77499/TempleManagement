@@ -88,6 +88,13 @@ public function manageNiti(Request $request)
         })
         ->get();
 
+        $nitiInfo = TempleNews::where('type', 'information')
+        ->where('type','information')
+        ->where('status','active')
+        ->orderBy('created_at', 'desc')
+        ->get(['id', 'niti_notice', 'status']);
+    
+
         $finalNitiList = [];
 
         // ✅ Add "Other" Nitis
@@ -155,7 +162,8 @@ public function manageNiti(Request $request)
         return response()->json([
             'status' => true,
             'message' => 'Niti list compiled using day_id.',
-            'data' => $finalNitiList
+            'data' => $finalNitiList,
+            'niti_info' => $nitiInfo,
         ], 200);
 
     } catch (\Exception $e) {
@@ -1433,6 +1441,43 @@ public function storeTextOtherNiti(Request $request)
 
 }
 
+public function addNitiInformation(Request $request)
+{
+    $validated = $request->validate([
+        'niti_notice' => 'required|string|max:1000',
+    ]);
 
+    $news = TempleNews::create([
+        'type' => 'information',
+        'niti_notice' => $validated['niti_notice'],
+    ]);
+
+    return response()->json([
+        'message' => 'Niti Information added successfully.',
+        'data' => $news,
+        'status' => true
+    ], 201);
+}
+
+public function deleteNitiInformation($id)
+{
+    $news = TempleNews::find($id);
+
+    if (!$news || $news->type !== 'information') {
+        return response()->json([
+            'message' => 'Niti Information not found.',
+            'status' => false
+        ], 404);
+    }
+
+    $news->status = 'deleted'; // or use 0 or 'inactive' based on your logic
+    $news->save();
+
+    return response()->json([
+        'message' => 'Niti Information marked as deleted.',
+        'data' => $news,
+        'status' => true
+    ]);
+}
 
 }

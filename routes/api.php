@@ -295,6 +295,8 @@ Route::controller(TempleNitiController::class)->group(function () {
   Route::post('/notice/update-name', 'updateNoticeName');
   Route::post('/hundi/update',  'updateHundiCollection');
   Route::post('/temple-notice/delete/{id}',  'deleteNotice');
+  Route::post('/niti-information', 'addNitiInformation');
+  Route::post('/niti-information/{id}', 'deleteNitiInformation');
 
 });
 
