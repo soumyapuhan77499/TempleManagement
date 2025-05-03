@@ -78,7 +78,7 @@
 </head>
 
 <body>
-    <!-- Emergency Modal -->
+    {{-- <!-- Emergency Modal -->
     <div id="emergencyModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-2xl relative">
             <button onclick="closeEmergencyModal()" class="absolute top-3 right-3 text-gray-600 hover:text-red-600">
@@ -216,7 +216,7 @@
                 <p class="text-gray-500 italic">No Hundi collection data available for today.</p>
             @endif
         </div>
-    </div>
+    </div> --}}
 
     <!-- Content -->
     @yield('content')
@@ -244,7 +244,9 @@
     <script src="front-assets/frontend/js/aos.min.js"></script>
     <script src="front-assets/frontend/js/toastr.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
     <script>
         "use strict";
         var rtl = false; // Hardcoded for static version
