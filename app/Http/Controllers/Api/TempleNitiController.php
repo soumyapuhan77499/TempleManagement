@@ -1407,14 +1407,6 @@ public function storeTextOtherNiti(Request $request)
         'niti_name' => 'required|string|max:255',
     ]);
 
-    $user = Auth::guard('niti_admin')->user();
-    if (!$user) {
-        return response()->json([
-            'status' => false,
-            'message' => 'Unauthorized access.'
-        ], 401);
-    }
-
        // ✅ Retrieve the NitiMaster
        $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
        $dayId = $nitiMaster->day_id ?? null;
