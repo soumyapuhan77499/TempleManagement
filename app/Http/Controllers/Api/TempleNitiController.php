@@ -1361,6 +1361,7 @@ public function stopOtherNiti(Request $request)
 
     // ✅ Retrieve the NitiMaster
     $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
+
     $dayId = $nitiMaster->day_id ?? null;
 
     // ✅ Find the active started Niti
@@ -1405,29 +1406,30 @@ public function storeTextOtherNiti(Request $request)
     $request->validate([
         'niti_name' => 'required|string|max:255',
     ]);
-
        // ✅ Retrieve the NitiMaster
-       $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
+       $nitiMaster = NitiMaster::where('niti_status', 'Upcoming')->first();
+
        $dayId = $nitiMaster->day_id ?? null;
 
-    $now = Carbon::now();
+       $now = Carbon::now();
 
-    $niti = NitiMaster::create([
-        'niti_id'             => 'NITI' . rand(10000, 99999),
-        'niti_name'           => $request->niti_name,
-        'english_niti_name'   => $request->niti_name,
-        'niti_type'           => 'other',
-        'niti_privacy'        => 'public',
-        'niti_status'         => 'Upcoming',
-        'date_time'           => $now->format('Y-m-d H:i:s'),
-        'day_id'              => $dayId,
-    ]);
+        $niti = NitiMaster::create([
+            'niti_id'             => 'NITI' . rand(10000, 99999),
+            'niti_name'           => $request->niti_name,
+            'english_niti_name'   => $request->niti_name,
+            'niti_type'           => 'other',
+            'niti_privacy'        => 'public',
+            'niti_status'         => 'Upcoming',
+            'date_time'           => $now->format('Y-m-d H:i:s'),
+            'day_id'              => $dayId,
+        ]);
 
-    return response()->json([
-        'status' => true,
-        'message' => 'Other Niti stored successfully.',
-        'data' => $niti
-    ]);
+        return response()->json([
+            'status' => true,
+            'message' => 'Other Niti stored successfully.',
+            'data' => $niti
+        ]);
+
 }
 
 }
