@@ -12,6 +12,8 @@ use App\Models\NearByTemple;
 use App\Models\HundiCollection;
 use App\Models\TempleSubNitiManagement;
 use App\Models\TempleSubNiti;
+use App\Models\TempleNews;
+
 use Carbon\Carbon;
 use Exception;
 
