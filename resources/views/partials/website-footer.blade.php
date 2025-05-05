@@ -32,7 +32,7 @@
           <ul>
             <li><a href="{{url('/services/drinking_water')}}">Drinking Water</a></li>
             <li><a href="{{url('/services-abled')}}">Special Abled Person</a></li>
-            <li><a href="{{url()}}">Route Map</a></li>
+            <li><a href="#">Route Map</a></li>
             <li><a href="{{url('/services/lost_and_found_booth')}}">Lost And Found</a></li>
             <li><a href="{{url('/services/toilet')}}">Toilet</a></li>
             <li><a href="{{ url('/services/beach')}}">Beaches</a></li>
