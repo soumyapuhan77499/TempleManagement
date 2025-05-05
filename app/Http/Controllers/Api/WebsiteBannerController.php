@@ -155,7 +155,14 @@ class WebsiteBannerController extends Controller
                     ];
                 }
             }
-    
+
+            $nitiInfo = TempleNews::where('type', 'information')
+            ->where('type','information')
+            ->where('status','active')
+            ->orderBy('created_at', 'desc')
+            ->get(['id', 'niti_notice', 'status'])
+            ->first();
+
             $banners = TempleBanner::where('temple_id', $templeId)
                 ->where('status', 'active')
                 ->get(['banner_image', 'banner_type']);
@@ -177,6 +184,7 @@ class WebsiteBannerController extends Controller
                     'banners'             => $banners,
                     'nearby_temples'      => $nearbyTemples,
                     'totalPreviousAmount' => $totalPreviousAmount,
+                    'information'           => $nitiInfo,
                 ]
             ], 200);
     

@@ -84,8 +84,9 @@
     font-weight: 600;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease;
-    width: 150px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
+border-radius: 10px;
 }
 
 .app-button:hover {
