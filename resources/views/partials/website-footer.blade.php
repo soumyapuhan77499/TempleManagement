@@ -56,12 +56,10 @@
       <div class="footer-bottom">
         <div class="footer-bottom-container">
           <a href="https://play.google.com/store" target="_blank" class="app-button">
-            <img src="{{ asset('website/play-store.png') }}" alt="Google Play" style="height: 40px; margin-right: 10px;">
-            <span>Google Play</span>
+            <img src="{{ asset('website/footer/play-store.png') }}" alt="Google Play" style="height: 40px; margin-right: 10px;">
           </a>
           <a href="https://www.apple.com/app-store/" target="_blank" class="app-button">
             <img src="{{ asset('website/footer/apple.png') }}" alt="App Store" style="height: 40px; margin-right: 10px;">
-            <span>App Store</span>
           </a>
         </div>
       </div>      
