@@ -82,7 +82,7 @@ public function manageNiti(Request $request)
         // ✅ Other Nitis (based on management table status)
         $otherNitis = NitiMaster::where('niti_type', 'other')
         ->where('niti_status', 'Started')
-        ->where('status', ['active', 'other'])
+        ->where('status','!=','deleted')
         ->with(['subNitis'])
         ->whereHas('todayStartTime', function ($query) use ($latestDayId) {
             $query->where('day_id', $latestDayId);
@@ -699,7 +699,6 @@ public function getOtherNiti()
     }
 }
 
-
 public function storeOtherNiti(Request $request)
 {
     try {
@@ -1168,9 +1167,9 @@ public function storeByNoticeName(Request $request)
    
     try {
         $news = TempleNews::create([
+            'type' => 'notice',
             'notice_name' => $request->notice_name,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
+            'notice_date' => $request->notice_date
         ]);
 
         return response()->json([
@@ -1191,7 +1190,8 @@ public function storeByNoticeName(Request $request)
 public function getLatestNotice()
 {
     try {
-        $latestNotice = TempleNews::orderBy('created_at', 'desc')->where('status','active')->get();
+
+        $latestNotice = TempleNews::orderBy('created_at', 'desc')->where('type','notice')->where('status','active')->get();
 
         if (!$latestNotice) {
             return response()->json([
