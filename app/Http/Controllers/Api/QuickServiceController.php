@@ -316,7 +316,7 @@ class QuickServiceController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Panji details fetched successfully.',
-                    'Events' => $Events,
+                    'Events' => $Event,
             ], 200);
         } catch (\Exception $e) {
             \Log::error('Error fetching Panji details: ' . $e->getMessage());
