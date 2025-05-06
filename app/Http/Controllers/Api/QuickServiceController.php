@@ -308,16 +308,15 @@ class QuickServiceController extends Controller
     {
         try {
     
-            // Fetch matching Panji records
-            $Events = PanjiDetails::where('status', 'active')
-                ->where('language', $language)
-                ->whereDate('date', $date)
-                ->get();
-    
+            $Event = PanjiDetails::where('status', 'active')
+            ->where('language', $language)
+            ->whereDate('date', $date)
+            ->first();
+        
             return response()->json([
                 'status' => true,
                 'message' => 'Panji details fetched successfully.',
-                'Events' => $Events,
+                    'Events' => $Events,
             ], 200);
         } catch (\Exception $e) {
             \Log::error('Error fetching Panji details: ' . $e->getMessage());
