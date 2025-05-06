@@ -267,7 +267,6 @@ class QuickServiceController extends Controller
             $prasadList = $prasads->map(function ($prasad) use ($dayId) {
                 $todayLog = PrasadManagement::where('prasad_id', $prasad->id)
                 ->where('day_id', $dayId)
-                ->where('language', $request->language)
                 ->latest()
                 ->first();
 
