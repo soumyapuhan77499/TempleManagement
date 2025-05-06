@@ -301,16 +301,28 @@ body {
     box-shadow: 0 1px 5px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
 }
-
 .thumbnail-section {
     display: flex;
+    flex-wrap: nowrap; /* ensures they stay in a row */
     gap: 10px;
-    margin-bottom: 15px;
     overflow-x: auto;
-    padding-bottom: 10px;
+    overflow-y: hidden;
+    padding: 10px 0;
+    margin-bottom: 15px;
+    scrollbar-width: thin; /* Firefox */
+}
+
+.thumbnail-section::-webkit-scrollbar {
+    height: 6px;
+}
+
+.thumbnail-section::-webkit-scrollbar-thumb {
+    background-color: rgba(100, 100, 100, 0.4);
+    border-radius: 10px;
 }
 
 .thumbnail {
+    flex: 0 0 auto;
     width: 70px;
     height: 60px;
     object-fit: cover;
@@ -323,6 +335,14 @@ body {
 .thumbnail:hover {
     border-color: #98321d;
 }
+
+@media (max-width: 768px) {
+    .thumbnail {
+        width: 60px;
+        height: 50px;
+    }
+}
+
 
 /* ✅ Responsive */
 @media (max-width: 992px) {
