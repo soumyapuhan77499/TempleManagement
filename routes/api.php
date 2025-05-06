@@ -248,12 +248,12 @@ Route::controller(TempleInformationController::class)->group(function() {
 
 Route::controller(QuickServiceController::class)->group(function() {
   Route::get('/get-parking/{language}', 'getParkingList')->name('quickservice.getParkingList');
-  Route::get('/get-accomodation', 'getAccomodationList')->name('quickservice.getAccomodation');
-  Route::get('/get-commute', 'getCommuteList')->name('quickservice.getCommute');
-  Route::get('/get-emergency', 'getEmergencyContacts')->name('quickservice.getEmergencyContacts');
-  Route::get('/get-all-service-list', 'getPublicServiceList')->name('quickservice.getPublicServiceList');
+  Route::get('/get-accomodation/{language}', 'getAccomodationList')->name('quickservice.getAccomodation');
+  Route::get('/get-commute/{language}', 'getCommuteList')->name('quickservice.getCommute');
+  Route::get('/get-emergency/{language}', 'getEmergencyContacts')->name('quickservice.getEmergencyContacts');
+  Route::get('/get-all-service-list/{language}', 'getPublicServiceList')->name('quickservice.getPublicServiceList');
   Route::get('/get-maha-prasad', 'getTemplePrasadList')->name('quickservice.getTemplePrasadList');
-  Route::get('/get-panji', 'getPanji')->name('quickservice.getPanji');
+  Route::get('/get-panji/{language}', 'getPanji')->name('quickservice.getPanji');
   Route::get('/darshan-list','getDarshanListApi');
 });
 
