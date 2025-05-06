@@ -196,7 +196,7 @@ public function startNiti(Request $request)
 
         $now = Carbon::now('Asia/Kolkata');
 
-        $latestNews = TempleNews::orderBy('created_at', 'desc')->first();
+        $latestNews = TempleNews::orderBy('created_at', 'desc')->where('type','information')->first();
 
         // ✅ Fetch NitiMaster and its day_id
         $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
@@ -524,7 +524,7 @@ public function stopNiti(Request $request)
         $tz = 'Asia/Kolkata';
         $now = Carbon::now($tz);
 
-        $latestNews = TempleNews::orderBy('created_at', 'desc')->first();
+        $latestNews = TempleNews::orderBy('created_at', 'desc')->where('type','information')->first();
 
         // ✅ Get day_id from NitiMaster
         $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
