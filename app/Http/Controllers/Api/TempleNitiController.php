@@ -196,6 +196,8 @@ public function startNiti(Request $request)
 
         $now = Carbon::now('Asia/Kolkata');
 
+        $latestNews = TempleNews::orderBy('created_at', 'desc')->first();
+
         // ✅ Fetch NitiMaster and its day_id
         $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
         
@@ -239,6 +241,7 @@ public function startNiti(Request $request)
 
         // ✅ Update NitiMaster status
         $nitiMaster->update(['niti_status' => 'Started']);
+        $latestNews->update(['niti_notice_status' => 'Completed']);
 
         // ✅ Step 2: Start Darshan if linked
         $darshanLog = null;
@@ -521,6 +524,8 @@ public function stopNiti(Request $request)
         $tz = 'Asia/Kolkata';
         $now = Carbon::now($tz);
 
+        $latestNews = TempleNews::orderBy('created_at', 'desc')->first();
+
         // ✅ Get day_id from NitiMaster
         $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
 
@@ -578,6 +583,9 @@ public function stopNiti(Request $request)
         $nitiMaster->update([
             'niti_status' => 'Completed'
         ]);
+
+        $latestNews->update(['niti_notice_status' => 'Completed']);
+
 
         // ✅ Stop interconnected Darshan (if any)
         $darshanCompleted = null;
