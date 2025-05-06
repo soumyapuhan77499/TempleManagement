@@ -38,9 +38,9 @@ class QuickServiceController extends Controller
     
             $parkings = Parking::where('temple_id', $templeId)
                 ->where('status', 'active')
+                ->where('language', $request->language)
                 ->get()
                 ->map(function ($parking) {
-                    // Prefix the parking_photo with the base URL
                     if ($parking->parking_photo) {
                         $parking->parking_photo = 'http://temple.mandirparikrama.com/' . ltrim($parking->parking_photo, '/');
                     }
@@ -78,6 +78,7 @@ class QuickServiceController extends Controller
     
             $accomodations = Accomodation::where('temple_id', $templeId)
                 ->where('status', 'active')
+                ->where('language', $request->language)
                 ->get()
                 ->map(function ($accomodation) {
                     // Decode the photo JSON string
@@ -131,6 +132,7 @@ class QuickServiceController extends Controller
     
             $commutes = CommuteMode::where('temple_id', $templeId)
                 ->where('status', 'active')
+                ->where('language', $request->language)
                 ->get()
                 ->map(function ($commute) {
                     // Decode photo array if it's stored as JSON string
@@ -208,6 +210,7 @@ class QuickServiceController extends Controller
 
             $services = PublicServices::where('temple_id', $templeId)
                 ->where('status', 'active')
+                ->where('language', $request->language)
                 ->get()
                 ->map(function ($service) {
                     $photoArray = json_decode($service->photo, true);
@@ -247,16 +250,16 @@ class QuickServiceController extends Controller
     public function getTemplePrasadList()
     {
         try {
-    $nitiMaster = NitiMaster::where('status', 'active')->latest()->first();
+            $nitiMaster = NitiMaster::where('status', 'active')->latest()->first();
 
-    if (!$nitiMaster || !$nitiMaster->day_id) {
-        return response()->json([
-            'status' => false,
-            'message' => 'Niti not found or day_id missing.'
-        ], 404);
-    }
+            if (!$nitiMaster || !$nitiMaster->day_id) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Niti not found or day_id missing.'
+                ], 404);
+            }
 
-    $dayId = $nitiMaster->day_id;
+            $dayId = $nitiMaster->day_id;
             // Step 1: Get all Prasad master records
             $prasads = TemplePrasad::where('language','Odia')->get();
 
@@ -264,8 +267,9 @@ class QuickServiceController extends Controller
             $prasadList = $prasads->map(function ($prasad) use ($dayId) {
                 $todayLog = PrasadManagement::where('prasad_id', $prasad->id)
                 ->where('day_id', $dayId)
-                    ->latest()
-                    ->first();
+                ->where('language', $request->language)
+                ->latest()
+                ->first();
 
                 return [
                     'prasad_id'     => $prasad->id,
@@ -299,25 +303,26 @@ class QuickServiceController extends Controller
             ], 500);
         }
     }
+
     public function getPanji(Request $request)
     {
         try {
             $request->validate([
                 'date' => 'required|date'
             ]);
-    
+
             // Fetch English data
             $englishEvents = PanjiDetails::where('status', 'active')
-                ->where('language', 'English')
-                ->whereDate('date', $request->date)
-                ->get();
-    
+            ->where('language', $request->language)
+            ->whereDate('date', $request->date)
+            ->get();
+
             // Fetch Odia data
             $odiaEvents = PanjiDetails::where('status', 'active')
                 ->where('language', 'Odia')
                 ->whereDate('date', $request->date)
                 ->get();
-    
+
             return response()->json([
                 'status' => true,
                 'message' => 'Panji details fetched successfully.',
@@ -328,7 +333,7 @@ class QuickServiceController extends Controller
             ], 200);
         } catch (\Exception $e) {
             Log::error('Error fetching Panji details: ' . $e->getMessage());
-    
+
             return response()->json([
                 'status' => false,
                 'message' => 'Something went wrong while fetching Panji details.',
@@ -337,96 +342,96 @@ class QuickServiceController extends Controller
         }
     }
 
-public function getDarshan()
-{
-    try {
-        $templeId = 'TEMPLE25402';
+    public function getDarshan()
+    {
+        try {
+            $templeId = 'TEMPLE25402';
 
-        $darshans = TempleDarshan::where('status', 'active')
-            ->where('temple_id', $templeId)
-            ->get();
+            $darshans = TempleDarshan::where('status', 'active')
+                ->where('temple_id', $templeId)
+                ->get();
 
-        // Map through the darshans to update the image path
-        $darshans = $darshans->map(function ($darshan) {
-            // Prepend the full URL to the darshan image path
-            $darshan->darshan_image = url($darshan->darshan_image);
-            return $darshan;
-        });
+            // Map through the darshans to update the image path
+            $darshans = $darshans->map(function ($darshan) {
+                // Prepend the full URL to the darshan image path
+                $darshan->darshan_image = url($darshan->darshan_image);
+                return $darshan;
+            });
 
-        // Group darshans by darshan_day
-        $groupedDarshans = $darshans->groupBy('darshan_day');
+            // Group darshans by darshan_day
+            $groupedDarshans = $darshans->groupBy('darshan_day');
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Darshan details fetched successfully.',
-            'data' => [
-                'groupedDarshans' => $groupedDarshans,
-            ]
-        ], 200);
+            return response()->json([
+                'status' => true,
+                'message' => 'Darshan details fetched successfully.',
+                'data' => [
+                    'groupedDarshans' => $groupedDarshans,
+                ]
+            ], 200);
 
-    } catch (\Exception $e) {
-        Log::error('Error fetching Darshan details: ' . $e->getMessage());
+        } catch (\Exception $e) {
+            Log::error('Error fetching Darshan details: ' . $e->getMessage());
 
-        return response()->json([
-            'status' => false,
-            'message' => 'Something went wrong while fetching Darshan details.',
-        ], 500);
-    }
-}
-
-public function getDarshanListApi()
-{
-    try {
-
-        $nitiMaster = NitiMaster::where('status', 'active')->latest()->first();
-
-        if (!$nitiMaster || !$nitiMaster->day_id) {
             return response()->json([
                 'status' => false,
-                'message' => 'Niti not found or day_id missing.'
-            ], 404);
+                'message' => 'Something went wrong while fetching Darshan details.',
+            ], 500);
         }
-
-        $dayId = $nitiMaster->day_id;
-
-        // Step 1: Fetch all active darshans
-        $darshans = DarshanDetails::where('status', 'active')->where('language','Odia')->get();
-
-        // Step 2: Append today’s management data (if available)
-        $darshanList = $darshans->map(function ($darshan) use ($dayId) {
-            $todayLog = DarshanManagement::where('darshan_id', $darshan->id)
-            ->where('day_id', $dayId)
-            ->latest()
-                ->first();
-
-            return [
-                'darshan_id'     => $darshan->id,
-                'darshan_name'   => $darshan->darshan_name,
-                'english_darshan_name'   => $darshan->english_darshan_name,
-                'darshan_type'   => $darshan->darshan_type,
-                'description'    => $darshan->description,
-                'darshan_status' => $darshan->darshan_status ?? null,
-                'start_time'     => $todayLog->start_time ?? null,
-                'end_time'       => $todayLog->end_time ?? null,
-                'duration'       => $todayLog->duration ?? null,
-                'date'           => $todayLog->date ?? null,
-            ];
-        });
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Darshan list fetched successfully.',
-            'data' => $darshanList
-        ], 200);
-
-
-    } catch (\Exception $e) {
-        return response()->json([
-            'status' => false,
-            'message' => 'Failed to fetch darshan list',
-            'error' => $e->getMessage()
-        ], 500);
     }
-}
+
+    public function getDarshanListApi()
+    {
+        try {
+
+            $nitiMaster = NitiMaster::where('status', 'active')->latest()->first();
+
+            if (!$nitiMaster || !$nitiMaster->day_id) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Niti not found or day_id missing.'
+                ], 404);
+            }
+
+            $dayId = $nitiMaster->day_id;
+
+            // Step 1: Fetch all active darshans
+            $darshans = DarshanDetails::where('status', 'active')->where('language','Odia')->get();
+
+            // Step 2: Append today’s management data (if available)
+            $darshanList = $darshans->map(function ($darshan) use ($dayId) {
+                $todayLog = DarshanManagement::where('darshan_id', $darshan->id)
+                ->where('day_id', $dayId)
+                ->latest()
+                    ->first();
+
+                return [
+                    'darshan_id'     => $darshan->id,
+                    'darshan_name'   => $darshan->darshan_name,
+                    'english_darshan_name'   => $darshan->english_darshan_name,
+                    'darshan_type'   => $darshan->darshan_type,
+                    'description'    => $darshan->description,
+                    'darshan_status' => $darshan->darshan_status ?? null,
+                    'start_time'     => $todayLog->start_time ?? null,
+                    'end_time'       => $todayLog->end_time ?? null,
+                    'duration'       => $todayLog->duration ?? null,
+                    'date'           => $todayLog->date ?? null,
+                ];
+            });
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Darshan list fetched successfully.',
+                'data' => $darshanList
+            ], 200);
+
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to fetch darshan list',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 
 }

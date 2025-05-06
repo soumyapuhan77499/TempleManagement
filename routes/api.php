@@ -247,7 +247,7 @@ Route::controller(TempleInformationController::class)->group(function() {
 });
 
 Route::controller(QuickServiceController::class)->group(function() {
-  Route::get('/get-parking', 'getParkingList')->name('quickservice.getParkingList');
+  Route::get('/get-parking/{language}', 'getParkingList')->name('quickservice.getParkingList');
   Route::get('/get-accomodation', 'getAccomodationList')->name('quickservice.getAccomodation');
   Route::get('/get-commute', 'getCommuteList')->name('quickservice.getCommute');
   Route::get('/get-emergency', 'getEmergencyContacts')->name('quickservice.getEmergencyContacts');
