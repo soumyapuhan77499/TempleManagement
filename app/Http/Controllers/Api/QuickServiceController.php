@@ -307,13 +307,6 @@ class QuickServiceController extends Controller
     public function getPanji($language, $date)
     {
         try {
-            // Validate the date manually (since not using Request validation here)
-            if (!strtotime($date)) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Invalid date format.',
-                ], 400);
-            }
     
             // Fetch matching Panji records
             $Events = PanjiDetails::where('status', 'active')
