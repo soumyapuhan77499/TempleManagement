@@ -33,76 +33,74 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="service-grid">
-            @foreach ($bhaktaNibas as $item)
-                <div class="service-card-bhakta">
-                    <h5>{{ $item->name }}</h5>
-                    @php
-                        $photoArray = json_decode($item->photo, true);
-                    @endphp
+    <div class="service-card-bhakta">
+        <h5>{{ $item->name }}</h5>
+        @php
+            $photoArray = json_decode($item->photo, true);
+            $firstPhoto = $photoArray[0] ?? null;
+        @endphp
     
-                    {{-- Thumbnail Gallery --}}
-                    <div class="image-gallery">
-                        <div class="thumbnails">
-                            @foreach ($photoArray as $index => $photo)
-                                <img src="{{ asset($photo) }}" alt="Image {{ $index + 1 }}" onclick="showFullImage('{{ asset($photo) }}')" />
-                            @endforeach
-                        </div>
-                        <div class="full-image" id="fullImageContainer" style="display:none;">
-                            <span class="close-btn" onclick="closeFullImage()">×</span>
-                            <img id="fullImage" src="" alt="Full Image" />
-                        </div>
-                    </div>
+        {{-- Main Image Display --}}
+        <div class="main-image-wrapper">
+            <img id="mainImage-{{ $loop->index }}" class="main-image" src="{{ asset($firstPhoto) }}" alt="Main Image">
+        </div>
     
-                    {{-- Info Block --}}
-                    <div class="service-info" style="display: flex; justify-content: space-between;">
-                        <div>
-                            <div class="info-line">
-                                <span class="icon">📍</span>
-                                {{ $item->landmark ? $item->landmark . ', ' : '' }}
-                                {{ $item->city_village ? $item->city_village . ', ' : '' }}
-                            </div>
-    
-                            <div class="info-line">
-                                <span class="icon">⏰</span> Check In: {{ $item->check_in_time ?? 'N/A' }} | Out:
-                                {{ $item->check_out_time ?? 'N/A' }}
-                            </div>
-    
-                            <div class="info-line">
-                                <span class="icon">📞</span> {{ $item->contact_no ?? 'Not Available' }}
-                            </div>
-    
-                            @if ($item->google_map_link)
-                                <div class="info-line">
-                                    <span class="icon">🗺️</span>
-                                    <a class="btn btn-info btn-sm" style="color:white" href="{{ $item->google_map_link }}" target="_blank">View Map</a>
-                                </div>
-                            @endif
-                        </div>
-    
-                        <div style="margin-top: 87px;">
-                            <a href="tel:{{ $item->contact_no }}">
-                                <button class="booking-btn">Call to Book</button>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+        {{-- Thumbnails --}}
+        <div class="thumbnail-row">
+            @foreach ($photoArray as $index => $photo)
+                <img 
+                    src="{{ asset($photo) }}" 
+                    alt="Thumb {{ $index + 1 }}" 
+                    class="thumb-image" 
+                    onclick="updateMainImage('{{ asset($photo) }}', {{ $loop->index }})"
+                />
             @endforeach
+        </div>
+    
+        {{-- Info Block --}}
+        <div class="service-info" style="display: flex; justify-content: space-between;">
+            <div>
+                <div class="info-line">
+                    <span class="icon">📍</span>
+                    {{ $item->landmark ? $item->landmark . ', ' : '' }}
+                    {{ $item->city_village ? $item->city_village . ', ' : '' }}
+                </div>
+    
+                <div class="info-line">
+                    <span class="icon">⏰</span> Check In: {{ $item->check_in_time ?? 'N/A' }} | Out:
+                    {{ $item->check_out_time ?? 'N/A' }}
+                </div>
+    
+                <div class="info-line">
+                    <span class="icon">📞</span> {{ $item->contact_no ?? 'Not Available' }}
+                </div>
+    
+                @if ($item->google_map_link)
+                    <div class="info-line">
+                        <span class="icon">🗺️</span>
+                        <a class="btn btn-info btn-sm" style="color:white" href="{{ $item->google_map_link }}" target="_blank">View Map</a>
+                    </div>
+                @endif
+            </div>
+    
+            <div style="margin-top: 87px;">
+                <a href="tel:{{ $item->contact_no }}">
+                    <button class="booking-btn">Call to Book</button>
+                </a>
+            </div>
         </div>
     </div>
     
     <script>
-        function showFullImage(src) {
-            document.getElementById('fullImage').src = src;
-            document.getElementById('fullImageContainer').style.display = 'flex';
-        }
-        
-        function closeFullImage() {
-            document.getElementById('fullImageContainer').style.display = 'none';
+        function updateMainImage(src, index) {
+            const mainImg = document.getElementById('mainImage-' + index);
+            if (mainImg) {
+                mainImg.src = src;
+            }
         }
         </script>
-        
+            
+
 </body>
 
 </html>
