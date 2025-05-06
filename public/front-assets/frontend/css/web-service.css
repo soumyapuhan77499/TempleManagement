@@ -18,7 +18,6 @@ body {
     padding: 5px 10px;
 }
 
-
 .header-content {
     margin-top: -25px;
     display: flex;
@@ -31,7 +30,6 @@ body {
     display: flex;
     align-items: center;
     margin-left: -70px;
-    
 }
 
 .logo img {
@@ -78,13 +76,6 @@ body {
     font-weight: 500;
 }
 
-.live-badge {
-    background: red;
-    color: white;
-    border-radius: 15px;
-    font-weight: bold;
-}
-
 .hamburger-menu {
     display: flex;
     flex-direction: column;
@@ -116,7 +107,6 @@ body {
     height: 100%;
     background-color: #98321d;
     opacity: 0.8;
-    /* control the color strength */
     z-index: 1;
 }
 
@@ -158,6 +148,7 @@ body {
     font-size: 20px;
     margin-bottom: 0;
 }
+
 .live-badges {
     background: linear-gradient(90deg, rgba(211,25,30,1), rgba(247, 180, 86, 0.736) 97%);
     color: white;
@@ -165,11 +156,10 @@ body {
     font-weight: bold;
     padding: 5px 10px;
     margin-left: 10px;
-
 }
 
 .live-badges .fa-bolt {
-    height: 12px; /* Adjust icon size */
+    height: 12px;
     width: 12px;
     margin-right: 5px;
 }
@@ -226,15 +216,7 @@ body {
     justify-content: space-between;
 }
 
-.service-card {
-    width: 100%;
-    max-width: 30%;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    padding-bottom: 20px;
-}
-
-
+.service-card,
 .service-card-bhakta {
     width: 100%;
     max-width: 47%;
@@ -243,13 +225,7 @@ body {
     padding-bottom: 20px;
 }
 
-.service-card h5 {
-    font-weight: 400;
-    color: #3e1d6e;
-    margin: 12px 0;
-    font-size: 16px;
-}
-
+.service-card h5,
 .service-card-bhakta h5 {
     font-weight: 400;
     color: #3e1d6e;
@@ -257,13 +233,13 @@ body {
     font-size: 16px;
 }
 
-.service-card img {
+.service-card img,
+.service-card-bhakta img {
     width: 100%;
     border-radius: 10px;
     object-fit: cover;
     height: 230px;
 }
-
 
 .service-info {
     padding: 0 10px;
@@ -283,13 +259,13 @@ body {
 }
 
 .availability.green {
-    color: #0aaf4c;
-    font-weight: 500;
+    color: green;
+    font-weight: bold;
 }
 
 .availability.red {
-    color: #e61e42;
-    font-weight: 500;
+    color: red;
+    font-weight: bold;
 }
 
 .booking-btn {
@@ -310,15 +286,7 @@ body {
     color: white;
 }
 
-.availability.green {
-    color: green;
-    font-weight: bold;
-}
-.availability.red {
-    color: red;
-    font-weight: bold;
-}
-
+/* ✅ Image Section and Thumbnails */
 .image-section {
     width: 100%;
     height: auto;
@@ -356,13 +324,7 @@ body {
     border-color: #98321d;
 }
 
-
-@media (max-width: 992px) {
-    .service-card {
-        max-width: 48%;
-    }
-}
-
+/* ✅ Responsive */
 @media (max-width: 992px) {
     .service-card {
         max-width: 48%;
@@ -373,8 +335,16 @@ body {
     .service-card {
         max-width: 100%;
     }
-}
 
+    .main-display-image {
+        height: 180px;
+    }
+
+    .thumbnail {
+        width: 60px;
+        height: 50px;
+    }
+}
 
 @media (max-width: 768px) {
     .hero-content {
