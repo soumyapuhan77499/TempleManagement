@@ -37,20 +37,20 @@ class WebsiteBannerController extends Controller
             $activeNitiIds = NitiMaster::whereIn('niti_status', ['Started', 'Paused'])->pluck('niti_id');
     
             $runningSubNitis = TempleSubNitiManagement::where(function ($query) {
-                $query->where('status', 'Running')
-                      ->orWhere('status', '!=', 'Deleted');
+            $query->where('status', 'Running')
+            ->orWhere('status', '!=', 'Deleted');
             })
             ->where('day_id', $latestDayId)
             ->whereIn('niti_id', $activeNitiIds)
             ->get();
-    
+
             $dailyNitis = NitiMaster::where('status', 'active')
                 ->where('niti_type', 'daily')
                 ->where('language', 'Odia')
                 ->where('niti_privacy', 'public')
                 ->orderBy('niti_order', 'asc')
                 ->get();
-    
+
             $specialNitisGrouped = NitiMaster::where('status', 'active')
                 ->where('niti_type', 'special')
                 ->where('language', 'Odia')
@@ -159,10 +159,9 @@ class WebsiteBannerController extends Controller
             }
 
             $nitiInfo = TempleNews::where('type', 'information')
-            ->where('type','information')
-            ->where('status','active')
+            ->where('niti_notice_status','Started')
             ->orderBy('created_at', 'desc')
-            ->get(['id', 'niti_notice', 'status'])
+            ->get(['id', 'niti_notice','created_at'])
             ->first();
 
             $banners = TempleBanner::where('temple_id', $templeId)
@@ -198,6 +197,4 @@ class WebsiteBannerController extends Controller
             ], 500);
         }
     }
-    
-
 }
