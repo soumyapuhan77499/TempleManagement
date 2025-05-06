@@ -36,27 +36,29 @@
     <div class="container">
         <div class="service-grid">
             @foreach ($bhaktaNibas as $item)
+                @php
+                    $photoArray = json_decode($item->photo, true);
+                    $firstPhoto = $photoArray[0] ?? null;
+                @endphp
+    
                 <div class="service-card-bhakta">
                     <h5>{{ $item->name }}</h5>
-                    @php
-                        $photoArray = json_decode($item->photo, true);
-                        $firstPhoto = $photoArray[0] ?? null;
-                    @endphp
-
-                    {{-- Main Image Display --}}
-                    <div class="main-image-wrapper">
-                        <img id="mainImage-{{ $loop->index }}" class="main-image" src="{{ asset($firstPhoto) }}"
-                            alt="Main Image">
+    
+                    {{-- Large Main Image --}}
+                    <div class="image-section">
+                        <img id="mainImage-{{ $loop->index }}" class="main-display-image" src="{{ asset($firstPhoto) }}" alt="Main Image">
                     </div>
-
-                    {{-- Thumbnails --}}
-                    <div class="thumbnail-row">
+    
+                    {{-- Thumbnails Row --}}
+                    <div class="thumbnail-section">
                         @foreach ($photoArray as $index => $photo)
-                            <img src="{{ asset($photo) }}" alt="Thumb {{ $index + 1 }}" class="thumb-image"
-                                onclick="updateMainImage('{{ asset($photo) }}', {{ $loop->index }})" />
+                            <img src="{{ asset($photo) }}"
+                                 class="thumbnail"
+                                 onclick="updateMainImage('{{ asset($photo) }}', {{ $loop->parent->index }})"
+                                 alt="Thumbnail {{ $index + 1 }}">
                         @endforeach
                     </div>
-
+    
                     {{-- Info Block --}}
                     <div class="service-info" style="display: flex; justify-content: space-between;">
                         <div>
@@ -65,25 +67,23 @@
                                 {{ $item->landmark ? $item->landmark . ', ' : '' }}
                                 {{ $item->city_village ? $item->city_village . ', ' : '' }}
                             </div>
-
+    
                             <div class="info-line">
-                                <span class="icon">⏰</span> Check In: {{ $item->check_in_time ?? 'N/A' }} | Out:
-                                {{ $item->check_out_time ?? 'N/A' }}
+                                <span class="icon">⏰</span> Check In: {{ $item->check_in_time ?? 'N/A' }} | Out: {{ $item->check_out_time ?? 'N/A' }}
                             </div>
-
+    
                             <div class="info-line">
                                 <span class="icon">📞</span> {{ $item->contact_no ?? 'Not Available' }}
                             </div>
-
+    
                             @if ($item->google_map_link)
                                 <div class="info-line">
                                     <span class="icon">🗺️</span>
-                                    <a class="btn btn-info btn-sm" style="color:white"
-                                        href="{{ $item->google_map_link }}" target="_blank">View Map</a>
+                                    <a class="btn btn-info btn-sm" style="color:white" href="{{ $item->google_map_link }}" target="_blank">View Map</a>
                                 </div>
                             @endif
                         </div>
-
+    
                         <div style="margin-top: 87px;">
                             <a href="tel:{{ $item->contact_no }}">
                                 <button class="booking-btn">Call to Book</button>
@@ -94,7 +94,7 @@
             @endforeach
         </div>
     </div>
-
+    
     <script>
         function updateMainImage(src, index) {
             const mainImg = document.getElementById('mainImage-' + index);

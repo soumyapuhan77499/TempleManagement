@@ -327,40 +327,40 @@ body {
     font-weight: bold;
 }
 
-.main-image-wrapper {
+.image-section {
     width: 100%;
     height: auto;
-    border-radius: 10px;
-    overflow: hidden;
     margin-bottom: 10px;
 }
 
-.main-image {
+.main-display-image {
     width: 100%;
     height: 230px;
     object-fit: cover;
     border-radius: 10px;
-    transition: 0.3s ease;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
 }
 
-.thumbnail-row {
+.thumbnail-section {
     display: flex;
-    gap: 8px;
+    gap: 10px;
+    margin-bottom: 15px;
     overflow-x: auto;
     padding-bottom: 10px;
 }
 
-.thumb-image {
+.thumbnail {
     width: 70px;
     height: 60px;
     object-fit: cover;
     border: 2px solid #ccc;
     border-radius: 6px;
     cursor: pointer;
-    transition: 0.2s;
+    transition: 0.2s ease;
 }
 
-.thumb-image:hover {
+.thumbnail:hover {
     border-color: #98321d;
 }
 
