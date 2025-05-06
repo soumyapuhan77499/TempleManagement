@@ -253,7 +253,7 @@ Route::controller(QuickServiceController::class)->group(function() {
   Route::get('/get-emergency/{language}', 'getEmergencyContacts')->name('quickservice.getEmergencyContacts');
   Route::get('/get-all-service-list/{language}', 'getPublicServiceList')->name('quickservice.getPublicServiceList');
   Route::get('/get-maha-prasad', 'getTemplePrasadList')->name('quickservice.getTemplePrasadList');
-  Route::get('/get-panji/{language}', 'getPanji')->name('quickservice.getPanji');
+  Route::get('/get-panji/{language}/{date}', 'getPanji')->name('quickservice.getPanji');
   Route::get('/darshan-list','getDarshanListApi');
 });
 

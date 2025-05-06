@@ -304,36 +304,33 @@ class QuickServiceController extends Controller
         }
     }
 
-    public function getPanji(Request $request)
+    public function getPanji($language, $date)
     {
         try {
-            $request->validate([
-                'date' => 'required|date'
-            ]);
-
-            // Fetch English data
-            $englishEvents = PanjiDetails::where('status', 'active')
-            ->where('language', $request->language)
-            ->whereDate('date', $request->date)
-            ->get();
-
-            // Fetch Odia data
-            $odiaEvents = PanjiDetails::where('status', 'active')
-                ->where('language', 'Odia')
-                ->whereDate('date', $request->date)
+            // Validate the date manually (since not using Request validation here)
+            if (!strtotime($date)) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Invalid date format.',
+                ], 400);
+            }
+    
+            // Fetch matching Panji records
+            $Events = PanjiDetails::where('status', 'active')
+                ->where('language', $language)
+                ->whereDate('date', $date)
                 ->get();
-
+    
             return response()->json([
                 'status' => true,
                 'message' => 'Panji details fetched successfully.',
                 'data' => [
-                    'English' => $englishEvents,
-                    'Odia' => $odiaEvents,
+                    'Events' => $Events,
                 ],
             ], 200);
         } catch (\Exception $e) {
-            Log::error('Error fetching Panji details: ' . $e->getMessage());
-
+            \Log::error('Error fetching Panji details: ' . $e->getMessage());
+    
             return response()->json([
                 'status' => false,
                 'message' => 'Something went wrong while fetching Panji details.',
@@ -341,6 +338,7 @@ class QuickServiceController extends Controller
             ], 500);
         }
     }
+    
 
     public function getDarshan()
     {
