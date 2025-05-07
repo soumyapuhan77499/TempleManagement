@@ -45,7 +45,7 @@
                     <h5>{{ $item->name }}</h5>
     
                     {{-- Large Main Image --}}
-                    <div class="image-section" style="width: 100%; height: 300px; overflow: hidden;">
+                    <div class="image-section" style="width: 100%; height: 237px; overflow: hidden;">
                         <img id="mainImage-{{ $loop->index }}" class="main-display-image" src="{{ asset($firstPhoto) }}" alt="Main Image">
                     </div>
     
