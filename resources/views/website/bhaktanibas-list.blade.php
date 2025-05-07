@@ -50,7 +50,7 @@
                     </div>
     
                     {{-- Thumbnails Row --}}
-                    <div class="thumbnail-section"  style="width: 50px; height: 50px;>
+                    <div class="thumbnail-section">
                         @foreach ($photoArray as $index => $photo)
                             <img src="{{ asset($photo) }}"
                                  class="thumbnail"
