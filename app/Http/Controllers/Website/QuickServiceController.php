@@ -65,7 +65,7 @@ public function parkingList()
 {
     $templeId = 'TEMPLE25402';
 
-    $parking = Parking::where('temple_id', $templeId)->where('status','active')->get();
+    $parking = Parking::where('temple_id', $templeId)->where('status','active')->where('language','English')->get();
 
     return view('website.parking-list', compact('parking'));
 }
@@ -90,6 +90,7 @@ public function lockerShoeList()
     $services = PublicServices::where('temple_id', $templeId)
         ->whereIn('service_type', ['locker', 'shoe_stand'])
         ->where('status', 'active')
+        ->where('language','English')
         ->get();
 
     return view('website.locker-shoe-list', compact('services'));
@@ -133,7 +134,7 @@ public function getDarshanList()
 
 public function viewNearByTemple($id)
 {
-    $temple = NearByTemple::findOrFail($id);
+    $temple = NearByTemple::where('language','English')->findOrFail($id);
 
     return view('website.view-near-by-temple', compact('temple'));
 }
@@ -143,6 +144,7 @@ public function showByServiceType($service_type)
     // Fetch services matching the clicked type
     $services = PublicServices::where('service_type', $service_type)
                 ->where('status', 'active') // Only active services
+                ->where('language','English')
                 ->get();
 
     return view('website.temple-convience', compact('services', 'service_type'));
@@ -152,7 +154,7 @@ public function viewPanji()
 {
     $todayDate = Carbon::today()->toDateString();
 
-    $todayPanji = PanjiDetails::where('date', $todayDate)->where('status', 'active')->first();
+    $todayPanji = PanjiDetails::where('date', $todayDate)->where('status', 'active')->where('language','English')->first();
 
     return view('website.view-panji-details', compact('todayPanji'));  
 } 
