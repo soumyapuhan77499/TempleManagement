@@ -297,7 +297,7 @@ body {
 .thumbnail-section {
     display: flex;
     flex-wrap: nowrap; /* ensures they stay in a row */
-    gap: 10px;
+    gap: 20px;
     overflow-x: auto;
     overflow-y: hidden;
     padding: 10px 0;
