@@ -9,6 +9,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/bootstrap.min.css') }}">
 
+    <style>
+        .service-card img,
+        .service-card-bhakta img {
+            width: 100%;
+            border-radius: 10px;
+            object-fit: cover;
+            height: 270px;
+        }
+    </style>
+
 </head>
 
 <body>
