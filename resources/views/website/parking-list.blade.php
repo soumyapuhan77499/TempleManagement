@@ -14,7 +14,7 @@
             width: 100%;
             border-radius: 10px;
             object-fit: cover;
-            height: 230px;
+            height: 270px;
         }
     </style>
 </head>
