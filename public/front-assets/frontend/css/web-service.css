@@ -233,13 +233,6 @@ body {
     font-size: 16px;
 }
 
-.service-card img,
-.service-card-bhakta img {
-    width: 60px;
-    border-radius: 10px;
-    object-fit: cover;
-}
-
 .service-info {
     padding: 0 10px;
 }
