@@ -134,9 +134,7 @@ public function getDarshanList()
 
 public function viewNearByTemple($id)
 {
-    $temple = NearByTemple::where('id', $id)
-                          ->where('language', 'English')
-                          ->firstOrFail();
+    $temple = NearByTemple::findOrFail($id);
 
     return view('website.view-near-by-temple', compact('temple'));
 }
