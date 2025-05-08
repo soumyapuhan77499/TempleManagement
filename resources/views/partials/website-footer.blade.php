@@ -65,8 +65,8 @@
     </div>
 </footer>
 
-<div style="height: 80px;width: 100%; background-color: #ffae35;">
-    <div class="text-center text-sm text-gray-400 mt-10 mb-6">
+<div style="height: 80px;width: 100%; background-color: #ffae35;display: flex;align-items: center;justify-content: center;">
+    <div class="text-center text-sm text-black-400 mt-10 mb-6">
         © {{ date('Y') }} Temple Management System. All rights reserved.
     </div>
 </div>
