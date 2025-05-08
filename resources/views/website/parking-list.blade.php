@@ -73,6 +73,8 @@
         </div>
     </div>
 
+    @include('partials.website-footer')
+
 </body>
 
 </html>

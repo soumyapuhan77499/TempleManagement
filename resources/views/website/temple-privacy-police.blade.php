@@ -95,6 +95,8 @@
         <h3>For Queries</h3>
         <p>If you have any questions or concerns about your privacy, contact us at <a href="mailto:jagannath.or@nic.in">jagannath.or@nic.in</a></p>
     </section>
+
+    
 </body>
 
 </html>

@@ -331,6 +331,7 @@
         @endforeach
     </div>
 
+    @include('partials.website-footer')
 
 
 </body>

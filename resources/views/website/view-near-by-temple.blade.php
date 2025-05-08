@@ -405,10 +405,7 @@
         </div>
     </section>
 
-
-    <div class="timeline-footer">
-        © {{ date('Y') }} Temple Management System. All rights reserved.
-    </div>
+    @include('partials.website-footer')
 
     <script>
         function showTab(evt, tabId) {

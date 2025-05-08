@@ -45,7 +45,7 @@
 
 
     <section class="hero">
-        
+
         <img class="hero-bg" src="{{ asset('website/parking.jpeg') }}" alt="Mandir Background" />
         <div class="hero-overlay"></div>
         <div class="hero-content">
@@ -85,7 +85,8 @@
                     <!-- Today Occasion Header -->
                     <div class="flex justify-center items-center gap-5 mt-12">
                         <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-25 h-4">
-                        <h2 class="text-md text-[#db4d30] font-bold font-sans tracking-wide uppercase">Today Occasion</h2>
+                        <h2 class="text-md text-[#db4d30] font-bold font-sans tracking-wide uppercase">Today Occasion
+                        </h2>
                         <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-25 h-4">
                     </div>
 
@@ -156,6 +157,7 @@
         </div>
     </section>
 
+    @include('partials.website-footer')
 
     <!-- Calendar Script -->
     <script>
@@ -213,7 +215,7 @@
 
                         const selectedDay = this.getAttribute("data-day");
                         const selectedDate = formatDate(year, month + 1,
-                        selectedDay); // month+1 because JS month starts from 0
+                            selectedDay); // month+1 because JS month starts from 0
                         loadPanjiDetails(selectedDate); // 👈 load panji event on date click
                     });
                 });
@@ -279,11 +281,11 @@
                             <p class="text-gray-800">Sunset: <span class="font-medium">${data.sun_set ?? '-'}</span></p>
                         </div>
                         ${data.description ? `
-                            <hr class="border-dashed border-gray-300 my-4">
-                            <div class="flex items-start gap-3">
-                                <i class="fas fa-info-circle text-gray-600 mt-1 w-5 h-5"></i>
-                                <p class="text-gray-800">${data.description}</p>
-                            </div>` : ''}
+                                <hr class="border-dashed border-gray-300 my-4">
+                                <div class="flex items-start gap-3">
+                                    <i class="fas fa-info-circle text-gray-600 mt-1 w-5 h-5"></i>
+                                    <p class="text-gray-800">${data.description}</p>
+                                </div>` : ''}
                     `;
                         } else {
                             panjiContent.innerHTML =

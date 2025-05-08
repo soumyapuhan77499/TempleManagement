@@ -654,9 +654,8 @@
         </div>
     </section>
 
-    <div class="text-center text-sm text-gray-400 mt-10 mb-6">
-        © {{ date('Y') }} Temple Management System. All rights reserved.
-    </div>
+    @include('partials.website-footer')
+
 </body>
 
 </html>

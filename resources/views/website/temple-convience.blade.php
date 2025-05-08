@@ -256,6 +256,9 @@
         </div>
     </div>
 
+    @include('partials.website-footer')
+
+
 
     <script>
         function openModal(id) {

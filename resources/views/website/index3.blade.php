@@ -33,13 +33,14 @@
             <div class="nav-close"><i class="fa fa-times"></i></div>
             <ul>
                 <li><a href="#">Nitis</a></li>
-                <li>
+                {{-- <li>
                     <a href="#">SM <span class="live-badges"><i class="fa fa-bolt"></i> Live</span></a>
-                </li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Nearby Temples</a></li>
-                <li><a href="#">Conveniences</a></li>
-                <li><a href="#">Temple Information</a></li>
+                </li> --}}
+                <li><a href="#services">Services</a></li>
+                <li><a href="#temple-slider">Nearby Temples</a></li>
+                <li><a href="#convience">Conveniences</a></li>
+                <li><a href="#panji">Panji</a></li>
+                {{-- <li><a href="#">Temple Information</a></li> --}}
             </ul>
         </nav>
 
@@ -284,7 +285,7 @@
         </div>
     </section> --}}
 
-    <section class="services-section py-10 ">
+    <section class="services-section py-10 " id="services">
         <!-- Section Title -->
         <div class="text-center mb-14">
             <div class="flex justify-center items-center gap-5 mt-12">
@@ -463,7 +464,7 @@
 
     </section>
 
-    <section class="temple-slider bg-white  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
+    <section class="temple-slider bg-white  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100" id="temple-slider">
         <div class="flex justify-center items-center gap-5 mt-12">
             <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
             <h2 class="text-xl text-[#db4d30] font-semi-bold">Nearby Temples</h2>
@@ -498,7 +499,7 @@
         </div>
     </section>
 
-    <section class="temple-convenience">
+    <section class="temple-convenience" id="convience">
 
         <div class="flex justify-center items-center gap-5">
             <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
@@ -583,7 +584,7 @@
         </div>
     </section>
 
-    <section class="bg-100 p-10  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
+    <section class="bg-100 p-10  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100" id="panji">
         <div class="max-w-6xl mx-auto">
             <!-- Header -->
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0">
