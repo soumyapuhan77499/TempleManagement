@@ -16,9 +16,9 @@
             <img src="{{ asset('website/d.png') }}" alt="Default Banner" style="width: 100%;">
         @endif
 
-        <div class="logo">
+        <a href="{{ url('/') }}"  class="logo">
             <img src="{{ asset('website/logo.png') }}" alt="logo">
-        </div>
+        </a>
         <!-- Hamburger Icon -->
         <div class="hamburger-icon">
             <div class="hamburger-menu">

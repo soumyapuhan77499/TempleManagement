@@ -1177,7 +1177,8 @@ public function storeByNoticeName(Request $request)
         $news = TempleNews::create([
             'type' => 'notice',
             'notice_name' => $request->notice_name,
-            'notice_date' => $request->notice_date
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date
         ]);
 
         return response()->json([
