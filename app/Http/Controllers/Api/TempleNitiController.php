@@ -241,8 +241,11 @@ public function startNiti(Request $request)
 
         // ✅ Update NitiMaster status
         $nitiMaster->update(['niti_status' => 'Started']);
-        $latestNews->update(['niti_notice_status' => 'Completed']);
 
+        foreach ($latestNews as $news) {
+            $news->update(['niti_notice_status' => 'Completed']);
+        }
+        
         // ✅ Step 2: Start Darshan if linked
         $darshanLog = null;
         if ($nitiMaster->connected_darshan_id) {
@@ -583,10 +586,11 @@ public function stopNiti(Request $request)
         $nitiMaster->update([
             'niti_status' => 'Completed'
         ]);
+        foreach ($latestNews as $news) {
 
-        $latestNews->update(['niti_notice_status' => 'Completed']);
+        $news->update(['niti_notice_status' => 'Completed']);
 
-
+        }
         // ✅ Stop interconnected Darshan (if any)
         $darshanCompleted = null;
         if ($nitiMaster->connected_darshan_id) {
