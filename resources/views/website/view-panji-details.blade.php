@@ -30,6 +30,8 @@
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/puri-dhams.css') }}">
 
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/calendar.css') }}">
+    <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/footer.css') }}">
+
     <style>
         body {
             margin: 0;

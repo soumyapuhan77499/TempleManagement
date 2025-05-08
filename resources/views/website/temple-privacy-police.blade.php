@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <!-- Custom Header CSS -->
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/dham-header.css') }}">
+    <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/footer.css') }}">
+
 
     <style>
         body {
