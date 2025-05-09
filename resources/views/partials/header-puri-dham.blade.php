@@ -1,3 +1,7 @@
+
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
 <header class="header-area">
     <div class="header-content">
       <div class="logo">
@@ -18,9 +22,7 @@
       <!-- Hamburger Icon -->
       <div class="hamburger-icon" onclick="toggleMobileMenu(this)">
         <div class="hamburger-menu">
-          <span></span>
-          <span></span>
-          <span></span>
+          <ion-icon name="menu-outline" style="height: 35px;width:45px"></ion-icon>
         </div>
       </div>
     </div>
@@ -37,4 +39,3 @@
       </ul>
     </nav>
   </header>
-  

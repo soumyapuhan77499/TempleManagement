@@ -47,7 +47,7 @@
                     <li><a href="#">Link Name</a></li>
                     <li><a href="#">Link Name</a></li>
                     <li><a style="color: red"
-                            href="http://temple.mandirparikrama.com/puri-website/privacy-policy">privacy policy</a></li>
+                            href="https://shreejagannathadham.com/puri-website/privacy-policy">privacy policy</a></li>
                 </ul>
             </div>
         </div>
@@ -73,13 +73,23 @@
 
 <script>
     function toggleMobileMenu(el) {
-      el.classList.toggle('active');
-      document.getElementById('mobileNav').classList.toggle('active');
+      const mobileNav = document.getElementById('mobileNav');
+      const icon = document.getElementById('menuToggleIcon');
+  
+      // Toggle menu visibility
+      mobileNav.classList.toggle('active');
+  
+      // Toggle icon type
+      const isOpen = mobileNav.classList.contains('active');
+      icon.setAttribute('name', isOpen ? 'close-outline' : 'menu-outline');
     }
   
     function closeMobileMenu() {
-      document.getElementById('mobileNav').classList.remove('active');
-      document.querySelector('.hamburger-icon').classList.remove('active');
+      const mobileNav = document.getElementById('mobileNav');
+      const icon = document.getElementById('menuToggleIcon');
+  
+      mobileNav.classList.remove('active');
+      icon.setAttribute('name', 'menu-outline');
     }
   </script>
   

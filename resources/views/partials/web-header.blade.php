@@ -16,9 +16,7 @@
                 <a href="#">Temple Information</a>
 
                 <div class="hamburger-menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                    <ion-icon name="menu-outline"></ion-icon>
                 </div>
             </nav>
 

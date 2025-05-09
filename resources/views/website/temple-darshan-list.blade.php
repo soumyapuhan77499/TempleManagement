@@ -347,10 +347,6 @@
                         </div>
                     </div>
 
-
-
-
-
                     <div class="darshan-times">
                         @if ($status === 'Started' && $start)
                             <p class="right-align"><strong>Started:</strong>
@@ -378,7 +374,6 @@
     </div>
 
     @include('partials.website-footer')
-
 
 </body>
 
