@@ -193,6 +193,7 @@
     flex-direction: column;
     gap: 5px;
     cursor: pointer;
+    margin-top: 30px;
 }
 
 .banner-image img {
