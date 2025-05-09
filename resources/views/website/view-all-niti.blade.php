@@ -234,30 +234,91 @@
         }
 
         @media (max-width: 768px) {
+            .timeline {
+                padding: 0 10px;
+                margin: 40px auto;
+            }
+
             .timeline::before {
-                left: 10px;
+                left: 8px;
+                width: 4px;
+                transform: none;
             }
 
             .timeline-item,
             .timeline-item.right {
                 width: 100%;
                 left: 0;
-                padding: 20px;
+                padding: 15px 20px 15px 30px;
+                box-sizing: border-box;
             }
 
             .timeline-item::after,
             .timeline-item.right::after {
-                left: 10px;
+                left: 8px;
+                top: 24px;
+                transform: translateX(0);
+            }
+
+            .timeline-content {
+                margin-left: 20px;
+                padding: 16px;
+                height: auto;
+                border-radius: 10px;
+            }
+
+            .timeline-content.left::before,
+            .timeline-content.right::before {
+                display: none;
             }
 
             .card-header {
                 flex-direction: column;
                 align-items: flex-start;
+                gap: 10px;
+            }
+
+            .niti-title h3 {
+                font-size: 18px;
+            }
+
+            .niti-title .underline {
+                width: 50px;
+                height: 2px;
+                margin-top: 4px;
             }
 
             .status-block {
-                text-align: left;
                 width: 100%;
+                text-align: left;
+            }
+
+            .badge {
+                font-size: 14px;
+                padding: 6px 12px;
+            }
+
+            .badge.Completed {
+                font-size: 15px;
+            }
+
+            .badge.Started,
+            .badge.Upcoming {
+                font-size: 14px;
+            }
+
+            .niti-times {
+                font-size: 13px;
+                margin-top: 5px;
+            }
+
+            .niti-times p {
+                margin: 2px 0;
+            }
+
+            .niti-times i {
+                font-size: 13px;
+                margin-right: 5px;
             }
         }
     </style>
