@@ -52,7 +52,7 @@
                         $firstPhoto = $photoArray[0] ?? null;
                     @endphp
 
-                    <img src="{{ $firstPhoto ? asset($firstPhoto) : asset('website/locker.jpeg') }}" alt="{{ $item->service_name }}">
+                    <img src="{{ $firstPhoto ? asset($firstPhoto) : asset('website/stand.png') }}" alt="{{ $item->service_name }}">
 
                     <div class="service-info" style="display: flex; justify-content: space-between;">
                         <div>
