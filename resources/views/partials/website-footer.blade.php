@@ -70,3 +70,16 @@
         © {{ date('Y') }} Temple Management System. All rights reserved.
     </div>
 </div>
+
+<script>
+    function toggleMobileMenu(el) {
+      el.classList.toggle('active');
+      document.getElementById('mobileNav').classList.toggle('active');
+    }
+  
+    function closeMobileMenu() {
+      document.getElementById('mobileNav').classList.remove('active');
+      document.querySelector('.hamburger-icon').classList.remove('active');
+    }
+  </script>
+  

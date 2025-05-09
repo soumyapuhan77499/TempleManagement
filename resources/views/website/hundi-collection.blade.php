@@ -41,19 +41,8 @@
     </section>
 
     @include('partials.website-footer')
-    
-    <script>
-        function openMobileMenu() {
-          document.getElementById('mobileNav').classList.add('active');
-          document.querySelector('.hamburger-icon').classList.add('active');
-        }
-      
-        function closeMobileMenu() {
-          document.getElementById('mobileNav').classList.remove('active');
-          document.querySelector('.hamburger-icon').classList.remove('active');
-        }
-      </script>
-      
+
+   
 
 </body>
 
