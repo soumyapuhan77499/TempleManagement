@@ -313,7 +313,7 @@
       width: 100%;
       height: auto;
     }
-  
+
     .hamburger-icon {
       position: absolute;
       top: 10px;
@@ -334,7 +334,7 @@
       margin: 4px 0;
       transition: 0.4s;
     }
-  
+
     .nav-menu {
       position: fixed;
       top: 0;

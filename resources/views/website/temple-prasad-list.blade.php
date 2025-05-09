@@ -11,7 +11,7 @@
 
 
     <style>
-         body {
+        body {
             font-family: Arial, sans-serif;
             background: #fff;
             margin: 0;
@@ -200,24 +200,96 @@
         }
 
         @media (max-width: 768px) {
+            .timeline {
+                padding: 0 10px;
+                margin: 40px auto;
+            }
+
             .timeline::before {
                 left: 10px;
+                width: 4px;
+                transform: none;
             }
 
             .timeline-item,
             .timeline-item.right {
                 width: 100%;
                 left: 0;
-                padding: 30px 25px;
+                padding: 20px 20px 20px 30px;
+                box-sizing: border-box;
             }
 
             .timeline-item::after,
             .timeline-item.right::after {
                 left: 10px;
+                top: 30px;
+                transform: none;
             }
 
             .card {
-                padding: 20px;
+                padding: 16px;
+                border-radius: 12px;
+            }
+
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .darshan-img-wrapper img {
+                width: 100%;
+                max-width: 100%;
+                height: auto;
+                margin: 0;
+            }
+
+            .badge {
+                font-size: 13px;
+                padding: 5px 12px;
+                margin-bottom: 8px;
+            }
+
+            .badge i {
+                font-size: 13px;
+            }
+
+            .prasad-name {
+                font-size: 16px;
+                margin-left: 0;
+                margin-top: 4px;
+            }
+
+            .card h3 {
+                font-size: 17px;
+                margin: 0 0 10px;
+            }
+
+            .card p {
+                font-size: 14px;
+                margin: 6px 0;
+            }
+
+            .prasad-times {
+                margin-top: 10px;
+            }
+
+            .prasad-times p {
+                font-size: 13px;
+            }
+
+            .prasad-times i {
+                font-size: 13px;
+                margin-right: 6px;
+            }
+
+            .Started .card {
+                border-left: 4px solid #fff;
+            }
+
+            .Completed .card,
+            .Upcoming .card {
+                border-left: 4px solid #db4d30;
             }
         }
     </style>
@@ -287,7 +359,6 @@
                                 <p class="right-align"><strong>Started:</strong>
                                     {{ \Carbon\Carbon::parse($start)->format('h:i a') }}</p>
                             @endif
-                            
                         @endif
 
                         @if ($status === 'Upcoming')
@@ -300,7 +371,7 @@
     </div>
 
     @include('partials.website-footer')
-   
+
 </body>
 
 </html>

@@ -9,7 +9,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/dham-header.css') }}">
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/footer.css') }}">
-    <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/footer.css') }}">
 
 </head>
 
@@ -42,6 +41,19 @@
     </section>
 
     @include('partials.website-footer')
+    
+    <script>
+        function openMobileMenu() {
+          document.getElementById('mobileNav').classList.add('active');
+          document.querySelector('.hamburger-icon').classList.add('active');
+        }
+      
+        function closeMobileMenu() {
+          document.getElementById('mobileNav').classList.remove('active');
+          document.querySelector('.hamburger-icon').classList.remove('active');
+        }
+      </script>
+      
 
 </body>
 

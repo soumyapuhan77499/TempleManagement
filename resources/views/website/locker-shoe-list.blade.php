@@ -23,7 +23,9 @@
 </head>
 
 <body>
-    @includeIf('partials.web-header')
+
+    @include('partials.header-puri-dham')
+
     <div class="hero">
         <img class="hero-bg" src="{{ asset('website/parking.jpeg') }}" alt="Visitor Parking Background" />
         <div class="hero-overlay"></div>
