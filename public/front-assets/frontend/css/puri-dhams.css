@@ -126,7 +126,7 @@ body {
 
 
 /* ABOUT PURI */
-  /* Hide scrollbar for mobile scroll */
+/* Hide scrollbar for mobile scroll */
 .no-scrollbar::-webkit-scrollbar {
     display: none;
 }
@@ -319,13 +319,53 @@ body {
     color: #aaa;
     margin: 30px 0;
 }
-    .active-tab p {
-        color: #dc2626 !important; /* red-600 */
-        font-weight: 600;
+
+.active-tab p {
+    color: #dc2626 !important;
+    /* red-600 */
+    font-weight: 600;
+}
+
+.active-tab div {
+    background-color: #ef4444;
+    /* red-500 */
+    height: 4px;
+}
+
+@media (max-width: 768px) {
+    .text-center.mb-14 {
+        margin-bottom: 2rem;
+        /* reduce bottom spacing */
     }
 
-    .active-tab div {
-        background-color: #ef4444; /* red-500 */
-        height: 4px;
+    .text-center .flex {
+        gap: 10px;
+        margin-top: 1rem;
     }
 
+    .text-center h2 {
+        font-size: 18px;
+        text-align: center;
+    }
+
+    .text-center img.w-36 {
+        width: 50px;
+        height: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .flex.justify-center.items-center.gap-5 {
+        gap: 10px;
+        margin-top: 1rem;
+    }
+
+    .flex.justify-center.items-center.gap-5 h2 {
+        font-size: 18px;
+    }
+
+    .flex.justify-center.items-center.gap-5 img.w-36 {
+        width: 50px;
+        height: auto;
+    }
+}
