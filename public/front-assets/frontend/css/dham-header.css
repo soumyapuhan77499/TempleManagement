@@ -42,11 +42,13 @@
   /* Desktop Nav */
   .desktop-menu {
     display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 30px;
   }
   
   .desktop-menu a {
-    color: #4d6189;
+    color: #f8f8f9;
     text-decoration: none;
     font-size: 15px;
     font-weight: 500;
@@ -97,7 +99,7 @@
     right: -100%;
     width: 260px;
     height: 100%;
-    background: #fff;
+    background: linear-gradient(135deg, #FFA726, #F06292);
     box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
     padding: 30px 20px;
     transition: right 0.4s ease;
@@ -139,7 +141,7 @@
     right: 20px;
     cursor: pointer;
   }
-  
+
   /* Media Queries */
   @media (max-width: 768px) {
     .desktop-menu {
