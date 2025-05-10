@@ -339,12 +339,11 @@ body {
     }
 
     .text-center .flex {
-        gap: 10px;
         margin-top: 1rem;
     }
 
     .text-center h2 {
-        font-size: 18px;
+        font-size: 15px;
         text-align: center;
     }
 
@@ -356,12 +355,11 @@ body {
 
 @media (max-width: 768px) {
     .flex.justify-center.items-center.gap-5 {
-        gap: 10px;
         margin-top: 1rem;
     }
 
     .flex.justify-center.items-center.gap-5 h2 {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .flex.justify-center.items-center.gap-5 img.w-36 {
