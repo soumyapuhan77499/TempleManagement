@@ -89,6 +89,7 @@
   .swiper-button-next {
     right: 15px;
   }
+  
   @media (max-width: 768px) {
   .temple-slider {
     padding: 20px 10px 40px;
@@ -96,7 +97,6 @@
   }
 
   .temple-slider .flex {
-    flex-direction: column;
     align-items: center;
     gap: 10px;
     text-align: center;
