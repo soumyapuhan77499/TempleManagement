@@ -543,7 +543,6 @@ public function stopNiti(Request $request)
 
         // ✅ Get the latest active Niti by day_id
         $activeNiti = NitiManagement::where('niti_id', $request->niti_id)
-            ->where('sebak_id', $user->sebak_id)
             ->where('niti_status', 'Started')
             ->where('day_id', $dayId)
             ->latest()
