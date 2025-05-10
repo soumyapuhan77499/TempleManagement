@@ -15,7 +15,7 @@
         </div>
         <div class="justify-content-center mt-2">
             <ol class="breadcrumb d-flex justify-content-between align-items-center">
-              
+
                 <li class="breadcrumb-item tx-15"><a href="javascript:void(0);">Dashboard</a></li>
                 <li class="breadcrumb-item active tx-15" aria-current="page">PANJI</li>
             </ol>
@@ -70,7 +70,8 @@
                 </div>
                 <!-- Body -->
                 <div class="modal-body">
-                    <form action="{{ route('templeuser.savePanji') }}" method="POST">
+                    <form id="eventForm" action="{{ route('templeuser.savePanji') }}" method="POST">
+
                         @csrf
 
                         <input type="hidden" id="eventDate" name="date">
@@ -90,7 +91,8 @@
                             <!-- Event Name -->
                             <div class="col-md-6 mb-3">
                                 <label for="event_name" class="form-label">Event Name</label>
-                                <input type="text" class="form-control" id="event_name" name="event_name" placeholder="Enter Event Name">
+                                <input type="text" class="form-control" id="event_name" name="event_name"
+                                    placeholder="Enter Event Name">
                             </div>
                         </div>
 
@@ -172,7 +174,6 @@
     </div>
 
 @endsection
-
 @section('scripts')
     <!-- FullCalendar JS -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
@@ -182,7 +183,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
-    
+
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 headerToolbar: {
@@ -191,109 +192,90 @@
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
                 dateClick: function(info) {
-                    // Set the selected date in the hidden input and header
                     document.getElementById('eventDate').value = info.dateStr;
                     document.getElementById('selectedDate').textContent = info.dateStr;
-    
-                    // Reset form fields for new event
                     resetFormFields();
-    
-                    // Show the modal for new event
                     var addEventModal = new bootstrap.Modal(document.getElementById('addEventModal'));
                     addEventModal.show();
                 },
                 eventClick: function(info) {
-                    // Set the modal to edit mode and populate fields with clicked event data
-                    document.getElementById('eventDate').value = info.event.startStr; // Set the date
-                    document.getElementById('selectedDate').textContent = info.event.startStr; // Display the date
-                    document.getElementById('language').value = info.event.extendedProps.language; // Set language
-                    document.getElementById('event_name').value = info.event.title; // Set event name
-                    document.getElementById('tithi').value = info.event.extendedProps.tithi; // Set tithi
-                    document.getElementById('nakshatra').value = info.event.extendedProps.nakshatra; // Set nakshatra
-                    document.getElementById('yoga').value = info.event.extendedProps.yoga; // Set yoga
-                    document.getElementById('pakshya').value = info.event.extendedProps.pakshya; // Set pakshya
-                    document.getElementById('karana').value = info.event.extendedProps.karana; // Set karana
-                    document.getElementById('sun_set').value = info.event.extendedProps.sun_set; // Set sun set time
-                    document.getElementById('sun_rise').value = info.event.extendedProps.sun_rise; // Set sun rise time
-                    document.getElementById('good_time').value = info.event.extendedProps.good_time; // Set good time
-                    document.getElementById('bad_time').value = info.event.extendedProps.bad_time; // Set bad time
-                    document.getElementById('eventDescription').value = info.event.extendedProps.description; // Set description
-    
-                    // Change form action to update the event
-                    document.getElementById('addEventModal').querySelector('form').action = "/admin/update-panji/" + info.event.id;
-    
-                    // Show the modal
+                    const event = info.event;
+                    const props = event.extendedProps;
+
+                    document.getElementById('eventDate').value = event.startStr;
+                    document.getElementById('selectedDate').textContent = event.startStr;
+                    document.getElementById('language').value = props.language || '';
+                    document.getElementById('event_name').value = event.title || '';
+                    document.getElementById('tithi').value = props.tithi || '';
+                    document.getElementById('nakshatra').value = props.nakshatra || '';
+                    document.getElementById('yoga').value = props.yoga || '';
+                    document.getElementById('pakshya').value = props.pakshya || '';
+                    document.getElementById('karana').value = props.karana || '';
+                    document.getElementById('sun_set').value = props.sun_set || '';
+                    document.getElementById('sun_rise').value = props.sun_rise || '';
+                    document.getElementById('good_time').value = props.good_time || '';
+                    document.getElementById('bad_time').value = props.bad_time || '';
+                    document.getElementById('eventDescription').value = props.description || '';
+
+                    document.getElementById('addEventModal').querySelector('form').action = "/admin/update-panji/" + event.id;
+
                     var addEventModal = new bootstrap.Modal(document.getElementById('addEventModal'));
                     addEventModal.show();
                 },
                 events: [
                     @foreach($events as $event)
-                        {
-                            id: '{{ $event->id }}',
-                            title: '{{ $event->event_name }}',
-                            start: '{{ $event->date }}',
-                            description: '{{ $event->description }}',
-                            language: '{{ $event->language }}',
-                            tithi: '{{ $event->tithi }}',
-                            nakshatra: '{{ $event->nakshatra }}',
-                            yoga: '{{ $event->yoga }}',
-                            pakshya: '{{ $event->pakshya }}',
-                            karana: '{{ $event->karana }}',
-                            sun_set: '{{ $event->sun_set }}',
-                            sun_rise: '{{ $event->sun_rise }}',
-                            good_time: '{{ $event->good_time }}',
-                            bad_time: '{{ $event->bad_time }}',
-                            backgroundColor: '#28a745',
-                            borderColor: '#28a745'
-                        },
+                        {!! json_encode([
+                            'id' => $event->id,
+                            'title' => $event->event_name,
+                            'start' => $event->date,
+                            'description' => $event->description,
+                            'language' => $event->language,
+                            'tithi' => $event->tithi,
+                            'nakshatra' => $event->nakshatra,
+                            'yoga' => $event->yoga,
+                            'pakshya' => $event->pakshya,
+                            'karana' => $event->karana,
+                            'sun_set' => $event->sun_set,
+                            'sun_rise' => $event->sun_rise,
+                            'good_time' => $event->good_time,
+                            'bad_time' => $event->bad_time,
+                            'backgroundColor' => '#28a745',
+                            'borderColor' => '#28a745',
+                        ]) !!},
                     @endforeach
                 ]
             });
-    
+
             calendar.render();
-    
-            // Reset form fields for new event
+
             function resetFormFields() {
-                document.getElementById('language').value = '';
-                document.getElementById('event_name').value = '';
-                document.getElementById('tithi').value = '';
-                document.getElementById('nakshatra').value = '';
-                document.getElementById('yoga').value = '';
-                document.getElementById('pakshya').value = '';
-                document.getElementById('karana').value = '';
-                document.getElementById('sun_set').value = '';
-                document.getElementById('sun_rise').value = '';
-                document.getElementById('good_time').value = '';
-                document.getElementById('bad_time').value = '';
-                document.getElementById('eventDescription').value = '';
+                const fields = ['language', 'event_name', 'tithi', 'nakshatra', 'yoga', 'pakshya', 'karana', 'sun_set', 'sun_rise', 'good_time', 'bad_time', 'eventDescription'];
+                fields.forEach(id => document.getElementById(id).value = '');
             }
-    
-            // Handle form submission
-            document.getElementById('eventForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-    
-                // Collect form data
-                var eventDate = document.getElementById('eventDate').value;
-                var language = document.getElementById('language').value;
-                var eventName = document.getElementById('event_name').value;
-                var description = document.getElementById('eventDescription').value;
-    
-                // Add event to calendar
-                calendar.addEvent({
-                    title: eventName + ' (' + language + ')',
-                    start: eventDate,
-                    description: description,
-                    backgroundColor: '#28a745', // Green background for the saved event
-                    borderColor: '#28a745'
+
+            const form = document.getElementById('eventForm');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    const eventDate = document.getElementById('eventDate').value;
+                    const language = document.getElementById('language').value;
+                    const eventName = document.getElementById('event_name').value;
+                    const description = document.getElementById('eventDescription').value;
+
+                    calendar.addEvent({
+                        title: eventName + ' (' + language + ')',
+                        start: eventDate,
+                        description: description,
+                        backgroundColor: '#28a745',
+                        borderColor: '#28a745'
+                    });
+
+                    this.reset();
+                    const addEventModal = bootstrap.Modal.getInstance(document.getElementById('addEventModal'));
+                    addEventModal.hide();
                 });
-    
-                // Reset the form and hide the modal
-                this.reset();
-                var addEventModal = bootstrap.Modal.getInstance(document.getElementById('addEventModal'));
-                addEventModal.hide();
-            });
+            }
         });
     </script>
-    
-    
 @endsection
