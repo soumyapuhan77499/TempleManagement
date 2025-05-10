@@ -155,7 +155,7 @@
       white-space: nowrap;
       -webkit-overflow-scrolling: touch;
     }
-  
+
     .niti-cards {
       display: flex;
       flex-direction: row;
@@ -164,7 +164,7 @@
       width: max-content;
       padding-left: 10px;
     }
-  
+
     .niti-card {
       flex: 0 0 auto;
       width: 280px;

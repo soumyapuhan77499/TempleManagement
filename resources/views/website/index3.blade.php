@@ -285,15 +285,13 @@
         </div>
     </section> --}}
 
-    <section class="services-section py-10 " id="services">
+   <section class="services-section py-10 ">
         <!-- Section Title -->
         <div class="text-center mb-14">
-            <div class="flex justify-center items-center gap-5 mt-12">
-                <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
-                <h2 class="text-2xl text-[#db4d30] flex items-center font-sans">
-                    Quick Services
-                </h2>
-                <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-5 mt-8 sm:mt-12">
+                <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-28 sm:w-36 h-5">
+                <h2 class="text-xl sm:text-2xl text-[#db4d30] font-sans">Quick Services</h2>
+                <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-28 sm:w-36 h-5">
             </div>
         </div>
 
@@ -301,20 +299,25 @@
         <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-start"
             style="max-width: 1290px !important;">
             <!-- Left Featured Card (Fixed height: 450px) -->
-            <div class="p-8 flex flex-col justify-between transition-all duration-500 hover:scale-105 h-[455px]"
-                style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
+            <div class="p-6 sm:p-8 flex flex-col justify-between transition-all duration-500 hover:scale-105 h-[455px] sm:h-[455px] max-h-[455px] overflow-hidden"
+                style="border: 1px solid rgb(213, 213, 213); border-radius: 13px;">
                 <a href="{{ route('darshan.timeline') }}" class="flex flex-col items-center text-center h-full">
                     <img src="{{ asset('website/darshan34.png') }}" alt="Darshan"
-                        class="mb-2 transition-transform duration-300 "
-                        style="width: 170px; height: 250px; border-radius: 25px;">
-                    <h3 class="text-2xl font-bold text-[#db4d30] mb-2">Darshan</h3>
-                    <p class="text-gray-700 mb-5 leading-relaxed">Darshan of Shree Jagannatha Mahaprabhu is available
-                        almost throughout the day i.e. from early in the morning till late night excepting some festive
-                        occasions.
-                        Generally, Temple opens and darshan starts at around 5.30 A.M. After offering of the perpetual lamp
-                        (Mangal Arati), devotees are allowed entry up to Jagamohan (Bhitara Kaatha) of the temple and
-                        darshan from this point is available till completion of “Besha”.
-                    </p>
+                        class="mb-2 transition-transform duration-300"
+                        style="width: 150px; height: 230px; border-radius: 25px;">
+                    <h3 class="text-xl sm:text-2xl font-bold text-[#db4d30] mb-2">Darshan</h3>
+                    <div class="text-sm sm:text-base text-gray-700 mb-2 leading-relaxed px-1 line-clamp-5">
+                        <p>
+                            Darshan of Shree Jagannatha Mahaprabhu is available almost throughout the day i.e. from early in
+                            the morning till late night excepting some festive occasions. Generally, Temple opens and
+                            darshan
+                            starts at around 5.30 A.M. After offering of the perpetual lamp (Mangal Arati), devotees are
+                            allowed
+                            entry up to Jagamohan (Bhitara Kaatha) of the temple and darshan from this point is available
+                            till
+                            completion of “Besha”.
+                        </p>
+                    </div>
                 </a>
             </div>
 
@@ -464,14 +467,11 @@
 
     </section>
 
-    <section class="temple-slider bg-white  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100"
-        id="temple-slider">
+    <section class="temple-slider bg-white  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
 
-        <div class="flex justify-center items-center gap-5">
+        <div class="flex justify-center items-center gap-5 mt-12">
             <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
-            <h2 class="text-2xl text-[#db4d30] flex items-center font-sans">
-                Nearby Temples
-            </h2>
+            <h2 class="text-xl text-[#db4d30] font-semi-bold">Nearby Temples</h2>
             <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
         </div>
 
@@ -488,9 +488,12 @@
                             <a href="{{ url('view-near-by-temple/' . $temple->id) }}" class="block">
                                 <img src="{{ asset($firstPhoto) }}" alt="{{ $temple->name }}"
                                     class="w-full h-48 object-cover hover:scale-105 transition duration-300">
-                                <div class="p-3 text-center bg-white">
-                                    <h3 class="text-base font-semibold text-[#db4d30]">{{ $temple->name }}</h3>
+                                <div class="p-2 text-center bg-white">
+                                    <h3 class="text-sm sm:text-base font-semibold text-[#db4d30]">
+                                        {{ $temple->name }}
+                                    </h3>
                                 </div>
+
                             </a>
                         </div>
                     @endif
@@ -503,14 +506,12 @@
         </div>
     </section>
 
-    <section class="temple-convenience" id="convience">
+    <section class="temple-convenience">
 
-        <div class="flex justify-center items-center gap-5">
-            <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
-            <h2 class="text-2xl text-[#db4d30] flex items-center font-sans">
-                Conveniences
-            </h2>
-            <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-5 mt-8 sm:mt-12 text-center">
+            <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-28 sm:w-36 h-5">
+            <h2 class="text-xl sm:text-2xl text-[#db4d30] font-sans">Conveniences</h2>
+            <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-28 sm:w-36 h-5">
         </div>
 
         <div class="convenience-container">
@@ -588,7 +589,7 @@
         </div>
     </section>
 
-    <section class="bg-100 p-10  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100" id="panji">
+    <section class="bg-100 p-10  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
         <div class="max-w-6xl mx-auto">
             <!-- Header -->
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0">

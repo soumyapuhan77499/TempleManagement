@@ -20,6 +20,7 @@
             <div>
                 <h3>Quick Services</h3>
                 <ul>
+                    <li><a href="{{ url('/view-all-niti') }}">Niti</a></li>
                     <li><a href="{{ url('/darshan-timeline') }}">Darshan</a></li>
                     <li><a href="{{ url('/maha-prasad') }}">Mahaprasad</a></li>
                     <li><a href="{{ url('/view-panji-details') }}">Panji</a></li>
