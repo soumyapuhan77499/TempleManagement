@@ -466,9 +466,12 @@
 
     <section class="temple-slider bg-white  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100"
         id="temple-slider">
-        <div class="flex justify-center items-center gap-5 mt-12">
+        
+         <div class="flex justify-center items-center gap-5">
             <img src="{{ asset('website/left.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
-            <h2 class="text-xl text-[#db4d30] font-semi-bold">Nearby Temples</h2>
+            <h2 class="text-2xl text-[#db4d30] flex items-center font-sans">
+                Nearby Temples
+            </h2>
             <img src="{{ asset('website/right.png') }}" alt="Shree Jagannatha Dham" class="w-36 h-5">
         </div>
 
