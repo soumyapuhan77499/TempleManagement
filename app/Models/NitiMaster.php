@@ -45,19 +45,28 @@ class NitiMaster extends Model
         return $this->hasMany(NitiItems::class, 'niti_id', 'niti_id');
     }
 
-    public function todayStartTime()
-    {
-        return $this->hasOne(NitiManagement::class, 'niti_id', 'niti_id')
-            ->where('niti_status', 'Started')
-            ->latest('start_time'); 
-    }
-
+ 
     public function todayStartCompleteTime()
     {
         return $this->hasOne(NitiManagement::class, 'niti_id', 'niti_id')
             ->where('niti_status', ['Started', 'Completed'])
             ->latest('start_time'); 
     }
+
+    public function todayStartTime()
+{
+    return $this->hasOne(NitiManagement::class, 'niti_id', 'niti_id')
+        ->where('niti_status', 'Started')
+        ->orderByDesc('start_time');
+}
+
+public function todayEndTime()
+{
+    return $this->hasOne(NitiManagement::class, 'niti_id', 'niti_id')
+        ->where('niti_status', 'Completed')
+        ->orderByDesc('end_time');
+}
+
 
     public function subNitis()
     {
