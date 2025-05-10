@@ -29,7 +29,7 @@
 /* === Hamburger Icon (Top Right) === */
 .hamburger-icon {
     position: absolute;
-    top: 50px;
+    top: 20px;
     right: 50px;
     z-index: 11;
     cursor: pointer;

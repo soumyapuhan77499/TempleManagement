@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/dham-header.css') }}">
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/footer.css') }}">
 
-
     <style>
         body {
             margin: 0;
@@ -144,6 +143,8 @@
             .temple-section-tabs {
                 flex-direction: column;
                 height: auto;
+                margin: 20px 10px;
+                border-radius: 8px;
             }
 
             .temple-image,
@@ -152,9 +153,73 @@
                 height: auto;
             }
 
+            .temple-image img {
+                height: 200px;
+                object-fit: cover;
+                border-radius: 8px 8px 0 0;
+            }
+
             .temple-tabs {
+                padding: 20px;
                 max-height: unset;
-                overflow-y: unset;
+                overflow-y: visible;
+            }
+
+            .tab-buttons {
+                gap: 12px;
+                padding-bottom: 8px;
+                margin-bottom: 20px;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            .tab-buttons button {
+                font-size: 14px;
+                padding: 6px 0;
+            }
+
+            .tab-buttons button i {
+                font-size: 12px;
+            }
+
+            .tab-content p,
+            .info-list li {
+                font-size: 14px;
+                line-height: 1.5;
+            }
+
+            .map-button {
+                font-size: 13px;
+                padding: 6px 12px;
+            }
+
+            .tab-content .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .tab-content .gallery-grid img {
+                height: 140px;
+            }
+
+            .temple-left,
+            .temple-right {
+                padding: 20px;
+            }
+
+            .temple-left h3,
+            .temple-right h3 {
+                font-size: 18px;
+            }
+
+            .temple-left p,
+            .temple-right p,
+            .temple-right ul li {
+                font-size: 14px;
+            }
+
+            .btn-details {
+                font-size: 14px;
+                padding: 8px 16px;
             }
         }
 
