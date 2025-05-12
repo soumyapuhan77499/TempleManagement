@@ -177,105 +177,159 @@
 @section('scripts')
     <!-- FullCalendar JS -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
+ <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const calendarEl = document.getElementById('calendar');
 
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                },
-                dateClick: function(info) {
-                    document.getElementById('eventDate').value = info.dateStr;
-                    document.getElementById('selectedDate').textContent = info.dateStr;
-                    resetFormFields();
-                    var addEventModal = new bootstrap.Modal(document.getElementById('addEventModal'));
-                    addEventModal.show();
-                },
-                eventClick: function(info) {
-                    const event = info.event;
-                    const props = event.extendedProps;
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            dateClick: function (info) {
+                resetFormFields();
+                document.getElementById('eventDate').value = info.dateStr;
+                document.getElementById('selectedDate').textContent = info.dateStr;
+                document.getElementById('eventForm').action = "{{ route('templeuser.savePanji') }}";
+                removeMethodField();
 
-                    document.getElementById('eventDate').value = event.startStr;
-                    document.getElementById('selectedDate').textContent = event.startStr;
-                    document.getElementById('language').value = props.language || '';
-                    document.getElementById('event_name').value = event.title || '';
-                    document.getElementById('tithi').value = props.tithi || '';
-                    document.getElementById('nakshatra').value = props.nakshatra || '';
-                    document.getElementById('yoga').value = props.yoga || '';
-                    document.getElementById('pakshya').value = props.pakshya || '';
-                    document.getElementById('karana').value = props.karana || '';
-                    document.getElementById('sun_set').value = props.sun_set || '';
-                    document.getElementById('sun_rise').value = props.sun_rise || '';
-                    document.getElementById('good_time').value = props.good_time || '';
-                    document.getElementById('bad_time').value = props.bad_time || '';
-                    document.getElementById('eventDescription').value = props.description || '';
+                const modal = new bootstrap.Modal(document.getElementById('addEventModal'));
+                modal.show();
+            },
+            eventClick: function (info) {
+                const event = info.event;
+                const props = event.extendedProps;
 
-                    document.getElementById('addEventModal').querySelector('form').action = "/admin/update-panji/" + event.id;
+                document.getElementById('eventDate').value = event.startStr;
+                document.getElementById('selectedDate').textContent = event.startStr;
+                document.getElementById('language').value = props.language || '';
+                document.getElementById('event_name').value = props.event_name || event.title || '';
+                document.getElementById('tithi').value = props.tithi || '';
+                document.getElementById('nakshatra').value = props.nakshatra || '';
+                document.getElementById('yoga').value = props.yoga || '';
+                document.getElementById('pakshya').value = props.pakshya || '';
+                document.getElementById('karana').value = props.karana || '';
+                document.getElementById('sun_set').value = props.sun_set || '';
+                document.getElementById('sun_rise').value = props.sun_rise || '';
+                document.getElementById('good_time').value = props.good_time || '';
+                document.getElementById('bad_time').value = props.bad_time || '';
+                document.getElementById('eventDescription').value = props.description || '';
 
-                    var addEventModal = new bootstrap.Modal(document.getElementById('addEventModal'));
-                    addEventModal.show();
-                },
-                events: [
-                    @foreach($events as $event)
-                        {!! json_encode([
-                            'id' => $event->id,
-                            'title' => $event->event_name,
-                            'start' => $event->date,
-                            'description' => $event->description,
-                            'language' => $event->language,
-                            'tithi' => $event->tithi,
-                            'nakshatra' => $event->nakshatra,
-                            'yoga' => $event->yoga,
-                            'pakshya' => $event->pakshya,
-                            'karana' => $event->karana,
-                            'sun_set' => $event->sun_set,
-                            'sun_rise' => $event->sun_rise,
-                            'good_time' => $event->good_time,
-                            'bad_time' => $event->bad_time,
-                            'backgroundColor' => '#28a745',
-                            'borderColor' => '#28a745',
-                        ]) !!},
-                    @endforeach
-                ]
-            });
+                document.getElementById('eventForm').action = `/admin/update-panji/${event.id}`;
+                setMethodField(); // Set method override for Laravel PUT
 
-            calendar.render();
+                const modal = new bootstrap.Modal(document.getElementById('addEventModal'));
+                modal.show();
+            },
+            events: [
+                @foreach($events as $event)
+                    {!! json_encode([
+                        'id' => $event->id,
+                        'title' => $event->event_name,
+                        'start' => $event->date,
+                        'description' => $event->description,
+                        'language' => $event->language,
+                        'event_name' => $event->event_name,
+                        'tithi' => $event->tithi,
+                        'nakshatra' => $event->nakshatra,
+                        'yoga' => $event->yoga,
+                        'pakshya' => $event->pakshya,
+                        'karana' => $event->karana,
+                        'sun_set' => $event->sun_set,
+                        'sun_rise' => $event->sun_rise,
+                        'good_time' => $event->good_time,
+                        'bad_time' => $event->bad_time,
+                        'backgroundColor' => '#28a745',
+                        'borderColor' => '#28a745',
+                    ]) !!},
+                @endforeach
+            ]
+        });
 
-            function resetFormFields() {
-                const fields = ['language', 'event_name', 'tithi', 'nakshatra', 'yoga', 'pakshya', 'karana', 'sun_set', 'sun_rise', 'good_time', 'bad_time', 'eventDescription'];
-                fields.forEach(id => document.getElementById(id).value = '');
+        calendar.render();
+
+        function resetFormFields() {
+            const ids = ['language', 'event_name', 'tithi', 'nakshatra', 'yoga', 'pakshya', 'karana', 'sun_set', 'sun_rise', 'good_time', 'bad_time', 'eventDescription'];
+            ids.forEach(id => document.getElementById(id).value = '');
+        }
+
+        function setMethodField() {
+            if (!document.getElementById('_method')) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = '_method';
+                input.value = 'PUT';
+                input.id = '_method';
+                document.getElementById('eventForm').appendChild(input);
             }
+        }
 
-            const form = document.getElementById('eventForm');
-            if (form) {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
+        function removeMethodField() {
+            const input = document.getElementById('_method');
+            if (input) input.remove();
+        }
 
-                    const eventDate = document.getElementById('eventDate').value;
-                    const language = document.getElementById('language').value;
-                    const eventName = document.getElementById('event_name').value;
-                    const description = document.getElementById('eventDescription').value;
+        const form = document.getElementById('eventForm');
+        if (form) {
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
 
-                    calendar.addEvent({
-                        title: eventName + ' (' + language + ')',
-                        start: eventDate,
-                        description: description,
-                        backgroundColor: '#28a745',
-                        borderColor: '#28a745'
+                const formData = new FormData(this);
+                const actionUrl = this.action;
+                const isUpdate = actionUrl.includes('/update-panji/');
+                const csrfToken = document.querySelector('input[name="_token"]').value;
+
+                try {
+                    const response = await fetch(actionUrl, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        body: formData
                     });
 
+                    if (!response.ok) throw new Error('Network error');
+
+                    // Hide modal
+                    bootstrap.Modal.getInstance(document.getElementById('addEventModal')).hide();
+
+                    // Refresh calendar (optionally: refetchEvents from server)
+                    const date = formData.get('date');
+                    const language = formData.get('language');
+                    const title = formData.get('event_name') + ' (' + language + ')';
+
+                    if (isUpdate) {
+                        const id = actionUrl.split('/').pop();
+                        const event = calendar.getEventById(id);
+                        if (event) {
+                            event.setProp('title', title);
+                            event.setStart(date);
+                        }
+                    } else {
+                        calendar.addEvent({
+                            title: title,
+                            start: date,
+                            backgroundColor: '#28a745',
+                            borderColor: '#28a745'
+                        });
+                    }
+
                     this.reset();
-                    const addEventModal = bootstrap.Modal.getInstance(document.getElementById('addEventModal'));
-                    addEventModal.hide();
-                });
-            }
-        });
-    </script>
+                    removeMethodField();
+                } catch (err) {
+                    console.error(err);
+                    alert('Failed to save event.');
+                }
+            });
+        }
+    });
+    
+</script>
+
 @endsection

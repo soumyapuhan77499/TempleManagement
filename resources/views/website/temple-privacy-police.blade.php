@@ -11,8 +11,6 @@
     <!-- Custom Header CSS -->
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/dham-header.css') }}">
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/footer.css') }}">
-
-
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -98,6 +96,7 @@
         <p>If you have any questions or concerns about your privacy, contact us at <a href="mailto:jagannath.or@nic.in">jagannath.or@nic.in</a></p>
     </section>
 
+    @include('partials.website-footer')
     
 </body>
 
