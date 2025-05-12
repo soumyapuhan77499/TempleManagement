@@ -15,6 +15,7 @@
                 <ul>
                     <li><a href="{{ url('/online-donation') }}">Online Donation</a></li>
                     <li><a href="{{ url('/hundi-collection') }}">Hundi Collection</a></li>
+                    <li><a href="https://shreejagannathadham.com/puri-website/privacy-policy">privacy policy</a></li>
                 </ul>
             </div>
             <div>
@@ -41,14 +42,13 @@
                 </ul>
             </div>
             <div>
-                <h3>Nearby Temples</h3>
+                <h3>Ratha Yatras</h3>
                 <ul>
                     <li><a href="#">Link Name</a></li>
                     <li><a href="#">Link Name</a></li>
                     <li><a href="#">Link Name</a></li>
                     <li><a href="#">Link Name</a></li>
-                    <li><a style="color: red"
-                            href="https://shreejagannathadham.com/puri-website/privacy-policy">privacy policy</a></li>
+                    
                 </ul>
             </div>
         </div>
@@ -56,10 +56,10 @@
         <div class="footer-bottom">
             <div class="footer-bottom-container">
                 <a href="https://play.google.com/store" target="_blank" class="app-button">
-                    <img src="{{ asset('website/footer/google-play.png') }}" alt="Google Play">
+                    <img src="{{ asset('website/footer/play.png') }}" alt="Google Play">
                 </a>
                 <a href="https://www.apple.com/app-store/" target="_blank" class="app-button">
-                    <img src="{{ asset('website/footer/apple.png') }}" alt="App Store">
+                    <img src="{{ asset('website/footer/app.png') }}" alt="App Store">
                 </a>
             </div>
         </div>

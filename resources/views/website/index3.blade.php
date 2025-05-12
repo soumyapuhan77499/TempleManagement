@@ -33,12 +33,49 @@
             <div class="nav-close"><i class="fa fa-times"></i></div>
             <ul>
                 <li><a href="#">Nitis</a></li>
-                {{-- <li>
-                    <a href="#">SM <span class="live-badges"><i class="fa fa-bolt"></i> Live</span></a>
-                </li> --}}
-                <li><a href="#services">Services</a></li>
-                <li><a href="#temple-slider">Nearby Temples</a></li>
-                <li><a href="#convience">Conveniences</a></li>
+                <li class="has-submenu">
+                    <a href="javascript:void(0)" class="submenu-toggle">Quick Services <i
+                            class="fa fa-chevron-down ms-2"></i></a>
+                    <ul class="submenu">
+                        <li><a href="{{ url('/darshan-timeline') }}">Darshan</a></li>
+                        <li><a href="{{ url('/maha-prasad') }}">Mahaprasad</a></li>
+                        <li><a href="{{ url('/view-festival-details') }}">Festival</a></li>
+                        <li><a href="#dos-donts">Do's & Don'ts</a></li>
+                    </ul>
+                </li>
+
+                <li class="has-submenu">
+                    <a href="javascript:void(0)" class="submenu-toggle">Nearby Temples <i
+                            class="fa fa-chevron-down ms-2"></i></a>
+                    <ul class="submenu">
+                        @foreach ($temples as $temple)
+                            <li>
+                                <a href="{{ route('nearby-temple-view', $temple->name) }}">
+                                    {{ $temple->name }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </li>
+
+
+                <li class="has-submenu">
+                    <a href="javascript:void(0)" class="submenu-toggle">Conveniences <i
+                            class="fa fa-chevron-down ms-2"></i></a>
+                    <ul class="submenu">
+                        <li><a href="{{ url('/bhaktanibas-list') }}">Bhakta Nibas</a></li>
+                        <li><a href="{{ url('/parking-list') }}">Parking</a></li>
+                        <li><a href="{{ url('/locker-shoe-list') }}">Locker & Shoe</a></li>
+                        <li><a href="{{ url('/services/drinking_water') }}">Drinking Water</a></li>
+                        <li><a href="{{ url('/services-emergency') }}">Emergency</a></li>
+                        <li><a href="{{ url('/services-abled') }}">Special Abled Person</a></li>
+                        <li><a href="#">Route Map</a></li>
+                        <li><a href="{{ url('/services/lost_and_found_booth') }}">Lost & Found</a></li>
+                        <li><a href="{{ url('/services/toilet') }}">Toilet</a></li>
+                        <li><a href="{{ url('/services/beach') }}">Beaches</a></li>
+                        <li><a href="{{ url('/services/life_guard_booth') }}">Life Guards</a></li>
+                    </ul>
+                </li>
                 <li><a href="#panji">Panji</a></li>
                 {{-- <li><a href="#">Temple Information</a></li> --}}
             </ul>
@@ -285,7 +322,7 @@
         </div>
     </section> --}}
 
-   <section class="services-section py-10 ">
+    <section class="services-section py-10 ">
         <!-- Section Title -->
         <div class="text-center mb-14">
             <div class="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-5 mt-8 sm:mt-12">
@@ -334,20 +371,7 @@
                     </div>
                 </a>
 
-                <!-- Panji -->
-                <a href="{{ route('view.panji.details') }}">
-                    <div class="bg-white border-l-4 border-[#db4d30] px-5 py-4 flex items-center gap-5 h-[150px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300"
-                        style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
-                        <img src="{{ asset('website/panji765.png') }}" alt="Panji" class="w-16 h-16">
-                        <div>
-                            <h3 class="text-lg font-semibold text-[#db4d30]">Panji</h3>
-                            <p class="text-sm text-gray-600">
-                                Explore traditional records and sacred schedules maintained over centuries.
-                            </p>
-                        </div>
-                    </div>
-                </a>
-
+              
                 <!-- Offering -->
                 <a href="{{ route('view.festival.details') }}">
                     <div class="bg-white border-l-4 border-[#db4d30]  px-5 py-4 flex items-center gap-5 h-[140px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300"
@@ -360,6 +384,21 @@
                         </div>
                     </div>
                 </a>
+
+                  <!-- do and dont -->
+                <a href="{{ route('view.panji.details') }}">
+                    <div class="bg-white border-l-4 border-[#db4d30] px-5 py-4 flex items-center gap-5 h-[150px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300"
+                        style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
+                        <img src="{{ asset('website/dodonts.png') }}" alt="Panji" class="w-16 h-16">
+                        <div>
+                            <h3 class="text-lg font-semibold text-[#db4d30]">Do's and don'ts</h3>
+                            <p class="text-sm text-gray-600">
+                                To preserve the sanctity and traditions of Shree Jagannatha Dham.
+                            </p>
+                        </div>
+                    </div>
+                </a>
+
             </div>
         </div>
     </section>
@@ -485,7 +524,7 @@
 
                     @if ($firstPhoto)
                         <div class="swiper-slide rounded-xl overflow-hidden shadow-lg bg-white">
-                            <a href="{{ url('view-near-by-temple/' . $temple->id) }}" class="block">
+                            <a href="{{ url('view-near-by-temple/' . $temple->name) }}" class="block">
                                 <img src="{{ asset($firstPhoto) }}" alt="{{ $temple->name }}"
                                     class="w-full h-48 object-cover hover:scale-105 transition duration-300">
                                 <div class="p-2 text-center bg-white">
@@ -493,7 +532,6 @@
                                         {{ $temple->name }}
                                     </h3>
                                 </div>
-
                             </a>
                         </div>
                     @endif
@@ -515,6 +553,7 @@
         </div>
 
         <div class="convenience-container">
+
             <div class="conv">
                 <a href="{{ route('services.byType', 'drinking_water') }}">
                     <div class="convenience-item" style="margin-left: 7px">
@@ -586,10 +625,11 @@
                     <p>Life Guards</p>
                 </a>
             </div>
+
         </div>
     </section>
 
-    <section class="bg-100 p-10  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
+    {{-- <section class="bg-100 p-10  bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
         <div class="max-w-6xl mx-auto">
             <!-- Header -->
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0">
@@ -688,7 +728,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     {{-- <section class="bg-100 p-2 relative bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-100">
         <div class="max-w-6xl mx-auto text-center relative">
