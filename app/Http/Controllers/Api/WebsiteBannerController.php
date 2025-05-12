@@ -35,7 +35,6 @@ class WebsiteBannerController extends Controller
 
             // Get all active nitis: daily, special, other
             $allNitis = NitiMaster::whereIn('niti_type', ['daily', 'special', 'other'])
-                ->where('language', 'Odia')
                 ->where('niti_privacy', 'public')
                 ->orderBy('niti_order', 'asc')
                 ->get()
@@ -49,6 +48,7 @@ class WebsiteBannerController extends Controller
 
             // Get running sub nitis
             $activeNitiIds = NitiMaster::whereIn('niti_status', ['Started', 'Paused'])->pluck('niti_id');
+
             $runningSubNitis = TempleSubNitiManagement::where(function ($query) {
                     $query->where('status', 'Running')
                         ->orWhere('status', '!=', 'Deleted');
@@ -68,7 +68,6 @@ class WebsiteBannerController extends Controller
                 ? $nitiManagements[$niti_id]->sortByDesc('created_at')->first()
                 : null;
 
-            // 🚫 Skip 'other' nitis that are not Started or Completed
             if (
                 $niti->niti_type === 'other' &&
                 (!$management || !in_array($management->niti_status, ['Started', 'Completed']))
@@ -151,7 +150,6 @@ class WebsiteBannerController extends Controller
             }
         }
 
-
             // Finally, sort entire merged list by start_time or fallback to niti_order
             $mergedNitiList = collect($mergedNitiList)->sortBy(function ($item) {
                 return $item['start_time'] ?? '9999:99:99';
@@ -197,4 +195,5 @@ class WebsiteBannerController extends Controller
             ], 500);
         }
     }
+    
 }

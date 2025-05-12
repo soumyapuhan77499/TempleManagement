@@ -10,8 +10,6 @@
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/dham-header.css') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('front-assets/frontend/css/footer.css') }}">
-
-
     <style>
         body {
             font-family: Arial, sans-serif;
