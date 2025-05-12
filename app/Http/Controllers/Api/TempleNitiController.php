@@ -834,7 +834,7 @@ public function updateActiveNitiToUpcoming()
         $dayId = $datePrefix . '-' . $randomSuffix; // e.g., 20250424-ZQPL
 
         // Step 2: Update NitiMaster
-        $nitiUpdatedCount = NitiMaster::where('status', 'active')
+        $nitiUpdatedCount = NitiMaster::where('status', 'active')->orwhere('status', 'other')
             ->update([
                 'niti_status' => 'Upcoming',
                 'day_id' => $dayId
