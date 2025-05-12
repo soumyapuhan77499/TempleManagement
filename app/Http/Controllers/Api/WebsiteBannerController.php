@@ -57,36 +57,31 @@ class WebsiteBannerController extends Controller
                 ->get()
                 ->groupBy('after_special_niti');
     
-            $otherNitiManagements = NitiManagement::where('day_id', $latestDayId)
-                ->whereIn('niti_status', ['Started', 'Completed'])
+           $otherNitiManagements = NitiManagement::whereIn('niti_status', ['Started', 'Completed'])
                 ->whereHas('master', function ($query) {
-                    $query->whereIn('niti_type', ['daily', 'special', 'other']) // include all types
+                    $query->where('niti_type', 'other')
                         ->where('status', '!=', 'deleted');
                 })
                 ->with('master')
-                ->orderBy('start_time', 'asc') // important: chronological order
+                ->orderBy('created_at', 'desc') // or 'start_time' if you prefer
                 ->get();
 
-            // Only include "other" nitis, but maintain order among all
+
             foreach ($otherNitiManagements as $nitiMgmt) {
                 $nitiMaster = $nitiMgmt->master;
 
-                // Only "other" nitis — but ordering preserved
-                if ($nitiMaster && $nitiMaster->niti_type === 'other') {
-                    $mergedNitiList[] = [
-                        'niti_id'           => $nitiMaster->niti_id,
-                        'niti_name'         => $nitiMaster->niti_name,
-                        'english_niti_name' => $nitiMaster->english_niti_name,
-                        'niti_type'         => $nitiMaster->niti_type,
-                        'niti_status'       => $nitiMgmt->niti_status,
-                        'start_time'        => $nitiMgmt->start_time,
-                        'end_time'          => $nitiMgmt->end_time,
-                        'duration'          => $nitiMgmt->duration,
-                        'management_status' => $nitiMgmt->niti_status,
-                    ];
-                }
+                $mergedNitiList[] = [
+                    'niti_id'           => $nitiMaster->niti_id,
+                    'niti_name'         => $nitiMaster->niti_name,
+                    'english_niti_name' => $nitiMaster->english_niti_name,
+                    'niti_type'         => $nitiMaster->niti_type,
+                    'niti_status'       => $nitiMgmt->niti_status,
+                    'start_time'        => $nitiMgmt->start_time,
+                    'end_time'          => $nitiMgmt->end_time,
+                    'duration'          => $nitiMgmt->duration,
+                    'management_status' => $nitiMgmt->niti_status,
+                ];
             }
-
             
             foreach ($dailyNitis as $dailyNiti) {
                 $matchingRunningSubNitis = $runningSubNitis->where('niti_id', $dailyNiti->niti_id);
