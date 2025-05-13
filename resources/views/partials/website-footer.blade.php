@@ -96,18 +96,42 @@
   
   <script>
     document.addEventListener('DOMContentLoaded', function () {
+        // Toggle submenus
         document.querySelectorAll('.submenu-toggle').forEach(function (toggle) {
-            toggle.addEventListener('click', function () {
-                this.closest('.has-submenu').classList.toggle('active');
+            toggle.addEventListener('click', function (e) {
+                e.preventDefault();
+                const parent = this.closest('.has-submenu');
+                const submenu = parent.querySelector('.submenu');
+                
+                // Collapse other submenus (accordion behavior)
+                document.querySelectorAll('.has-submenu').forEach(item => {
+                    if (item !== parent) {
+                        item.classList.remove('active');
+                        item.querySelector('.submenu').style.maxHeight = null;
+                    }
+                });
+
+                parent.classList.toggle('active');
+
+                if (submenu.style.maxHeight) {
+                    submenu.style.maxHeight = null;
+                } else {
+                    submenu.style.maxHeight = submenu.scrollHeight + "px";
+                }
             });
         });
+
+        // Toggle mobile menu open
+        window.toggleMobileMenu = function(icon) {
+            const nav = document.getElementById('mobileNav');
+            nav.classList.toggle('active');
+            icon.classList.toggle('active');
+        }
+
+        // Close mobile menu
+        window.closeMobileMenu = function () {
+            document.getElementById('mobileNav').classList.remove('active');
+            document.querySelector('.hamburger-icon').classList.remove('active');
+        }
     });
-
-    function toggleMobileMenu(icon) {
-        document.getElementById('mobileNav').classList.toggle('active');
-    }
-
-    function closeMobileMenu() {
-        document.getElementById('mobileNav').classList.remove('active');
-    }
 </script>
