@@ -396,6 +396,18 @@
       };
     });
     </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.submenu-toggle').forEach(function (toggle) {
+            toggle.addEventListener('click', function (e) {
+                const parentLi = this.closest('.has-submenu');
+                parentLi.classList.toggle('active');
+            });
+        });
+    });
+</script>
+
     
     
 </body>
