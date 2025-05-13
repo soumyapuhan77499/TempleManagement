@@ -187,4 +187,10 @@ public function hundiCollection()
 
 }
 
+public function doDonts(){
+
+    return view('website.do-and-donts');
+
+}
+
 }

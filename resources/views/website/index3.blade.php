@@ -386,7 +386,7 @@
                 </a>
 
                   <!-- do and dont -->
-                <a href="{{ route('view.panji.details') }}">
+                <a href="{{ route('do-and-donts') }}">
                     <div class="bg-white border-l-4 border-[#db4d30] px-5 py-4 flex items-center gap-5 h-[150px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300"
                         style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
                         <img src="{{ asset('website/dodonts.png') }}" alt="Panji" class="w-16 h-16">
