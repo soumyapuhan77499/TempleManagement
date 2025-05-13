@@ -212,7 +212,6 @@ body {
 }
 
 /* ========== Mobile Nav Enhancements ========== */
-
 @media (max-width: 768px) {
   .desktop-menu {
     display: none;
@@ -252,7 +251,7 @@ body {
   }
 
   .mobile-nav ul li {
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
 
   .mobile-nav ul li a {
@@ -260,7 +259,9 @@ body {
     font-size: 18px;
     text-decoration: none;
     font-weight: 600;
-    display: block;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     transition: color 0.3s ease;
   }
 
@@ -268,29 +269,38 @@ body {
     color: #ffe;
   }
 
-  /* Submenu toggle arrow (optional) */
   .submenu-toggle .fa-chevron-down {
-    margin-left: 8px;
     font-size: 12px;
+    transition: transform 0.3s;
+  }
+
+  .has-submenu.active .submenu-toggle .fa-chevron-down {
+    transform: rotate(180deg);
   }
 
   .has-submenu .submenu {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease-in-out;
-    margin-left: 15px;
     padding-left: 10px;
-    border-left: 2px solid rgba(255, 255, 255, 0.3);
+    margin-top: 5px;
+    border-left: 2px solid rgba(255, 255, 255, 0.2);
   }
 
   .has-submenu.active .submenu {
-    /* max-height set by JS dynamically */
+    /* JS sets max-height */
+  }
+
+  .has-submenu .submenu li {
+    margin-bottom: 8px;
   }
 
   .has-submenu .submenu li a {
     font-size: 16px;
+    font-weight: 400;
     color: #f5f5f5;
-    padding: 5px 0;
+    padding-left: 10px;
+    display: block;
   }
 
   .has-submenu .submenu li a:hover {
