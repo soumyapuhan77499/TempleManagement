@@ -363,21 +363,21 @@
         <img class="hero-bg" src="{{ asset('website/parking.jpeg') }}" alt="Mandir Background" />
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1>{{ $temples->name }}</h1>
+            <h1>{{ $temple->name }}</h1>
             <p>Discover sacred places close to your journey.</p>
         </div>
     </section>
     @php
-        $photos = json_decode($temples->photo, true);
+        $photos = json_decode($temple->photo, true);
         $firstPhoto = $photos[0] ?? 'website/default-temple.jpg';
     @endphp
 
     <section class="temple-section-tabs">
         <div class="temple-image">
-            <img src="{{ asset($firstPhoto) }}" alt="{{ $temples->name }}">
+            <img src="{{ asset($firstPhoto) }}" alt="{{ $temple->name }}">
         </div>
         <div class="temple-tabs">
-            <h2 class="text-2xl font-bold text-[#b31e25] mb-4">{{ $temples->name }}</h2>
+            <h2 class="text-2xl font-bold text-[#b31e25] mb-4">{{ $temple->name }}</h2>
 
             <div class="tab-buttons">
                 <button class="tab-link active" onclick="showTab(event, 'details')">
@@ -396,16 +396,16 @@
 
             <div id="address" class="tab-content">
                 <ul class="info-list">
-                    @if ($temples->distance_from_temple)
-                        <li><strong>Distance:</strong> {{ $temples->distance_from_temple }}</li>
+                    @if ($temple->distance_from_temple)
+                        <li><strong>Distance:</strong> {{ $temple->distance_from_temple }}</li>
                     @endif
-                    @if ($temples->city_village || $temples->district || $temple->state)
-                        <li><strong>Location:</strong> {{ $temples->city_village }}, {{ $temples->district }},
-                            {{ $temples->state }}</li>
+                    @if ($temple->city_village || $temple->district || $temple->state)
+                        <li><strong>Location:</strong> {{ $temple->city_village }}, {{ $temple->district }},
+                            {{ $temple->state }}</li>
                     @endif
-                    @if ($temples->google_map_link)
+                    @if ($temple->google_map_link)
                         <li>
-                            <a href="{{ $temples->google_map_link }}" target="_blank" class="map-button">
+                            <a href="{{ $temple->google_map_link }}" target="_blank" class="map-button">
                                 <i class="fa fa-map-marked-alt"></i> View on Google Map
                             </a>
                         </li>
@@ -416,43 +416,43 @@
 
 
             <div id="history" class="tab-content">
-                <p>{{ $temples->history ?? 'No historical data available.' }}</p>
-                <p>{{ $temples->description ?? 'No description available.' }}</p>
+                <p>{{ $temple->history ?? 'No historical data available.' }}</p>
+                <p>{{ $temple->description ?? 'No description available.' }}</p>
 
             </div>
 
             <div id="details" class="tab-content active">
                 <ul class="info-list">
-                    @if ($temples->estd_date)
-                        <li><strong>Established:</strong> {{ $temples->estd_date }}</li>
+                    @if ($temple->estd_date)
+                        <li><strong>Established:</strong> {{ $temple->estd_date }}</li>
                     @endif
-                    @if ($temples->estd_by)
-                        <li><strong>Established By:</strong> {{ $temples->estd_by }}</li>
+                    @if ($temple->estd_by)
+                        <li><strong>Established By:</strong> {{ $temple->estd_by }}</li>
                     @endif
-                    @if ($temples->committee_name)
-                        <li><strong>Committee:</strong> {{ $temples->committee_name }}</li>
+                    @if ($temple->committee_name)
+                        <li><strong>Committee:</strong> {{ $temple->committee_name }}</li>
                     @endif
-                    @if ($temples->contact_no)
-                        <li><strong>Contact:</strong> {{ $temples->contact_no }}</li>
+                    @if ($temple->contact_no)
+                        <li><strong>Contact:</strong> {{ $temple->contact_no }}</li>
                     @endif
-                    @if ($temples->whatsapp_no)
-                        <li><strong>WhatsApp:</strong> {{ $temples->whatsapp_no }}</li>
+                    @if ($temple->whatsapp_no)
+                        <li><strong>WhatsApp:</strong> {{ $temple->whatsapp_no }}</li>
                     @endif
-                    @if ($temples->email)
-                        <li><strong>Email:</strong> {{ $temples->email }}</li>
+                    @if ($temple->email)
+                        <li><strong>Email:</strong> {{ $temple->email }}</li>
                     @endif
-                    @if ($temples->priest_name)
-                        <li><strong>Priest:</strong> {{ $temples->priest_name }}</li>
+                    @if ($temple->priest_name)
+                        <li><strong>Priest:</strong> {{ $temple->priest_name }}</li>
                     @endif
-                    @if ($temples->priest_contact_no)
-                        <li><strong>Priest Contact:</strong> {{ $temples->priest_contact_no }}</li>
+                    @if ($temple->priest_contact_no)
+                        <li><strong>Priest Contact:</strong> {{ $temple->priest_contact_no }}</li>
                     @endif
                 </ul>
             </div>
 
             <div id="gallery" class="tab-content">
                 @php
-                    $photos = json_decode($temples->photo, true);
+                    $photos = json_decode($temple->photo, true);
                 @endphp
 
                 @if (!empty($photos))
