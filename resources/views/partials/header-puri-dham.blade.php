@@ -18,7 +18,8 @@
                 <li><a href="#">Nitis</a></li>
 
                 <li class="has-submenu">
-                    <a href="javascript:void(0)" class="submenu-toggle">Quick Services <i class="fa fa-chevron-down ms-2"></i></a>
+                    <a href="javascript:void(0)" class="submenu-toggle">Quick Services <i
+                            class="fa fa-chevron-down ms-2"></i></a>
                     <ul class="submenu">
                         <li><a href="{{ url('/darshan-timeline') }}">Darshan</a></li>
                         <li><a href="{{ url('/maha-prasad') }}">Mahaprasad</a></li>
@@ -27,17 +28,31 @@
                     </ul>
                 </li>
 
+                @php
+                    use App\Models\NearByTemple;
+                    $temples = NearByTemple::where('language', 'English')->get();
+                @endphp
+
                 <li class="has-submenu">
-                    <a href="javascript:void(0)" class="submenu-toggle">Nearby Temples <i class="fa fa-chevron-down ms-2"></i></a>
+                    <a href="javascript:void(0)" class="submenu-toggle">
+                        Nearby Temples <i class="fa fa-chevron-down ms-2"></i>
+                    </a>
                     <ul class="submenu">
-                        @foreach ($temples as $temple)
-                            <li><a href="{{ route('nearby-temple-view', $temple->name) }}">{{ $temple->name }}</a></li>
-                        @endforeach
+                        @forelse ($temples as $temple)
+                            <li>
+                                <a href="{{ route('nearby-temple-view', $temple->name) }}">
+                                    {{ $temple->name }}
+                                </a>
+                            </li>
+                        @empty
+                            <li><a href="#">No Temples Found</a></li>
+                        @endforelse
                     </ul>
                 </li>
 
                 <li class="has-submenu">
-                    <a href="javascript:void(0)" class="submenu-toggle">Conveniences <i class="fa fa-chevron-down ms-2"></i></a>
+                    <a href="javascript:void(0)" class="submenu-toggle">Conveniences <i
+                            class="fa fa-chevron-down ms-2"></i></a>
                     <ul class="submenu">
                         <li><a href="{{ url('/bhaktanibas-list') }}">Bhakta Nibas</a></li>
                         <li><a href="{{ url('/parking-list') }}">Parking</a></li>
@@ -72,7 +87,8 @@
             <li><a href="#">Nitis</a></li>
 
             <li class="has-submenu">
-                <a href="javascript:void(0)" class="submenu-toggle">Quick Services <i class="fa fa-chevron-down ms-2"></i></a>
+                <a href="javascript:void(0)" class="submenu-toggle">Quick Services <i
+                        class="fa fa-chevron-down ms-2"></i></a>
                 <ul class="submenu">
                     <li><a href="{{ url('/darshan-timeline') }}">Darshan</a></li>
                     <li><a href="{{ url('/maha-prasad') }}">Mahaprasad</a></li>
@@ -82,7 +98,8 @@
             </li>
 
             <li class="has-submenu">
-                <a href="javascript:void(0)" class="submenu-toggle">Nearby Temples <i class="fa fa-chevron-down ms-2"></i></a>
+                <a href="javascript:void(0)" class="submenu-toggle">Nearby Temples <i
+                        class="fa fa-chevron-down ms-2"></i></a>
                 <ul class="submenu">
                     @foreach ($temples as $temple)
                         <li><a href="{{ route('nearby-temple-view', $temple->name) }}">{{ $temple->name }}</a></li>
@@ -91,7 +108,8 @@
             </li>
 
             <li class="has-submenu">
-                <a href="javascript:void(0)" class="submenu-toggle">Conveniences <i class="fa fa-chevron-down ms-2"></i></a>
+                <a href="javascript:void(0)" class="submenu-toggle">Conveniences <i
+                        class="fa fa-chevron-down ms-2"></i></a>
                 <ul class="submenu">
                     <li><a href="{{ url('/bhaktanibas-list') }}">Bhakta Nibas</a></li>
                     <li><a href="{{ url('/parking-list') }}">Parking</a></li>

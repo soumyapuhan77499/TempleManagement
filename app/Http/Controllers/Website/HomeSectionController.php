@@ -241,10 +241,7 @@ public function viewAllNiti()
                 return $item['start_time'] ?? '9999:99:99';
             })->values();
 
-    $temples = NearByTemple::where('language', 'English')->get();
-            
-
-    return view('website.view-all-niti', compact('mergedNitiList','temples'));
+    return view('website.view-all-niti', compact('mergedNitiList'));
 }
 
 public function mandirTv(){
@@ -273,9 +270,7 @@ public function viewNearByTemple($name)
 }
 
 public function privacyPolicy(){
-    $temples = NearByTemple::where('language', 'English')->get();
-
-    return view('website.temple-privacy-police', compact('temples'));
+    return view('website.temple-privacy-police');
 }
 
 }

@@ -65,11 +65,9 @@ public function parkingList()
 {
     $templeId = 'TEMPLE25402';
 
-    $temples = NearByTemple::where('language', 'English')->get();
-
     $parking = Parking::where('temple_id', $templeId)->where('status','active')->where('language','English')->get();
 
-    return view('website.parking-list', compact('parking','temples'));
+    return view('website.parking-list', compact('parking'));
 }
 
 public function bhaktanibasList(){
@@ -81,10 +79,7 @@ public function bhaktanibasList(){
         ->where('language', 'English')
         ->get();
 
-    $temples = NearByTemple::where('language', 'English')->get();
-
-
-    return view('website.bhaktanibas-list', compact('bhaktaNibas','temples'));
+    return view('website.bhaktanibas-list', compact('bhaktaNibas'));
 
 }
 
@@ -92,23 +87,18 @@ public function lockerShoeList()
 {
     $templeId = 'TEMPLE25402'; // change if needed
 
-    $temples = NearByTemple::where('language', 'English')->get();
-
-
     $services = PublicServices::where('temple_id', $templeId)
         ->whereIn('service_type', ['locker', 'shoe_stand'])
         ->where('status', 'active')
         ->where('language','English')
         ->get();
 
-    return view('website.locker-shoe-list', compact('services','temples'));
+    return view('website.locker-shoe-list', compact('services'));
 }
 
 public function getDarshanList()
 {
     $latestDayId = NitiMaster::where('status', 'active')->latest('id')->value('day_id');
-
-    $temples = NearByTemple::where('language', 'English')->get();
 
     if (!$latestDayId) {
         return response()->json([
@@ -139,14 +129,14 @@ public function getDarshanList()
         ];
     });
 
-    return view('website.temple-darshan-list', compact('darshanList','temples'));
+    return view('website.temple-darshan-list', compact('darshanList'));
 }
 
 public function viewNearByTemple($id)
 {
-    $temples = NearByTemple::findOrFail($id);
+    $temple = NearByTemple::findOrFail($id);
 
-    return view('website.view-near-by-temple', compact('temples'));
+    return view('website.view-near-by-temple', compact('temple'));
 }
 
 public function showByServiceType($service_type)
@@ -157,53 +147,43 @@ public function showByServiceType($service_type)
                 ->where('language','English')
                 ->get();
 
-    $temples = NearByTemple::where('language', 'English')->get();
-
-
-    return view('website.temple-convience', compact('services', 'service_type','temples'));
+    return view('website.temple-convience', compact('services', 'service_type'));
 }
 
 public function viewPanji()
 {
     $todayDate = Carbon::today()->toDateString();
 
-    $temples = NearByTemple::where('language', 'English')->get();
-
     $todayPanji = PanjiDetails::where('date', $todayDate)->where('status', 'active')->where('language','English')->first();
 
-    return view('website.view-panji-details', compact('todayPanji','temples'));  
+    return view('website.view-panji-details', compact('todayPanji'));  
 } 
 
 public function serviceEmergerncy(){
 
-    $temples = NearByTemple::where('language', 'English')->get();
-
-    return view('website.emergency-contact', compact('temples'));
+    return view('website.emergency-contact');
     
 }
 
 public function serviceAbled()
 {
-
-    $temples = NearByTemple::where('language', 'English')->get();
-    return view('website.service-abled', compact('temples'));
+    return view('website.service-abled');
 }
 
 public function onlineDonation()
 {
-    $temples = NearByTemple::where('language', 'English')->get();
-    return view('website.online-donation', compact('temples'));
+    return view('website.online-donation');
 
 }
 
 public function hundiCollection()
 {
     $yesterday = Carbon::yesterday()->toDateString(); // 1 day ago
-    $temples = NearByTemple::where('language', 'English')->get();
+
     $hundi = TempleHundi::where('date', $yesterday)
     ->first();
 
-    return view('website.hundi-collection' , compact('hundi', 'temples'));
+    return view('website.hundi-collection' , compact('hundi'));
 
 }
 
