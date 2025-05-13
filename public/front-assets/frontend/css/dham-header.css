@@ -222,7 +222,7 @@ body {
     position: absolute;
     top: 20px;
     right: 20px;
-    z-index: 1100;
+    z-index: 1;
   }
 
   .mobile-nav {
