@@ -341,7 +341,7 @@
                 <a href="{{ route('darshan.timeline') }}" class="flex flex-col items-center text-center h-full">
                     <img src="{{ asset('website/darshan34.png') }}" alt="Darshan"
                         class="mb-2 transition-transform duration-300"
-                        style="width: 150px; height: 230px; border-radius: 25px;">
+                        style="width: 200px; height: 230px; border-radius: 25px;">
                     <h3 class="text-xl sm:text-2xl font-bold text-[#db4d30] mb-2">Darshan</h3>
                     <div class="text-sm sm:text-base text-gray-700 mb-2 leading-relaxed px-1 line-clamp-5">
                         <p>
