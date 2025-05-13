@@ -94,4 +94,20 @@
     }
   </script>
   
-  
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.submenu-toggle').forEach(function (toggle) {
+            toggle.addEventListener('click', function () {
+                this.closest('.has-submenu').classList.toggle('active');
+            });
+        });
+    });
+
+    function toggleMobileMenu(icon) {
+        document.getElementById('mobileNav').classList.toggle('active');
+    }
+
+    function closeMobileMenu() {
+        document.getElementById('mobileNav').classList.remove('active');
+    }
+</script>

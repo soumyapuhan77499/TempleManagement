@@ -15,7 +15,7 @@
         @else
             <img src="{{ asset('website/d.png') }}" alt="Default Banner" style="width: 100%;">
         @endif
-        
+
         <a href="{{ url('/') }}" class="logo">
             <img src="{{ asset('website/logo.png') }}" alt="logo">
         </a>
