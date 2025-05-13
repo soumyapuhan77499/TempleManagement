@@ -281,31 +281,42 @@ body {
   .has-submenu .submenu {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease-in-out;
-    padding-left: 10px;
-    margin-top: 5px;
-    border-left: 2px solid rgba(255, 255, 255, 0.2);
+    transition: max-height 0.4s ease-in-out;
+    background-color: rgba(255, 255, 255, 0.08);
+    /* semi-transparent background for dropdown */
+    margin: 5px 0 10px;
+    padding: 5px 0;
+    border-radius: 5px;
   }
 
   .has-submenu.active .submenu {
-    /* JS sets max-height */
+    /* JS will set max-height */
   }
 
   .has-submenu .submenu li {
-    margin-bottom: 8px;
+    padding: 0 10px;
+    margin: 0;
   }
 
   .has-submenu .submenu li a {
     font-size: 16px;
     font-weight: 400;
-    color: #f5f5f5;
-    padding-left: 10px;
+    color: #ffffff;
+    padding: 10px;
     display: block;
+    background: transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .has-submenu .submenu li:last-child a {
+    border-bottom: none;
   }
 
   .has-submenu .submenu li a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
     color: #ffe;
   }
+
 
   .nav-close {
     font-size: 26px;
