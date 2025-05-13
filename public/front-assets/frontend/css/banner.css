@@ -218,7 +218,7 @@
     flex-direction: column;
     gap: 5px;
     cursor: pointer;
-    margin-top: 30px;
+    margin-top: 25px;
 }
 
 /* === Dropdown Submenu === */
@@ -412,6 +412,7 @@
     .logo img {
       width: 80%;
       height: auto;
+      margin: 15px;
     }
 
     .hamburger-icon {
