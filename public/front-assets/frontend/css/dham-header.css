@@ -277,24 +277,25 @@ body {
   .has-submenu.active .submenu-toggle .fa-chevron-down {
     transform: rotate(180deg);
   }
-.has-submenu {
+  .has-submenu {
   position: relative;
 }
 
 .has-submenu .submenu {
   position: absolute;
   top: 0;
-  right: 200px;
+  left: 100%; /* show to the right of the parent */
   width: 220px;
   background: linear-gradient(135deg, #FFA726, #F06292);
   border-radius: 0 8px 8px 0;
   padding: 10px 0;
   box-shadow: 2px 0 6px rgba(0, 0, 0, 0.2);
-  z-index: 999;
+  z-index: 9999;
   opacity: 0;
   visibility: hidden;
   transform: translateX(10px);
   transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 .has-submenu.active .submenu {
@@ -315,6 +316,7 @@ body {
   font-size: 16px;
   text-decoration: none;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: transparent;
 }
 
 .has-submenu .submenu li:last-child a {
@@ -325,7 +327,6 @@ body {
   background-color: rgba(255, 255, 255, 0.1);
   color: #ffe;
 }
-
 
   .nav-close {
     font-size: 26px;
