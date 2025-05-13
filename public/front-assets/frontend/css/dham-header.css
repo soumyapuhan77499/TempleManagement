@@ -284,7 +284,7 @@ body {
 .has-submenu .submenu {
   position: absolute;
   top: 0;
-  left: 100%;
+  right: 100%;
   width: 220px;
   background: linear-gradient(135deg, #FFA726, #F06292);
   border-radius: 0 8px 8px 0;
