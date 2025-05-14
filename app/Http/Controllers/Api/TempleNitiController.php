@@ -575,18 +575,36 @@ public function stopNiti(Request $request)
             ], 400);
         }
 
-          $alreadyStop = NitiManagement::where('niti_id', $request->niti_id)
-            ->where('niti_status', 'Completed')
-            ->where('day_id', $dayId)
-            ->latest()
-            ->first();
+     $latestEntry = NitiManagement::where('niti_id', $request->niti_id)
+    ->where('day_id', $dayId)
+    ->latest('created_at')
+    ->first();
 
-        if ($alreadyStop) {
-            return response()->json([
-                'status' => false,
-                 'message' => 'This Niti is already marked as completed for today.'
-            ], 400);
-        }
+    $nitiType = $nitiMaster->niti_type;
+
+    // For "other" Niti: block if latest is already Completed
+    if (
+        $nitiType === 'other' &&
+        $latestEntry &&
+        $latestEntry->niti_status === 'Completed'
+    ) {
+        return response()->json([
+            'status' => false,
+            'message' => 'This Niti (other type) is already marked as completed recently.'
+        ], 400);
+    }
+
+    // For other types: only one completion allowed per day
+    if (
+        $nitiType !== 'other' &&
+        $latestEntry &&
+        $latestEntry->niti_status === 'Completed'
+    ) {
+        return response()->json([
+            'status' => false,
+            'message' => 'This Niti is already marked as completed for today.'
+        ], 400);
+    }
 
         // ✅ Calculate duration
         $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $activeNiti->date . ' ' . $activeNiti->start_time, $tz);
