@@ -89,7 +89,7 @@
             <li class="has-submenu">
                 <a href="javascript:void(0)" class="submenu-toggle">Quick Services <i
                         class="fa fa-chevron-down ms-2"></i></a>
-                <ul class="submenu">
+                <ul class="submenu" style="margin-top: 100px">
                     <li><a href="{{ url('/darshan-timeline') }}">Darshan</a></li>
                     <li><a href="{{ url('/maha-prasad') }}">Mahaprasad</a></li>
                     <li><a href="{{ url('/view-festival-details') }}">Festival</a></li>
@@ -100,7 +100,7 @@
             <li class="has-submenu">
                 <a href="javascript:void(0)" class="submenu-toggle">Nearby Temples <i
                         class="fa fa-chevron-down ms-2"></i></a>
-                <ul class="submenu">
+                <ul class="submenu" style="margin-top: 100px">
                     @foreach ($temples as $temple)
                         <li><a href="{{ route('nearby-temple-view', $temple->name) }}">{{ $temple->name }}</a></li>
                     @endforeach
@@ -110,7 +110,7 @@
             <li class="has-submenu">
                 <a href="javascript:void(0)" class="submenu-toggle">Conveniences <i
                         class="fa fa-chevron-down ms-2"></i></a>
-                <ul class="submenu">
+                <ul class="submenu" style="margin-top: 100px">
                     <li><a href="{{ url('/bhaktanibas-list') }}">Bhakta Nibas</a></li>
                     <li><a href="{{ url('/parking-list') }}">Parking</a></li>
                     <li><a href="{{ url('/locker-shoe-list') }}">Locker & Shoe</a></li>
