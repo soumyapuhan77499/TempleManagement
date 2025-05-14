@@ -365,17 +365,22 @@ public function pauseNiti(Request $request)
         // ✅ Get today's date in IST
         $today = Carbon::now('Asia/Kolkata')->toDateString();
 
-        // ✅ Find the "Started" entry for today
-        $startedNiti = NitiManagement::where('niti_id', $request->niti_id)
-        ->where('niti_status', 'Started')
-        ->where('day_id', $dayId)
-        ->latest()
-        ->first();
+        // ✅ Get the latest management entry for this Niti and Day
+        $latestEntry = NitiManagement::where('niti_id', $request->niti_id)
+            ->where('day_id', $dayId)
+            ->latest('created_at')
+            ->first();
 
-        if (!$startedNiti) {
+        $nitiType = $nitiMaster->niti_type;
+
+        // 🔒 Block pause if no latest entry found or it's not in 'Started' status
+        if (
+            !$latestEntry ||
+            $latestEntry->niti_status !== 'Started'
+        ) {
             return response()->json([
                 'status' => false,
-                'message' => 'This Niti is not in Started state by any Sebak.'
+                'message' => 'No active (Started) Niti found to pause.'
             ], 400);
         }
 
@@ -480,17 +485,16 @@ public function resumeNiti(Request $request)
             ], 400);
         }
 
-        // ✅ Check if the Niti is already resumed AFTER the paused entry
-        $alreadyResumed = NitiManagement::where('niti_id', $request->niti_id)
-        ->where('niti_status', 'Started')
-        ->where('day_id', $dayId)
-        ->latest()
-        ->first();
-        
-        if ($alreadyResumed) {
+        // ✅ Get latest NitiManagement entry
+        $latestEntry = NitiManagement::where('niti_id', $request->niti_id)
+            ->where('day_id', $dayId)
+            ->latest('created_at')
+            ->first();
+
+        if (!$latestEntry || $latestEntry->niti_status !== 'Paused') {
             return response()->json([
                 'status' => false,
-                'message' => 'This Niti is already resumed.'
+                'message' => 'No paused Niti available to resume or it has already been resumed.'
             ], 409); // 409 Conflict
         }
 
