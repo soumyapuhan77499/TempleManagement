@@ -16,7 +16,7 @@
                     <li><a href="{{ url('/online-donation') }}">Online Donation</a></li>
                     <li><a href="{{ url('/hundi-collection') }}">Hundi Collection</a></li>
                     <li><a href="{{ route('do-and-donts') }}">Do's and don'ts</a></li>
-                    <li><a href="https://shreejagannathadham.com/puri-website/privacy-policy">privacy policy</a></li>
+                    <li><a href="https://shreejagannathadham.com/puri-website/privacy-policy">Privacy Policy</a></li>
                 </ul>
             </div>
             <div>

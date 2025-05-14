@@ -40,7 +40,7 @@
                         <li><a href="{{ url('/darshan-timeline') }}">Darshan</a></li>
                         <li><a href="{{ url('/maha-prasad') }}">Mahaprasad</a></li>
                         <li><a href="{{ url('/view-festival-details') }}">Festival</a></li>
-                        <li><a href="#dos-donts">Do's & Don'ts</a></li>
+                        <li><a href="{{ url('/do-and-donts') }}">Do's & Don'ts</a></li>
                     </ul>
                 </li>
 
@@ -57,7 +57,6 @@
                         @endforeach
                     </ul>
                 </li>
-
 
                 <li class="has-submenu">
                     <a href="javascript:void(0)" class="submenu-toggle">Conveniences <i
