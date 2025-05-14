@@ -277,69 +277,59 @@ body {
   .has-submenu.active .submenu-toggle .fa-chevron-down {
     transform: rotate(180deg);
   }
-/* Submenu base styles */
-.has-submenu {
-  position: relative;
-}
 
-.submenu-toggle {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  color: #fff;
-  padding: 10px 15px;
-  font-size: 18px;
-  text-decoration: none;
-  font-weight: 600;
-  cursor: pointer;
-  background-color: transparent;
-  border: none;
-}
+  .has-submenu {
+    position: relative;
+  }
 
-.has-submenu .submenu {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease, padding 0.3s ease;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  margin-top: 100px;
-}
+  .has-submenu .submenu {
+    position: absolute;
+    top: 0;
+    right: 100%;
+    width: 220px;
+    background: linear-gradient(135deg, #FFA726, #F06292);
+    border-radius: 8px 0 0 8px;
+    padding: 10px 0;
+    box-shadow: -2px 0 6px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    margin-top: 150px;
 
-.has-submenu.active .submenu {
-  max-height: 1000px; /* Large enough to accommodate content */
-  padding: 10px 0;
-}
+  }
 
-/* Submenu item styles */
-.has-submenu .submenu li {
-  list-style: none;
-}
+  .has-submenu.active .submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+  }
 
-.has-submenu .submenu li a {
-  color: #fff;
-  padding: 10px 20px;
-  display: block;
-  font-size: 16px;
-  text-decoration: none;
-  transition: background 0.3s ease;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
+  .has-submenu .submenu li {
+    margin: 0;
+    padding: 0;
+  }
 
-.has-submenu .submenu li:last-child a {
-  border-bottom: none;
-}
+  .has-submenu .submenu li a {
+    color: #fff;
+    padding: 10px 15px;
+    display: block;
+    font-size: 16px;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: transparent;
+  }
 
-.has-submenu .submenu li a:hover {
-  background-color: rgba(255, 255, 255, 0.15);
-  color: #ffe;
-}
+  .has-submenu .submenu li:last-child a {
+    border-bottom: none;
+  }
 
-/* Chevron icon rotation */
-.has-submenu.active .submenu-toggle .fa-chevron-down {
-  transform: rotate(180deg);
-  transition: transform 0.3s ease;
-}
+  .has-submenu .submenu li a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffe;
+  }
 
   .nav-close {
     font-size: 26px;
