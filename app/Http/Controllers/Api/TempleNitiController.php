@@ -217,17 +217,37 @@ public function startNiti(Request $request)
             ], 422);
                 }
         // Check if the same Niti is already started by any user for this day
-        $alreadyStarted = NitiManagement::where('niti_id', $request->niti_id)
+        $latestEntry = NitiManagement::where('niti_id', $request->niti_id)
             ->where('day_id', $dayId)
-            ->where('niti_status', 'Started')
-            ->exists();
+            ->latest('created_at')
+            ->first();
 
-        if ($alreadyStarted) {
-            return response()->json([ 
+        $nitiType = $nitiMaster->niti_type;
+
+        // For "other" Niti, allow multiple but only if latest is Completed
+        if (
+            $nitiType === 'other' &&
+            $latestEntry &&
+            $latestEntry->niti_status === 'Started'
+        ) {
+            return response()->json([
+                'status' => false,
+                'message' => 'This Niti (other type) is already started and not completed yet.'
+            ], 409);
+        }
+
+        // For other types, block if already started
+        if (
+            $nitiType !== 'other' &&
+            $latestEntry &&
+            $latestEntry->niti_status === 'Started'
+        ) {
+            return response()->json([
                 'status' => false,
                 'message' => 'This Niti has already been started by another user.'
-            ], 409); // 409 Conflict
+            ], 409);
         }
+
 
         // ✅ Step 1: Start Niti
         $nitiManagement = NitiManagement::create([
@@ -417,7 +437,6 @@ public function pauseNiti(Request $request)
     }
 }
 
-
 public function resumeNiti(Request $request)
 {
     try {
@@ -562,7 +581,7 @@ public function stopNiti(Request $request)
             ->latest()
             ->first();
 
-        if (!$alreadyStop) {
+        if ($alreadyStop) {
             return response()->json([
                 'status' => false,
                  'message' => 'This Niti is already marked as completed for today.'
