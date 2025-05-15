@@ -87,6 +87,14 @@ Route::get('/about', function () {
     return view('about');
 });
 
+Route::get('/lang/{locale}', function ($locale) {
+    if (in_array($locale, ['English', 'Odia'])) {
+        session(['app_language' => ucfirst($locale)]); // Stores 'English' or 'Odia'
+    }
+    return redirect()->back();
+});
+
+
 Route::controller(MenuController::class)->group(function() {
     Route::get('add-menu', 'addMainMenu')->name('addMainMenu');
     Route::post('/save-sub-menu', 'saveSubMenu')->name('saveSubMenu');

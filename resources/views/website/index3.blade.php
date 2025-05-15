@@ -1,7 +1,6 @@
 @extends('website.web-layouts')
 
 @section('content')
-
     <section class="banner-sections">
         <!-- Video Banner -->
         @if ($latestWebVideo && $latestWebVideo->banner_video)
@@ -77,6 +76,16 @@
                 </li>
                 <li><a href="#panji">Panji</a></li>
                 {{-- <li><a href="#">Temple Information</a></li> --}}
+                <li class="has-submenu">
+                    <a href="javascript:void(0)" class="submenu-toggle">
+                        Language <i class="fa fa-chevron-down ms-2"></i>
+                    </a>
+                    <ul class="submenu">
+                        <li><a href="{{ url('/lang/Odia') }}">ଓଡ଼ିଆ</a></li>
+                        <li><a href="{{ url('/lang/English') }}">English</a></li>
+                    </ul>
+                </li>
+
             </ul>
         </nav>
 
@@ -370,7 +379,7 @@
                     </div>
                 </a>
 
-              
+
                 <!-- Offering -->
                 <a href="{{ route('view.festival.details') }}">
                     <div class="bg-white border-l-4 border-[#db4d30]  px-5 py-4 flex items-center gap-5 h-[140px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300"
@@ -384,7 +393,7 @@
                     </div>
                 </a>
 
-                  <!-- do and dont -->
+                <!-- do and dont -->
                 <a href="{{ route('do-and-donts') }}">
                     <div class="bg-white border-l-4 border-[#db4d30] px-5 py-4 flex items-center gap-5 h-[150px] hover:shadow-lg transition-transform hover:translate-x-1 duration-300"
                         style="border: 1px solid rgb(213, 213, 213);border-radius: 13px;">
@@ -760,5 +769,4 @@
     {{-- </section> --}}
 
     @include('partials.website-footer')
-
 @endsection

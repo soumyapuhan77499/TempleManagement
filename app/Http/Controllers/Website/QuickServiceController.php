@@ -63,9 +63,9 @@ public function prasadTimeline()
 
 public function parkingList()
 {
-    $templeId = 'TEMPLE25402';
+    $language = session('app_language', 'English');
 
-    $parking = Parking::where('temple_id', $templeId)->where('status','active')->where('language','English')->get();
+    $parking = Parking::where('status','active')->where('language', $language)->get();
 
     return view('website.parking-list', compact('parking'));
 }
