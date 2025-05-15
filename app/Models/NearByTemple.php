@@ -12,6 +12,7 @@ class NearByTemple extends Model
     protected $table = 'temple__near_by_place';
 
     protected $fillable = [
+      'language',
       'temple_id',
       'name',
       'cover_photo',

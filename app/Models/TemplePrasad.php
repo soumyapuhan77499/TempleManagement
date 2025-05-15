@@ -16,6 +16,7 @@ class TemplePrasad extends Model
         'temple_id',
         'day_id',
         'prasad_name',
+        'english_prasad_name',
         'prasad_type',
         'start_time',
         'date',
