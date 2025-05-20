@@ -153,6 +153,18 @@ public function showByServiceType($service_type)
     return view('website.temple-convience', compact('services', 'service_type'));
 }
 
+
+public function serviceStation()
+{
+    $language = session('app_language', 'English');
+
+    $services = CommuteMode::where('status', 'active') // Only active services
+                ->where('language', $language) // Filter by language
+                ->get();
+
+    return view('website.temple-nearby-station', compact('services'));
+}
+
 public function viewPanji()
 {
     $language = session('app_language', 'English');

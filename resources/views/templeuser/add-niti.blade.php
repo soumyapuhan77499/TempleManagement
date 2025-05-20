@@ -92,25 +92,22 @@
                         </div>
 
                         <div class="row">
-                            <!-- Language Selection -->
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="main-content-label">Language</label>
-                                    <select class="form-control" id="language" name="language">
-                                        <option value="">Select language...</option>
-                                        <option value="English">English</option>
-                                        <option value="Hindi">Hindi</option>
-                                        <option value="Odia">Odia</option>
-                                    </select>
-                                </div>
-                            </div>
+                           
 
                             <!-- Niti Name Input -->
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label class="main-content-label">Niti Name</label>
+                                    <label class="main-content-label">Niti Name Odia</label>
                                     <input type="text" class="form-control" id="niti_name" name="niti_name"
-                                        placeholder="Enter Niti Name">
+                                        placeholder="Enter Niti Name Odia">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="main-content-label">Niti Name English</label>
+                                    <input type="text" class="form-control" id="english_niti_name" name="english_niti_name"
+                                        placeholder="Enter Niti Name English">
                                 </div>
                             </div>
 
@@ -393,7 +390,18 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="main-content-label">Description</div>
-                        <textarea class="form-control" id="description" name="description" placeholder="Enter Niti Description"></textarea>
+                        <textarea class="form-control" id="description" name="description" placeholder="Enter Niti Description Odia"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+         <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="main-content-label">Description</div>
+                        <textarea class="form-control" id="english_description" name="english_description" placeholder="Enter Niti Description English"></textarea>
                     </div>
                 </div>
             </div>
