@@ -335,8 +335,7 @@
     <div class="container mx-auto px-4">
         <div class="bg-white rounded-lg shadow p-5 text-center max-w-2xl mx-auto border border-[#db4d30]">
             <h2 class="text-lg font-semibold text-[#db4d30] mb-3 flex justify-center items-center gap-2">
-                <span class="blink-icon">🔔</span>
-                {{ $language === 'Odia' ? 'ସୂଚନା' : 'Information' }}
+                <span class="blink-icon">🔔</span>Information
             </h2>
             <p class="text-gray-800 text-md leading-relaxed">
                 {{ $information->niti_notice }}
