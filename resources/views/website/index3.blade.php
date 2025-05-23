@@ -330,19 +330,20 @@
         </div>
     </section> --}}
 
-     @if (!empty($information))
-       <section class="info-section py-6">
-    <div class="container mx-auto px-4">
-        <div class="bg-white rounded-lg shadow p-5 text-center max-w-2xl mx-auto border border-[#db4d30]">
-            <h2 class="text-lg font-semibold text-[#db4d30] mb-3 flex justify-center items-center gap-2">
-                <span class="blink-icon">🔔</span>Information
-            </h2>
-            <p class="text-gray-800 text-md leading-relaxed">
-                {{ $information->niti_notice }}
-            </p>
-        </div>
-    </div>
-</section>
+    @if (!empty($information))
+        <section class="info-section">
+            <div class="info-container">
+                <div class="info-box">
+                    <h2 class="info-title">
+                        <span class="blink-icon">🔔</span>
+                        Information
+                    </h2>
+                    <p class="info-text">
+                        {{ $information->niti_notice }}
+                    </p>
+                </div>
+            </div>
+        </section>
     @endif
 
     <section class="services-section py-10 ">
