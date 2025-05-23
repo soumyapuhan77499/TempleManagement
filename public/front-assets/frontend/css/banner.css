@@ -518,90 +518,79 @@
   }
 /* Information Section */
 .info-section {
-  background: linear-gradient(120deg, #fffaf0, #fff0f5);
-  padding: 2.5rem 1rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #fffdf5;
+  padding: 2rem 1rem;
 }
 
 .info-container {
-  max-width: 820px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 0 1rem;
 }
 
 .info-box {
-  background: rgba(255, 255, 255, 0.85);
-  border-radius: 16px;
-  padding: 2rem 1.5rem;
-  position: relative;
+  background: #fff;
+  border-left: 8px solid #FFA726;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  padding: 2rem;
   text-align: center;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
-  border: 3px solid transparent;
-  background-clip: padding-box;
-  border-image: linear-gradient(45deg, #FFA726, #F06292) 1;
-  backdrop-filter: blur(6px);
-  transition: all 0.3s ease-in-out;
-}
-
-.info-box:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
 }
 
 .info-header {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   gap: 0.75rem;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1rem;
 }
 
 .info-icon {
-  font-size: 2rem;
+  font-size: 1.75rem;
   color: #F06292;
-  animation: pulse 1.6s infinite ease-in-out;
+  animation: pulse 1.5s infinite;
 }
 
 .info-title {
-  font-size: 1.75rem;
-  font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: bold;
   color: #db4d30;
   margin: 0;
-  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.4);
 }
 
 .info-text {
-  font-size: 1.05rem;
-  color: #444;
-  line-height: 1.8;
-  padding: 0 1rem;
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.7;
   margin-top: 0.5rem;
 }
 
-/* Blinking Text */
+/* Blink effect on the text */
 .blink-text {
-  animation: blinkText 1.2s ease-in-out infinite;
+  animation: blinkText 1.2s infinite;
 }
 
 @keyframes blinkText {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.2; }
+  50% { opacity: 0.4; }
 }
 
-/* Icon Pulse */
+/* Icon pulse animation */
 @keyframes pulse {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.15); }
+  50% { transform: scale(1.2); }
 }
 
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 600px) {
   .info-box {
-    padding: 1.5rem 1rem;
+    padding: 1.2rem;
   }
 
   .info-title {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   }
 
   .info-text {
@@ -609,6 +598,6 @@
   }
 
   .info-icon {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
   }
 }
