@@ -113,7 +113,7 @@ public function puriWebsite()
         'prasad' => TemplePrasad::where('temple_id', $templeId)->first(),
         'todayPanji' => $todayPanji, // Pass today Panji
         'temples' => NearByTemple::where('language', 'English')->get(),
-        'nitiInfo' => $information,
+        'information' => $information,
 
     ]);
 }
