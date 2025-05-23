@@ -516,71 +516,88 @@
       }
     
   }
-
-  /* information */
-.blink-icon {
-  animation: blink 1s infinite;
-  font-size: 1.25rem;
-  color: #db4d30;
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
+/* Information Section */
 .info-section {
-  background: linear-gradient(to right, #fff7f0, #fff0f5);
+  background: #fffdf5;
   padding: 2rem 1rem;
 }
 
 .info-container {
-  max-width: 768px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 0 1rem;
 }
 
 .info-box {
-  border: 1px solid #db4d30;
-  border-radius: 1rem;
-  background-color: #fff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  padding: 1.5rem;
+  background: #fff;
+  border-left: 8px solid #FFA726;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  padding: 2rem;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.info-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.info-icon {
+  font-size: 1.75rem;
+  color: #F06292;
+  animation: pulse 1.5s infinite;
 }
 
 .info-title {
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: bold;
   color: #db4d30;
-  margin-bottom: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
+  margin: 0;
 }
 
 .info-text {
   font-size: 1rem;
   color: #333;
-  line-height: 1.6;
+  line-height: 1.7;
+  margin-top: 0.5rem;
 }
 
-/* Responsive styles */
+/* Blink effect on the text */
+.blink-text {
+  animation: blinkText 1.2s infinite;
+}
+
+@keyframes blinkText {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* Icon pulse animation */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* Responsive */
 @media (max-width: 600px) {
   .info-box {
-    padding: 1rem;
+    padding: 1.2rem;
   }
 
   .info-title {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
 
   .info-text {
     font-size: 0.95rem;
   }
 
-  .blink-icon {
-    font-size: 1rem;
+  .info-icon {
+    font-size: 1.5rem;
   }
 }

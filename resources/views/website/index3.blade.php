@@ -330,21 +330,21 @@
         </div>
     </section> --}}
 
-    @if (!empty($information))
-        <section class="info-section">
-            <div class="info-container">
-                <div class="info-box">
-                    <h2 class="info-title">
-                        <span class="blink-icon">🔔</span>
-                        Information
-                    </h2>
-                    <p class="info-text">
-                        {{ $information->niti_notice }}
-                    </p>
-                </div>
+   @if (!empty($information))
+<section class="info-section">
+    <div class="info-container">
+        <div class="info-box">
+            <div class="info-header">
+                <span class="info-icon">📢</span>
+                <h2 class="info-title">Important Information</h2>
             </div>
-        </section>
-    @endif
+            <p class="info-text blink-text">
+                {{ $information->niti_notice }}
+            </p>
+        </div>
+    </div>
+</section>
+@endif
 
     <section class="services-section py-10 ">
         <!-- Section Title -->
