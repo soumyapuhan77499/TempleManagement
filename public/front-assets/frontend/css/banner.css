@@ -516,3 +516,72 @@
       }
     
   }
+
+  /* information */
+
+  .blink-icon {
+  animation: blink 1s infinite;
+  font-size: 1.25rem;
+  color: #db4d30;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.info-section {
+  background: linear-gradient(to right, #fff7f0, #fff0f5);
+  padding: 2rem 1rem;
+}
+
+.info-section .container {
+  max-width: 768px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.info-section .rounded-lg {
+  border: 1px solid #db4d30;
+  border-radius: 1rem;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.info-section h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #db4d30;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.info-section p {
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+  .info-section .rounded-lg {
+    padding: 1rem;
+  }
+
+  .info-section h2 {
+    font-size: 1rem;
+  }
+
+  .info-section p {
+    font-size: 0.95rem;
+  }
+
+  .blink-icon {
+    font-size: 1rem;
+  }
+}

@@ -22,7 +22,6 @@ use App\Models\TempleHundi;
 use App\Models\PanjiDetails;
 use Carbon\Carbon;
 
-
 class HomeSectionController extends Controller
 {
 
@@ -89,6 +88,14 @@ public function puriWebsite()
 
         $todayDate = Carbon::today()->toDateString();
         $todayPanji = PanjiDetails::where('date', $todayDate)->where('status', 'active')->first();
+
+         $information = TempleNews::where('type', 'information')
+        ->where('type','information')
+        ->where('status','active')
+        ->orderBy('created_at', 'desc')
+        ->get(['id', 'niti_notice', 'status'])
+        ->first();
+    
  
     return view('website.index3', [
         'nitis' => $finalNitiList->values(),
@@ -103,7 +110,9 @@ public function puriWebsite()
         'darshan' => TempleDarshan::where('temple_id', $templeId)->first(),
         'prasad' => TemplePrasad::where('temple_id', $templeId)->first(),
         'todayPanji' => $todayPanji, // Pass today Panji
-        'temples' => NearByTemple::where('language', 'English')->get()
+        'temples' => NearByTemple::where('language', 'English')->get(),
+        'nitiInfo' => $information,
+
     ]);
 }
 
