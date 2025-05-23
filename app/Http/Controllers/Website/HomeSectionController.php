@@ -20,6 +20,8 @@ use App\Models\TempleDarshan;
 use App\Models\TemplePrasad;
 use App\Models\TempleHundi;
 use App\Models\PanjiDetails;
+use App\Models\TempleNews;
+
 use Carbon\Carbon;
 
 class HomeSectionController extends Controller
