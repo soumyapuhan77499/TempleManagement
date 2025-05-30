@@ -556,13 +556,13 @@ public function stopNiti(Request $request)
         $tz = 'Asia/Kolkata';
         $now = Carbon::now($tz);
 
+        // ✅ Get latest TempleNews to complete
+        $latestNews = TempleNews::where('type', 'information')
+            ->where('niti_notice_status', 'Started')
+            ->orderBy('created_at', 'desc')
+            ->first();
 
-       $latestNews = TempleNews::where('type', 'information')
-       ->where('niti_notice_status', 'Started')
-       ->orderBy('created_at', 'desc')
-       ->first();
-
-        // ✅ Get day_id from NitiMaster
+        // ✅ Fetch NitiMaster and check day_id
         $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
 
         if (!$nitiMaster || !$nitiMaster->day_id) {
@@ -574,7 +574,7 @@ public function stopNiti(Request $request)
 
         $dayId = $nitiMaster->day_id;
 
-        // ✅ Get the latest active Niti by day_id
+        // ✅ Get the active Started Niti row
         $activeNiti = NitiManagement::where('niti_id', $request->niti_id)
             ->where('niti_status', 'Started')
             ->where('day_id', $dayId)
@@ -588,36 +588,27 @@ public function stopNiti(Request $request)
             ], 400);
         }
 
-     $latestEntry = NitiManagement::where('niti_id', $request->niti_id)
-    ->where('day_id', $dayId)
-    ->latest('created_at')
-    ->first();
+        // ✅ Validate based on latest entry
+        $latestEntry = NitiManagement::where('niti_id', $request->niti_id)
+            ->where('day_id', $dayId)
+            ->latest('created_at')
+            ->first();
 
-    $nitiType = $nitiMaster->niti_type;
+        $nitiType = $nitiMaster->niti_type;
 
-    // For "other" Niti: block if latest is already Completed
-    if (
-        $nitiType === 'other' &&
-        $latestEntry &&
-        $latestEntry->niti_status === 'Completed'
-    ) {
-        return response()->json([
-            'status' => false,
-            'message' => 'This Niti (other type) is already marked as completed recently.'
-        ], 400);
-    }
-
-    // For other types: only one completion allowed per day
-    if (
-        $nitiType !== 'other' &&
-        $latestEntry &&
-        $latestEntry->niti_status === 'Completed'
-    ) {
-        return response()->json([
-            'status' => false,
-            'message' => 'This Niti is already marked as completed for today.'
-        ], 400);
-    }
+        if (
+            $latestEntry &&
+            $latestEntry->niti_status === 'Completed' &&
+            (
+                ($nitiType === 'other') ||
+                ($nitiType !== 'other')
+            )
+        ) {
+            return response()->json([
+                'status' => false,
+                'message' => 'This Niti is already marked as completed for today.'
+            ], 400);
+        }
 
         // ✅ Calculate duration
         $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $activeNiti->date . ' ' . $activeNiti->start_time, $tz);
@@ -630,26 +621,20 @@ public function stopNiti(Request $request)
         $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
         $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
 
-        // ✅ Save completed Niti entry
-        $completedNiti = new NitiManagement();
-        $completedNiti->niti_id       = $request->niti_id;
-        $completedNiti->sebak_id      = $user->sebak_id;
-        $completedNiti->day_id        = $dayId;
-        $completedNiti->start_time    = $activeNiti->start_time;
-        $completedNiti->pause_time    = $activeNiti->pause_time;
-        $completedNiti->resume_time   = $activeNiti->resume_time;
-        $completedNiti->date          = $now->toDateString();
-        $completedNiti->end_time      = $now->format('H:i:s');
-        $completedNiti->running_time  = $runningTime;
-        $completedNiti->duration      = trim($durationText);
-        $completedNiti->niti_status   = 'Completed';
-        $completedNiti->save();
+        // ✅ Update the same NitiManagement row
+        $activeNiti->update([
+            'end_time'      => $now->format('H:i:s'),
+            'running_time'  => $runningTime,
+            'duration'      => $durationText,
+            'niti_status'   => 'Completed',
+        ]);
 
         // ✅ Update NitiMaster
         $nitiMaster->update([
             'niti_status' => 'Completed'
         ]);
-            
+
+        // ✅ Update TempleNews
         if ($latestNews) {
             $latestNews->update(['niti_notice_status' => 'Completed']);
         }
@@ -668,21 +653,16 @@ public function stopNiti(Request $request)
                 $darshanStart = Carbon::parse($activeDarshan->date . ' ' . $activeDarshan->start_time);
                 $darshanDuration = $darshanStart->diff($now)->format('%H:%I:%S');
 
-                $darshanCompleted = DarshanManagement::create([
-                    'darshan_id'     => $nitiMaster->connected_darshan_id,
-                    'sebak_id'       => $user->sebak_id,
-                    'temple_id'      => $activeDarshan->temple_id ?? null,
-                    'day_id'         => $dayId,
-                    'date'           => $now->toDateString(),
-                    'start_time'     => $activeDarshan->start_time,
+                $activeDarshan->update([
                     'end_time'       => $now->format('H:i:s'),
                     'duration'       => $darshanDuration,
                     'darshan_status' => 'Completed',
                 ]);
 
-                // ✅ Update DarshanDetails
                 DarshanDetails::where('id', $nitiMaster->connected_darshan_id)
                     ->update(['darshan_status' => 'Completed']);
+
+                $darshanCompleted = $activeDarshan;
             }
         }
 
@@ -690,7 +670,7 @@ public function stopNiti(Request $request)
             'status' => true,
             'message' => 'Niti (and linked Darshan if any) stopped successfully.',
             'data' => [
-                'niti'    => $completedNiti,
+                'niti'    => $activeNiti,
                 'darshan'=> $darshanCompleted
             ]
         ], 200);
@@ -703,6 +683,7 @@ public function stopNiti(Request $request)
         ], 500);
     }
 }
+
 
 public function completedNiti()
 {
