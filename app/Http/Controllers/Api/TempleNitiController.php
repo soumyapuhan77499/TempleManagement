@@ -257,7 +257,7 @@ public function startNiti(Request $request)
         $nitiManagement = NitiManagement::create([
             'niti_id'     => $request->niti_id,
             'day_id'      => $dayId,
-            'sebak_id'    => $user->sebak_id,
+            'start_user_id'    => $user->sebak_id,
             'date'        => $now->toDateString(),
             'start_time'  => $now->format('H:i:s'),
             'niti_status' => 'Started'
@@ -265,7 +265,6 @@ public function startNiti(Request $request)
 
         // ✅ Update NitiMaster status
         $nitiMaster->update(['niti_status' => 'Started']);
-
 
         if ($latestNews) {
             $latestNews->update(['niti_notice_status' => 'Completed']);
@@ -623,6 +622,7 @@ public function stopNiti(Request $request)
 
         // ✅ Update the same NitiManagement row
         $activeNiti->update([
+            'end_user_id'    => $user->sebak_id,
             'end_time'      => $now->format('H:i:s'),
             'running_time'  => $runningTime,
             'duration'      => $durationText,
@@ -683,7 +683,6 @@ public function stopNiti(Request $request)
         ], 500);
     }
 }
-
 
 public function completedNiti()
 {
@@ -1555,6 +1554,8 @@ public function editStartTime(Request $request)
 
     // ✅ Update start_time
     $niti->start_time = $request->start_time;
+    $niti->start_time_edit_user_id = $user->sebak_id;
+
     $niti->save();
 
     return response()->json([
@@ -1617,6 +1618,7 @@ public function editEndTime(Request $request)
         'end_time'     => $request->end_time,
         'running_time' => $runningTime,
         'duration'     => trim($durationText),
+        'end_time_edit_user_id' => $user->sebak_id,
     ]);
 
     return response()->json([
