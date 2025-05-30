@@ -39,10 +39,11 @@ public function puriWebsite()
             'message' => 'No active Niti found to determine day_id.'
         ], 404);
     }
-    
+
     // Step 1: Get all active Nitis ordered by date_time (or serial)
     $allNitis = NitiMaster::where('status', 'active')
         ->where('language', 'Odia')
+        ->where('niti_status', '!=', 'NotStarted')
         ->where('niti_type', 'daily') // adjust this if needed
         ->with([
             'todayStartTime' => function ($query) use ($latestDayId) {
@@ -53,7 +54,7 @@ public function puriWebsite()
         ])
         ->orderBy('niti_order', 'asc')
         ->get();
-    
+
     // Step 2: Find the last started Niti
     $currentIndex = null;
     
@@ -89,6 +90,7 @@ public function puriWebsite()
     }
 
         $todayDate = Carbon::today()->toDateString();
+
         $todayPanji = PanjiDetails::where('date', $todayDate)->where('status', 'active')->first();
 
          $information = TempleNews::where('type', 'information')
@@ -133,6 +135,7 @@ public function viewAllNiti()
     // ✅ Only load daily & special nitis — exclude "other" completely
     $allNitis = NitiMaster::whereIn('niti_type', ['daily', 'special'])
         ->where('niti_privacy', 'public')
+        ->where('niti_status', '!=', 'NotStarted')
         ->orderBy('niti_order', 'asc')
         ->get()
         ->keyBy('niti_id');

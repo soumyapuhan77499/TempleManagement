@@ -36,6 +36,7 @@ class WebsiteBannerController extends Controller
     // ✅ Only load daily & special nitis — exclude "other" completely
     $allNitis = NitiMaster::whereIn('niti_type', ['daily', 'special'])
         ->where('niti_privacy', 'public')
+        ->where('niti_status', '!=', 'NotStarted')
         ->orderBy('niti_order', 'asc')
         ->get()
         ->keyBy('niti_id');

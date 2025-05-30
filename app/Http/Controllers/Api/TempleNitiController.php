@@ -51,6 +51,7 @@ public function manageNiti(Request $request)
         // ✅ Get all Daily Nitis
         $dailyNitis = NitiMaster::where('status', 'active')
             ->where('language', 'Odia')
+            ->where('niti_status', '!=', 'NotStarted')
             ->where('niti_type', 'daily')
             ->orderBy('niti_order', 'asc') // <-- will now correctly sort even decimal orders
             ->with([
@@ -67,6 +68,7 @@ public function manageNiti(Request $request)
         $specialNitisGrouped = NitiMaster::where('status', 'active')
             ->where('niti_type', 'special')
             ->where('language', 'Odia')
+            ->where('niti_status', '!=', 'NotStarted')
             ->whereDate('date_time', $today) // ✅ Filter by today's date here
             ->with([
                 'todayStartTime' => function ($query) use ($latestDayId) {
@@ -1721,7 +1723,7 @@ public function markNitiAsNotStarted(Request $request)
     // ✅ Always create a new NitiManagement entry
     $management = NitiManagement::create([
         'niti_id'               => $request->niti_id,
-        'sebak_id'              => $user->sebak_id,
+        'not_done_user_id'      => $user->sebak_id,
         'day_id'                => $dayId,
         'date'                  => $now->toDateString(),
         'niti_status'           => 'NotStarted',
