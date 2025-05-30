@@ -42,7 +42,6 @@ public function puriWebsite()
 
     // Step 1: Get all active Nitis ordered by date_time (or serial)
     $allNitis = NitiMaster::where('status', 'active')
-        ->where('language', 'Odia')
         ->where('niti_status', '!=', 'NotStarted')
         ->where('niti_type', 'daily') // adjust this if needed
         ->with([
