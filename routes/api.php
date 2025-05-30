@@ -299,8 +299,6 @@ Route::controller(TempleNitiController::class)->group(function () {
   Route::post('/niti-information', 'addNitiInformation');
   Route::post('/niti-information/{id}', 'deleteNitiInformation');
 
-
-
 });
 
 Route::controller(TempleDarshanController::class)->group(function () {

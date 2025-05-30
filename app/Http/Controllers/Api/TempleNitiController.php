@@ -720,7 +720,7 @@ public function completedNiti()
 
         // Fetch completed Niti entries for today along with related Niti name
         $completed = NitiManagement::with('master:niti_id,niti_name')
-            ->where('niti_status', 'Completed')
+            ->where('niti_status', ['Completed','Started'])
             ->where('day_id', $dayId)
             ->get()
             ->map(function ($item) {
@@ -1549,6 +1549,5 @@ public function editStartTime(Request $request)
         'data' => $niti
     ]);
 }
-
 
 }
