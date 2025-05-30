@@ -288,6 +288,7 @@ Route::controller(TempleNitiController::class)->group(function () {
       Route::post('/niti/edit-start-time',  'editStartTime');
       Route::post('/niti/edit-end-time',  'editEndTime');
       Route::post('/niti/reset','resetNiti');
+      Route::post('/niti/not-started', 'markNitiAsNotStarted');
   });
 
   Route::post('/save-temple-news', 'storeByNoticeName');

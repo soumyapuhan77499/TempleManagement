@@ -252,7 +252,6 @@ public function startNiti(Request $request)
             ], 409);
         }
 
-
         // ✅ Step 1: Start Niti
         $nitiManagement = NitiManagement::create([
             'niti_id'     => $request->niti_id,
@@ -1676,6 +1675,67 @@ public function resetNiti(Request $request)
         'data' => [
             'niti_id' => $request->niti_id,
             'day_id'  => $dayId
+        ]
+    ]);
+}
+
+public function markNitiAsNotStarted(Request $request)
+{
+    $request->validate([
+        'niti_id' => 'required|string|exists:temple__niti_details,niti_id',
+        'niti_not_done_reason' => 'required|string|max:255'
+    ]);
+
+    $user = Auth::guard('niti_admin')->user();
+    if (!$user) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Unauthorized access.'
+        ], 401);
+    }
+
+    $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
+
+    if (!$nitiMaster || !$nitiMaster->day_id) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Niti not found or day_id missing.'
+        ], 404);
+    }
+
+    if ($nitiMaster->niti_status !== 'Upcoming') {
+        return response()->json([
+            'status' => false,
+            'message' => 'Only Upcoming Nitis can be marked as Not Started.'
+        ], 400);
+    }
+
+    $dayId = $nitiMaster->day_id;
+    $now = Carbon::now('Asia/Kolkata');
+
+    // ✅ Update NitiMaster status to NotStarted
+    $nitiMaster->update([
+        'niti_status' => 'NotStarted'
+    ]);
+
+    // ✅ Always create a new NitiManagement entry
+    $management = NitiManagement::create([
+        'niti_id'               => $request->niti_id,
+        'sebak_id'              => $user->sebak_id,
+        'day_id'                => $dayId,
+        'date'                  => $now->toDateString(),
+        'niti_status'           => 'NotStarted',
+        'niti_not_done_reason'  => $request->niti_not_done_reason,
+    ]);
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Niti marked as Not Started.',
+        'data' => [
+            'niti_id' => $request->niti_id,
+            'day_id'  => $dayId,
+            'reason'  => $request->niti_not_done_reason,
+            'entry_id' => $management->id
         ]
     ]);
 }
