@@ -717,9 +717,9 @@ public function completedNiti()
 
         $dayId = $nitiMaster->day_id;
 
-        // ✅ Step 1: Completed/Started entries from NitiManagement
+        // ✅ Step 1: Get all Completed entries from NitiManagement
         $completedManagement = NitiManagement::with('master:niti_id,niti_name')
-            ->whereIn('niti_status', ['Completed', 'Started'])
+            ->where('niti_status', 'Completed')
             ->where('day_id', $dayId)
             ->get()
             ->map(function ($item) {
@@ -735,35 +735,37 @@ public function completedNiti()
                 ];
             });
 
-        // ✅ Step 2: Additional "Started" Nitis from NitiMaster not in NitiManagement
-        $startedFromMaster = NitiMaster::where('day_id', $dayId)
+        // ✅ Step 2: Get only one active Started NitiMaster not in Completed list
+        $excludedNitiIds = $completedManagement->pluck('niti_id')->unique();
+
+        $oneStartedFromMaster = NitiMaster::where('day_id', $dayId)
             ->where('niti_status', 'Started')
-            ->get()
-            ->filter(function ($master) use ($completedManagement) {
-                // Exclude Nitis already listed in NitiManagement
-                return !$completedManagement->contains('niti_id', $master->niti_id);
-            })
-            ->map(function ($niti) {
-                // Try to get start_time from management table (optional)
-                $startTime = NitiManagement::where('niti_id', $niti->niti_id)
-                    ->where('niti_status', 'Started')
-                    ->orderBy('start_time', 'desc')
-                    ->value('start_time');
+            ->whereNotIn('niti_id', $excludedNitiIds)
+            ->first();
 
-                return [
-                    'niti_id'     => $niti->niti_id,
-                    'niti_name'   => $niti->niti_name,
-                    'sebak_id'    => null,
-                    'date'        => Carbon::parse($niti->date_time)->toDateString(),
-                    'start_time'  => $startTime,
-                    'end_time'    => null,
-                    'duration'    => null,
-                    'niti_status' => 'Started',
-                ];
-            });
+        $startedNiti = collect();
 
-        // ✅ Merge both datasets
-        $merged = $completedManagement->merge($startedFromMaster)->values();
+        if ($oneStartedFromMaster) {
+            $startTime = NitiManagement::where('niti_id', $oneStartedFromMaster->niti_id)
+                ->where('niti_status', 'Started')
+                ->orderBy('start_time', 'desc')
+                ->value('start_time');
+
+            $startedNiti->push([
+                'niti_id'     => $oneStartedFromMaster->niti_id,
+                'niti_name'   => $oneStartedFromMaster->niti_name,
+                'sebak_id'    => null,
+                'date'        => Carbon::parse($oneStartedFromMaster->date_time)->toDateString(),
+                'start_time'  => $startTime,
+                'end_time'    => null,
+                'duration'    => null,
+                'niti_status' => 'Started',
+            ]);
+        }
+
+        
+        // ✅ Merge and return
+        $merged = $completedManagement->merge($startedNiti)->values();
 
         return response()->json([
             'status' => true,
@@ -779,6 +781,7 @@ public function completedNiti()
         ], 500);
     }
 }
+
 
 public function getOtherNiti()
 {
