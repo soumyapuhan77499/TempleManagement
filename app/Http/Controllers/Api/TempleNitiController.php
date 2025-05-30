@@ -724,6 +724,7 @@ public function completedNiti()
             ->get()
             ->map(function ($item) {
                 return [
+                    'id'          => $item->id,
                     'niti_id'     => $item->niti_id,
                     'niti_name'   => optional($item->master)->niti_name,
                     'sebak_id'    => $item->sebak_id,
@@ -735,7 +736,7 @@ public function completedNiti()
                 ];
             });
 
-        // ✅ Step 2: Get only one active Started NitiMaster not in Completed list
+        // ✅ Step 2: Get one Started Niti from NitiMaster not in completed list
         $excludedNitiIds = $completedManagement->pluck('niti_id')->unique();
 
         $oneStartedFromMaster = NitiMaster::where('day_id', $dayId)
@@ -746,24 +747,24 @@ public function completedNiti()
         $startedNiti = collect();
 
         if ($oneStartedFromMaster) {
-            $startTime = NitiManagement::where('niti_id', $oneStartedFromMaster->niti_id)
+            $latestStartedEntry = NitiManagement::where('niti_id', $oneStartedFromMaster->niti_id)
                 ->where('niti_status', 'Started')
                 ->orderBy('start_time', 'desc')
-                ->value('start_time');
+                ->first();
 
             $startedNiti->push([
+                'id'          => optional($latestStartedEntry)->id,
                 'niti_id'     => $oneStartedFromMaster->niti_id,
                 'niti_name'   => $oneStartedFromMaster->niti_name,
-                'sebak_id'    => null,
+                'sebak_id'    => optional($latestStartedEntry)->sebak_id,
                 'date'        => Carbon::parse($oneStartedFromMaster->date_time)->toDateString(),
-                'start_time'  => $startTime,
+                'start_time'  => optional($latestStartedEntry)->start_time,
                 'end_time'    => null,
                 'duration'    => null,
                 'niti_status' => 'Started',
             ]);
         }
 
-        
         // ✅ Merge and return
         $merged = $completedManagement->merge($startedNiti)->values();
 
@@ -781,6 +782,7 @@ public function completedNiti()
         ], 500);
     }
 }
+
 
 
 public function getOtherNiti()
