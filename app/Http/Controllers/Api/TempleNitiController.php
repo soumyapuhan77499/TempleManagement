@@ -1645,4 +1645,56 @@ public function editEndTime(Request $request)
     ]);
 }
 
+public function resetNiti(Request $request)
+{
+    $request->validate([
+        'niti_id' => 'required|string|exists:temple__niti_details,niti_id',
+    ]);
+
+    $user = Auth::guard('niti_admin')->user();
+
+    if (!$user) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Unauthorized access.'
+        ], 401);
+    }
+
+    $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
+
+    if (!$nitiMaster || !$nitiMaster->day_id) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Niti not found or day_id missing.'
+        ], 404);
+    }
+
+    $dayId = $nitiMaster->day_id;
+
+    // ✅ Find the latest Started NitiManagement entry
+    $startedEntry = NitiManagement::where('niti_id', $request->niti_id)
+        ->where('day_id', $dayId)
+        ->where('niti_status', 'Started')
+        ->latest('created_at')
+        ->first();
+
+    if ($startedEntry) {
+        $startedEntry->delete(); // remove accidental start
+    }
+
+    // ✅ Reset NitiMaster status
+    $nitiMaster->update([
+        'niti_status' => 'Upcoming'
+    ]);
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Niti has been reset successfully.',
+        'data' => [
+            'niti_id' => $request->niti_id,
+            'day_id'  => $dayId
+        ]
+    ]);
+}
+
 }

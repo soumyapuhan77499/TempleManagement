@@ -85,7 +85,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/manage-darshan', 'ManageTempleDarshan')->name('templedarshan.manage');
         Route::put('/update-darshan', 'updateTempleDarshan')->name('templedarshan.update');
         Route::delete('/delete-darshan/{id}', 'deleteTempleDarshan');
-
         Route::get('/darshan-list','getDarshanListApi');
 
       });
@@ -288,6 +287,7 @@ Route::controller(TempleNitiController::class)->group(function () {
       Route::post('/niti/delete-other/{id}', 'deleteOtherNiti');
       Route::post('/niti/edit-start-time',  'editStartTime');
       Route::post('/niti/edit-end-time',  'editEndTime');
+      Route::post('/niti/reset','resetNiti');
   });
 
   Route::post('/save-temple-news', 'storeByNoticeName');
