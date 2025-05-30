@@ -703,7 +703,6 @@ public function stopNiti(Request $request)
         ], 500);
     }
 }
-
 public function completedNiti()
 {
     try {
@@ -718,34 +717,64 @@ public function completedNiti()
 
         $dayId = $nitiMaster->day_id;
 
-        // Fetch completed Niti entries for today along with related Niti name
-        $completed = NitiManagement::with('master:niti_id,niti_name')
-            ->where('niti_status', ['Completed','Started'])
+        // ✅ Step 1: Completed/Started entries from NitiManagement
+        $completedManagement = NitiManagement::with('master:niti_id,niti_name')
+            ->whereIn('niti_status', ['Completed', 'Started'])
             ->where('day_id', $dayId)
             ->get()
             ->map(function ($item) {
                 return [
-                    'niti_id'       => $item->niti_id,
-                    'niti_name'     => optional($item->master)->niti_name,
-                    'sebak_id'      => $item->sebak_id,
-                    'date'          => $item->date,
-                    'start_time'    => $item->start_time,
-                    'end_time'      => $item->end_time,
-                    'duration'      => $item->duration,
-                    'niti_status'   => $item->niti_status,
+                    'niti_id'     => $item->niti_id,
+                    'niti_name'   => optional($item->master)->niti_name,
+                    'sebak_id'    => $item->sebak_id,
+                    'date'        => $item->date,
+                    'start_time'  => $item->start_time,
+                    'end_time'    => $item->end_time,
+                    'duration'    => $item->duration,
+                    'niti_status' => $item->niti_status,
                 ];
             });
 
+        // ✅ Step 2: Additional "Started" Nitis from NitiMaster not in NitiManagement
+        $startedFromMaster = NitiMaster::where('day_id', $dayId)
+            ->where('niti_status', 'Started')
+            ->get()
+            ->filter(function ($master) use ($completedManagement) {
+                // Exclude Nitis already listed in NitiManagement
+                return !$completedManagement->contains('niti_id', $master->niti_id);
+            })
+            ->map(function ($niti) {
+                // Try to get start_time from management table (optional)
+                $startTime = NitiManagement::where('niti_id', $niti->niti_id)
+                    ->where('niti_status', 'Started')
+                    ->orderBy('start_time', 'desc')
+                    ->value('start_time');
+
+                return [
+                    'niti_id'     => $niti->niti_id,
+                    'niti_name'   => $niti->niti_name,
+                    'sebak_id'    => null,
+                    'date'        => Carbon::parse($niti->date_time)->toDateString(),
+                    'start_time'  => $startTime,
+                    'end_time'    => null,
+                    'duration'    => null,
+                    'niti_status' => 'Started',
+                ];
+            });
+
+        // ✅ Merge both datasets
+        $merged = $completedManagement->merge($startedFromMaster)->values();
+
         return response()->json([
             'status' => true,
-            'message' => 'Completed Niti list for today fetched successfully.',
-            'data' => $completed,
+            'message' => 'Niti data fetched successfully.',
+            'data' => $merged,
         ], 200);
 
     } catch (\Exception $e) {
         return response()->json([
             'status' => false,
-            'message' => 'Failed to fetch completed Niti data.',
+            'message' => 'Failed to fetch Niti data.',
             'error' => $e->getMessage(),
         ], 500);
     }
