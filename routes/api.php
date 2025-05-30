@@ -287,6 +287,7 @@ Route::controller(TempleNitiController::class)->group(function () {
       Route::delete('/delete-sub-niti/{id}','softDeleteSubNiti');
       Route::post('/niti/delete-other/{id}', 'deleteOtherNiti');
       Route::post('/niti/edit-start-time',  'editStartTime');
+      Route::post('/niti/edit-end-time',  'editEndTime');
   });
 
   Route::post('/save-temple-news', 'storeByNoticeName');

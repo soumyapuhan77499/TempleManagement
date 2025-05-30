@@ -703,6 +703,7 @@ public function stopNiti(Request $request)
         ], 500);
     }
 }
+
 public function completedNiti()
 {
     try {
@@ -782,8 +783,6 @@ public function completedNiti()
         ], 500);
     }
 }
-
-
 
 public function getOtherNiti()
 {
@@ -1580,6 +1579,68 @@ public function editStartTime(Request $request)
     return response()->json([
         'status' => true,
         'message' => 'Start time updated successfully.',
+        'data' => $niti
+    ]);
+}
+
+public function editEndTime(Request $request)
+{
+    $request->validate([
+        'niti_management_id' => 'required|integer|exists:temple__niti_management,id',
+        'end_time'           => 'required|date_format:H:i:s',
+    ]);
+
+    $user = Auth::guard('niti_admin')->user();
+
+    if (!$user) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Unauthorized access.'
+        ], 401);
+    }
+
+    $niti = NitiManagement::find($request->niti_management_id);
+
+    // Optional: ensure the user is the one who started the Niti
+    if ($niti->sebak_id !== $user->sebak_id) {
+        return response()->json([
+            'status' => false,
+            'message' => 'You are not authorized to edit this Niti.'
+        ], 403);
+    }
+
+    $tz = 'Asia/Kolkata';
+
+    // Recalculate duration and running time
+    $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $niti->date . ' ' . $niti->start_time, $tz);
+    $endDateTime   = Carbon::createFromFormat('Y-m-d H:i:s', $niti->date . ' ' . $request->end_time, $tz);
+
+    if ($endDateTime->lessThan($startDateTime)) {
+        return response()->json([
+            'status' => false,
+            'message' => 'End time cannot be earlier than start time.'
+        ], 422);
+    }
+
+    $durationInSeconds = $startDateTime->diffInSeconds($endDateTime);
+
+    $hours   = floor($durationInSeconds / 3600);
+    $minutes = floor(($durationInSeconds % 3600) / 60);
+    $seconds = $durationInSeconds % 60;
+
+    $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+    $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
+
+    // ✅ Update fields
+    $niti->update([
+        'end_time'     => $request->end_time,
+        'running_time' => $runningTime,
+        'duration'     => trim($durationText),
+    ]);
+
+    return response()->json([
+        'status' => true,
+        'message' => 'End time updated successfully.',
         'data' => $niti
     ]);
 }
