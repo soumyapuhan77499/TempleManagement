@@ -1514,4 +1514,41 @@ public function deleteNitiInformation($id)
     ]);
 }
 
+public function editStartTime(Request $request)
+{
+    $request->validate([
+        'niti_management_id' => 'required|integer|exists:temple__niti_management,id',
+        'start_time'         => 'required|date_format:H:i:s',
+    ]);
+
+    $user = Auth::guard('niti_admin')->user();
+    if (!$user) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Unauthorized access.'
+        ], 401);
+    }
+
+    $niti = NitiManagement::find($request->niti_management_id);
+
+    // Optional: Restrict edit to only the user who created it
+    if ($niti->sebak_id !== $user->sebak_id) {
+        return response()->json([
+            'status' => false,
+            'message' => 'You are not authorized to edit this record.'
+        ], 403);
+    }
+
+    // ✅ Update start_time
+    $niti->start_time = $request->start_time;
+    $niti->save();
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Start time updated successfully.',
+        'data' => $niti
+    ]);
+}
+
+
 }

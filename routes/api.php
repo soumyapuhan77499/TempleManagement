@@ -276,18 +276,17 @@ Route::controller(TempleNitiController::class)->group(function () {
   Route::post('/niti/delete-other/{id}', 'deleteOtherNiti');
   Route::get('/latest-apk', 'latestApk');
 
-
   // Protected routes (niti_admin must be authenticated)
   Route::middleware('auth:niti_admin')->group(function () {
       Route::post('/start-niti', 'startNiti');
       Route::post('/pause-niti', 'pauseNiti');
       Route::post('/resume-niti', 'resumeNiti');
       Route::post('/stop-niti', 'stopNiti');
-      // Route::post('/sub-niti/start', 'startSubNiti');
       Route::post('/sub-niti/add', 'addAndStartSubNiti');
       Route::post('/update-sub-niti-name/{id}', 'updateSubNitiName');
       Route::delete('/delete-sub-niti/{id}','softDeleteSubNiti');
       Route::post('/niti/delete-other/{id}', 'deleteOtherNiti');
+      Route::post('/niti/edit-start-time',  'editStartTime');
   });
 
   Route::post('/save-temple-news', 'storeByNoticeName');
@@ -299,6 +298,8 @@ Route::controller(TempleNitiController::class)->group(function () {
   Route::post('/temple-notice/delete/{id}',  'deleteNotice');
   Route::post('/niti-information', 'addNitiInformation');
   Route::post('/niti-information/{id}', 'deleteNitiInformation');
+
+
 
 });
 
