@@ -453,7 +453,7 @@ public function editDarshan(Request $request)
 {
     try {
         $request->validate([
-            'darshan_id' => 'nullable|string', // nullable because closed may not have darshan_id
+            'darshan_id' => 'nullable|string', // nullable for closed
             'action'     => 'required|string|in:start,closed',
         ]);
 
@@ -468,7 +468,6 @@ public function editDarshan(Request $request)
 
         $now = Carbon::now()->setTimezone('Asia/Kolkata');
 
-        // If action is start, darshan_id must be present
         if ($request->action === 'start' && empty($request->darshan_id)) {
             return response()->json([
                 'status' => false,
@@ -476,117 +475,116 @@ public function editDarshan(Request $request)
             ], 400);
         }
 
-        // Fetch the darshan details (needed for day_id)
-        $darshan = null;
-        if ($request->darshan_id) {
-            $darshan = DarshanDetails::find($request->darshan_id);
-            if (!$darshan) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Darshan not found.',
-                ], 404);
-            }
-        }
-
-        // Get all active started darshans by this sebak for the same day (use eager loading)
-        $activeDarshans = DarshanManagement::with('darshanDetails')
-            ->where('darshan_status', 'Started')
-            ->whereDate('date', $now->toDateString())
-            ->where('sebak_id', $user->sebak_id)
-            ->get();
-
-        // Filter active darshans by day_id of the current darshan (if available)
-        if ($darshan) {
-            $activeDarshans = $activeDarshans->filter(function ($item) use ($darshan) {
-                return optional($item->darshanDetails)->day_id == $darshan->day_id;
-            });
-        }
-
         if ($request->action === 'start') {
-            // Complete any other active darshans for the same day first
-            foreach ($activeDarshans as $activeDarshan) {
-                if ($activeDarshan->darshan_id !== $request->darshan_id) {
-                    $start = Carbon::parse($activeDarshan->date . ' ' . $activeDarshan->start_time);
-                    $duration = $start->diff($now);
-                    $formattedDuration = $duration->format('%H:%I:%S');
 
-                    DarshanManagement::create([
-                        'darshan_id'     => $activeDarshan->darshan_id,
-                        'day_id'         => optional($activeDarshan->darshanDetails)->day_id,
-                        'sebak_id'       => $user->sebak_id,
-                        'temple_id'      => $activeDarshan->temple_id ?? null,
-                        'date'           => $now->toDateString(),
-                        'start_time'     => $activeDarshan->start_time,
-                        'end_time'       => $now->format('H:i:s'),
-                        'duration'       => $formattedDuration,
-                        'darshan_status' => 'Completed',
-                    ]);
+            $latestEntry = DarshanManagement::where('darshan_id', $request->darshan_id)
+                ->latest('id')
+                ->first();
 
-                    DarshanDetails::where('id', $activeDarshan->darshan_id)->update([
-                        'darshan_status' => 'Completed',
-                    ]);
-                }
-            }
-
-            // Check if the darshan we want to start is already active, if yes, return message
-            $alreadyActive = $activeDarshans->firstWhere('darshan_id', $request->darshan_id);
-            if ($alreadyActive) {
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Darshan is already started.',
-                    'data' => $alreadyActive,
-                ], 200);
-            }
-
-            // Start the new darshan
-            $darshanLog = DarshanManagement::create([
-                'day_id'         => $darshan->day_id ?? null,
-                'darshan_id'     => $request->darshan_id,
-                'sebak_id'       => $user->sebak_id,
-                'date'           => $now->toDateString(),
-                'start_time'     => $now->format('H:i:s'),
-                'darshan_status' => 'Started',
-            ]);
-
-            DarshanDetails::where('id', $request->darshan_id)->update([
-                'darshan_status' => 'Started',
-                'date'           => $now->toDateString(),
-            ]);
-
-            return response()->json([
-                'status' => true,
-                'message' => 'Darshan started successfully.',
-                'data' => $darshanLog,
-            ], 200);
-
-        } elseif ($request->action === 'closed') {
-            // Complete all active darshans for today for this sebak and day
-
-            foreach ($activeDarshans as $activeDarshan) {
-                $start = Carbon::parse($activeDarshan->date . ' ' . $activeDarshan->start_time);
+            if ($latestEntry && $latestEntry->darshan_status === 'Started') {
+                // Complete the latest started darshan entry
+                $start = Carbon::parse($latestEntry->date . ' ' . $latestEntry->start_time);
                 $duration = $start->diff($now);
                 $formattedDuration = $duration->format('%H:%I:%S');
 
-                DarshanManagement::create([
-                    'darshan_id'     => $activeDarshan->darshan_id,
-                    'day_id'         => optional($activeDarshan->darshanDetails)->day_id,
+                $completionEntry = DarshanManagement::create([
+                    'darshan_id'     => $latestEntry->darshan_id,
+                    'day_id'         => $latestEntry->day_id,
                     'sebak_id'       => $user->sebak_id,
-                    'temple_id'      => $activeDarshan->temple_id ?? null,
+                    'temple_id'      => $latestEntry->temple_id,
                     'date'           => $now->toDateString(),
-                    'start_time'     => $activeDarshan->start_time,
+                    'start_time'     => $latestEntry->start_time,
                     'end_time'       => $now->format('H:i:s'),
                     'duration'       => $formattedDuration,
                     'darshan_status' => 'Completed',
                 ]);
 
-                DarshanDetails::where('id', $activeDarshan->darshan_id)->update([
+                // Update master darshan status
+                DarshanDetails::where('id', $latestEntry->darshan_id)->update([
                     'darshan_status' => 'Completed',
                 ]);
+
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Previous darshan entry completed successfully.',
+                    'data' => $completionEntry,
+                ], 200);
+            } else {
+                // No started entry, start a new darshan entry
+                $darshan = DarshanDetails::find($request->darshan_id);
+                if (!$darshan) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Darshan not found.',
+                    ], 404);
+                }
+
+                $startEntry = DarshanManagement::create([
+                    'darshan_id'     => $request->darshan_id,
+                    'day_id'         => $darshan->day_id,
+                    'sebak_id'       => $user->sebak_id,
+                    'temple_id'      => $darshan->temple_id ?? null,
+                    'date'           => $now->toDateString(),
+                    'start_time'     => $now->format('H:i:s'),
+                    'darshan_status' => 'Started',
+                ]);
+
+                DarshanDetails::where('id', $request->darshan_id)->update([
+                    'darshan_status' => 'Started',
+                    'date'           => $now->toDateString(),
+                ]);
+
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Darshan started successfully.',
+                    'data' => $startEntry,
+                ], 200);
+            }
+        } elseif ($request->action === 'closed') {
+            // Find all darshans with latest entry started by this sebak
+            $startedDarshans = DarshanManagement::select('darshan_id')
+                ->where('darshan_status', 'Started')
+                ->groupBy('darshan_id')
+                ->get();
+
+            $closedEntries = [];
+
+            foreach ($startedDarshans as $startedDarshan) {
+                $latest = DarshanManagement::where('darshan_id', $startedDarshan->darshan_id)
+                    ->where('sebak_id', $user->sebak_id)
+                    ->where('darshan_status', 'Started')
+                    ->latest('id')
+                    ->first();
+
+                if ($latest) {
+                    $start = Carbon::parse($latest->date . ' ' . $latest->start_time);
+                    $duration = $start->diff($now);
+                    $formattedDuration = $duration->format('%H:%I:%S');
+
+                    $completionEntry = DarshanManagement::create([
+                        'darshan_id'     => $latest->darshan_id,
+                        'day_id'         => $latest->day_id,
+                        'sebak_id'       => $user->sebak_id,
+                        'temple_id'      => $latest->temple_id,
+                        'date'           => $now->toDateString(),
+                        'start_time'     => $latest->start_time,
+                        'end_time'       => $now->format('H:i:s'),
+                        'duration'       => $formattedDuration,
+                        'darshan_status' => 'Completed',
+                    ]);
+
+                    DarshanDetails::where('id', $latest->darshan_id)->update([
+                        'darshan_status' => 'Completed',
+                    ]);
+
+                    $closedEntries[] = $completionEntry;
+                }
             }
 
             return response()->json([
                 'status' => true,
-                'message' => 'All darshans closed successfully.',
+                'message' => 'All started darshans closed successfully.',
+                'data' => $closedEntries,
             ], 200);
         }
 
