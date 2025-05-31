@@ -489,8 +489,7 @@ public function editDarshan(Request $request)
         }
 
         // Get all active started darshans by this sebak for the same day
-        $activeDarshans = DarshanManagement::where('sebak_id', $user->sebak_id)
-            ->where('darshan_status', 'Started')
+        $activeDarshans = DarshanManagement::wherewhere('darshan_status', 'Started')
             ->whereHas('darshanDetails', function($query) use ($darshan) {
                 if ($darshan) {
                     $query->where('day_id', $darshan->day_id);
