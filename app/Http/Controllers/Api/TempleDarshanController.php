@@ -488,15 +488,19 @@ public function editDarshan(Request $request)
             }
         }
 
-        // Get all active started darshans by this sebak for the same day
-      $activeDarshans = DarshanManagement::where('darshan_status', 'Started')
-       ->whereHas('darshanDetails', function($query) use ($darshan) {
+        // Get all active started darshans by this sebak for the same day (use eager loading)
+        $activeDarshans = DarshanManagement::with('darshanDetails')
+            ->where('darshan_status', 'Started')
+            ->whereDate('date', $now->toDateString())
+            ->where('sebak_id', $user->sebak_id)
+            ->get();
+
+        // Filter active darshans by day_id of the current darshan (if available)
         if ($darshan) {
-            $query->where('day_id', $darshan->day_id);
+            $activeDarshans = $activeDarshans->filter(function ($item) use ($darshan) {
+                return optional($item->darshanDetails)->day_id == $darshan->day_id;
+            });
         }
-        })
-        ->whereDate('date', $now->toDateString())
-        ->get();
 
         if ($request->action === 'start') {
             // Complete any other active darshans for the same day first
@@ -508,7 +512,7 @@ public function editDarshan(Request $request)
 
                     DarshanManagement::create([
                         'darshan_id'     => $activeDarshan->darshan_id,
-                        'day_id'       => $activeDarshan->day_id,
+                        'day_id'         => optional($activeDarshan->darshanDetails)->day_id,
                         'sebak_id'       => $user->sebak_id,
                         'temple_id'      => $activeDarshan->temple_id ?? null,
                         'date'           => $now->toDateString(),
@@ -559,11 +563,25 @@ public function editDarshan(Request $request)
             // Complete all active darshans for today for this sebak and day
 
             foreach ($activeDarshans as $activeDarshan) {
-              
+                $start = Carbon::parse($activeDarshan->date . ' ' . $activeDarshan->start_time);
+                $duration = $start->diff($now);
+                $formattedDuration = $duration->format('%H:%I:%S');
+
+                DarshanManagement::create([
+                    'darshan_id'     => $activeDarshan->darshan_id,
+                    'day_id'         => optional($activeDarshan->darshanDetails)->day_id,
+                    'sebak_id'       => $user->sebak_id,
+                    'temple_id'      => $activeDarshan->temple_id ?? null,
+                    'date'           => $now->toDateString(),
+                    'start_time'     => $activeDarshan->start_time,
+                    'end_time'       => $now->format('H:i:s'),
+                    'duration'       => $formattedDuration,
+                    'darshan_status' => 'Completed',
+                ]);
+
                 DarshanDetails::where('id', $activeDarshan->darshan_id)->update([
                     'darshan_status' => 'Completed',
                 ]);
-                
             }
 
             return response()->json([
@@ -585,4 +603,5 @@ public function editDarshan(Request $request)
         ], 500);
     }
 }
+
 }
