@@ -860,12 +860,7 @@ public function storeOtherNiti(Request $request)
             ->where('status', ['active', 'other'])
             ->first();
 
-        if ($existingNiti) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'Niti name already exists. Please update instead.',
-            ], 409);
-        }
+       
 
         // Create new Niti
         $niti = NitiMaster::create([
