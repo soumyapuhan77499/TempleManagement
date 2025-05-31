@@ -701,7 +701,7 @@ public function completedNiti()
 
         // Step 1: Get all Completed entries from NitiManagement with master relation
         $completedManagement = NitiManagement::with('master')
-            ->where('niti_status', 'Completed')
+            ->where('niti_status', ['Completed','NotStarted'])
             ->where('day_id', $dayId)
             ->get()
             ->map(function ($item) {
@@ -1709,6 +1709,8 @@ public function markNitiAsNotStarted(Request $request)
         'niti_id'               => $request->niti_id,
         'not_done_user_id'      => $user->sebak_id,
         'day_id'                => $dayId,
+        'start_time'             => Carbon::now('Asia/Kolkata')->format('H:i:s'),
+        'end_time'               => Carbon::now('Asia/Kolkata')->format('H:i:s'),
         'date'                  => $now->toDateString(),
         'niti_status'           => 'NotStarted',
         'niti_not_done_reason'  => $request->niti_not_done_reason,
@@ -1725,6 +1727,7 @@ public function markNitiAsNotStarted(Request $request)
         ]
     ]);
 }
+
 
 public function getStartedDarshanData()
 {
