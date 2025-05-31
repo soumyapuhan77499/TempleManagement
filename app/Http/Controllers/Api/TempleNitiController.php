@@ -1551,14 +1551,6 @@ public function editStartTime(Request $request)
 
     $niti = NitiManagement::find($request->niti_management_id);
 
-    // Optional: Restrict edit to only the user who created it
-    if ($niti->sebak_id !== $user->sebak_id) {
-        return response()->json([
-            'status' => false,
-            'message' => 'You are not authorized to edit this record.'
-        ], 403);
-    }
-
     // ✅ Update start_time
     $niti->start_time = $request->start_time;
     $niti->start_time_edit_user_id = $user->sebak_id;
@@ -1589,14 +1581,6 @@ public function editEndTime(Request $request)
     }
 
     $niti = NitiManagement::find($request->niti_management_id);
-
-    // Optional: ensure the user is the one who started the Niti
-    if ($niti->sebak_id !== $user->sebak_id) {
-        return response()->json([
-            'status' => false,
-            'message' => 'You are not authorized to edit this Niti.'
-        ], 403);
-    }
 
     $tz = 'Asia/Kolkata';
 
