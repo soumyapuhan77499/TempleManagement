@@ -448,4 +448,153 @@ public function getSpecialDarshans()
         ], 500);
     }
 }
+
+public function editDarshan(Request $request)
+{
+    try {
+        $request->validate([
+            'darshan_id' => 'nullable|string', // nullable because closed may not have darshan_id
+            'action'     => 'required|string|in:start,closed',
+        ]);
+
+        $user = Auth::guard('niti_admin')->user();
+
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Unauthorized access.',
+            ], 401);
+        }
+
+        $now = Carbon::now()->setTimezone('Asia/Kolkata');
+
+        // If action is start, darshan_id must be present
+        if ($request->action === 'start' && empty($request->darshan_id)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Darshan ID is required to start darshan.',
+            ], 400);
+        }
+
+        // Fetch the darshan details (needed for day_id)
+        $darshan = null;
+        if ($request->darshan_id) {
+            $darshan = DarshanDetails::find($request->darshan_id);
+            if (!$darshan) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Darshan not found.',
+                ], 404);
+            }
+        }
+
+        // Get all active started darshans by this sebak for the same day
+        $activeDarshans = DarshanManagement::where('sebak_id', $user->sebak_id)
+            ->where('darshan_status', 'Started')
+            ->whereHas('darshanDetails', function($query) use ($darshan) {
+                if ($darshan) {
+                    $query->where('day_id', $darshan->day_id);
+                }
+            })
+            ->whereDate('date', $now->toDateString())
+            ->get();
+
+        if ($request->action === 'start') {
+            // Complete any other active darshans for the same day first
+            foreach ($activeDarshans as $activeDarshan) {
+                if ($activeDarshan->darshan_id !== $request->darshan_id) {
+                    $start = Carbon::parse($activeDarshan->date . ' ' . $activeDarshan->start_time);
+                    $duration = $start->diff($now);
+                    $formattedDuration = $duration->format('%H:%I:%S');
+
+                    DarshanManagement::create([
+                        'darshan_id'     => $activeDarshan->darshan_id,
+                        'sebak_id'       => $user->sebak_id,
+                        'temple_id'      => $activeDarshan->temple_id ?? null,
+                        'date'           => $now->toDateString(),
+                        'start_time'     => $activeDarshan->start_time,
+                        'end_time'       => $now->format('H:i:s'),
+                        'duration'       => $formattedDuration,
+                        'darshan_status' => 'Completed',
+                    ]);
+
+                    DarshanDetails::where('id', $activeDarshan->darshan_id)->update([
+                        'darshan_status' => 'Completed',
+                    ]);
+                }
+            }
+
+            // Check if the darshan we want to start is already active, if yes, return message
+            $alreadyActive = $activeDarshans->firstWhere('darshan_id', $request->darshan_id);
+            if ($alreadyActive) {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Darshan is already started.',
+                    'data' => $alreadyActive,
+                ], 200);
+            }
+
+            // Start the new darshan
+            $darshanLog = DarshanManagement::create([
+                'darshan_id'     => $request->darshan_id,
+                'sebak_id'       => $user->sebak_id,
+                'date'           => $now->toDateString(),
+                'start_time'     => $now->format('H:i:s'),
+                'darshan_status' => 'Started',
+            ]);
+
+            DarshanDetails::where('id', $request->darshan_id)->update([
+                'darshan_status' => 'Started',
+                'date'           => $now->toDateString(),
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Darshan started successfully.',
+                'data' => $darshanLog,
+            ], 200);
+
+        } elseif ($request->action === 'closed') {
+            // Complete all active darshans for today for this sebak and day
+
+            foreach ($activeDarshans as $activeDarshan) {
+                $start = Carbon::parse($activeDarshan->date . ' ' . $activeDarshan->start_time);
+                $duration = $start->diff($now);
+                $formattedDuration = $duration->format('%H:%I:%S');
+
+                DarshanManagement::create([
+                    'darshan_id'     => $activeDarshan->darshan_id,
+                    'sebak_id'       => $user->sebak_id,
+                    'temple_id'      => $activeDarshan->temple_id ?? null,
+                    'date'           => $now->toDateString(),
+                    'start_time'     => $activeDarshan->start_time,
+                    'end_time'       => $now->format('H:i:s'),
+                    'duration'       => $formattedDuration,
+                    'darshan_status' => 'Completed',
+                ]);
+
+                DarshanDetails::where('id', $activeDarshan->darshan_id)->update([
+                    'darshan_status' => 'Completed',
+                ]);
+            }
+
+            return response()->json([
+                'status' => true,
+                'message' => 'All darshans closed successfully.',
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => false,
+            'message' => 'Invalid action.',
+        ], 400);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to edit darshan.',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
+}
 }

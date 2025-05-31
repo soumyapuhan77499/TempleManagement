@@ -305,8 +305,13 @@ Route::controller(TempleNitiController::class)->group(function () {
 
 Route::controller(TempleDarshanController::class)->group(function () {
   Route::get('/get-darshan', 'getDarshanListApi');
-  Route::middleware('auth:niti_admin')->post('/start-darshan', 'startDarshan');
-  Route::middleware('auth:niti_admin')->post('/end-darshan', 'endDarshan');
+  
+ Route::middleware('auth:niti_admin')->group(function () {
+    Route::post('/darshan/edit',  'editDarshan');
+    Route::post('/start-darshan',  'startDarshan');
+    Route::post('/end-darshan',  'endDarshan');
+  });
+  
   Route::get('/completed-darshan-today', 'getTodayCompletedDarshans');
   Route::get('/special-darshans', 'getSpecialDarshans');
 });
