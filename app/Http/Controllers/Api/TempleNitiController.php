@@ -722,7 +722,7 @@ public function completedNiti()
             });
 
         // Step 2: Get one Started Niti from NitiMaster not in completed list
-        $excludedNitiIds = $completedManagement->pluck('niti_id')->unique();
+        $excludedNitiIds = $completedManagement->pluck('niti_id')->unique()->toArray();
 
         $oneStartedFromMaster = NitiMaster::where('day_id', $dayId)
             ->where('niti_status', 'Started')
@@ -754,8 +754,8 @@ public function completedNiti()
             ]);
         }
 
-        // Merge completed and started results
-        $merged = $completedManagement->merge($startedNiti)->values();
+        // Fix: convert to base collection to merge arrays
+        $merged = $completedManagement->toBase()->merge($startedNiti)->values();
 
         return response()->json([
             'status' => true,
@@ -771,7 +771,6 @@ public function completedNiti()
         ], 500);
     }
 }
-
 
 public function getOtherNiti()
 {
