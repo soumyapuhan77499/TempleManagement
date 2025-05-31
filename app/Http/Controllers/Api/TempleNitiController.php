@@ -1728,23 +1728,22 @@ public function markNitiAsNotStarted(Request $request)
         ]
     ]);
 }
-
 public function getStartedDarshanData()
 {
     try {
-        // Get the started darshan(s)
-        $startedDarshans = DarshanDetails::where('darshan_status', 'Started')->get();
+        // Get the first started darshan (object) or null if none
+        $startedDarshan = DarshanDetails::where('darshan_status', 'Started')->first();
 
         return response()->json([
             'status' => true,
-            'message' => 'Started darshan details fetched successfully.',
-            'data' => $startedDarshans,
+            'message' => 'Started darshan detail fetched successfully.',
+            'data' => $startedDarshan,  // object or null
         ], 200);
 
     } catch (\Exception $e) {
         return response()->json([
             'status' => false,
-            'message' => 'Failed to fetch started darshan details.',
+            'message' => 'Failed to fetch started darshan detail.',
             'error' => $e->getMessage(),
         ], 500);
     }
