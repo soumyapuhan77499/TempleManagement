@@ -1729,4 +1729,25 @@ public function markNitiAsNotStarted(Request $request)
     ]);
 }
 
+public function getStartedDarshanData()
+{
+    try {
+        // Get the started darshan(s)
+        $startedDarshans = DarshanDetails::where('darshan_status', 'Started')->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Started darshan details fetched successfully.',
+            'data' => $startedDarshans,
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to fetch started darshan details.',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
+}
+
 }

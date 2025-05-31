@@ -300,7 +300,7 @@ Route::controller(TempleNitiController::class)->group(function () {
   Route::post('/temple-notice/delete/{id}',  'deleteNotice');
   Route::post('/niti-information', 'addNitiInformation');
   Route::post('/niti-information/{id}', 'deleteNitiInformation');
-
+  Route::get('/darshan/started-data',  'getStartedDarshanData');
 });
 
 Route::controller(TempleDarshanController::class)->group(function () {
