@@ -16,7 +16,6 @@ use App\Models\TemplePrasad;
 use App\Models\DarshanDetails;
 use App\Models\TempleHundi;
 use App\Models\Apk;
-
 use App\Models\TempleNews;
 use Carbon\Carbon;
 
