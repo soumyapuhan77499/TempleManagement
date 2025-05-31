@@ -17,6 +17,7 @@ use App\Models\DarshanDetails;
 use App\Models\TempleHundi;
 use App\Models\TempleNews;
 use Carbon\Carbon;
+
 use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\DB;
 
@@ -682,6 +683,7 @@ public function stopNiti(Request $request)
         ], 500);
     }
 }
+
 public function completedNiti()
 {
     try {
@@ -697,7 +699,7 @@ public function completedNiti()
         $dayId = $nitiMaster->day_id;
 
         // Step 1: Get all Completed entries from NitiManagement with master relation
-        $completedManagement = NitiManagement::with('master')  // just 'master'
+        $completedManagement = NitiManagement::with('master')
             ->where('niti_status', 'Completed')
             ->where('day_id', $dayId)
             ->get()
