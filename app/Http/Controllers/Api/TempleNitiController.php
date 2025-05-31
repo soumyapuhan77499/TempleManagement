@@ -682,7 +682,6 @@ public function stopNiti(Request $request)
         ], 500);
     }
 }
-
 public function completedNiti()
 {
     try {
@@ -697,8 +696,8 @@ public function completedNiti()
 
         $dayId = $nitiMaster->day_id;
 
-        // ✅ Step 1: Get all Completed entries from NitiManagement
-        $completedManagement = NitiManagement::with('master:niti_id,niti_name')
+        // Step 1: Get all Completed entries from NitiManagement with master relation
+        $completedManagement = NitiManagement::with('master')  // just 'master'
             ->where('niti_status', 'Completed')
             ->where('day_id', $dayId)
             ->get()
@@ -720,7 +719,7 @@ public function completedNiti()
                 ];
             });
 
-        // ✅ Step 2: Get one Started Niti from NitiMaster not in completed list
+        // Step 2: Get one Started Niti from NitiMaster not in completed list
         $excludedNitiIds = $completedManagement->pluck('niti_id')->unique();
 
         $oneStartedFromMaster = NitiMaster::where('day_id', $dayId)
@@ -753,7 +752,7 @@ public function completedNiti()
             ]);
         }
 
-        // ✅ Merge and return
+        // Merge completed and started results
         $merged = $completedManagement->merge($startedNiti)->values();
 
         return response()->json([
@@ -770,6 +769,7 @@ public function completedNiti()
         ], 500);
     }
 }
+
 
 public function getOtherNiti()
 {
