@@ -1733,7 +1733,7 @@ public function getStartedDarshanData()
 {
     try {
         // Get the first started darshan (object) or null if none
-        $startedDarshan = DarshanDetails::where('darshan_status', 'Started')->first();
+        $startedDarshan = DarshanDetails::where('status', 'active')->get();
 
         return response()->json([
             'status' => true,
