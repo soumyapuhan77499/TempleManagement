@@ -508,6 +508,7 @@ public function editDarshan(Request $request)
 
                     DarshanManagement::create([
                         'darshan_id'     => $activeDarshan->darshan_id,
+                        'day_id'       => $activeDarshan->day_id,
                         'sebak_id'       => $user->sebak_id,
                         'temple_id'      => $activeDarshan->temple_id ?? null,
                         'date'           => $now->toDateString(),
@@ -535,6 +536,7 @@ public function editDarshan(Request $request)
 
             // Start the new darshan
             $darshanLog = DarshanManagement::create([
+                'day_id'         => $darshan->day_id ?? null,
                 'darshan_id'     => $request->darshan_id,
                 'sebak_id'       => $user->sebak_id,
                 'date'           => $now->toDateString(),
