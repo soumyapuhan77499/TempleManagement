@@ -286,35 +286,6 @@ public function startNiti(Request $request)
                 ->update(['darshan_status' => 'Started']);
         }
 
-        // ✅ Step 3: Start Mahaprasad if linked
-        $prasadLog = null;
-        if ($nitiMaster->connected_mahaprasad_id) {
-
-            $existingPrasad = PrasadManagement::where('day_id', $dayId)
-                ->where('prasad_status', 'Started')
-                ->latest()
-                ->first();
-
-            if ($existingPrasad) {
-                $existingPrasad->update(['prasad_status' => 'Completed']);
-                TemplePrasad::where('id', $existingPrasad->prasad_id)->update(['prasad_status' => 'Completed']);
-            }
-
-            // Create new PrasadManagement entry
-            $prasadLog = PrasadManagement::create([
-                'prasad_id'     => $nitiMaster->connected_mahaprasad_id,
-                'sebak_id'      => $user->sebak_id,
-                'day_id'        => $dayId,
-                'date'          => $now->toDateString(),
-                'start_time'    => $now->format('H:i:s'),
-                'prasad_status' => 'Started',
-                'temple_id'     => $nitiMaster->temple_id ?? null,
-            ]);
-
-            TemplePrasad::where('id', $nitiMaster->connected_mahaprasad_id)
-                ->update(['prasad_status' => 'Started']);
-        }
-
         // ✅ Final response
         return response()->json([
             'status' => true,
@@ -322,7 +293,6 @@ public function startNiti(Request $request)
             'data' => [
                 'niti_management'    => $nitiManagement,
                 'darshan_management' => $darshanLog,
-                'prasad_management'  => $prasadLog,
             ]
         ], 200);
 
@@ -665,12 +635,42 @@ public function stopNiti(Request $request)
             }
         }
 
+           // ✅ Step 3: Start Mahaprasad if linked
+        $prasadLog = null;
+        if ($nitiMaster->connected_mahaprasad_id) {
+
+            $existingPrasad = PrasadManagement::where('day_id', $dayId)
+                ->where('prasad_status', 'Started')
+                ->latest()
+                ->first();
+
+            if ($existingPrasad) {
+                $existingPrasad->update(['prasad_status' => 'Completed']);
+                TemplePrasad::where('id', $existingPrasad->prasad_id)->update(['prasad_status' => 'Completed']);
+            }
+
+            // Create new PrasadManagement entry
+            $prasadLog = PrasadManagement::create([
+                'prasad_id'     => $nitiMaster->connected_mahaprasad_id,
+                'sebak_id'      => $user->sebak_id,
+                'day_id'        => $dayId,
+                'date'          => $now->toDateString(),
+                'start_time'    => $now->format('H:i:s'),
+                'prasad_status' => 'Started',
+                'temple_id'     => $nitiMaster->temple_id ?? null,
+            ]);
+
+            TemplePrasad::where('id', $nitiMaster->connected_mahaprasad_id)
+                ->update(['prasad_status' => 'Started']);
+        }
+
         return response()->json([
             'status' => true,
             'message' => 'Niti (and linked Darshan if any) stopped successfully.',
             'data' => [
                 'niti'    => $activeNiti,
-                'darshan'=> $darshanCompleted
+                'darshan'=> $darshanCompleted,
+                'prasad_management'  => $prasadLog
             ]
         ], 200);
 
