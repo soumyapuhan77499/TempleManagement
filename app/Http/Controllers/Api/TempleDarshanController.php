@@ -453,7 +453,6 @@ public function editDarshan(Request $request)
 {
     try {
         $request->validate([
-            'darshan_id' => 'nullable|string', // nullable because closed may not have darshan_id
             'action'     => 'required|string|in:start,closed',
         ]);
 
