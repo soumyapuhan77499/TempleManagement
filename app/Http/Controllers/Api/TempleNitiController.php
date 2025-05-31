@@ -1352,6 +1352,8 @@ public function updateHundiCollection(Request $request)
         'rupees' => 'nullable|numeric',
         'gold'   => 'nullable|numeric',
         'silver' => 'nullable|numeric',
+        'mix_gold' => 'nullable|numeric',
+        'mix_silver' => 'nullable|numeric',
     ]);
 
     try {
@@ -1362,6 +1364,8 @@ public function updateHundiCollection(Request $request)
             'rupees' => $request->rupees,
             'gold'   => $request->gold,
             'silver' => $request->silver,
+            'mix_gold' => $request->mix_gold,
+            'mix_silver' => $request->mix_silver,
         ]);
 
         return response()->json([
