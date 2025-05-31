@@ -1728,7 +1728,6 @@ public function markNitiAsNotStarted(Request $request)
     ]);
 }
 
-
 public function getStartedDarshanData()
 {
     try {
