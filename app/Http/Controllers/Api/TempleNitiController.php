@@ -1588,6 +1588,13 @@ public function editEndTime(Request $request)
     $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $niti->date . ' ' . $niti->start_time, $tz);
     $endDateTime   = Carbon::createFromFormat('Y-m-d H:i:s', $niti->date . ' ' . $request->end_time, $tz);
 
+    if ($endDateTime->lessThan($startDateTime)) {
+        return response()->json([
+            'status' => false,
+            'message' => 'End time cannot be earlier than start time.'
+        ], 422);
+    }
+
     $durationInSeconds = $startDateTime->diffInSeconds($endDateTime);
 
     $hours   = floor($durationInSeconds / 3600);
