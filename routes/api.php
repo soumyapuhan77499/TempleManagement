@@ -293,8 +293,8 @@ Route::controller(TempleNitiController::class)->group(function () {
 
   Route::post('/save-temple-news', 'storeByNoticeName');
   Route::get('/latest-temple-notice','getLatestNotice');
-  Route::post('/save-hundi-collection', 'store');
-  Route::get('/get-hundi-collections', 'index');
+  Route::post('/save-hundi-collection', 'saveHundi');
+  Route::get('/get-hundi-collections', 'getHundi');
   Route::post('/notice/update-name', 'updateNoticeName');
   Route::post('/hundi/update',  'updateHundiCollection');
   Route::post('/temple-notice/delete/{id}',  'deleteNotice');
@@ -305,7 +305,7 @@ Route::controller(TempleNitiController::class)->group(function () {
 
 Route::controller(TempleDarshanController::class)->group(function () {
   Route::get('/get-darshan', 'getDarshanListApi');
-  
+
  Route::middleware('auth:niti_admin')->group(function () {
     Route::post('/darshan/edit',  'editDarshan');
     Route::post('/start-darshan',  'startDarshan');

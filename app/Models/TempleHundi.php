@@ -12,6 +12,6 @@ class TempleHundi extends Model
     protected $table = 'temple__hundi_notice';
 
     protected $fillable = [
-        'temple_id', 'date', 'rupees', 'gold', 'silver'
+        'temple_id', 'date', 'rupees', 'gold', 'silver','mix_gold', 'mix_silver'
     ];
 }
