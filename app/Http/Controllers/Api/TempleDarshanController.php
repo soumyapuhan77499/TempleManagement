@@ -559,24 +559,11 @@ public function editDarshan(Request $request)
             // Complete all active darshans for today for this sebak and day
 
             foreach ($activeDarshans as $activeDarshan) {
-                $start = Carbon::parse($activeDarshan->date . ' ' . $activeDarshan->start_time);
-                $duration = $start->diff($now);
-                $formattedDuration = $duration->format('%H:%I:%S');
-
-                DarshanManagement::create([
-                    'darshan_id'     => $activeDarshan->darshan_id,
-                    'sebak_id'       => $user->sebak_id,
-                    'temple_id'      => $activeDarshan->temple_id ?? null,
-                    'date'           => $now->toDateString(),
-                    'start_time'     => $activeDarshan->start_time,
-                    'end_time'       => $now->format('H:i:s'),
-                    'duration'       => $formattedDuration,
-                    'darshan_status' => 'Completed',
-                ]);
-
+              
                 DarshanDetails::where('id', $activeDarshan->darshan_id)->update([
                     'darshan_status' => 'Completed',
                 ]);
+                
             }
 
             return response()->json([
