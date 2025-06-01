@@ -260,7 +260,7 @@ public function startNiti(Request $request)
             'day_id'      => $dayId,
             'start_user_id'    => $user->sebak_id,
             'date'        => $now->toDateString(),
-            'start_time'  => $now->format('H:i:s'),
+            'start_time'  => '12:30:00',
             'niti_status' => 'Started'
         ]);
 
