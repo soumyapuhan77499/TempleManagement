@@ -68,7 +68,7 @@ class WebsiteBannerController extends Controller
     // ✅ Loop for daily & special nitis
     foreach ($allNitis as $niti_id => $niti) {
         $management = $nitiManagements->has($niti_id)
-            ? $nitiManagements[$niti_id]->sortByDesc('created_at')->first()
+            ? $nitiManagements[$niti_id]->sortByDesc('id')->first()
             : null;
 
         $runningSubs = $runningSubNitis->where('niti_id', $niti_id);
@@ -109,7 +109,7 @@ class WebsiteBannerController extends Controller
 
             foreach ($specialsAfter as $specialNiti) {
                 $specialMgmt = $nitiManagements->has($specialNiti->niti_id)
-                    ? $nitiManagements[$specialNiti->niti_id]->sortByDesc('created_at')->first()
+                    ? $nitiManagements[$specialNiti->niti_id]->sortByDesc('id')->first()
                     : null;
 
                 $specialRunningSubs = $runningSubNitis->where('niti_id', $specialNiti->niti_id);
