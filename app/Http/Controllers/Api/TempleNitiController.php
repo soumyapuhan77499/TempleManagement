@@ -221,7 +221,7 @@ public function startNiti(Request $request)
                 'status' => false,
                 'message' => 'No day_id found for the Niti. Please check setup or update day_id first.'
             ], 422);
-                }
+        }
         // Check if the same Niti is already started by any user for this day
         $latestEntry = NitiManagement::where('niti_id', $request->niti_id)
             ->where('day_id', $dayId)
@@ -231,6 +231,7 @@ public function startNiti(Request $request)
         $nitiType = $nitiMaster->niti_type;
 
         // For "other" Niti, allow multiple but only if latest is Completed
+
         if (
             $nitiType === 'other' &&
             $latestEntry &&
@@ -243,6 +244,7 @@ public function startNiti(Request $request)
         }
 
         // For other types, block if already started
+
         if (
             $nitiType !== 'other' &&
             $latestEntry &&
@@ -254,13 +256,24 @@ public function startNiti(Request $request)
             ], 409);
         }
 
+        $anyRunningNiti = NitiManagement::where('day_id', $dayId)
+        ->where('niti_status', 'Started')
+        ->exists();
+
+        if ($anyRunningNiti) {
+            return response()->json([
+                'status' => false,
+                'message' => 'A Niti is already running for this day. Please complete it before starting another.'
+            ], 409);
+        }
+
         // ✅ Step 1: Start Niti
         $nitiManagement = NitiManagement::create([
             'niti_id'     => $request->niti_id,
             'day_id'      => $dayId,
             'start_user_id'    => $user->sebak_id,
             'date'        => $now->toDateString(),
-            'start_time'  => '12:30:00',
+            'start_time'  => $now->format('H:i:s'),
             'niti_status' => 'Started'
         ]);
 
