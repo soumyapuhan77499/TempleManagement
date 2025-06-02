@@ -256,17 +256,6 @@ public function startNiti(Request $request)
             ], 409);
         }
 
-        $anyRunningNiti = NitiManagement::where('day_id', $dayId)
-        ->where('niti_status', 'Started')
-        ->exists();
-
-        if ($anyRunningNiti) {
-            return response()->json([
-                'status' => false,
-                'message' => 'A Niti is already running for this day. Please complete it before starting another.'
-            ], 409);
-        }
-
         // ✅ Step 1: Start Niti
         $nitiManagement = NitiManagement::create([
             'niti_id'     => $request->niti_id,
@@ -748,8 +737,8 @@ public function completedNiti()
         if ($oneStartedFromMaster) {
             $latestStartedEntry = NitiManagement::where('niti_id', $oneStartedFromMaster->niti_id)
                 ->where('niti_status', 'Started')
-                ->orderBy('start_time', 'desc')
-                ->first();
+                ->orderBy('id', 'desc')
+                ->get();
 
             $startedNiti->push([
                 'id'                       => optional($latestStartedEntry)->id,
