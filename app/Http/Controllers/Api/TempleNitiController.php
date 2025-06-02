@@ -737,7 +737,7 @@ public function completedNiti()
         if ($oneStartedFromMaster) {
             $latestStartedEntry = NitiManagement::where('niti_id', $oneStartedFromMaster->niti_id)
                 ->where('niti_status', 'Started')
-                ->orderBy('start_time', 'desc')
+                ->orderBy('id', 'desc')
                 ->get();
 
             $startedNiti->push([
