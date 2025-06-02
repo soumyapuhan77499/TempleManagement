@@ -65,7 +65,7 @@ class WebsiteBannerController extends Controller
 
             $mergedNitiList = [];
 
-        // ✅ Loop for daily & special nitis
+            // ✅ Loop for daily & special nitis
             foreach ($allNitis as $niti_id => $niti) {
                 $management = $nitiManagements->has($niti_id)
                     ? $nitiManagements[$niti_id]->sortByDesc('id')->first()
@@ -165,85 +165,84 @@ class WebsiteBannerController extends Controller
                 ->sortBy('start_time')
                 ->values();
 
-            foreach ($otherNitiManagements as $nitiMgmt) {
-                $niti = $nitiMgmt->master;
-                if (!$niti) continue;
+                foreach ($otherNitiManagements as $nitiMgmt) {
+                    $niti = $nitiMgmt->master;
+                    if (!$niti) continue;
 
-                $runningSubs = $runningSubNitis->where('niti_id', $niti->niti_id);
+                    $runningSubs = $runningSubNitis->where('niti_id', $niti->niti_id);
 
-                $mergedNitiList[] = [
-                    'niti_id'       => $niti->niti_id,
-                    'niti_name'     => $niti->niti_name,
-                    'english_niti_name' => $niti->english_niti_name,
-                    'niti_type'     => $niti->niti_type,
-                    'niti_status'   => $niti->niti_status,
-                    'date_time'     => $niti->date_time,
-                    'language'      => $niti->language,
-                    'niti_privacy'  => $niti->niti_privacy,
-                    'niti_about'    => $niti->niti_about,
-                    'niti_sebayat'  => $niti->niti_sebayat,
-                    'description'   => $niti->description,
-                    'start_time'    => $nitiMgmt->start_time,
-                    'pause_time'    => $nitiMgmt->pause_time,
-                    'resume_time'   => $nitiMgmt->resume_time,
-                    'end_time'      => $nitiMgmt->end_time,
-                    'duration'      => $nitiMgmt->duration,
-                    'management_status' => $nitiMgmt->niti_status,
-                    'after_special_niti_name' => null,
-                    'running_sub_niti' => $runningSubs->map(function ($sub) {
-                        return [
-                            'sub_niti_id'   => $sub->sub_niti_id,
-                            'sub_niti_name' => $sub->sub_niti_name,
-                            'start_time'    => $sub->start_time,
-                            'status'        => $sub->status,
-                            'date'          => $sub->date,
-                        ];
-                    })->values(),
-                ];
-            }
+                    $mergedNitiList[] = [
+                        'niti_id'       => $niti->niti_id,
+                        'niti_name'     => $niti->niti_name,
+                        'english_niti_name' => $niti->english_niti_name,
+                        'niti_type'     => $niti->niti_type,
+                        'niti_status'   => $niti->niti_status,
+                        'date_time'     => $niti->date_time,
+                        'language'      => $niti->language,
+                        'niti_privacy'  => $niti->niti_privacy,
+                        'niti_about'    => $niti->niti_about,
+                        'niti_sebayat'  => $niti->niti_sebayat,
+                        'description'   => $niti->description,
+                        'start_time'    => $nitiMgmt->start_time,
+                        'pause_time'    => $nitiMgmt->pause_time,
+                        'resume_time'   => $nitiMgmt->resume_time,
+                        'end_time'      => $nitiMgmt->end_time,
+                        'duration'      => $nitiMgmt->duration,
+                        'management_status' => $nitiMgmt->niti_status,
+                        'after_special_niti_name' => null,
+                        'running_sub_niti' => $runningSubs->map(function ($sub) {
+                            return [
+                                'sub_niti_id'   => $sub->sub_niti_id,
+                                'sub_niti_name' => $sub->sub_niti_name,
+                                'start_time'    => $sub->start_time,
+                                'status'        => $sub->status,
+                                'date'          => $sub->date,
+                            ];
+                        })->values(),
+                    ];
+                }
 
+                $mergedNitiList = collect($mergedNitiList)->sortBy('id')->values();
 
-            $mergedNitiList = collect($mergedNitiList)->sortBy('id')->values();
+                $nitiInfo = TempleNews::where('type', 'information')
+                ->where('niti_notice_status','Started')
+                ->where('status','active')
+                ->orderBy('created_at', 'desc')
+                ->get(['id', 'niti_notice','created_at'])
+                ->first();
 
-            $nitiInfo = TempleNews::where('type', 'information')
-            ->where('niti_notice_status','Started')
-            ->where('status','active')
-            ->orderBy('created_at', 'desc')
-            ->get(['id', 'niti_notice','created_at'])
-            ->first();
-
-            $banners = TempleBanner::where('temple_id', $templeId)
-                ->where('status', 'active')
-                ->get(['banner_image', 'banner_type']);
-    
-            $nearbyTemples = NearByTemple::where('status', 'active')
-                ->where('temple_id', $templeId)
-                ->get();
-    
-            $totalPreviousAmount = HundiCollection::where('temple_id', $templeId)
-                ->where('status', 'active')
-                ->whereDate('hundi_open_date', Carbon::yesterday()->toDateString())
-                ->sum('collection_amount');
-    
-            return response()->json([
-                'status' => true,
-                'message' => 'Temple website data fetched successfully.',
-                'data' => [
-                    'niti_master'         => collect($mergedNitiList)->values(),
-                    'banners'             => $banners,
-                    'nearby_temples'      => $nearbyTemples,
-                    'totalPreviousAmount' => $totalPreviousAmount,
-                    'information'           => $nitiInfo,
-                ]
-            ], 200);
-
-            } catch (Exception $e) {
+                $banners = TempleBanner::where('temple_id', $templeId)
+                    ->where('status', 'active')
+                    ->get(['banner_image', 'banner_type']);
+        
+                $nearbyTemples = NearByTemple::where('status', 'active')
+                    ->where('temple_id', $templeId)
+                    ->get();
+        
+                $totalPreviousAmount = HundiCollection::where('temple_id', $templeId)
+                    ->where('status', 'active')
+                    ->whereDate('hundi_open_date', Carbon::yesterday()->toDateString())
+                    ->sum('collection_amount');
+        
                 return response()->json([
-                    'status' => false,
-                    'message' => 'Something went wrong.',
-                    'error' => $e->getMessage()
-                ], 500);
-            }
+                    'status' => true,
+                    'message' => 'Temple website data fetched successfully.',
+                    'data' => [
+                        'niti_master'         => collect($mergedNitiList)->values(),
+                        'banners'             => $banners,
+                        'nearby_temples'      => $nearbyTemples,
+                        'totalPreviousAmount' => $totalPreviousAmount,
+                        'information'           => $nitiInfo,
+                    ]
+                ], 200);
+
+                } catch (Exception $e) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Something went wrong.',
+                        'error' => $e->getMessage()
+                    ], 500);
+                }
     }
     
 }
