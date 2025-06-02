@@ -701,10 +701,35 @@ public function completedNiti()
 
         $dayId = $nitiMaster->day_id;
 
-        // Step 1: Get all Completed entries from NitiManagement with master relation
-        $completedManagement = NitiManagement::with('master')
-            ->where('niti_status', ['Completed','NotStarted'])
+        // ✅ Step 1: Get all Started entries
+        $startedEntries = NitiManagement::with('master')
+            ->where('niti_status', 'Started')
             ->where('day_id', $dayId)
+            ->orderByDesc('id') // optional: latest first
+            ->get()
+            ->map(function ($entry) {
+                return [
+                    'id'                       => $entry->id,
+                    'niti_id'                  => $entry->niti_id,
+                    'niti_name'                => optional($entry->master)->niti_name,
+                    'sebak_id'                 => $entry->sebak_id,
+                    'date'                     => $entry->date,
+                    'start_time'               => $entry->start_time,
+                    'end_time'                 => null,
+                    'duration'                 => null,
+                    'niti_status'              => 'Started',
+                    'start_user_id'            => $entry->start_user_id,
+                    'end_user_id'              => $entry->end_user_id,
+                    'start_time_edit_user_id'  => $entry->start_time_edit_user_id,
+                    'end_time_edit_user_id'    => $entry->end_time_edit_user_id,
+                ];
+            });
+
+        // ✅ Step 2: Get all Completed or NotStarted entries
+        $completedManagement = NitiManagement::with('master')
+            ->whereIn('niti_status', ['Completed', 'NotStarted'])
+            ->where('day_id', $dayId)
+            ->orderBy('id') // ascending order (oldest first)
             ->get()
             ->map(function ($item) {
                 return [
@@ -724,35 +749,8 @@ public function completedNiti()
                 ];
             });
 
-        // Step 2: Get one Started Niti from NitiMaster not in completed list
-        $excludedNitiIds = $completedManagement->pluck('niti_id')->unique()->toArray();
-
-        $startedEntries = NitiManagement::where('niti_status', 'Started')
-        ->where('day_id', $dayId)
-        ->with('master')
-        ->orderBy('id', 'desc')
-        ->get();                                                        
-
-        $startedNiti = $startedEntries->map(function ($entry) {
-            return [
-                'id'                       => $entry->id,
-                'niti_id'                  => $entry->niti_id,
-                'niti_name'                => optional($entry->master)->niti_name,
-                'sebak_id'                 => $entry->sebak_id,
-                'date'                     => $entry->date,
-                'start_time'               => $entry->start_time,
-                'end_time'                 => null,
-                'duration'                 => null,
-                'niti_status'              => 'Started',
-                'start_user_id'            => $entry->start_user_id,
-                'end_user_id'              => $entry->end_user_id,
-                'start_time_edit_user_id'  => $entry->start_time_edit_user_id,
-                'end_time_edit_user_id'    => $entry->end_time_edit_user_id,
-            ];
-        });
-
-                // Fix: convert to base collection to merge arrays
-        $merged = $completedManagement->toBase()->merge($startedNiti)->values();
+        // ✅ Merge with Started first, then Completed/NotStarted
+       $merged = $completedManagement->merge($startedEntries)->values();
 
         return response()->json([
             'status' => true,
