@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\DB;
 
 class TempleNitiController extends Controller
 {
-
+    
 public function manageNiti(Request $request)
 {
     try {
@@ -52,6 +52,7 @@ public function manageNiti(Request $request)
 
         // ✅ Get all Daily Nitis
         $dailyNitis = NitiMaster::where('status', 'active')
+            ->where('language', 'Odia')
             ->where('niti_status', '!=', 'NotStarted')
             ->where('niti_type', 'daily')
             ->orderBy('niti_order', 'asc') // <-- will now correctly sort even decimal orders
@@ -68,6 +69,7 @@ public function manageNiti(Request $request)
         // ✅ Get all Special Nitis grouped by after_special_niti
         $specialNitisGrouped = NitiMaster::where('status', 'active')
             ->where('niti_type', 'special')
+            ->where('language', 'Odia')
             ->where('niti_status', '!=', 'NotStarted')
             ->whereDate('date_time', $today) // ✅ Filter by today's date here
             ->with([
@@ -91,13 +93,14 @@ public function manageNiti(Request $request)
         })
         ->get();
 
-        $nitiInfo = TempleNews::where('type', 'information')
-        ->where('type','information')
-        ->where('status','active')
-        ->orderBy('created_at', 'desc')
-        ->get(['id', 'niti_notice', 'status'])
-        ->first();
-
+      
+         $nitiInfo = TempleNews::where('type', 'information')
+            ->where('niti_notice_status','Started')
+            ->where('status','active')
+            ->orderBy('created_at', 'desc')
+            ->get(['id', 'niti_notice','created_at'])
+            ->first();
+    
         $finalNitiList = [];
 
         // ✅ Add "Other" Nitis
@@ -221,8 +224,8 @@ public function startNiti(Request $request)
                 'status' => false,
                 'message' => 'No day_id found for the Niti. Please check setup or update day_id first.'
             ], 422);
-        }
-        // Check if the same Niti is already started by any user for this day
+                }
+                
         $latestEntry = NitiManagement::where('niti_id', $request->niti_id)
             ->where('day_id', $dayId)
             ->latest('created_at')
@@ -231,7 +234,6 @@ public function startNiti(Request $request)
         $nitiType = $nitiMaster->niti_type;
 
         // For "other" Niti, allow multiple but only if latest is Completed
-
         if (
             $nitiType === 'other' &&
             $latestEntry &&
@@ -244,7 +246,6 @@ public function startNiti(Request $request)
         }
 
         // For other types, block if already started
-
         if (
             $nitiType !== 'other' &&
             $latestEntry &&
@@ -274,20 +275,27 @@ public function startNiti(Request $request)
         }
 
         // ✅ Step 2: Start Darshan if linked
-        $darshanLog = null;
-        if ($nitiMaster->connected_darshan_id) {
-            $darshanLog = DarshanManagement::create([
-                'darshan_id'     => $nitiMaster->connected_darshan_id,
-                'sebak_id'       => $user->sebak_id,
-                'day_id'         => $dayId,
-                'date'           => $now->toDateString(),
-                'start_time'     => $now->format('H:i:s'),
-                'darshan_status' => 'Started',
-                'temple_id'      => $nitiMaster->temple_id ?? null,
-            ]);
+       $darshanLog = null;
 
-            DarshanDetails::where('id', $nitiMaster->connected_darshan_id)
-                ->update(['darshan_status' => 'Started']);
+        if ($nitiMaster->connected_darshan_id) {
+            if ($nitiMaster->connected_darshan_id == 5) {
+                // If darshan id is 5, set all darshans to 'Upcoming'
+                DarshanDetails::query()->update(['darshan_status' => 'Upcoming']);
+            } else {
+                // Otherwise, create a new darshan management entry and update status to 'Started'
+                $darshanLog = DarshanManagement::create([
+                    'darshan_id'     => $nitiMaster->connected_darshan_id,
+                    'sebak_id'       => $user->sebak_id,
+                    'day_id'         => $dayId,
+                    'date'           => $now->toDateString(),
+                    'start_time'     => $now->format('H:i:s'),
+                    'darshan_status' => 'Started',
+                    'temple_id'      => $nitiMaster->temple_id ?? null,
+                ]);
+
+                DarshanDetails::where('id', $nitiMaster->connected_darshan_id)
+                    ->update(['darshan_status' => 'Started']);
+            }
         }
 
         // ✅ Final response
@@ -300,13 +308,13 @@ public function startNiti(Request $request)
             ]
         ], 200);
 
-    } catch (\Exception $e) {
-        return response()->json([
-            'status' => false,
-            'message' => 'Failed to start Niti.',
-            'error' => $e->getMessage()
-        ], 500);
-    }
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to start Niti.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
 }
 
 public function pauseNiti(Request $request)
