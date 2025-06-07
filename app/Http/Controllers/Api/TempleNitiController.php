@@ -201,7 +201,6 @@ public function startNiti(Request $request)
 
         $now = Carbon::now('Asia/Kolkata');
 
-
        $latestNews = TempleNews::where('type', 'information')
         ->where('niti_notice_status', 'Started')
         ->orderBy('created_at', 'desc')
@@ -274,29 +273,48 @@ public function startNiti(Request $request)
             $latestNews->update(['niti_notice_status' => 'Completed']);
         }
 
-        // ✅ Step 2: Start Darshan if linked
-       $darshanLog = null;
+     $darshanLog = null;
 
-        if ($nitiMaster->connected_darshan_id) {
-            if ($nitiMaster->connected_darshan_id == 5) {
-                // If darshan id is 5, set all darshans to 'Upcoming'
-                DarshanDetails::query()->update(['darshan_status' => 'Upcoming']);
-            } else {
-                // Otherwise, create a new darshan management entry and update status to 'Started'
-                $darshanLog = DarshanManagement::create([
-                    'darshan_id'     => $nitiMaster->connected_darshan_id,
-                    'sebak_id'       => $user->sebak_id,
-                    'day_id'         => $dayId,
-                    'date'           => $now->toDateString(),
-                    'start_time'     => $now->format('H:i:s'),
-                    'darshan_status' => 'Started',
-                    'temple_id'      => $nitiMaster->temple_id ?? null,
-                ]);
+if ($nitiMaster->connected_darshan_id) {
+    if ($nitiMaster->connected_darshan_id == 5) {
+        // If darshan id is 5, set all darshans to 'Upcoming'
+        DarshanDetails::query()->update(['darshan_status' => 'Upcoming']);
+    } else {
+        // Check if an active darshan already exists for this darshan_id, sebak_id, day_id
+        $activeDarshan = DarshanDetails::where('darshan_status', 'Started')
+            ->where('day_id', $dayId)
+            ->latest('id')
+            ->first();
 
-                DarshanDetails::where('id', $nitiMaster->connected_darshan_id)
-                    ->update(['darshan_status' => 'Started']);
-            }
+        // If active darshan exists, mark it as completed with end_time
+        if ($activeDarshan) {
+            $activeDarshan->update([
+                'darshan_status' => 'Completed',
+                'end_time' => $now->format('H:i:s'),
+            ]);
+
+            // Also update the related DarshanDetails status to 'Completed'
+            DarshanDetails::where('id', $activeDarshan->darshan_id)
+                ->update(['darshan_status' => 'Completed']);
         }
+
+        // Now create new darshan management entry with status Started
+        $darshanLog = DarshanManagement::create([
+            'darshan_id'     => $nitiMaster->connected_darshan_id,
+            'sebak_id'       => $user->sebak_id,
+            'day_id'         => $dayId,
+            'date'           => $now->toDateString(),
+            'start_time'     => $now->format('H:i:s'),
+            'darshan_status' => 'Started',
+            'temple_id'      => $nitiMaster->temple_id ?? null,
+        ]);
+
+        // Update DarshanDetails status to Started for this darshan
+        DarshanDetails::where('id', $nitiMaster->connected_darshan_id)
+            ->update(['darshan_status' => 'Started']);
+    }
+}
+
 
         // ✅ Final response
         return response()->json([
@@ -618,33 +636,6 @@ public function stopNiti(Request $request)
         // ✅ Update TempleNews
         if ($latestNews) {
             $latestNews->update(['niti_notice_status' => 'Completed']);
-        }
-
-        // ✅ Stop interconnected Darshan (if any)
-        $darshanCompleted = null;
-        if ($nitiMaster->connected_darshan_id) {
-            $activeDarshan = DarshanManagement::where('darshan_id', $nitiMaster->connected_darshan_id)
-                ->where('sebak_id', $user->sebak_id)
-                ->where('darshan_status', 'Started')
-                ->where('day_id', $dayId)
-                ->latest()
-                ->first();
-
-            if ($activeDarshan) {
-                $darshanStart = Carbon::parse($activeDarshan->date . ' ' . $activeDarshan->start_time);
-                $darshanDuration = $darshanStart->diff($now)->format('%H:%I:%S');
-
-                $activeDarshan->update([
-                    'end_time'       => $now->format('H:i:s'),
-                    'duration'       => $darshanDuration,
-                    'darshan_status' => 'Completed',
-                ]);
-
-                DarshanDetails::where('id', $nitiMaster->connected_darshan_id)
-                    ->update(['darshan_status' => 'Completed']);
-
-                $darshanCompleted = $activeDarshan;
-            }
         }
 
            // ✅ Step 3: Start Mahaprasad if linked
