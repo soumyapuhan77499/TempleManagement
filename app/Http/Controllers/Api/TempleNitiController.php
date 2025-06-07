@@ -903,6 +903,21 @@ public function storeOtherNiti(Request $request)
 public function updateActiveNitiToUpcoming()
 {
     try {
+        // First, check if there is a record with niti_id = 'NITI88538'
+        $nitiRecord = NitiMaster::where('niti_id', 'NITI88538')->first();
+
+        if ($nitiRecord) {
+            // Check the niti_status for this record
+            if (!in_array($nitiRecord->niti_status, ['Completed', 'NotStarted'])) {
+                // If status is not Completed or NotStarted, return error
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Last niti status must be Completed or NotStarted to proceed.'
+                ], 400);
+            }
+            // else: continue with the update
+        }
+
         $tomorrow = Carbon::now('Asia/Kolkata')->addDay();
         $datePrefix = $tomorrow->format('Ymd');  // e.g., 20250424
         
@@ -915,7 +930,7 @@ public function updateActiveNitiToUpcoming()
         $dayId = $datePrefix . '-' . $randomSuffix; // e.g., 20250424-ZQPL
 
         // Step 2: Update NitiMaster
-        $nitiUpdatedCount = NitiMaster::where('status', 'active')->orwhere('status', 'other')
+        $nitiUpdatedCount = NitiMaster::where('status', 'active')->orWhere('status', 'other')
             ->update([
                 'niti_status' => 'Upcoming',
                 'day_id' => $dayId
