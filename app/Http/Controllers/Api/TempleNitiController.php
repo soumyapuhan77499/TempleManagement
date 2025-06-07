@@ -273,47 +273,47 @@ public function startNiti(Request $request)
             $latestNews->update(['niti_notice_status' => 'Completed']);
         }
 
-     $darshanLog = null;
+        $darshanLog = null;
 
-if ($nitiMaster->connected_darshan_id) {
-    if ($nitiMaster->connected_darshan_id == 5) {
-        // If darshan id is 5, set all darshans to 'Upcoming'
-        DarshanDetails::query()->update(['darshan_status' => 'Upcoming']);
-    } else {
-        // Check if an active darshan already exists for this darshan_id, sebak_id, day_id
-        $activeDarshan = DarshanDetails::where('darshan_status', 'Started')
-            ->where('day_id', $dayId)
-            ->latest('id')
-            ->first();
+        if ($nitiMaster->connected_darshan_id) {
+            if ($nitiMaster->connected_darshan_id == 5) {
+                // If darshan id is 5, set all darshans to 'Upcoming'
+                DarshanDetails::query()->update(['darshan_status' => 'Upcoming']);
+            } else {
+                // Check if an active darshan already exists for this darshan_id, sebak_id, day_id
+                $activeDarshan = DarshanDetails::where('darshan_status', 'Started')
+                    ->where('day_id', $dayId)
+                    ->latest('id')
+                    ->first();
 
-        // If active darshan exists, mark it as completed with end_time
-        if ($activeDarshan) {
-            $activeDarshan->update([
-                'darshan_status' => 'Completed',
-                'end_time' => $now->format('H:i:s'),
-            ]);
+                // If active darshan exists, mark it as completed with end_time
+                if ($activeDarshan) {
+                    $activeDarshan->update([
+                        'darshan_status' => 'Completed',
+                        'end_time' => $now->format('H:i:s'),
+                    ]);
 
-            // Also update the related DarshanDetails status to 'Completed'
-            DarshanDetails::where('id', $activeDarshan->darshan_id)
-                ->update(['darshan_status' => 'Completed']);
+                    // Also update the related DarshanDetails status to 'Completed'
+                    DarshanDetails::where('id', $activeDarshan->darshan_id)
+                        ->update(['darshan_status' => 'Completed']);
+                }
+
+                // Now create new darshan management entry with status Started
+                $darshanLog = DarshanManagement::create([
+                    'darshan_id'     => $nitiMaster->connected_darshan_id,
+                    'sebak_id'       => $user->sebak_id,
+                    'day_id'         => $dayId,
+                    'date'           => $now->toDateString(),
+                    'start_time'     => $now->format('H:i:s'),
+                    'darshan_status' => 'Started',
+                    'temple_id'      => $nitiMaster->temple_id ?? null,
+                ]);
+
+                // Update DarshanDetails status to Started for this darshan
+                DarshanDetails::where('id', $nitiMaster->connected_darshan_id)
+                    ->update(['darshan_status' => 'Started']);
+            }
         }
-
-        // Now create new darshan management entry with status Started
-        $darshanLog = DarshanManagement::create([
-            'darshan_id'     => $nitiMaster->connected_darshan_id,
-            'sebak_id'       => $user->sebak_id,
-            'day_id'         => $dayId,
-            'date'           => $now->toDateString(),
-            'start_time'     => $now->format('H:i:s'),
-            'darshan_status' => 'Started',
-            'temple_id'      => $nitiMaster->temple_id ?? null,
-        ]);
-
-        // Update DarshanDetails status to Started for this darshan
-        DarshanDetails::where('id', $nitiMaster->connected_darshan_id)
-            ->update(['darshan_status' => 'Started']);
-    }
-}
 
 
         // ✅ Final response
@@ -728,7 +728,7 @@ public function completedNiti()
         $completedManagement = NitiManagement::with('master')
             ->whereIn('niti_status', ['Completed', 'NotStarted'])
             ->where('day_id', $dayId)
-            ->orderBy('id') // ascending order (oldest first)
+            ->orderByRaw("CASE WHEN end_time IS NULL THEN 1 ELSE 0 END, end_time ASC")
             ->get()
             ->map(function ($item) {
                 return [
