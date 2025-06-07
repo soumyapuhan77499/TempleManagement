@@ -67,13 +67,13 @@ $allSpecialNitis = NitiMaster::where('niti_type', 'special')
     ->get()
     ->groupBy('after_special_niti');
 
-// 5. Get other nitis that are Started or Completed for this day ordered by id ascending
-$otherNitiManagements = NitiManagement::where('day_id', $latestDayId)
-    ->with('master')
-    ->whereHas('master', fn($q) => $q->where('niti_type', 'other'))
-    ->whereIn('niti_status', ['Started', 'Completed'])
-    ->orderBy('id', 'asc')
-    ->get();
+// // 5. Get other nitis that are Started or Completed for this day ordered by id ascending
+// $otherNitiManagements = NitiManagement::where('day_id', $latestDayId)
+//     ->with('master')
+//     ->whereHas('master', fn($q) => $q->where('niti_type', 'other'))
+//     ->whereIn('niti_status', ['Started', 'Completed'])
+//     ->orderBy('id', 'asc')
+//     ->get();
 
 $mergedNitiList = collect();
 
@@ -157,56 +157,56 @@ foreach ($nitiManagements as $management) {
             ]);
         }
 
-        // Insert matching other nitis within this daily block
-        $matchingOthers = $otherNitiManagements->filter(function ($other) use ($management) {
-            return $management && $other->start_time && $management->start_time &&
-                $other->start_time >= $management->start_time &&
-                $other->start_time <= ($management->end_time ?? now());
-        });
+        // // Insert matching other nitis within this daily block
+        // $matchingOthers = $otherNitiManagements->filter(function ($other) use ($management) {
+        //     return $management && $other->start_time && $management->start_time &&
+        //         $other->start_time >= $management->start_time &&
+        //         $other->start_time <= ($management->end_time ?? now());
+        // });
 
-        foreach ($matchingOthers as $nitiMgmt) {
-            $niti = $nitiMgmt->master;
-            if (!$niti) continue;
+        // foreach ($matchingOthers as $nitiMgmt) {
+        //     $niti = $nitiMgmt->master;
+        //     if (!$niti) continue;
 
-            $runningSubs = $runningSubNitis->where('niti_id', $niti->niti_id);
+        //     $runningSubs = $runningSubNitis->where('niti_id', $niti->niti_id);
 
-            $mergedNitiList->push([
-                'niti_id' => $niti->niti_id,
-                'niti_name' => $niti->niti_name,
-                'english_niti_name' => $niti->english_niti_name,
-                'niti_type' => $niti->niti_type,
-                'niti_status' => $niti->niti_status,
-                'date_time' => $niti->date_time,
-                'language' => $niti->language,
-                'niti_privacy' => $niti->niti_privacy,
-                'niti_about' => $niti->niti_about,
-                'niti_sebayat' => $niti->niti_sebayat,
-                'description' => $niti->description,
-                'english_description' => $niti->english_description,
-                'start_time' => $nitiMgmt->start_time,
-                'pause_time' => $nitiMgmt->pause_time,
-                'resume_time' => $nitiMgmt->resume_time,
-                'end_time' => $nitiMgmt->end_time,
-                'duration' => $nitiMgmt->duration,
-                'management_status' => $nitiMgmt->niti_status,
-                'after_special_niti_name' => null,
-                'running_sub_niti' => $runningSubs->map(fn($sub) => [
-                    'sub_niti_id' => $sub->sub_niti_id,
-                    'sub_niti_name' => $sub->sub_niti_name,
-                    'start_time' => $sub->start_time,
-                    'status' => $sub->status,
-                    'date' => $sub->date,
-                ])->values(),
-            ]);
+        //     $mergedNitiList->push([
+        //         'niti_id' => $niti->niti_id,
+        //         'niti_name' => $niti->niti_name,
+        //         'english_niti_name' => $niti->english_niti_name,
+        //         'niti_type' => $niti->niti_type,
+        //         'niti_status' => $niti->niti_status,
+        //         'date_time' => $niti->date_time,
+        //         'language' => $niti->language,
+        //         'niti_privacy' => $niti->niti_privacy,
+        //         'niti_about' => $niti->niti_about,
+        //         'niti_sebayat' => $niti->niti_sebayat,
+        //         'description' => $niti->description,
+        //         'english_description' => $niti->english_description,
+        //         'start_time' => $nitiMgmt->start_time,
+        //         'pause_time' => $nitiMgmt->pause_time,
+        //         'resume_time' => $nitiMgmt->resume_time,
+        //         'end_time' => $nitiMgmt->end_time,
+        //         'duration' => $nitiMgmt->duration,
+        //         'management_status' => $nitiMgmt->niti_status,
+        //         'after_special_niti_name' => null,
+        //         'running_sub_niti' => $runningSubs->map(fn($sub) => [
+        //             'sub_niti_id' => $sub->sub_niti_id,
+        //             'sub_niti_name' => $sub->sub_niti_name,
+        //             'start_time' => $sub->start_time,
+        //             'status' => $sub->status,
+        //             'date' => $sub->date,
+        //         ])->values(),
+        //     ]);
 
-            // Track inserted other niti id
-            $insertedOtherNitiIds[] = $nitiMgmt->id;
-        }
+        //     // Track inserted other niti id
+        //     $insertedOtherNitiIds[] = $nitiMgmt->id;
+        // }
     }
 }
 
 // Remove inserted "other" nitis to avoid duplicates at the end
-$otherNitiManagements = $otherNitiManagements->reject(fn($o) => in_array($o->id, $insertedOtherNitiIds));
+// $otherNitiManagements = $otherNitiManagements->reject(fn($o) => in_array($o->id, $insertedOtherNitiIds));
 
 // 7. Now add remaining upcoming nitis (those not managed yet)
 foreach ($upcomingNitis as $niti) {
@@ -242,42 +242,42 @@ foreach ($upcomingNitis as $niti) {
     ]);
 }
 
-// 8. Add remaining others at the end (if any leftover)
-foreach ($otherNitiManagements as $nitiMgmt) {
-    $niti = $nitiMgmt->master;
-    if (!$niti) continue;
+// // 8. Add remaining others at the end (if any leftover)
+// foreach ($otherNitiManagements as $nitiMgmt) {
+//     $niti = $nitiMgmt->master;
+//     if (!$niti) continue;
 
-    $runningSubs = $runningSubNitis->where('niti_id', $niti->niti_id);
+//     $runningSubs = $runningSubNitis->where('niti_id', $niti->niti_id);
 
-    $mergedNitiList->push([
-        'niti_id' => $niti->niti_id,
-        'niti_name' => $niti->niti_name,
-        'english_niti_name' => $niti->english_niti_name,
-        'niti_type' => $niti->niti_type,
-        'niti_status' => $niti->niti_status,
-        'date_time' => $niti->date_time,
-        'language' => $niti->language,
-        'niti_privacy' => $niti->niti_privacy,
-        'niti_about' => $niti->niti_about,
-        'niti_sebayat' => $niti->niti_sebayat,
-        'description' => $niti->description,
-        'english_description' => $niti->english_description,
-        'start_time' => $nitiMgmt->start_time,
-        'pause_time' => $nitiMgmt->pause_time,
-        'resume_time' => $nitiMgmt->resume_time,
-        'end_time' => $nitiMgmt->end_time,
-        'duration' => $nitiMgmt->duration,
-        'management_status' => $nitiMgmt->niti_status,
-        'after_special_niti_name' => null,
-        'running_sub_niti' => $runningSubs->map(fn($sub) => [
-            'sub_niti_id' => $sub->sub_niti_id,
-            'sub_niti_name' => $sub->sub_niti_name,
-            'start_time' => $sub->start_time,
-            'status' => $sub->status,
-            'date' => $sub->date,
-        ])->values(),
-    ]);
-}
+//     $mergedNitiList->push([
+//         'niti_id' => $niti->niti_id,
+//         'niti_name' => $niti->niti_name,
+//         'english_niti_name' => $niti->english_niti_name,
+//         'niti_type' => $niti->niti_type,
+//         'niti_status' => $niti->niti_status,
+//         'date_time' => $niti->date_time,
+//         'language' => $niti->language,
+//         'niti_privacy' => $niti->niti_privacy,
+//         'niti_about' => $niti->niti_about,
+//         'niti_sebayat' => $niti->niti_sebayat,
+//         'description' => $niti->description,
+//         'english_description' => $niti->english_description,
+//         'start_time' => $nitiMgmt->start_time,
+//         'pause_time' => $nitiMgmt->pause_time,
+//         'resume_time' => $nitiMgmt->resume_time,
+//         'end_time' => $nitiMgmt->end_time,
+//         'duration' => $nitiMgmt->duration,
+//         'management_status' => $nitiMgmt->niti_status,
+//         'after_special_niti_name' => null,
+//         'running_sub_niti' => $runningSubs->map(fn($sub) => [
+//             'sub_niti_id' => $sub->sub_niti_id,
+//             'sub_niti_name' => $sub->sub_niti_name,
+//             'start_time' => $sub->start_time,
+//             'status' => $sub->status,
+//             'date' => $sub->date,
+//         ])->values(),
+//     ]);
+// }
 
 
             $nitiInfo = TempleNews::where('type', 'information')
