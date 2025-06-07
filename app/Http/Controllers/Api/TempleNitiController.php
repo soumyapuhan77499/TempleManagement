@@ -684,7 +684,6 @@ public function stopNiti(Request $request)
         ], 500);
     }
 }
-
 public function completedNiti()
 {
     try {
@@ -699,37 +698,44 @@ public function completedNiti()
 
         $dayId = $nitiMaster->day_id;
 
-        // ✅ Step 1: Get all Started entries
+        // Step 1: Get all Started entries indexed by niti_id
         $startedEntries = NitiManagement::with('master')
             ->where('niti_status', 'Started')
             ->where('day_id', $dayId)
-            ->orderByDesc('id') // optional: latest first
+            ->orderByDesc('id')
             ->get()
-            ->map(function ($entry) {
+            ->mapWithKeys(function ($entry) {
                 return [
-                    'id'                       => $entry->id,
-                    'niti_id'                  => $entry->niti_id,
-                    'niti_name'                => optional($entry->master)->niti_name,
-                    'sebak_id'                 => $entry->sebak_id,
-                    'date'                     => $entry->date,
-                    'start_time'               => $entry->start_time,
-                    'end_time'                 => null,
-                    'duration'                 => null,
-                    'niti_status'              => 'Started',
-                    'start_user_id'            => $entry->start_user_id,
-                    'end_user_id'              => $entry->end_user_id,
-                    'start_time_edit_user_id'  => $entry->start_time_edit_user_id,
-                    'end_time_edit_user_id'    => $entry->end_time_edit_user_id,
+                    $entry->niti_id => [
+                        'id'                       => $entry->id,
+                        'niti_id'                  => $entry->niti_id,
+                        'niti_name'                => optional($entry->master)->niti_name,
+                        'sebak_id'                 => $entry->sebak_id,
+                        'date'                     => $entry->date,
+                        'start_time'               => $entry->start_time,
+                        'end_time'                 => null,
+                        'duration'                 => null,
+                        'niti_status'              => 'Started',
+                        'start_user_id'            => $entry->start_user_id,
+                        'end_user_id'              => $entry->end_user_id,
+                        'start_time_edit_user_id'  => $entry->start_time_edit_user_id,
+                        'end_time_edit_user_id'    => $entry->end_time_edit_user_id,
+                        'completed_nitis'          => [],  // Placeholder for completed under this started
+                    ]
                 ];
             });
 
-        // ✅ Step 2: Get all Completed or NotStarted entries
+        // Step 2: Get all Completed or NotStarted entries grouped by niti_id
         $completedManagement = NitiManagement::with('master')
             ->whereIn('niti_status', ['Completed', 'NotStarted'])
             ->where('day_id', $dayId)
             ->orderByRaw("CASE WHEN end_time IS NULL THEN 1 ELSE 0 END, end_time ASC")
             ->get()
-            ->map(function ($item) {
+            ->groupBy('niti_id');
+
+        // Step 3: Attach completed nitis under corresponding started niti
+        foreach ($completedManagement as $nitiId => $completedEntries) {
+            $completedMapped = $completedEntries->map(function ($item) {
                 return [
                     'id'                       => $item->id,
                     'niti_id'                  => $item->niti_id,
@@ -745,10 +751,22 @@ public function completedNiti()
                     'start_time_edit_user_id'  => $item->start_time_edit_user_id,
                     'end_time_edit_user_id'    => $item->end_time_edit_user_id,
                 ];
-            });
+            })->values();
 
-        // ✅ Merge with Started first, then Completed/NotStarted
-       $merged = $completedManagement->merge($startedEntries)->values();
+            if (isset($startedEntries[$nitiId])) {
+                // Attach completed nitis under started niti
+                $startedEntries[$nitiId]['completed_nitis'] = $completedMapped;
+            } else {
+                // No started niti found - treat these separately if needed
+                // For example, add them at the end as standalone entries
+                foreach ($completedMapped as $comp) {
+                    $startedEntries['completed_only_' . $comp['id']] = $comp;
+                }
+            }
+        }
+
+        // Convert startedEntries to a list (values) to send as array
+        $merged = $startedEntries->values();
 
         return response()->json([
             'status' => true,
@@ -756,14 +774,15 @@ public function completedNiti()
             'data' => $merged,
         ], 200);
 
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Failed to fetch Niti data.',
-                'error' => $e->getMessage(),
-            ], 500);
-        }
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to fetch Niti data.',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
 }
+
 
 public function getOtherNiti()
 {
