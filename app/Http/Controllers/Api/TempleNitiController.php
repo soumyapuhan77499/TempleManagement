@@ -787,7 +787,6 @@ public function getOtherNiti()
         ], 500);
     }
 }
-
 public function storeOtherNiti(Request $request)
 {
     try {
@@ -806,7 +805,7 @@ public function storeOtherNiti(Request $request)
             ], 401);
         }
 
-        // Generate today's day_id if not already stored
+        // Get active NitiMaster with day_id
         $nitiMaster = NitiMaster::where('status','active')->first();
 
         if (!$nitiMaster || !$nitiMaster->day_id) {
@@ -818,7 +817,13 @@ public function storeOtherNiti(Request $request)
 
         $dayId = $nitiMaster->day_id;
 
-        // If existing Niti, update it
+        // Prevent duplicate names for "other" type before create/update
+        $existingNiti = NitiMaster::where('niti_name', $request->niti_name)
+            ->where('niti_type', 'other')
+            ->whereIn('status', ['active', 'other'])
+            ->first();
+
+        // If updating existing Niti (niti_id provided)
         if ($request->filled('niti_id')) {
             $niti = NitiMaster::where('niti_id', $request->niti_id)->first();
 
@@ -839,7 +844,10 @@ public function storeOtherNiti(Request $request)
                     'start_time'  => $now->format('H:i:s'),
                 ]);
 
-             
+                // If connected_darshan_id is 5, update all DarshanDetails to Upcoming
+                if ($existingNiti && $existingNiti->connected_darshan_id == 5) {
+                    DarshanDetails::query()->update(['darshan_status' => 'Upcoming']);
+                }
 
                 return response()->json([
                     'status'  => true,
@@ -849,17 +857,11 @@ public function storeOtherNiti(Request $request)
             }
         }
 
-        // Prevent duplicate names for "other" type
-        $existingNiti = NitiMaster::where('niti_name', $request->niti_name)
-            ->where('niti_type', 'other')
-            ->where('status', ['active', 'other'])
-            ->first();
-
-        // Create new Niti
+        // Create new Niti if no update
         $niti = NitiMaster::create([
             'niti_id'        => 'NITI' . rand(10000, 99999),
             'niti_name'      => $request->niti_name,
-            'english_niti_name'      => $request->niti_name,
+            'english_niti_name' => $request->niti_name,
             'niti_type'      => 'other',
             'niti_privacy'   => 'public',
             'niti_status'    => 'Started',
@@ -877,11 +879,10 @@ public function storeOtherNiti(Request $request)
             'start_time'  => $now->format('H:i:s'),
         ]);
 
-           if ($existingNiti->connected_darshan_id) {
-                    if ($existingNiti->connected_darshan_id == 5) {
-                        DarshanDetails::query()->update(['darshan_status' => 'Upcoming']);
-                    } 
-            }
+        // If connected_darshan_id is 5, update all DarshanDetails to Upcoming
+        if ($existingNiti && $existingNiti->connected_darshan_id == 5) {
+            DarshanDetails::query()->update(['darshan_status' => 'Upcoming']);
+        }
 
         return response()->json([
             'status'  => true,
