@@ -683,7 +683,9 @@ public function stopNiti(Request $request)
             'error' => $e->getMessage()
         ], 500);
     }
-}public function completedNiti()
+}
+
+public function completedNiti()
 {
     try {
         $nitiMaster = NitiMaster::where('status', 'active')->first();
@@ -697,11 +699,11 @@ public function stopNiti(Request $request)
 
         $dayId = $nitiMaster->day_id;
 
-        // Step 1: Get all Started entries
+        // ✅ Step 1: Get all Started entries
         $startedEntries = NitiManagement::with('master')
             ->where('niti_status', 'Started')
             ->where('day_id', $dayId)
-            ->orderByDesc('id') // latest first
+            ->orderByDesc('id') // optional: latest first
             ->get()
             ->map(function ($entry) {
                 return [
@@ -721,7 +723,7 @@ public function stopNiti(Request $request)
                 ];
             });
 
-        // Step 2: Get all Completed or NotStarted entries
+        // ✅ Step 2: Get all Completed or NotStarted entries
         $completedManagement = NitiManagement::with('master')
             ->whereIn('niti_status', ['Completed', 'NotStarted'])
             ->where('day_id', $dayId)
@@ -745,8 +747,8 @@ public function stopNiti(Request $request)
                 ];
             });
 
-        // Merge with Started first, then Completed/NotStarted
-        $merged = $startedEntries->merge($completedManagement)->values();
+        // ✅ Merge with Started first, then Completed/NotStarted
+       $merged = $completedManagement->merge($startedEntries)->values();
 
         return response()->json([
             'status' => true,
@@ -754,15 +756,14 @@ public function stopNiti(Request $request)
             'data' => $merged,
         ], 200);
 
-    } catch (\Exception $e) {
-        return response()->json([
-            'status' => false,
-            'message' => 'Failed to fetch Niti data.',
-            'error' => $e->getMessage(),
-        ], 500);
-    }
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to fetch Niti data.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
 }
-
 
 public function getOtherNiti()
 {
