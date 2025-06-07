@@ -37,7 +37,7 @@ class WebsiteBannerController extends Controller
         $nitiManagements = NitiManagement::where('day_id', $latestDayId)
             ->with('master')
             ->where('niti_status', '!=', 'NotStarted')
-            ->orderBy('end_time', 'asc') // Order by start_time to maintain sequence
+            ->orderBy('end_time', 'desc') // Order by start_time to maintain sequence
             ->get();
 
         // Extract Niti IDs managed so far (for started/paused/completed)
