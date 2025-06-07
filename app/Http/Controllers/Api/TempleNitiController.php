@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\DB;
 
 class TempleNitiController extends Controller
 {
-    
+
 public function manageNiti(Request $request)
 {
     try {
@@ -314,7 +314,6 @@ public function startNiti(Request $request)
                     ->update(['darshan_status' => 'Started']);
             }
         }
-
 
         // ✅ Final response
         return response()->json([
@@ -757,13 +756,13 @@ public function completedNiti()
             'data' => $merged,
         ], 200);
 
-    } catch (\Exception $e) {
-        return response()->json([
-            'status' => false,
-            'message' => 'Failed to fetch Niti data.',
-            'error' => $e->getMessage(),
-        ], 500);
-    }
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to fetch Niti data.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
 }
 
 public function getOtherNiti()
@@ -840,6 +839,8 @@ public function storeOtherNiti(Request $request)
                     'start_time'  => $now->format('H:i:s'),
                 ]);
 
+             
+
                 return response()->json([
                     'status'  => true,
                     'message' => 'Special Niti updated and started.',
@@ -853,8 +854,6 @@ public function storeOtherNiti(Request $request)
             ->where('niti_type', 'other')
             ->where('status', ['active', 'other'])
             ->first();
-
-       
 
         // Create new Niti
         $niti = NitiMaster::create([
@@ -877,6 +876,12 @@ public function storeOtherNiti(Request $request)
             'date'        => $now->toDateString(),
             'start_time'  => $now->format('H:i:s'),
         ]);
+
+           if ($existingNiti->connected_darshan_id) {
+                    if ($existingNiti->connected_darshan_id == 5) {
+                        DarshanDetails::query()->update(['darshan_status' => 'Upcoming']);
+                    } 
+            }
 
         return response()->json([
             'status'  => true,
