@@ -33,8 +33,6 @@ class WebsiteBannerController extends Controller
             ], 404);
         }
 
-            dd($latestDayId);
-
     $nitiManagements = NitiManagement::where('day_id', $latestDayId)
     ->with('master')
     ->where('niti_status', '!=', 'NotStarted')
