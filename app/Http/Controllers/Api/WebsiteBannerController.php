@@ -32,22 +32,12 @@ class WebsiteBannerController extends Controller
                 'message' => 'No active Niti found to determine day_id.'
             ], 404);
         }
-$nitiManagements = NitiManagement::where('day_id', $latestDayId)
+        
+  $nitiManagements = NitiManagement::where('day_id', $latestDayId)
     ->with('master')
     ->where('niti_status', '!=', 'NotStarted')
-    ->get()
-    ->sort(function ($a, $b) {
-        $aTime = $a->end_time ? \Carbon\Carbon::parse($a->date . ' ' . $a->end_time) : null;
-        $bTime = $b->end_time ? \Carbon\Carbon::parse($b->date . ' ' . $b->end_time) : null;
-
-        if (!$aTime && !$bTime) return 0;
-        if (!$aTime) return 1; // a is NULL, goes after
-        if (!$bTime) return -1; // b is NULL, goes after
-
-        return $aTime->lt($bTime) ? -1 : 1;
-    })
-    ->values(); // re-index
-
+    ->orderBy('order_id', 'asc')  // Order by order_id ascending
+    ->get();
 
         // Extract Niti IDs managed so far (for started/paused/completed)
         $managedNitiIds = $nitiManagements->pluck('niti_id')->unique()->toArray();
