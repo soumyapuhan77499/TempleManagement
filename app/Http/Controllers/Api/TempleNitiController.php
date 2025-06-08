@@ -619,16 +619,11 @@ public function stopNiti(Request $request)
         $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
 
             // Get the latest order_id for the current day_id and niti_id
-      $latestCompleted = NitiManagement::where('day_id', $dayId)
-    ->where('niti_status', 'Completed')
-    ->whereNotNull('order_id')    // ensure order_id exists
-    ->orderBy('id', 'desc')
-    ->first();
+     $maxOrderId = NitiManagement::where('day_id', $dayId)
+    ->whereNotNull('order_id')
+    ->max('order_id');  // get max order_id for that day
 
-    $newOrderId = 1;
-    if ($latestCompleted) {
-        $newOrderId = $latestCompleted->order_id + 1;
-    }
+$newOrderId = $maxOrderId ? $maxOrderId + 1 : 1;
 
     // Update the activeNiti row with new order_id
     $activeNiti->update([
@@ -857,6 +852,7 @@ public function storeOtherNiti(Request $request)
                     'niti_status' => 'Started',
                     'date'        => $now->toDateString(),
                     'start_time'  => $now->format('H:i:s'),
+
                 ]);
 
                 // If connected_darshan_id is 5, update all DarshanDetails to Upcoming
