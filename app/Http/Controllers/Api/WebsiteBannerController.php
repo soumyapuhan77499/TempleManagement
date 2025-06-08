@@ -40,7 +40,6 @@ class WebsiteBannerController extends Controller
     ->orderByRaw("CASE WHEN niti_status = 'Completed' THEN order_id ELSE NULL END ASC")
     ->get();
 
-
         // Extract Niti IDs managed so far (for started/paused/completed)
         $managedNitiIds = $nitiManagements->pluck('niti_id')->unique()->toArray();
 
