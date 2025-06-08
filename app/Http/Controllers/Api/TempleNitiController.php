@@ -620,7 +620,6 @@ public function stopNiti(Request $request)
 
             // Get the latest order_id for the current day_id and niti_id
         $latestOrder = NitiManagement::where('day_id', $dayId)
-        ->where('niti_id', $request->niti_id)   // Filter by same niti_id too!
         ->orderBy('order_id', 'desc')           // Get highest order_id first
         ->first();
 
