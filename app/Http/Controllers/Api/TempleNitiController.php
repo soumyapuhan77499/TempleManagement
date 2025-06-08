@@ -619,14 +619,15 @@ public function stopNiti(Request $request)
         $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
 
             // Get the latest order_id for the current day_id and niti_id
-        $latestOrder = NitiManagement::where('day_id', $dayId)
-        ->orderBy('order_id', 'desc')           // Get highest order_id first
-        ->first();
+      $latestCompleted = NitiManagement::where('day_id', $dayId)
+    ->where('niti_status', 'Completed')
+    ->whereNotNull('order_id')    // ensure order_id exists
+    ->orderBy('id', 'desc')
+    ->first();
 
-    $newOrderId = 1; // default to 1 if no previous record
-
-    if ($latestOrder && $latestOrder->order_id) {
-        $newOrderId = $latestOrder->order_id + 1;
+    $newOrderId = 1;
+    if ($latestCompleted) {
+        $newOrderId = $latestCompleted->order_id + 1;
     }
 
     // Update the activeNiti row with new order_id
