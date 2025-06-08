@@ -618,13 +618,25 @@ public function stopNiti(Request $request)
         $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
         $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
 
-        // ✅ Update the same NitiManagement row
+        // Get the latest order_id for the current day_id and niti_id
+        $latestOrder = NitiManagement::where('day_id', $dayId)
+            ->orderBy('id', 'desc')  // order by latest inserted row
+            ->first();
+
+        $newOrderId = 1; // default to 1 if no previous record
+
+        if ($latestOrder && $latestOrder->order_id) {
+            $newOrderId = $latestOrder->order_id + 1;
+        }
+
+        // Update the activeNiti row with new order_id
         $activeNiti->update([
             'end_user_id'    => $user->sebak_id,
             'end_time'      => $now->format('H:i:s'),
             'running_time'  => $runningTime,
             'duration'      => $durationText,
             'niti_status'   => 'Completed',
+            'order_id'      => $newOrderId,
         ]);
 
         // ✅ Update NitiMaster

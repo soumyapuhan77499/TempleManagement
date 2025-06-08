@@ -14,6 +14,7 @@ class NitiManagement extends Model
     protected $fillable = [
         'niti_id',
         'day_id',
+        'order_id',
         'sebak_id',
         'date',
         'start_time',
