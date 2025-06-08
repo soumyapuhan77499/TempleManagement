@@ -623,6 +623,7 @@ public function stopNiti(Request $request)
         $maxOrderId = NitiManagement::where('day_id', $dayId)
         ->whereNotNull('order_id')
         ->max('order_id');  // get max order_id for that day
+        
 
        $newOrderId = $maxOrderId ? $maxOrderId + 1 : 1;
 

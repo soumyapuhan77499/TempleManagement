@@ -33,12 +33,15 @@ class WebsiteBannerController extends Controller
             ], 404);
         }
 
-           $nitiManagements = NitiManagement::where('day_id', $latestDayId)
+            dd($latestDayId);
+
+    $nitiManagements = NitiManagement::where('day_id', $latestDayId)
     ->with('master')
     ->where('niti_status', '!=', 'NotStarted')
     ->orderByRaw("CASE WHEN niti_status = 'Started' THEN id ELSE NULL END ASC")
     ->orderByRaw("CASE WHEN niti_status = 'Completed' THEN order_id ELSE NULL END ASC")
     ->get();
+
 
         // Extract Niti IDs managed so far (for started/paused/completed)
         $managedNitiIds = $nitiManagements->pluck('niti_id')->unique()->toArray();
