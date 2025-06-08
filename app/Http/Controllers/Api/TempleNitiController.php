@@ -536,6 +536,7 @@ public function resumeNiti(Request $request)
 
 public function stopNiti(Request $request)
 {
+
     try {
         $request->validate([
             'niti_id' => 'required|string|exists:temple__niti_details,niti_id',
@@ -619,21 +620,21 @@ public function stopNiti(Request $request)
         $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
 
             // Get the latest order_id for the current day_id and niti_id
-     $maxOrderId = NitiManagement::where('day_id', $dayId)
-    ->whereNotNull('order_id')
-    ->max('order_id');  // get max order_id for that day
+        $maxOrderId = NitiManagement::where('day_id', $dayId)
+        ->whereNotNull('order_id')
+        ->max('order_id');  // get max order_id for that day
 
-$newOrderId = $maxOrderId ? $maxOrderId + 1 : 1;
+       $newOrderId = $maxOrderId ? $maxOrderId + 1 : 1;
 
-    // Update the activeNiti row with new order_id
-    $activeNiti->update([
-        'end_user_id'    => $user->sebak_id,
-        'end_time'      => $now->format('H:i:s'),
-        'running_time'  => $runningTime,
-        'duration'      => $durationText,
-        'niti_status'   => 'Completed',
-        'order_id'      => $newOrderId,
-    ]);
+        // Update the activeNiti row with new order_id
+        $activeNiti->update([
+            'end_user_id'    => $user->sebak_id,
+            'end_time'      => $now->format('H:i:s'),
+            'running_time'  => $runningTime,
+            'duration'      => $durationText,
+            'niti_status'   => 'Completed',
+            'order_id'      => $newOrderId,
+        ]);
 
 
         // ✅ Update NitiMaster
@@ -685,13 +686,13 @@ $newOrderId = $maxOrderId ? $maxOrderId + 1 : 1;
             ]
         ], 200);
 
-    } catch (\Exception $e) {
-        return response()->json([
-            'status' => false,
-            'message' => 'Failed to stop Niti.',
-            'error' => $e->getMessage()
-        ], 500);
-    }
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to stop Niti.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
 }
 
 public function completedNiti()
