@@ -1612,40 +1612,41 @@ public function editEndTime(Request $request)
     $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
     $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
         
-  $currentOrder = $niti->order_id;
-$newEndTime = $request->end_time;
-$dayId = $niti->day_id;
+    $currentOrder = $niti->order_id;
+    $newEndTime = $request->end_time;
+    $dayId = $niti->day_id;
 
-// Find the previous Niti by end_time (closest end_time less than new end_time)
-$previousNiti = NitiManagement::where('day_id', $dayId)
-    ->where('id', '!=', $niti->id) // exclude current
-    ->whereNotNull('end_time')
-    ->where('end_time', '<', $newEndTime)
-    ->orderBy('end_time', 'desc')
-    ->first();
+    // Find the previous Niti by end_time (closest end_time less than new end_time)
+    $previousNiti = NitiManagement::where('day_id', $dayId)
+        ->where('id', '!=', $niti->id) // exclude current
+        ->whereNotNull('end_time')
+        ->where('end_time', '<', $newEndTime)
+        ->orderBy('end_time', 'desc')
+        ->first();
 
-// Find the next Niti by end_time (closest end_time greater than new end_time)
-$nextNiti = NitiManagement::where('day_id', $dayId)
-    ->where('id', '!=', $niti->id) // exclude current
-    ->whereNotNull('end_time')
-    ->where('end_time', '>', $newEndTime)
-    ->orderBy('end_time', 'asc')
-    ->first();
+    // Find the next Niti by end_time (closest end_time greater than new end_time)
+    $nextNiti = NitiManagement::where('day_id', $dayId)
+        ->where('id', '!=', $niti->id) // exclude current
+        ->whereNotNull('end_time')
+        ->where('end_time', '>', $newEndTime)
+        ->orderBy('end_time', 'asc')
+        ->first();
 
-// Decide new order_id based on previous and next
-if ($previousNiti && $nextNiti) {
-    // Average order_id of previous and next
-    $newOrderId = ($previousNiti->order_id + $nextNiti->order_id) / 2;
-} elseif ($previousNiti) {
-    // No next, so add 0.1 to previous order_id
-    $newOrderId = $previousNiti->order_id + 0.1;
-} elseif ($nextNiti) {
-    // No previous, subtract 0.1 from next order_id (ensure it stays > 0)
-    $newOrderId = max($nextNiti->order_id - 0.1, 0.1);
-} else {
-    // Neither prev nor next exists, keep current or assign 1
-    $newOrderId = $currentOrder ?? 1;
-}
+    // Decide new order_id based on previous and next
+    if ($previousNiti && $nextNiti) {
+        // Average order_id of previous and next
+        $newOrderId = ($previousNiti->order_id + $nextNiti->order_id) / 2;
+    } elseif ($previousNiti) {
+        // No next, so add 0.5 to previous order_id
+        $newOrderId = $previousNiti->order_id + 0.5;
+    } elseif ($nextNiti) {
+        // No previous, subtract 0.5 from next order_id (ensure it stays > 0)
+        $newOrderId = max($nextNiti->order_id - 0.5, 0.1);
+    } else {
+        // Neither prev nor next exists, keep current or assign 1
+        $newOrderId = $currentOrder ?? 1;
+    }
+
 
     // ✅ Update fields
     $niti->update([
