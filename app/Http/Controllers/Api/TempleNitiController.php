@@ -1635,23 +1635,33 @@ if ($previousNiti && $nextNiti) {
     $prevOrderInt = intval($previousNiti->order_id);
     $nextOrderInt = intval($nextNiti->order_id);
 
-    // If next order_id is exactly prevOrder + 1, insert .5 between
-    if ($nextOrderInt === $prevOrderInt + 1) {
+    $gap = $nextOrderInt - $prevOrderInt;
+
+    if ($gap === 1) {
+        // Consecutive: insert .5 between prev and next
         $newOrderFloat = $prevOrderInt + 0.5;
-    } else {
-        // If gap > 1 (non-consecutive), assign prevOrder + 1 (integer)
+    } elseif ($gap > 1) {
+        // Gap > 1: assign integer in the middle (prevOrder + 1)
         $newOrderFloat = $prevOrderInt + 1;
+    } else {
+        // Unexpected case (maybe duplicate order_ids)
+        // fallback to nextOrder + 1 to avoid overlap
+        $newOrderFloat = $nextOrderInt + 1;
     }
 } elseif ($previousNiti) {
     $newOrderFloat = intval($previousNiti->order_id) + 1;
 } elseif ($nextNiti) {
-    $candidate = intval($nextNiti->order_id) - 1;
+    $nextOrderInt = intval($nextNiti->order_id);
+
+    // Assign one less than next order, but not less than 1
+    $candidate = $nextOrderInt - 1;
     $newOrderFloat = $candidate >= 1 ? $candidate : 1.0;
 } else {
+    // No neighbors, assign current or 1
     $newOrderFloat = $currentOrderFloat ?: 1.0;
 }
 
-// Format order_id for saving:
+// Format order_id string
 if (floor($newOrderFloat) == $newOrderFloat) {
     // Whole number, zero-padded like '04'
     $newOrderId = str_pad(intval($newOrderFloat), 2, '0', STR_PAD_LEFT);
@@ -1660,7 +1670,6 @@ if (floor($newOrderFloat) == $newOrderFloat) {
     $intPart = str_pad(floor($newOrderFloat), 2, '0', STR_PAD_LEFT);
     $newOrderId = $intPart . '.5';
 }
-
     // ✅ Update fields
     $niti->update([
         'end_time'     => $request->end_time,
