@@ -1612,42 +1612,41 @@ public function editEndTime(Request $request)
     $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
     $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
         
-   $currentOrderFloat = floatval($niti->order_id);
+  $currentOrder = $niti->order_id;
 $newEndTime = $request->end_time;
 $dayId = $niti->day_id;
 
-// Find previous and next Niti by end_time (excluding current)
+// Find the previous Niti by end_time (closest end_time less than new end_time)
 $previousNiti = NitiManagement::where('day_id', $dayId)
-    ->where('id', '!=', $niti->id)
+    ->where('id', '!=', $niti->id) // exclude current
     ->whereNotNull('end_time')
     ->where('end_time', '<', $newEndTime)
     ->orderBy('end_time', 'desc')
     ->first();
 
+// Find the next Niti by end_time (closest end_time greater than new end_time)
 $nextNiti = NitiManagement::where('day_id', $dayId)
-    ->where('id', '!=', $niti->id)
+    ->where('id', '!=', $niti->id) // exclude current
     ->whereNotNull('end_time')
     ->where('end_time', '>', $newEndTime)
     ->orderBy('end_time', 'asc')
     ->first();
 
-$newOrderId = null;
-
+// Decide new order_id based on previous and next
 if ($previousNiti && $nextNiti) {
-    $prevOrderInt = intval($previousNiti->order_id);
-    $nextOrderInt = intval($nextNiti->order_id);
-
-    // Only if previous and next order IDs are consecutive, assign fractional .5 between them
-    if ($nextOrderInt === $prevOrderInt + 1) {
-        $intPart = str_pad($prevOrderInt, 2, '0', STR_PAD_LEFT);
-        $newOrderId = $intPart . '.5';
-    }
+    // Average order_id of previous and next
+    $newOrderId = ($previousNiti->order_id + $nextNiti->order_id) / 2;
+} elseif ($previousNiti) {
+    // No next, so add 0.1 to previous order_id
+    $newOrderId = $previousNiti->order_id + 0.1;
+} elseif ($nextNiti) {
+    // No previous, subtract 0.1 from next order_id (ensure it stays > 0)
+    $newOrderId = max($nextNiti->order_id - 0.1, 0.1);
+} else {
+    // Neither prev nor next exists, keep current or assign 1
+    $newOrderId = $currentOrder ?? 1;
 }
 
-// If condition not met, keep existing order_id
-if (!$newOrderId) {
-    $newOrderId = $niti->order_id;  // keep current order_id as is
-}
     // ✅ Update fields
     $niti->update([
         'end_time'     => $request->end_time,
