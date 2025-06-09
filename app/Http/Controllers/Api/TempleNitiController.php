@@ -1631,38 +1631,23 @@ $nextNiti = NitiManagement::where('day_id', $dayId)
     ->orderBy('end_time', 'asc')
     ->first();
 
+$newOrderId = null;
+
 if ($previousNiti && $nextNiti) {
     $prevOrderInt = intval($previousNiti->order_id);
     $nextOrderInt = intval($nextNiti->order_id);
 
-    // If consecutive, insert .5 between them
+    // Only if previous and next order IDs are consecutive, assign fractional .5 between them
     if ($nextOrderInt === $prevOrderInt + 1) {
-        $newOrderFloat = $prevOrderInt + 0.5;
-    } else {
-        // If gap more than 1, assign prevOrder + 1 (integer)
-        $newOrderFloat = $prevOrderInt + 1;
+        $intPart = str_pad($prevOrderInt, 2, '0', STR_PAD_LEFT);
+        $newOrderId = $intPart . '.5';
     }
-} elseif ($previousNiti) {
-    // No next Niti, place order after previous
-    $newOrderFloat = intval($previousNiti->order_id) + 1;
-} elseif ($nextNiti) {
-    // No previous Niti, place order before next, but minimum 1
-    $candidate = intval($nextNiti->order_id) - 1;
-    $newOrderFloat = $candidate >= 1 ? $candidate : 1.0;
-} else {
-    // No previous or next Niti, use current or start with 1.0
-    $newOrderFloat = $currentOrderFloat ?: 1.0;
 }
 
-// Format order_id as two digits, adding .5 if fractional
-if (floor($newOrderFloat) == $newOrderFloat) {
-    $newOrderId = str_pad(intval($newOrderFloat), 2, '0', STR_PAD_LEFT);
-} else {
-    $intPart = str_pad(floor($newOrderFloat), 2, '0', STR_PAD_LEFT);
-    $newOrderId = $intPart . '.5';
+// If condition not met, keep existing order_id
+if (!$newOrderId) {
+    $newOrderId = $niti->order_id;  // keep current order_id as is
 }
-
-
     // ✅ Update fields
     $niti->update([
         'end_time'     => $request->end_time,
