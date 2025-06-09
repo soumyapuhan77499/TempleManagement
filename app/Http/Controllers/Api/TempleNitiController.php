@@ -883,7 +883,7 @@ public function storeOtherNiti(Request $request)
         $niti = NitiMaster::create([
             'niti_id'        => 'NITI' . rand(10000, 99999),
             'niti_name'      => $request->niti_name,
-            'english_niti_name' => $request->english_niti_name,
+            'english_niti_name'=> $request->english_niti_name ?? $request->niti_name,
             'niti_type'      => 'other',
             'niti_privacy'   => 'public',
             'niti_status'    => 'Started',
