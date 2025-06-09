@@ -1613,49 +1613,39 @@ public function editEndTime(Request $request)
     $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
 
     $currentOrder = $niti->order_id;
-    $newEndTime = $request->end_time;
-    $dayId = $niti->day_id;
+$newEndTime = $request->end_time;
+$dayId = $niti->day_id;
 
-    // Find previous Niti by end_time less than new end_time
-    $previousNiti = NitiManagement::where('day_id', $dayId)
-        ->where('id', '!=', $niti->id)
-        ->whereNotNull('end_time')
-        ->where('end_time', '<', $newEndTime)
-        ->orderBy('end_time', 'desc')
-        ->first();
+// Find previous and next Niti by end_time
+$previousNiti = NitiManagement::where('day_id', $dayId)
+    ->where('id', '!=', $niti->id)
+    ->whereNotNull('end_time')
+    ->where('end_time', '<', $newEndTime)
+    ->orderBy('end_time', 'desc')
+    ->first();
 
-    // Find next Niti by end_time greater than new end_time
-    $nextNiti = NitiManagement::where('day_id', $dayId)
-        ->where('id', '!=', $niti->id)
-        ->whereNotNull('end_time')
-        ->where('end_time', '>', $newEndTime)
-        ->orderBy('end_time', 'asc')
-        ->first();
+$nextNiti = NitiManagement::where('day_id', $dayId)
+    ->where('id', '!=', $niti->id)
+    ->whereNotNull('end_time')
+    ->where('end_time', '>', $newEndTime)
+    ->orderBy('end_time', 'asc')
+    ->first();
 
-    if (!$previousNiti) {
-        // No previous Niti found, set order_id to '01'
-        $newOrderId = '01';
 
-    } elseif (!$nextNiti) {
-        // No next Niti found, keep current order_id unchanged
-        $newOrderId = $currentOrder;
-
-    } elseif ($previousNiti && $nextNiti) {
-        // Both previous and next exist, average their order_ids
-        $avgFloat = (floatval($previousNiti->order_id) + floatval($nextNiti->order_id)) / 2;
-
-        // Format average to one decimal place string like '04.5'
-        $newOrderId = number_format($avgFloat, 1);
-
-    } elseif ($nextNiti) {
-        // Only next Niti exists, assign fractional order_id like '01.5' with zero-padding
-        $nextOrderInt = intval($nextNiti->order_id);
-        $newOrderId = str_pad($nextOrderInt, 2, '0', STR_PAD_LEFT) . '.5';
-
-    } else {
-        // Fallback to current order or '01'
-        $newOrderId = $currentOrder ?? '01';
-    }
+if ($previousNiti && $nextNiti) {
+    // Average of previous and next (will lose leading zeros, so format below)
+    $avgFloat = (floatval($previousNiti->order_id) + floatval($nextNiti->order_id)) / 2;
+    
+    // Format avg to string with padding (optional)
+    // You can just save as float or format as needed
+    $newOrderId = number_format($avgFloat, 1);
+} elseif ($nextNiti) {
+    // Instead of $nextNiti->order_id + 0.5, do:
+    $nextOrderInt = intval($nextNiti->order_id);
+    $newOrderId = str_pad($nextOrderInt, 2, '0', STR_PAD_LEFT) . '.5';
+} else {
+    $newOrderId = $currentOrder ?? '01';
+}
     // ✅ Update fields
     $niti->update([
         'end_time'     => $request->end_time,
