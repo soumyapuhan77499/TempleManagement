@@ -1632,27 +1632,24 @@ public function editEndTime(Request $request)
         ->first();
 
     if ($previousNiti && $nextNiti) {
-        $prevOrderFloat = floatval($previousNiti->order_id);
-        $nextOrderFloat = floatval($nextNiti->order_id);
+        $prevOrder = $previousNiti->order_id;
+        $nextOrder = $nextNiti->order_id;
 
-        if ($prevOrderFloat > $nextOrderFloat) {
-            // prev order is bigger than next order, increment next order decimal part by 0.1
-            // Split nextOrderFloat into integer and decimal parts
-            $parts = explode('.', number_format($nextOrderFloat, 1));
-            $intPart = intval($parts[0]);
-            $decPart = isset($parts[1]) ? intval($parts[1]) : 0;
+        // Check if previous order is fractional and next is integer
+        if (strpos($prevOrder, '.') !== false && floor(floatval($nextOrder)) == floatval($nextOrder)) {
+            // Increment decimal part of previous order by 0.1
+            $prevFloat = floatval($prevOrder);
 
-            // Increment decimal part by 1 (e.g. 5 -> 6)
-            $newDecPart = min($decPart + 1, 9); // max decimal 9 to avoid overflow
+            // Increase decimal by 0.1 but keep only one decimal digit
+            $newOrderFloat = round($prevFloat + 0.1, 1);
 
-            $newOrderFloat = floatval("{$intPart}.{$newDecPart}");
+            $newOrderId = number_format($newOrderFloat, 1);
 
         } else {
-            // Normal case: average between previous and next
-            $newOrderFloat = ($prevOrderFloat + $nextOrderFloat) / 2;
+            // Normal average between previous and next
+            $avgFloat = (floatval($prevOrder) + floatval($nextOrder)) / 2;
+            $newOrderId = number_format($avgFloat, 1);
         }
-
-        $newOrderId = number_format($newOrderFloat, 1);
 
     } elseif ($nextNiti) {
         $nextOrderInt = intval($nextNiti->order_id);
