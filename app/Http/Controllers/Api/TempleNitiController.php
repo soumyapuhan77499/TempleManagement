@@ -1611,8 +1611,8 @@ public function editEndTime(Request $request)
 
     $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
     $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
-
-        $currentOrder = $niti->order_id;
+    
+    $currentOrder = $niti->order_id;
     $newEndTime = $request->end_time;
     $dayId = $niti->day_id;
 
@@ -1631,18 +1631,33 @@ public function editEndTime(Request $request)
         ->orderBy('end_time', 'asc')
         ->first();
 
-
     if ($previousNiti && $nextNiti) {
-        // Average of previous and next (will lose leading zeros, so format below)
-        $avgFloat = (floatval($previousNiti->order_id) + floatval($nextNiti->order_id)) / 2;
-        
-        // Format avg to string with padding (optional)
-        // You can just save as float or format as needed
-        $newOrderId = number_format($avgFloat, 1);
+        $prevOrderFloat = floatval($previousNiti->order_id);
+        $nextOrderFloat = floatval($nextNiti->order_id);
+
+        if ($prevOrderFloat > $nextOrderFloat) {
+            // prev order is bigger than next order, increment next order decimal part by 0.1
+            // Split nextOrderFloat into integer and decimal parts
+            $parts = explode('.', number_format($nextOrderFloat, 1));
+            $intPart = intval($parts[0]);
+            $decPart = isset($parts[1]) ? intval($parts[1]) : 0;
+
+            // Increment decimal part by 1 (e.g. 5 -> 6)
+            $newDecPart = min($decPart + 1, 9); // max decimal 9 to avoid overflow
+
+            $newOrderFloat = floatval("{$intPart}.{$newDecPart}");
+
+        } else {
+            // Normal case: average between previous and next
+            $newOrderFloat = ($prevOrderFloat + $nextOrderFloat) / 2;
+        }
+
+        $newOrderId = number_format($newOrderFloat, 1);
+
     } elseif ($nextNiti) {
-        // Instead of $nextNiti->order_id + 0.5, do:
         $nextOrderInt = intval($nextNiti->order_id);
         $newOrderId = str_pad($nextOrderInt, 2, '0', STR_PAD_LEFT) . '.5';
+
     } else {
         $newOrderId = $currentOrder ?? '01';
     }
