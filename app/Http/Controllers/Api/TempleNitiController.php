@@ -624,8 +624,6 @@ public function stopNiti(Request $request)
         ->whereNotNull('order_id')
         ->max('order_id');  // max order_id for that day
 
-        dd($maxOrderId);
-
         $newOrderIdInt = $maxOrderId ? ((int)$maxOrderId) + 1 : 1;
 
         // Format order_id as zero-padded string of length 2
