@@ -1612,39 +1612,78 @@ public function editEndTime(Request $request)
     $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
     $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
 
-    $currentOrder = $niti->order_id;
+    // Convert string order_id to float for calculation
+    $currentOrderFloat = floatval($niti->order_id);
     $newEndTime = $request->end_time;
     $dayId = $niti->day_id;
 
-    // Find the previous Niti by end_time (closest end_time less than new end_time)
+    // Find previous and next Niti by end_time (excluding current)
     $previousNiti = NitiManagement::where('day_id', $dayId)
-        ->where('id', '!=', $niti->id) // exclude current
+        ->where('id', '!=', $niti->id)
         ->whereNotNull('end_time')
         ->where('end_time', '<', $newEndTime)
         ->orderBy('end_time', 'desc')
         ->first();
 
-    // Find the next Niti by end_time (closest end_time greater than new end_time)
     $nextNiti = NitiManagement::where('day_id', $dayId)
-        ->where('id', '!=', $niti->id) // exclude current
+        ->where('id', '!=', $niti->id)
         ->whereNotNull('end_time')
         ->where('end_time', '>', $newEndTime)
         ->orderBy('end_time', 'asc')
         ->first();
 
-    // Decide new order_id based on previous and next
+    $newOrderFloat = $currentOrderFloat ?: 1.0;
+
     if ($previousNiti && $nextNiti) {
-        // Average order_id of previous and next
-        $newOrderId = ($previousNiti->order_id + $nextNiti->order_id) / 2;
+        $prevOrderFloat = floatval($previousNiti->order_id);
+        $nextOrderFloat = floatval($nextNiti->order_id);
+
+        // Check gap between previous and next order_id
+        $gap = $nextOrderFloat - $prevOrderFloat;
+
+        if ($gap > 1) {
+            // Enough gap to insert fractional order_id
+            $newOrderFloat = $prevOrderFloat + $gap / 2;
+        } else {
+            // Gap too small, need to shift subsequent orders
+
+            // Shift all orders >= nextOrderFloat by +1
+            NitiManagement::where('day_id', $dayId)
+                ->where('order_id', '>=', str_pad((int)$nextOrderFloat, 2, '0', STR_PAD_LEFT))
+                ->where('id', '!=', $niti->id)
+                ->orderBy('order_id', 'desc')
+                ->get()
+                ->each(function ($item) {
+                    $orderInt = (int) floatval($item->order_id);
+                    $item->order_id = str_pad($orderInt + 1, 2, '0', STR_PAD_LEFT);
+                    $item->save();
+                });
+
+            $newOrderFloat = $prevOrderFloat + 1;
+        }
     } elseif ($previousNiti) {
-        // No next, so add 0.1 to previous order_id
-        $newOrderId = $previousNiti->order_id + 0.1;
+        // No next Niti, place new order as previous + 1
+        $prevOrderFloat = floatval($previousNiti->order_id);
+        $newOrderFloat = $prevOrderFloat + 1;
     } elseif ($nextNiti) {
-        // No previous, subtract 0.1 from next order_id (ensure it stays > 0)
-        $newOrderId = max($nextNiti->order_id - 0.1, 0.1);
+        // No previous Niti, place new order as next - 1 or minimum 1.0
+        $nextOrderFloat = floatval($nextNiti->order_id);
+        $candidate = $nextOrderFloat - 1;
+        $newOrderFloat = $candidate >= 1 ? $candidate : 1.0;
     } else {
-        // Neither prev nor next exists, keep current or assign 1
-        $newOrderId = $currentOrder ?? 1;
+        // No neighbors, keep current or assign 1
+        $newOrderFloat = $currentOrderFloat ?: 1.0;
+    }
+
+    // Format order_id as string:
+    // If order_id is whole number, pad with zero like '01'
+    // If fractional, format as is with one decimal, e.g., '11.5'
+    if (floor($newOrderFloat) == $newOrderFloat) {
+        // Whole number
+        $newOrderId = str_pad((int)$newOrderFloat, 2, '0', STR_PAD_LEFT);
+    } else {
+        // Fractional number with 1 decimal place
+        $newOrderId = number_format($newOrderFloat, 1);
     }
 
     // ✅ Update fields
