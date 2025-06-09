@@ -1630,6 +1630,7 @@ $nextNiti = NitiManagement::where('day_id', $dayId)
     ->where('end_time', '>', $newEndTime)
     ->orderBy('end_time', 'asc')
     ->first();
+
     
 if (!$previousNiti) {
     // No previous niti found, set order_id to '01'
@@ -1637,14 +1638,13 @@ if (!$previousNiti) {
 } elseif (!$nextNiti) {
     // No next niti found, keep current order_id unchanged
     $newOrderId = $currentOrder;
+} elseif ($nextNiti) {
+    // Instead of $nextNiti->order_id + 0.5, do:
+    $nextOrderInt = intval($nextNiti->order_id);
+    $newOrderId = str_pad($nextOrderInt, 2, '0', STR_PAD_LEFT) . '.5';
 } else {
-    // Both previous and next exist: calculate average order_id
-    $avgFloat = (floatval($previousNiti->order_id) + floatval($nextNiti->order_id)) / 2;
-
-    // Format average with one decimal place (e.g., '04.5')
-    $newOrderId = number_format($avgFloat, 1);
+    $newOrderId = $currentOrder ?? '01';
 }
-
     // ✅ Update fields
     $niti->update([
         'end_time'     => $request->end_time,
