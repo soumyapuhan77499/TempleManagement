@@ -1633,20 +1633,23 @@ public function editEndTime(Request $request)
         ->first();
 
     if (!$previousNiti) {
-        // No previous Niti found, assign order_id '01'
+        // No previous Niti found, set order_id to '01'
         $newOrderId = '01';
 
     } elseif (!$nextNiti) {
         // No next Niti found, keep current order_id unchanged
         $newOrderId = $currentOrder;
 
+    } elseif ($previousNiti && $nextNiti) {
+        // Both previous and next exist, average their order_ids
+        $avgFloat = (floatval($previousNiti->order_id) + floatval($nextNiti->order_id)) / 2;
+
+        // Format average to one decimal place string like '04.5'
+        $newOrderId = number_format($avgFloat, 1);
+
     } elseif ($nextNiti) {
-        // Next Niti exists, assign fractional order_id like '01.5' with zero-padding
-
-        // Get integer part of nextNiti order_id
+        // Only next Niti exists, assign fractional order_id like '01.5' with zero-padding
         $nextOrderInt = intval($nextNiti->order_id);
-
-        // Format order_id with leading zeros and append '.5'
         $newOrderId = str_pad($nextOrderInt, 2, '0', STR_PAD_LEFT) . '.5';
 
     } else {
