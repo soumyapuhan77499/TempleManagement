@@ -1631,38 +1631,47 @@ public function editEndTime(Request $request)
     ->orderBy('end_time', 'asc')
     ->first();
 
-    if ($previousNiti && $nextNiti) {
-        $prevOrderInt = intval($previousNiti->order_id);
-        $nextOrderInt = intval($nextNiti->order_id);
+  if ($previousNiti && $nextNiti) {
+    $prevOrderInt = intval($previousNiti->order_id);
+    $nextOrderInt = intval($nextNiti->order_id);
 
-        $gap = $nextOrderInt - $prevOrderInt;
+    $gap = $nextOrderInt - $prevOrderInt;
 
+    // If current order is outside the range [prevOrderInt, nextOrderInt]
+    if ($currentOrderFloat <= $prevOrderInt || $currentOrderFloat >= $nextOrderInt) {
+        // Force placing new order between prev and next
         if ($gap === 1) {
-            // Insert .5 between consecutive orders, e.g. 22 and 23 => 22.5
+            // Consecutive, insert .5 between prev and next
             $newOrderFloat = $prevOrderInt + 0.5;
         } elseif ($gap > 1) {
-            // Assign the integer between prev and next, e.g. 4 and 6 => 5
+            // Gap > 1, assign prev + 1 integer
             $newOrderFloat = $prevOrderInt + 1;
         } else {
-            // Unexpected case, fallback
+            // Unexpected case: fallback
             $newOrderFloat = $prevOrderInt + 0.5;
         }
-    } elseif ($previousNiti) {
-        $newOrderFloat = intval($previousNiti->order_id) + 1;
-    } elseif ($nextNiti) {
-        $candidate = intval($nextNiti->order_id) - 1;
-        $newOrderFloat = $candidate >= 1 ? $candidate : 1.0;
     } else {
-        $newOrderFloat = $currentOrderFloat ?: 1.0;
+        // Current order is already between prev and next
+        // Keep it or adjust slightly to avoid duplicates if needed
+        $newOrderFloat = $currentOrderFloat;
     }
+} elseif ($previousNiti) {
+    $newOrderFloat = intval($previousNiti->order_id) + 1;
+} elseif ($nextNiti) {
+    $candidate = intval($nextNiti->order_id) - 1;
+    $newOrderFloat = $candidate >= 1 ? $candidate : 1.0;
+} else {
+    $newOrderFloat = $currentOrderFloat ?: 1.0;
+}
 
-    // Formatting order_id remains the same
-    if (floor($newOrderFloat) == $newOrderFloat) {
-        $newOrderId = str_pad(intval($newOrderFloat), 2, '0', STR_PAD_LEFT);
-    } else {
-        $intPart = str_pad(floor($newOrderFloat), 2, '0', STR_PAD_LEFT);
-        $newOrderId = $intPart . '.5';
-    }
+// Formatting order_id remains unchanged
+if (floor($newOrderFloat) == $newOrderFloat) {
+    $newOrderId = str_pad(intval($newOrderFloat), 2, '0', STR_PAD_LEFT);
+} else {
+    $intPart = str_pad(floor($newOrderFloat), 2, '0', STR_PAD_LEFT);
+    $newOrderId = $intPart . '.5';
+}
+
 
     // ✅ Update fields
     $niti->update([
