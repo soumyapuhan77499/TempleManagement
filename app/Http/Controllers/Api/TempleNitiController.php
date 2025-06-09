@@ -1642,7 +1642,7 @@ public function editEndTime(Request $request)
         $newOrderId = $nextNiti->order_id + 0.5;
 
     }  else {
-        // no neighbors, keep current or set 1
+        // no neighbors, keep current or set 01
         $newOrderId = $currentOrder ?? 01;
 
     }
