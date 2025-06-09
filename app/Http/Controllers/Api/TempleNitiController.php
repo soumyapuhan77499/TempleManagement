@@ -1612,7 +1612,7 @@ public function editEndTime(Request $request)
     $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
     $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
 
-  $currentOrderFloat = floatval($niti->order_id);
+ $currentOrderFloat = floatval($niti->order_id);
 $newEndTime = $request->end_time;
 $dayId = $niti->day_id;
 
@@ -1635,12 +1635,12 @@ if ($previousNiti && $nextNiti) {
     $prevOrderInt = intval($previousNiti->order_id);
     $nextOrderInt = intval($nextNiti->order_id);
 
-    // If next is exactly prev+1 (like 04 and 05), insert .5
+    // If next order_id is exactly prevOrder + 1, insert .5 between
     if ($nextOrderInt === $prevOrderInt + 1) {
         $newOrderFloat = $prevOrderInt + 0.5;
     } else {
-        // No exact sequence, fallback to shifting orders (like before)
-        $newOrderFloat = null;
+        // If gap > 1 (non-consecutive), assign prevOrder + 1 (integer)
+        $newOrderFloat = $prevOrderInt + 1;
     }
 } elseif ($previousNiti) {
     $newOrderFloat = intval($previousNiti->order_id) + 1;
@@ -1649,24 +1649,6 @@ if ($previousNiti && $nextNiti) {
     $newOrderFloat = $candidate >= 1 ? $candidate : 1.0;
 } else {
     $newOrderFloat = $currentOrderFloat ?: 1.0;
-}
-
-// If gap too small or not exact sequence, shift orders
-if (is_null($newOrderFloat)) {
-    $newOrderInt = intval($nextNiti->order_id);
-
-    NitiManagement::where('day_id', $dayId)
-        ->where('order_id', '>=', str_pad($newOrderInt, 2, '0', STR_PAD_LEFT))
-        ->where('id', '!=', $niti->id)
-        ->orderBy('order_id', 'desc')
-        ->get()
-        ->each(function ($item) {
-            $orderInt = intval(floatval($item->order_id));
-            $item->order_id = str_pad($orderInt + 1, 2, '0', STR_PAD_LEFT);
-            $item->save();
-        });
-
-    $newOrderFloat = $newOrderInt;
 }
 
 // Format order_id for saving:
