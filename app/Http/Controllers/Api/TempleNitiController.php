@@ -620,14 +620,20 @@ public function stopNiti(Request $request)
         $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
 
             // Get the latest order_id for the current day_id and niti_id
-        $maxOrderId = NitiManagement::where('day_id', $dayId)
+        $orderIds = NitiManagement::where('day_id', $dayId)
         ->whereNotNull('order_id')
-        ->max('order_id');  // max order_id for that day
+        ->pluck('order_id')
+        ->map(fn($id) => floatval($id))
+        ->toArray();
 
-        $newOrderIdInt = $maxOrderId ? ((int)$maxOrderId) + 1 : 1;
+        $maxOrderFloat = !empty($orderIds) ? max($orderIds) : 0;
 
-        // Format order_id as zero-padded string of length 2
+        // Calculate new order id integer part by ceiling maxOrderFloat
+        $newOrderIdInt = (int) ceil($maxOrderFloat) + 1;
+
+        // Format as zero-padded 2-digit string
         $newOrderId = str_pad($newOrderIdInt, 2, '0', STR_PAD_LEFT);
+
 
         // Update the activeNiti row with new order_id
         $activeNiti->update([
