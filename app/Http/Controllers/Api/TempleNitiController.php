@@ -98,7 +98,7 @@ public function manageNiti(Request $request)
             ->where('niti_notice_status','Started')
             ->where('status','active')
             ->orderBy('created_at', 'desc')
-            ->get(['id', 'niti_notice','niti_notice_english','created_at'])
+            ->get(['id', 'niti_notice','notice_name_english','created_at'])
             ->first();
     
         $finalNitiList = [];
