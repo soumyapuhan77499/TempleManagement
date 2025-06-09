@@ -1611,35 +1611,55 @@ public function editEndTime(Request $request)
 
     $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
     $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
-    
+        
     $currentOrderFloat = floatval($niti->order_id);
     $newEndTime = $request->end_time;
     $dayId = $niti->day_id;
 
-    // Find previous Niti by end_time (excluding current)
+    // Find previous and next Niti by end_time (excluding current)
     $previousNiti = NitiManagement::where('day_id', $dayId)
-        ->where('id', '!=', $niti->id)
-        ->whereNotNull('end_time')
-        ->where('end_time', '<', $newEndTime)
-        ->orderBy('end_time', 'desc')
-        ->first();
+    ->where('id', '!=', $niti->id)
+    ->whereNotNull('end_time')
+    ->where('end_time', '<', $newEndTime)
+    ->orderBy('end_time', 'desc')
+    ->first();
 
-    // Assign new order_id
-    if ($previousNiti) {
+    $nextNiti = NitiManagement::where('day_id', $dayId)
+    ->where('id', '!=', $niti->id)
+    ->whereNotNull('end_time')
+    ->where('end_time', '>', $newEndTime)
+    ->orderBy('end_time', 'asc')
+    ->first();
+
+    if ($previousNiti && $nextNiti) {
         $prevOrderInt = intval($previousNiti->order_id);
-        // Always assign fractional order_id as prevOrder + 0.5
-        $newOrderFloat = $prevOrderInt + 0.5;
+        $nextOrderInt = intval($nextNiti->order_id);
+
+        $gap = $nextOrderInt - $prevOrderInt;
+
+        if ($gap === 1) {
+            // Insert .5 between consecutive orders, e.g. 22 and 23 => 22.5
+            $newOrderFloat = $prevOrderInt + 0.5;
+        } elseif ($gap > 1) {
+            // Assign the integer between prev and next, e.g. 4 and 6 => 5
+            $newOrderFloat = $prevOrderInt + 1;
+        } else {
+            // Unexpected case, fallback
+            $newOrderFloat = $prevOrderInt + 0.5;
+        }
+    } elseif ($previousNiti) {
+        $newOrderFloat = intval($previousNiti->order_id) + 1;
+    } elseif ($nextNiti) {
+        $candidate = intval($nextNiti->order_id) - 1;
+        $newOrderFloat = $candidate >= 1 ? $candidate : 1.0;
     } else {
-        // No previous Niti: assign current order or 1
         $newOrderFloat = $currentOrderFloat ?: 1.0;
     }
 
-    // Format order_id string
+    // Formatting order_id remains the same
     if (floor($newOrderFloat) == $newOrderFloat) {
-        // Whole number zero-padded like '04'
         $newOrderId = str_pad(intval($newOrderFloat), 2, '0', STR_PAD_LEFT);
     } else {
-        // Fractional with fixed .5 like '04.5'
         $intPart = str_pad(floor($newOrderFloat), 2, '0', STR_PAD_LEFT);
         $newOrderId = $intPart . '.5';
     }
