@@ -1612,7 +1612,6 @@ public function editEndTime(Request $request)
     $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
     $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
 
-    // Convert string order_id to float for calculation
     $currentOrderFloat = floatval($niti->order_id);
     $newEndTime = $request->end_time;
     $dayId = $niti->day_id;
@@ -1632,58 +1631,58 @@ public function editEndTime(Request $request)
         ->orderBy('end_time', 'asc')
         ->first();
 
-    $newOrderFloat = $currentOrderFloat ?: 1.0;
-
     if ($previousNiti && $nextNiti) {
         $prevOrderFloat = floatval($previousNiti->order_id);
         $nextOrderFloat = floatval($nextNiti->order_id);
 
-        // Check gap between previous and next order_id
         $gap = $nextOrderFloat - $prevOrderFloat;
 
         if ($gap > 1) {
-            // Enough gap to insert fractional order_id
-            $newOrderFloat = $prevOrderFloat + $gap / 2;
+            // Enough gap to insert fractional order_id (average)
+            $newOrderFloat = ($prevOrderFloat + $nextOrderFloat) / 2;
         } else {
-            // Gap too small, need to shift subsequent orders
-
-            // Shift all orders >= nextOrderFloat by +1
-            NitiManagement::where('day_id', $dayId)
-                ->where('order_id', '>=', str_pad((int)$nextOrderFloat, 2, '0', STR_PAD_LEFT))
-                ->where('id', '!=', $niti->id)
-                ->orderBy('order_id', 'desc')
-                ->get()
-                ->each(function ($item) {
-                    $orderInt = (int) floatval($item->order_id);
-                    $item->order_id = str_pad($orderInt + 1, 2, '0', STR_PAD_LEFT);
-                    $item->save();
-                });
-
-            $newOrderFloat = $prevOrderFloat + 1;
+            // Gap too small, fallback to shifting orders
+            $newOrderFloat = null;
         }
     } elseif ($previousNiti) {
-        // No next Niti, place new order as previous + 1
-        $prevOrderFloat = floatval($previousNiti->order_id);
-        $newOrderFloat = $prevOrderFloat + 1;
+        $newOrderFloat = floatval($previousNiti->order_id) + 1;
     } elseif ($nextNiti) {
-        // No previous Niti, place new order as next - 1 or minimum 1.0
-        $nextOrderFloat = floatval($nextNiti->order_id);
-        $candidate = $nextOrderFloat - 1;
+        $candidate = floatval($nextNiti->order_id) - 1;
         $newOrderFloat = $candidate >= 1 ? $candidate : 1.0;
     } else {
-        // No neighbors, keep current or assign 1
         $newOrderFloat = $currentOrderFloat ?: 1.0;
     }
 
-    // Format order_id as string:
-    // If order_id is whole number, pad with zero like '01'
-    // If fractional, format as is with one decimal, e.g., '11.5'
+    // If gap too small and $newOrderFloat is null, shift orders
+    if (is_null($newOrderFloat)) {
+        $newOrderInt = intval($nextNiti->order_id);
+
+        // Shift all orders >= newOrderInt by +1
+        NitiManagement::where('day_id', $dayId)
+            ->where('order_id', '>=', str_pad($newOrderInt, 2, '0', STR_PAD_LEFT))
+            ->where('id', '!=', $niti->id)
+            ->orderBy('order_id', 'desc')
+            ->get()
+            ->each(function ($item) {
+                $orderInt = intval(floatval($item->order_id));
+                $item->order_id = str_pad($orderInt + 1, 2, '0', STR_PAD_LEFT);
+                $item->save();
+            });
+
+        $newOrderFloat = $newOrderInt;
+    }
+
+    // Format order_id for saving
     if (floor($newOrderFloat) == $newOrderFloat) {
-        // Whole number
-        $newOrderId = str_pad((int)$newOrderFloat, 2, '0', STR_PAD_LEFT);
+        // Whole number, zero-padded
+        $newOrderId = str_pad(intval($newOrderFloat), 2, '0', STR_PAD_LEFT);
     } else {
-        // Fractional number with 1 decimal place
-        $newOrderId = number_format($newOrderFloat, 1);
+        // Fractional with one decimal
+        // Pad integer part with zeros, keep decimal part
+        $parts = explode('.', number_format($newOrderFloat, 1));
+        $intPart = str_pad($parts[0], 2, '0', STR_PAD_LEFT);
+        $decPart = $parts[1];
+        $newOrderId = $intPart . '.' . $decPart;
     }
 
     // ✅ Update fields
