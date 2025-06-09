@@ -624,6 +624,8 @@ public function stopNiti(Request $request)
         ->whereNotNull('order_id')
         ->max('order_id');  // max order_id for that day
 
+        dd($maxOrderId);
+
         $newOrderIdInt = $maxOrderId ? ((int)$maxOrderId) + 1 : 1;
 
         // Format order_id as zero-padded string of length 2
@@ -1611,7 +1613,7 @@ public function editEndTime(Request $request)
 
     $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
     $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
-    
+
     $currentOrder = $niti->order_id;
     $newEndTime = $request->end_time;
     $dayId = $niti->day_id;
