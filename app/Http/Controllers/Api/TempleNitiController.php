@@ -1612,78 +1612,72 @@ public function editEndTime(Request $request)
     $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
     $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
 
-    $currentOrderFloat = floatval($niti->order_id);
-    $newEndTime = $request->end_time;
-    $dayId = $niti->day_id;
+  $currentOrderFloat = floatval($niti->order_id);
+$newEndTime = $request->end_time;
+$dayId = $niti->day_id;
 
-    // Find previous and next Niti by end_time (excluding current)
-    $previousNiti = NitiManagement::where('day_id', $dayId)
-        ->where('id', '!=', $niti->id)
-        ->whereNotNull('end_time')
-        ->where('end_time', '<', $newEndTime)
-        ->orderBy('end_time', 'desc')
-        ->first();
+// Find previous and next Niti by end_time (excluding current)
+$previousNiti = NitiManagement::where('day_id', $dayId)
+    ->where('id', '!=', $niti->id)
+    ->whereNotNull('end_time')
+    ->where('end_time', '<', $newEndTime)
+    ->orderBy('end_time', 'desc')
+    ->first();
 
-    $nextNiti = NitiManagement::where('day_id', $dayId)
-        ->where('id', '!=', $niti->id)
-        ->whereNotNull('end_time')
-        ->where('end_time', '>', $newEndTime)
-        ->orderBy('end_time', 'asc')
-        ->first();
+$nextNiti = NitiManagement::where('day_id', $dayId)
+    ->where('id', '!=', $niti->id)
+    ->whereNotNull('end_time')
+    ->where('end_time', '>', $newEndTime)
+    ->orderBy('end_time', 'asc')
+    ->first();
 
-    if ($previousNiti && $nextNiti) {
-        $prevOrderFloat = floatval($previousNiti->order_id);
-        $nextOrderFloat = floatval($nextNiti->order_id);
+if ($previousNiti && $nextNiti) {
+    $prevOrderInt = intval($previousNiti->order_id);
+    $nextOrderInt = intval($nextNiti->order_id);
 
-        $gap = $nextOrderFloat - $prevOrderFloat;
-
-        if ($gap > 1) {
-            // Enough gap to insert fractional order_id (average)
-            $newOrderFloat = ($prevOrderFloat + $nextOrderFloat) / 2;
-        } else {
-            // Gap too small, fallback to shifting orders
-            $newOrderFloat = null;
-        }
-    } elseif ($previousNiti) {
-        $newOrderFloat = floatval($previousNiti->order_id) + 1;
-    } elseif ($nextNiti) {
-        $candidate = floatval($nextNiti->order_id) - 1;
-        $newOrderFloat = $candidate >= 1 ? $candidate : 1.0;
+    // If next is exactly prev+1 (like 04 and 05), insert .5
+    if ($nextOrderInt === $prevOrderInt + 1) {
+        $newOrderFloat = $prevOrderInt + 0.5;
     } else {
-        $newOrderFloat = $currentOrderFloat ?: 1.0;
+        // No exact sequence, fallback to shifting orders (like before)
+        $newOrderFloat = null;
     }
+} elseif ($previousNiti) {
+    $newOrderFloat = intval($previousNiti->order_id) + 1;
+} elseif ($nextNiti) {
+    $candidate = intval($nextNiti->order_id) - 1;
+    $newOrderFloat = $candidate >= 1 ? $candidate : 1.0;
+} else {
+    $newOrderFloat = $currentOrderFloat ?: 1.0;
+}
 
-    // If gap too small and $newOrderFloat is null, shift orders
-    if (is_null($newOrderFloat)) {
-        $newOrderInt = intval($nextNiti->order_id);
+// If gap too small or not exact sequence, shift orders
+if (is_null($newOrderFloat)) {
+    $newOrderInt = intval($nextNiti->order_id);
 
-        // Shift all orders >= newOrderInt by +1
-        NitiManagement::where('day_id', $dayId)
-            ->where('order_id', '>=', str_pad($newOrderInt, 2, '0', STR_PAD_LEFT))
-            ->where('id', '!=', $niti->id)
-            ->orderBy('order_id', 'desc')
-            ->get()
-            ->each(function ($item) {
-                $orderInt = intval(floatval($item->order_id));
-                $item->order_id = str_pad($orderInt + 1, 2, '0', STR_PAD_LEFT);
-                $item->save();
-            });
+    NitiManagement::where('day_id', $dayId)
+        ->where('order_id', '>=', str_pad($newOrderInt, 2, '0', STR_PAD_LEFT))
+        ->where('id', '!=', $niti->id)
+        ->orderBy('order_id', 'desc')
+        ->get()
+        ->each(function ($item) {
+            $orderInt = intval(floatval($item->order_id));
+            $item->order_id = str_pad($orderInt + 1, 2, '0', STR_PAD_LEFT);
+            $item->save();
+        });
 
-        $newOrderFloat = $newOrderInt;
-    }
+    $newOrderFloat = $newOrderInt;
+}
 
-    // Format order_id for saving
-    if (floor($newOrderFloat) == $newOrderFloat) {
-        // Whole number, zero-padded
-        $newOrderId = str_pad(intval($newOrderFloat), 2, '0', STR_PAD_LEFT);
-    } else {
-        // Fractional with one decimal
-        // Pad integer part with zeros, keep decimal part
-        $parts = explode('.', number_format($newOrderFloat, 1));
-        $intPart = str_pad($parts[0], 2, '0', STR_PAD_LEFT);
-        $decPart = $parts[1];
-        $newOrderId = $intPart . '.' . $decPart;
-    }
+// Format order_id for saving:
+if (floor($newOrderFloat) == $newOrderFloat) {
+    // Whole number, zero-padded like '04'
+    $newOrderId = str_pad(intval($newOrderFloat), 2, '0', STR_PAD_LEFT);
+} else {
+    // Fractional with fixed .5 like '04.5'
+    $intPart = str_pad(floor($newOrderFloat), 2, '0', STR_PAD_LEFT);
+    $newOrderId = $intPart . '.5';
+}
 
     // ✅ Update fields
     $niti->update([
