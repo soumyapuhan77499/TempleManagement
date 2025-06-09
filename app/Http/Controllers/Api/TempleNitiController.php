@@ -98,7 +98,7 @@ public function manageNiti(Request $request)
             ->where('niti_notice_status','Started')
             ->where('status','active')
             ->orderBy('created_at', 'desc')
-            ->get(['id', 'niti_notice','notice_name_english','created_at'])
+            ->get(['id', 'niti_notice','niti_notice_english','created_at'])
             ->first();
     
         $finalNitiList = [];
@@ -1284,6 +1284,7 @@ public function storeByNoticeName(Request $request)
         $news = TempleNews::create([
             'type' => 'notice',
             'notice_name' => $request->notice_name,
+            'notice_name_english' => $request->notice_name_english,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date
         ]);
@@ -1341,6 +1342,7 @@ public function updateNoticeName(Request $request)
     try {
         $news = TempleNews::findOrFail($request->id);
         $news->notice_name = $request->notice_name;
+        $news->notice_name_english = $request->notice_name_english;
         $news->start_date = $request->start_date;
         $news->end_date = $request->end_date;
 
@@ -1521,14 +1523,14 @@ public function addNitiInformation(Request $request)
 {
     $validated = $request->validate([
         'niti_notice' => 'required|string|max:1000',
-        'notice_name_english' => 'nullable|string|max:1000',
+        'niti_notice_english' => 'nullable|string|max:1000',
 
     ]);
 
     $news = TempleNews::create([
         'type' => 'information',
         'niti_notice' => $validated['niti_notice'],
-        'notice_name_english' => $validated['notice_name_english'] ?? $validated['niti_notice'],
+        'niti_notice_english' => $validated['niti_notice_english'] ?? $validated['niti_notice'],
     ]);
 
     return response()->json([
