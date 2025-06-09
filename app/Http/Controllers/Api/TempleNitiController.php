@@ -1521,11 +1521,14 @@ public function addNitiInformation(Request $request)
 {
     $validated = $request->validate([
         'niti_notice' => 'required|string|max:1000',
+        'notice_name_english' => 'nullable|string|max:1000',
+
     ]);
 
     $news = TempleNews::create([
         'type' => 'information',
         'niti_notice' => $validated['niti_notice'],
+        'notice_name_english' => $validated['notice_name_english'] ?? $validated['niti_notice'],
     ]);
 
     return response()->json([
