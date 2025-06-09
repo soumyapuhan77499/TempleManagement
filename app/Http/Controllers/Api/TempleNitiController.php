@@ -1611,8 +1611,7 @@ public function editEndTime(Request $request)
 
     $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
     $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
-
- $currentOrderFloat = floatval($niti->order_id);
+$currentOrderFloat = floatval($niti->order_id);
 $newEndTime = $request->end_time;
 $dayId = $niti->day_id;
 
@@ -1638,26 +1637,25 @@ if ($previousNiti && $nextNiti) {
     $gap = $nextOrderInt - $prevOrderInt;
 
     if ($gap === 1) {
-        // Consecutive: insert .5 between prev and next
+        // Consecutive orders: insert fractional .5 between them
         $newOrderFloat = $prevOrderInt + 0.5;
     } elseif ($gap > 1) {
-        // Gap > 1: assign integer in the middle (prevOrder + 1)
+        // Gap larger than 1: assign integer order_id between
         $newOrderFloat = $prevOrderInt + 1;
     } else {
-        // Unexpected case (maybe duplicate order_ids)
-        // fallback to nextOrder + 1 to avoid overlap
+        // Unexpected case (e.g. duplicates or invalid data)
+        // Fallback: assign nextOrderInt + 1 to avoid overlap
         $newOrderFloat = $nextOrderInt + 1;
     }
 } elseif ($previousNiti) {
+    // Only previous exists: assign prevOrder + 1
     $newOrderFloat = intval($previousNiti->order_id) + 1;
 } elseif ($nextNiti) {
+    // Only next exists: assign 1 if next order is > 1, else assign nextOrderInt (no subtraction)
     $nextOrderInt = intval($nextNiti->order_id);
-
-    // Assign one less than next order, but not less than 1
-    $candidate = $nextOrderInt - 1;
-    $newOrderFloat = $candidate >= 1 ? $candidate : 1.0;
+    $newOrderFloat = $nextOrderInt > 1 ? 1 : $nextOrderInt;
 } else {
-    // No neighbors, assign current or 1
+    // No neighbors: keep current order or assign 1
     $newOrderFloat = $currentOrderFloat ?: 1.0;
 }
 
