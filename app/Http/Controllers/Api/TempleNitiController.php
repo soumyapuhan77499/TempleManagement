@@ -1612,59 +1612,49 @@ public function editEndTime(Request $request)
     $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
     $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
         
-    $currentOrderFloat = floatval($niti->order_id);
-    $newEndTime = $request->end_time;
-    $dayId = $niti->day_id;
+   $currentOrderFloat = floatval($niti->order_id);
+$newEndTime = $request->end_time;
+$dayId = $niti->day_id;
 
-    // Find previous and next Niti by end_time (excluding current)
-    $previousNiti = NitiManagement::where('day_id', $dayId)
+// Find previous and next Niti by end_time (excluding current)
+$previousNiti = NitiManagement::where('day_id', $dayId)
     ->where('id', '!=', $niti->id)
     ->whereNotNull('end_time')
     ->where('end_time', '<', $newEndTime)
     ->orderBy('end_time', 'desc')
     ->first();
 
-    $nextNiti = NitiManagement::where('day_id', $dayId)
+$nextNiti = NitiManagement::where('day_id', $dayId)
     ->where('id', '!=', $niti->id)
     ->whereNotNull('end_time')
     ->where('end_time', '>', $newEndTime)
     ->orderBy('end_time', 'asc')
     ->first();
 
-  if ($previousNiti && $nextNiti) {
+if ($previousNiti && $nextNiti) {
     $prevOrderInt = intval($previousNiti->order_id);
     $nextOrderInt = intval($nextNiti->order_id);
 
-    $gap = $nextOrderInt - $prevOrderInt;
-
-    // If current order is outside the range [prevOrderInt, nextOrderInt]
-    if ($currentOrderFloat <= $prevOrderInt || $currentOrderFloat >= $nextOrderInt) {
-        // Force placing new order between prev and next
-        if ($gap === 1) {
-            // Consecutive, insert .5 between prev and next
-            $newOrderFloat = $prevOrderInt + 0.5;
-        } elseif ($gap > 1) {
-            // Gap > 1, assign prev + 1 integer
-            $newOrderFloat = $prevOrderInt + 1;
-        } else {
-            // Unexpected case: fallback
-            $newOrderFloat = $prevOrderInt + 0.5;
-        }
+    // If consecutive, insert .5 between them
+    if ($nextOrderInt === $prevOrderInt + 1) {
+        $newOrderFloat = $prevOrderInt + 0.5;
     } else {
-        // Current order is already between prev and next
-        // Keep it or adjust slightly to avoid duplicates if needed
-        $newOrderFloat = $currentOrderFloat;
+        // If gap more than 1, assign prevOrder + 1 (integer)
+        $newOrderFloat = $prevOrderInt + 1;
     }
 } elseif ($previousNiti) {
+    // No next Niti, place order after previous
     $newOrderFloat = intval($previousNiti->order_id) + 1;
 } elseif ($nextNiti) {
+    // No previous Niti, place order before next, but minimum 1
     $candidate = intval($nextNiti->order_id) - 1;
     $newOrderFloat = $candidate >= 1 ? $candidate : 1.0;
 } else {
+    // No previous or next Niti, use current or start with 1.0
     $newOrderFloat = $currentOrderFloat ?: 1.0;
 }
 
-// Formatting order_id remains unchanged
+// Format order_id as two digits, adding .5 if fractional
 if (floor($newOrderFloat) == $newOrderFloat) {
     $newOrderId = str_pad(intval($newOrderFloat), 2, '0', STR_PAD_LEFT);
 } else {
