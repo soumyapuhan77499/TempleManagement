@@ -1613,38 +1613,46 @@ public function editEndTime(Request $request)
     $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
 
     $currentOrder = $niti->order_id;
-$newEndTime = $request->end_time;
-$dayId = $niti->day_id;
+    $newEndTime = $request->end_time;
+    $dayId = $niti->day_id;
 
-// Find previous and next Niti by end_time
-$previousNiti = NitiManagement::where('day_id', $dayId)
-    ->where('id', '!=', $niti->id)
-    ->whereNotNull('end_time')
-    ->where('end_time', '<', $newEndTime)
-    ->orderBy('end_time', 'desc')
-    ->first();
+    // Find previous Niti by end_time less than new end_time
+    $previousNiti = NitiManagement::where('day_id', $dayId)
+        ->where('id', '!=', $niti->id)
+        ->whereNotNull('end_time')
+        ->where('end_time', '<', $newEndTime)
+        ->orderBy('end_time', 'desc')
+        ->first();
 
-$nextNiti = NitiManagement::where('day_id', $dayId)
-    ->where('id', '!=', $niti->id)
-    ->whereNotNull('end_time')
-    ->where('end_time', '>', $newEndTime)
-    ->orderBy('end_time', 'asc')
-    ->first();
+    // Find next Niti by end_time greater than new end_time
+    $nextNiti = NitiManagement::where('day_id', $dayId)
+        ->where('id', '!=', $niti->id)
+        ->whereNotNull('end_time')
+        ->where('end_time', '>', $newEndTime)
+        ->orderBy('end_time', 'asc')
+        ->first();
 
-    
-if (!$previousNiti) {
-    // No previous niti found, set order_id to '01'
-    $newOrderId = '01';
-} elseif (!$nextNiti) {
-    // No next niti found, keep current order_id unchanged
-    $newOrderId = $currentOrder;
-} elseif ($nextNiti) {
-    // Instead of $nextNiti->order_id + 0.5, do:
-    $nextOrderInt = intval($nextNiti->order_id);
-    $newOrderId = str_pad($nextOrderInt, 2, '0', STR_PAD_LEFT) . '.5';
-} else {
-    $newOrderId = $currentOrder ?? '01';
-}
+    if (!$previousNiti) {
+        // No previous Niti found, assign order_id '01'
+        $newOrderId = '01';
+
+    } elseif (!$nextNiti) {
+        // No next Niti found, keep current order_id unchanged
+        $newOrderId = $currentOrder;
+
+    } elseif ($nextNiti) {
+        // Next Niti exists, assign fractional order_id like '01.5' with zero-padding
+
+        // Get integer part of nextNiti order_id
+        $nextOrderInt = intval($nextNiti->order_id);
+
+        // Format order_id with leading zeros and append '.5'
+        $newOrderId = str_pad($nextOrderInt, 2, '0', STR_PAD_LEFT) . '.5';
+
+    } else {
+        // Fallback to current order or '01'
+        $newOrderId = $currentOrder ?? '01';
+    }
     // ✅ Update fields
     $niti->update([
         'end_time'     => $request->end_time,
