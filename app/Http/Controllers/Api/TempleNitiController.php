@@ -265,8 +265,7 @@ public function startNiti(Request $request)
             'niti_status' => 'Started'
         ]);
 
-        // ✅ Update NitiMaster status
-        // $nitiMaster->update(['niti_status' => 'Started']);
+        $nitiMaster->update(['niti_status' => 'Started']);
 
         // if ($latestNews) {
         //     $latestNews->update(['niti_notice_status' => 'Completed']);
