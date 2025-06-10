@@ -200,10 +200,10 @@ public function startNiti(Request $request)
 
         $now = Carbon::now('Asia/Kolkata');
 
-       $latestNews = TempleNews::where('type', 'information')
-        ->where('niti_notice_status', 'Started')
-        ->orderBy('created_at', 'desc')
-        ->first();
+    //    $latestNews = TempleNews::where('type', 'information')
+    //     ->where('niti_notice_status', 'Started')
+    //     ->orderBy('created_at', 'desc')
+    //     ->first();
 
         // ✅ Fetch NitiMaster and its day_id
         $nitiMaster = NitiMaster::where('niti_id', $request->niti_id)->first();
@@ -266,11 +266,11 @@ public function startNiti(Request $request)
         ]);
 
         // ✅ Update NitiMaster status
-        $nitiMaster->update(['niti_status' => 'Started']);
+        // $nitiMaster->update(['niti_status' => 'Started']);
 
-        if ($latestNews) {
-            $latestNews->update(['niti_notice_status' => 'Completed']);
-        }
+        // if ($latestNews) {
+        //     $latestNews->update(['niti_notice_status' => 'Completed']);
+        // }
 
         $darshanLog = null;
 
@@ -1812,6 +1812,16 @@ public function resetNiti(Request $request)
 
     if ($startedEntry) {
         $startedEntry->delete(); // remove accidental start
+    }
+
+    $otherNiti = NitiMaster::where('niti_id', $request->niti_id)
+        ->where('day_id', $dayId)
+        ->where('niti_status', 'Started')
+        ->where('niti_type', 'other')
+        ->first();
+
+    if ($otherNiti) {
+        $otherNiti->delete(); // remove accidental start
     }
 
     // ✅ Reset NitiMaster status
