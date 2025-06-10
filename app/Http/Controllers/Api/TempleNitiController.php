@@ -1253,7 +1253,7 @@ public function saveHundi(Request $request)
 public function getHundi()
 {
     try {
-        $hundiRecords = TempleHundi::orderBy('date', 'desc')->get();
+        $hundiRecords = TempleHundi::orderBy('date', 'desc')->where('status','active')->get();
 
         if ($hundiRecords->isEmpty()) {
             return response()->json([
