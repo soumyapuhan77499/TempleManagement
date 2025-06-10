@@ -1277,37 +1277,45 @@ public function getHundi()
     }
 }
 
- public function deleteHundi($id)
-    {
-        try {
-            $hundi = TempleHundi::find($id);
+public function deleteHundi($id)
+{
+    try {
+        $hundi = TempleHundi::find($id);
 
-            if (!$hundi) {
-                return response()->json(['message' => 'Hundi not found'], 404);
-            }
-
-            // Update status to deleted
-            $hundi->status = 'deleted';
-            $hundi->save();
-
-              return response()->json([
-            'status' => true,
-            'message' => 'Hundi deleted successfully.',
-        ], 200);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Failed to fetch hundi records.',
-                'error' => $e->getMessage()
-            ], 500);
+        if (!$hundi) {
+            return response()->json(['message' => 'Hundi not found'], 404);
         }
-         
+
+        // Update status to deleted
+        $hundi->status = 'deleted';
+        $hundi->save();
+
+            return response()->json([
+        'status' => true,
+        'message' => 'Hundi deleted successfully.',
+    ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to fetch hundi records.',
+            'error' => $e->getMessage()
+        ], 500);
     }
+        
+}
 
 public function storeByNoticeName(Request $request)
 {
-   
+
+    $user = Auth::guard('niti_admin')->user();
+    if (!$user) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Unauthorized access.'
+        ], 401);
+    }
+
     try {
         $news = TempleNews::create([
             'type' => 'notice',

@@ -295,7 +295,7 @@ Route::controller(TempleNitiController::class)->group(function () {
   Route::get('/latest-temple-notice','getLatestNotice');
   Route::post('/save-hundi-collection', 'saveHundi');
   Route::get('/get-hundi-collections', 'getHundi');
-  Route::patch('/hundi/delete/{id}',  'deleteHundi');
+  Route::post('/hundi/delete/{id}',  'deleteHundi');
   Route::post('/notice/update-name', 'updateNoticeName');
   Route::post('/hundi/update',  'updateHundiCollection');
   Route::post('/temple-notice/delete/{id}',  'deleteNotice');
