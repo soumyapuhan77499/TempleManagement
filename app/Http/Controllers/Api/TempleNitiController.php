@@ -834,7 +834,6 @@ public function storeOtherNiti(Request $request)
     try {
         $request->validate([
             'niti_name' => 'required|string|max:255',
-            'english_niti_name' => 'required|string|max:255',
             'niti_id'   => 'nullable|string',
         ]);
 
