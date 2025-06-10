@@ -784,12 +784,34 @@ public function completedNiti()
         }
 }
 
-public function getOtherNiti()
+public function getMahasnanaNiti()
 {
     try {
         $otherNitis = NitiMaster::where('niti_type', 'other')
             ->orderBy('date_time', 'desc')
             ->where('status', 'other')
+            ->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Other Niti list fetched successfully.',
+            'data' => $otherNitis,
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to fetch special Niti data.',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
+}
+
+public function getOtherNiti()
+{
+    try {
+        $otherNitis = NitiMaster::where('niti_type', 'other')
+            ->where('status', 'active')
             ->get();
 
         return response()->json([
