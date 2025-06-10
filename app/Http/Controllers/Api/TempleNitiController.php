@@ -1401,7 +1401,7 @@ public function updateNoticeName(Request $request)
         $news->notice_name_english = $request->notice_name_english;
         $news->start_date = $request->start_date;
         $news->end_date = $request->end_date;
-        $news->notice_update_user_id = $request->notice_update_user_id;
+        $news->notice_update_user_id = $user->sebak_id;
 
         $news->save();
 
