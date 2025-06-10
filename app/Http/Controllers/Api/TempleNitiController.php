@@ -1224,8 +1224,16 @@ public function softDeleteSubNiti($id)
 
 public function saveHundi(Request $request)
 {
-  
     try {
+
+        $user = Auth::guard('niti_admin')->user();
+
+    if (!$user) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Unauthorized access.'
+        ], 401);
+    }
 
         $hundi = TempleHundi::create([
             'date'      => $request->date,
@@ -1234,6 +1242,7 @@ public function saveHundi(Request $request)
             'silver'    => $request->silver,
             'mix_gold'    => $request->mix_gold,
             'mix_silver'    => $request->mix_silver,
+            'hundi_insert_user_id' => $user->sebak_id,
         ]);
 
         return response()->json([
@@ -1309,6 +1318,7 @@ public function storeByNoticeName(Request $request)
 {
 
     $user = Auth::guard('niti_admin')->user();
+
     if (!$user) {
         return response()->json([
             'status' => false,
@@ -1322,7 +1332,8 @@ public function storeByNoticeName(Request $request)
             'notice_name' => $request->notice_name,
             'notice_name_english' => $request->notice_name_english,
             'start_date' => $request->start_date,
-            'end_date' => $request->end_date
+            'end_date' => $request->end_date,
+            'notice_insert_user_id' => $user->sebak_id,
         ]);
 
         return response()->json([
@@ -1375,12 +1386,22 @@ public function updateNoticeName(Request $request)
         'notice_name' => 'required|string|max:255',
     ]);
 
+     $user = Auth::guard('niti_admin')->user();
+
+    if (!$user) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Unauthorized access.'
+        ], 401);
+    }
+
     try {
         $news = TempleNews::findOrFail($request->id);
         $news->notice_name = $request->notice_name;
         $news->notice_name_english = $request->notice_name_english;
         $news->start_date = $request->start_date;
         $news->end_date = $request->end_date;
+        $news->notice_update_user_id = $request->notice_update_user_id;
 
         $news->save();
 
@@ -1402,6 +1423,16 @@ public function updateNoticeName(Request $request)
 
 public function updateHundiCollection(Request $request)
 {
+
+    $user = Auth::guard('niti_admin')->user();
+
+    if (!$user) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Unauthorized access.'
+        ], 401);
+    }
+
     $request->validate([
         'id'     => 'required|exists:temple__hundi_notice,id',
         'date'   => 'required|date',
@@ -1420,6 +1451,7 @@ public function updateHundiCollection(Request $request)
             'silver' => $request->silver,
             'mix_gold' => $request->mix_gold,
             'mix_silver' => $request->mix_silver,
+            'hundi_update_user_id' => $user->sebak_id,
         ]);
 
         return response()->json([
@@ -1560,13 +1592,22 @@ public function addNitiInformation(Request $request)
     $validated = $request->validate([
         'niti_notice' => 'required|string|max:1000',
         'niti_notice_english' => 'nullable|string|max:1000',
-
     ]);
+
+    $user = Auth::guard('niti_admin')->user();
+
+    if (!$user) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Unauthorized access.'
+        ], 401);
+    }
 
     $news = TempleNews::create([
         'type' => 'information',
         'niti_notice' => $validated['niti_notice'],
         'niti_notice_english' => $validated['niti_notice_english'] ?? $validated['niti_notice'],
+        'niti_notice_insert_user_id' => $user->sebak_id,
     ]);
 
     return response()->json([
