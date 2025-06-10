@@ -93,14 +93,13 @@ public function manageNiti(Request $request)
         })
         ->get();
 
-      
          $nitiInfo = TempleNews::where('type', 'information')
             ->where('niti_notice_status','Started')
             ->where('status','active')
             ->orderBy('created_at', 'desc')
             ->get(['id', 'niti_notice','niti_notice_english','created_at'])
             ->first();
-    
+
         $finalNitiList = [];
 
         // ✅ Add "Other" Nitis
@@ -746,7 +745,8 @@ public function completedNiti()
         $completedManagement = NitiManagement::with('master')
             ->whereIn('niti_status', ['Completed', 'NotStarted'])
             ->where('day_id', $dayId)
-            ->orderByRaw("CASE WHEN end_time IS NULL THEN 1 ELSE 0 END, end_time ASC")
+            ->orderByRaw("CASE WHEN niti_status = 'Started' THEN id ELSE NULL END ASC")
+            ->orderByRaw("CASE WHEN niti_status = 'Completed' THEN order_id ELSE NULL END ASC")
             ->get()
             ->map(function ($item) {
                 return [
@@ -1277,6 +1277,34 @@ public function getHundi()
     }
 }
 
+ public function deleteHundi($id)
+    {
+        try {
+            $hundi = TempleHundi::find($id);
+
+            if (!$hundi) {
+                return response()->json(['message' => 'Hundi not found'], 404);
+            }
+
+            // Update status to deleted
+            $hundi->status = 'deleted';
+            $hundi->save();
+
+              return response()->json([
+            'status' => true,
+            'message' => 'Hundi deleted successfully.',
+        ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to fetch hundi records.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+         
+    }
+
 public function storeByNoticeName(Request $request)
 {
    
@@ -1742,7 +1770,6 @@ public function markNitiAsNotStarted(Request $request)
 {
     $request->validate([
         'niti_id' => 'required|string|exists:temple__niti_details,niti_id',
-        'niti_not_done_reason' => 'required|string|max:255'
     ]);
 
     $user = Auth::guard('niti_admin')->user();
