@@ -1712,115 +1712,110 @@ public function editEndTime(Request $request)
 
     $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
     $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
-    
-  $currentOrder = $niti->order_id;
-$newEndTime = $request->end_time;
-$newDate = date('Y-m-d', strtotime($request->end_time));  // Extract date from new end_time
-$dayId = $niti->day_id;
 
-// Find previous Niti where end_time < newEndTime and same day_id
-$previousNiti = NitiManagement::where('day_id', $dayId)
-    ->where('id', '!=', $niti->id)
-    ->whereNotNull('end_time')
-    ->where('end_time', '<', $newEndTime)
-    ->orderBy('end_time', 'desc')
-    ->first();
+    $currentOrder = $niti->order_id;
+    $newEndTime = $request->end_time;
+    $newSavedDate = $request->date ?? $niti->date;  // Use saved date field only
+    $dayId = $niti->day_id;
 
-// Find next Niti where end_time > newEndTime and same day_id
-$nextNiti = NitiManagement::where('day_id', $dayId)
-    ->where('id', '!=', $niti->id)
-    ->whereNotNull('end_time')
-    ->where('end_time', '>', $newEndTime)
-    ->orderBy('end_time', 'asc')
-    ->first();
+    // Check if there are any Niti with the same day_id and saved date greater than newSavedDate
+    $existsLaterDate = NitiManagement::where('day_id', $dayId)
+        ->where('date', '>', $newSavedDate)
+        ->exists();
 
-// Helper function to extract date from end_time string
-function extractDate($dateTime) {
-    return date('Y-m-d', strtotime($dateTime));
-}
+    if ($existsLaterDate) {
+        // There are Niti entries with a greater date under the same day_id
+        // Proceed with normal next and previous checks below
 
-// Check dates match before adjusting order id
-$prevDateMatches = $previousNiti && extractDate($previousNiti->end_time) === $newDate;
-$nextDateMatches = $nextNiti && extractDate($nextNiti->end_time) === $newDate;
+        // Find previous Niti where end_time < newEndTime and same day_id
+        $previousNiti = NitiManagement::where('day_id', $dayId)
+            ->where('id', '!=', $niti->id)
+            ->whereNotNull('end_time')
+            ->where('end_time', '<', $newEndTime)
+            ->orderBy('end_time', 'desc')
+            ->first();
 
-if ($previousNiti && $nextNiti) {
-    // Both neighbors exist
+        // Find next Niti where end_time > newEndTime and same day_id
+        $nextNiti = NitiManagement::where('day_id', $dayId)
+            ->where('id', '!=', $niti->id)
+            ->whereNotNull('end_time')
+            ->where('end_time', '>', $newEndTime)
+            ->orderBy('end_time', 'asc')
+            ->first();
 
-    if ($prevDateMatches && $nextDateMatches) {
-        $prevOrder = $previousNiti->order_id;
-        $nextOrder = $nextNiti->order_id;
-
-        if (strpos($prevOrder, '.') !== false && floor(floatval($nextOrder)) == floatval($nextOrder)) {
-            // Increment decimal part of previous order by 0.1
-            $prevFloat = floatval($prevOrder);
-            $newOrderFloat = round($prevFloat + 0.1, 1);
-            $prevIntPart = explode('.', $prevOrder)[0];
-            $decimalPart = substr(strrchr($newOrderFloat, "."), 1);
-            $newOrderId = $prevIntPart . '.' . $decimalPart;
-
-        } else {
-            // Normal average between previous and next
-            $avgFloat = (floatval($prevOrder) + floatval($nextOrder)) / 2;
-            $prevIntPart = explode('.', $prevOrder)[0];
-            $intVal = intval($avgFloat);
-            $formattedIntPart = str_pad($intVal, strlen($prevIntPart), '0', STR_PAD_LEFT);
-            $fraction = $avgFloat - $intVal;
-            $fractionStr = $fraction > 0 ? '.' . substr(number_format($fraction, 1), 2) : '';
-            $newOrderId = $formattedIntPart . $fractionStr;
-        }
-    } else {
-        // Dates differ, no order change
-        $newOrderId = $currentOrder;
-    }
-
-} elseif ($nextNiti) {
-    // Only next exists
-
-    if ($nextDateMatches) {
-        $nextOrderStr = strval($nextNiti->order_id);
-        $nextIntPart = explode('.', $nextOrderStr)[0];
-        $nextIntVal = intval($nextIntPart);
-        $newIntVal = max($nextIntVal - 1, 0);
-        $newIntPart = str_pad($newIntVal, strlen($nextIntPart), '0', STR_PAD_LEFT);
-        $newOrderId = $newIntPart . '.5';
-
-    } else {
-        // Date differs, no order change
-        $newOrderId = $currentOrder;
-    }
-
-} elseif ($previousNiti) {
-    // Only previous exists
-
-    if ($prevDateMatches) {
-        $prevOrder = $previousNiti->order_id;
-
-        // Check if prevOrder is an integer order (no decimal)
-        if (strpos($prevOrder, '.') === false) {
-            // Increment order by .5 preserving leading zeros
-            $prevIntPart = $prevOrder;
-            $intVal = intval($prevIntPart);
-            $formattedIntPart = str_pad($intVal, strlen($prevIntPart), '0', STR_PAD_LEFT);
-            $newOrderId = $formattedIntPart . '.5';
-        } else {
-            // Previous order already fractional, keep as is
-            $newOrderId = $prevOrder;
+        // Helper function to extract Y-m-d from saved date string
+        function extractSavedDate($dateValue) {
+            return date('Y-m-d', strtotime($dateValue));
         }
 
+        // Check dates match before adjusting order id (using saved date fields)
+        $prevDateMatches = $previousNiti && extractSavedDate($previousNiti->date) === $newSavedDate;
+        $nextDateMatches = $nextNiti && extractSavedDate($nextNiti->date) === $newSavedDate;
+
+        if ($previousNiti && $nextNiti) {
+            if ($prevDateMatches && $nextDateMatches) {
+                $prevOrder = $previousNiti->order_id;
+                $nextOrder = $nextNiti->order_id;
+
+                // If previous order is fractional and next is integer
+                if (strpos($prevOrder, '.') !== false && floor(floatval($nextOrder)) == floatval($nextOrder)) {
+                    $prevFloat = floatval($prevOrder);
+                    $newOrderFloat = round($prevFloat + 0.1, 1);
+                    $prevIntPart = explode('.', $prevOrder)[0];
+                    $decimalPart = substr(strrchr($newOrderFloat, "."), 1);
+                    $newOrderId = $prevIntPart . '.' . $decimalPart;
+                } else {
+                    $avgFloat = (floatval($prevOrder) + floatval($nextOrder)) / 2;
+                    $prevIntPart = explode('.', $prevOrder)[0];
+                    $intVal = intval($avgFloat);
+                    $formattedIntPart = str_pad($intVal, strlen($prevIntPart), '0', STR_PAD_LEFT);
+                    $fraction = $avgFloat - $intVal;
+                    $fractionStr = $fraction > 0 ? '.' . substr(number_format($fraction, 1), 2) : '';
+                    $newOrderId = $formattedIntPart . $fractionStr;
+                }
+            } else {
+                $newOrderId = $currentOrder;
+            }
+
+        } elseif ($nextNiti) {
+            if ($nextDateMatches) {
+                $nextOrderStr = strval($nextNiti->order_id);
+                $nextIntPart = explode('.', $nextOrderStr)[0];
+                $nextIntVal = intval($nextIntPart);
+                $newIntVal = max($nextIntVal - 1, 0);
+                $newIntPart = str_pad($newIntVal, strlen($nextIntPart), '0', STR_PAD_LEFT);
+                $newOrderId = $newIntPart . '.5';
+            } else {
+                $newOrderId = $currentOrder;
+            }
+
+        } elseif ($previousNiti) {
+            if ($prevDateMatches) {
+                $prevOrder = $previousNiti->order_id;
+                if (strpos($prevOrder, '.') === false) {
+                    $prevIntPart = $prevOrder;
+                    $intVal = intval($prevIntPart);
+                    $formattedIntPart = str_pad($intVal, strlen($prevIntPart), '0', STR_PAD_LEFT);
+                    $newOrderId = $formattedIntPart . '.5';
+                } else {
+                    $newOrderId = $prevOrder;
+                }
+            } else {
+                $newOrderId = $currentOrder;
+            }
+
+        } else {
+            if ($currentOrder) {
+                $newOrderId = $currentOrder;
+            } else {
+                $newOrderId = '01';
+            }
+        }
     } else {
-        // Date differs, no order change
+        // Current date is the greatest date in the day_id
+        // So, do not change order_id, just keep current
         $newOrderId = $currentOrder;
     }
-
-} else {
-    // No neighbors
-    if ($currentOrder) {
-        $newOrderId = $currentOrder;
-    } else {
-        $newOrderId = '01';
-    }
-}
-
 
     // ✅ Update fields
     $niti->update([
