@@ -1712,88 +1712,84 @@ public function editEndTime(Request $request)
 
     $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
     $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
-$currentOrder = $niti->order_id;
-$newEndTime = $request->end_time;
-$dayId = $niti->day_id;
 
-// Find previous and next Niti by end_time
-$previousNiti = NitiManagement::where('day_id', $dayId)
-    ->where('id', '!=', $niti->id)
-    ->whereNotNull('end_time')
-    ->where('end_time', '<', $newEndTime)
-    ->orderBy('end_time', 'desc')
-    ->first();
+    $currentOrder = $niti->order_id;
+    $newEndTime = $request->end_time;
+    $dayId = $niti->day_id;
+    $tz = 'Asia/Kolkata';
 
-$nextNiti = NitiManagement::where('day_id', $dayId)
-    ->where('id', '!=', $niti->id)
-    ->whereNotNull('end_time')
-    ->where('end_time', '>', $newEndTime)
-    ->orderBy('end_time', 'asc')
-    ->first();
+    // Create Carbon datetime for the current Niti start and new end times
+    $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $niti->date . ' ' . $niti->start_time, $tz);
+    $newEndDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $niti->date . ' ' . $newEndTime, $tz);
 
-if ($previousNiti && $nextNiti) {
-    $prevOrder = $previousNiti->order_id;
-    $nextOrder = $nextNiti->order_id;
-
-    // Check if previous order is fractional and next is integer
-    if (strpos($prevOrder, '.') !== false && floor(floatval($nextOrder)) == floatval($nextOrder)) {
-        // Increment decimal part of previous order by 0.1
-        $prevFloat = floatval($prevOrder);
-
-        // Increase decimal by 0.1 but keep only one decimal digit
-        $newOrderFloat = round($prevFloat + 0.1, 1);
-
-        // Extract integer part with leading zeros preserved
-        $prevIntPart = explode('.', $prevOrder)[0];
-        // Compose new order id with preserved integer part and updated decimal part
-        $decimalPart = substr(strrchr($newOrderFloat, "."), 1);
-        $newOrderId = $prevIntPart . '.' . $decimalPart;
-
-    } else {
-        // Normal average between previous and next
-
-        // Convert to float for calculation
-        $avgFloat = (floatval($prevOrder) + floatval($nextOrder)) / 2;
-
-        // Extract leading zeros count from previous order's integer part
-        $prevIntPart = explode('.', $prevOrder)[0];
-        $leadingZerosCount = strlen($prevIntPart) - strlen(ltrim($prevIntPart, '0'));
-        $intVal = intval($avgFloat);
-
-        // Format integer part preserving leading zeros
-        $formattedIntPart = str_pad($intVal, strlen($prevIntPart), '0', STR_PAD_LEFT);
-
-        // Get fractional part (one decimal)
-        $fraction = $avgFloat - $intVal;
-        $fractionStr = $fraction > 0 ? '.' . substr(number_format($fraction, 1), 2) : '';
-
-        $newOrderId = $formattedIntPart . $fractionStr;
+    // If end time is before start time, it means crossing midnight, so add 1 day to end datetime
+    if ($newEndDateTime->lt($startDateTime)) {
+        $newEndDateTime->addDay();
     }
 
-} elseif ($nextNiti) {
-    // Only next exists
-    $nextOrderStr = strval($nextNiti->order_id);
+    // Fetch all Nitis on the same day excluding current, and with non-null end_time
+    $allNitis = NitiManagement::where('day_id', $dayId)
+        ->where('id', '!=', $niti->id)
+        ->whereNotNull('end_time')
+        ->get()
+        ->map(function ($item) use ($tz) {
+            $itemStartDT = Carbon::createFromFormat('Y-m-d H:i:s', $item->date . ' ' . $item->start_time, $tz);
+            $itemEndDT = Carbon::createFromFormat('Y-m-d H:i:s', $item->date . ' ' . $item->end_time, $tz);
+            if ($itemEndDT->lt($itemStartDT)) {
+                $itemEndDT->addDay();
+            }
+            $item->endDateTime = $itemEndDT;
+            return $item;
+        });
 
-    // Extract integer part with leading zeros
-    $nextIntPart = explode('.', $nextOrderStr)[0];
+    // Find previous Niti: endDateTime less than newEndDateTime, closest one
+    $previousNiti = $allNitis->filter(function ($item) use ($newEndDateTime) {
+        return $item->endDateTime->lt($newEndDateTime);
+    })->sortByDesc('endDateTime')->first();
 
-    // Convert to int for calculation
-    $nextIntVal = intval($nextIntPart);
+    // Find next Niti: endDateTime greater than newEndDateTime, closest one
+    $nextNiti = $allNitis->filter(function ($item) use ($newEndDateTime) {
+        return $item->endDateTime->gt($newEndDateTime);
+    })->sortBy('endDateTime')->first();
 
-    // Compose new order ID by subtracting 0.5 (but never below 0.1)
-    $newIntVal = max($nextIntVal - 1, 0);
-    $newIntPart = str_pad($newIntVal, strlen($nextIntPart), '0', STR_PAD_LEFT);
-    $newOrderId = $newIntPart . '.5';
+    if ($previousNiti && $nextNiti) {
+        $prevOrder = $previousNiti->order_id;
+        $nextOrder = $nextNiti->order_id;
 
-} else {
-    // No neighbors, keep current or set default with leading zeros (2 digits)
-    if ($currentOrder) {
-        // Preserve current format if possible
-        $newOrderId = $currentOrder;
+        if (strpos($prevOrder, '.') !== false && floor(floatval($nextOrder)) == floatval($nextOrder)) {
+            $prevFloat = floatval($prevOrder);
+            $newOrderFloat = round($prevFloat + 0.1, 1);
+
+            $prevIntPart = explode('.', $prevOrder)[0];
+            $decimalPart = substr(strrchr($newOrderFloat, "."), 1);
+            $newOrderId = $prevIntPart . '.' . $decimalPart;
+
+        } else {
+            $avgFloat = (floatval($prevOrder) + floatval($nextOrder)) / 2;
+            $prevIntPart = explode('.', $prevOrder)[0];
+            $intVal = intval($avgFloat);
+
+            $formattedIntPart = str_pad($intVal, strlen($prevIntPart), '0', STR_PAD_LEFT);
+
+            $fraction = $avgFloat - $intVal;
+            $fractionStr = $fraction > 0 ? '.' . substr(number_format($fraction, 1), 2) : '';
+
+            $newOrderId = $formattedIntPart . $fractionStr;
+        }
+
+    } elseif ($nextNiti) {
+        $nextOrderStr = strval($nextNiti->order_id);
+        $nextIntPart = explode('.', $nextOrderStr)[0];
+        $nextIntVal = intval($nextIntPart);
+
+        $newIntVal = max($nextIntVal - 1, 0);
+        $newIntPart = str_pad($newIntVal, strlen($nextIntPart), '0', STR_PAD_LEFT);
+        $newOrderId = $newIntPart . '.5';
+
     } else {
-        $newOrderId = '01';
+        $newOrderId = $currentOrder ?? '01';
     }
-}
+
 
     // ✅ Update fields
     $niti->update([
