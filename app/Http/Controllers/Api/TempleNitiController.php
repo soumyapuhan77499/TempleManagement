@@ -1713,91 +1713,91 @@ public function editEndTime(Request $request)
     $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
     $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
 
-    $currentOrder = $niti->order_id;
-    $newEndTime = $request->end_time;
-    $tz = 'Asia/Kolkata';
+  $currentOrder = $niti->order_id;
+$newEndTime = $request->end_time;
+$tz = 'Asia/Kolkata';
 
-    // Start datetime of current Niti
-    $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $niti->date . ' ' . $niti->start_time, $tz);
-    // New end datetime, initially assume same date as Niti
-    $newEndDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $niti->date . ' ' . $newEndTime, $tz);
+// Start datetime of current Niti
+$startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $niti->date . ' ' . $niti->start_time, $tz);
+// New end datetime, initially assume same date as Niti
+$newEndDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $niti->date . ' ' . $newEndTime, $tz);
 
-    // Adjust if crosses midnight (end < start)
-    if ($newEndDateTime->lt($startDateTime)) {
-        $newEndDateTime->addDay();
-    }
+// Adjust if crosses midnight (end < start)
+if ($newEndDateTime->lt($startDateTime)) {
+    $newEndDateTime->addDay();
+}
 
-    $searchDates = [
-        $newEndDateTime->copy()->subDay()->format('Y-m-d'),
-        $newEndDateTime->copy()->format('Y-m-d'),
-        $newEndDateTime->copy()->addDay()->format('Y-m-d'),
-    ];
-        // Fetch all Nitis on the same day excluding current, and with non-null end_time
-        $allNitis = NitiManagement::where('day_id', $dayId)
-            ->where('id', '!=', $niti->id)
-            ->whereNotNull('end_time')
-            ->get()
-            ->map(function ($item) use ($tz) {
-                $itemStartDT = Carbon::createFromFormat('Y-m-d H:i:s', $item->date . ' ' . $item->start_time, $tz);
-                $itemEndDT = Carbon::createFromFormat('Y-m-d H:i:s', $item->date . ' ' . $item->end_time, $tz);
-                if ($itemEndDT->lt($itemStartDT)) {
-                    $itemEndDT->addDay();
-                }
-                $item->endDateTime = $itemEndDT;
-                return $item;
-            });
+$searchDates = [
+    $newEndDateTime->copy()->subDay()->format('Y-m-d'),
+    $newEndDateTime->copy()->format('Y-m-d'),
+    $newEndDateTime->copy()->addDay()->format('Y-m-d'),
+];
+    // Fetch all Nitis on the same day excluding current, and with non-null end_time
+    $allNitis = NitiManagement::where('day_id', $dayId)
+        ->where('id', '!=', $niti->id)
+        ->whereNotNull('end_time')
+        ->get()
+        ->map(function ($item) use ($tz) {
+            $itemStartDT = Carbon::createFromFormat('Y-m-d H:i:s', $item->date . ' ' . $item->start_time, $tz);
+            $itemEndDT = Carbon::createFromFormat('Y-m-d H:i:s', $item->date . ' ' . $item->end_time, $tz);
+            if ($itemEndDT->lt($itemStartDT)) {
+                $itemEndDT->addDay();
+            }
+            $item->endDateTime = $itemEndDT;
+            return $item;
+        });
 
-        // Find previous Niti: endDateTime less than newEndDateTime, closest one
-        $previousNiti = $allNitis->filter(function ($item) use ($newEndDateTime) {
-            return $item->endDateTime->lt($newEndDateTime);
-        })->sortByDesc('endDateTime')->first();
+    // Find previous Niti: endDateTime less than newEndDateTime, closest one
+    $previousNiti = $allNitis->filter(function ($item) use ($newEndDateTime) {
+        return $item->endDateTime->lt($newEndDateTime);
+    })->sortByDesc('endDateTime')->first();
 
-        // Find next Niti: endDateTime greater than newEndDateTime, closest one
-        $nextNiti = $allNitis->filter(function ($item) use ($newEndDateTime) {
-            return $item->endDateTime->gt($newEndDateTime);
-        })->sortBy('endDateTime')->first();
+    // Find next Niti: endDateTime greater than newEndDateTime, closest one
+    $nextNiti = $allNitis->filter(function ($item) use ($newEndDateTime) {
+        return $item->endDateTime->gt($newEndDateTime);
+    })->sortBy('endDateTime')->first();
 
-    if ($previousNiti && $nextNiti) {
-        $prevOrder = $previousNiti->order_id;
-        $nextOrder = $nextNiti->order_id;
+   if ($previousNiti && $nextNiti) {
+    $prevOrder = $previousNiti->order_id;
+    $nextOrder = $nextNiti->order_id;
 
-        if (strpos($prevOrder, '.') !== false && floor(floatval($nextOrder)) == floatval($nextOrder)) {
-            $prevFloat = floatval($prevOrder);
-            $newOrderFloat = round($prevFloat + 0.1, 1);
+    if (strpos($prevOrder, '.') !== false && floor(floatval($nextOrder)) == floatval($nextOrder)) {
+        $prevFloat = floatval($prevOrder);
+        $newOrderFloat = round($prevFloat + 0.1, 1);
 
-            $prevIntPart = explode('.', $prevOrder)[0];
-            $decimalPart = substr(strrchr($newOrderFloat, "."), 1);
-            $newOrderId = $prevIntPart . '.' . $decimalPart;
-
-        } else {
-            $avgFloat = (floatval($prevOrder) + floatval($nextOrder)) / 2;
-            $prevIntPart = explode('.', $prevOrder)[0];
-            $intVal = intval($avgFloat);
-
-            $formattedIntPart = str_pad($intVal, strlen($prevIntPart), '0', STR_PAD_LEFT);
-
-            $fraction = $avgFloat - $intVal;
-            $fractionStr = $fraction > 0 ? '.' . substr(number_format($fraction, 1), 2) : '';
-
-            $newOrderId = $formattedIntPart . $fractionStr;
-        }
-
-    } elseif ($nextNiti) {
-        $nextOrderStr = strval($nextNiti->order_id);
-        $nextIntPart = explode('.', $nextOrderStr)[0];
-        $nextIntVal = intval($nextIntPart);
-
-        $newIntVal = max($nextIntVal - 1, 0);
-        $newIntPart = str_pad($newIntVal, strlen($nextIntPart), '0', STR_PAD_LEFT);
-        $newOrderId = $newIntPart . '.5';
+        $prevIntPart = explode('.', $prevOrder)[0];
+        $decimalPart = substr(strrchr($newOrderFloat, "."), 1);
+        $newOrderId = $prevIntPart . '.' . $decimalPart;
 
     } else {
-        $newOrderId = $currentOrder ?? '01';
+        $avgFloat = (floatval($prevOrder) + floatval($nextOrder)) / 2;
+        $prevIntPart = explode('.', $prevOrder)[0];
+        $intVal = intval($avgFloat);
+
+        $formattedIntPart = str_pad($intVal, strlen($prevIntPart), '0', STR_PAD_LEFT);
+
+        $fraction = $avgFloat - $intVal;
+        $fractionStr = $fraction > 0 ? '.' . substr(number_format($fraction, 1), 2) : '';
+
+        $newOrderId = $formattedIntPart . $fractionStr;
     }
+
+} elseif ($nextNiti) {
+    $nextOrderStr = strval($nextNiti->order_id);
+    $nextIntPart = explode('.', $nextOrderStr)[0];
+    $nextIntVal = intval($nextIntPart);
+
+    $newIntVal = max($nextIntVal - 1, 0);
+    $newIntPart = str_pad($newIntVal, strlen($nextIntPart), '0', STR_PAD_LEFT);
+    $newOrderId = $newIntPart . '.5';
+
+} else {
+    $newOrderId = $currentOrder ?? '01';
+}
 
     // ✅ Update fields
     $niti->update([
-        'end_time'     => '02:00:00', // Set to 02:00:00 as per your requirement
+        'end_time'     => '12:00:00', // Set to 02:00:00 as per your requirement
         'running_time' => $runningTime,
         'duration'     => trim($durationText),
         'end_time_edit_user_id' => $user->sebak_id,
