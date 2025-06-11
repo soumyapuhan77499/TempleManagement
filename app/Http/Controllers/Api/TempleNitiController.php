@@ -1715,42 +1715,47 @@ public function editEndTime(Request $request)
 
     $currentOrder = $niti->order_id;
     $newEndTime = $request->end_time;
-    $dayId = $niti->day_id;
     $tz = 'Asia/Kolkata';
 
-    // Create Carbon datetime for the current Niti start and new end times
+    // Start datetime of current Niti
     $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $niti->date . ' ' . $niti->start_time, $tz);
+    // New end datetime, initially assume same date as Niti
     $newEndDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $niti->date . ' ' . $newEndTime, $tz);
 
-    // If end time is before start time, it means crossing midnight, so add 1 day to end datetime
+    // Adjust if crosses midnight (end < start)
     if ($newEndDateTime->lt($startDateTime)) {
         $newEndDateTime->addDay();
     }
 
-    // Fetch all Nitis on the same day excluding current, and with non-null end_time
-    $allNitis = NitiManagement::where('day_id', $dayId)
-        ->where('id', '!=', $niti->id)
-        ->whereNotNull('end_time')
-        ->get()
-        ->map(function ($item) use ($tz) {
-            $itemStartDT = Carbon::createFromFormat('Y-m-d H:i:s', $item->date . ' ' . $item->start_time, $tz);
-            $itemEndDT = Carbon::createFromFormat('Y-m-d H:i:s', $item->date . ' ' . $item->end_time, $tz);
-            if ($itemEndDT->lt($itemStartDT)) {
-                $itemEndDT->addDay();
-            }
-            $item->endDateTime = $itemEndDT;
-            return $item;
-        });
+    $searchDates = [
+        $newEndDateTime->copy()->subDay()->format('Y-m-d'),
+        $newEndDateTime->copy()->format('Y-m-d'),
+        $newEndDateTime->copy()->addDay()->format('Y-m-d'),
+    ];
+        // Fetch all Nitis on the same day excluding current, and with non-null end_time
+        $allNitis = NitiManagement::where('day_id', $dayId)
+            ->where('id', '!=', $niti->id)
+            ->whereNotNull('end_time')
+            ->get()
+            ->map(function ($item) use ($tz) {
+                $itemStartDT = Carbon::createFromFormat('Y-m-d H:i:s', $item->date . ' ' . $item->start_time, $tz);
+                $itemEndDT = Carbon::createFromFormat('Y-m-d H:i:s', $item->date . ' ' . $item->end_time, $tz);
+                if ($itemEndDT->lt($itemStartDT)) {
+                    $itemEndDT->addDay();
+                }
+                $item->endDateTime = $itemEndDT;
+                return $item;
+            });
 
-    // Find previous Niti: endDateTime less than newEndDateTime, closest one
-    $previousNiti = $allNitis->filter(function ($item) use ($newEndDateTime) {
-        return $item->endDateTime->lt($newEndDateTime);
-    })->sortByDesc('endDateTime')->first();
+        // Find previous Niti: endDateTime less than newEndDateTime, closest one
+        $previousNiti = $allNitis->filter(function ($item) use ($newEndDateTime) {
+            return $item->endDateTime->lt($newEndDateTime);
+        })->sortByDesc('endDateTime')->first();
 
-    // Find next Niti: endDateTime greater than newEndDateTime, closest one
-    $nextNiti = $allNitis->filter(function ($item) use ($newEndDateTime) {
-        return $item->endDateTime->gt($newEndDateTime);
-    })->sortBy('endDateTime')->first();
+        // Find next Niti: endDateTime greater than newEndDateTime, closest one
+        $nextNiti = $allNitis->filter(function ($item) use ($newEndDateTime) {
+            return $item->endDateTime->gt($newEndDateTime);
+        })->sortBy('endDateTime')->first();
 
     if ($previousNiti && $nextNiti) {
         $prevOrder = $previousNiti->order_id;
