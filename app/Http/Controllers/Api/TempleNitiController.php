@@ -1797,7 +1797,7 @@ public function editEndTime(Request $request)
 
     // ✅ Update fields
     $niti->update([
-        'end_time'     => '12:00:00', // Set to 02:00:00 as per your requirement
+        'end_time'     => '01:00:00', // Set to 02:00:00 as per your requirement
         'running_time' => $runningTime,
         'duration'     => trim($durationText),
         'end_time_edit_user_id' => $user->sebak_id,
