@@ -1698,14 +1698,19 @@ public function editEndTime(Request $request)
 
     $niti = NitiManagement::find($request->niti_management_id);
 
-    $tz = 'Asia/Kolkata';
+      $tz = 'Asia/Kolkata';
 
-    // Recalculate duration and running time
+    // Create start and new end Carbon datetime
     $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $niti->date . ' ' . $niti->start_time, $tz);
-    $endDateTime   = Carbon::createFromFormat('Y-m-d H:i:s', $niti->date . ' ' . $request->end_time, $tz);
+    $newEndDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $niti->date . ' ' . $request->end_time, $tz);
 
-    $durationInSeconds = $startDateTime->diffInSeconds($endDateTime);
+    // If end time is less than start time, it means crossing midnight → add 1 day
+    if ($newEndDateTime->lt($startDateTime)) {
+        $newEndDateTime->addDay();
+    }
 
+    // Calculate duration and running time
+    $durationInSeconds = $startDateTime->diffInSeconds($newEndDateTime);
     $hours   = floor($durationInSeconds / 3600);
     $minutes = floor(($durationInSeconds % 3600) / 60);
     $seconds = $durationInSeconds % 60;
@@ -1713,56 +1718,39 @@ public function editEndTime(Request $request)
     $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
     $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
 
+    // Instead of filtering by day_id only, fetch Nitis from 1 day before to 1 day after to handle cross-day times
+    $startSearchDate = $newEndDateTime->copy()->subDay()->format('Y-m-d');
+    $endSearchDate = $newEndDateTime->copy()->addDay()->format('Y-m-d');
 
-    $currentOrder = $niti->order_id;
-    $newEndTime = $request->end_time;
-    $tz = 'Asia/Kolkata';
-
-    // Start datetime of current Niti
-    $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $niti->date . ' ' . $niti->start_time, $tz);
-    // New end datetime, initially assume same date as Niti
-    $newEndDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $niti->date . ' ' . $newEndTime, $tz);
-
-    // Adjust if crosses midnight (end < start)
-    if ($newEndDateTime->lt($startDateTime)) {
-        $newEndDateTime->addDay();
-    }
-
-    // To find previous and next Niti based on full datetime, fetch Nitis around this datetime:
-    // This assumes your data includes a 'date' field, so fetch Nitis from previous day, current day, and next day
-
-    $searchDates = [
-        $newEndDateTime->copy()->subDay()->format('Y-m-d'),
-        $newEndDateTime->copy()->format('Y-m-d'),
-        $newEndDateTime->copy()->addDay()->format('Y-m-d'),
-    ];
-
-    $allNitis = NitiManagement::whereIn('date', $searchDates)
+    // Fetch all relevant Nitis
+    $allNitis = NitiManagement::whereBetween('date', [$startSearchDate, $endSearchDate])
         ->where('id', '!=', $niti->id)
         ->whereNotNull('end_time')
         ->get()
         ->map(function ($item) use ($tz) {
             $itemStartDT = Carbon::createFromFormat('Y-m-d H:i:s', $item->date . ' ' . $item->start_time, $tz);
             $itemEndDT = Carbon::createFromFormat('Y-m-d H:i:s', $item->date . ' ' . $item->end_time, $tz);
+
             if ($itemEndDT->lt($itemStartDT)) {
                 $itemEndDT->addDay();
             }
+
             $item->endDateTime = $itemEndDT;
             return $item;
         });
 
-    // Find previous Niti by endDateTime less than newEndDateTime
+    // Find previous Niti (closest endDateTime less than newEndDateTime)
     $previousNiti = $allNitis->filter(function ($item) use ($newEndDateTime) {
         return $item->endDateTime->lt($newEndDateTime);
     })->sortByDesc('endDateTime')->first();
 
-    // Find next Niti by endDateTime greater than newEndDateTime
+    // Find next Niti (closest endDateTime greater than newEndDateTime)
     $nextNiti = $allNitis->filter(function ($item) use ($newEndDateTime) {
         return $item->endDateTime->gt($newEndDateTime);
     })->sortBy('endDateTime')->first();
 
-    // Now assign order_id with your existing logic:
-
+    // Calculate new order_id based on previous and next
+    $currentOrder = $niti->order_id;
     if ($previousNiti && $nextNiti) {
         $prevOrder = $previousNiti->order_id;
         $nextOrder = $nextNiti->order_id;
