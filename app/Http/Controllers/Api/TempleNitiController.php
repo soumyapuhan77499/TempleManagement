@@ -1697,14 +1697,13 @@ public function editEndTime(Request $request)
     }
 
     $niti = NitiManagement::find($request->niti_management_id);
+    $tz = 'Asia/Kolkata';
 
-      $tz = 'Asia/Kolkata';
-
-    // Create start and new end Carbon datetime
+    // Create Carbon objects for start datetime and new end datetime
     $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $niti->date . ' ' . $niti->start_time, $tz);
     $newEndDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $niti->date . ' ' . $request->end_time, $tz);
 
-    // If end time is less than start time, it means crossing midnight → add 1 day
+    // If new end time is earlier than start time, add 1 day (cross midnight)
     if ($newEndDateTime->lt($startDateTime)) {
         $newEndDateTime->addDay();
     }
@@ -1718,44 +1717,47 @@ public function editEndTime(Request $request)
     $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
     $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
 
-    // Instead of filtering by day_id only, fetch Nitis from 1 day before to 1 day after to handle cross-day times
-    $startSearchDate = $newEndDateTime->copy()->subDay()->format('Y-m-d');
-    $endSearchDate = $newEndDateTime->copy()->addDay()->format('Y-m-d');
+    // Prepare dates to search previous and next Nitis, considering day before and day after
+    $searchDates = [
+        $newEndDateTime->copy()->subDay()->format('Y-m-d'),
+        $newEndDateTime->copy()->format('Y-m-d'),
+        $newEndDateTime->copy()->addDay()->format('Y-m-d'),
+    ];
 
-    // Fetch all relevant Nitis
-    $allNitis = NitiManagement::whereBetween('date', [$startSearchDate, $endSearchDate])
+    // Get all Nitis in the date range excluding current one
+    $allNitis = NitiManagement::whereIn('date', $searchDates)
         ->where('id', '!=', $niti->id)
         ->whereNotNull('end_time')
         ->get()
         ->map(function ($item) use ($tz) {
             $itemStartDT = Carbon::createFromFormat('Y-m-d H:i:s', $item->date . ' ' . $item->start_time, $tz);
             $itemEndDT = Carbon::createFromFormat('Y-m-d H:i:s', $item->date . ' ' . $item->end_time, $tz);
-
             if ($itemEndDT->lt($itemStartDT)) {
                 $itemEndDT->addDay();
             }
-
             $item->endDateTime = $itemEndDT;
             return $item;
         });
 
-    // Find previous Niti (closest endDateTime less than newEndDateTime)
+    // Find previous Niti by closest endDateTime less than newEndDateTime
     $previousNiti = $allNitis->filter(function ($item) use ($newEndDateTime) {
         return $item->endDateTime->lt($newEndDateTime);
     })->sortByDesc('endDateTime')->first();
 
-    // Find next Niti (closest endDateTime greater than newEndDateTime)
+    // Find next Niti by closest endDateTime greater than newEndDateTime
     $nextNiti = $allNitis->filter(function ($item) use ($newEndDateTime) {
         return $item->endDateTime->gt($newEndDateTime);
     })->sortBy('endDateTime')->first();
 
-    // Calculate new order_id based on previous and next
     $currentOrder = $niti->order_id;
+    $newOrderId = null;
+
     if ($previousNiti && $nextNiti) {
         $prevOrder = $previousNiti->order_id;
         $nextOrder = $nextNiti->order_id;
 
         if (strpos($prevOrder, '.') !== false && floor(floatval($nextOrder)) == floatval($nextOrder)) {
+            // Increment decimal part of previous order by 0.1
             $prevFloat = floatval($prevOrder);
             $newOrderFloat = round($prevFloat + 0.1, 1);
 
@@ -1764,6 +1766,7 @@ public function editEndTime(Request $request)
             $newOrderId = $prevIntPart . '.' . $decimalPart;
 
         } else {
+            // Average between previous and next
             $avgFloat = (floatval($prevOrder) + floatval($nextOrder)) / 2;
             $prevIntPart = explode('.', $prevOrder)[0];
             $intVal = intval($avgFloat);
@@ -1789,21 +1792,22 @@ public function editEndTime(Request $request)
         $newOrderId = $currentOrder ?? '01';
     }
 
-    // ✅ Update fields
+    // Update the Niti
     $niti->update([
-        'end_time'     => $request->end_time,
+        'end_time' => $request->end_time,
         'running_time' => $runningTime,
-        'duration'     => trim($durationText),
+        'duration' => trim($durationText),
         'end_time_edit_user_id' => $user->sebak_id,
-        'order_id'             => $newOrderId,
+        'order_id' => $newOrderId,
     ]);
 
     return response()->json([
         'status' => true,
         'message' => 'End time updated successfully.',
-        'data' => $niti
+        'data' => $niti,
     ]);
 }
+
 
 public function resetNiti(Request $request)
 {
