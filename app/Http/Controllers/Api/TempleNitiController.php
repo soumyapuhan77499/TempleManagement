@@ -1712,8 +1712,7 @@ public function editEndTime(Request $request)
 
     $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
     $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
-    
-  $currentOrder = $niti->order_id;
+   $currentOrder = $niti->order_id;
 $newEndTime = $request->end_time;
 $newSavedDate = $request->date ?? $niti->date;
 $dayId = $niti->day_id;
@@ -1798,35 +1797,14 @@ function formatOrderId($floatVal, $templateId) {
     return $paddedIntPart . $decimalPart;
 }
 
-dd($previousNiti, $nextNiti, $newSavedDate, $newEndTime, $currentOrder);
-
-// Calculate new order id:
+// Main logic for new order_id
 if ($previousNiti && $nextNiti && isSameDate($previousNiti->date, $newSavedDate) && isSameDate($nextNiti->date, $newSavedDate)) {
     $prevOrder = $previousNiti->order_id;
-    $nextOrder = $nextNiti->order_id;
 
     $prevInt = intval(explode('.', $prevOrder)[0]);
-    $nextInt = intval(explode('.', $nextOrder)[0]);
 
-
-    // If prev and next orders are consecutive integers, use prev + 0.5
-    if ($nextInt === $prevInt + 1 && 
-        strpos($prevOrder, '.') === false && 
-        strpos($nextOrder, '.') === false) {
-        // Just add .5 to prev order id
-        $newOrderId = formatOrderId($nextInt + 0.5, $nextOrder);
-
-    } else if (strpos($prevOrder, '.') !== false && floor(floatval($nextOrder)) == floatval($nextOrder)) {
-        // Your original fractional + integer logic
-        $prevFloat = floatval($prevOrder);
-        $newOrderFloat = round($prevFloat + 0.1, 1);
-        $newOrderId = formatOrderId($newOrderFloat, $prevOrder);
-
-    } else {
-        // Otherwise average normally
-        $avgFloat = (floatval($prevOrder) + floatval($nextOrder)) / 2;
-        $newOrderId = formatOrderId($avgFloat, $prevOrder);
-    }
+    // New order = previous order + 0.5 (always)
+    $newOrderId = formatOrderId($prevInt + 0.5, $prevOrder);
 
 } elseif ($nextNiti && isSameDate($nextNiti->date, $newSavedDate)) {
     $nextOrder = $nextNiti->order_id;
