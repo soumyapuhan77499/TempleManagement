@@ -1713,91 +1713,83 @@ public function editEndTime(Request $request)
     $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
     $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
 
-  $currentOrder = $niti->order_id;
-$newEndTime = $request->end_time;
-$dayId = $niti->day_id;
+       $currentOrder = $niti->order_id;
+    $newEndTime = $request->end_time;
+    $dayId = $niti->day_id;
+    $currentDate = $niti->date;
 
-// Find previous and next Niti by end_time
-$previousNiti = NitiManagement::where('day_id', $dayId)
-    ->where('id', '!=', $niti->id)
-    ->whereNotNull('end_time')
-    ->where('end_time', '<', $newEndTime)
-    ->orderBy('end_time', 'desc')
-    ->first();
+    // Find previous Niti on same day_id and same date with end_time < newEndTime
+    $previousNiti = NitiManagement::where('day_id', $dayId)
+        ->where('date', $currentDate)
+        ->where('id', '!=', $niti->id)
+        ->whereNotNull('end_time')
+        ->where('end_time', '<', $newEndTime)
+        ->orderBy('end_time', 'desc')
+        ->first();
 
-$nextNiti = NitiManagement::where('day_id', $dayId)
-    ->where('id', '!=', $niti->id)
-    ->whereNotNull('end_time')
-    ->where('end_time', '>', $newEndTime)
-    ->orderBy('end_time', 'asc')
-    ->first();
+    // Find next Niti on same day_id and same date with end_time > newEndTime
+    $nextNiti = NitiManagement::where('day_id', $dayId)
+        ->where('date', $currentDate)
+        ->where('id', '!=', $niti->id)
+        ->whereNotNull('end_time')
+        ->where('end_time', '>', $newEndTime)
+        ->orderBy('end_time', 'asc')
+        ->first();
 
-function formatOrderId($floatVal, $templateId) {
-    // Format floatVal to 1 decimal place string
-    $formatted = number_format($floatVal, 1);
+    // Helper function to format order id with leading zeros preserved
+    function formatOrderId($floatVal, $templateId) {
+        $formatted = number_format($floatVal, 1);
 
-    // Add leading zeroes from templateId if needed
-    // Extract integer part of templateId (string before decimal or whole string)
-    $templateIntPart = strpos($templateId, '.') !== false
-        ? explode('.', $templateId)[0]
-        : $templateId;
+        $templateIntPart = strpos($templateId, '.') !== false
+            ? explode('.', $templateId)[0]
+            : $templateId;
 
-    // Extract integer part of formatted (string before decimal)
-    $formattedIntPart = strpos($formatted, '.') !== false
-        ? explode('.', $formatted)[0]
-        : $formatted;
+        $formattedIntPart = strpos($formatted, '.') !== false
+            ? explode('.', $formatted)[0]
+            : $formatted;
 
-    // Calculate how many leading zeros to add based on templateIntPart length
-    $leadingZerosCount = strlen($templateIntPart) - strlen(ltrim($templateIntPart, '0'));
+        $paddedIntPart = str_pad($formattedIntPart, strlen($templateIntPart), '0', STR_PAD_LEFT);
 
-    // Pad formattedIntPart with leading zeros to match templateIntPart length
-    $paddedIntPart = str_pad($formattedIntPart, strlen($templateIntPart), '0', STR_PAD_LEFT);
+        $decimalPart = strpos($formatted, '.') !== false
+            ? '.' . explode('.', $formatted)[1]
+            : '';
 
-    // Rebuild the final formatted order id with decimal part
-    $decimalPart = strpos($formatted, '.') !== false
-        ? '.' . explode('.', $formatted)[1]
-        : '';
-
-    return $paddedIntPart . $decimalPart;
-}
-
-if ($previousNiti && $nextNiti) {
-    $prevOrder = $previousNiti->order_id;
-    $nextOrder = $nextNiti->order_id;
-
-    // Check if previous order is fractional and next is integer
-    if (strpos($prevOrder, '.') !== false && floor(floatval($nextOrder)) == floatval($nextOrder)) {
-        // Increment decimal part of previous order by 0.1
-        $prevFloat = floatval($prevOrder);
-
-        // Increase decimal by 0.1 but keep only one decimal digit
-        $newOrderFloat = round($prevFloat + 0.1, 1);
-
-        $newOrderId = formatOrderId($newOrderFloat, $prevOrder);
-
-    } else {
-        // Normal average between previous and next
-        $avgFloat = (floatval($prevOrder) + floatval($nextOrder)) / 2;
-        $newOrderId = formatOrderId($avgFloat, $prevOrder);
+        return $paddedIntPart . $decimalPart;
     }
 
-} elseif ($nextNiti) {
-    $nextOrder = $nextNiti->order_id;
+    // Logic for assigning new order id only considering previous and next on same date
+    if ($previousNiti && $nextNiti) {
+        $prevOrder = $previousNiti->order_id;
+        $nextOrder = $nextNiti->order_id;
 
-    // Extract integer part of nextOrder to preserve leading zeros
-    $nextOrderIntPart = strpos($nextOrder, '.') !== false
-        ? explode('.', $nextOrder)[0]
-        : $nextOrder;
+        // If previous order is fractional and next order integer
+        if (strpos($prevOrder, '.') !== false && floor(floatval($nextOrder)) == floatval($nextOrder)) {
+            $prevFloat = floatval($prevOrder);
+            $newOrderFloat = round($prevFloat + 0.1, 1);
+            $newOrderId = formatOrderId($newOrderFloat, $prevOrder);
 
-    // Append .5 to next order integer part, keep leading zeros
-    $newOrderId = $nextOrderIntPart . '.5';
+        } else {
+            // Average between previous and next
+            $avgFloat = (floatval($prevOrder) + floatval($nextOrder)) / 2;
+            $newOrderId = formatOrderId($avgFloat, $prevOrder);
+        }
 
-} else {
-    $newOrderId = $currentOrder ?? '01';
-}
+    } elseif ($nextNiti) {
+        // Only next Niti exists on same date: add .5 after nextOrder integer part
+        $nextOrder = $nextNiti->order_id;
 
-// $newOrderId now respects original order logic and adds date-aware filtering
+        $nextOrderIntPart = strpos($nextOrder, '.') !== false
+            ? explode('.', $nextOrder)[0]
+            : $nextOrder;
 
+        $newOrderId = $nextOrderIntPart . '.5';
+
+    } else {
+        // No previous or next Niti on same date: keep existing order id
+        $newOrderId = $currentOrder ?? '01';
+    }
+
+    // $newOrderId now respects original order logic and adds date-aware filtering
 
     // ✅ Update fields
     $niti->update([
