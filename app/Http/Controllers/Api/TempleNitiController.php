@@ -1811,7 +1811,7 @@ if ($previousNiti && $nextNiti && isSameDate($previousNiti->date, $newSavedDate)
         strpos($prevOrder, '.') === false && 
         strpos($nextOrder, '.') === false) {
         // Just add .5 to prev order id
-        $newOrderId = formatOrderId($prevInt + 0.5, $prevOrder);
+        $newOrderId = formatOrderId($nextInt + 0.5, $nextInt);
 
     } else if (strpos($prevOrder, '.') !== false && floor(floatval($nextOrder)) == floatval($nextOrder)) {
         // Your original fractional + integer logic
