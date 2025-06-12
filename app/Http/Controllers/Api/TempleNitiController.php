@@ -643,7 +643,6 @@ public function stopNiti(Request $request)
             'order_id'      => $newOrderId,
         ]);
 
-
         // ✅ Update NitiMaster
         $nitiMaster->update([
             'niti_status' => 'Completed'
