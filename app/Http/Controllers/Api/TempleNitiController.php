@@ -1713,9 +1713,9 @@ public function editEndTime(Request $request)
     $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
     $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
     
-   $currentOrder = $niti->order_id;
+  $currentOrder = $niti->order_id;
 $newEndTime = $request->end_time;
-$newSavedDate = $request->date ?? $niti->date;  // use provided date or fallback
+$newSavedDate = $request->date ?? $niti->date;
 $dayId = $niti->day_id;
 
 $newDateTime = $newSavedDate . ' ' . $newEndTime;
@@ -1798,24 +1798,35 @@ function formatOrderId($floatVal, $templateId) {
     return $paddedIntPart . $decimalPart;
 }
 
-// Now apply your original order_id logic, but only if previous and next exist on SAME date
+// Calculate new order id:
 if ($previousNiti && $nextNiti && isSameDate($previousNiti->date, $newSavedDate) && isSameDate($nextNiti->date, $newSavedDate)) {
     $prevOrder = $previousNiti->order_id;
     $nextOrder = $nextNiti->order_id;
 
-    // Your first logic for fractional/integer check
-    if (strpos($prevOrder, '.') !== false && floor(floatval($nextOrder)) == floatval($nextOrder)) {
+    $prevInt = intval(explode('.', $prevOrder)[0]);
+    $nextInt = intval(explode('.', $nextOrder)[0]);
+
+    // If prev and next orders are consecutive integers, use prev + 0.5
+    if ($nextInt === $prevInt + 1 && 
+        strpos($prevOrder, '.') === false && 
+        strpos($nextOrder, '.') === false) {
+        // Just add .5 to prev order id
+        $newOrderId = formatOrderId($prevInt + 0.5, $prevOrder);
+
+    } else if (strpos($prevOrder, '.') !== false && floor(floatval($nextOrder)) == floatval($nextOrder)) {
+        // Your original fractional + integer logic
         $prevFloat = floatval($prevOrder);
         $newOrderFloat = round($prevFloat + 0.1, 1);
         $newOrderId = formatOrderId($newOrderFloat, $prevOrder);
+
     } else {
+        // Otherwise average normally
         $avgFloat = (floatval($prevOrder) + floatval($nextOrder)) / 2;
         $newOrderId = formatOrderId($avgFloat, $prevOrder);
     }
 
 } elseif ($nextNiti && isSameDate($nextNiti->date, $newSavedDate)) {
     $nextOrder = $nextNiti->order_id;
-
     $nextOrderIntPart = strpos($nextOrder, '.') !== false
         ? explode('.', $nextOrder)[0]
         : $nextOrder;
@@ -1823,7 +1834,6 @@ if ($previousNiti && $nextNiti && isSameDate($previousNiti->date, $newSavedDate)
     $newOrderId = $nextOrderIntPart . '.5';
 
 } else {
-    // No prev and next on same date, keep current order or default
     $newOrderId = $currentOrder ?? '01';
 }
 
