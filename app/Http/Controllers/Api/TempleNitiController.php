@@ -1712,84 +1712,48 @@ public function editEndTime(Request $request)
 
     $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
     $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
-   $currentOrder = $niti->order_id;
+
+  $currentOrder = $niti->order_id;
 $newEndTime = $request->end_time;
-$newSavedDate = $request->date ?? $niti->date;
 $dayId = $niti->day_id;
 
-$newDateTime = $newSavedDate . ' ' . $newEndTime;
-
-function toTimestamp($dateTimeStr) {
-    return strtotime($dateTimeStr);
-}
-
-// Find a later Niti to avoid conflicts (adjust time if needed)
-$laterNiti = NitiManagement::where('day_id', $dayId)
-    ->where(function($query) use ($newSavedDate, $newEndTime) {
-        $query->where('date', '>', $newSavedDate)
-              ->orWhere(function($q) use ($newSavedDate, $newEndTime) {
-                  $q->where('date', $newSavedDate)
-                    ->where('end_time', '>=', $newEndTime);
-              });
-    })
-    ->where('id', '!=', $niti->id)
-    ->orderBy('date', 'asc')
-    ->orderBy('end_time', 'asc')
-    ->first();
-
-if ($laterNiti) {
-    $laterDateTime = $laterNiti->date . ' ' . $laterNiti->end_time;
-    $adjustedTimestamp = toTimestamp($laterDateTime) + 60; // +1 min
-    $newSavedDate = date('Y-m-d', $adjustedTimestamp);
-    $newEndTime = date('H:i:s', $adjustedTimestamp);
-    $newDateTime = $newSavedDate . ' ' . $newEndTime;
-}
-
-// Find previous Niti (date < newSavedDate OR same date & end_time < newEndTime)
+// Find previous and next Niti by end_time
 $previousNiti = NitiManagement::where('day_id', $dayId)
     ->where('id', '!=', $niti->id)
-    ->where(function($query) use ($newSavedDate, $newEndTime) {
-        $query->where('date', '<', $newSavedDate)
-              ->orWhere(function($q) use ($newSavedDate, $newEndTime) {
-                  $q->where('date', $newSavedDate)
-                    ->where('end_time', '<', $newEndTime);
-              });
-    })
-    ->orderBy('date', 'desc')
+    ->whereNotNull('end_time')
+    ->where('end_time', '<', $newEndTime)
     ->orderBy('end_time', 'desc')
     ->first();
 
-// Find next Niti (date > newSavedDate OR same date & end_time > newEndTime)
 $nextNiti = NitiManagement::where('day_id', $dayId)
     ->where('id', '!=', $niti->id)
-    ->where(function($query) use ($newSavedDate, $newEndTime) {
-        $query->where('date', '>', $newSavedDate)
-              ->orWhere(function($q) use ($newSavedDate, $newEndTime) {
-                  $q->where('date', $newSavedDate)
-                    ->where('end_time', '>', $newEndTime);
-              });
-    })
-    ->orderBy('date', 'asc')
+    ->whereNotNull('end_time')
+    ->where('end_time', '>', $newEndTime)
     ->orderBy('end_time', 'asc')
     ->first();
 
-function isSameDate($date1, $date2) {
-    return $date1 === $date2;
-}
-
 function formatOrderId($floatVal, $templateId) {
+    // Format floatVal to 1 decimal place string
     $formatted = number_format($floatVal, 1);
 
+    // Add leading zeroes from templateId if needed
+    // Extract integer part of templateId (string before decimal or whole string)
     $templateIntPart = strpos($templateId, '.') !== false
         ? explode('.', $templateId)[0]
         : $templateId;
 
+    // Extract integer part of formatted (string before decimal)
     $formattedIntPart = strpos($formatted, '.') !== false
         ? explode('.', $formatted)[0]
         : $formatted;
 
+    // Calculate how many leading zeros to add based on templateIntPart length
+    $leadingZerosCount = strlen($templateIntPart) - strlen(ltrim($templateIntPart, '0'));
+
+    // Pad formattedIntPart with leading zeros to match templateIntPart length
     $paddedIntPart = str_pad($formattedIntPart, strlen($templateIntPart), '0', STR_PAD_LEFT);
 
+    // Rebuild the final formatted order id with decimal part
     $decimalPart = strpos($formatted, '.') !== false
         ? '.' . explode('.', $formatted)[1]
         : '';
@@ -1797,21 +1761,35 @@ function formatOrderId($floatVal, $templateId) {
     return $paddedIntPart . $decimalPart;
 }
 
-// Main logic for new order_id
-if ($previousNiti && $nextNiti && isSameDate($previousNiti->date, $newSavedDate) && isSameDate($nextNiti->date, $newSavedDate)) {
+if ($previousNiti && $nextNiti) {
     $prevOrder = $previousNiti->order_id;
-
-    $prevInt = intval(explode('.', $prevOrder)[0]);
-
-    // New order = previous order + 0.5 (always)
-    $newOrderId = formatOrderId($prevInt + 0.5, $prevOrder);
-
-} elseif ($nextNiti && isSameDate($nextNiti->date, $newSavedDate)) {
     $nextOrder = $nextNiti->order_id;
+
+    // Check if previous order is fractional and next is integer
+    if (strpos($prevOrder, '.') !== false && floor(floatval($nextOrder)) == floatval($nextOrder)) {
+        // Increment decimal part of previous order by 0.1
+        $prevFloat = floatval($prevOrder);
+
+        // Increase decimal by 0.1 but keep only one decimal digit
+        $newOrderFloat = round($prevFloat + 0.1, 1);
+
+        $newOrderId = formatOrderId($newOrderFloat, $prevOrder);
+
+    } else {
+        // Normal average between previous and next
+        $avgFloat = (floatval($prevOrder) + floatval($nextOrder)) / 2;
+        $newOrderId = formatOrderId($avgFloat, $prevOrder);
+    }
+
+} elseif ($nextNiti) {
+    $nextOrder = $nextNiti->order_id;
+
+    // Extract integer part of nextOrder to preserve leading zeros
     $nextOrderIntPart = strpos($nextOrder, '.') !== false
         ? explode('.', $nextOrder)[0]
         : $nextOrder;
 
+    // Append .5 to next order integer part, keep leading zeros
     $newOrderId = $nextOrderIntPart . '.5';
 
 } else {
