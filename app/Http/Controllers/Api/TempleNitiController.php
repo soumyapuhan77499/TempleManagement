@@ -1713,7 +1713,6 @@ public function editEndTime(Request $request)
     $runningTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
     $durationText = $hours > 0 ? "{$hours} hr {$minutes} min" : ($minutes > 0 ? "{$minutes} min" : "{$seconds} sec");
     
-   
     $currentOrder = $niti->order_id;
     $newEndTime = $request->end_time;
     $dayId = $niti->day_id;
@@ -1733,6 +1732,35 @@ public function editEndTime(Request $request)
         ->orderBy('end_time', 'asc')
         ->first();
 
+    function formatOrderId($floatVal, $templateId) {
+        // Format floatVal to 1 decimal place string
+        $formatted = number_format($floatVal, 1);
+
+        // Add leading zeroes from templateId if needed
+        // Extract integer part of templateId (string before decimal or whole string)
+        $templateIntPart = strpos($templateId, '.') !== false
+            ? explode('.', $templateId)[0]
+            : $templateId;
+
+        // Extract integer part of formatted (string before decimal)
+        $formattedIntPart = strpos($formatted, '.') !== false
+            ? explode('.', $formatted)[0]
+            : $formatted;
+
+        // Calculate how many leading zeros to add based on templateIntPart length
+        $leadingZerosCount = strlen($templateIntPart) - strlen(ltrim($templateIntPart, '0'));
+
+        // Pad formattedIntPart with leading zeros to match templateIntPart length
+        $paddedIntPart = str_pad($formattedIntPart, strlen($templateIntPart), '0', STR_PAD_LEFT);
+
+        // Rebuild the final formatted order id with decimal part
+        $decimalPart = strpos($formatted, '.') !== false
+            ? '.' . explode('.', $formatted)[1]
+            : '';
+
+        return $paddedIntPart . $decimalPart;
+    }
+
     if ($previousNiti && $nextNiti) {
         $prevOrder = $previousNiti->order_id;
         $nextOrder = $nextNiti->order_id;
@@ -1745,21 +1773,29 @@ public function editEndTime(Request $request)
             // Increase decimal by 0.1 but keep only one decimal digit
             $newOrderFloat = round($prevFloat + 0.1, 1);
 
-            $newOrderId = number_format($newOrderFloat, 1);
+            $newOrderId = formatOrderId($newOrderFloat, $prevOrder);
 
         } else {
             // Normal average between previous and next
             $avgFloat = (floatval($prevOrder) + floatval($nextOrder)) / 2;
-            $newOrderId = number_format($avgFloat, 1);
+            $newOrderId = formatOrderId($avgFloat, $prevOrder);
         }
 
     } elseif ($nextNiti) {
-        $nextOrderInt = intval($nextNiti->order_id);
-        $newOrderId = str_pad($nextOrderInt, 2, '0', STR_PAD_LEFT) . '.5';
+        $nextOrder = $nextNiti->order_id;
+
+        // Extract integer part of nextOrder to preserve leading zeros
+        $nextOrderIntPart = strpos($nextOrder, '.') !== false
+            ? explode('.', $nextOrder)[0]
+            : $nextOrder;
+
+        // Append .5 to next order integer part, keep leading zeros
+        $newOrderId = $nextOrderIntPart . '.5';
 
     } else {
         $newOrderId = $currentOrder ?? '01';
     }
+
     // ✅ Update fields
     $niti->update([
         'end_time'     => $request->end_time,
