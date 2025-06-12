@@ -1715,21 +1715,18 @@ public function editEndTime(Request $request)
     
     $currentOrder = $niti->order_id;
     $newEndTime = $request->end_time;
-    $newSavedDate = $request->date ?? $niti->date;  // use provided date or fallback to current
+    $newSavedDate = $niti->date;
     $dayId = $niti->day_id;
 
-    // Combine date and time into full datetime strings for comparisons
     $newDateTime = $newSavedDate . ' ' . $newEndTime;
 
-    // Helper: parse datetime string to timestamp for easier comparisons
     function toTimestamp($dateTimeStr) {
         return strtotime($dateTimeStr);
     }
 
-    // STEP 1: Find next Niti on same day_id with datetime >= newDateTime and id != current
+    // STEP 1: Find next Niti on same day_id with datetime >= newDateTime (to avoid conflicts)
     $laterNiti = NitiManagement::where('day_id', $dayId)
         ->where(function($query) use ($newSavedDate, $newEndTime) {
-            // Compare date and time combined, so date must be same and end_time >= newEndTime
             $query->where('date', '>', $newSavedDate)
                 ->orWhere(function($q) use ($newSavedDate, $newEndTime) {
                     $q->where('date', $newSavedDate)
@@ -1742,19 +1739,17 @@ public function editEndTime(Request $request)
         ->first();
 
     if ($laterNiti) {
-        // Adjust newEndTime to one minute after laterNiti datetime to avoid conflict
         $laterDateTime = $laterNiti->date . ' ' . $laterNiti->end_time;
-        $adjustedTimestamp = toTimestamp($laterDateTime) + 60; // +1 minute
+        $adjustedTimestamp = toTimestamp($laterDateTime) + 60;
         $newSavedDate = date('Y-m-d', $adjustedTimestamp);
         $newEndTime = date('H:i:s', $adjustedTimestamp);
         $newDateTime = $newSavedDate . ' ' . $newEndTime;
     }
 
-    // STEP 2: Find previous and next Niti relative to newDateTime on same day_id
+    // STEP 2: Find previous Niti (date < newSavedDate OR same date & end_time < newEndTime)
     $previousNiti = NitiManagement::where('day_id', $dayId)
         ->where('id', '!=', $niti->id)
         ->where(function($query) use ($newSavedDate, $newEndTime) {
-            // Previous means date < newSavedDate OR same date but end_time < newEndTime
             $query->where('date', '<', $newSavedDate)
                 ->orWhere(function($q) use ($newSavedDate, $newEndTime) {
                     $q->where('date', $newSavedDate)
@@ -1765,10 +1760,10 @@ public function editEndTime(Request $request)
         ->orderBy('end_time', 'desc')
         ->first();
 
+    // STEP 3: Find next Niti (date > newSavedDate OR same date & end_time > newEndTime)
     $nextNiti = NitiManagement::where('day_id', $dayId)
         ->where('id', '!=', $niti->id)
         ->where(function($query) use ($newSavedDate, $newEndTime) {
-            // Next means date > newSavedDate OR same date but end_time > newEndTime
             $query->where('date', '>', $newSavedDate)
                 ->orWhere(function($q) use ($newSavedDate, $newEndTime) {
                     $q->where('date', $newSavedDate)
@@ -1779,29 +1774,23 @@ public function editEndTime(Request $request)
         ->orderBy('end_time', 'asc')
         ->first();
 
-    // Helper: check if two dates are equal strings
     function isSameDate($date1, $date2) {
         return $date1 === $date2;
     }
 
-    // Helper: format new order id keeping leading zeros and decimals
     function formatOrderId($floatVal, $templateOrderId) {
         $formatted = number_format($floatVal, 1);
 
-        // Integer part from template order id (preserves leading zeros)
         $templateIntPart = strpos($templateOrderId, '.') !== false
             ? explode('.', $templateOrderId)[0]
             : $templateOrderId;
 
-        // Integer part from formatted float
         $formattedIntPart = strpos($formatted, '.') !== false
             ? explode('.', $formatted)[0]
             : $formatted;
 
-        // Pad formatted int part to same length as template int part
         $paddedIntPart = str_pad($formattedIntPart, strlen($templateIntPart), '0', STR_PAD_LEFT);
 
-        // Decimal part from formatted float (including dot)
         $decimalPart = strpos($formatted, '.') !== false
             ? '.' . explode('.', $formatted)[1]
             : '';
@@ -1809,44 +1798,40 @@ public function editEndTime(Request $request)
         return $paddedIntPart . $decimalPart;
     }
 
-    // Determine new order id only if prev and next Niti exist on SAME date as newSavedDate
+    // Now calculate new order_id:
     if ($previousNiti && $nextNiti && isSameDate($previousNiti->date, $newSavedDate) && isSameDate($nextNiti->date, $newSavedDate)) {
         $prevOrder = $previousNiti->order_id;
         $nextOrder = $nextNiti->order_id;
 
+        // If previous order fractional and next order integer, increment previous by 0.1
         if (strpos($prevOrder, '.') !== false && floor(floatval($nextOrder)) == floatval($nextOrder)) {
-            // previous order fractional, next order integer
             $prevFloat = floatval($prevOrder);
             $newOrderFloat = round($prevFloat + 0.1, 1);
             $newOrderId = formatOrderId($newOrderFloat, $prevOrder);
-
         } else {
+            // Else take average of prev and next
             $avgFloat = (floatval($prevOrder) + floatval($nextOrder)) / 2;
             $newOrderId = formatOrderId($avgFloat, $prevOrder);
         }
-
     } elseif ($nextNiti && isSameDate($nextNiti->date, $newSavedDate)) {
+        // Only nextNiti available on same date
         $nextOrder = $nextNiti->order_id;
         $nextIntPart = strpos($nextOrder, '.') !== false ? explode('.', $nextOrder)[0] : $nextOrder;
         $newOrderId = $nextIntPart . '.5';
-
     } elseif ($previousNiti && isSameDate($previousNiti->date, $newSavedDate)) {
+        // Only previousNiti available on same date
         $prevOrder = $previousNiti->order_id;
         if (strpos($prevOrder, '.') === false) {
-            $prevIntPart = $prevOrder;
-            $newOrderId = $prevIntPart . '.5';
+            $newOrderId = $prevOrder . '.5';
         } else {
             $newOrderId = $prevOrder;
         }
-
     } else {
-        // No previous or next on same date, keep current order id or default to '01'
+        // No previous or next on same date, keep current
         $newOrderId = $currentOrder ?? '01';
     }
 
-    // Now $newOrderId is your updated order id with leading zeros and decimal, respecting date and time crossing midnight.
-
-
+// $newOrderId now has correct value like "02.5" for your example
 
     // ✅ Update fields
     $niti->update([
