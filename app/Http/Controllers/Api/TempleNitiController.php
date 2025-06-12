@@ -1799,14 +1799,6 @@ function formatOrderId($floatVal, $templateId) {
 
 // Main logic for new order_id
 if ($previousNiti && $nextNiti && isSameDate($previousNiti->date, $newSavedDate) && isSameDate($nextNiti->date, $newSavedDate)) {
-    $prevOrder = $previousNiti->order_id;
-
-    $prevInt = intval(explode('.', $prevOrder)[0]);
-
-    // New order = previous order + 0.5 (always)
-    $newOrderId = formatOrderId($prevInt + 0.5, $prevOrder);
-
-} elseif ($nextNiti && isSameDate($nextNiti->date, $newSavedDate)) {
     $nextOrder = $nextNiti->order_id;
     $nextOrderIntPart = strpos($nextOrder, '.') !== false
         ? explode('.', $nextOrder)[0]
@@ -1814,6 +1806,9 @@ if ($previousNiti && $nextNiti && isSameDate($previousNiti->date, $newSavedDate)
 
     $newOrderId = $nextOrderIntPart . '.5';
 
+
+} elseif ($nextNiti && isSameDate($nextNiti->date, $newSavedDate)) {
+   
 } else {
     $newOrderId = $currentOrder ?? '01';
 }
