@@ -1806,6 +1806,8 @@ if ($previousNiti && $nextNiti && isSameDate($previousNiti->date, $newSavedDate)
     $prevInt = intval(explode('.', $prevOrder)[0]);
     $nextInt = intval(explode('.', $nextOrder)[0]);
 
+    dd($prevOrder, $nextOrder, $prevInt, $nextInt);
+
     // If prev and next orders are consecutive integers, use prev + 0.5
     if ($nextInt === $prevInt + 1 && 
         strpos($prevOrder, '.') === false && 
