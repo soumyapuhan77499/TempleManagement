@@ -76,7 +76,8 @@ class RathaYatraApiController extends Controller
             'error' => $e->getMessage(),
         ], 500);
     }
-}  
+}
+
 public function startNiti(Request $request)
 {
     try {
@@ -261,6 +262,74 @@ public function completedNiti()
             'error' => $e->getMessage(),
         ], 500);
     }
+}
+
+public function editStartTime(Request $request)
+{
+    $request->validate([
+        'niti_management_id' => 'required|integer|exists:ratha__yatra_niti_details,id',
+        'start_time' => 'required|date_format:H:i:s',
+    ]);
+
+    $user = Auth::guard('niti_admin')->user();
+    if (!$user) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Unauthorized access.'
+        ], 401);
+    }
+
+    $niti = RathaYatraNiti::find($request->niti_management_id);
+    if (!$niti) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Niti record not found.'
+        ], 404);
+    }
+
+    $niti->start_time = $request->start_time;
+    $niti->start_time_edit_user_id = $user->sebak_id;
+    $niti->save();
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Start time updated successfully.',
+        'data' => $niti
+    ], 200);
+}
+
+public function editEndTime(Request $request)
+{
+    $request->validate([
+        'niti_management_id' => 'required|integer|exists:ratha__yatra_niti_details,id',
+        'end_time' => 'required|date_format:H:i:s',
+    ]);
+
+    $user = Auth::guard('niti_admin')->user();
+    if (!$user) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Unauthorized access.'
+        ], 401);
+    }
+
+    $niti = RathaYatraNiti::find($request->niti_management_id);
+    if (!$niti) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Niti record not found.'
+        ], 404);
+    }
+
+    $niti->end_time = $request->end_time;
+    $niti->end_time_edit_user_id = $user->sebak_id;
+    $niti->save();
+
+    return response()->json([
+        'status' => true,
+        'message' => 'End time updated successfully.',
+        'data' => $niti
+    ], 200);
 }
 
 }
