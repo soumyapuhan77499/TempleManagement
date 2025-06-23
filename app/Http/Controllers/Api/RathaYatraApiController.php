@@ -12,11 +12,10 @@ use Carbon\Carbon;
 
 use Carbon\CarbonInterval;
 
-
 class RathaYatraApiController extends Controller
 {
 
- public function getFirstPendingDayNitis()
+public function getFirstPendingDayNitis()
 {
     try {
         // ✅ Get all day_ids in logical order (DAY_01, DAY_02...)
@@ -27,28 +26,29 @@ class RathaYatraApiController extends Controller
             ->pluck('day_id');
 
         foreach ($dayIds as $dayId) {
-            // ✅ Fetch all Nitis under this day
+            // ✅ Fetch all Nitis under this day, ordered by order_id
             $nitis = RathaYatraNiti::where('day_id', $dayId)
                 ->where('status', 'active')
+                ->orderBy('order_id')
                 ->get();
 
-            // ✅ Check: if all Nitis are either 'Completed' or 'NotStarted', then skip
+            // ✅ Skip if all are Completed or NotStarted
             $allDoneOrNotStarted = $nitis->every(function ($niti) {
                 return in_array($niti->niti_status, ['Completed', 'NotStarted']);
             });
 
             if (!$allDoneOrNotStarted) {
-                // ✅ This is the first day with active/incomplete Nitis
                 $nitiList = $nitis->map(function ($niti) {
                     return [
-                        'niti_id'     => $niti->niti_id,
-                        'odia_niti_name'   => $niti->odia_niti_name ?? null,
-                        'english_niti_name'   => $niti->english_niti_name ?? null,
-                        'niti_type'   => $niti->niti_type,
-                        'niti_status' => $niti->niti_status,
-                        'start_time'  => $niti->start_time,
-                        'end_time'    => $niti->end_time,
-                        'date'        => $niti->date,
+                        'niti_id'            => $niti->niti_id,
+                        'odia_niti_name'     => $niti->odia_niti_name ?? null,
+                        'english_niti_name'  => $niti->english_niti_name ?? null,
+                        'niti_type'          => $niti->niti_type,
+                        'niti_status'        => $niti->niti_status,
+                        'start_time'         => $niti->start_time,
+                        'end_time'           => $niti->end_time,
+                        'date'               => $niti->date,
+                        'order_id'           => $niti->order_id,
                     ];
                 });
 
@@ -61,7 +61,6 @@ class RathaYatraApiController extends Controller
             }
         }
 
-        // ✅ If all days have only Completed or NotStarted Nitis
         return response()->json([
             'status' => true,
             'message' => 'No running or active Nitis found. All days are either Completed or NotStarted.',
@@ -383,5 +382,159 @@ public function markNitiAsNotStarted(Request $request)
         ]
     ], 200);
 }
+
+public function storeOtherNiti(Request $request)
+{
+    try {
+        $now = Carbon::now('Asia/Kolkata');
+        $user = Auth::guard('niti_admin')->user();
+
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Unauthorized. Please login as Sebak.',
+            ], 401);
+        }
+
+        // ✅ Determine running day_id
+        $dayIds = RathaYatraNiti::where('status', 'active')
+            ->select('day_id')
+            ->distinct()
+            ->orderByRaw("CAST(SUBSTRING(day_id, 5) AS UNSIGNED)")
+            ->pluck('day_id');
+
+        $runningDayId = null;
+
+        foreach ($dayIds as $dayId) {
+            $nitis = RathaYatraNiti::where('day_id', $dayId)
+                ->where('status', 'active')
+                ->get();
+
+            $hasRunning = $nitis->contains(function ($niti) {
+                return !in_array($niti->niti_status, ['Completed', 'NotStarted']);
+            });
+
+            if ($hasRunning) {
+                $runningDayId = $dayId;
+                break;
+            }
+        }
+
+        if (!$runningDayId) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No active or running Niti day found.',
+            ], 404);
+        }
+
+        // ✅ Get latest order_id under same day for Started, Completed, or NotStarted
+        $latestOrderId = RathaYatraNiti::where('day_id', $runningDayId)
+            ->whereIn('niti_status', ['Started', 'Completed', 'NotStarted'])
+            ->max('order_id');
+
+        $newOrderId = $latestOrderId ? ($latestOrderId + 0.5) : 0.5;
+
+        // ✅ Check for update
+        if ($request->filled('niti_id')) {
+            $niti = RathaYatraNiti::where('niti_id', $request->niti_id)->first();
+
+            if ($niti) {
+                $niti->update([
+                    'niti_status'    => 'Started',
+                    'day_id'         => $runningDayId,
+                    'date'           => $now->toDateString(),
+                    'start_time'     => $now->format('H:i:s'),
+                    'start_user_id'  => $user->sebak_id,
+                    'order_id'       => $newOrderId,
+                ]);
+
+                return response()->json([
+                    'status'  => true,
+                    'message' => 'Other Niti updated and started.',
+                    'data'    => $niti,
+                ], 200);
+            }
+        }
+
+        // ✅ Create new NITI ID and names with order_id
+        $baseNitiId = 'NITI' . rand(10000, 99999);
+        $nitiIdWithOrder = $baseNitiId . '-' . $newOrderId;
+        $odiaNameWithOrder = ($request->odia_niti_name ?? 'Other Niti') . " ({$newOrderId})";
+        $englishNameWithOrder = ($request->english_niti_name ?? $request->niti_name) . " ({$newOrderId})";
+
+        // ✅ Create new other Niti
+        $niti = RathaYatraNiti::create([
+            'niti_id'            => $nitiIdWithOrder,
+            'odia_niti_name'     => $odiaNameWithOrder,
+            'english_niti_name'  => $englishNameWithOrder,
+            'niti_type'          => 'other',
+            'niti_status'        => 'Started',
+            'day_id'             => $runningDayId,
+            'date'               => $now->toDateString(),
+            'start_user_id'      => $user->sebak_id,
+            'start_time'         => $now->format('H:i:s'),
+            'order_id'           => $newOrderId,
+        ]);
+
+        return response()->json([
+            'status'  => true,
+            'message' => 'Other Niti created and started.',
+            'data'    => $niti,
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status'  => false,
+            'message' => 'Failed to create/update other Niti.',
+            'error'   => $e->getMessage(),
+        ], 500);
+    }
+}
+
+public function getMahasnanaNiti()
+{
+    try {
+        $otherNitis = RathaYatraNiti::where('niti_type', 'other')
+            ->where('status', 'other')
+            ->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Mahasnana Niti list fetched successfully.',
+            'data' => $otherNitis,
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to fetch special Niti data.',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
+}
+
+public function getOtherNiti()
+{
+    try {
+        $otherNitis = RathaYatraNiti::where('niti_type', 'other')
+            ->where('status', 'active')
+            ->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Other Niti list fetched successfully.',
+            'data' => $otherNitis,
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to fetch special Niti data.',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
+}
+
+
 
 }
