@@ -534,7 +534,6 @@ public function getOtherNiti()
     }
 }
 
-
 public function resetNiti(Request $request)
 {
     try {
