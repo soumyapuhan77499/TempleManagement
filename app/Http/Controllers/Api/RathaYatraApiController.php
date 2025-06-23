@@ -427,12 +427,13 @@ public function storeOtherNiti(Request $request)
             ], 404);
         }
 
-        // ✅ Get latest order_id under same day for Started, Completed, or NotStarted
+        // ✅ Get latest order_id under same day for 'Started', 'Completed', or 'NotStarted'
         $latestOrderId = RathaYatraNiti::where('day_id', $runningDayId)
             ->whereIn('niti_status', ['Started', 'Completed', 'NotStarted'])
             ->max('order_id');
 
-        $newOrderId = $latestOrderId ? ($latestOrderId + 0.5) : 0.5;
+        // ✅ For "other" Niti, increment by 0.1 from the last one
+        $newOrderId = $latestOrderId ? round($latestOrderId + 0.1, 1) : 0.1;
 
         // ✅ Check for update
         if ($request->filled('niti_id')) {
@@ -457,8 +458,8 @@ public function storeOtherNiti(Request $request)
         }
 
         // ✅ Create new NITI ID and names with order_id
-        $baseNitiId = 'NITI' . rand(10000, 99999);
-        $nitiIdWithOrder = $baseNitiId . '-' . $newOrderId;
+        $baseNitiId = 'NITIDAY' . rand(10, 99);
+        $nitiIdWithOrder = $baseNitiId . '_' . $newOrderId;
 
         // ✅ Create new other Niti
         $niti = RathaYatraNiti::create([
@@ -488,6 +489,7 @@ public function storeOtherNiti(Request $request)
         ], 500);
     }
 }
+
 
 public function getMahasnanaNiti()
 {
