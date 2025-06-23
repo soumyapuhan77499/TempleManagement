@@ -42,7 +42,8 @@ class RathaYatraApiController extends Controller
                 $nitiList = $nitis->map(function ($niti) {
                     return [
                         'niti_id'     => $niti->niti_id,
-                        'niti_name'   => $niti->niti_name ?? null,
+                        'odia_niti_name'   => $niti->odia_niti_name ?? null,
+                        'english_niti_name'   => $niti->english_niti_name ?? null,
                         'niti_type'   => $niti->niti_type,
                         'niti_status' => $niti->niti_status,
                         'start_time'  => $niti->start_time,

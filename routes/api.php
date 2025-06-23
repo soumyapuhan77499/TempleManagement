@@ -307,17 +307,19 @@ Route::controller(TempleNitiLoginController::class)->group(function() {
 
 Route::controller(RathaYatraApiController::class)->group(function () {
 
-  Route::get('/manage-niti', 'getFirstPendingDayNitis');
-  Route::get('/completed-niti', 'completedNiti');
+      Route::get('/manage-niti', 'getFirstPendingDayNitis');
+      Route::get('/completed-niti', 'completedNiti');
 
   // Protected routes (niti_admin must be authenticated)
   Route::middleware('auth:niti_admin')->group(function () {
+
       Route::post('/start-niti', 'startNiti');
       Route::post('/stop-niti', 'stopNiti');
       Route::post('/niti/edit-start-time',  'editStartTime');
       Route::post('/niti/edit-end-time',  'editEndTime');
       Route::post('/niti/reset','resetNiti');
       Route::post('/niti/not-started', 'markNitiAsNotStarted');
+
   });
 
 });
