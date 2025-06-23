@@ -36,7 +36,7 @@ use App\Http\Controllers\Api\TempleNitiController; // Import the TempleNitiContr
 use App\Http\Controllers\Api\WebsiteBannerController;
 use App\Http\Controllers\Api\TempleInformationController;
 use App\Http\Controllers\Api\QuickServiceController;
-
+use App\Http\Controllers\Api\RathaYatraApiController;
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
