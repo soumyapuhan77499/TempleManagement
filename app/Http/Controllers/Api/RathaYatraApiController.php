@@ -19,6 +19,7 @@ class RathaYatraApiController extends Controller
  public function getFirstPendingDayNitis()
 {
     try {
+        // ✅ Get all day_ids in logical order (DAY_01, DAY_02...)
         $dayIds = RathaYatraNiti::where('status', 'active')
             ->select('day_id')
             ->distinct()
@@ -26,28 +27,18 @@ class RathaYatraApiController extends Controller
             ->pluck('day_id');
 
         foreach ($dayIds as $dayId) {
-            // ✅ Fetch all Nitis for this day
+            // ✅ Fetch all Nitis under this day
             $nitis = RathaYatraNiti::where('day_id', $dayId)
                 ->where('status', 'active')
                 ->get();
 
-            // ❌ If any Niti is "Upcoming", do NOT return this day
-            $hasUpcoming = $nitis->contains(function ($niti) {
-                return $niti->niti_status === 'Upcoming';
-            });
-
-            if ($hasUpcoming) {
-                // Skip this day completely
-                continue;
-            }
-
-            // ✅ Check if all are NotStarted or Completed
+            // ✅ Check: if all Nitis are either 'Completed' or 'NotStarted', then skip
             $allDoneOrNotStarted = $nitis->every(function ($niti) {
                 return in_array($niti->niti_status, ['Completed', 'NotStarted']);
             });
 
             if (!$allDoneOrNotStarted) {
-                // ✅ This day has some active/running Nitis and no Upcoming ones
+                // ✅ This is the first day with active/incomplete Nitis
                 $nitiList = $nitis->map(function ($niti) {
                     return [
                         'niti_id'     => $niti->niti_id,
@@ -62,17 +53,17 @@ class RathaYatraApiController extends Controller
 
                 return response()->json([
                     'status'  => true,
-                    'message' => "Showing Nitis for $dayId (first active day without 'Upcoming' status).",
+                    'message' => "Showing Nitis for $dayId (first day with active or running tasks).",
                     'day_id'  => $dayId,
                     'data'    => $nitiList,
                 ], 200);
             }
         }
 
-        // ✅ All Nitis are either Completed, NotStarted, or Upcoming
+        // ✅ If all days have only Completed or NotStarted Nitis
         return response()->json([
             'status' => true,
-            'message' => 'No eligible Nitis found. All days are either Completed, NotStarted, or Upcoming.',
+            'message' => 'No running or active Nitis found. All days are either Completed or NotStarted.',
             'data' => [],
         ], 200);
 
@@ -85,8 +76,7 @@ class RathaYatraApiController extends Controller
             'error' => $e->getMessage(),
         ], 500);
     }
-}
-
+}  
 public function startNiti(Request $request)
 {
     try {
