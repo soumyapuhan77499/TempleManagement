@@ -77,14 +77,10 @@ class RathaYatraApiController extends Controller
     }
 }
 
-
 public function startNiti(Request $request)
 {
     try {
-        $request->validate([
-            'niti_id' => 'required|string|exists:temple__niti_details,niti_id',
-        ]);
-
+      
         // ✅ Get authenticated user
         $user = Auth::guard('niti_admin')->user();
         if (!$user) {
@@ -138,13 +134,10 @@ public function startNiti(Request $request)
         ], 500);
     }
 }
+
 public function stopNiti(Request $request)
 {
     try {
-        $request->validate([
-            'niti_id' => 'required|string|exists:temple__niti_details,niti_id',
-        ]);
-
         // ✅ Get authenticated user
         $user = Auth::guard('niti_admin')->user();
 
@@ -192,6 +185,7 @@ public function stopNiti(Request $request)
         ], 500);
     }
 }
+
 public function completedNiti()
 {
     try {
