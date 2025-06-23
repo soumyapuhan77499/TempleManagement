@@ -490,7 +490,6 @@ public function storeOtherNiti(Request $request)
     }
 }
 
-
 public function getMahasnanaNiti()
 {
     try {
@@ -536,5 +535,61 @@ public function getOtherNiti()
 }
 
 
+public function resetNiti(Request $request)
+{
+    try {
+        $request->validate([
+            'niti_id' => 'required|string|exists:ratha__yatra_niti_details,niti_id',
+        ]);
+
+        $user = Auth::guard('niti_admin')->user();
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Unauthorized access.'
+            ], 401);
+        }
+
+        $niti = RathaYatraNiti::where('niti_id', $request->niti_id)
+            ->first();
+
+        if (!$niti) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Niti not found.'
+            ], 404);
+        }
+
+        if ($niti->niti_status !== 'Started') {
+            return response()->json([
+                'status' => false,
+                'message' => 'Only Nitis in "Started" status can be reset.'
+            ], 400);
+        }
+
+        $niti->update([
+            'niti_status' => 'Upcoming',
+            'start_time'  => null,
+            'end_time'    => null,
+            'start_user_id' => null,
+            'end_user_id'   => null,
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Niti has been reset to Upcoming successfully.',
+            'data' => $niti
+        ], 200);
+
+    } catch (\Exception $e) {
+        Log::error('Error in resetNiti: ' . $e->getMessage());
+
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to reset Niti.',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
 
 }
