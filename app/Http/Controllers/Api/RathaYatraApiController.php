@@ -459,14 +459,12 @@ public function storeOtherNiti(Request $request)
         // ✅ Create new NITI ID and names with order_id
         $baseNitiId = 'NITI' . rand(10000, 99999);
         $nitiIdWithOrder = $baseNitiId . '-' . $newOrderId;
-        $odiaNameWithOrder = ($request->odia_niti_name ?? 'Other Niti') . " ({$newOrderId})";
-        $englishNameWithOrder = ($request->english_niti_name ?? $request->niti_name) . " ({$newOrderId})";
 
         // ✅ Create new other Niti
         $niti = RathaYatraNiti::create([
             'niti_id'            => $nitiIdWithOrder,
-            'odia_niti_name'     => $odiaNameWithOrder,
-            'english_niti_name'  => $englishNameWithOrder,
+            'odia_niti_name'     => $request->odia_niti_name,
+            'english_niti_name'  => $request->english_niti_name,
             'niti_type'          => 'other',
             'niti_status'        => 'Started',
             'day_id'             => $runningDayId,

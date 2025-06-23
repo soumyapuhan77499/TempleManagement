@@ -13,6 +13,7 @@ class RathaYatraNiti extends Model
 
     protected $fillable = [
         'niti_id',
+        'order_id',
         'day_id',
         'odia_niti_name',
         'english_niti_name',
