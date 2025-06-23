@@ -284,7 +284,7 @@ public function editStartTime(Request $request)
         return response()->json([
             'status' => false,
             'message' => 'Niti record not found.'
-        ], 404);
+        ], 500);
     }
 
     $niti->start_time = $request->start_time;
@@ -318,7 +318,7 @@ public function editEndTime(Request $request)
         return response()->json([
             'status' => false,
             'message' => 'Niti record not found.'
-        ], 404);
+        ], 500);
     }
 
     $niti->end_time = $request->end_time;
@@ -329,6 +329,57 @@ public function editEndTime(Request $request)
         'status' => true,
         'message' => 'End time updated successfully.',
         'data' => $niti
+    ], 200);
+}
+
+public function markNitiAsNotStarted(Request $request)
+{
+
+    $user = Auth::guard('niti_admin')->user();
+    if (!$user) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Unauthorized access.'
+        ], 401);
+    }
+
+    $niti = RathaYatraNiti::where('niti_id', $request->niti_id)->latest('id')->first();
+
+    if (!$niti || !$niti->day_id) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Niti not found or day_id missing.'
+        ], 404);
+    }
+
+    if ($niti->niti_status !== 'Upcoming') {
+        return response()->json([
+            'status' => false,
+            'message' => 'Only Upcoming Nitis can be marked as Not Started.'
+        ], 400);
+    }
+
+    $now = Carbon::now('Asia/Kolkata');
+
+    // ✅ Update fields directly
+    $niti->update([
+        'niti_status'           => 'NotStarted',
+        'not_done_user_id'      => $user->sebak_id,
+        'niti_not_done_reason'  => $request->niti_not_done_reason,
+        'start_time'            => $now->format('H:i:s'),
+        'end_time'              => $now->format('H:i:s'),
+        'date'                  => $now->toDateString(),
+    ]);
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Niti marked as Not Started.',
+        'data' => [
+            'niti_id' => $niti->niti_id,
+            'day_id'  => $niti->day_id,
+            'reason'  => $request->niti_not_done_reason,
+            'entry_id' => $niti->id,
+        ]
     ], 200);
 }
 
