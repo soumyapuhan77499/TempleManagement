@@ -744,7 +744,7 @@ public function completedNiti()
             ->whereIn('niti_status', ['Completed', 'NotStarted'])
             ->where('day_id', $dayId)
             ->orderByRaw("CASE WHEN niti_status = 'Started' THEN id ELSE NULL END ASC")
-            ->orderByRaw("CASE WHEN niti_status = 'Completed' THEN order_id ELSE NULL END ASC")
+            ->orderByRaw('date asc, end_time asc')
             ->get()
             ->map(function ($item) {
                 return [

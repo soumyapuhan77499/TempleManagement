@@ -262,47 +262,64 @@ Route::controller(TempleNitiLoginController::class)->group(function() {
   Route::post('admin/logout', 'logout')->middleware('auth:sanctum');
 });
 
-Route::controller(TempleNitiController::class)->group(function () {
+// Route::controller(TempleNitiController::class)->group(function () {
 
-  // Public or generic route (no auth)
-  Route::get('/manage-niti', 'manageNiti');
+//   // Public or generic route (no auth)
+//   Route::get('/manage-niti', 'manageNiti');
+//   Route::get('/completed-niti', 'completedNiti');
+//   Route::get('/get-mahasnana-niti', 'getMahasnanaNiti');
+//   Route::get('/get-other-niti', 'getOtherNiti');
+//   Route::post('/save-other-niti', 'storeOtherNiti');
+//   Route::post('/update-upcoming', 'updateActiveNitiToUpcoming');
+//   Route::get('/sub-niti/running','getRunningSubNitis');
+//   Route::post('/store-other-niti', 'storeTextOtherNiti');
+//   Route::post('/niti/delete-other/{id}', 'deleteOtherNiti');
+//   Route::get('/latest-apk', 'latestApk');
+
+//   // Protected routes (niti_admin must be authenticated)
+//   Route::middleware('auth:niti_admin')->group(function () {
+//       Route::post('/start-niti', 'startNiti');
+//       Route::post('/pause-niti', 'pauseNiti');
+//       Route::post('/resume-niti', 'resumeNiti');
+//       Route::post('/stop-niti', 'stopNiti');
+//       Route::post('/sub-niti/add', 'addAndStartSubNiti');
+//       Route::post('/update-sub-niti-name/{id}', 'updateSubNitiName');
+//       Route::delete('/delete-sub-niti/{id}','softDeleteSubNiti');
+//       Route::post('/niti/delete-other/{id}', 'deleteOtherNiti');
+//       Route::post('/niti/edit-start-time',  'editStartTime');
+//       Route::post('/niti/edit-end-time',  'editEndTime');
+//       Route::post('/niti/reset','resetNiti');
+//       Route::post('/niti/not-started', 'markNitiAsNotStarted');
+//   });
+
+//   Route::post('/save-temple-news', 'storeByNoticeName');
+//   Route::get('/latest-temple-notice','getLatestNotice');
+//   Route::post('/save-hundi-collection', 'saveHundi');
+//   Route::get('/get-hundi-collections', 'getHundi');
+//   Route::post('/hundi/delete/{id}',  'deleteHundi');
+//   Route::post('/notice/update-name', 'updateNoticeName');
+//   Route::post('/hundi/update',  'updateHundiCollection');
+//   Route::post('/temple-notice/delete/{id}',  'deleteNotice');
+//   Route::post('/niti-information', 'addNitiInformation');
+//   Route::post('/niti-information/{id}', 'deleteNitiInformation');
+//   Route::get('/darshan/started-data',  'getStartedDarshanData');
+// });
+
+Route::controller(RathaYatraApiController::class)->group(function () {
+
+  Route::get('/manage-niti', 'getFirstPendingDayNitis');
   Route::get('/completed-niti', 'completedNiti');
-  Route::get('/get-mahasnana-niti', 'getMahasnanaNiti');
-  Route::get('/get-other-niti', 'getOtherNiti');
-  Route::post('/save-other-niti', 'storeOtherNiti');
-  Route::post('/update-upcoming', 'updateActiveNitiToUpcoming');
-  Route::get('/sub-niti/running','getRunningSubNitis');
-  Route::post('/store-other-niti', 'storeTextOtherNiti');
-  Route::post('/niti/delete-other/{id}', 'deleteOtherNiti');
-  Route::get('/latest-apk', 'latestApk');
 
   // Protected routes (niti_admin must be authenticated)
   Route::middleware('auth:niti_admin')->group(function () {
       Route::post('/start-niti', 'startNiti');
-      Route::post('/pause-niti', 'pauseNiti');
-      Route::post('/resume-niti', 'resumeNiti');
       Route::post('/stop-niti', 'stopNiti');
-      Route::post('/sub-niti/add', 'addAndStartSubNiti');
-      Route::post('/update-sub-niti-name/{id}', 'updateSubNitiName');
-      Route::delete('/delete-sub-niti/{id}','softDeleteSubNiti');
-      Route::post('/niti/delete-other/{id}', 'deleteOtherNiti');
       Route::post('/niti/edit-start-time',  'editStartTime');
       Route::post('/niti/edit-end-time',  'editEndTime');
       Route::post('/niti/reset','resetNiti');
       Route::post('/niti/not-started', 'markNitiAsNotStarted');
   });
 
-  Route::post('/save-temple-news', 'storeByNoticeName');
-  Route::get('/latest-temple-notice','getLatestNotice');
-  Route::post('/save-hundi-collection', 'saveHundi');
-  Route::get('/get-hundi-collections', 'getHundi');
-  Route::post('/hundi/delete/{id}',  'deleteHundi');
-  Route::post('/notice/update-name', 'updateNoticeName');
-  Route::post('/hundi/update',  'updateHundiCollection');
-  Route::post('/temple-notice/delete/{id}',  'deleteNotice');
-  Route::post('/niti-information', 'addNitiInformation');
-  Route::post('/niti-information/{id}', 'deleteNitiInformation');
-  Route::get('/darshan/started-data',  'getStartedDarshanData');
 });
 
 Route::controller(TempleDarshanController::class)->group(function () {
