@@ -15,7 +15,7 @@ class RathaYatraNiti extends Model
         'niti_id',
         'order_id',
         'day_id',
-        'odia_niti_name',
+        'niti_name',
         'english_niti_name',
         'date',
         'niti_type',
@@ -23,10 +23,11 @@ class RathaYatraNiti extends Model
         'end_time',
         'start_user_id',
         'end_user_id',
-        'start_time_edit_user_id',           
-        'end_time_edit_user_id',           
+        'start_time_edit_user_id',
+        'end_time_edit_user_id',
         'niti_not_done_reason',
-        'not_done_user_id',           
+        'not_done_user_id',
+        'connected_mahaprasad_id',
         'niti_status',
     ];
 }

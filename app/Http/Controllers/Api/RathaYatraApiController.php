@@ -41,7 +41,7 @@ public function getFirstPendingDayNitis()
                 $nitiList = $nitis->map(function ($niti) {
                     return [
                         'niti_id'            => $niti->niti_id,
-                        'odia_niti_name'     => $niti->odia_niti_name ?? null,
+                        'niti_name'     => $niti->niti_name ?? null,
                         'english_niti_name'  => $niti->english_niti_name ?? null,
                         'niti_type'          => $niti->niti_type,
                         'niti_status'        => $niti->niti_status,
@@ -170,6 +170,22 @@ public function stopNiti(Request $request)
             'niti_status'  => 'Completed',
         ]);
 
+          $prasadLog = null;
+        if ($activeNiti->connected_mahaprasad_id) {
+
+            $existingPrasad = PrasadManagement::where('prasad_status', 'Started')
+                ->latest()
+                ->first();
+
+            if ($existingPrasad) {
+                $existingPrasad->update(['prasad_status' => 'Completed']);
+                TemplePrasad::where('id', $existingPrasad->prasad_id)->update(['prasad_status' => 'Completed']);
+            }
+
+            TemplePrasad::where('id', $nitiMaster->connected_mahaprasad_id)
+                ->update(['prasad_status' => 'Started']);
+        }
+
         return response()->json([
             'status' => true,
             'message' => 'Niti stopped successfully.',
@@ -211,7 +227,7 @@ public function completedNiti()
                 return [
                     'id'                       => $entry->id,
                     'niti_id'                  => $entry->niti_id,
-                    'odia_niti_name'           => optional($entry->master)->niti_name,
+                    'niti_name'           => optional($entry->master)->niti_name,
                     'date'                     => $entry->date,
                     'start_time'               => $entry->start_time,
                     'end_time'                 => null,
@@ -233,7 +249,7 @@ public function completedNiti()
                 return [
                     'id'                       => $entry->id,
                     'niti_id'                  => $entry->niti_id,
-                    'odia_niti_name'           => optional($entry->master)->niti_name,
+                    'niti_name'           => optional($entry->master)->niti_name,
                     'date'                     => $entry->date,
                     'start_time'               => $entry->start_time,
                     'end_time'                 => $entry->end_time,
@@ -464,7 +480,7 @@ public function storeOtherNiti(Request $request)
         // ✅ Create new other Niti
         $niti = RathaYatraNiti::create([
             'niti_id'            => $nitiIdWithOrder,
-            'odia_niti_name'     => $request->odia_niti_name,
+            'niti_name'     => $request->niti_name,
             'english_niti_name'  => $request->english_niti_name,
             'niti_type'          => 'other',
             'niti_status'        => 'Started',

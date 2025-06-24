@@ -254,7 +254,7 @@ class WebsiteBannerController extends Controller
                 $mergedNitiList = $nitis->map(function ($niti) {
                     return [
                         'niti_id'            => $niti->niti_id,
-                        'odia_niti_name'     => $niti->odia_niti_name ?? null,
+                        'niti_name'     => $niti->niti_name ?? null,
                         'english_niti_name'  => $niti->english_niti_name ?? null,
                         'niti_type'          => $niti->niti_type,
                         'niti_status'        => $niti->niti_status,
