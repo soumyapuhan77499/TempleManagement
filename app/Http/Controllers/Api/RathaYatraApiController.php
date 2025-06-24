@@ -19,12 +19,21 @@ class RathaYatraApiController extends Controller
 public function getFirstPendingDayNitis()
 {
     try {
-        // ✅ Get all day_ids in logical order (DAY_01, DAY_02...)
-        $dayIds = RathaYatraNiti::where('status', 'active')
-            ->select('day_id')
-            ->distinct()
-            ->orderByRaw("CAST(SUBSTRING(day_id, 5) AS UNSIGNED)")
-            ->pluck('day_id');
+       $customDayOrder = [
+    'DAY_26', 'DAY_27', 'DAY_28', 'DAY_29', 'DAY_30',
+    'DAY_01', 'DAY_02', 'DAY_03', 'DAY_04', 'DAY_05', 'DAY_06', 'DAY_07','DAY_08'
+];
+
+// Get all distinct active day_ids
+$dayIds = RathaYatraNiti::where('status', 'active')
+    ->select('day_id')
+    ->distinct()
+    ->pluck('day_id')
+    ->filter(fn($id) => in_array($id, $customDayOrder))
+    ->sortBy(function ($dayId) use ($customDayOrder) {
+        return array_search($dayId, $customDayOrder);
+    })
+    ->values(); // Reset indexes
 
         foreach ($dayIds as $dayId) {
             // ✅ Fetch all Nitis under this day, ordered by order_id
@@ -211,7 +220,6 @@ public function stopNiti(Request $request)
         ], 500);
     }
 }
-
 
 public function completedNiti()
 {

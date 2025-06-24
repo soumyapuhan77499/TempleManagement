@@ -302,7 +302,7 @@ class QuickServiceController extends Controller
     //         ], 500);
     //     }
     // }
-    
+
 public function getTemplePrasadList()
 {
     try {
@@ -341,7 +341,6 @@ public function getTemplePrasadList()
         ], 500);
     }
 }
-
 
     public function getPanji($language, $date)
     {
