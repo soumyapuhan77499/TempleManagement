@@ -247,61 +247,101 @@ class QuickServiceController extends Controller
         }
     }
 
-    public function getTemplePrasadList()
-    {
-        try {
-            $nitiMaster = NitiMaster::where('status', 'active')->latest()->first();
+    // public function getTemplePrasadList()
+    // {
+    //     try {
+    //         $nitiMaster = NitiMaster::where('status', 'active')->latest()->first();
 
-            if (!$nitiMaster || !$nitiMaster->day_id) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Niti not found or day_id missing.'
-                ], 404);
-            }
+    //         if (!$nitiMaster || !$nitiMaster->day_id) {
+    //             return response()->json([
+    //                 'status' => false,
+    //                 'message' => 'Niti not found or day_id missing.'
+    //             ], 404);
+    //         }
 
-            $dayId = $nitiMaster->day_id;
-            // Step 1: Get all Prasad master records
-            $prasads = TemplePrasad::where('language','Odia')->get();
+    //         $dayId = $nitiMaster->day_id;
+    //         // Step 1: Get all Prasad master records
+    //         $prasads = TemplePrasad::where('language','Odia')->get();
 
-            // Step 2: Attach today's PrasadManagement data
-            $prasadList = $prasads->map(function ($prasad) use ($dayId) {
-                $todayLog = PrasadManagement::where('prasad_id', $prasad->id)
-                ->where('day_id', $dayId)
-                ->latest()
+    //         // Step 2: Attach today's PrasadManagement data
+    //         $prasadList = $prasads->map(function ($prasad) use ($dayId) {
+    //             $todayLog = PrasadManagement::where('prasad_id', $prasad->id)
+    //             ->where('day_id', $dayId)
+    //             ->latest()
+    //             ->first();
+
+    //             return [
+    //                 'prasad_id'     => $prasad->id,
+    //                 'prasad_name'   => $prasad->prasad_name,
+    //                 'english_prasad_name'   => $prasad->english_prasad_name,
+    //                 'prasad_type'   => $prasad->prasad_type,
+    //                 'prasad_photo'  => $prasad->prasad_photo,
+    //                 'prasad_item'   => $prasad->prasad_item,
+    //                 'description'   => $prasad->description,
+    //                 'online_order'  => $prasad->online_order,
+    //                 'pre_order'     => $prasad->pre_order,
+    //                 'offline_order' => $prasad->offline_order,
+    //                 'master_prasad_status' => $prasad->prasad_status,
+    //                 'today_status'  => $prasad->prasad_status ?? null,
+    //                 'start_time'    => $todayLog->start_time ?? null,
+    //                 'date'          => $todayLog->date ?? null,
+    //             ];
+    //         });
+
+    //         return response()->json([
+    //             'status' => true,
+    //             'message' => 'Filtered Prasad list fetched successfully.',
+    //             'data' => $prasadList
+    //         ], 200);
+
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             'status' => false,
+    //             'message' => 'Failed to fetch prasad list.',
+    //             'error' => $e->getMessage()
+    //         ], 500);
+    //     }
+    // }
+    
+public function getTemplePrasadList()
+{
+    try {
+        // Step 1: Get all Prasad master records in Odia
+        $prasads = TemplePrasad::where('language', 'Odia')->get();
+
+        // Step 2: Attach latest PrasadManagement log (if exists)
+        $prasadList = $prasads->map(function ($prasad) {
+            $latestLog = PrasadManagement::where('prasad_id', $prasad->id)
+                ->latest('id')
                 ->first();
 
-                return [
-                    'prasad_id'     => $prasad->id,
-                    'prasad_name'   => $prasad->prasad_name,
-                    'english_prasad_name'   => $prasad->english_prasad_name,
-                    'prasad_type'   => $prasad->prasad_type,
-                    'prasad_photo'  => $prasad->prasad_photo,
-                    'prasad_item'   => $prasad->prasad_item,
-                    'description'   => $prasad->description,
-                    'online_order'  => $prasad->online_order,
-                    'pre_order'     => $prasad->pre_order,
-                    'offline_order' => $prasad->offline_order,
-                    'master_prasad_status' => $prasad->prasad_status,
-                    'today_status'  => $prasad->prasad_status ?? null,
-                    'start_time'    => $todayLog->start_time ?? null,
-                    'date'          => $todayLog->date ?? null,
-                ];
-            });
+            return [
+                'prasad_id'             => $prasad->id,
+                'prasad_name'           => $prasad->prasad_name,
+                'english_prasad_name'   => $prasad->english_prasad_name,
+                'description'           => $prasad->description,
+                'master_prasad_status'  => $prasad->prasad_status,
+                'today_status'          => $latestLog->prasad_status ?? null,
+                'start_time'            => $latestLog->start_time ?? null,
+                'date'                  => $latestLog->date ?? null,
+            ];
+        });
 
-            return response()->json([
-                'status' => true,
-                'message' => 'Filtered Prasad list fetched successfully.',
-                'data' => $prasadList
-            ], 200);
+        return response()->json([
+            'status' => true,
+            'message' => 'Filtered Prasad list fetched successfully.',
+            'data' => $prasadList
+        ], 200);
 
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Failed to fetch prasad list.',
-                'error' => $e->getMessage()
-            ], 500);
-        }
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to fetch prasad list.',
+            'error' => $e->getMessage()
+        ], 500);
     }
+}
+
 
     public function getPanji($language, $date)
     {

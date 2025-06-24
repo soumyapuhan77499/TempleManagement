@@ -5,7 +5,6 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\RathaYatraNiti;
-use App\Models\PrasadManagement;
 use App\Models\TemplePrasad;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -148,7 +147,6 @@ public function stopNiti(Request $request)
 
         // ✅ Get authenticated user
         $user = Auth::guard('niti_admin')->user();
-
         if (!$user) {
             return response()->json([
                 'status' => false,
@@ -160,7 +158,6 @@ public function stopNiti(Request $request)
 
         // ✅ Fetch the active Niti
         $activeNiti = RathaYatraNiti::where('niti_id', $request->niti_id)->first();
-
         if (!$activeNiti) {
             return response()->json([
                 'status' => false,
@@ -175,18 +172,27 @@ public function stopNiti(Request $request)
             'niti_status' => 'Completed',
         ]);
 
-        // ✅ Handle Mahaprasad connection logic
+        // ✅ Handle Mahaprasad if linked
         if ($activeNiti->connected_mahaprasad_id) {
-            // Mark any other active prasad entries as completed
+
+            // ✅ Mark other active prasad entries as completed
             TemplePrasad::where('prasad_status', 'Started')->update([
                 'prasad_status' => 'Completed'
             ]);
 
-            // Start the connected Mahaprasad
+            // ✅ Start the connected Mahaprasad
             TemplePrasad::where('id', $activeNiti->connected_mahaprasad_id)
-                ->update([
-                    'prasad_status' => 'Started'
-                ]);
+                ->update(['prasad_status' => 'Started']);
+
+            // ✅ Log the Mahaprasad entry into PrasadManagement
+            PrasadManagement::create([
+                'prasad_id'     => $activeNiti->connected_mahaprasad_id,
+                'sebak_id'      => $user->sebak_id,
+                'day_id'        => $activeNiti->day_id,
+                'date'          => $now->toDateString(),
+                'start_time'    => $now->format('H:i:s'),
+                'prasad_status' => 'Started',
+            ]);
         }
 
         return response()->json([
@@ -205,6 +211,7 @@ public function stopNiti(Request $request)
         ], 500);
     }
 }
+
 
 public function completedNiti()
 {
