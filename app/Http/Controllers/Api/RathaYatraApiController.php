@@ -5,6 +5,8 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\RathaYatraNiti;
+use App\Models\PrasadManagement;
+use App\Models\TemplePrasad;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
@@ -139,6 +141,11 @@ public function startNiti(Request $request)
 public function stopNiti(Request $request)
 {
     try {
+        // ✅ Validate input
+        $request->validate([
+            'niti_id' => 'required|string|exists:ratha__yatra_niti_details,niti_id',
+        ]);
+
         // ✅ Get authenticated user
         $user = Auth::guard('niti_admin')->user();
 
@@ -149,41 +156,37 @@ public function stopNiti(Request $request)
             ], 401);
         }
 
-        $tz = 'Asia/Kolkata';
-        $now = Carbon::now($tz);
+        $now = Carbon::now('Asia/Kolkata');
 
-        // ✅ Fetch the active Niti by niti_id and its current day_id
-        $activeNiti = RathaYatraNiti::where('niti_id', $request->niti_id)
-        ->first();
+        // ✅ Fetch the active Niti
+        $activeNiti = RathaYatraNiti::where('niti_id', $request->niti_id)->first();
 
         if (!$activeNiti) {
             return response()->json([
                 'status' => false,
-                'message' => 'Active Niti not found for today with the given Niti ID.',
+                'message' => 'Active Niti not found with the given Niti ID.',
             ], 404);
         }
 
-        // ✅ Update the Niti record
+        // ✅ Update Niti as Completed
         $activeNiti->update([
-            'end_user_id'  => $user->sebak_id,
-            'end_time'     => $now->format('H:i:s'),
-            'niti_status'  => 'Completed',
+            'end_user_id' => $user->sebak_id,
+            'end_time'    => $now->format('H:i:s'),
+            'niti_status' => 'Completed',
         ]);
 
-          $prasadLog = null;
+        // ✅ Handle Mahaprasad connection logic
         if ($activeNiti->connected_mahaprasad_id) {
+            // Mark any other active prasad entries as completed
+            TemplePrasad::where('prasad_status', 'Started')->update([
+                'prasad_status' => 'Completed'
+            ]);
 
-            $existingPrasad = PrasadManagement::where('prasad_status', 'Started')
-                ->latest()
-                ->first();
-
-            if ($existingPrasad) {
-                $existingPrasad->update(['prasad_status' => 'Completed']);
-                TemplePrasad::where('id', $existingPrasad->prasad_id)->update(['prasad_status' => 'Completed']);
-            }
-
-            TemplePrasad::where('id', $nitiMaster->connected_mahaprasad_id)
-                ->update(['prasad_status' => 'Started']);
+            // Start the connected Mahaprasad
+            TemplePrasad::where('id', $activeNiti->connected_mahaprasad_id)
+                ->update([
+                    'prasad_status' => 'Started'
+                ]);
         }
 
         return response()->json([
