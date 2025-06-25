@@ -329,12 +329,9 @@ public function editStartTime(Request $request)
         'data' => $niti
     ], 200);
 }
+
 public function editEndTime(Request $request)
 {
-    $request->validate([
-        'niti_management_id' => 'required|integer|exists:ratha__yatra_niti_details,id',
-        'end_time' => 'required|date_format:H:i:s',
-    ]);
 
     $user = Auth::guard('niti_admin')->user();
 
