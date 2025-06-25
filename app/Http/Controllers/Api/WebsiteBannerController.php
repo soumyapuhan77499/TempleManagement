@@ -253,7 +253,7 @@ class WebsiteBannerController extends Controller
                 $runningDayId = $dayId;
 
                 // ✅ Fetch only those Nitis for this running day, skip NotStarted ones
-          $nitis = RathaYatraNiti::where('day_id', $runningDayId)
+         $nitis = RathaYatraNiti::where('day_id', $runningDayId)
     ->whereIn('niti_status', ['Started', 'Completed', 'Upcoming']) // Exclude NotStarted
     ->where(function ($query) {
         $query->where('niti_status', '!=', 'Upcoming')
@@ -274,10 +274,12 @@ class WebsiteBannerController extends Controller
         CASE 
             WHEN niti_status = 'Started' THEN TIME_TO_SEC(start_time)
             WHEN niti_status = 'Completed' THEN TIME_TO_SEC(end_time)
+            WHEN niti_status = 'Upcoming' THEN order_id
             ELSE NULL
         END ASC
     ")
     ->get();
+
 
 
 
