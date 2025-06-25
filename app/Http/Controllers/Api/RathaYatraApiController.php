@@ -271,6 +271,11 @@ public function completedNiti()
                 'end_time'          => $niti->end_time,
                 'date'              => $niti->date,
                 'order_id'          => $niti->order_id,
+                'start_user_id'            => $item->start_user_id,
+                'end_user_id'              => $item->end_user_id,
+                'start_time_edit_user_id'  => $item->start_time_edit_user_id,
+                'end_time_edit_user_id'    => $item->end_time_edit_user_id,
+                'not_done_user_id'    => $item->not_done_user_id,
             ];
         });
 
