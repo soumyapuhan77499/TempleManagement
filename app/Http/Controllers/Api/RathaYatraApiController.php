@@ -225,8 +225,10 @@ public function stopNiti(Request $request)
         // ✅ Find first day with any Niti (Started or Completed/NotStarted)
         foreach ($dayIds as $dayId) {
             $hasNiti = RathaYatraNiti::where('day_id', $dayId)
-                ->whereIn('niti_status', ['Started', 'Completed', 'NotStarted'])
-                ->exists();
+    ->whereDate('date', Carbon::today('Asia/Kolkata'))
+    ->whereIn('niti_status', ['Started', 'Completed', 'NotStarted'])
+    ->exists();
+
 
             if ($hasNiti) {
                 $runningDayId = $dayId;
