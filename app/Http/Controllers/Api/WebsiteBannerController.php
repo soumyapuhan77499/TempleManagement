@@ -264,8 +264,8 @@ class WebsiteBannerController extends Controller
                 })
                 ->orderByRaw("
                     CASE 
-                        WHEN niti_status = 'Started' THEN 1
-                        WHEN niti_status = 'Completed' THEN 2
+                        WHEN niti_status = 'Completed' THEN 1
+                        WHEN niti_status = 'Started' THEN 2
                         WHEN niti_status = 'Upcoming' THEN 3
                         ELSE 4
                     END
