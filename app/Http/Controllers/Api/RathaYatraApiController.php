@@ -253,8 +253,9 @@ public function completedNiti()
 
         // ✅ Get Completed Nitis only
         $completedNitis = RathaYatraNiti::where('day_id', $runningDayId)
-            ->where('niti_status', 'Completed')
-            ->orderBy('order_id', 'asc')
+            ->whereIn('niti_status', ['Completed', 'NotStarted'])
+            ->orderByRaw("CASE WHEN niti_status = 'Started' THEN id ELSE NULL END ASC")
+            ->orderByRaw('date asc, end_time asc')
             ->get();
 
         // ✅ Merge and map
