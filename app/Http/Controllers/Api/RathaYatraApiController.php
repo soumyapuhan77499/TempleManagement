@@ -210,72 +210,54 @@ public function stopNiti(Request $request)
         ], 500);
     }
 }
-
 public function completedNiti()
 {
     try {
-        // ✅ Fetch today's active day_id from any one active entry
-        $nitiMaster = RathaYatraNiti::where('status', 'active')->first();
+        $finalData = collect(); // Initialize collection
 
-        if (!$nitiMaster || !$nitiMaster->day_id) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Niti not found or day_id missing.'
-            ], 404);
+        // ✅ Fetch day IDs in order (DAY_01 → DAY_30 or custom logic if needed)
+        $dayIds = RathaYatraNiti::where('status', 'active')
+            ->select('day_id')
+            ->distinct()
+            ->orderByRaw("CAST(SUBSTRING(day_id, 5) AS UNSIGNED)")
+            ->pluck('day_id');
+
+        foreach ($dayIds as $dayId) {
+            // ✅ Get STARTED Nitis first
+            $startedNitis = RathaYatraNiti::where('day_id', $dayId)
+                ->where('niti_status', 'Started')
+                ->orderBy('order_id', 'asc')
+                ->get();
+
+            // ✅ Then get Completed & NotStarted Nitis
+            $otherNitis = RathaYatraNiti::where('day_id', $dayId)
+                ->whereIn('niti_status', ['Completed', 'NotStarted'])
+                ->orderBy('order_id', 'asc')
+                ->get();
+
+            // ✅ Merge and transform
+            $merged = $startedNitis->merge($otherNitis)->map(function ($niti) use ($dayId) {
+                return [
+                    'day_id'            => $dayId,
+                    'niti_id'           => $niti->niti_id,
+                    'niti_name'    => $niti->niti_name,
+                    'english_niti_name' => $niti->english_niti_name,
+                    'niti_type'         => $niti->niti_type,
+                    'niti_status'       => $niti->niti_status,
+                    'start_time'        => $niti->start_time,
+                    'end_time'          => $niti->end_time,
+                    'date'              => $niti->date,
+                    'order_id'          => $niti->order_id,
+                ];
+            });
+
+            $finalData = $finalData->merge($merged);
         }
-
-        $dayId = $nitiMaster->day_id;
-
-        // ✅ Step 1: Fetch "Started" Nitis
-        $startedEntries = RathaYatraNiti::where('day_id', $dayId)
-            ->where('niti_status', 'Started')
-            ->orderByDesc('id')
-            ->get()
-            ->map(function ($entry) {
-                return [
-                    'id'                       => $entry->id,
-                    'niti_id'                  => $entry->niti_id,
-                    'niti_name'           => optional($entry->master)->niti_name,
-                    'date'                     => $entry->date,
-                    'start_time'               => $entry->start_time,
-                    'end_time'                 => null,
-                    'niti_status'              => 'Started',
-                    'start_user_id'            => $entry->start_user_id,
-                    'end_user_id'              => $entry->end_user_id,
-                    'start_time_edit_user_id'  => $entry->start_time_edit_user_id,
-                    'end_time_edit_user_id'    => $entry->end_time_edit_user_id,
-                    'not_done_user_id'         => null,
-                ];
-            });
-
-        // ✅ Step 2: Fetch "Completed" or "NotStarted" Nitis
-        $completedEntries = RathaYatraNiti::where('day_id', $dayId)
-            ->whereIn('niti_status', ['Completed', 'NotStarted'])
-            ->get()
-            ->map(function ($entry) {
-                return [
-                    'id'                       => $entry->id,
-                    'niti_id'                  => $entry->niti_id,
-                    'niti_name'           => optional($entry->master)->niti_name,
-                    'date'                     => $entry->date,
-                    'start_time'               => $entry->start_time,
-                    'end_time'                 => $entry->end_time,
-                    'niti_status'              => $entry->niti_status,
-                    'start_user_id'            => $entry->start_user_id,
-                    'end_user_id'              => $entry->end_user_id,
-                    'start_time_edit_user_id'  => $entry->start_time_edit_user_id,
-                    'end_time_edit_user_id'    => $entry->end_time_edit_user_id,
-                    'not_done_user_id'         => $entry->not_done_user_id,
-                ];
-            });
-
-        // ✅ Merge "Started" entries after "Completed"/"NotStarted"
-        $merged = $completedEntries->merge($startedEntries)->values();
 
         return response()->json([
             'status' => true,
             'message' => 'Niti data fetched successfully.',
-            'data' => $merged,
+            'data' => $finalData->values(),
         ], 200);
 
     } catch (\Exception $e) {
