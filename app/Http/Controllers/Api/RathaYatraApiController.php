@@ -210,7 +210,9 @@ public function stopNiti(Request $request)
             'error' => $e->getMessage()
         ], 500);
     }
-}public function completedNiti()
+}
+
+public function completedNiti()
 {
     try {
         $finalData = collect();
@@ -294,15 +296,8 @@ public function stopNiti(Request $request)
     }
 }
 
-
-
 public function editStartTime(Request $request)
 {
-    $request->validate([
-        'niti_management_id' => 'required|integer|exists:ratha__yatra_niti_details,id',
-        'start_time' => 'required|date_format:H:i:s',
-    ]);
-
     $user = Auth::guard('niti_admin')->user();
     if (!$user) {
         return response()->json([
