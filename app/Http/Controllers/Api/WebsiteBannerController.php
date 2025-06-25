@@ -257,11 +257,6 @@ class WebsiteBannerController extends Controller
                     ->orderByRaw('date asc, end_time asc')
                     ->get();
 
-                $allDoneOrRunning = $nitis->every(function ($niti) {
-                    return in_array($niti->niti_status, ['Completed', 'Started']);
-                });
-
-                if (!$allDoneOrRunning) {
                     $mergedNitiList = $nitis->map(function ($niti) {
                         return [
                             'niti_id'           => $niti->niti_id,
@@ -275,7 +270,7 @@ class WebsiteBannerController extends Controller
                             'order_id'          => $niti->order_id,
                         ];
                     });
-                }
+                
 
                 break; // ✅ Process only the first valid day_id
             }
