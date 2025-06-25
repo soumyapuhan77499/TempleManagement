@@ -229,6 +229,7 @@ class WebsiteBannerController extends Controller
     //     }
     // }
 
+    
     public function manageWebsiteBanner()
 {
     try {
@@ -253,6 +254,7 @@ class WebsiteBannerController extends Controller
 
                 // ✅ Fetch only those Nitis for this running day, skip NotStarted ones
             $nitis = RathaYatraNiti::where('day_id', $runningDayId)
+                ->where('niti_status', '!=', 'NotStarted')
                 ->where(function ($query) {
                     $query->where('niti_status', '!=', 'Upcoming')
                         ->orWhere(function ($q) {
