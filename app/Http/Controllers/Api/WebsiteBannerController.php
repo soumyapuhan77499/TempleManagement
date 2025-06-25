@@ -229,7 +229,7 @@ class WebsiteBannerController extends Controller
     //     }
     // }
 
-    
+
     public function manageWebsiteBanner()
 {
     try {
@@ -254,23 +254,24 @@ class WebsiteBannerController extends Controller
 
                 // ✅ Fetch only those Nitis for this running day, skip NotStarted ones
             $nitis = RathaYatraNiti::where('day_id', $runningDayId)
-                ->where('niti_status', '!=', 'NotStarted')
-                ->where(function ($query) {
-                    $query->where('niti_status', '!=', 'Upcoming')
-                        ->orWhere(function ($q) {
-                            $q->where('niti_status', 'Upcoming')
-                                ->whereNull('end_time'); // Only include Upcoming if end_time is null
-                        });
-                })
-                ->orderBy('order_id', 'asc')
-                ->orderByRaw("
-                    CASE 
-                        WHEN niti_status = 'Started' THEN TIME_TO_SEC(start_time)
-                        WHEN niti_status = 'Completed' THEN TIME_TO_SEC(end_time)
-                        ELSE NULL
-                    END ASC
-                ")
-                ->get();
+            ->where('niti_status', '!=', 'NotStarted')
+            ->where(function ($query) {
+                $query->where('niti_status', '!=', 'Upcoming')
+                    ->orWhere(function ($q) {
+                        $q->where('niti_status', 'Upcoming')
+                            ->whereNull('end_time'); // Include only if end_time is null
+                    });
+            })
+            ->orderBy('order_id', 'asc')
+            ->orderByRaw("
+                CASE 
+                    WHEN niti_status = 'Started' THEN TIME_TO_SEC(start_time)
+                    WHEN niti_status = 'Completed' THEN TIME_TO_SEC(end_time)
+                    ELSE NULL
+                END ASC
+            ")
+            ->get();
+
 
                     $mergedNitiList = $nitis->map(function ($niti) {
                         return [
