@@ -245,7 +245,7 @@ class WebsiteBannerController extends Controller
             // ✅ Check if there's at least one Niti with today's date and required statuses
             $hasNiti = RathaYatraNiti::where('day_id', $dayId)
                 ->whereDate('date', Carbon::today('Asia/Kolkata'))
-                ->whereIn('niti_status', ['Started', 'Completed', 'NotStarted'])
+                ->whereIn('niti_status', ['Started', 'Completed', 'NotStarted','Upcoming'])
                 ->exists();
 
             if ($hasNiti) {
