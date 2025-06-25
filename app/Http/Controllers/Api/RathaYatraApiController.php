@@ -217,7 +217,8 @@ public function completedNiti()
         $finalData = collect();
 
         // ✅ Get all active day_ids in logical order
-        $dayIds = RathaYatraNiti::select('day_id')
+        $dayIds = RathaYatraNiti::where('status', 'active')
+            ->select('day_id')
             ->distinct()
             ->orderByRaw("CAST(SUBSTRING(day_id, 5) AS UNSIGNED)")
             ->pluck('day_id');
