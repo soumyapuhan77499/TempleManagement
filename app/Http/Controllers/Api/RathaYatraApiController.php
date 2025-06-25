@@ -259,7 +259,7 @@ public function stopNiti(Request $request)
             ->get();
 
         // ✅ Merge and map
-        $finalData = $startedNitis->merge($otherNitis)->map(function ($niti) use ($runningDayId) {
+        $finalData = $otherNitis->merge($startedNitis)->map(function ($niti) use ($runningDayId) {
             return [
                 'day_id'                  => $runningDayId,
                 'niti_id'                 => $niti->niti_id,
