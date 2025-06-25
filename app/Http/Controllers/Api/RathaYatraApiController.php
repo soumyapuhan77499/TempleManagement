@@ -249,8 +249,7 @@ public function completedNiti()
             });
 
         // ✅ Step 2: Fetch "Completed" or "NotStarted" Nitis
-        $completedEntries = RathaYatraNiti::with('master')
-            ->where('day_id', $dayId)
+        $completedEntries = RathaYatraNiti::where('day_id', $dayId)
             ->whereIn('niti_status', ['Completed', 'NotStarted'])
             ->get()
             ->map(function ($entry) {
