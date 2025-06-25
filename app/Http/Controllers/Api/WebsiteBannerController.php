@@ -272,7 +272,7 @@ class WebsiteBannerController extends Controller
     ")
     ->orderByRaw("
         CASE 
-            WHEN niti_status = 'Started'  THEN order_id
+            WHEN niti_status = 'Started' THEN id ELSE NULL END ASC
             WHEN niti_status = 'Completed' THEN TIME_TO_SEC(end_time)
             WHEN niti_status = 'Upcoming' THEN order_id
             ELSE NULL
