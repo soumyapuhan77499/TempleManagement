@@ -209,68 +209,77 @@ public function stopNiti(Request $request)
             'error' => $e->getMessage()
         ], 500);
     }
-}
-
-public function completedNiti()
+}public function completedNiti()
 {
     try {
         $finalData = collect();
+        $runningDayId = null;
 
-        // ✅ Get all active day_ids in logical order
+        // ✅ Get all active day_ids in correct order
         $dayIds = RathaYatraNiti::where('status', 'active')
             ->select('day_id')
             ->distinct()
             ->orderByRaw("CAST(SUBSTRING(day_id, 5) AS UNSIGNED)")
             ->pluck('day_id');
 
-          
-
-        // ✅ Find first day with at least one 'Started' Niti
+        // ✅ Find first day with any Niti (Started or Completed/NotStarted)
         foreach ($dayIds as $dayId) {
-          
-        // ✅ Get Started Nitis
-        $startedNitis = RathaYatraNiti::where('day_id', $dayId)
+            $hasNiti = RathaYatraNiti::where('day_id', $dayId)
+                ->whereIn('niti_status', ['Started', 'Completed', 'NotStarted'])
+                ->exists();
+
+            if ($hasNiti) {
+                $runningDayId = $dayId;
+                break;
+            }
+        }
+
+        if (!$runningDayId) {
+            return response()->json([
+                'status' => true,
+                'message' => 'No relevant Niti records found.',
+                'data' => [],
+            ], 200);
+        }
+
+        // ✅ Fetch Started Nitis
+        $startedNitis = RathaYatraNiti::where('day_id', $runningDayId)
             ->where('niti_status', 'Started')
             ->orderBy('order_id', 'asc')
             ->get();
 
-        // ✅ Get Completed Nitis only
-        $completedNitis = RathaYatraNiti::where('day_id', $dayId)
+        // ✅ Fetch Completed/NotStarted Nitis
+        $otherNitis = RathaYatraNiti::where('day_id', $runningDayId)
             ->whereIn('niti_status', ['Completed', 'NotStarted'])
-            ->orderByRaw("CASE WHEN niti_status = 'Started' THEN id ELSE NULL END ASC")
-            ->orderByRaw('date asc, end_time asc')
+            ->orderBy('order_id', 'asc')
+            ->orderBy('date', 'asc')
+            ->orderBy('end_time', 'asc')
             ->get();
 
-             // ✅ Merge and map
-        $finalData = $completedNitis->merge($startedNitis)->map(function ($niti) use ($dayId) {
-
+        // ✅ Merge and map
+        $finalData = $startedNitis->merge($otherNitis)->map(function ($niti) use ($runningDayId) {
             return [
-                'day_id'            => $dayId,
-                'niti_id'           => $niti->niti_id,
-                'niti_name'         => $niti->niti_name ?? null,
-                'english_niti_name' => $niti->english_niti_name ?? null,
-                'niti_type'         => $niti->niti_type,
-                'niti_status'       => $niti->niti_status,
-                'start_time'        => $niti->start_time,
-                'end_time'          => $niti->end_time,
-                'date'              => $niti->date,
-                'order_id'          => $niti->order_id,
-                'start_user_id'            => $niti->start_user_id,
-                'end_user_id'              => $niti->end_user_id,
-                'start_time_edit_user_id'  => $niti->start_time_edit_user_id,
-                'end_time_edit_user_id'    => $niti->end_time_edit_user_id,
-                'not_done_user_id'    => $niti->not_done_user_id,
+                'day_id'                  => $runningDayId,
+                'niti_id'                 => $niti->niti_id,
+                'niti_name'               => $niti->niti_name ?? null,
+                'english_niti_name'       => $niti->english_niti_name ?? null,
+                'niti_type'               => $niti->niti_type,
+                'niti_status'             => $niti->niti_status,
+                'start_time'              => $niti->start_time,
+                'end_time'                => $niti->end_time,
+                'date'                    => $niti->date,
+                'order_id'                => $niti->order_id,
+                'start_user_id'           => $niti->start_user_id,
+                'end_user_id'             => $niti->end_user_id,
+                'start_time_edit_user_id' => $niti->start_time_edit_user_id,
+                'end_time_edit_user_id'   => $niti->end_time_edit_user_id,
+                'not_done_user_id'        => $niti->not_done_user_id,
             ];
         });
 
-        }
-
-      
-       
-
         return response()->json([
             'status' => true,
-            'message' => "Showing Started and Completed Nitis for current day: $runningDayId",
+            'message' => "Showing Started, Completed and NotStarted Nitis for current day: $runningDayId.",
             'data' => $finalData->values(),
         ], 200);
 
@@ -282,6 +291,7 @@ public function completedNiti()
         ], 500);
     }
 }
+
 
 
 public function editStartTime(Request $request)
