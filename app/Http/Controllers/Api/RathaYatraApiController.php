@@ -248,13 +248,13 @@ public function completedNiti()
         // ✅ Get Started Nitis
         $startedNitis = RathaYatraNiti::where('day_id', $runningDayId)
             ->where('niti_status', 'Started')
-            ->orderBy('order_id', 'asc')
+            ->orderBy('order_id', 'desc')
             ->get();
 
         // ✅ Get Completed Nitis only
         $completedNitis = RathaYatraNiti::where('day_id', $runningDayId)
             ->where('niti_status', 'Completed')
-            ->orderBy('order_id', 'asc')
+            ->orderBy('order_id', 'desc')
             ->get();
 
         // ✅ Merge and map
