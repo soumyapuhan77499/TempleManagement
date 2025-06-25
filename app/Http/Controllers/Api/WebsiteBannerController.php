@@ -234,8 +234,7 @@ class WebsiteBannerController extends Controller
     try {
         $mergedNitiList = collect(); // Default empty
 
-        $dayIds = RathaYatraNiti::where('status', 'active')
-            ->select('day_id')
+        $dayIds = RathaYatraNiti::whereselect('day_id')
             ->distinct()
             ->orderByRaw("CAST(SUBSTRING(day_id, 5) AS UNSIGNED)")
             ->pluck('day_id');
