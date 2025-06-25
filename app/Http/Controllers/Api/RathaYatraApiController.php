@@ -29,7 +29,6 @@ public function getFirstPendingDayNitis()
         foreach ($dayIds as $dayId) {
             // ✅ Fetch all Nitis under this day, ordered by order_id
             $nitis = RathaYatraNiti::where('day_id', $dayId)
-                ->where('status', 'active')
                 ->orderBy('order_id')
                 ->get();
 
