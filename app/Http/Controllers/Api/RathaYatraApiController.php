@@ -247,14 +247,12 @@ public function completedNiti()
 
         // ✅ Get Started Nitis
         $startedNitis = RathaYatraNiti::where('day_id', $runningDayId)
-            ->where('status', 'active')
             ->where('niti_status', 'Started')
             ->orderBy('order_id', 'asc')
             ->get();
 
         // ✅ Get Completed Nitis only
         $completedNitis = RathaYatraNiti::where('day_id', $runningDayId)
-            ->where('status', 'active')
             ->where('niti_status', 'Completed')
             ->orderBy('order_id', 'asc')
             ->get();
