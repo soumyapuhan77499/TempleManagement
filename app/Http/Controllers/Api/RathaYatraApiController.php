@@ -228,7 +228,6 @@ public function completedNiti()
         // ✅ Find first day with at least one 'Started' Niti
         foreach ($dayIds as $dayId) {
             $hasStarted = RathaYatraNiti::where('day_id', $dayId)
-                ->where('status', 'active')
                 ->where('niti_status', 'Started')
                 ->exists();
 
