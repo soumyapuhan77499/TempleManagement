@@ -217,8 +217,7 @@ public function completedNiti()
         $finalData = collect();
 
         // ✅ Get all active day_ids in logical order
-        $dayIds = RathaYatraNiti::where('status', 'active')
-            ->select('day_id')
+        $dayIds = RathaYatraNiti::select('day_id')
             ->distinct()
             ->orderByRaw("CAST(SUBSTRING(day_id, 5) AS UNSIGNED)")
             ->pluck('day_id');
@@ -228,7 +227,6 @@ public function completedNiti()
         // ✅ Find first day with at least one 'Started' Niti
         foreach ($dayIds as $dayId) {
             $hasStarted = RathaYatraNiti::where('day_id', $dayId)
-                ->where('niti_status', 'Started')
                 ->exists();
 
             if ($hasStarted) {
