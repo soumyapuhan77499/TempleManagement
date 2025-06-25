@@ -213,50 +213,71 @@ public function stopNiti(Request $request)
 public function completedNiti()
 {
     try {
-        $finalData = collect(); // Initialize collection
+        $finalData = collect();
 
-        // ✅ Fetch day IDs in order (DAY_01 → DAY_30 or custom logic if needed)
+        // ✅ Get all active day_ids in logical order
         $dayIds = RathaYatraNiti::where('status', 'active')
             ->select('day_id')
             ->distinct()
             ->orderByRaw("CAST(SUBSTRING(day_id, 5) AS UNSIGNED)")
             ->pluck('day_id');
 
+        $runningDayId = null;
+
+        // ✅ Find the first day with at least one 'Started' Niti
         foreach ($dayIds as $dayId) {
-            // ✅ Get STARTED Nitis first
-            $startedNitis = RathaYatraNiti::where('day_id', $dayId)
+            $hasStarted = RathaYatraNiti::where('day_id', $dayId)
+                ->where('status', 'active')
                 ->where('niti_status', 'Started')
-                ->orderBy('order_id', 'asc')
-                ->get();
+                ->exists();
 
-            // ✅ Then get Completed & NotStarted Nitis
-            $otherNitis = RathaYatraNiti::where('day_id', $dayId)
-                ->whereIn('niti_status', ['Completed', 'NotStarted'])
-                ->orderBy('order_id', 'asc')
-                ->get();
-
-            // ✅ Merge and transform
-            $merged = $startedNitis->merge($otherNitis)->map(function ($niti) use ($dayId) {
-                return [
-                    'day_id'            => $dayId,
-                    'niti_id'           => $niti->niti_id,
-                    'niti_name'    => $niti->niti_name,
-                    'english_niti_name' => $niti->english_niti_name,
-                    'niti_type'         => $niti->niti_type,
-                    'niti_status'       => $niti->niti_status,
-                    'start_time'        => $niti->start_time,
-                    'end_time'          => $niti->end_time,
-                    'date'              => $niti->date,
-                    'order_id'          => $niti->order_id,
-                ];
-            });
-
-            $finalData = $finalData->merge($merged);
+            if ($hasStarted) {
+                $runningDayId = $dayId;
+                break;
+            }
         }
+
+        if (!$runningDayId) {
+            return response()->json([
+                'status' => true,
+                'message' => 'No currently running day found.',
+                'data' => [],
+            ], 200);
+        }
+
+        // ✅ Get Started Nitis first
+        $startedNitis = RathaYatraNiti::where('day_id', $runningDayId)
+            ->where('status', 'active')
+            ->where('niti_status', 'Started')
+            ->orderBy('order_id', 'asc')
+            ->get();
+
+        // ✅ Then get Completed and NotStarted Nitis
+        $otherNitis = RathaYatraNiti::where('day_id', $runningDayId)
+            ->where('status', 'active')
+            ->whereIn('niti_status', ['Completed', 'NotStarted'])
+            ->orderBy('order_id', 'asc')
+            ->get();
+
+        // ✅ Merge and transform
+        $finalData = $startedNitis->merge($otherNitis)->map(function ($niti) use ($runningDayId) {
+            return [
+                'day_id'            => $runningDayId,
+                'niti_id'           => $niti->niti_id,
+                'niti_name'         => $niti->niti_name,
+                'english_niti_name' => $niti->english_niti_name,
+                'niti_type'         => $niti->niti_type,
+                'niti_status'       => $niti->niti_status,
+                'start_time'        => $niti->start_time,
+                'end_time'          => $niti->end_time,
+                'date'              => $niti->date,
+                'order_id'          => $niti->order_id,
+            ];
+        });
 
         return response()->json([
             'status' => true,
-            'message' => 'Niti data fetched successfully.',
+            'message' => "Showing all Nitis for current day: $runningDayId",
             'data' => $finalData->values(),
         ], 200);
 
