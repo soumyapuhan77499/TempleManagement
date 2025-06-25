@@ -247,7 +247,7 @@ class WebsiteBannerController extends Controller
                 ->get();
 
             $allDoneOrNotStarted = $nitis->every(function ($niti) {
-                return in_array($niti->niti_status, ['Completed', 'NotStarted']);
+                return in_array($niti->niti_status, ['Completed', 'Started']);
             });
 
             if (!$allDoneOrNotStarted) {
