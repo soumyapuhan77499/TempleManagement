@@ -232,51 +232,52 @@ class WebsiteBannerController extends Controller
     public function manageWebsiteBanner()
 {
     try {
-        $mergedNitiList = collect(); // Default empty
+       $mergedNitiList = collect(); // Default empty
+        $runningDayId = null;
 
-        $dayIds = RathaYatraNiti::whereselect('day_id')
+        // ✅ Get all unique day_ids in correct order
+        $dayIds = RathaYatraNiti::select('day_id')
             ->distinct()
             ->orderByRaw("CAST(SUBSTRING(day_id, 5) AS UNSIGNED)")
             ->pluck('day_id');
 
         foreach ($dayIds as $dayId) {
-
-              foreach ($dayIds as $dayId) {
+            // ✅ Check if there's at least one Niti with today's date and required statuses
             $hasNiti = RathaYatraNiti::where('day_id', $dayId)
-            ->whereDate('date', Carbon::today('Asia/Kolkata'))
-            ->whereIn('niti_status', ['Started', 'Completed', 'NotStarted'])
-            ->exists();
+                ->whereDate('date', Carbon::today('Asia/Kolkata'))
+                ->whereIn('niti_status', ['Started', 'Completed', 'NotStarted'])
+                ->exists();
 
             if ($hasNiti) {
                 $runningDayId = $dayId;
-                break;
-            }
-        }
 
-            $nitis = RathaYatraNiti::where('day_id', $runningDayId)
-                ->orderByRaw('date asc, end_time asc')
-                ->where('niti_status', '!=', 'NotStarted')
-                ->get();
+                // ✅ Fetch only those Nitis for this running day, skip NotStarted ones
+                $nitis = RathaYatraNiti::where('day_id', $runningDayId)
+                    ->where('niti_status', '!=', 'NotStarted')
+                    ->orderByRaw('date asc, end_time asc')
+                    ->get();
 
-            $allDoneOrNotStarted = $nitis->every(function ($niti) {
-                return in_array($niti->niti_status, ['Completed', 'Started']);
-            });
-
-            if (!$allDoneOrNotStarted) {
-                $mergedNitiList = $nitis->map(function ($niti) {
-                    return [
-                        'niti_id'            => $niti->niti_id,
-                        'niti_name'     => $niti->niti_name ?? null,
-                        'english_niti_name'  => $niti->english_niti_name ?? null,
-                        'niti_type'          => $niti->niti_type,
-                        'niti_status'        => $niti->niti_status,
-                        'start_time'         => $niti->start_time,
-                        'end_time'           => $niti->end_time,
-                        'date'               => $niti->date,
-                        'order_id'           => $niti->order_id,
-                    ];
+                $allDoneOrRunning = $nitis->every(function ($niti) {
+                    return in_array($niti->niti_status, ['Completed', 'Started']);
                 });
-                break; // ✅ Only take the first running day
+
+                if (!$allDoneOrRunning) {
+                    $mergedNitiList = $nitis->map(function ($niti) {
+                        return [
+                            'niti_id'           => $niti->niti_id,
+                            'niti_name'         => $niti->niti_name ?? null,
+                            'english_niti_name' => $niti->english_niti_name ?? null,
+                            'niti_type'         => $niti->niti_type,
+                            'niti_status'       => $niti->niti_status,
+                            'start_time'        => $niti->start_time,
+                            'end_time'          => $niti->end_time,
+                            'date'              => $niti->date,
+                            'order_id'          => $niti->order_id,
+                        ];
+                    });
+                }
+
+                break; // ✅ Process only the first valid day_id
             }
         }
 
