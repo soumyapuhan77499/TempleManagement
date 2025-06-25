@@ -242,10 +242,10 @@ public function completedNiti()
             ->get();
 
              // ✅ Merge and map
-        $finalData = $completedNitis->merge($startedNitis)->map(function ($niti) use ($runningDayId) {
+        $finalData = $completedNitis->merge($startedNitis)->map(function ($niti) use ($dayId) {
 
             return [
-                'day_id'            => $runningDayId,
+                'day_id'            => $dayId,
                 'niti_id'           => $niti->niti_id,
                 'niti_name'         => $niti->niti_name ?? null,
                 'english_niti_name' => $niti->english_niti_name ?? null,
