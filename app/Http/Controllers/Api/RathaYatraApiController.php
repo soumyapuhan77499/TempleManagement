@@ -223,41 +223,25 @@ public function completedNiti()
             ->orderByRaw("CAST(SUBSTRING(day_id, 5) AS UNSIGNED)")
             ->pluck('day_id');
 
-        $runningDayId = null;
+          
 
         // ✅ Find first day with at least one 'Started' Niti
         foreach ($dayIds as $dayId) {
-            $hasStarted = RathaYatraNiti::where('day_id', $dayId)
-                ->exists();
-
-            if ($hasStarted) {
-                $runningDayId = $dayId;
-                break;
-            }
-        }
-
-        if (!$runningDayId) {
-            return response()->json([
-                'status' => true,
-                'message' => 'No currently running day found.',
-                'data' => [],
-            ], 200);
-        }
-
+          
         // ✅ Get Started Nitis
-        $startedNitis = RathaYatraNiti::where('day_id', $runningDayId)
+        $startedNitis = RathaYatraNiti::where('day_id', $dayId)
             ->where('niti_status', 'Started')
             ->orderBy('order_id', 'asc')
             ->get();
 
         // ✅ Get Completed Nitis only
-        $completedNitis = RathaYatraNiti::where('day_id', $runningDayId)
+        $completedNitis = RathaYatraNiti::where('day_id', $dayId)
             ->whereIn('niti_status', ['Completed', 'NotStarted'])
             ->orderByRaw("CASE WHEN niti_status = 'Started' THEN id ELSE NULL END ASC")
             ->orderByRaw('date asc, end_time asc')
             ->get();
 
-        // ✅ Merge and map
+             // ✅ Merge and map
         $finalData = $completedNitis->merge($startedNitis)->map(function ($niti) use ($runningDayId) {
 
             return [
@@ -278,6 +262,11 @@ public function completedNiti()
                 'not_done_user_id'    => $niti->not_done_user_id,
             ];
         });
+
+        }
+
+      
+       
 
         return response()->json([
             'status' => true,
