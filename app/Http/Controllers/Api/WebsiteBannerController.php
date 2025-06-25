@@ -241,7 +241,6 @@ class WebsiteBannerController extends Controller
 
         foreach ($dayIds as $dayId) {
             $nitis = RathaYatraNiti::where('day_id', $dayId)
-                ->orderByRaw("CASE WHEN niti_status = 'Started' THEN id ELSE NULL END ASC")
                 ->orderByRaw('date asc, end_time asc')
                 ->where('niti_status', '!=', 'NotStarted')
                 ->get();
