@@ -240,7 +240,20 @@ class WebsiteBannerController extends Controller
             ->pluck('day_id');
 
         foreach ($dayIds as $dayId) {
-            $nitis = RathaYatraNiti::where('day_id', $dayId)
+
+              foreach ($dayIds as $dayId) {
+            $hasNiti = RathaYatraNiti::where('day_id', $dayId)
+            ->whereDate('date', Carbon::today('Asia/Kolkata'))
+            ->whereIn('niti_status', ['Started', 'Completed', 'NotStarted'])
+            ->exists();
+
+            if ($hasNiti) {
+                $runningDayId = $dayId;
+                break;
+            }
+        }
+
+            $nitis = RathaYatraNiti::where('day_id', $runningDayId)
                 ->orderByRaw('date asc, end_time asc')
                 ->where('niti_status', '!=', 'NotStarted')
                 ->get();
