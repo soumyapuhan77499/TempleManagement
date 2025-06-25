@@ -253,35 +253,24 @@ class WebsiteBannerController extends Controller
                 $runningDayId = $dayId;
 
                 // ✅ Fetch only those Nitis for this running day, skip NotStarted ones
-         $nitis = RathaYatraNiti::where('day_id', $runningDayId)
-    ->whereIn('niti_status', ['Started', 'Completed', 'Upcoming']) // Exclude NotStarted
+        $nitis = RathaYatraNiti::where('day_id', $runningDayId)
+    ->whereIn('niti_status', ['Started', 'Completed', 'Upcoming'])
     ->where(function ($query) {
         $query->where('niti_status', '!=', 'Upcoming')
-            ->orWhere(function ($q) {
-                $q->where('niti_status', 'Upcoming')
-                    ->whereNull('end_time'); // Only allow Upcoming if end_time is null
-            });
+              ->orWhere(function ($q) {
+                  $q->where('niti_status', 'Upcoming')
+                    ->whereNull('end_time');
+              });
     })
     ->orderByRaw("
         CASE 
-            WHEN niti_status = 'Started' THEN 1
-            WHEN niti_status = 'Completed' THEN 2
-            WHEN niti_status = 'Upcoming' THEN 3
-            ELSE 4
-        END
-    ")
-    ->orderByRaw("
-        CASE 
-            WHEN niti_status = 'Started' THEN id ELSE NULL END ASC
+            WHEN niti_status = 'Started' THEN id
             WHEN niti_status = 'Completed' THEN TIME_TO_SEC(end_time)
-            WHEN niti_status = 'Upcoming' THEN order_id
+            WHEN niti_status = 'Upcoming' THEN order_id * 10000
             ELSE NULL
         END ASC
     ")
     ->get();
-
-
-
 
                     $mergedNitiList = $nitis->map(function ($niti) {
                         return [
