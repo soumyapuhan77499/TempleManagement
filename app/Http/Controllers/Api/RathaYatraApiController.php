@@ -299,6 +299,7 @@ public function completedNiti()
 public function editStartTime(Request $request)
 {
     $user = Auth::guard('niti_admin')->user();
+
     if (!$user) {
         return response()->json([
             'status' => false,
@@ -307,6 +308,7 @@ public function editStartTime(Request $request)
     }
 
     $niti = RathaYatraNiti::find($request->niti_management_id);
+    
     if (!$niti) {
         return response()->json([
             'status' => false,
