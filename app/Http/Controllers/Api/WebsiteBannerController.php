@@ -252,13 +252,12 @@ class WebsiteBannerController extends Controller
             if ($hasNiti) {
                 $runningDayId = $dayId;
 
-                dd($runningDayId); // Debugging line to check the running day_id
 
                 // ✅ Fetch only those Nitis for this running day, skip NotStarted ones
                 $nitis = RathaYatraNiti::where('day_id', $runningDayId)
                 ->whereIn('niti_status', ['Started', 'Completed', 'Upcoming'])
                 ->where(function ($query) {
-                    $query->where('niti_status', '!=', 'Upcoming')
+                    $query->where('niti_status',  'Upcoming')
                         ->orWhere(function ($q) {
                             $q->where('niti_status', 'Upcoming')
                                 ->whereNull('end_time');
