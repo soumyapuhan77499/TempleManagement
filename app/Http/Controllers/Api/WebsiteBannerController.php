@@ -249,8 +249,6 @@ class WebsiteBannerController extends Controller
                 ->whereIn('niti_status', ['Started', 'Completed', 'NotStarted','Upcoming'])
                 ->exists();
 
-            
-
             if ($hasNiti) {
                 $runningDayId = $dayId;
 
