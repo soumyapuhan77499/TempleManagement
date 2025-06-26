@@ -330,14 +330,14 @@ public function editStartTime(Request $request)
 public function editEndTime(Request $request)
 {
 
-    $user = Auth::guard('niti_admin')->user();
+    // $user = Auth::guard('niti_admin')->user();
 
-    if (!$user) {
-        return response()->json([
-            'status' => false,
-            'message' => 'Unauthorized access.'
-        ], 401);
-    }
+    // if (!$user) {
+    //     return response()->json([
+    //         'status' => false,
+    //         'message' => 'Unauthorized access.'
+    //     ], 401);
+    // }
 
     // ✅ Find the Niti
     $niti = RathaYatraNiti::find($request->niti_management_id);
@@ -352,7 +352,7 @@ public function editEndTime(Request $request)
     // ✅ Update end time and editor
     $niti->update([
         'end_time' => $request->end_time,
-        'end_time_edit_user_id' => $user->sebak_id,
+        // 'end_time_edit_user_id' => $user->sebak_id,
     ]);
 
     return response()->json([
