@@ -249,38 +249,41 @@ class WebsiteBannerController extends Controller
                 ->whereIn('niti_status', ['Started', 'Completed', 'NotStarted','Upcoming'])
                 ->exists();
 
+            
+
             if ($hasNiti) {
                 $runningDayId = $dayId;
 
+                dd($runningDayId); // Debugging line to check the running day_id
+
                 // ✅ Fetch only those Nitis for this running day, skip NotStarted ones
                 $nitis = RathaYatraNiti::where('day_id', $runningDayId)
-    ->whereIn('niti_status', ['Started', 'Completed', 'Upcoming'])
-    ->where(function ($query) {
-        $query->where('niti_status', '!=', 'Upcoming')
-            ->orWhere(function ($q) {
-                $q->where('niti_status', 'Upcoming')
-                    ->whereNull('end_time');
-            });
-    })
-    ->orderBy('date', 'asc') // ✅ Primary sort by date
-    ->orderByRaw("
-        CASE 
-            WHEN niti_status = 'Completed' THEN 1
-            WHEN niti_status = 'Started' THEN 2
-            WHEN niti_status = 'Upcoming' THEN 3
-            ELSE 4
-        END
-    ")
-    ->orderByRaw("
-        CASE 
-            WHEN niti_status = 'Completed' THEN TIME_TO_SEC(end_time)
-            WHEN niti_status = 'Started' THEN TIME_TO_SEC(start_time)
-            WHEN niti_status = 'Upcoming' THEN order_id
-            ELSE NULL
-        END ASC
-    ")
-    ->get();
-
+                ->whereIn('niti_status', ['Started', 'Completed', 'Upcoming'])
+                ->where(function ($query) {
+                    $query->where('niti_status', '!=', 'Upcoming')
+                        ->orWhere(function ($q) {
+                            $q->where('niti_status', 'Upcoming')
+                                ->whereNull('end_time');
+                        });
+                })
+                ->orderBy('date', 'asc') // ✅ Primary sort by date
+                ->orderByRaw("
+                    CASE 
+                        WHEN niti_status = 'Completed' THEN 1
+                        WHEN niti_status = 'Started' THEN 2
+                        WHEN niti_status = 'Upcoming' THEN 3
+                        ELSE 4
+                    END
+                ")
+                ->orderByRaw("
+                    CASE 
+                        WHEN niti_status = 'Completed' THEN TIME_TO_SEC(end_time)
+                        WHEN niti_status = 'Started' THEN TIME_TO_SEC(start_time)
+                        WHEN niti_status = 'Upcoming' THEN order_id
+                        ELSE NULL
+                    END ASC
+                ")
+                ->get();
 
                     $mergedNitiList = $nitis->map(function ($niti) {
                         return [
