@@ -13,7 +13,7 @@ use Carbon\Carbon;
 
 use Carbon\CarbonInterval;
 
-class RathaYatraApiController extends Controller
+class RathaYatrasApiController extends Controller
 {
 
 public function getFirstPendingDayNitis()
