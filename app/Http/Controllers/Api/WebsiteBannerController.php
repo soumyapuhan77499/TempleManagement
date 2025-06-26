@@ -254,7 +254,6 @@ class WebsiteBannerController extends Controller
 
                 // ✅ Fetch only those Nitis for this running day, skip NotStarted ones
                 $nitis = RathaYatraNiti::where('day_id', $runningDayId)
-    ->whereDate('date', '>=', Carbon::today('Asia/Kolkata')) // ✅ Ensures only today or future dates
     ->whereIn('niti_status', ['Started', 'Completed', 'Upcoming'])
     ->where(function ($query) {
         $query->where('niti_status', '!=', 'Upcoming')
