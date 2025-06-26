@@ -323,8 +323,18 @@ Route::controller(RathaYatraApiController::class)->group(function () {
 
   });
 
-    Route::get('/darshan/started-data',  'getStartedDarshanData');
 
+  Route::post('/save-temple-news', 'storeByNoticeName');
+  Route::get('/latest-temple-notice','getLatestNotice');
+  Route::post('/save-hundi-collection', 'saveHundi');
+  Route::get('/get-hundi-collections', 'getHundi');
+  Route::post('/hundi/delete/{id}',  'deleteHundi');
+  Route::post('/notice/update-name', 'updateNoticeName');
+  Route::post('/hundi/update',  'updateHundiCollection');
+  Route::post('/temple-notice/delete/{id}',  'deleteNotice');
+  Route::post('/niti-information', 'addNitiInformation');
+  Route::post('/niti-information/{id}', 'deleteNitiInformation');
+  Route::get('/darshan/started-data',  'getStartedDarshanData');
 
 });
 

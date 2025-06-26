@@ -229,7 +229,6 @@ class WebsiteBannerController extends Controller
     //     }
     // }
 
-
     public function manageWebsiteBanner()
 {
     try {

@@ -229,7 +229,7 @@ public function completedNiti()
         foreach ($dayIds as $dayId) {
             $hasNiti = RathaYatraNiti::where('day_id', $dayId)
             ->whereDate('date', Carbon::today('Asia/Kolkata'))
-            ->whereIn('niti_status', ['Started', 'Completed', 'NotStarted'])
+            ->whereIn('niti_status', ['Started', 'Upcoming'])
             ->exists();
 
             if ($hasNiti) {
