@@ -10,6 +10,24 @@
             box-sizing: border-box;
         }
 
+        .top-header {
+            background: linear-gradient(135deg, #1565c0, #1e88e5);
+            color: white;
+            padding: 16px 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+
+        .top-header h1 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+
         body {
             font-family: 'Segoe UI', sans-serif;
             margin: 0;
@@ -114,8 +132,11 @@
 </head>
 
 <body>
-
+    <header class="top-header">
+        <h1>Konark Temple</h1>
+    </header>
     <div class="container">
+
         <img src="{{ asset('website/konarks.jpg') }}" alt="Konark Temple">
 
         <div class="language-buttons">
