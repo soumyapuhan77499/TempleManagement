@@ -65,17 +65,33 @@
         }
 
         .audio-container {
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+            border: 1px solid #81d4fa;
+            border-radius: 12px;
+            padding: 16px 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-top: 10px;
+            transition: transform 0.2s ease;
+        }
+
+        .audio-container:hover {
+            transform: scale(1.01);
+        }
+
+        .audio-container::before {
+            content: "Audio Player";
+            display: block;
+            font-weight: 600;
+            font-size: 15px;
+            color: #0277bd;
+            margin-bottom: 8px;
         }
 
         audio {
             width: 100%;
             outline: none;
             border-radius: 6px;
+            background-color: #ffffff;
         }
 
         @media (max-width: 480px) {
