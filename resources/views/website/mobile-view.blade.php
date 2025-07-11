@@ -101,7 +101,7 @@
         function playAudio(language) {
             const audioSource = document.getElementById('audioSource');
             const audioPlayer = document.getElementById('audioPlayer');
-            audioSource.src = `{{ asset('website/audio') }}/${language}.mp3`;
+            audioSource.src = `{{ asset('website/hindi.mp3') }}/${language}.mp3`;
             audioPlayer.load();
             audioPlayer.play();
         }
