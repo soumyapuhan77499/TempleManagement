@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,21 +14,25 @@
             font-family: 'Segoe UI', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
+            background-color: #f0f2f5;
+            color: #222;
         }
 
         .container {
             padding: 16px;
             max-width: 600px;
             margin: auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+            margin-top: 16px;
         }
 
         img {
             width: 100%;
             height: auto;
             border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
         }
 
@@ -35,45 +40,63 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 25px;
         }
 
         .language-buttons button {
-            flex: 1 1 28%;
+            flex: 1 1 30%;
             min-width: 90px;
-            max-width: 100px;
-            padding: 12px 8px;
-            background-color: #1e88e5;
-            color: white;
+            padding: 12px;
+            background: linear-gradient(135deg, #2196f3, #0d47a1);
+            color: #fff;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            transition: background-color 0.3s ease;
+            transition: transform 0.2s ease, background 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         .language-buttons button:hover {
-            background-color: #1565c0;
+            background: linear-gradient(135deg, #1e88e5, #1565c0);
+            transform: translateY(-2px);
+        }
+
+        .audio-container {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
 
         audio {
             width: 100%;
-            margin-top: 10px;
-            border-radius: 8px;
+            outline: none;
+            border-radius: 6px;
         }
 
-        @media screen and (max-width: 400px) {
+        @media (max-width: 480px) {
             .language-buttons button {
-                flex: 1 1 40%;
+                flex: 1 1 45%;
                 font-size: 13px;
-                padding: 10px 6px;
+                padding: 10px;
+            }
+
+            .container {
+                padding: 12px;
+            }
+
+            .audio-container {
+                padding: 8px;
             }
         }
     </style>
+
 </head>
+
 <body>
 
     <div class="container">
@@ -91,24 +114,27 @@
             <button onclick="playAudio('punjabi')">Punjabi</button>
         </div>
 
-        <audio id="audioPlayer" controls>
-            <source id="audioSource" src="" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
+        <div class="audio-container">
+            <audio id="audioPlayer" controls>
+                <source id="audioSource" src="" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+
     </div>
-    
-<script>
-    function playAudio(language) {
-        const basePath = "{{ asset('website') }}"; // Base public path
-        const audioSource = document.getElementById('audioSource');
-        const audioPlayer = document.getElementById('audioPlayer');
-        
-        audioSource.src = `${basePath}/${language}.mp3`;
-        audioPlayer.load();
-        audioPlayer.play();
-    }
-</script>
+
+    <script>
+        function playAudio(language) {
+            const basePath = "{{ asset('website') }}"; // Base public path
+            const audioSource = document.getElementById('audioSource');
+            const audioPlayer = document.getElementById('audioPlayer');
+
+            audioSource.src = `${basePath}/${language}.mp3`;
+            audioPlayer.load();
+            audioPlayer.play();
+        }
+    </script>
 
 </body>
+
 </html>
-w
