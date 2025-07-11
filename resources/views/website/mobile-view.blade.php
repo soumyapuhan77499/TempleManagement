@@ -96,16 +96,18 @@
             Your browser does not support the audio element.
         </audio>
     </div>
-
-    <script>
-        function playAudio(language) {
-            const audioSource = document.getElementById('audioSource');
-            const audioPlayer = document.getElementById('audioPlayer');
-            audioSource.src = `{{ asset('website/hindi.mp3') }}/${language}.mp3`;
-            audioPlayer.load();
-            audioPlayer.play();
-        }
-    </script>
+    
+<script>
+    function playAudio(language) {
+        const basePath = "{{ asset('website') }}"; // Base public path
+        const audioSource = document.getElementById('audioSource');
+        const audioPlayer = document.getElementById('audioPlayer');
+        
+        audioSource.src = `${basePath}/${language}.mp3`;
+        audioPlayer.load();
+        audioPlayer.play();
+    }
+</script>
 
 </body>
 </html>
