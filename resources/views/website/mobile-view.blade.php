@@ -112,6 +112,28 @@
             background-color: #ffffff;
         }
 
+        .book-now-btn {
+            display: inline-block;
+            padding: 14px 38px;
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: #fff;
+            font-size: 17px;
+            font-weight: 700;
+            border: none;
+            border-radius: 10px;
+            text-decoration: none;
+            box-shadow: 0 4px 16px rgba(67, 233, 123, 0.15);
+            transition: background 0.3s, transform 0.2s;
+            letter-spacing: 1px;
+        }
+
+        .book-now-btn:hover {
+            background: linear-gradient(135deg, #38f9d7 0%, #43e97b 100%);
+            transform: translateY(-2px) scale(1.03);
+            color: #fff;
+            text-decoration: none;
+        }
+
         @media (max-width: 480px) {
             .language-buttons button {
                 flex: 1 1 45%;
@@ -140,9 +162,9 @@
         <img src="{{ asset('website/konarks.jpg') }}" alt="Konark Temple">
 
         <div class="language-buttons">
+            <button onclick="playAudio('english')">English</button>
             <button onclick="playAudio('hindi')">Hindi</button>
             <button onclick="playAudio('odia')">Odia</button>
-            <button onclick="playAudio('english')">English</button>
             <button onclick="playAudio('bengali')">Bengali</button>
             <button onclick="playAudio('telugu')">Telugu</button>
             <button onclick="playAudio('tamil')">Tamil</button>
@@ -156,6 +178,10 @@
                 <source id="audioSource" src="" type="audio/mpeg">
                 Your browser does not support the audio element.
             </audio>
+        </div>
+
+        <div style="text-align: center; margin-top: 28px;">
+            <a href="#" class="book-now-btn">Book Now</a>
         </div>
 
     </div>
