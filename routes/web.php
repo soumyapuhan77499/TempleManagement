@@ -75,6 +75,10 @@ Route::get('/puri-dhams', function () {
     return view('website.index2');
 });
 
+Route::get('/mobile-view', function () {
+    return view('website.mobile-view');
+});
+
 Route::get('/contact', function () {
     return view('contactus');
 });
